@@ -1,0 +1,112 @@
+{
+  "world_name": "Embervale",
+  "core_force": "The Emberlight",
+  "core_threat": "The Hollow",
+  "summary": "Embervale is a realm sustained by the Emberlight, a primordial force that flows through all living things. Where it burns strong, the world thrives. Where it dims, the Hollow creeps in — an entropy made manifest. A group of young heroes from the same family, chosen as Emberbearers, must strengthen the light through effort, learning, and cooperation.",
+  "player_terminology": {
+    "singular": "the Emberbearer",
+    "plural": "the Emberbearers",
+    "group_terms": ["the heroes", "the company", "the young champions", "the bearers"],
+    "note": "NEVER assume player gender. Use display names, class titles, 'they/them', or these group terms. The number of players varies per household (1-6+)."
+  },
+  "boss_hp_scaling": {
+    "formula": "base_hp × (0.5 + (0.5 × player_count))",
+    "note": "Keeps per-player effort consistent regardless of household size."
+  },
+  "regions": [
+    {
+      "name": "The Heartwood",
+      "type": "forest",
+      "description": "A vast ancient forest at the center of Embervale. The oldest trees have roots that touch the Emberlight's source. Home to Hearthhold, the heroes' base of operations.",
+      "associated_arcs": [1]
+    },
+    {
+      "name": "The Shattered Coast",
+      "type": "coastal",
+      "description": "A western shoreline fractured into hundreds of islands. The waters glow faintly amber at night from Emberlight veins in the ocean floor. Pirates, traders, and sea creatures dwell here.",
+      "associated_arcs": [2]
+    },
+    {
+      "name": "The Ironspine Mountains",
+      "type": "mountains",
+      "description": "Northern peaks so tall their summits vanish into cloud. Home to the Forgekin and the Wind Readers. Deep beneath lie the Ember Veins — rivers of raw Emberlight.",
+      "associated_arcs": [3]
+    },
+    {
+      "name": "The Dustmere Plains",
+      "type": "grasslands",
+      "description": "Eastern grasslands traversed by nomadic clans following the Cinderstag herds. The grass ripples like gold in the wind.",
+      "associated_arcs": [4]
+    },
+    {
+      "name": "The Ashlands",
+      "type": "wasteland",
+      "description": "The southern wasteland where the Emberlight has nearly died. Gray dust, leafless trees, silence. Home of the Hollow. It grows larger each year.",
+      "associated_arcs": [11, 12, 13]
+    },
+    {
+      "name": "The Underbright",
+      "type": "underground",
+      "description": "A vast cavern network lit by bioluminescent fungi and crystallized Emberlight. Beautiful and dangerous in equal measure.",
+      "associated_arcs": [5]
+    }
+  ],
+  "home_base": {
+    "name": "Hearthhold",
+    "description": "A fortified village at the edge of the Heartwood, built around the Hearthstone — a massive ember-crystal that warms the village and holds back the Hollow. Its light has been dimming for years.",
+    "locations": {
+      "quest_board": "The village square board where tasks are posted.",
+      "academy": "A tower where scholars teach all disciplines.",
+      "loot_emporium": "A chaotic shop run by Rook the merchant.",
+      "chronicle_hall": "Where the storyteller records the heroes' adventures.",
+      "boss_gate": "A shimmering barrier at the southern edge that periodically cracks open."
+    }
+  },
+  "npcs": [
+    {
+      "name": "Elder Maren",
+      "role": "Village leader, quest giver",
+      "personality": "Wise, warm, occasionally stern. Former Emberbearer.",
+      "speaking_style": "Measured sentences. Uses 'young one' affectionately. Quotes old Embervale proverbs."
+    },
+    {
+      "name": "Rook",
+      "role": "Loot Emporium shopkeeper",
+      "personality": "Fast-talking, enthusiastic, enormous coat full of wonders. Haggles for sport.",
+      "speaking_style": "Rapid, excitable. Calls customers 'friend' and 'my most valued patron.'"
+    },
+    {
+      "name": "Professor Ignis",
+      "role": "Academy head, education quest giver",
+      "personality": "Ancient, eccentric, speaks in tangents that arrive at the point. One cracked spectacle lens.",
+      "speaking_style": "Meandering. Starts with 'Ah, now, you see—'. Always lands on something profound."
+    },
+    {
+      "name": "Kaya",
+      "role": "Scout, ally, friend",
+      "personality": "Practical, brave, slightly exasperated by trouble.",
+      "speaking_style": "Direct and dry. Occasional sarcasm. Says 'obviously' a lot."
+    },
+    {
+      "name": "The Chronicler",
+      "role": "Mysterious recorder of events",
+      "personality": "Appears at arc endings. Gender, age, and appearance shift. The quill of light is constant.",
+      "speaking_style": "Formal, otherworldly. Speaks as if reading from a book not yet written."
+    },
+    {
+      "name": "Hollow-Touched Orrin",
+      "role": "Fallen Emberbearer, cautionary figure",
+      "personality": "Exists in a gray half-state. Sometimes helpful, sometimes tries to lure heroes toward surrender.",
+      "speaking_style": "Broken, halting. Mixes warnings with Hollow nihilism. 'It's easier... to just... stop.'"
+    }
+  ],
+  "embershard_states": [
+    { "level_range": [1, 5], "name": "Dim Ember", "description": "A faintly glowing crystal. Warm to the touch." },
+    { "level_range": [6, 10], "name": "Steady Flame", "description": "The shard pulses with visible light. It hums when the Hollow is near." },
+    { "level_range": [11, 15], "name": "Bright Blaze", "description": "The shard projects light outward, illuminating dark places and weakening Hollow creatures." },
+    { "level_range": [16, 20], "name": "Radiant Core", "description": "The shard shapes itself to its bearer's class, taking on unique properties." },
+    { "level_range": [21, 25], "name": "Emberstorm", "description": "The shard affects the environment — warming air, pushing back ash, calling sparks." },
+    { "level_range": [26, 30], "name": "Living Light", "description": "The shard becomes semi-sentient, occasionally acting on its own to protect its bearer." },
+    { "level_range": [31, 99], "name": "Hearthfire", "description": "The bearer doesn't carry the shard — they are the shard. Their presence alone pushes back the Hollow." }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node --version 2>/dev/null && echo \"node_ok\" || echo \"node_missing\"; npm --version 2>/dev/null && echo \"npm_ok\" || echo \"npm_missing\"; git --version 2>/dev/null && echo \"git_ok\" || echo \"git_missing\")",
+      "Bash(supabase --version 2>/dev/null || echo \"not_installed\")",
+      "Bash(brew --version 2>/dev/null && echo \"brew_ok\" || echo \"no_brew\"; which npm; uname -m)",
+      "Bash(npm install:*)",
+      "Bash(curl -s https://api.github.com/repos/supabase/cli/releases/latest | grep -o '\"tag_name\": \"[^\"]*\"' | head -1 | cut -d'\"' -f4)",
+      "Bash(echo $PATH | grep -q \"$HOME/.local/bin\" && echo \"in_path\" || echo \"not_in_path\"; ~/.local/bin/supabase --version)",
+      "Bash(echo \"y\" | npx create-next-app@14 . --typescript --tailwind --app --eslint --src-dir --import-alias \"@/*\" --use-npm 2>&1)",
+      "Read(//tmp/**)",
+      "Bash(npx create-next-app@14 quest-forge-scaffold --typescript --tailwind --app --eslint --src-dir --import-alias \"@/*\" --use-npm)",
+      "Bash(cp -r /tmp/quest-forge-scaffold/node_modules . && cp -r /tmp/quest-forge-scaffold/src/. src/ && cp /tmp/quest-forge-scaffold/package.json /tmp/quest-forge-scaffold/tsconfig.json /tmp/quest-forge-scaffold/next.config.mjs /tmp/quest-forge-scaffold/next-env.d.ts /tmp/quest-forge-scaffold/postcss.config.mjs /tmp/quest-forge-scaffold/tailwind.config.ts /tmp/quest-forge-scaffold/README.md . && echo \"done\")",
+      "Bash(cat .gitignore | grep -q \".env\" && echo \"env_ignored\" || echo 'echo \"\\\\n# env\\\\n.env.local\\\\n.env*.local\" >> .gitignore && echo \"added_env\"')",
+      "Bash(git init:*)"
+    ]
+  }
+}

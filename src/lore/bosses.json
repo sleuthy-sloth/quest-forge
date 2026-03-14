@@ -1,0 +1,265 @@
+{
+  "arcs": [
+    {
+      "arc_number": 1,
+      "name": "The Ashwood Awakening",
+      "region": "The Heartwood",
+      "summary": "The Hollow stirs in the forest near Hearthhold. Something is corrupting the trees.",
+      "weeks": [1, 4]
+    },
+    {
+      "arc_number": 2,
+      "name": "The Shattered Coast",
+      "region": "The Shattered Coast",
+      "summary": "A distress signal from the island settlement of Driftmere. The sea is turning gray.",
+      "weeks": [5, 8]
+    },
+    {
+      "arc_number": 3,
+      "name": "The Ironspine Depths",
+      "region": "The Ironspine Mountains",
+      "summary": "The Forgekin send word: something is poisoning the Ember Veins beneath the mountains.",
+      "weeks": [9, 12]
+    },
+    {
+      "arc_number": 4,
+      "name": "The Dustmere Crossing",
+      "region": "The Dustmere Plains",
+      "summary": "The Cinderstag herds are vanishing. The nomad clans are frightened.",
+      "weeks": [13, 16]
+    },
+    {
+      "arc_number": 5,
+      "name": "The Underbright Descent",
+      "region": "The Underbright",
+      "summary": "The Emberbearers venture underground to find the source of the Hollow. Fungal horrors, crystal golems, and a sentient darkness await.",
+      "weeks": [17, 20]
+    },
+    {
+      "arc_number": 6,
+      "name": "The Siege of Hearthhold",
+      "region": "The Heartwood",
+      "summary": "The Hollow attacks home. Defensive battles, tough choices, and a traitor within the village.",
+      "weeks": [21, 24]
+    },
+    {
+      "arc_number": 7,
+      "name": "The Ember Forge",
+      "region": "The Ironspine Mountains",
+      "summary": "The Emberbearers learn to reforge their Embershards into more powerful forms. Trials of character.",
+      "weeks": [25, 28]
+    },
+    {
+      "arc_number": 8,
+      "name": "The Ashen Court",
+      "region": "The Ashlands",
+      "summary": "The Hollow has a hierarchy. Political intrigue among creatures of darkness. Not all of them want the world to end.",
+      "weeks": [29, 32]
+    },
+    {
+      "arc_number": 9,
+      "name": "The Memory Sea",
+      "region": "Various (historical)",
+      "summary": "A journey through Embervale's past. Historical settings and ancient truths.",
+      "weeks": [33, 36]
+    },
+    {
+      "arc_number": 10,
+      "name": "The Emberbearers' Trial",
+      "region": "Various",
+      "summary": "A challenge that forces the players to work independently before reuniting stronger.",
+      "weeks": [37, 40]
+    },
+    {
+      "arc_number": 11,
+      "name": "The Hollow King's Generals",
+      "region": "The Ashlands",
+      "summary": "Four powerful bosses representing Apathy, Ignorance, Discord, and Decay.",
+      "weeks": [41, 44]
+    },
+    {
+      "arc_number": 12,
+      "name": "The World Root",
+      "region": "The Underbright (deepest level)",
+      "summary": "Descent to the source of the Emberlight. Revelations about what Embervale truly is.",
+      "weeks": [45, 48]
+    },
+    {
+      "arc_number": 13,
+      "name": "The Hollow King",
+      "region": "The Ashlands / The World Root",
+      "summary": "The final confrontation. A multi-week boss with escalating difficulty.",
+      "weeks": [49, 52]
+    }
+  ],
+  "bosses": [
+    {
+      "week": 1,
+      "arc": 1,
+      "name": "Thornmaw, the Blighted Root",
+      "hp": 300,
+      "description": "A once-noble oak tree consumed by Hollow energy. Its bark is charcoal-black, and its branches end in thorn-filled mouths that snap at anything living.",
+      "weakness_flavor": "Effort and persistence chip away at its bark.",
+      "defeat_narrative": "The Emberbearers' combined Emberlight purifies the roots. The tree sheds its blackened bark, revealing green wood beneath. Life returns to the clearing."
+    },
+    {
+      "week": 2,
+      "arc": 1,
+      "name": "The Whispering Swarm",
+      "hp": 350,
+      "description": "A cloud of ashen moths that speak in overlapping voices, whispering doubts and discouragement. 'Why bother? It doesn't matter.'",
+      "weakness_flavor": "Knowledge and clarity scatter the whispers.",
+      "defeat_narrative": "The Emberbearers' learning creates a resonance in the Emberlight that harmonizes over the whispers. The swarm disperses into nothing."
+    },
+    {
+      "week": 3,
+      "arc": 1,
+      "name": "Grulk, the Stillborn Giant",
+      "hp": 400,
+      "description": "A massive humanoid figure made of packed ash and dead leaves. It doesn't attack — it just stands immovable, blocking the path forward.",
+      "weakness_flavor": "Consistent daily effort erodes its form.",
+      "defeat_narrative": "Day by day, the Emberbearers' sustained effort loosens Grulk's cohesion. He crumbles into dust, revealing the path to the deeper Heartwood."
+    },
+    {
+      "week": 4,
+      "arc": 1,
+      "name": "Cindra, the False Flame",
+      "hp": 500,
+      "description": "A creature that mimics the Emberlight with sickly orange fire. She lures travelers with promises of shortcuts and easy power. She seems helpful at first.",
+      "weakness_flavor": "Only combined effort from all Emberbearers reveals her deception.",
+      "defeat_narrative": "The Emberbearers' combined Embershards expose Cindra's false light. She screams and dissolves into smoke, revealing an ancient Emberlight shrine behind her."
+    },
+    {
+      "week": 5,
+      "arc": 2,
+      "name": "Captain Murk, the Drowned Raider",
+      "hp": 450,
+      "description": "A ghostly pirate whose ship sails without wind. He steals light from coastal lanterns, leaving fishing villages in darkness.",
+      "weakness_flavor": "Courage and steady work breach his spectral hull.",
+      "defeat_narrative": "The Emberbearers' Emberlight pierces Murk's ghostly fog. His ship breaks apart into mist, and the stolen lantern-light returns to the coast."
+    },
+    {
+      "week": 6,
+      "arc": 2,
+      "name": "The Abyssal Maw",
+      "hp": 500,
+      "description": "A vast underwater creature — more mouth than body. The water around it turns to ash-gray sludge, choking marine life.",
+      "weakness_flavor": "Sustained action clears the waters and weakens its grip.",
+      "defeat_narrative": "As the Emberbearers push back the gray sludge with their efforts, the Maw shrinks, unable to feed. It sinks into the deep, and the sea runs clear again."
+    },
+    {
+      "week": 7,
+      "arc": 2,
+      "name": "Siren of the Still Tide",
+      "hp": 400,
+      "description": "She sings a song that makes people stop caring. Those who listen become listless, abandoning their responsibilities and staring at nothing.",
+      "weakness_flavor": "Active engagement and learning drown out her song.",
+      "defeat_narrative": "The Emberbearers' industriousness creates a counter-melody in the Emberlight. The Siren's song falters, and she dissolves into sea foam."
+    },
+    {
+      "week": 8,
+      "arc": 2,
+      "name": "The Leviathan's Shadow",
+      "hp": 600,
+      "description": "Not the leviathan itself, but its shadow — cast upward from the deep. A massive serpentine darkness that blocks the sun over Driftmere.",
+      "weakness_flavor": "The arc's greatest challenge yet. All Emberbearers must push hard.",
+      "defeat_narrative": "With a final surge of combined Emberlight, the shadow burns away like morning fog. Below, something vast shifts and descends back to the depths. For now."
+    },
+    {
+      "week": 9,
+      "arc": 3,
+      "name": "Rustvein, the Corroded Sentinel",
+      "hp": 500,
+      "description": "An ancient Forgekin automaton corrupted by Hollow energy. It guards a mine entrance with grinding, rusted limbs, attacking anything that approaches.",
+      "weakness_flavor": "Persistent effort loosens the corruption in its joints.",
+      "defeat_narrative": "The Hollow energy drains from Rustvein's frame. The automaton goes still, then its eyes flicker — amber, not gray. It steps aside."
+    },
+    {
+      "week": 10,
+      "arc": 3,
+      "name": "The Echoing Hollow",
+      "hp": 450,
+      "description": "Not a creature but a sentient cavern. It repeats sounds wrong — turning encouragement into insults, plans into confusion, laughter into weeping.",
+      "weakness_flavor": "Education and clear thinking resist the distortion.",
+      "defeat_narrative": "The Emberbearers speak truth so clearly that the cavern cannot twist it. The walls crack, the echoes die, and silence — true, peaceful silence — fills the chamber."
+    },
+    {
+      "week": 11,
+      "arc": 3,
+      "name": "Slag, the Molten Betrayer",
+      "hp": 550,
+      "description": "A Forgekin who willingly invited the Hollow in, believing its power would make him stronger. He is now half-metal, half-ash, filled with regret he cannot express.",
+      "weakness_flavor": "Steady effort reminds him of what he lost.",
+      "defeat_narrative": "The Emberbearers' Emberlight reaches the small flame still buried in Slag's chest. He weeps molten tears, whispers 'thank you,' and the ash falls away. What remains is small, fragile, and free."
+    },
+    {
+      "week": 12,
+      "arc": 3,
+      "name": "The Veinworm",
+      "hp": 700,
+      "description": "A massive parasitic creature burrowed into the Ember Veins themselves, drinking raw Emberlight. The mountains tremble as it feeds.",
+      "weakness_flavor": "The most XP yet required. All Emberbearers must give everything.",
+      "defeat_narrative": "The Emberbearers channel Emberlight directly into the Veins, and the surge of pure energy is more than the Veinworm can stomach. It releases its grip and flees into the dark. The Ember Veins pulse strong again."
+    },
+    {
+      "week": 13, "arc": 4, "name": "Duskrunner, the Phantom Stag", "hp": 500,
+      "description": "A Cinderstag drained of its fire, now a skeletal shadow that leads other stags into the Ashlands. Its antlers are bare gray bone.",
+      "weakness_flavor": "Consistent chores and learning rekindle its lost flame.",
+      "defeat_narrative": "Emberlight flows into Duskrunner's hollow frame. Fire returns to its antlers. It bows once to the Emberbearers, then gallops home to its herd."
+    },
+    {
+      "week": 14, "arc": 4, "name": "The Dust Devil Choir", "hp": 550,
+      "description": "Twelve spinning columns of gray dust that sing a droning, numbing song. The grass beneath them dies, and the air smells of nothing.",
+      "weakness_flavor": "Active learning and effort disrupt their formation.",
+      "defeat_narrative": "The Emberbearers' combined energy sends a shockwave across the plains. The Dust Devils shatter into harmless particles, and the wind carries them away."
+    },
+    {
+      "week": 15, "arc": 4, "name": "Kael the Branded, Outcast Nomad", "hp": 500,
+      "description": "A nomad who carries the Hollow's mark on his skin — gray lines that spread a little each day. He fights because he believes he's already lost.",
+      "weakness_flavor": "Cooperation shows him that no one is beyond help.",
+      "defeat_narrative": "The Emberbearers don't destroy Kael — they reach him. Their combined Emberlight pushes the gray marks back to his palms, where they crystallize into harmless stones. He falls to his knees, free."
+    },
+    {
+      "week": 16, "arc": 4, "name": "The Grazefire", "hp": 750,
+      "description": "A wildfire made of anti-Emberlight. It consumes without heat, leaving everything gray and still. The plains burn cold in its wake.",
+      "weakness_flavor": "The arc's greatest test. Sustained effort from all Emberbearers all week.",
+      "defeat_narrative": "The Emberbearers stand at the fire's edge and pour everything they have into their Embershards. True fire meets false fire. The Grazefire screams — and goes out."
+    },
+    { "week": 17, "arc": 5, "name": "Sporecrown, the Fungal Tyrant", "hp": 550, "description": "A massive mushroom entity that releases spores inducing apathy and sleep. The Underbright's tunnels are choked with its growth.", "weakness_flavor": "Active, varied effort clears the spore clouds.", "defeat_narrative": "The Emberbearers' Emberlight scorches the spore clouds and reaches Sporecrown's root system. It withers, and the Underbright breathes again." },
+    { "week": 18, "arc": 5, "name": "The Crystal Mimic", "hp": 500, "description": "A creature that disguises itself as beautiful crystallized Emberlight, luring explorers into its jaws. Nothing underground is what it seems.", "weakness_flavor": "Education and critical thinking see through the disguise.", "defeat_narrative": "The Emberbearers learn to see true light from false. The Mimic, exposed, shatters like glass." },
+    { "week": 19, "arc": 5, "name": "Gloomweaver Prime", "hp": 600, "description": "The largest of the Gloom Weavers — a spider the size of a house that spins webs of pure lethargy across entire cavern systems.", "weakness_flavor": "Daily consistency cuts through the webs.", "defeat_narrative": "Strand by strand, the Emberbearers' sustained effort severs the great web. Gloomweaver Prime, exposed without its trap, flees into the dark." },
+    { "week": 20, "arc": 5, "name": "The Depth Warden", "hp": 750, "description": "A sentient darkness that speaks in complete sentences. It guards the deepest passage and asks questions the Emberbearers must answer with their actions, not words.", "weakness_flavor": "Only a full week of combined effort satisfies its challenge.", "defeat_narrative": "The Depth Warden considers the Emberbearers' deeds, nods once, and parts like a curtain, revealing a passage carved in living light." },
+    { "week": 21, "arc": 6, "name": "The Breach Horde", "hp": 600, "description": "A flood of Ashlings pouring through a crack in the Boss Gate. Hundreds of small creatures overwhelming by numbers.", "weakness_flavor": "Every completed task pushes them back.", "defeat_narrative": "The Emberbearers hold the line. One by one, the Ashlings crumble. The crack seals." },
+    { "week": 22, "arc": 6, "name": "Nightshade, the Infiltrator", "hp": 550, "description": "A Hollow creature that has taken the shape of a trusted villager. It sows distrust and turns neighbors against each other.", "weakness_flavor": "Cooperation between all Emberbearers exposes the deception.", "defeat_narrative": "The Emberbearers' combined Emberlight reveals Nightshade's true form. The village rallies, and the creature is driven out." },
+    { "week": 23, "arc": 6, "name": "The Siege Engine", "hp": 650, "description": "A massive Hollow construct — a tower of ash and bone that rolls toward Hearthhold's walls, disgorging smaller creatures.", "weakness_flavor": "Sustained effort dismantles it piece by piece.", "defeat_narrative": "The Emberbearers coordinate with the villagers. The Siege Engine collapses under the weight of their combined resistance." },
+    { "week": 24, "arc": 6, "name": "The Traitor's Shadow", "hp": 800, "description": "Someone inside Hearthhold has been feeding the Hollow. The shadow behind the traitor has grown into a creature of its own — a dark mirror of everything Hearthhold stands for.", "weakness_flavor": "The hardest boss yet. All Emberbearers must contribute heavily.", "defeat_narrative": "The shadow is defeated, and the traitor — revealed to be someone consumed by fear, not malice — is offered a chance at redemption." },
+    { "week": 25, "arc": 7, "name": "The Anvil Guardian", "hp": 600, "description": "A Forgekin spirit bound to the Ember Forge, testing all who seek to reforge their Embershards.", "weakness_flavor": "Proves worth through consistent effort and learning.", "defeat_narrative": "The Guardian steps aside, satisfied. The Ember Forge ignites." },
+    { "week": 26, "arc": 7, "name": "The Trial of Flame", "hp": 550, "description": "Not a creature but a gauntlet of challenges within the Forge. Fire that burns away weakness.", "weakness_flavor": "Varied tasks — chores AND education — to pass all trials.", "defeat_narrative": "The Emberbearers emerge from the flames, their Embershards glowing brighter than ever." },
+    { "week": 27, "arc": 7, "name": "Echo of the First Bearer", "hp": 650, "description": "The ghost of the very first Emberbearer, testing whether the Emberbearers are worthy successors.", "weakness_flavor": "Must demonstrate mastery across all areas.", "defeat_narrative": "The First Bearer smiles, whispers a secret about the Emberlight's origin, and fades into golden motes." },
+    { "week": 28, "arc": 7, "name": "The Reforging", "hp": 700, "description": "The Embershards themselves resist transformation. The heroes must pour enough energy into them to break through to a new form.", "weakness_flavor": "Pure XP throughput — the most productive week yet.", "defeat_narrative": "The Embershards crack, reform, and blaze with new power. The Emberbearers have leveled up their destiny." },
+    { "week": 29, "arc": 8, "name": "Lord Cinder, the Reluctant", "hp": 650, "description": "A Hollow noble who remembers what it was like to have light. He fights because he's told to, not because he wants to.", "weakness_flavor": "Cooperation reveals the good still in him.", "defeat_narrative": "Lord Cinder lowers his weapon. 'Not all of us chose this,' he whispers, and walks into the dark — but this time, by choice." },
+    { "week": 30, "arc": 8, "name": "The Court Jester", "hp": 600, "description": "A Hollow creature that uses humor as a weapon — mocking, belittling, making everything seem pointless and absurd.", "weakness_flavor": "Earnest effort is immune to mockery.", "defeat_narrative": "The Jester's laughter dies as the Emberbearers refuse to be shaken. In the silence, even the Jester looks uncertain." },
+    { "week": 31, "arc": 8, "name": "The Ashen Duchess", "hp": 700, "description": "A sophisticated Hollow leader who offers deals and bargains. Everything she offers costs more than it seems.", "weakness_flavor": "Education and critical thinking see through her contracts.", "defeat_narrative": "The Emberbearers read the fine print, literally and figuratively. The Duchess's deals unravel, and her power evaporates." },
+    { "week": 32, "arc": 8, "name": "The Hollow Throne", "hp": 800, "description": "The seat of power in the Ashen Court. It's empty — but that emptiness is alive, whispering that power belongs to whoever sits in it.", "weakness_flavor": "The heroes must resist temptation through effort, not combat.", "defeat_narrative": "No one sits. The throne, unable to corrupt the heroes, cracks and crumbles. Behind it: a door leading deeper." },
+    { "week": 33, "arc": 9, "name": "The First Forgetting", "hp": 600, "description": "A manifestation of Embervale's oldest wound — the first time its people stopped tending the Emberlight.", "weakness_flavor": "Learning from history prevents its repeat.", "defeat_narrative": "The Emberbearers witness and understand. The memory heals." },
+    { "week": 34, "arc": 9, "name": "The Broken Era", "hp": 650, "description": "An echo of a past war where Emberbearers fought each other instead of the Hollow.", "weakness_flavor": "Cooperation disproves the old hatred.", "defeat_narrative": "The warring echoes see the Emberbearers working together and fall silent, at peace." },
+    { "week": 35, "arc": 9, "name": "The Unremembered", "hp": 600, "description": "Heroes who were forgotten — their stories lost, their sacrifices uncelebrated. They are angry and sorrowful.", "weakness_flavor": "Education and effort honor their memory.", "defeat_narrative": "The Emberbearers learn the Unremembered's names. Remembered at last, the ghosts smile and dissolve into warm light." },
+    { "week": 36, "arc": 9, "name": "The Memory Keeper's Lock", "hp": 750, "description": "A puzzle-boss guarding the deepest truth about Embervale's origin. It can only be opened through understanding.", "weakness_flavor": "Education-heavy week — knowledge is literally the key.", "defeat_narrative": "The lock opens. Behind it: the truth that Embervale was built on a choice — the choice to keep trying." },
+    { "week": 37, "arc": 10, "name": "The Shadow Self", "hp": 500, "description": "A dark mirror of each Emberbearer, embodying their doubts. Each hero must face their own shadow — but only their companions' efforts can weaken it. Only chores (not edu-challenges) deal damage this week.", "weakness_flavor": "The other Emberbearers must carry the fight through their chores.", "defeat_narrative": "The shadows dissolve as the heroes' efforts prove that no one fights alone." },
+    { "week": 38, "arc": 10, "name": "The Mirror Hollow", "hp": 500, "description": "The shadows reform, now merged into a single entity reflecting every Emberbearer at once. Only educational challenges deal damage this week — knowledge alone can shatter a mirror.", "weakness_flavor": "Only learning cuts through the reflection.", "defeat_narrative": "The mirror shatters. All Emberbearers stand taller, knowing themselves better than before." },
+    { "week": 39, "arc": 10, "name": "The Divide", "hp": 650, "description": "A chasm that separates the Emberbearers. They must work from opposite sides to build a bridge of light.", "weakness_flavor": "All Emberbearers must contribute equally — balanced effort required.", "defeat_narrative": "The bridge meets in the middle. The Emberbearers cross to each other and the Divide seals behind them." },
+    { "week": 40, "arc": 10, "name": "The Reunion's Test", "hp": 700, "description": "Reunited, the Emberbearers face a challenge that can only be overcome through perfect coordination — every hero must contribute their strengths.", "weakness_flavor": "Maximum cooperation. All players must be highly active.", "defeat_narrative": "Together, they are more than the sum of their parts. The path to the endgame opens." },
+    { "week": 41, "arc": 11, "name": "General Apathy", "hp": 700, "description": "A vast, fog-like entity that drains motivation. In its presence, nothing seems worth doing.", "weakness_flavor": "Consistent daily action proves it wrong.", "defeat_narrative": "Every task completed sends a crack through Apathy's fog. It shatters like gray glass." },
+    { "week": 42, "arc": 11, "name": "General Ignorance", "hp": 700, "description": "A creature made of closed books and sealed scrolls. It thrives where curiosity dies.", "weakness_flavor": "Educational challenges deal double damage.", "defeat_narrative": "The sealed books open. Ignorance screams as light pours from every page." },
+    { "week": 43, "arc": 11, "name": "General Discord", "hp": 700, "description": "A creature that amplifies every disagreement, turning minor friction into bitter conflict.", "weakness_flavor": "Only cooperative damage (all players contributing) counts.", "defeat_narrative": "The Emberbearers refuse to turn on each other. Discord, starved, withers." },
+    { "week": 44, "arc": 11, "name": "General Decay", "hp": 800, "description": "The most dangerous of the four. It doesn't attack — it simply waits, and everything around it slowly falls apart.", "weakness_flavor": "Sustained effort across the entire week. No days off.", "defeat_narrative": "The Emberbearers' relentless effort is the opposite of decay. In their light, Decay dissolves into rich soil. Something green begins to grow." },
+    { "week": 45, "arc": 12, "name": "The Root Warden", "hp": 750, "description": "Guardian of the passage to the World Root. Ancient and immense, it tests resolve, not strength.", "weakness_flavor": "Consistent, varied effort across all task types.", "defeat_narrative": "The Root Warden recognizes the Emberbearers as true Emberbearers and opens the deepest gate." },
+    { "week": 46, "arc": 12, "name": "The Ember's Question", "hp": 700, "description": "The Emberlight itself poses a question: 'Why do you persist?' The heroes must answer through action.", "weakness_flavor": "A philosophical boss — every task is an answer.", "defeat_narrative": "The Emberlight accepts the Emberbearers' answer. Not words — deeds." },
+    { "week": 47, "arc": 12, "name": "The Source Guardian", "hp": 800, "description": "The final test before the World Root. A being of pure Emberlight that must be matched, not defeated.", "weakness_flavor": "The heroes must output as much Emberlight energy as the Guardian holds.", "defeat_narrative": "The Guardian and the Emberbearers are equal. The Guardian nods and becomes part of their Embershards." },
+    { "week": 48, "arc": 12, "name": "The Revelation", "hp": 850, "description": "At the World Root, the Emberbearers learn Embervale's deepest truth: the world exists because someone chose to tend it. The Hollow is what happens when that choice is abandoned.", "weakness_flavor": "The culmination of months of effort.", "defeat_narrative": "Understanding is the greatest weapon. The Emberbearers now know what they fight for — not just their world, but the choice to care." },
+    { "week": 49, "arc": 13, "name": "The Hollow King's Gate", "hp": 800, "description": "The entrance to the Hollow King's domain. It pushes back against everything the Emberbearers have built.", "weakness_flavor": "All accumulated power is needed.", "defeat_narrative": "The gate breaks. The final passage lies ahead." },
+    { "week": 50, "arc": 13, "name": "The Hollow King's Court", "hp": 900, "description": "The Hollow King's inner circle — all the entropy of a year given form in one terrible chamber.", "weakness_flavor": "All Emberbearers, full effort, every day.", "defeat_narrative": "The court crumbles. Only the King remains." },
+    { "week": 51, "arc": 13, "name": "The Hollow King (Phase 1)", "hp": 1000, "description": "He is vast and empty and cold. He is every abandoned task, every lesson ignored, every time someone gave up. He does not hate the Emberbearers. He simply does not believe they matter.", "weakness_flavor": "A year's worth of growth meets a year's worth of entropy.", "defeat_narrative": "The first phase falls. But the King reforms, smaller now, and more desperate." },
+    { "week": 52, "arc": 13, "name": "The Hollow King (Final Form)", "hp": 1200, "description": "Stripped of grandeur, the Hollow King is just a voice in the dark: 'It would be so much easier to stop.' The heroes must answer with one final week of everything they have.", "weakness_flavor": "Everything. Every chore. Every lesson. Every ounce of cooperation.", "defeat_narrative": "The Hollow King falls silent. Not destroyed — silenced. Because the Emberbearers chose, again and again, to keep going. The Hearthstone blazes to life. Embervale is saved. But the Hollow will always be there, waiting for the day someone stops trying. The Emberbearers know this now. And they are ready." }
+  ]
+}

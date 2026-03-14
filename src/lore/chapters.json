@@ -1,0 +1,72 @@
+{
+  "chapters": [
+    {
+      "week": 0,
+      "chapter": 0,
+      "title": "The Choosing",
+      "type": "prologue",
+      "scaffold": "The Emberbearers are summoned to the Hearthstone by Elder Maren. The stone flickers — something it has never done in living memory. Maren explains the Emberlight is weakening and that the Hollow grows bolder by the day. She reveals Embershards, hidden for generations, and tells the young heroes they have been chosen. Each takes a shard, feels its warmth, and chooses their class. Maren warns them: the shards grow only through effort, learning, and cooperation. There are no shortcuts. Rook appears, offers first supplies. Professor Ignis assigns first lessons. The adventure begins.",
+      "must_include": ["Elder Maren", "Hearthstone", "Embershards", "class selection moment", "Rook introduction", "Professor Ignis introduction"],
+      "tone": "Wonder and weight. The beginning of something enormous.",
+      "player_count_notes": {
+        "single": "Maren remarks that a lone Emberbearer has not been seen in centuries. The weight is immense, but so is the potential. NPCs rally around the single hero with extra support.",
+        "pair": "Maren notes that two bearers in one family is extraordinary — they will need each other.",
+        "group": "Maren is astonished. This many Emberbearers from one household has never occurred. The Hearthstone must sense a great threat coming to call so many at once."
+      }
+    },
+    {
+      "week": 1,
+      "chapter": 1,
+      "title": "The Blighted Clearing",
+      "type": "boss_introduction",
+      "scaffold": "Reports come in of a grove near Hearthhold turning gray. The Emberbearers investigate and find Thornmaw — a corrupted oak. Its roots spread sickness through the soil. Elder Maren explains that the only way to weaken the creature is to strengthen the Emberlight through their deeds. The heroes begin their first quests. The chapter ends with them facing Thornmaw's grove, shards glowing, ready to begin.",
+      "must_include": ["Thornmaw description", "corrupted forest imagery", "first quest assignment", "Embershards reacting to the Hollow"],
+      "tone": "First real danger. Determination mixed with nervousness."
+    },
+    {
+      "week": 1,
+      "chapter": 2,
+      "title": "Root and Resolve",
+      "type": "boss_battle",
+      "scaffold": "Dynamic chapter based on player progress. If boss HP is low: the heroes have fought hard and Thornmaw's bark cracks, revealing green wood. If boss HP is high: Thornmaw resists, and they must dig deeper. References the actual chores and challenges completed. Kaya appears for the first time, scouting the perimeter — impressed but tries not to show it.",
+      "must_include": ["Kaya introduction", "reference to specific player accomplishments", "boss HP status reflection", "each player gets a named moment"],
+      "tone": "Action and camaraderie. Learning to work together."
+    },
+    {
+      "week": 2,
+      "chapter": 3,
+      "title": "Voices in the Ash",
+      "type": "boss_introduction",
+      "scaffold": "With Thornmaw defeated (or carried over), a new threat emerges: a swarm of ashen moths that whisper discouragement. Villagers begin losing motivation. Professor Ignis recognizes the Whispering Swarm from old texts and urges the heroes to study — knowledge is the swarm's weakness. The Academy becomes critical this week.",
+      "must_include": ["Whispering Swarm description", "villagers affected", "Professor Ignis lore exposition", "emphasis on education this week"],
+      "tone": "Creeping unease. The enemy fights with words, not claws."
+    },
+    {
+      "week": 3,
+      "chapter": 4,
+      "title": "The Immovable",
+      "type": "boss_introduction",
+      "scaffold": "Grulk appears on the main path out of Hearthhold. He doesn't attack. He simply stands there. No one can get past. Supplies can't come in. Traders can't leave. Elder Maren says Grulk represents stagnation itself — he can only be eroded through steady, persistent work. No single blow will fell him.",
+      "must_include": ["Grulk blocking the path", "village supply shortage", "theme of persistence over power"],
+      "tone": "Frustrating but not hopeless. The lesson of daily discipline."
+    },
+    {
+      "week": 4,
+      "chapter": 5,
+      "title": "The Light That Lies",
+      "type": "boss_introduction",
+      "scaffold": "A mysterious figure appears on the road, glowing with what seems like Emberlight. She calls herself Cindra and offers to help — shortcuts, easy power, a faster way to restore the Hearthstone. Some villagers are tempted. But the Embershards feel cold near her. Something is wrong.",
+      "must_include": ["Cindra's deceptive introduction", "temptation theme", "Embershards as warning system", "setup for the reveal"],
+      "tone": "Suspense. First moral complexity. Things aren't always what they seem."
+    },
+    {
+      "week": 4,
+      "chapter": 6,
+      "title": "Unmasked",
+      "type": "arc_finale",
+      "scaffold": "The Emberbearers expose Cindra. Her false flame gutters and dies. Behind where she stood: an ancient Emberlight shrine, the first of many scattered across Embervale. The Chronicler appears for the first time, writing everything down in light. They say: 'The first arc is complete. But the world is wide, and the Hollow is patient.' A message arrives from the Shattered Coast. Someone needs help.",
+      "must_include": ["Cindra's defeat", "Emberlight shrine discovery", "The Chronicler's first appearance", "transition to Arc 2"],
+      "tone": "Triumph and expansion. The world just got bigger."
+    }
+  ]
+}

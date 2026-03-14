@@ -1,0 +1,76 @@
+{
+  "classes": [
+    {
+      "id": "blazewarden",
+      "name": "Blazewarden",
+      "motto": "We are the fire that holds back the night.",
+      "archetype": "Warrior / Protector",
+      "embershard_form": "A blade wreathed in amber flame",
+      "personality": "Brave, direct, protective of others",
+      "story_role": "Frontline defender, faces challenges head-on",
+      "color_primary": "#D4440F",
+      "color_secondary": "#FF8C42",
+      "icon": "sword"
+    },
+    {
+      "id": "lorescribe",
+      "name": "Lorescribe",
+      "motto": "Knowledge is the truest light.",
+      "archetype": "Scholar / Mage",
+      "embershard_form": "A quill that writes in lines of light",
+      "personality": "Curious, analytical, loves solving puzzles",
+      "story_role": "Uncovers hidden knowledge, deciphers ancient texts",
+      "color_primary": "#2E5A88",
+      "color_secondary": "#7EC8E3",
+      "icon": "book-open"
+    },
+    {
+      "id": "shadowstep",
+      "name": "Shadowstep",
+      "motto": "The darkness cannot catch what it cannot find.",
+      "archetype": "Rogue / Scout",
+      "embershard_form": "A cloak that bends light around the wearer",
+      "personality": "Clever, resourceful, quick-thinking",
+      "story_role": "Scout, infiltrator, finds hidden paths",
+      "color_primary": "#3D2C5E",
+      "color_secondary": "#9B72CF",
+      "icon": "eye-off"
+    },
+    {
+      "id": "hearthkeeper",
+      "name": "Hearthkeeper",
+      "motto": "A single ember, tended well, can relight the world.",
+      "archetype": "Healer / Support",
+      "embershard_form": "A lantern that never goes out",
+      "personality": "Compassionate, steady, quietly strong",
+      "story_role": "Sustainer, keeps the team going through hardship",
+      "color_primary": "#B8860B",
+      "color_secondary": "#FFD700",
+      "icon": "flame"
+    },
+    {
+      "id": "stormcaller",
+      "name": "Stormcaller",
+      "motto": "The wind answers those who aren't afraid to shout.",
+      "archetype": "Elementalist / Wild Card",
+      "embershard_form": "A drum whose beat shakes the air",
+      "personality": "Bold, unpredictable, passionate",
+      "story_role": "Changes the battlefield, creates opportunities",
+      "color_primary": "#1B4D3E",
+      "color_secondary": "#45B69C",
+      "icon": "zap"
+    },
+    {
+      "id": "ironvow",
+      "name": "Ironvow",
+      "motto": "I said I would. And so I will.",
+      "archetype": "Paladin / Knight",
+      "embershard_form": "A shield that glows brighter the more it is tested",
+      "personality": "Steadfast, honorable, keeps promises",
+      "story_role": "The immovable resolve, inspires others",
+      "color_primary": "#4A4A4A",
+      "color_secondary": "#C0C0C0",
+      "icon": "shield"
+    }
+  ]
+}
