@@ -1,23 +1,256 @@
+/* Fonts are loaded via next/font/google in src/app/layout.tsx */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ── Design Tokens ───────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Backgrounds */
+  --bg-void:      #0a0b0f;
+  --bg-deep:      #0f1118;
+  --bg-surface:   #161822;
+  --bg-card:      #1a1c2e;
+  --bg-card-alt:  #12131f;
+
+  /* Gold / Amber palette */
+  --gold-100:     #fff8e7;
+  --gold-200:     #fde9a2;
+  --gold-300:     #f9c846;
+  --gold-400:     #e8a020;
+  --gold-500:     #c97d0a;
+  --gold-600:     #9c5e04;
+
+  /* Ember accent */
+  --ember-bright: #ff8c3a;
+  --ember-glow:   #ff6010;
+  --ember-deep:   #c43a00;
+
+  /* Text */
+  --text-primary:   #f0e6c8;
+  --text-secondary: #b09a6e;
+  --text-muted:     #6b5d44;
+  --text-disabled:  #3d3526;
+
+  /* Status */
+  --error:   #e05555;
+  --success: #5aab6e;
+
+  /* Font variables are set by next/font/google via CSS custom properties on <html> */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── Base ────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-void);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Pixel art rendering ─────────────────────────────────── */
+img.pixel,
+canvas.pixel,
+.pixel-render {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────── */
+::-webkit-scrollbar              { width: 6px; }
+::-webkit-scrollbar-track        { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb        { background: var(--gold-600); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover  { background: var(--gold-400); }
+
+/* ── Typography helpers ──────────────────────────────────── */
+.font-pixel   { font-family: var(--font-pixel); }
+.font-heading { font-family: var(--font-heading); }
+.font-body    { font-family: var(--font-body); }
+
+/* ── Ember particle animation ────────────────────────────── */
+@keyframes ember-rise {
+  0%   { transform: translateY(0) translateX(0) scale(1);   opacity: 0.8; }
+  50%  { transform: translateY(-40vh) translateX(var(--drift)) scale(0.6); opacity: 0.5; }
+  100% { transform: translateY(-80vh) translateX(calc(var(--drift) * 2)) scale(0.2); opacity: 0; }
+}
+
+@keyframes ember-pulse {
+  0%, 100% { box-shadow: 0 0 4px 1px var(--ember-bright); }
+  50%       { box-shadow: 0 0 8px 3px var(--ember-glow); }
+}
+
+@keyframes card-rise {
+  0%   { opacity: 0; transform: translateY(24px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer-gold {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  92%       { opacity: 1; }
+  93%       { opacity: 0.8; }
+  94%       { opacity: 1; }
+  96%       { opacity: 0.9; }
+  97%       { opacity: 1; }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { text-shadow: 0 0 10px rgba(232,160,32,0.5), 0 0 20px rgba(232,160,32,0.2); }
+  50%       { text-shadow: 0 0 16px rgba(232,160,32,0.8), 0 0 32px rgba(232,160,32,0.4); }
+}
+
+@keyframes border-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(232,160,32,0.3), inset 0 0 8px rgba(232,160,32,0.05); }
+  50%       { box-shadow: 0 0 16px rgba(232,160,32,0.5), inset 0 0 12px rgba(232,160,32,0.08); }
+}
+
+/* ── Utility animations ──────────────────────────────────── */
+.animate-card-rise {
+  animation: card-rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-flicker {
+  animation: flicker 8s ease-in-out infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+.animate-border-glow {
+  animation: border-glow 3s ease-in-out infinite;
+}
+
+/* ── Shimmer text ────────────────────────────────────────── */
+.text-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--gold-400) 0%,
+    var(--gold-200) 40%,
+    var(--gold-300) 50%,
+    var(--gold-200) 60%,
+    var(--gold-400) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer-gold 4s linear infinite;
+}
+
+/* ── Fantasy form inputs ─────────────────────────────────── */
+.quest-input {
+  width: 100%;
+  background: var(--bg-card-alt);
+  border: 1px solid var(--gold-600);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  padding: 0.65rem 0.9rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.quest-input::placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.quest-input:focus {
+  border-color: var(--gold-400);
+  box-shadow: 0 0 0 3px rgba(232,160,32,0.15), 0 0 12px rgba(232,160,32,0.1);
+}
+
+.quest-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Fantasy button ──────────────────────────────────────── */
+.quest-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.8rem 1.5rem;
+  background: linear-gradient(135deg, var(--gold-500) 0%, var(--gold-400) 50%, var(--gold-500) 100%);
+  background-size: 200% 100%;
+  border: 2px solid var(--gold-300);
+  border-radius: 4px;
+  color: var(--bg-void);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-position 0.3s, transform 0.1s, box-shadow 0.2s;
+  box-shadow: 0 0 12px rgba(232,160,32,0.3), inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+.quest-btn:hover:not(:disabled) {
+  background-position: 100% 0;
+  box-shadow: 0 0 24px rgba(232,160,32,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+  transform: translateY(-1px);
+}
+
+.quest-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.quest-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ── Corner ornament ─────────────────────────────────────── */
+.corner-ornament {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-color: var(--gold-500);
+  border-style: solid;
+  opacity: 0.8;
+}
+.corner-ornament.tl { top: -1px; left: -1px;  border-width: 2px 0 0 2px; }
+.corner-ornament.tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+.corner-ornament.bl { bottom: -1px; left: -1px;  border-width: 0 0 2px 2px; }
+.corner-ornament.br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+/* ── Divider ─────────────────────────────────────────────── */
+.rune-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--gold-600);
+  font-family: var(--font-pixel);
+  font-size: 0.45rem;
+  letter-spacing: 0.15em;
+}
+.rune-divider::before,
+.rune-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-600));
+}
+.rune-divider::after {
+  background: linear-gradient(90deg, var(--gold-600), transparent);
 }
 
 @layer utilities {

@@ -19,6 +19,18 @@
 # misc
 .DS_Store
 *.pem
+*.swp
+*.swo
+
+# Sprite assets — large binary files; store locally or use Git LFS
+# Placeholder .gitkeep files are still tracked
+public/sprites/**/*.png
+public/sprites/**/*.jpg
+public/sprites/**/*.jpeg
+public/sprites/**/*.gif
+public/sprites/**/*.webp
+public/sprites/**/*.xcf
+public/audio/
 
 # debug
 npm-debug.log*
@@ -34,3 +46,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.env.local
