@@ -73,7 +73,7 @@ export async function POST(request: Request) {
   // The handle_chore_verified trigger fires here and awards xp/gold/boss damage.
   // .eq('verified', false) closes the TOCTOU window: two concurrent approvals
   // for the same row both pass the SELECT, but only the first UPDATE matches.
-  const { error: updateError } = await supabase
+  const { data: updated, error: updateError } = await supabase
     .from('chore_completions')
     .update({
       verified:     true,
@@ -84,10 +84,18 @@ export async function POST(request: Request) {
     .eq('id', completionId)
     .eq('household_id', profile.household_id)
     .eq('verified', false)
+    .select('id')
 
   if (updateError) {
     console.error('[approve] update error:', updateError)
     return NextResponse.json({ error: 'Failed to approve completion.' }, { status: 500 })
+  }
+
+  if (!updated || updated.length === 0) {
+    return NextResponse.json(
+      { error: 'Completion not found or already approved.' },
+      { status: 409 }
+    )
   }
 
   return NextResponse.json({ success: true, xpAwarded, goldAwarded })
