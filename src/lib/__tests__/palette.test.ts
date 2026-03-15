@@ -32,7 +32,7 @@ describe('BOSS_SPRITE_MANIFEST', () => {
   })
 
   it('has sheet-format entries for sheet sprites', () => {
-    for (const key of ['bat', 'ghost', 'slime', 'eyeball', 'pumpking', 'bee', 'big_worm', 'snake']) {
+    for (const key of ['bat', 'ghost', 'slime', 'eyeball', 'pumpking', 'bee', 'big_worm', 'man_eater_flower', 'small_worm', 'snake']) {
       expect(BOSS_SPRITE_MANIFEST[key].format).toBe('sheet')
     }
   })

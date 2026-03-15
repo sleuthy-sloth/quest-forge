@@ -56,6 +56,7 @@ const BossSprite = forwardRef<BossSpriteHandle, { config: BossSpriteConfig }>(
     const intervalHandle = useRef<ReturnType<typeof setInterval> | null>(null)
 
     const [loaded, setLoaded] = useState(false)
+    const [loadError, setLoadError] = useState(false)
 
     const spriteInfo = BOSS_SPRITE_MANIFEST[config.base_sprite]
     const palette    = BOSS_PALETTES[config.palette] ?? BOSS_PALETTES.hollow_dark
@@ -123,7 +124,10 @@ const BossSprite = forwardRef<BossSpriteHandle, { config: BossSpriteConfig }>(
         setLoaded(true)
       }
 
-      load().catch(console.error)
+      load().catch((err) => {
+        console.error('[BossSprite] Failed to load sprite:', err)
+        setLoadError(true)
+      })
       return () => { cancelled = true }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [config.base_sprite, config.palette])
@@ -233,6 +237,27 @@ const BossSprite = forwardRef<BossSpriteHandle, { config: BossSpriteConfig }>(
     // -----------------------------------------------------------------------
     // Render
     // -----------------------------------------------------------------------
+    if (loadError) {
+      return (
+        <div style={{
+          width: displaySize,
+          height: displaySize,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: '#111',
+          border: `3px solid ${frameColor}`,
+          color: '#555',
+          fontFamily: 'monospace',
+          fontSize: '0.75rem',
+          textAlign: 'center',
+          imageRendering: 'pixelated',
+        }}>
+          ☠<br />sprite<br />unavailable
+        </div>
+      )
+    }
+
     return (
       <div style={{ position: 'relative', width: displaySize, height: displaySize, display: 'inline-block' }}>
         <style>{PARTICLE_CSS_KEYFRAMES}</style>

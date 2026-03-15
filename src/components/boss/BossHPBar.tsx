@@ -48,8 +48,7 @@ export default function BossHPBar({ currentHp, maxHp, bossName }: BossHPBarProps
         imageRendering: 'pixelated',
       }}>
         {Array.from({ length: SEGMENT_COUNT }).map((_, i) => {
-          const threshold = (i + 1) / SEGMENT_COUNT
-          const filled = pct >= threshold - 1 / SEGMENT_COUNT / 2
+          const filled = pct > i / SEGMENT_COUNT
 
           let bg = 'transparent'
           if (filled) {
