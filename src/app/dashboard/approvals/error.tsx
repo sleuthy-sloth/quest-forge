@@ -1,4 +1,3 @@
-// src/app/dashboard/approvals/error.tsx
 'use client'
 
 import { useEffect } from 'react'
@@ -15,39 +14,14 @@ export default function ApprovalsError({
   }, [error])
 
   return (
-    <div style={{
-      padding: '3rem 2rem',
-      textAlign: 'center',
-      background: 'rgba(220,60,60,0.04)',
-      border: '1px solid rgba(220,60,60,0.15)',
-      borderRadius: 3,
-      margin: '2rem auto',
-      maxWidth: 480,
-    }}>
-      <div style={{ fontSize: '2rem', marginBottom: '0.75rem', opacity: 0.4 }}>⚠</div>
-      <p style={{
-        fontFamily: 'Cinzel, serif',
-        fontSize: '0.82rem',
-        color: 'rgba(230,110,90,0.85)',
-        marginBottom: '1.25rem',
-        letterSpacing: '0.04em',
-      }}>
+    <div className="mx-auto my-8 max-w-[480px] rounded border border-red-500/15 bg-red-500/5 p-12 text-center">
+      <div className="mb-3 text-3xl opacity-40">⚠</div>
+      <p className="mb-5 font-serif text-sm tracking-wide text-red-400/85">
         The Approval Queue encountered an error.
       </p>
       <button
         onClick={reset}
-        style={{
-          fontFamily: 'Cinzel, serif',
-          fontSize: '0.72rem',
-          color: 'rgba(201,168,76,0.8)',
-          background: 'rgba(201,168,76,0.06)',
-          border: '1px solid rgba(201,168,76,0.2)',
-          borderRadius: 2,
-          padding: '0.5rem 1.25rem',
-          cursor: 'pointer',
-          letterSpacing: '0.08em',
-          textTransform: 'uppercase',
-        }}
+        className="rounded border border-amber-400/20 bg-amber-400/5 px-5 py-3 font-serif text-xs uppercase tracking-widest text-amber-400/80 hover:bg-amber-400/10"
       >
         Try Again
       </button>
