@@ -251,19 +251,23 @@ export default function ApprovalQueuePage() {
 
     setBatchProgress(null)
 
-    // Check if new items arrived via Realtime during the batch run
-    // pending state at this point reflects optimistic removals + any new arrivals
-    const remainingAfterBatch = pending.filter(p => !ids.includes(p.id))
-    const newArrivals = remainingAfterBatch.length
-
     if (errors === 0) {
       addToast('All quests approved!', 'success')
     } else {
       addToast(`Done. ${errors} approval${errors > 1 ? 's' : ''} failed.`, 'error')
     }
-    if (newArrivals > 0) {
-      addToast(`${newArrivals} new quest${newArrivals > 1 ? 's' : ''} arrived during batch — please review.`, 'error')
-    }
+
+    // Check if new items arrived via Realtime during the batch run using live state
+    setPending(currentPending => {
+      const newArrivals = currentPending.filter(p => !ids.includes(p.id))
+      if (newArrivals.length > 0) {
+        addToast(
+          `${newArrivals.length} new quest${newArrivals.length > 1 ? 's' : ''} arrived during batch — please review.`,
+          'error'
+        )
+      }
+      return currentPending
+    })
   }
 
   const isBatching = batchProgress !== null
