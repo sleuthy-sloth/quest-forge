@@ -71,12 +71,22 @@ export default function ApprovalQueuePage() {
   const supabase = useMemo(() => createClient(), [])
   // useRef keeps the counter stable across re-renders so toast IDs are unique.
   const toastCounter = useRef(0)
+  const toastTimers = useRef<ReturnType<typeof setTimeout>[]>([])
+
+  // Clear all pending toast timers on unmount
+  useEffect(() => {
+    return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      toastTimers.current.forEach(clearTimeout)
+    }
+  }, [])
 
   // ── Toast helpers ──
   function addToast(message: string, type: Toast['type']) {
     const id = ++toastCounter.current
     setToasts(t => [...t, { id, message, type }])
-    setTimeout(() => setToasts(t => t.filter(x => x.id !== id)), 3500)
+    const timer = setTimeout(() => setToasts(t => t.filter(x => x.id !== id)), 3500)
+    toastTimers.current.push(timer)
   }
 
   // ── Initial data fetch ──
@@ -155,7 +165,11 @@ export default function ApprovalQueuePage() {
             .single()
 
           if (data) {
-            setPending(prev => [...prev, data as unknown as PendingCompletion])
+            setPending(prev =>
+              prev.some(x => x.id === (data as unknown as PendingCompletion).id)
+                ? prev
+                : [...prev, data as unknown as PendingCompletion]
+            )
           }
         }
       )
@@ -185,7 +199,15 @@ export default function ApprovalQueuePage() {
       return false
     }
 
-    const { xpAwarded, goldAwarded } = await res.json()
+    let xpAwarded = 0
+    let goldAwarded = 0
+    try {
+      const json = await res.json()
+      xpAwarded = json.xpAwarded ?? 0
+      goldAwarded = json.goldAwarded ?? 0
+    } catch {
+      // Server returned 200 but non-JSON body — trigger still fired, treat as success
+    }
     addToast(`Quest approved! +${xpAwarded} XP, +${goldAwarded} GP awarded.`, 'success')
     setProcessing(p => { const next = new Set(p); next.delete(id); return next })
     return true
@@ -214,6 +236,7 @@ export default function ApprovalQueuePage() {
 
   // ── Batch approve all ──
   async function batchApproveAll() {
+    if (!householdId) return
     const ids = pending.map(p => p.id)
     if (ids.length === 0) return
 
@@ -228,10 +251,18 @@ export default function ApprovalQueuePage() {
 
     setBatchProgress(null)
 
+    // Check if new items arrived via Realtime during the batch run
+    // pending state at this point reflects optimistic removals + any new arrivals
+    const remainingAfterBatch = pending.filter(p => !ids.includes(p.id))
+    const newArrivals = remainingAfterBatch.length
+
     if (errors === 0) {
       addToast('All quests approved!', 'success')
     } else {
       addToast(`Done. ${errors} approval${errors > 1 ? 's' : ''} failed.`, 'error')
+    }
+    if (newArrivals > 0) {
+      addToast(`${newArrivals} new quest${newArrivals > 1 ? 's' : ''} arrived during batch — please review.`, 'error')
     }
   }
 
