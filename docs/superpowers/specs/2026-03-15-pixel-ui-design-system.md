@@ -213,7 +213,7 @@ After all 5 components are built, replace inline patterns in these files:
 |------|----------------|
 | `src/app/dashboard/page.tsx` | Player XP level bar → `<PixelProgressBar variant="xp">`, inline level badges (LV{N}) → `<PixelBadge>`. **Exclude** the boss HP bar — it has dynamic color-shift (green→amber→red) and segment dividers not supported by `PixelProgressBar`. |
 | `src/app/dashboard/chores/page.tsx` | Difficulty badges → `<PixelBadge variant={difficulty}>`, recurrence badges → `<PixelBadge variant={recurrence}>`, action buttons → `<PixelButton>` |
-| `src/app/dashboard/loot/page.tsx` | Item cards → `<PixelCard>`, action buttons → `<PixelButton>` |
+| `src/app/dashboard/loot/page.tsx` | Action buttons (edit, delete) → `<PixelButton>`. **Exclude** item category badges — `LootCategory` values (`real_reward`, `cosmetic`, `power_up`, `story_unlock`) are not `BadgeVariant` values and the ledger table layout is incompatible with `PixelCard`. |
 
 **Scope limit:** Only replace elements that map cleanly to the new components. Do not restructure page layout or data-fetching logic. If a page does not exist yet, skip it.
 
@@ -225,10 +225,19 @@ Create `src/components/ui/index.ts` exporting all 5 components for clean imports
 
 ```typescript
 export { default as PixelButton } from './PixelButton'
+export type { PixelButtonProps } from './PixelButton'
+
 export { default as PixelCard } from './PixelCard'
+export type { PixelCardProps } from './PixelCard'
+
 export { default as PixelProgressBar } from './PixelProgressBar'
+export type { PixelProgressBarProps } from './PixelProgressBar'
+
 export { default as PixelBadge } from './PixelBadge'
+export type { PixelBadgeProps } from './PixelBadge'
+
 export { default as PixelModal } from './PixelModal'
+export type { PixelModalProps } from './PixelModal'
 ```
 
 ---
