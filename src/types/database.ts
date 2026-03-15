@@ -628,7 +628,7 @@ export type Database = {
       difficulty_type: "easy" | "medium" | "hard" | "epic"
       item_type: "weapon" | "armor" | "accessory" | "consumable" | "cosmetic"
       loot_category: "real_reward" | "cosmetic" | "power_up" | "story_unlock"
-      recurrence_type: "once" | "daily" | "weekly"
+      recurrence_type: "once" | "daily" | "weekly" | "monthly"
       subject_type:
         | "math"
         | "reading"
@@ -775,7 +775,7 @@ export const Constants = {
       difficulty_type: ["easy", "medium", "hard", "epic"],
       item_type: ["weapon", "armor", "accessory", "consumable", "cosmetic"],
       loot_category: ["real_reward", "cosmetic", "power_up", "story_unlock"],
-      recurrence_type: ["once", "daily", "weekly"],
+      recurrence_type: ["once", "daily", "weekly", "monthly"],
       subject_type: [
         "math",
         "reading",

@@ -258,3 +258,32 @@ canvas.pixel,
     text-wrap: balance;
   }
 }
+
+/* ── Dashboard shell utilities (used by child pages) ─────── */
+.dash-topbar {
+  border-bottom: 1px solid rgba(201,168,76,0.08);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: rgba(255,255,255,0.01);
+  flex-shrink: 0;
+}
+.dash-page-title {
+  font-family: var(--font-heading), 'Cinzel', serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(201,168,76,0.7);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.dash-content {
+  flex: 1;
+  padding: 2rem;
+  min-height: 0;
+}
+@media (max-width: 768px) {
+  .dash-topbar { padding: 0.75rem 1rem; }
+  .dash-content { padding: 1rem; }
+}

@@ -23,13 +23,7 @@
 *.swo
 
 # Sprite assets — large binary files; store locally or use Git LFS
-# Placeholder .gitkeep files are still tracked
-public/sprites/**/*.png
-public/sprites/**/*.jpg
-public/sprites/**/*.jpeg
-public/sprites/**/*.gif
-public/sprites/**/*.webp
-public/sprites/**/*.xcf
+public/sprites/
 public/audio/
 
 # debug
@@ -42,6 +36,12 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# Supabase local CLI cache
+supabase/.temp/
+
+# Claude Code local settings
+.claude/settings.local.json
 
 # typescript
 *.tsbuildinfo

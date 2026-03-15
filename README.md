@@ -1,4 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Quest Forge: The Emberlight Chronicles
+
+A multi-tenant fantasy RPG chore-tracking and educational app for families. See `CLAUDE.md` for full architecture documentation.
+
+## Setup for new developers
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Configure environment variables
+
+Create `.env.local` with:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=https://<project-id>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-key>
+SUPABASE_SERVICE_ROLE_KEY=<service-role-key>
+GEMINI_API_KEY=<gemini-key>
+NEXT_PUBLIC_SPRITE_BASE_URL=https://<project-id>.supabase.co/storage/v1/object/public/sprites
+```
+
+### 3. Upload sprite assets
+
+Sprite PNGs are not committed to Git. After cloning, run this once to upload your local `public/sprites/` folder to Supabase Storage:
+
+```bash
+npx tsx scripts/upload-sprites.ts
+```
+
+The script creates a public `sprites` bucket, uploads all PNGs preserving the folder structure, and skips files that already exist — safe to re-run.
+
+---
 
 ## Getting Started
 
