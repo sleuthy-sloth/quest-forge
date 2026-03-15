@@ -46,15 +46,24 @@ export async function POST(request: Request) {
 
   const { completionId } = result.data
 
-  const { error } = await supabase
+  const { data: deleted, error } = await supabase
     .from('chore_completions')
     .delete()
     .eq('id', completionId)
     .eq('household_id', profile.household_id)
+    .eq('verified', false)
+    .select('id')
 
   if (error) {
     console.error('[reject] delete error:', error)
     return NextResponse.json({ error: 'Failed to reject completion.' }, { status: 500 })
+  }
+
+  if (!deleted || deleted.length === 0) {
+    return NextResponse.json(
+      { error: 'Completion not found, already approved, or already rejected.' },
+      { status: 404 }
+    )
   }
 
   return NextResponse.json({ success: true })
