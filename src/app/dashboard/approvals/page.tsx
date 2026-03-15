@@ -72,6 +72,7 @@ export default function ApprovalQueuePage() {
   // useRef keeps the counter stable across re-renders so toast IDs are unique.
   const toastCounter = useRef(0)
   const toastTimers = useRef<ReturnType<typeof setTimeout>[]>([])
+  const pendingRef = useRef<PendingCompletion[]>([])
 
   // Clear all pending toast timers on unmount
   useEffect(() => {
@@ -133,6 +134,11 @@ export default function ApprovalQueuePage() {
     init()
   }, [supabase, fetchPending])
 
+  // Keep pendingRef in sync with pending state for use inside async callbacks
+  useEffect(() => {
+    pendingRef.current = pending
+  }, [pending])
+
   // ── Realtime subscription ──
   useEffect(() => {
     if (!householdId) return
@@ -161,6 +167,7 @@ export default function ApprovalQueuePage() {
               chores ( title, quest_flavor_text, description, xp_reward, gold_reward )
             `)
             .eq('id', newId)
+            .eq('household_id', householdId)
             .eq('verified', false)
             .single()
 
@@ -245,6 +252,8 @@ export default function ApprovalQueuePage() {
 
     for (let i = 0; i < ids.length; i++) {
       setBatchProgress({ current: i + 1, total: ids.length })
+      // Skip if already removed from queue (e.g., rejected individually during batch)
+      if (!pendingRef.current.some(p => p.id === ids[i])) continue
       const ok = await approve(ids[i])
       if (!ok) errors++
     }
