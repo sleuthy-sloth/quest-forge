@@ -287,3 +287,35 @@ canvas.pixel,
   .dash-topbar { padding: 0.75rem 1rem; }
   .dash-content { padding: 1rem; }
 }
+
+/* ── Pixel Button (PixelButton component) ────────────────────────────────── */
+.px-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-style: solid;
+  border-image: var(--spr) var(--slice) fill;
+  image-rendering: pixelated;
+  font-family: var(--font-pixel, 'Press Start 2P', monospace);
+  color: #fff;
+  cursor: pointer;
+  background: transparent;
+  transition: transform 0.08s, filter 0.08s;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.6);
+  outline: none;
+}
+.px-btn:hover:not(:disabled) {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
+}
+.px-btn:active:not(:disabled) {
+  border-image: var(--spr-p, var(--spr)) var(--slice) fill;
+  transform: translateY(1px);
+  filter: brightness(0.9);
+}
+.px-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
