@@ -63,11 +63,13 @@ export default async function OverviewPage() {
       <style suppressHydrationWarning>{`
         .ov-card {
           position: relative;
-          background: rgba(255,255,255,0.022);
-          border: 1px solid rgba(201,168,76,0.12);
+          background: rgba(80,10,20,0.08);
+          border: 1px solid rgba(201,168,76,0.20);
+          border-top: 1px solid rgba(201,168,76,0.32);
           border-radius: 3px;
           overflow: hidden;
           transition: border-color 0.2s, box-shadow 0.2s;
+          box-shadow: 0 2px 20px rgba(140,20,50,0.07), inset 0 1px 0 rgba(255,220,150,0.03);
         }
         .ov-card:hover {
           border-color: rgba(201,168,76,0.24);
@@ -161,7 +163,7 @@ export default async function OverviewPage() {
           font-family: 'Cinzel', serif;
           font-size: 0.72rem;
           font-weight: 700;
-          color: rgba(201,168,76,0.65);
+          color: rgba(201,168,76,0.85);
           letter-spacing: 0.12em;
           text-transform: uppercase;
           white-space: nowrap;
@@ -170,7 +172,7 @@ export default async function OverviewPage() {
         .section-rule .rule-line {
           flex: 1;
           height: 1px;
-          background: linear-gradient(90deg, rgba(201,168,76,0.2), transparent);
+          background: linear-gradient(90deg, rgba(180,50,80,0.28), transparent);
         }
 
         @keyframes slide-in {
@@ -204,7 +206,7 @@ export default async function OverviewPage() {
             fontFamily: 'Cinzel, serif',
             fontWeight: 300,
             fontSize: '0.72rem',
-            color: 'rgba(200,215,255,0.25)',
+            color: 'rgba(200,215,255,0.40)',
           }}>
             {(players ?? []).length} {(players ?? []).length === 1 ? 'adventurer' : 'adventurers'}
           </span>
@@ -219,6 +221,7 @@ export default async function OverviewPage() {
           <div className="rule-line" />
           <Link
             href="/dashboard/players"
+            className="dashboard-manage-link"
             style={{
               fontFamily: 'Cinzel, serif',
               fontSize: '0.6rem',
@@ -229,8 +232,6 @@ export default async function OverviewPage() {
               flexShrink: 0,
               transition: 'color 0.2s',
             }}
-            onMouseOver={e => (e.currentTarget.style.color = 'rgba(201,168,76,0.85)')}
-            onMouseOut={e => (e.currentTarget.style.color = 'rgba(201,168,76,0.45)')}
           >
             Manage →
           </Link>
@@ -330,7 +331,7 @@ export default async function OverviewPage() {
                           fontFamily: 'Cinzel, serif',
                           fontWeight: 300,
                           fontSize: '0.68rem',
-                          color: 'rgba(200,215,255,0.28)',
+                          color: 'rgba(180,200,255,0.62)',
                         }}>
                           @{player.username}
                         </span>
@@ -352,7 +353,7 @@ export default async function OverviewPage() {
                         fontFamily: 'Cinzel, serif',
                         fontWeight: 300,
                         fontSize: '0.62rem',
-                        color: 'rgba(200,215,255,0.3)',
+                        color: 'rgba(180,200,255,0.58)',
                       }}>
                         <span>{current.toLocaleString()} XP</span>
                         <span>{needed.toLocaleString()} to Lv.{player.level + 1}</span>
@@ -364,20 +365,20 @@ export default async function OverviewPage() {
                       display: 'flex',
                       gap: '0.85rem',
                       paddingTop: '0.5rem',
-                      borderTop: '1px solid rgba(201,168,76,0.06)',
+                      borderTop: '1px solid rgba(180,50,80,0.14)',
                     }}>
                       {/* Available XP */}
                       <div className="stat-chip" style={{ color: 'rgba(201,168,76,0.75)' }}>
                         <span className="icon" aria-hidden="true">⬡</span>
                         <span>{player.xp_available.toLocaleString()}</span>
-                        <span style={{ fontFamily: 'Cinzel, serif', fontWeight: 300, fontSize: '0.55rem', color: 'rgba(200,215,255,0.3)' }}>xp</span>
+                        <span style={{ fontFamily: 'Cinzel, serif', fontWeight: 300, fontSize: '0.55rem', color: 'rgba(180,200,255,0.55)' }}>xp</span>
                       </div>
 
                       {/* Gold */}
                       <div className="stat-chip" style={{ color: 'rgba(249,200,70,0.8)' }}>
                         <span className="icon" aria-hidden="true">◈</span>
                         <span>{player.gold.toLocaleString()}</span>
-                        <span style={{ fontFamily: 'Cinzel, serif', fontWeight: 300, fontSize: '0.55rem', color: 'rgba(200,215,255,0.3)' }}>gp</span>
+                        <span style={{ fontFamily: 'Cinzel, serif', fontWeight: 300, fontSize: '0.55rem', color: 'rgba(180,200,255,0.55)' }}>gp</span>
                       </div>
 
                       {/* Pending approvals for this player */}
@@ -439,7 +440,12 @@ export default async function OverviewPage() {
         ) : (
           <div
             className="ov-card px-corner slide-in"
-            style={{ padding: '1.5rem 1.75rem' }}
+            style={{
+              padding: '1.5rem 1.75rem',
+              background: 'rgba(80,10,20,0.10)',
+              borderTop: '1px solid rgba(180,50,80,0.35)',
+              boxShadow: '0 2px 24px rgba(140,20,50,0.10)',
+            }}
           >
             <span aria-hidden="true" />
 
@@ -475,7 +481,7 @@ export default async function OverviewPage() {
                     fontFamily: 'Cinzel, serif',
                     fontWeight: 300,
                     fontSize: '0.72rem',
-                    color: 'rgba(201,168,76,0.45)',
+                    color: 'rgba(201,168,76,0.62)',
                     letterSpacing: '0.06em',
                     fontStyle: 'italic',
                   }}>
@@ -499,7 +505,7 @@ export default async function OverviewPage() {
                   fontFamily: 'Cinzel, serif',
                   fontWeight: 300,
                   fontSize: '0.6rem',
-                  color: 'rgba(200,215,255,0.3)',
+                  color: 'rgba(200,215,255,0.42)',
                   letterSpacing: '0.06em',
                 }}>
                   HP remaining
@@ -513,11 +519,11 @@ export default async function OverviewPage() {
                 fontFamily: 'Cinzel, serif',
                 fontWeight: 300,
                 fontSize: '0.82rem',
-                color: 'rgba(200,215,255,0.45)',
+                color: 'rgba(200,215,255,0.50)',
                 lineHeight: 1.65,
                 fontStyle: 'italic',
                 marginBottom: '1.25rem',
-                borderLeft: '2px solid rgba(201,168,76,0.15)',
+                borderLeft: '2px solid rgba(180,50,80,0.30)',
                 paddingLeft: '0.85rem',
               }}>
                 {boss.boss_description}
@@ -527,7 +533,7 @@ export default async function OverviewPage() {
             {/* HP bar */}
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.6rem', color: 'rgba(200,215,255,0.3)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.6rem', color: 'rgba(200,215,255,0.42)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                   Boss HP
                 </span>
                 <span style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.45rem', color: 'rgba(200,215,255,0.35)', imageRendering: 'pixelated' }}>
@@ -556,7 +562,7 @@ export default async function OverviewPage() {
                 fontFamily: 'Cinzel, serif',
                 fontWeight: 300,
                 fontSize: '0.68rem',
-                color: 'rgba(200,215,255,0.2)',
+                color: 'rgba(200,215,255,0.42)',
                 marginTop: 8,
               }}>
                 Every approved quest and academy challenge deals damage equal to its XP reward.
