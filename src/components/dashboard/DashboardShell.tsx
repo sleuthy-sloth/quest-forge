@@ -36,25 +36,38 @@ export function DashboardShell({ householdName, displayName, children }: Dashboa
   }
 
   const SidebarContent = () => (
-    <aside className="flex flex-col h-full w-56 bg-[#040812] border-r border-[#c9a84c]/10">
+    <aside
+      className="flex flex-col h-full w-56 border-r relative"
+      style={{
+        background: 'linear-gradient(180deg, #080510 0%, #050810 100%)',
+        borderRightColor: 'rgba(180,50,80,0.18)',
+      }}
+    >
+      {/* Crimson floor glow — atmospheric depth at bottom of sidebar */}
+      <div
+        className="pointer-events-none absolute bottom-0 left-0 right-0"
+        style={{ height: 100, background: 'linear-gradient(0deg, rgba(140,20,50,0.07) 0%, transparent 100%)', zIndex: 0 }}
+        aria-hidden="true"
+      />
+
       {/* Brand */}
-      <div className="px-5 py-5 border-b border-[#c9a84c]/10">
+      <div className="px-5 py-5 relative" style={{ borderBottom: '1px solid rgba(201,168,76,0.18)', zIndex: 1 }}>
         <span
           className="block text-[#c9a84c] text-[0.6rem] tracking-widest leading-relaxed"
-          style={{ fontFamily: 'var(--font-pixel), monospace', textShadow: '0 0 16px rgba(201,168,76,0.3)' }}
+          style={{ fontFamily: 'var(--font-pixel), monospace', textShadow: '0 0 18px rgba(201,140,40,0.55), 0 0 6px rgba(201,140,40,0.25)' }}
         >
           Quest Forge
         </span>
         <span
-          className="block text-[#b09a6e]/45 text-[0.65rem] tracking-wider mt-1"
-          style={{ fontFamily: 'var(--font-heading), serif' }}
+          className="block text-[0.65rem] tracking-wider mt-1"
+          style={{ fontFamily: 'var(--font-heading), serif', color: 'rgba(200,175,130,0.72)' }}
         >
           Game Master Console
         </span>
         {householdName && (
           <span
-            className="block text-[#c9a84c]/50 text-[0.7rem] mt-2 truncate"
-            style={{ fontFamily: 'var(--font-heading), serif' }}
+            className="block text-[0.7rem] mt-2 truncate"
+            style={{ fontFamily: 'var(--font-heading), serif', color: 'rgba(201,168,76,0.80)' }}
             title={householdName}
           >
             {householdName}
@@ -63,7 +76,7 @@ export function DashboardShell({ householdName, displayName, children }: Dashboa
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 flex flex-col gap-0.5 px-2 py-3" aria-label="Dashboard navigation">
+      <nav className="flex-1 flex flex-col gap-0.5 px-2 py-3 relative" style={{ zIndex: 1 }} aria-label="Dashboard navigation">
         {NAV.map(item => (
           <Link
             key={item.href}
@@ -74,11 +87,14 @@ export function DashboardShell({ householdName, displayName, children }: Dashboa
               text-[0.68rem] font-semibold tracking-widest uppercase
               transition-colors duration-150
               ${isActive(item.href)
-                ? 'text-[#c9a84c] bg-[#c9a84c]/8'
-                : 'text-[#b09a6e]/40 hover:text-[#c9a84c]/75 hover:bg-[#c9a84c]/5'
+                ? 'bg-[#c9a84c]/12 border-l-2'
+                : 'hover:bg-[#c9a84c]/5'
               }
             `}
-            style={{ fontFamily: 'var(--font-heading), serif' }}
+            style={isActive(item.href)
+              ? { fontFamily: 'var(--font-heading), serif', color: '#c9a84c', textShadow: '0 0 8px rgba(201,140,40,0.35)', borderLeftColor: 'rgba(201,140,40,0.80)' }
+              : { fontFamily: 'var(--font-heading), serif', color: 'rgba(200,185,145,0.72)' }
+            }
           >
             <span className="text-sm w-4 text-center" aria-hidden="true">{item.icon}</span>
             {item.label}
@@ -87,20 +103,23 @@ export function DashboardShell({ householdName, displayName, children }: Dashboa
       </nav>
 
       {/* GM info + logout */}
-      <div className="px-3 py-4 border-t border-[#c9a84c]/10 space-y-2">
+      <div className="px-3 py-4 space-y-2 relative" style={{ borderTop: '1px solid rgba(180,50,80,0.20)', zIndex: 1 }}>
         <p
-          className="px-3 text-[0.65rem] text-[#b09a6e]/35 leading-relaxed"
-          style={{ fontFamily: 'var(--font-heading), serif' }}
+          className="px-3 text-[0.65rem] leading-relaxed"
+          style={{ fontFamily: 'var(--font-heading), serif', color: 'rgba(200,180,140,0.68)' }}
         >
           Signed in as<br />
-          <span className="text-[#c9a84c]/55">{displayName}</span>
+          <span style={{ color: '#c9a84c', fontSize: '0.7rem' }}>{displayName}</span>
         </p>
         <button
           onClick={handleLogout}
           className="w-full px-3 py-2 text-left text-[0.65rem] tracking-wider uppercase
-            text-[#e05555]/50 hover:text-[#e05555] hover:bg-[#e05555]/6
-            rounded-[3px] transition-colors duration-150"
-          style={{ fontFamily: 'var(--font-heading), serif' }}
+            hover:bg-[#e05555]/6 rounded-[3px] transition-colors duration-150"
+          style={{
+            fontFamily: 'var(--font-heading), serif',
+            color: 'rgba(230,80,100,0.88)',
+            textShadow: '0 0 10px rgba(200,40,70,0.35)',
+          }}
         >
           ⬡ Sign Out
         </button>
