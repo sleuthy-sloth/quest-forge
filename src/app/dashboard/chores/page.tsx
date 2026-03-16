@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import type { Tables } from '@/types/database'
+import { PixelBadge, PixelButton } from '@/components/ui'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type Chore = Pick<
@@ -401,42 +402,6 @@ export default function ChoresPage() {
         }
         .decree-btn:disabled { opacity: 0.55; cursor: not-allowed; }
 
-        /* ── action buttons ── */
-        .act-btn {
-          padding: 0.35rem 0.7rem;
-          border-radius: 2px;
-          font-family: var(--font-heading, 'Cinzel', serif);
-          font-size: 0.58rem;
-          font-weight: 600;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          cursor: pointer;
-          transition: all 0.15s;
-          white-space: nowrap;
-          flex-shrink: 0;
-        }
-        .act-btn.edit {
-          border: 1px solid rgba(201,168,76,0.2);
-          background: transparent;
-          color: rgba(201,168,76,0.55);
-        }
-        .act-btn.edit:hover {
-          border-color: rgba(201,168,76,0.45);
-          background: rgba(201,168,76,0.06);
-          color: rgba(201,168,76,0.9);
-        }
-        .act-btn.deact {
-          border: 1px solid rgba(220,80,60,0.15);
-          background: transparent;
-          color: rgba(220,80,60,0.4);
-        }
-        .act-btn.deact:hover:not(:disabled) {
-          border-color: rgba(220,80,60,0.4);
-          background: rgba(220,80,60,0.06);
-          color: rgba(220,80,60,0.8);
-        }
-        .act-btn:disabled { opacity: 0.45; cursor: not-allowed; }
-
         @keyframes spin { to { transform: rotate(360deg); } }
         .spinner {
           display: inline-block; width: 11px; height: 11px;
@@ -548,19 +513,7 @@ export default function ChoresPage() {
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.3rem' }}>
                             {/* Difficulty badge */}
-                            <span style={{
-                              fontFamily: 'var(--font-pixel, "Press Start 2P", monospace)',
-                              fontSize: '0.4rem',
-                              imageRendering: 'pixelated',
-                              padding: '2px 5px',
-                              borderRadius: 2,
-                              background: meta.bg,
-                              border: `1px solid ${meta.border}`,
-                              color: meta.color,
-                              flexShrink: 0,
-                            }}>
-                              {meta.label.toUpperCase()}
-                            </span>
+                            <PixelBadge variant={diff} />
 
                             {/* Title */}
                             <span style={{
@@ -576,15 +529,7 @@ export default function ChoresPage() {
                             </span>
 
                             {/* Recurrence badge */}
-                            <span style={{
-                              fontFamily: 'var(--font-heading, Cinzel, serif)',
-                              fontWeight: 300,
-                              fontSize: '0.65rem',
-                              color: 'rgba(200,215,255,0.3)',
-                              flexShrink: 0,
-                            }}>
-                              {REC_META[rec].icon} {REC_META[rec].label}
-                            </span>
+                            <PixelBadge variant={rec} />
                           </div>
 
                           {/* Meta row */}
@@ -627,16 +572,17 @@ export default function ChoresPage() {
 
                         {/* Actions */}
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', flexShrink: 0 }}>
-                          <button className="act-btn edit" onClick={() => startEdit(chore)}>
+                          <PixelButton variant="secondary" size="sm" onClick={() => startEdit(chore)}>
                             ✎ Edit
-                          </button>
-                          <button
-                            className="act-btn deact"
+                          </PixelButton>
+                          <PixelButton
+                            variant="danger"
+                            size="sm"
                             disabled={isDeactivating}
                             onClick={() => handleDeactivate(chore.id)}
                           >
                             {isDeactivating ? '…' : '✕ End'}
-                          </button>
+                          </PixelButton>
                         </div>
 
                       </div>
