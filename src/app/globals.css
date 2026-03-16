@@ -434,3 +434,9 @@ canvas.pixel,
 .dashboard-manage-link:hover {
   color: rgba(201,168,76,0.85) !important;
 }
+.sidebar-nav-link:hover {
+  color: rgba(201,168,76,0.85) !important;
+}
+.sidebar-signout:hover {
+  color: #e05555 !important;
+}

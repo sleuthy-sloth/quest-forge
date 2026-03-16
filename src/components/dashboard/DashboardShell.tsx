@@ -88,7 +88,7 @@ export function DashboardShell({ householdName, displayName, children }: Dashboa
               transition-colors duration-150
               ${isActive(item.href)
                 ? 'bg-[#c9a84c]/12 border-l-2'
-                : 'hover:bg-[#c9a84c]/5'
+                : 'sidebar-nav-link hover:bg-[#c9a84c]/5'
               }
             `}
             style={isActive(item.href)
@@ -114,10 +114,10 @@ export function DashboardShell({ householdName, displayName, children }: Dashboa
         <button
           onClick={handleLogout}
           className="w-full px-3 py-2 text-left text-[0.65rem] tracking-wider uppercase
-            hover:bg-[#e05555]/6 rounded-[3px] transition-colors duration-150"
+            sidebar-signout hover:bg-[#e05555]/6 rounded-[3px] transition-colors duration-150"
           style={{
             fontFamily: 'var(--font-heading), serif',
-            color: 'rgba(230,80,100,0.88)',
+            color: 'rgba(230,80,100,1.0)',
             textShadow: '0 0 10px rgba(200,40,70,0.35)',
           }}
         >
