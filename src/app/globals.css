@@ -373,3 +373,16 @@ canvas.pixel,
   margin-top: 4px;
   image-rendering: pixelated;
 }
+
+/* ── Pixel Badge (PixelBadge component) ──────────────────────────────────── */
+.px-badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-pixel, 'Press Start 2P', monospace);
+  font-size: 6px;
+  padding: 3px 6px;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  border: 1px solid currentColor;
+  image-rendering: pixelated;
+}
