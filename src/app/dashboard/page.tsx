@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import AvatarPreview from '@/components/avatar/AvatarPreview'
+import { PixelProgressBar, PixelBadge } from '@/components/ui'
 
 // ── XP maths (CLAUDE.md: Level N requires 50 × N × (N+1) / 2 total XP) ──────
 function xpForLevel(n: number) { return 50 * n * (n + 1) / 2 }
@@ -8,23 +10,6 @@ function levelProgress(xpTotal: number, level: number) {
   const needed  = 50 * level           // xpForLevel(level) - xpForLevel(level-1)
   const current = Math.max(0, xpTotal - prev)
   return { current, needed, pct: Math.min(100, (current / needed) * 100) }
-}
-
-// ── Deterministic avatar color ─────────────────────────────────────────────────
-const PALETTES = [
-  { bg: 'rgba(100,30,140,0.85)',  border: 'rgba(160,80,220,0.6)',  text: '#d4a8f0' },
-  { bg: 'rgba(20,60,140,0.85)',   border: 'rgba(60,120,220,0.6)',  text: '#8ab4f8' },
-  { bg: 'rgba(20,100,70,0.85)',   border: 'rgba(40,180,120,0.6)',  text: '#6ed9a8' },
-  { bg: 'rgba(140,60,20,0.85)',   border: 'rgba(220,110,40,0.6)',  text: '#f0a86e' },
-  { bg: 'rgba(130,20,50,0.85)',   border: 'rgba(210,50,90,0.6)',   text: '#f08aaa' },
-  { bg: 'rgba(20,100,120,0.85)',  border: 'rgba(40,160,200,0.6)',  text: '#6ecef0' },
-  { bg: 'rgba(100,95,20,0.85)',   border: 'rgba(200,180,40,0.6)',  text: '#f0dc6e' },
-  { bg: 'rgba(60,20,100,0.85)',   border: 'rgba(120,50,200,0.6)',  text: '#b08af0' },
-]
-function avatarPalette(username: string) {
-  let h = 0
-  for (const c of username) h = (Math.imul(h, 31) + c.charCodeAt(0)) | 0
-  return PALETTES[Math.abs(h) % PALETTES.length]
 }
 
 // ── Boss HP colour (green → amber → red as HP drains) ─────────────────────────
@@ -44,7 +29,7 @@ export default async function OverviewPage() {
   ] = await Promise.all([
     supabase
       .from('profiles')
-      .select('id, display_name, username, level, xp_total, xp_available, gold')
+      .select('id, display_name, username, level, xp_total, xp_available, gold, avatar_config')
       .eq('role', 'player')
       .order('created_at', { ascending: true }),
 
@@ -102,20 +87,6 @@ export default async function OverviewPage() {
         .px-corner::after   { top: -1px;    right: -1px; border-width: 2px 2px 0 0; }
         .px-corner > span::before { bottom: -1px; left: -1px;  border-width: 0 0 2px 2px; }
         .px-corner > span::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
-
-        .xp-bar-track {
-          height: 5px;
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(201,168,76,0.1);
-          border-radius: 2px;
-          overflow: hidden;
-        }
-        .xp-bar-fill {
-          height: 100%;
-          background: linear-gradient(90deg, rgba(201,168,76,0.55), rgba(201,168,76,0.9));
-          border-radius: 2px;
-          transition: width 0.5s ease;
-        }
 
         .boss-hp-track {
           height: 14px;
@@ -305,8 +276,7 @@ export default async function OverviewPage() {
             marginBottom: '2.5rem',
           }}>
             {(players ?? []).map((player, i) => {
-              const pal = avatarPalette(player.username)
-              const { current, needed, pct } = levelProgress(player.xp_total, player.level)
+              const { current, needed } = levelProgress(player.xp_total, player.level)
               const pendingCount = pendingByPlayer[player.id] ?? 0
               const delayClass = `slide-in slide-in-d${Math.min(i + 1, 6)}`
 
@@ -320,22 +290,11 @@ export default async function OverviewPage() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
 
                       {/* Avatar */}
-                      <div style={{
-                        width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
-                        background: pal.bg,
-                        border: `2px solid ${pal.border}`,
-                        boxShadow: `0 0 10px ${pal.border.replace('0.6', '0.25')}`,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      }}>
-                        <span style={{
-                          fontFamily: "'Press Start 2P', monospace",
-                          fontSize: 13,
-                          color: pal.text,
-                          lineHeight: 1,
-                          imageRendering: 'pixelated',
-                        }}>
-                          {player.display_name.charAt(0).toUpperCase()}
-                        </span>
+                      <div style={{ flexShrink: 0, lineHeight: 0 }}>
+                        <AvatarPreview
+                          avatarConfig={player.avatar_config as Record<string, unknown> | null}
+                          size={64}
+                        />
                       </div>
 
                       {/* Name + level badge */}
@@ -354,19 +313,9 @@ export default async function OverviewPage() {
                             {player.display_name}
                           </span>
 
-                          {/* Level badge */}
-                          <span style={{
-                            fontFamily: "'Press Start 2P', monospace",
-                            fontSize: '0.48rem',
-                            color: '#c9a84c',
-                            background: 'rgba(201,168,76,0.08)',
-                            border: '1px solid rgba(201,168,76,0.25)',
-                            padding: '2px 5px',
-                            borderRadius: 2,
-                            imageRendering: 'pixelated',
-                            flexShrink: 0,
-                          }}>
-                            LV{player.level}
+                          {/* Level badge — uses 'daily' variant for gold color; children override default label */}
+                          <span style={{ flexShrink: 0 }}>
+                            <PixelBadge variant="daily">LV{player.level}</PixelBadge>
                           </span>
 
                           {/* Pending badge */}
@@ -390,9 +339,12 @@ export default async function OverviewPage() {
 
                     {/* ── XP progress bar ─── */}
                     <div style={{ marginBottom: '0.65rem' }}>
-                      <div className="xp-bar-track">
-                        <div className="xp-bar-fill" style={{ width: `${pct}%` }} />
-                      </div>
+                      <PixelProgressBar
+                        value={current}
+                        max={needed}
+                        variant="xp"
+                        showValue={false}
+                      />
                       <div style={{
                         display: 'flex',
                         justifyContent: 'space-between',
