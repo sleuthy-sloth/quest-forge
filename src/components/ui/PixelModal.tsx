@@ -1,7 +1,7 @@
 // src/components/ui/PixelModal.tsx
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useId } from 'react'
 
 // Note for callers: wrap your onClose handler with useCallback to avoid
 // unnecessary effect re-registrations on each parent render:
@@ -23,6 +23,8 @@ export default function PixelModal({
   children,
   maxWidth = 380,
 }: PixelModalProps) {
+  const titleId = useId()
+
   useEffect(() => {
     if (!open) return
     function onKey(e: KeyboardEvent) {
@@ -42,10 +44,10 @@ export default function PixelModal({
         onClick={e => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
-        aria-labelledby={title ? 'px-modal-title' : undefined}
+        aria-labelledby={title ? titleId : undefined}
       >
         <button className="px-modal-close" onClick={onClose} aria-label="Close">✕</button>
-        {title && <div id="px-modal-title" className="px-modal-title">{title}</div>}
+        {title && <div id={titleId} className="px-modal-title">{title}</div>}
         {children}
       </div>
     </div>
