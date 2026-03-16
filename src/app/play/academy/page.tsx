@@ -72,14 +72,13 @@ const TIER_LABEL: Record<AgeTier, string> = {
 
 export default async function AcademyPage() {
   const supabase = await createClient()
-  // play/layout.tsx already redirects unauthenticated users — getUser() here
-  // is only needed to obtain user.id for the profile query.
   const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
 
   const { data: profile } = await supabase
     .from('profiles')
     .select('display_name, avatar_class, level, age, avatar_config')
-    .eq('id', user!.id)
+    .eq('id', user.id)
     .single()
 
   if (!profile) redirect('/login')
