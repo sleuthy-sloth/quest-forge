@@ -14,11 +14,22 @@ A pixel-art wizard's library hub that presents the 6 educational mini-games as b
 
 **Data fetching:**
 1. `createClient()` from `lib/supabase/server.ts`
-2. `supabase.auth.getUser()` — redirect to `/login` if no session
-3. `supabase.from('profiles').select('display_name, avatar_class, level, age').eq('id', user.id).single()`
-4. Derive `age_tier`: `profile.age >= 11 ? 'senior' : 'junior'` (null age defaults to `'junior'`)
+2. `supabase.from('profiles').select('display_name, avatar_class, level, age, avatar_config').eq('id', user.id).single()`
+   - No `getUser()` + redirect needed here — `play/layout.tsx` already guards all `/play/*` routes and redirects unauthenticated users to `/login` before any child page renders. The `user.id` is available via `supabase.auth.getUser()` solely to scope the profile query; no separate redirect logic is required.
+3. Derive `age_tier`: `profile.age != null && profile.age >= 11 ? 'senior' : 'junior'`
 
-**No child client components needed.** Cards are plain Next.js `<Link>` elements. Hover effects are pure CSS.
+**Note on `age` field:** The `age` column is `int, nullable` and is currently unpopulated for players created through the existing child account flow (which only collects `display_name`, `username`, and `password`). Until `age` is written during account creation or via the GM dashboard, all players will resolve to `'junior'` and see `20–30 XP`. The tier badge is correct-by-design; it will display accurately once the GM player-management page adds an age field.
+
+**Hover implementation:** Use Tailwind's `group` + `group-hover:` utilities on the `<Link>` wrapper. This works in server components without any `'use client'` boundary:
+```tsx
+<Link href="..." className="group block ...">
+  <div className="... transition-transform duration-150 group-hover:-translate-y-0.5 group-hover:border-[rgba(201,168,76,0.5)]">
+    ...
+  </div>
+</Link>
+```
+
+**No child client components needed.** Cards are plain Next.js `<Link>` elements with Tailwind group-hover for the lift effect.
 
 ---
 
@@ -37,7 +48,7 @@ background: linear-gradient(180deg, #0a0f1e 0%, #040812 100%);
 
 ### Hero Bar
 Matches the aesthetic of the hero sections on `profile/page.tsx`:
-- Left: player avatar circle (initials from `display_name`, deterministic color from name hash)
+- Left: `<AvatarPreview avatarConfig={profile.avatar_config} size={48} />` — consistent with other play pages
 - Center: `display_name` in pixel font, `{avatar_class} · Lv {level}` in Cinzel beneath
 - Right: tier badge — `✦ JUNIOR` or `✦ SENIOR` in Press Start 2P, purple accent (`#c9a0ff`), background `rgba(60,20,120,0.4)`, border `rgba(138,90,200,0.4)`
 
@@ -76,14 +87,7 @@ border: 1px solid rgba(201,168,76,0.18);
 border-radius: 3px;
 ```
 
-**Hover (pure CSS):**
-```css
-transition: transform 0.15s ease, border-color 0.15s ease;
-:hover {
-  transform: translateY(-2px);
-  border-color: rgba(201,168,76,0.5);
-}
-```
+**Hover:** Tailwind `group-hover:-translate-y-0.5` on the inner div, with `transition-transform duration-150`. Border brightens via `group-hover:border-[rgba(201,168,76,0.5)]`. No JS needed.
 
 ---
 
@@ -96,7 +100,7 @@ transition: transform 0.15s ease, border-color 0.15s ease;
 | Science Labyrinth | 🧪 | Navigate the maze of knowledge | `science-labyrinth` | `#1e8a4a` |
 | History Scroll | 📜 | Unravel the tales of ages past | `history-scroll` | `#9e6a1a` |
 | Vocab Duel | 📖 | Master the language of power | `vocab-duel` | `#7a1a9e` |
-| Logic Gate | ⚡ | Unlock the puzzles of the mind | `logic-gate` | `#c9a84c` |
+| Logic Gate | ⚡ | Unlock the puzzles of the mind | `logic-gate` | `#1e8ab8` |
 
 ---
 
@@ -122,4 +126,4 @@ Each card navigates to `/play/academy/[slug]`. The `[game]/page.tsx` routes do n
 - No fractional pixel scaling
 - Fonts: Press Start 2P (pixel), Cinzel (headings), Crimson Text (body/taglines)
 - All text gender-neutral; no player gender assumed
-- Follow existing play page patterns — server component, redirect on no session
+- Follow existing play page patterns — server component; auth redirect is handled by `play/layout.tsx`
