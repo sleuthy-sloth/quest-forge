@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import type { Tables } from '@/types/database'
+import { PixelButton } from '@/components/ui'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type LootItem = Pick<
@@ -49,21 +50,23 @@ function DeleteBtn({ onConfirm, disabled }: { onConfirm: () => void; disabled: b
   }, [confirming])
 
   return confirming ? (
-    <button
-      className="act-btn danger"
+    <PixelButton
+      variant="danger"
+      size="sm"
       onClick={onConfirm}
       disabled={disabled}
     >
       Sure?
-    </button>
+    </PixelButton>
   ) : (
-    <button
-      className="act-btn del"
+    <PixelButton
+      variant="danger"
+      size="sm"
       onClick={() => setConfirming(true)}
       disabled={disabled}
     >
       ✕
-    </button>
+    </PixelButton>
   )
 }
 
@@ -278,47 +281,6 @@ export default function LootPage() {
         }
         .avail-toggle:hover:not(:disabled) { opacity: 0.8; }
         .avail-toggle:disabled { cursor: not-allowed; opacity: 0.5; }
-
-        /* ── action buttons ── */
-        .act-btn {
-          padding: 4px 10px;
-          border-radius: 2px;
-          font-family: var(--font-heading, 'Cinzel', serif);
-          font-size: 0.58rem;
-          font-weight: 600;
-          letter-spacing: 0.06em;
-          text-transform: uppercase;
-          cursor: pointer;
-          transition: all 0.15s;
-          white-space: nowrap;
-        }
-        .act-btn.edit {
-          border: 1px solid rgba(201,168,76,0.18);
-          background: transparent;
-          color: rgba(201,168,76,0.5);
-        }
-        .act-btn.edit:hover {
-          border-color: rgba(201,168,76,0.45);
-          background: rgba(201,168,76,0.06);
-          color: rgba(201,168,76,0.9);
-        }
-        .act-btn.del {
-          border: 1px solid rgba(220,80,60,0.12);
-          background: transparent;
-          color: rgba(220,80,60,0.35);
-        }
-        .act-btn.del:hover {
-          border-color: rgba(220,80,60,0.4);
-          background: rgba(220,80,60,0.06);
-          color: rgba(220,80,60,0.8);
-        }
-        .act-btn.danger {
-          border: 1px solid rgba(220,60,60,0.5);
-          background: rgba(220,60,60,0.12);
-          color: rgba(230,100,100,0.9);
-          animation: pulse-red 0.4s ease;
-        }
-        .act-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
         /* ── filter pills ── */
         .f-pill {
@@ -646,13 +608,14 @@ export default function LootPage() {
 
                       {/* Actions */}
                       <div className="ledger-cell" style={{ gap: '0.3rem' }}>
-                        <button
-                          className="act-btn edit"
+                        <PixelButton
+                          variant="secondary"
+                          size="sm"
                           onClick={() => startEdit(item)}
                           disabled={isBusy}
                         >
                           ✎
-                        </button>
+                        </PixelButton>
                         <DeleteBtn
                           onConfirm={() => handleDelete(item.id)}
                           disabled={isBusy}
