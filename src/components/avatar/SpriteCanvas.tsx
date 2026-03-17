@@ -5,10 +5,12 @@ import type { AvatarConfig, AvatarLayerCategory, SpriteEntry } from '@/types/ava
 import { SPRITE_MANIFEST, spriteUrl } from '@/lib/sprites/manifest'
 
 // ── LPC sprite sheet constants ────────────────────────────────────────────
-// Standard LPC layout: row 10 = walk-down animation, col 0 = first frame.
+// Full LPC sheets (hair, clothing): 21 rows — walk-down at row 10.
+// Body walk-only sheets: 4 rows — walk-down at row 2.
 // Every frame cell is 64×64 px.
 const CELL = 64
-const WALK_DOWN_ROW = 10
+const WALK_DOWN_ROW_FULL = 10   // full LPC sheet (≥11 rows)
+const WALK_DOWN_ROW_WALK = 2    // walk-cycle-only sheet (4 rows)
 const WALK_FRAME_COL = 0
 
 interface Props {
@@ -101,8 +103,12 @@ function compositeLayer(
   const ctx = off.getContext('2d')!
   ctx.imageSmoothingEnabled = false
 
+  // Auto-detect walk-down row: full LPC sheets have ≥11 rows (row 10 = walk-down);
+  // body walk-only sheets have 4 rows (row 2 = walk-down).
+  const rowCount = Math.floor(img.naturalHeight / CELL)
+  const walkRow = rowCount >= WALK_DOWN_ROW_FULL + 1 ? WALK_DOWN_ROW_FULL : WALK_DOWN_ROW_WALK
   const sx = WALK_FRAME_COL * CELL
-  const sy = WALK_DOWN_ROW  * CELL
+  const sy = walkRow * CELL
 
   // Step 1: draw the source frame
   ctx.drawImage(img, sx, sy, CELL, CELL, 0, 0, CELL, CELL)
