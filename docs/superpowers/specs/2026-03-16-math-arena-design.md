@@ -23,10 +23,10 @@ A pixel-art battle-themed educational math game. Players face a training dummy i
 
 1. `createClient()` from `lib/supabase/server`
 2. `supabase.auth.getUser()` → `if (!user) redirect('/login')`
-3. Fetch `profiles`: `display_name, age, avatar_config, household_id, level, avatar_class`
+3. Fetch `profiles`: `display_name, age, avatar_config, household_id, level, avatar_class, xp_total, xp_available`
 4. `if (!profile) redirect('/login')` · `if (!profile.avatar_class) redirect('/play/create-character')`
 5. Derive `ageTier`: `age != null && age >= 11 ? 'senior' : 'junior'`
-6. Render `<MathArena>` with props: `ageTier`, `householdId`, `playerId`, `avatarConfig`, `displayName`
+6. Render `<MathArena>` with props: `ageTier`, `householdId`, `playerId`, `avatarConfig`, `displayName`, `xpTotal`, `xpAvailable`
 
 ### Component (`MathArena.tsx`) — `'use client'`
 
@@ -98,7 +98,7 @@ Additional state:
 Dark panel with ember-red left accent border (`border-left: 3px solid #c43a00`).
 
 **Left — Player:**
-- `<AvatarPreview avatarConfig={avatarConfig} size={48} />`
+- `<AvatarPreview avatarConfig={avatarConfig} size={64} />` — must be a multiple of 64 for crisp pixel art
 - `displayName` in Press Start 2P, 7px
 - Green HP bar (cosmetic, always full — `width: 100%`)
 
@@ -180,12 +180,18 @@ await supabase.from('edu_completions').insert({
 ```
 
 ### 2. Update player XP
+
+No `increment_xp` RPC exists. Use a direct read-then-write pattern. The page passes `xpTotal` and `xpAvailable` as props, so the component already has the current values:
+
 ```ts
-await supabase.rpc('increment_xp', { player_id: playerId, amount: xpEarned })
-// Falls back to manual update if RPC doesn't exist:
-// UPDATE profiles SET xp_total = xp_total + xpEarned, xp_available = xp_available + xpEarned
+await supabase
+  .from('profiles')
+  .update({
+    xp_total:     xpTotal     + xpEarned,
+    xp_available: xpAvailable + xpEarned,
+  })
+  .eq('id', playerId)
 ```
-Use a direct `UPDATE` with `xp_total + xpEarned` syntax if the RPC doesn't exist — check `src/lib/` for any existing RPC helpers first; if none, use direct update.
 
 ### 3. Boss damage
 ```ts
