@@ -67,7 +67,7 @@ function extractWord(title: string): string {
 function ironBarColor(heat: number): string {
   // heat 0 = cold gray, heat 1 = hot orange
   const r = Math.round(0x55 + heat * (0xcc - 0x55))
-  const g = Math.round(0x55 + heat * (0x55 - 0x55))
+  const g = Math.round(0x55 + heat * (0x00 - 0x55))
   const b = Math.round(0x55 + heat * (0x00 - 0x55))
   return `rgb(${r},${g},${b})`
 }
@@ -117,6 +117,8 @@ export default function WordForge({
   // ── Fetch questions ──────────────────────────────────────────────────────
 
   const fetchQuestions = useCallback(async () => {
+    timersRef.current.forEach(clearTimeout)
+    timersRef.current = []
     setPhase('loading')
     setFetchErrorKind(null)
     setQuestionIndex(0)
