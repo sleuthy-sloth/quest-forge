@@ -290,7 +290,7 @@ export default function ScienceLabyrinth({
                 {correctCount} / 10
               </div>
               <div style={{ fontFamily: 'var(--font-heading)', fontSize: '11px', color: '#7a6a44', marginTop: '2px' }}>
-                +{xpEarned} XP · Maze Explored{hasBoss ? ` · −${xpEarned} Boss HP` : ''}
+                +{xpEarned} XP · Maze Explored{hasBoss ? ` · −${xpEarned} Boss HP` : ' · No active threat'}
               </div>
             </div>
             <div style={{
