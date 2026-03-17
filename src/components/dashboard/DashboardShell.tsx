@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { signOut } from '@/app/actions/auth'
 
 const NAV = [
   { href: '/dashboard',          label: 'Overview',   icon: '⟡' },
@@ -23,12 +23,6 @@ interface DashboardShellProps {
 export function DashboardShell({ householdName, displayName, children }: DashboardShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const pathname = usePathname()
-
-  async function handleLogout() {
-    const supabase = createClient()
-    await supabase.auth.signOut()
-    window.location.href = '/login'
-  }
 
   function isActive(href: string) {
     if (href === '/dashboard') return pathname === '/dashboard'
@@ -111,18 +105,23 @@ export function DashboardShell({ householdName, displayName, children }: Dashboa
           Signed in as<br />
           <span style={{ color: '#c9a84c', fontSize: '0.7rem' }}>{displayName}</span>
         </p>
-        <button
-          onClick={handleLogout}
-          className="w-full px-3 py-2 text-left text-[0.65rem] tracking-wider uppercase
-            sidebar-signout hover:bg-[#e05555]/6 rounded-[3px] transition-colors duration-150"
-          style={{
-            fontFamily: 'var(--font-heading), serif',
-            color: 'rgba(230,80,100,1.0)',
-            textShadow: '0 0 10px rgba(200,40,70,0.35)',
-          }}
-        >
-          ⬡ Sign Out
-        </button>
+        <form action={signOut}>
+          <button
+            type="submit"
+            className="w-full px-3 py-2 text-center text-[0.65rem] tracking-wider uppercase
+              rounded-[3px] transition-all duration-150 cursor-pointer
+              hover:bg-[#e05555]/15 active:scale-[0.97]"
+            style={{
+              fontFamily: 'var(--font-heading), serif',
+              color: 'rgba(230,80,100,1.0)',
+              textShadow: '0 0 10px rgba(200,40,70,0.35)',
+              border: '1px solid rgba(230,80,100,0.45)',
+              boxShadow: '0 0 8px rgba(200,40,70,0.15)',
+            }}
+          >
+            ⬡ Sign Out
+          </button>
+        </form>
       </div>
     </aside>
   )

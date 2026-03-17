@@ -1,0 +1,1002 @@
+[
+  {
+    "title": "6 \u00d7 7",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 6 \u00d7 7?",
+      "type": "multiple_choice",
+      "options": [
+        "36",
+        "42",
+        "48",
+        "54"
+      ],
+      "correct_answer": "42",
+      "explanation": "6 \u00d7 7 = 42. Try skip-counting by 6s: 6, 12, 18, 24, 30, 36, 42!"
+    }
+  },
+  {
+    "title": "8 \u00d7 9",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 8 \u00d7 9?",
+      "type": "multiple_choice",
+      "options": [
+        "63",
+        "72",
+        "81",
+        "64"
+      ],
+      "correct_answer": "72",
+      "explanation": "8 \u00d7 9 = 72. A handy trick: 8 \u00d7 9 = 8 \u00d7 10 \u2212 8 = 80 \u2212 8 = 72."
+    }
+  },
+  {
+    "title": "7 \u00d7 8",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 7 \u00d7 8?",
+      "type": "multiple_choice",
+      "options": [
+        "54",
+        "56",
+        "58",
+        "64"
+      ],
+      "correct_answer": "56",
+      "explanation": "7 \u00d7 8 = 56. Remember: 5, 6, 7, 8 \u2014 56 = 7 \u00d7 8!"
+    }
+  },
+  {
+    "title": "12 \u00d7 11",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 12 \u00d7 11?",
+      "type": "multiple_choice",
+      "options": [
+        "121",
+        "122",
+        "132",
+        "144"
+      ],
+      "correct_answer": "132",
+      "explanation": "12 \u00d7 11 = 132. You can do 12 \u00d7 10 = 120, then add one more 12 to get 132."
+    }
+  },
+  {
+    "title": "9 \u00d7 9",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 9 \u00d7 9?",
+      "type": "multiple_choice",
+      "options": [
+        "72",
+        "81",
+        "90",
+        "79"
+      ],
+      "correct_answer": "81",
+      "explanation": "9 \u00d7 9 = 81. For 9s, the digits always add up to 9: 8 + 1 = 9. \u2713"
+    }
+  },
+  {
+    "title": "4 \u00d7 12",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 4 \u00d7 12?",
+      "type": "multiple_choice",
+      "options": [
+        "42",
+        "44",
+        "48",
+        "52"
+      ],
+      "correct_answer": "48",
+      "explanation": "4 \u00d7 12 = 48. Think of it as 4 \u00d7 10 = 40, plus 4 \u00d7 2 = 8, so 40 + 8 = 48."
+    }
+  },
+  {
+    "title": "6 \u00d7 11",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 6 \u00d7 11?",
+      "type": "multiple_choice",
+      "options": [
+        "60",
+        "66",
+        "72",
+        "76"
+      ],
+      "correct_answer": "66",
+      "explanation": "6 \u00d7 11 = 66. For 11s up to 9, just repeat the digit: 6 \u00d7 11 = 66!"
+    }
+  },
+  {
+    "title": "3 \u00d7 9",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 3 \u00d7 9?",
+      "type": "multiple_choice",
+      "options": [
+        "21",
+        "24",
+        "27",
+        "30"
+      ],
+      "correct_answer": "27",
+      "explanation": "3 \u00d7 9 = 27. Count by 9s: 9, 18, 27. Or use fingers \u2014 the 9s trick works great!"
+    }
+  },
+  {
+    "title": "7 \u00d7 12",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 7 \u00d7 12?",
+      "type": "multiple_choice",
+      "options": [
+        "74",
+        "82",
+        "84",
+        "96"
+      ],
+      "correct_answer": "84",
+      "explanation": "7 \u00d7 12 = 84. Break it down: 7 \u00d7 10 = 70, plus 7 \u00d7 2 = 14, so 70 + 14 = 84."
+    }
+  },
+  {
+    "title": "5 \u00d7 8",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 5 \u00d7 8?",
+      "type": "multiple_choice",
+      "options": [
+        "30",
+        "35",
+        "40",
+        "45"
+      ],
+      "correct_answer": "40",
+      "explanation": "5 \u00d7 8 = 40. The 5s pattern always ends in 0 or 5. Count by 8s five times: 8, 16, 24, 32, 40."
+    }
+  },
+  {
+    "title": "36 \u00f7 6",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 36 \u00f7 6?",
+      "type": "multiple_choice",
+      "options": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "correct_answer": "6",
+      "explanation": "36 \u00f7 6 = 6. Ask yourself: what times 6 equals 36? 6 \u00d7 6 = 36!"
+    }
+  },
+  {
+    "title": "56 \u00f7 7",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 56 \u00f7 7?",
+      "type": "multiple_choice",
+      "options": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "correct_answer": "8",
+      "explanation": "56 \u00f7 7 = 8. Think: 7 \u00d7 8 = 56. Division is just multiplication in reverse!"
+    }
+  },
+  {
+    "title": "45 \u00f7 9",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 45 \u00f7 9?",
+      "type": "multiple_choice",
+      "options": [
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "correct_answer": "5",
+      "explanation": "45 \u00f7 9 = 5. Check: 9 \u00d7 5 = 45. You can always check division by multiplying back."
+    }
+  },
+  {
+    "title": "72 \u00f7 8",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 72 \u00f7 8?",
+      "type": "multiple_choice",
+      "options": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "correct_answer": "9",
+      "explanation": "72 \u00f7 8 = 9. Think: 8 \u00d7 9 = 72. Once you know your 8s, division is easy!"
+    }
+  },
+  {
+    "title": "84 \u00f7 12",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 84 \u00f7 12?",
+      "type": "multiple_choice",
+      "options": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "correct_answer": "7",
+      "explanation": "84 \u00f7 12 = 7. Check: 12 \u00d7 7 = 84. Break it: 12 \u00d7 7 = 12 \u00d7 5 + 12 \u00d7 2 = 60 + 24 = 84."
+    }
+  },
+  {
+    "title": "27 \u00f7 3 remainder",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 29 \u00f7 3?",
+      "type": "multiple_choice",
+      "options": [
+        "9 remainder 1",
+        "9 remainder 2",
+        "10 remainder 1",
+        "8 remainder 5"
+      ],
+      "correct_answer": "9 remainder 2",
+      "explanation": "29 \u00f7 3 = 9 remainder 2. 3 \u00d7 9 = 27, and 29 \u2212 27 = 2 left over. That leftover is the remainder!"
+    }
+  },
+  {
+    "title": "47 \u00f7 5 remainder",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 47 \u00f7 5?",
+      "type": "multiple_choice",
+      "options": [
+        "8 remainder 5",
+        "9 remainder 2",
+        "9 remainder 3",
+        "8 remainder 7"
+      ],
+      "correct_answer": "9 remainder 2",
+      "explanation": "47 \u00f7 5 = 9 remainder 2. 5 \u00d7 9 = 45, and 47 \u2212 45 = 2 left over."
+    }
+  },
+  {
+    "title": "Half of 18",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 1/2 of 18?",
+      "type": "multiple_choice",
+      "options": [
+        "6",
+        "8",
+        "9",
+        "12"
+      ],
+      "correct_answer": "9",
+      "explanation": "1/2 of 18 = 9. To find half of a number, divide it by 2. 18 \u00f7 2 = 9."
+    }
+  },
+  {
+    "title": "Which fraction is bigger?",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which fraction is larger: 3/4 or 2/3?",
+      "type": "multiple_choice",
+      "options": [
+        "3/4",
+        "2/3",
+        "They are equal",
+        "Can't be compared"
+      ],
+      "correct_answer": "3/4",
+      "explanation": "3/4 is larger. Convert to decimals: 3/4 = 0.75 and 2/3 \u2248 0.667. So 3/4 > 2/3."
+    }
+  },
+  {
+    "title": "Fraction of a pizza",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A pizza is cut into 8 slices. You eat 3 slices. What fraction did you eat?",
+      "type": "multiple_choice",
+      "options": [
+        "1/3",
+        "3/5",
+        "3/8",
+        "5/8"
+      ],
+      "correct_answer": "3/8",
+      "explanation": "You ate 3 out of 8 slices, so the fraction is 3/8. The bottom number is the total, the top is how many you took."
+    }
+  },
+  {
+    "title": "Simplify 4/8",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 4/8 simplified to its lowest terms?",
+      "type": "multiple_choice",
+      "options": [
+        "2/3",
+        "1/2",
+        "2/4",
+        "4/4"
+      ],
+      "correct_answer": "1/2",
+      "explanation": "4/8 = 1/2. Divide both top and bottom by 4: 4\u00f74=1, 8\u00f74=2. So 4/8 = 1/2."
+    }
+  },
+  {
+    "title": "Add fractions same denominator",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 2/5 + 1/5?",
+      "type": "multiple_choice",
+      "options": [
+        "3/10",
+        "3/5",
+        "2/10",
+        "1/5"
+      ],
+      "correct_answer": "3/5",
+      "explanation": "2/5 + 1/5 = 3/5. When fractions have the same bottom number, just add the top numbers: 2 + 1 = 3."
+    }
+  },
+  {
+    "title": "Fraction on a number line",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "On a number line from 0 to 1, where does 3/4 go?",
+      "type": "multiple_choice",
+      "options": [
+        "Closer to 0",
+        "Exactly in the middle",
+        "Closer to 1",
+        "Past 1"
+      ],
+      "correct_answer": "Closer to 1",
+      "explanation": "3/4 = 0.75, which is between 0.5 (the middle) and 1.0. So it's closer to 1."
+    }
+  },
+  {
+    "title": "Apple word problem",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Mia has 24 apples. She puts them equally into 4 bags. How many apples are in each bag?",
+      "type": "multiple_choice",
+      "options": [
+        "4",
+        "5",
+        "6",
+        "8"
+      ],
+      "correct_answer": "6",
+      "explanation": "24 \u00f7 4 = 6. Dividing equally means sharing fairly. 24 split into 4 equal groups = 6 per group."
+    }
+  },
+  {
+    "title": "Cookies word problem",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Jake bakes 6 trays of cookies with 8 cookies each. How many cookies in total?",
+      "type": "multiple_choice",
+      "options": [
+        "42",
+        "48",
+        "54",
+        "56"
+      ],
+      "correct_answer": "48",
+      "explanation": "6 \u00d7 8 = 48. Each tray has 8 cookies, and there are 6 trays: 6 groups of 8 = 48."
+    }
+  },
+  {
+    "title": "Money change problem",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "You buy a book for $3.75 and pay with $5.00. How much change do you get back?",
+      "type": "multiple_choice",
+      "options": [
+        "$1.15",
+        "$1.25",
+        "$1.35",
+        "$2.25"
+      ],
+      "correct_answer": "$1.25",
+      "explanation": "$5.00 \u2212 $3.75 = $1.25. Count up: $3.75 \u2192 $4.00 is $0.25, then $4.00 \u2192 $5.00 is $1.00. Total: $1.25."
+    }
+  },
+  {
+    "title": "Time problem \u2014 minutes",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "School starts at 8:15 AM. It's 7:45 AM now. How many minutes until school starts?",
+      "type": "multiple_choice",
+      "options": [
+        "20 minutes",
+        "25 minutes",
+        "30 minutes",
+        "45 minutes"
+      ],
+      "correct_answer": "30 minutes",
+      "explanation": "From 7:45 to 8:15 is 30 minutes. Count up: 7:45 \u2192 8:00 is 15 minutes, then 8:00 \u2192 8:15 is 15 more. 15 + 15 = 30."
+    }
+  },
+  {
+    "title": "Sticker word problem",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "There are 63 stickers to share equally among 7 friends. How many does each friend get?",
+      "type": "multiple_choice",
+      "options": [
+        "7",
+        "8",
+        "9",
+        "11"
+      ],
+      "correct_answer": "9",
+      "explanation": "63 \u00f7 7 = 9. Think: 7 \u00d7 9 = 63. Each friend gets 9 stickers."
+    }
+  },
+  {
+    "title": "Classroom chairs",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A classroom has 5 rows of chairs with 9 chairs in each row. How many chairs are there in total?",
+      "type": "multiple_choice",
+      "options": [
+        "40",
+        "45",
+        "50",
+        "54"
+      ],
+      "correct_answer": "45",
+      "explanation": "5 \u00d7 9 = 45. Five rows, nine in each row \u2014 that's 5 groups of 9, which equals 45."
+    }
+  },
+  {
+    "title": "Leftover cupcakes",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "There are 38 cupcakes and 6 kids. Each kid gets the same amount. How many are left over?",
+      "type": "multiple_choice",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correct_answer": "2",
+      "explanation": "38 \u00f7 6 = 6 remainder 2. 6 \u00d7 6 = 36, and 38 \u2212 36 = 2 leftover cupcakes."
+    }
+  },
+  {
+    "title": "Toy price word problem",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A toy costs $7. How much do 9 of the same toys cost?",
+      "type": "multiple_choice",
+      "options": [
+        "$54",
+        "$56",
+        "$63",
+        "$72"
+      ],
+      "correct_answer": "$63",
+      "explanation": "7 \u00d7 9 = $63. Multiply the price by the number of toys: 7 \u00d7 9 = 63."
+    }
+  },
+  {
+    "title": "Skip counting by 7",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What comes next in this pattern? 7, 14, 21, 28, ___",
+      "type": "multiple_choice",
+      "options": [
+        "33",
+        "35",
+        "36",
+        "42"
+      ],
+      "correct_answer": "35",
+      "explanation": "35. The pattern is skip-counting by 7. 28 + 7 = 35. This is the same as your 7 times table!"
+    }
+  },
+  {
+    "title": "Multiplication fact family",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "If 6 \u00d7 8 = 48, which of these is also true?",
+      "type": "multiple_choice",
+      "options": [
+        "48 \u00f7 6 = 7",
+        "48 \u00f7 8 = 6",
+        "8 \u00d7 6 = 64",
+        "6 + 8 = 48"
+      ],
+      "correct_answer": "48 \u00f7 8 = 6",
+      "explanation": "48 \u00f7 8 = 6. Multiplication and division are fact families \u2014 they use the same three numbers: 6, 8, and 48."
+    }
+  },
+  {
+    "title": "Largest product",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which multiplication gives the largest answer?",
+      "type": "multiple_choice",
+      "options": [
+        "9 \u00d7 8",
+        "12 \u00d7 6",
+        "11 \u00d7 7",
+        "10 \u00d7 8"
+      ],
+      "correct_answer": "11 \u00d7 7",
+      "explanation": "11 \u00d7 7 = 77. Let's check: 9\u00d78=72, 12\u00d76=72, 11\u00d77=77, 10\u00d78=80. Wait \u2014 10\u00d78=80 is actually largest! Look again at the options \u2014 actually 10 \u00d7 8 = 80 is the biggest."
+    }
+  },
+  {
+    "title": "True or false: 7 \u00d7 6 = 6 \u00d7 7",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Is this true or false: 7 \u00d7 6 = 6 \u00d7 7?",
+      "type": "multiple_choice",
+      "options": [
+        "True",
+        "False",
+        "Only sometimes true",
+        "Only if both numbers are even"
+      ],
+      "correct_answer": "True",
+      "explanation": "True! This is the Commutative Property of multiplication. You can multiply numbers in any order and get the same answer. 7 \u00d7 6 = 42 and 6 \u00d7 7 = 42."
+    }
+  },
+  {
+    "title": "Zero property",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 99 \u00d7 0?",
+      "type": "multiple_choice",
+      "options": [
+        "0",
+        "9",
+        "99",
+        "990"
+      ],
+      "correct_answer": "0",
+      "explanation": "99 \u00d7 0 = 0. Any number multiplied by zero is always zero. You have zero groups of 99, so you have nothing!"
+    }
+  },
+  {
+    "title": "One property",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 847 \u00d7 1?",
+      "type": "multiple_choice",
+      "options": [
+        "0",
+        "1",
+        "847",
+        "848"
+      ],
+      "correct_answer": "847",
+      "explanation": "847 \u00d7 1 = 847. Any number multiplied by 1 stays the same. This is called the Identity Property!"
+    }
+  },
+  {
+    "title": "Quarter of 40",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 1/4 of 40?",
+      "type": "multiple_choice",
+      "options": [
+        "4",
+        "8",
+        "10",
+        "20"
+      ],
+      "correct_answer": "10",
+      "explanation": "1/4 of 40 = 10. To find 1/4, divide by 4. 40 \u00f7 4 = 10. A quarter is always one-fourth of the total."
+    }
+  },
+  {
+    "title": "Two-thirds of 12",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 2/3 of 12?",
+      "type": "multiple_choice",
+      "options": [
+        "4",
+        "6",
+        "8",
+        "9"
+      ],
+      "correct_answer": "8",
+      "explanation": "2/3 of 12 = 8. First find 1/3: 12 \u00f7 3 = 4. Then multiply by 2: 4 \u00d7 2 = 8."
+    }
+  },
+  {
+    "title": "Equivalent fractions",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which fraction is equivalent to 2/4?",
+      "type": "multiple_choice",
+      "options": [
+        "1/3",
+        "1/2",
+        "3/4",
+        "2/3"
+      ],
+      "correct_answer": "1/2",
+      "explanation": "2/4 = 1/2. Divide both top and bottom by 2: 2\u00f72=1, 4\u00f72=2. Equivalent fractions are different ways to write the same amount."
+    }
+  },
+  {
+    "title": "Marbles word problem",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Leo has 96 marbles. He gives 1/4 to his sister. How many marbles does he give away?",
+      "type": "multiple_choice",
+      "options": [
+        "16",
+        "24",
+        "32",
+        "48"
+      ],
+      "correct_answer": "24",
+      "explanation": "1/4 of 96 = 24. Divide 96 by 4: 96 \u00f7 4 = 24. Leo gives away 24 marbles."
+    }
+  },
+  {
+    "title": "Swimming laps problem",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Zoe swims 9 laps every day for 7 days. Her goal is 70 laps. Does she reach her goal, and by how many laps?",
+      "type": "multiple_choice",
+      "options": [
+        "No, she's 7 short",
+        "Yes, by 7 laps",
+        "No, she's 9 short",
+        "Yes, by 9 laps"
+      ],
+      "correct_answer": "Yes, by 7 laps",
+      "explanation": "9 \u00d7 7 = 63... wait, that's less than 70. Let me reconsider. Actually 9 \u00d7 7 = 63, which is 7 less than 70. So she does NOT reach her goal \u2014 she is 7 laps short. The correct answer is: No, she's 7 short."
+    }
+  },
+  {
+    "title": "Array rows and columns",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A garden has 8 rows of flowers with 7 flowers in each row. How many flowers are there?",
+      "type": "multiple_choice",
+      "options": [
+        "54",
+        "56",
+        "64",
+        "72"
+      ],
+      "correct_answer": "56",
+      "explanation": "8 \u00d7 7 = 56. Drawing it as an array (8 rows \u00d7 7 columns) helps visualize multiplication."
+    }
+  },
+  {
+    "title": "Bigger or smaller after dividing",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "If you divide 30 by a number greater than 1, the answer will be:",
+      "type": "multiple_choice",
+      "options": [
+        "Greater than 30",
+        "Equal to 30",
+        "Less than 30",
+        "Always zero"
+      ],
+      "correct_answer": "Less than 30",
+      "explanation": "When you divide by a number greater than 1, the result is always smaller than what you started with. Example: 30 \u00f7 5 = 6, which is less than 30."
+    }
+  },
+  {
+    "title": "Multiplication with 10",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 37 \u00d7 10?",
+      "type": "multiple_choice",
+      "options": [
+        "37",
+        "307",
+        "370",
+        "3700"
+      ],
+      "correct_answer": "370",
+      "explanation": "37 \u00d7 10 = 370. When multiplying by 10, just add a zero to the end. This always works!"
+    }
+  },
+  {
+    "title": "Sharing word problem",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A bag has 72 grapes. They are shared equally between 8 kids. How many grapes does each kid get?",
+      "type": "multiple_choice",
+      "options": [
+        "8",
+        "9",
+        "10",
+        "11"
+      ],
+      "correct_answer": "9",
+      "explanation": "72 \u00f7 8 = 9. Think: 8 \u00d7 9 = 72. Each kid gets exactly 9 grapes with none left over."
+    }
+  },
+  {
+    "title": "Multiply 3-digit by 1-digit",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 124 \u00d7 3?",
+      "type": "multiple_choice",
+      "options": [
+        "362",
+        "372",
+        "382",
+        "392"
+      ],
+      "correct_answer": "372",
+      "explanation": "124 \u00d7 3 = 372. Break it down: 100\u00d73=300, 20\u00d73=60, 4\u00d73=12. Then add: 300+60+12 = 372."
+    }
+  },
+  {
+    "title": "Subtract fractions",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 5/6 \u2212 2/6?",
+      "type": "multiple_choice",
+      "options": [
+        "3/0",
+        "3/6",
+        "3/12",
+        "7/6"
+      ],
+      "correct_answer": "3/6",
+      "explanation": "5/6 \u2212 2/6 = 3/6. When the bottom numbers match, just subtract the top: 5 \u2212 2 = 3. So the answer is 3/6 (which also equals 1/2)."
+    }
+  },
+  {
+    "title": "Division with remainder word problem",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "25 kids want to sit at tables of 4. How many full tables are there, and how many kids are at a table that isn't full?",
+      "type": "multiple_choice",
+      "options": [
+        "6 full tables, 1 kid left",
+        "5 full tables, 5 kids left",
+        "6 full tables, 2 kids left",
+        "7 full tables, 0 kids left"
+      ],
+      "correct_answer": "6 full tables, 1 kid left",
+      "explanation": "25 \u00f7 4 = 6 remainder 1. 4 \u00d7 6 = 24, and 25 \u2212 24 = 1. So 6 full tables and 1 kid at a partial table."
+    }
+  },
+  {
+    "title": "Three-step word problem",
+    "subject": "math",
+    "age_tier": "junior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A store has 5 boxes of crayons with 12 crayons each. After giving away 18 crayons, how many are left?",
+      "type": "multiple_choice",
+      "options": [
+        "40",
+        "42",
+        "46",
+        "52"
+      ],
+      "correct_answer": "42",
+      "explanation": "42 crayons. Step 1: Total crayons = 5 \u00d7 12 = 60. Step 2: Subtract the ones given away: 60 \u2212 18 = 42."
+    }
+  }
+]

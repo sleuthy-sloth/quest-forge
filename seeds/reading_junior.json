@@ -1,0 +1,1002 @@
+[
+  {
+    "title": "Passage: The Red Apple",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Sara picked a red apple from the tree. She washed it and took a big bite. It was sweet and crunchy. What did Sara do first?",
+      "type": "multiple_choice",
+      "options": [
+        "Took a big bite",
+        "Washed the apple",
+        "Picked the apple",
+        "Ate the whole apple"
+      ],
+      "correct_answer": "Picked the apple",
+      "explanation": "The passage says Sara picked the apple first, then washed it, then took a bite. Sequencing means putting events in the order they happened."
+    }
+  },
+  {
+    "title": "Sight Word: 'because'",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which sentence uses the word 'because' correctly?",
+      "type": "multiple_choice",
+      "options": [
+        "I went because outside.",
+        "I stayed inside because it was raining.",
+        "Because I the park.",
+        "I because happy."
+      ],
+      "correct_answer": "I stayed inside because it was raining.",
+      "explanation": "'Because' is a connecting word that explains a reason. 'I stayed inside because it was raining' gives a reason for staying inside."
+    }
+  },
+  {
+    "title": "Rhyming Words: cat",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which word rhymes with 'cat'?",
+      "type": "multiple_choice",
+      "options": [
+        "car",
+        "cut",
+        "bat",
+        "can"
+      ],
+      "correct_answer": "bat",
+      "explanation": "'Cat' and 'bat' both end with the '-at' sound, so they rhyme. Rhyming words share the same ending sound."
+    }
+  },
+  {
+    "title": "Vocabulary: 'enormous'",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does the word 'enormous' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Very tiny",
+        "Very loud",
+        "Very huge",
+        "Very fast"
+      ],
+      "correct_answer": "Very huge",
+      "explanation": "'Enormous' means very, very big. You might say an elephant is enormous, or that a whale is enormous."
+    }
+  },
+  {
+    "title": "Main Idea: The Dog",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Max is a friendly dog. He wags his tail when he sees people. He likes to play fetch. He never barks at strangers. What is the main idea?",
+      "type": "multiple_choice",
+      "options": [
+        "Max is a scary dog.",
+        "Max is a friendly dog.",
+        "Max does not like people.",
+        "Max is very old."
+      ],
+      "correct_answer": "Max is a friendly dog.",
+      "explanation": "All the sentences in the passage show that Max is friendly — he wags his tail, likes to play, and does not bark at strangers. That is the main idea."
+    }
+  },
+  {
+    "title": "Punctuation: End Marks",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which punctuation mark goes at the end of a question?",
+      "type": "multiple_choice",
+      "options": [
+        "Period (.)",
+        "Exclamation mark (!)",
+        "Question mark (?)",
+        "Comma (,)"
+      ],
+      "correct_answer": "Question mark (?)",
+      "explanation": "A question mark (?) goes at the end of a sentence that asks something, like 'What is your name?' A period ends a statement, and an exclamation mark shows excitement."
+    }
+  },
+  {
+    "title": "Phonics: Short Vowel 'a'",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which word has the short 'a' sound, like in 'hat'?",
+      "type": "multiple_choice",
+      "options": [
+        "cape",
+        "cake",
+        "tap",
+        "gate"
+      ],
+      "correct_answer": "tap",
+      "explanation": "The word 'tap' has the short 'a' sound, just like 'hat' and 'cat'. Cape, cake, and gate all have the long 'a' sound."
+    }
+  },
+  {
+    "title": "Passage: Morning Routine",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Jake wakes up every morning at seven. He brushes his teeth and gets dressed. Then he eats breakfast with his family. After breakfast, he packs his backpack. What does Jake do right after breakfast?",
+      "type": "multiple_choice",
+      "options": [
+        "Wakes up",
+        "Brushes his teeth",
+        "Packs his backpack",
+        "Gets dressed"
+      ],
+      "correct_answer": "Packs his backpack",
+      "explanation": "According to the passage, the order is: wake up, brush teeth, get dressed, eat breakfast, pack backpack. So right after breakfast, Jake packs his backpack."
+    }
+  },
+  {
+    "title": "Parts of Speech: Nouns",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which word is a noun?",
+      "type": "multiple_choice",
+      "options": [
+        "run",
+        "happy",
+        "quickly",
+        "tree"
+      ],
+      "correct_answer": "tree",
+      "explanation": "A noun is a person, place, or thing. 'Tree' is a thing, so it is a noun. 'Run' is a verb (action), 'happy' is an adjective (describing word), and 'quickly' is an adverb."
+    }
+  },
+  {
+    "title": "Vocabulary: 'curious'",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'curious' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Afraid of everything",
+        "Wanting to know or learn about something",
+        "Very tired",
+        "Very angry"
+      ],
+      "correct_answer": "Wanting to know or learn about something",
+      "explanation": "When you are curious, you want to find out more about something. A curious child asks lots of questions to learn about the world."
+    }
+  },
+  {
+    "title": "Passage: The Rainy Day",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "It was raining outside. Lily could not play in the yard. She decided to read a book instead. She found a funny story about a talking frog. Why did Lily read a book?",
+      "type": "multiple_choice",
+      "options": [
+        "She was bored with TV.",
+        "It was raining and she could not go outside.",
+        "Her mom told her to.",
+        "She wanted to learn about frogs."
+      ],
+      "correct_answer": "It was raining and she could not go outside.",
+      "explanation": "The passage says Lily could not play outside because it was raining, so she decided to read a book instead. That is the reason she read."
+    }
+  },
+  {
+    "title": "Rhyming: 'light'",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which two words rhyme with 'light'?",
+      "type": "multiple_choice",
+      "options": [
+        "like and bike",
+        "night and right",
+        "lake and bake",
+        "line and pine"
+      ],
+      "correct_answer": "night and right",
+      "explanation": "'Light,' 'night,' and 'right' all share the '-ight' sound at the end, so they rhyme with each other."
+    }
+  },
+  {
+    "title": "Parts of Speech: Verbs",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which word is a verb (action word)?",
+      "type": "multiple_choice",
+      "options": [
+        "purple",
+        "sandwich",
+        "jump",
+        "window"
+      ],
+      "correct_answer": "jump",
+      "explanation": "A verb is an action word — something you can do. 'Jump' is an action. 'Purple' is a color (adjective), 'sandwich' and 'window' are things (nouns)."
+    }
+  },
+  {
+    "title": "Passage: The Lost Kitten",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A small kitten sat under a bush, crying softly. A boy named Tom heard it and looked around. He gently picked up the kitten and carried it home. How did the kitten feel at the beginning?",
+      "type": "multiple_choice",
+      "options": [
+        "Happy and playful",
+        "Sad or scared",
+        "Hungry and angry",
+        "Sleepy and calm"
+      ],
+      "correct_answer": "Sad or scared",
+      "explanation": "The kitten was crying softly and sitting alone under a bush, which tells us it was sad or scared. Tom then helped by picking it up and taking it home."
+    }
+  },
+  {
+    "title": "Phonics: Blends 'bl'",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which word starts with the 'bl' blend?",
+      "type": "multiple_choice",
+      "options": [
+        "bring",
+        "blade",
+        "trick",
+        "flag"
+      ],
+      "correct_answer": "blade",
+      "explanation": "A blend is two consonants whose sounds are blended together at the start of a word. 'Blade' starts with the 'bl' blend. 'Bring' has the 'br' blend, 'trick' has 'tr', and 'flag' has 'fl'."
+    }
+  },
+  {
+    "title": "Vocabulary: 'ancient'",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'ancient' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Brand new",
+        "Very old",
+        "Very large",
+        "Very colorful"
+      ],
+      "correct_answer": "Very old",
+      "explanation": "'Ancient' means very, very old — from a long time ago. Ancient ruins are the remains of buildings that were built thousands of years ago."
+    }
+  },
+  {
+    "title": "Passage: The School Garden",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The students planted seeds in the school garden. They watered the seeds every day. After two weeks, little green sprouts appeared. The students were very excited. What is the main idea of this passage?",
+      "type": "multiple_choice",
+      "options": [
+        "Gardens need a lot of sun.",
+        "Students grew plants in their school garden.",
+        "Watering plants is hard work.",
+        "Seeds take a very long time to grow."
+      ],
+      "correct_answer": "Students grew plants in their school garden.",
+      "explanation": "The whole passage is about the students planting and caring for seeds in a school garden until they grew. That is the main idea."
+    }
+  },
+  {
+    "title": "Punctuation: Commas in a List",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which sentence uses commas correctly?",
+      "type": "multiple_choice",
+      "options": [
+        "I like apples oranges and bananas.",
+        "I like apples, oranges, and bananas.",
+        "I like, apples, oranges and bananas.",
+        "I, like apples oranges, and bananas."
+      ],
+      "correct_answer": "I like apples, oranges, and bananas.",
+      "explanation": "When listing three or more things, we use commas to separate them: apples, oranges, and bananas. The comma before 'and' at the end is called the Oxford comma."
+    }
+  },
+  {
+    "title": "Passage: Fire Safety",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "If there is a fire, you should get low and crawl to the door. Feel the door before opening it. If the door is hot, do not open it — find another way out. Once outside, go to your meeting spot and call for help. What should you do if the door feels hot?",
+      "type": "multiple_choice",
+      "options": [
+        "Open it quickly",
+        "Pour water on it",
+        "Find another way out",
+        "Wait for someone to help you"
+      ],
+      "correct_answer": "Find another way out",
+      "explanation": "The passage says if the door is hot, do not open it because fire may be right behind it. Instead, you should find another way out to stay safe."
+    }
+  },
+  {
+    "title": "Parts of Speech: Adjectives",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which word in the sentence is an adjective? 'The fluffy rabbit hopped away.'",
+      "type": "multiple_choice",
+      "options": [
+        "The",
+        "rabbit",
+        "fluffy",
+        "hopped"
+      ],
+      "correct_answer": "fluffy",
+      "explanation": "An adjective describes a noun. 'Fluffy' describes what kind of rabbit it is. 'Rabbit' is a noun, 'hopped' is a verb, and 'the' is an article."
+    }
+  },
+  {
+    "title": "Vocabulary: 'exhausted'",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'exhausted' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Very excited",
+        "Very hungry",
+        "Completely tired out",
+        "Very angry"
+      ],
+      "correct_answer": "Completely tired out",
+      "explanation": "'Exhausted' means very, very tired — like you have used up all your energy. After a long race, a runner might feel exhausted."
+    }
+  },
+  {
+    "title": "Passage: The New Student",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A new student named Maya joined the class. She sat quietly and did not know anyone. At lunch, a girl named Rosa asked Maya to sit with her. Maya smiled for the first time all day. How did Maya feel before Rosa talked to her?",
+      "type": "multiple_choice",
+      "options": [
+        "Happy and excited",
+        "Lonely and nervous",
+        "Bored and tired",
+        "Angry and upset"
+      ],
+      "correct_answer": "Lonely and nervous",
+      "explanation": "Maya sat quietly, did not know anyone, and smiled for the first time when Rosa was kind to her. This suggests she felt lonely and nervous before Rosa reached out."
+    }
+  },
+  {
+    "title": "Phonics: Long Vowel 'e'",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which word has the long 'e' sound, like in 'feet'?",
+      "type": "multiple_choice",
+      "options": [
+        "bed",
+        "hen",
+        "met",
+        "bead"
+      ],
+      "correct_answer": "bead",
+      "explanation": "'Bead' has the long 'e' sound, just like 'feet' and 'green.' The words 'bed,' 'hen,' and 'met' all have the short 'e' sound."
+    }
+  },
+  {
+    "title": "Story Sequencing: Baking Cookies",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "To bake cookies, you mix the dough, shape the cookies, bake them in the oven, and then let them cool. What happens right before the cookies go in the oven?",
+      "type": "multiple_choice",
+      "options": [
+        "Let them cool",
+        "Mix the dough",
+        "Shape the cookies",
+        "Eat the cookies"
+      ],
+      "correct_answer": "Shape the cookies",
+      "explanation": "The order is: mix the dough → shape the cookies → bake in the oven → let them cool. So shaping the cookies happens right before they go in the oven."
+    }
+  },
+  {
+    "title": "Passage: Penguins",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Penguins are birds, but they cannot fly. They use their wings like flippers to swim very fast. Penguins live near cold oceans and eat fish. They huddle together in groups to stay warm. What do penguins use their wings for?",
+      "type": "multiple_choice",
+      "options": [
+        "Flying through the air",
+        "Catching fish with their wings",
+        "Swimming in the water",
+        "Staying warm at night"
+      ],
+      "correct_answer": "Swimming in the water",
+      "explanation": "The passage says penguins use their wings like flippers to swim very fast. Even though they are birds, they cannot fly — they swim instead."
+    }
+  },
+  {
+    "title": "Vocabulary: 'fragile'",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'fragile' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Very strong",
+        "Easily broken",
+        "Very colorful",
+        "Difficult to find"
+      ],
+      "correct_answer": "Easily broken",
+      "explanation": "'Fragile' means something breaks easily and must be handled carefully. A glass vase is fragile. You might see the word 'Fragile' on boxes that hold breakable items."
+    }
+  },
+  {
+    "title": "Capitalization Rules",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which sentence uses capital letters correctly?",
+      "type": "multiple_choice",
+      "options": [
+        "my friend emily lives in Texas.",
+        "My friend Emily lives in texas.",
+        "My friend Emily lives in Texas.",
+        "my Friend Emily Lives In Texas."
+      ],
+      "correct_answer": "My friend Emily lives in Texas.",
+      "explanation": "We capitalize the first word of a sentence, people's names (Emily), and the names of places (Texas). 'My' starts the sentence, 'Emily' is a name, and 'Texas' is a place."
+    }
+  },
+  {
+    "title": "Passage: The Helpful Robot",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Zap was a small robot who lived with the Chen family. Every morning, Zap made breakfast and packed school bags. The children loved Zap because Zap always remembered little things, like their favorite juice. What kind of robot was Zap?",
+      "type": "multiple_choice",
+      "options": [
+        "A scary robot",
+        "A helpful and caring robot",
+        "A clumsy robot that made mistakes",
+        "A robot that only cleaned the house"
+      ],
+      "correct_answer": "A helpful and caring robot",
+      "explanation": "Zap made breakfast, packed bags, and remembered the children's favorite juice. These details show that Zap was helpful and caring."
+    }
+  },
+  {
+    "title": "Phonics: Digraph 'sh'",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A digraph is two letters that make one sound. Which word contains the 'sh' digraph?",
+      "type": "multiple_choice",
+      "options": [
+        "sport",
+        "chair",
+        "shell",
+        "think"
+      ],
+      "correct_answer": "shell",
+      "explanation": "'Shell' contains the 'sh' digraph — the letters s and h together make one sound. 'Chair' has the 'ch' digraph, 'think' has 'th', and 'sport' does not have a digraph."
+    }
+  },
+  {
+    "title": "Passage: Butterflies",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A butterfly begins life as a tiny egg. The egg hatches into a caterpillar that eats and grows. Then the caterpillar forms a chrysalis. Inside the chrysalis, it changes and becomes a butterfly. What comes right after the egg stage?",
+      "type": "multiple_choice",
+      "options": [
+        "Butterfly",
+        "Chrysalis",
+        "Caterpillar",
+        "Hatching shell"
+      ],
+      "correct_answer": "Caterpillar",
+      "explanation": "The life cycle goes: egg → caterpillar → chrysalis → butterfly. So right after the egg hatches, the creature is a caterpillar."
+    }
+  },
+  {
+    "title": "Vocabulary: 'whisper'",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'whisper' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "To shout very loudly",
+        "To speak very softly and quietly",
+        "To sing a song",
+        "To listen carefully"
+      ],
+      "correct_answer": "To speak very softly and quietly",
+      "explanation": "To whisper means to speak very softly so only the person next to you can hear. You might whisper in a library or when someone is sleeping."
+    }
+  },
+  {
+    "title": "Passage: Snowflakes",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Every snowflake is different. They are made of tiny ice crystals. Snowflakes form high up in the clouds and fall slowly to the ground. They melt quickly if the ground is warm. What happens to snowflakes on a warm surface?",
+      "type": "multiple_choice",
+      "options": [
+        "They get bigger",
+        "They turn into ice",
+        "They melt",
+        "They float back up"
+      ],
+      "correct_answer": "They melt",
+      "explanation": "The passage says snowflakes melt quickly if the ground is warm. This is because snowflakes are made of ice, and ice melts when it touches something warm."
+    }
+  },
+  {
+    "title": "Parts of Speech: Pronouns",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which word is a pronoun that can replace 'Maria' in a sentence?",
+      "type": "multiple_choice",
+      "options": [
+        "she",
+        "jumped",
+        "fast",
+        "house"
+      ],
+      "correct_answer": "she",
+      "explanation": "A pronoun takes the place of a noun. Instead of saying 'Maria ran,' we can say 'She ran.' 'She' is a pronoun that stands in for a person's name."
+    }
+  },
+  {
+    "title": "Passage: The Proud Oak",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A tall oak tree stood in the middle of a field. Birds built nests in its branches. Squirrels stored acorns in its roots. Children played in its shade. The oak was glad to be useful. How did the oak tree feel about helping others?",
+      "type": "multiple_choice",
+      "options": [
+        "Annoyed and unhappy",
+        "Glad and proud",
+        "Scared and nervous",
+        "Lonely and sad"
+      ],
+      "correct_answer": "Glad and proud",
+      "explanation": "The passage says the oak 'was glad to be useful.' This tells us the tree felt happy about providing nests, storage, and shade for the animals and children."
+    }
+  },
+  {
+    "title": "Phonics: Silent 'e'",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "When a word ends in a silent 'e', what happens to the vowel before it?",
+      "type": "multiple_choice",
+      "options": [
+        "The vowel makes a short sound",
+        "The vowel makes a long sound",
+        "The vowel is silent too",
+        "The vowel is removed"
+      ],
+      "correct_answer": "The vowel makes a long sound",
+      "explanation": "The silent 'e' rule: when a word ends in 'e', the vowel in the middle says its long name. For example, 'cap' has a short 'a', but 'cape' has a long 'a' sound. Same with 'pin' vs 'pine'."
+    }
+  },
+  {
+    "title": "Vocabulary: 'brave'",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'brave' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Afraid of everything",
+        "Ready to face danger without fear",
+        "Very silly",
+        "Very quiet"
+      ],
+      "correct_answer": "Ready to face danger without fear",
+      "explanation": "Brave means you are willing to do something even if it is scary or hard. A firefighter who runs into a burning building to save someone is very brave."
+    }
+  },
+  {
+    "title": "Passage: Polar Bears",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Polar bears live in the Arctic, where it is extremely cold. Their white fur helps them blend in with the snow. They are excellent swimmers and hunt seals under the ice. A thick layer of fat keeps them warm. What helps polar bears blend in with their environment?",
+      "type": "multiple_choice",
+      "options": [
+        "Their thick layer of fat",
+        "Their large size",
+        "Their white fur",
+        "Their strong swimming skills"
+      ],
+      "correct_answer": "Their white fur",
+      "explanation": "The passage specifically says their white fur helps them blend in with the snow. This is called camouflage — it helps them hide from prey while hunting."
+    }
+  },
+  {
+    "title": "Story Sequencing: Getting Ready for School",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "In the morning, Ana wakes up, eats breakfast, brushes her teeth, and then walks to school. What does Ana do right before she walks to school?",
+      "type": "multiple_choice",
+      "options": [
+        "Wakes up",
+        "Eats breakfast",
+        "Brushes her teeth",
+        "Gets dressed"
+      ],
+      "correct_answer": "Brushes her teeth",
+      "explanation": "The order given is: wake up → eat breakfast → brush teeth → walk to school. Right before she walks to school, Ana brushes her teeth."
+    }
+  },
+  {
+    "title": "Parts of Speech: Adverbs",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which word is an adverb? 'The rabbit ran quickly through the forest.'",
+      "type": "multiple_choice",
+      "options": [
+        "rabbit",
+        "ran",
+        "quickly",
+        "forest"
+      ],
+      "correct_answer": "quickly",
+      "explanation": "An adverb describes how, when, or where an action happens. 'Quickly' tells us how the rabbit ran. Many adverbs end in '-ly'."
+    }
+  },
+  {
+    "title": "Vocabulary: 'harvest'",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'harvest' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "To plant seeds in the ground",
+        "To water a garden",
+        "To gather crops that are ready to eat",
+        "To dig holes in a field"
+      ],
+      "correct_answer": "To gather crops that are ready to eat",
+      "explanation": "Harvest means to collect or pick crops that have finished growing. In autumn, farmers harvest wheat, corn, apples, and other foods."
+    }
+  },
+  {
+    "title": "Passage: The Library Visit",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Carlos loved going to the library. He would look at the pictures first to pick a book, then find a cozy chair to read in. He always checked out three books to take home. His favorite section was adventure stories. What did Carlos do first when choosing a book?",
+      "type": "multiple_choice",
+      "options": [
+        "Found a cozy chair",
+        "Checked out the book",
+        "Looked at the pictures",
+        "Read the whole book"
+      ],
+      "correct_answer": "Looked at the pictures",
+      "explanation": "The passage says Carlos would look at the pictures first to pick a book. Then he would find a chair to sit in and read."
+    }
+  },
+  {
+    "title": "Phonics: Digraph 'ch'",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which word has the 'ch' digraph sound as in 'cheese'?",
+      "type": "multiple_choice",
+      "options": [
+        "clock",
+        "shark",
+        "check",
+        "three"
+      ],
+      "correct_answer": "check",
+      "explanation": "'Check' has the 'ch' digraph — the letters c and h make one new sound together. 'Clock' starts with just 'c', 'shark' has 'sh', and 'three' has 'th'."
+    }
+  },
+  {
+    "title": "Vocabulary: 'protect'",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'protect' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "To harm something",
+        "To keep something safe from danger",
+        "To hide something away",
+        "To destroy something"
+      ],
+      "correct_answer": "To keep something safe from danger",
+      "explanation": "'Protect' means to keep someone or something safe from harm or danger. A helmet protects your head when you ride a bike."
+    }
+  },
+  {
+    "title": "Passage: Desert Animals",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Many animals live in the desert. Camels can go days without water because they store fat in their humps. Snakes hide under rocks to stay cool. Coyotes hunt at night when it is cooler. How do snakes stay cool in the desert?",
+      "type": "multiple_choice",
+      "options": [
+        "They swim in water",
+        "They hide under rocks",
+        "They sleep during winter",
+        "They run very fast"
+      ],
+      "correct_answer": "They hide under rocks",
+      "explanation": "The passage says snakes hide under rocks to stay cool. In the desert, rocks provide shade from the hot sun, keeping the area underneath cooler."
+    }
+  },
+  {
+    "title": "Rhyming: Finding the Odd One Out",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Three of these words rhyme. Which one does NOT rhyme with the others?",
+      "type": "multiple_choice",
+      "options": [
+        "moon",
+        "spoon",
+        "boon",
+        "born"
+      ],
+      "correct_answer": "born",
+      "explanation": "'Moon,' 'spoon,' and 'boon' all end with the '-oon' sound, so they rhyme. 'Born' ends with the '-orn' sound, so it does not rhyme with the others."
+    }
+  },
+  {
+    "title": "Passage: The Helpful Neighbor",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Old Mr. Green always waved to children walking to school. When it snowed, he shoveled everyone's sidewalk. In summer, he shared vegetables from his garden. The whole street called him a treasure. Why did the street think Mr. Green was special?",
+      "type": "multiple_choice",
+      "options": [
+        "He was very rich and gave money away.",
+        "He was always kind and helpful to others.",
+        "He won lots of prizes at competitions.",
+        "He had the biggest house on the street."
+      ],
+      "correct_answer": "He was always kind and helpful to others.",
+      "explanation": "Mr. Green waved to children, shoveled neighbors' sidewalks, and shared vegetables. All of these show he was kind and helpful, which is why they called him a treasure."
+    }
+  },
+  {
+    "title": "Parts of Speech: Singular vs Plural",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which is the correct plural form of the word 'fox'?",
+      "type": "multiple_choice",
+      "options": [
+        "foxs",
+        "foxes",
+        "foxies",
+        "foxi"
+      ],
+      "correct_answer": "foxes",
+      "explanation": "When a noun ends in 'x', 'ch', 'sh', 's', or 'z', we add '-es' to make it plural. So 'fox' becomes 'foxes'. We say 'I saw three foxes in the field.'"
+    }
+  },
+  {
+    "title": "Vocabulary: 'damp'",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'damp' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Completely dry",
+        "Slightly wet",
+        "Very hot",
+        "Very cold"
+      ],
+      "correct_answer": "Slightly wet",
+      "explanation": "'Damp' means a little bit wet — not soaking wet, but not dry either. After the rain stops, the grass might feel damp. A towel after a shower is damp."
+    }
+  },
+  {
+    "title": "Passage: The Tortoise and the Hare (Summary)",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A hare and a tortoise had a race. The hare ran far ahead and, feeling sure he would win, took a nap. The slow tortoise kept walking without stopping. When the hare woke up, the tortoise had already crossed the finish line. What lesson does this story teach?",
+      "type": "multiple_choice",
+      "options": [
+        "Sleeping is important for good health.",
+        "Being fast is always better than being slow.",
+        "Slow and steady effort can beat speed and laziness.",
+        "Hares are not as fast as people think."
+      ],
+      "correct_answer": "Slow and steady effort can beat speed and laziness.",
+      "explanation": "The tortoise won because it kept going without stopping. The hare lost because he was overconfident and stopped to nap. The lesson is that steady hard work beats laziness, even if you are naturally talented."
+    }
+  },
+  {
+    "title": "Passage: The Brave Little Seed",
+    "subject": "reading",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A tiny seed fell into the cold, dark ground. It waited all winter long. When spring came, a small green shoot pushed up through the soil and reached for the sun. What did the seed do during the winter?",
+      "type": "multiple_choice",
+      "options": [
+        "It grew into a tall tree.",
+        "It waited in the ground.",
+        "It blew away in the wind.",
+        "It melted in the snow."
+      ],
+      "correct_answer": "It waited in the ground.",
+      "explanation": "The passage says the seed waited all winter in the cold, dark ground. In spring, it finally grew into a green shoot. Seeds stay underground and wait for the right conditions before they sprout."
+    }
+  }
+]

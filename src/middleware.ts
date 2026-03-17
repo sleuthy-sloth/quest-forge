@@ -9,7 +9,7 @@ const AUTH_ONLY_ROUTES = ['/login', '/signup']
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
-  const { response, user } = await updateSession(request)
+  const { response, user, supabase } = await updateSession(request)
 
   const isProtected = PROTECTED_PREFIXES.some((prefix) =>
     pathname.startsWith(prefix)
@@ -28,10 +28,13 @@ export async function middleware(request: NextRequest) {
 
   // Authenticated user hitting login/signup → redirect to their home
   if (isAuthOnly && user) {
-    // We don't know the role here without a DB query, so send to /play
-    // and let the page-level redirect handle GM vs player routing.
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single()
     const homeUrl = request.nextUrl.clone()
-    homeUrl.pathname = '/play'
+    homeUrl.pathname = profile?.role === 'gm' ? '/dashboard' : '/play'
     homeUrl.search = ''
     return NextResponse.redirect(homeUrl)
   }

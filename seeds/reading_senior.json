@@ -1,0 +1,1002 @@
+[
+  {
+    "title": "Figurative Language: Simile",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which of the following is an example of a simile?",
+      "type": "multiple_choice",
+      "options": [
+        "The wind whispered through the trees.",
+        "Her laughter was a burst of sunlight.",
+        "He ran like the wind.",
+        "The storm was an angry giant."
+      ],
+      "correct_answer": "He ran like the wind.",
+      "explanation": "A simile compares two things using 'like' or 'as.' 'He ran like the wind' compares his running to wind using 'like.' The others use metaphor (direct comparison without 'like' or 'as') or personification."
+    }
+  },
+  {
+    "title": "Author's Purpose",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "An author writes a newspaper article explaining how plastic pollution is destroying ocean ecosystems and urging readers to use reusable bags. What is the author's primary purpose?",
+      "type": "multiple_choice",
+      "options": [
+        "To entertain readers with a funny story about sea creatures",
+        "To persuade readers to take action about pollution",
+        "To describe how plastic is manufactured",
+        "To compare different types of ocean ecosystems"
+      ],
+      "correct_answer": "To persuade readers to take action about pollution",
+      "explanation": "When an author presents a problem, explains its harm, and urges readers to change behavior, the purpose is to persuade. The clue 'urging readers to use reusable bags' signals a persuasive intent."
+    }
+  },
+  {
+    "title": "Vocabulary in Context: 'ambiguous'",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The ending of the novel was ambiguous — readers debated for years whether the hero had truly escaped. Based on context, what does 'ambiguous' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Exciting and thrilling",
+        "Open to more than one interpretation",
+        "Clearly explained and obvious",
+        "Disappointing and sad"
+      ],
+      "correct_answer": "Open to more than one interpretation",
+      "explanation": "The clue is that 'readers debated for years' whether something happened — they could not agree on one meaning. That uncertainty is exactly what 'ambiguous' means: able to be understood in more than one way."
+    }
+  },
+  {
+    "title": "Passage Analysis: Theme",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Maya trained every day for the city chess championship. She lost in the semifinals and cried that night. But she studied her mistakes, trained harder, and returned the following year to win. What is the central theme of this story?",
+      "type": "multiple_choice",
+      "options": [
+        "Chess is an important skill to learn.",
+        "Winning is the only thing that matters.",
+        "Persistence and learning from failure leads to success.",
+        "Natural talent is more important than hard work."
+      ],
+      "correct_answer": "Persistence and learning from failure leads to success.",
+      "explanation": "Maya fails, analyzes her mistakes, works harder, and succeeds. The story's message — its theme — is that resilience and learning from setbacks can lead to eventual success."
+    }
+  },
+  {
+    "title": "Literary Device: Foreshadowing",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "At the beginning of a story, a character says, 'I have a bad feeling about this mission.' By the end, the mission fails and the character is captured. The earlier line is an example of:",
+      "type": "multiple_choice",
+      "options": [
+        "Irony",
+        "Flashback",
+        "Foreshadowing",
+        "Alliteration"
+      ],
+      "correct_answer": "Foreshadowing",
+      "explanation": "Foreshadowing is when an author gives an early hint or clue about what will happen later in the story. The character's 'bad feeling' hints at the future failure — that early clue is foreshadowing."
+    }
+  },
+  {
+    "title": "Figurative Language: Metaphor",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which sentence contains a metaphor?",
+      "type": "multiple_choice",
+      "options": [
+        "The test was as hard as climbing a mountain.",
+        "The classroom was a zoo when the teacher left.",
+        "The puppy barked loudly all night.",
+        "She studied for hours before the exam."
+      ],
+      "correct_answer": "The classroom was a zoo when the teacher left.",
+      "explanation": "A metaphor directly states that one thing IS another, without using 'like' or 'as.' Saying the classroom 'was a zoo' means it was chaotic and noisy — not literally a zoo. The first option uses 'as,' making it a simile."
+    }
+  },
+  {
+    "title": "Inference: Reading Between the Lines",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Daria slammed her locker shut without speaking to anyone. She walked to class with her eyes fixed on the floor, and when her best friend called her name, she pretended not to hear. What can you infer about Daria's emotional state?",
+      "type": "multiple_choice",
+      "options": [
+        "She is excited about something.",
+        "She is upset or troubled about something.",
+        "She is daydreaming about lunch.",
+        "She is late for class and rushing."
+      ],
+      "correct_answer": "She is upset or troubled about something.",
+      "explanation": "Daria slams her locker, avoids eye contact, and ignores her best friend. These behaviors are clues — an inference is a conclusion you draw from evidence. All three details suggest she is upset or going through something difficult."
+    }
+  },
+  {
+    "title": "Vocabulary: 'compelling'",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The lawyer made a compelling argument, and the jury was convinced within minutes. What does 'compelling' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Confusing and hard to follow",
+        "Weak and poorly supported",
+        "So strong or interesting it demands attention",
+        "Polite and carefully worded"
+      ],
+      "correct_answer": "So strong or interesting it demands attention",
+      "explanation": "The clue is that the jury 'was convinced within minutes.' A compelling argument is one so persuasive and powerful that it forces you to accept or pay attention to it."
+    }
+  },
+  {
+    "title": "Point of View: First vs Third Person",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A story begins: 'He had not expected the letter. When Marcus read it, his hands trembled and he sat heavily in his chair.' This passage is written in:",
+      "type": "multiple_choice",
+      "options": [
+        "First person, because the narrator is part of the story",
+        "Second person, because it addresses the reader as 'you'",
+        "Third person, because the narrator refers to the character as 'he'",
+        "Omniscient first person, because the narrator knows everything"
+      ],
+      "correct_answer": "Third person, because the narrator refers to the character as 'he'",
+      "explanation": "In third-person point of view, the narrator uses 'he,' 'she,' 'they,' or names to refer to characters. First person uses 'I.' Second person uses 'you.' This passage uses 'he' and 'Marcus,' making it third person."
+    }
+  },
+  {
+    "title": "Literary Device: Irony",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 40,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A fire station burns down because its sprinkler system was broken. This situation is an example of:",
+      "type": "multiple_choice",
+      "options": [
+        "Foreshadowing",
+        "Simile",
+        "Situational irony",
+        "Alliteration"
+      ],
+      "correct_answer": "Situational irony",
+      "explanation": "Situational irony occurs when the opposite of what is expected happens. We expect a fire station to be the best-protected building against fire, so it burning down is the ironic opposite of expectations."
+    }
+  },
+  {
+    "title": "Grammar: Dependent vs Independent Clauses",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which of the following is an independent clause (a complete sentence on its own)?",
+      "type": "multiple_choice",
+      "options": [
+        "Although she practiced every day",
+        "Because the storm was approaching",
+        "The team won the championship",
+        "When the lights went out"
+      ],
+      "correct_answer": "The team won the championship",
+      "explanation": "An independent clause has a subject and verb and expresses a complete thought. 'The team won the championship' is complete on its own. The others begin with subordinating conjunctions (although, because, when), making them dependent clauses that cannot stand alone."
+    }
+  },
+  {
+    "title": "Passage: Character Tone",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "'I suppose,' said Mr. Gratch, examining the painting with one eyebrow raised, 'that some people might find this charming. Of course, those people have never seen actual art.' How would you describe Mr. Gratch's tone?",
+      "type": "multiple_choice",
+      "options": [
+        "Enthusiastic and encouraging",
+        "Sarcastic and condescending",
+        "Confused and uncertain",
+        "Warm and supportive"
+      ],
+      "correct_answer": "Sarcastic and condescending",
+      "explanation": "Mr. Gratch gives a backhanded compliment ('some people might find it charming') and then insults those people's taste. This dismissive, superior attitude is sarcastic (saying one thing but meaning another) and condescending (looking down on others)."
+    }
+  },
+  {
+    "title": "Figurative Language: Idiom",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does the idiom 'bite the bullet' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "To eat very quickly",
+        "To endure a painful situation with courage",
+        "To fire a weapon in anger",
+        "To make a quick decision"
+      ],
+      "correct_answer": "To endure a painful situation with courage",
+      "explanation": "An idiom is a phrase whose meaning is different from the literal words. 'Bite the bullet' means to endure something difficult or unpleasant with bravery. It comes from old battlefield medicine when soldiers bit a bullet to cope with pain during surgery."
+    }
+  },
+  {
+    "title": "Vocabulary in Context: 'vindicated'",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 40,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "After years of being told her research was wrong, Dr. Reyes felt completely vindicated when new evidence proved her theory correct. What does 'vindicated' mean here?",
+      "type": "multiple_choice",
+      "options": [
+        "Exhausted from long research",
+        "Proven right after being doubted",
+        "Surprised by unexpected results",
+        "Angry at those who doubted her"
+      ],
+      "correct_answer": "Proven right after being doubted",
+      "explanation": "The context tells us she was told she was wrong for years, but new evidence proved her correct. 'Vindicated' means cleared of blame or proven to be right after being accused or doubted."
+    }
+  },
+  {
+    "title": "Literary Device: Alliteration",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which sentence is the best example of alliteration?",
+      "type": "multiple_choice",
+      "options": [
+        "The sunset painted the sky orange.",
+        "Peter Piper picked a peck of pickled peppers.",
+        "She walked slowly down the long road.",
+        "The thunder crashed as the rain poured."
+      ],
+      "correct_answer": "Peter Piper picked a peck of pickled peppers.",
+      "explanation": "Alliteration is the repetition of the same initial consonant sound in nearby words. In 'Peter Piper picked a peck of pickled peppers,' the 'P' sound repeats throughout, creating alliteration."
+    }
+  },
+  {
+    "title": "Passage: Drawing Conclusions",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The restaurant had four stars online, but when Jameel arrived, the tables were sticky, the server brought the wrong order, and the food arrived cold. He left without finishing his meal. What conclusion can you draw?",
+      "type": "multiple_choice",
+      "options": [
+        "The restaurant is famous for its cold desserts.",
+        "Jameel was not very hungry that day.",
+        "The restaurant did not live up to its good reviews.",
+        "Online reviews are always accurate."
+      ],
+      "correct_answer": "The restaurant did not live up to its good reviews.",
+      "explanation": "The restaurant had four stars (good reviews) but the actual experience was poor: dirty tables, wrong order, cold food. Drawing a conclusion means combining evidence to reach a logical judgment. The evidence points to a gap between reputation and reality."
+    }
+  },
+  {
+    "title": "Grammar: Misplaced Modifiers",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 40,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which sentence contains a misplaced modifier?",
+      "type": "multiple_choice",
+      "options": [
+        "Running quickly, the dog caught the frisbee.",
+        "She nearly drove her kids to school every day.",
+        "The scientist who discovered the cure won an award.",
+        "After eating lunch, the students returned to class."
+      ],
+      "correct_answer": "She nearly drove her kids to school every day.",
+      "explanation": "A misplaced modifier is a word or phrase placed too far from what it modifies, creating a confusing meaning. 'Nearly drove her kids' implies she almost drove them (as if she changed her mind), but the intended meaning is 'she drove them almost every day.' The modifier 'nearly' should be next to 'every day.'"
+    }
+  },
+  {
+    "title": "Figurative Language: Personification",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which sentence is an example of personification?",
+      "type": "multiple_choice",
+      "options": [
+        "The mountain was as tall as the sky.",
+        "The stars danced joyfully through the night.",
+        "The car drove down the winding road.",
+        "The forest was quiet and peaceful."
+      ],
+      "correct_answer": "The stars danced joyfully through the night.",
+      "explanation": "Personification gives human qualities or actions to non-human things. Stars cannot actually dance — giving them this human action is personification. It makes the description more vivid and expressive."
+    }
+  },
+  {
+    "title": "Vocabulary: 'tenacious'",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'tenacious' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Easily discouraged and giving up quickly",
+        "Holding firmly to something; not giving up",
+        "Extremely intelligent and quick-thinking",
+        "Easily frightened and nervous"
+      ],
+      "correct_answer": "Holding firmly to something; not giving up",
+      "explanation": "'Tenacious' means persistent, determined, and refusing to let go or give up. A tenacious athlete keeps training despite setbacks. The root 'ten-' comes from Latin meaning to hold."
+    }
+  },
+  {
+    "title": "Passage: Tone and Mood",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The empty house creaked with every gust of wind. Pale moonlight crept across the dusty floor. In the corner, a rocking chair moved slowly — though no one sat in it. What is the mood of this passage?",
+      "type": "multiple_choice",
+      "options": [
+        "Joyful and celebratory",
+        "Peaceful and relaxing",
+        "Eerie and unsettling",
+        "Exciting and adventurous"
+      ],
+      "correct_answer": "Eerie and unsettling",
+      "explanation": "Mood is the feeling a passage creates in the reader. Details like creaking, pale moonlight, dust, and a self-rocking chair build a spooky, eerie atmosphere. Word choice and imagery are the tools authors use to create mood."
+    }
+  },
+  {
+    "title": "Author's Purpose: Informative vs Persuasive",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A passage states: 'Honeybees live in colonies of up to 60,000 individuals. A queen bee lays up to 2,000 eggs per day. Worker bees are all female and gather nectar and pollen.' What is the author's primary purpose?",
+      "type": "multiple_choice",
+      "options": [
+        "To persuade the reader to protect bees",
+        "To entertain with a story about bees",
+        "To inform the reader about honeybee facts",
+        "To compare bees to other insects"
+      ],
+      "correct_answer": "To inform the reader about honeybee facts",
+      "explanation": "The passage presents factual information (numbers, facts) without expressing opinions or trying to change behavior. When an author presents facts without bias or persuasion, the purpose is to inform."
+    }
+  },
+  {
+    "title": "Vocabulary in Context: 'reluctant'",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Although he knew it was the right thing to do, Alex was reluctant to apologize. He stood outside the door for ten minutes before finally knocking. What does 'reluctant' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Excited and eager",
+        "Unwilling or hesitant",
+        "Determined and confident",
+        "Angry and defensive"
+      ],
+      "correct_answer": "Unwilling or hesitant",
+      "explanation": "Alex knew he should apologize but stood outside for ten minutes, unable to commit. This hesitation and resistance is exactly what 'reluctant' means — being unwilling or slow to do something."
+    }
+  },
+  {
+    "title": "Literary Device: Flashback",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "In the middle of a war story set in 2024, the main character stares at a photograph and the narrative shifts to describe a birthday party from fifteen years ago. This technique is called:",
+      "type": "multiple_choice",
+      "options": [
+        "Foreshadowing",
+        "Flashback",
+        "Irony",
+        "Stream of consciousness"
+      ],
+      "correct_answer": "Flashback",
+      "explanation": "A flashback interrupts the present-day narrative to show events from the past. It gives readers background information about characters or events. In this case, the shift to fifteen years ago is a flashback triggered by the photograph."
+    }
+  },
+  {
+    "title": "Passage: Author's Perspective",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 40,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "'Zero-hours contracts leave workers without any guarantee of income. Families cannot budget, and workers often skip medical appointments because they cannot predict their pay.' What is the author's perspective?",
+      "type": "multiple_choice",
+      "options": [
+        "Zero-hours contracts are good for the economy.",
+        "Zero-hours contracts are harmful to workers and families.",
+        "Workers prefer flexible working arrangements.",
+        "Medical costs are the main problem facing workers."
+      ],
+      "correct_answer": "Zero-hours contracts are harmful to workers and families.",
+      "explanation": "The author focuses on the negative effects: unpredictable income, difficulty budgeting, and skipped medical care. The selection of these specific harms reveals the author's perspective — that zero-hours contracts hurt workers."
+    }
+  },
+  {
+    "title": "Grammar: Active vs Passive Voice",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which sentence is written in passive voice?",
+      "type": "multiple_choice",
+      "options": [
+        "The chef prepared a delicious meal.",
+        "The students solved every problem.",
+        "The trophy was awarded to the winning team.",
+        "The dog chased the squirrel up the tree."
+      ],
+      "correct_answer": "The trophy was awarded to the winning team.",
+      "explanation": "In passive voice, the subject receives the action rather than doing it. 'The trophy was awarded' — the trophy is not doing anything, it is receiving the action. Active voice: 'The committee awarded the trophy to the winning team.' Passive voice often uses a form of 'to be' + past participle."
+    }
+  },
+  {
+    "title": "Vocabulary: 'eloquent'",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'eloquent' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Speaking or writing in a fluent, expressive, and persuasive way",
+        "Speaking loudly and with great force",
+        "Talking too much without saying anything important",
+        "Writing in a very complicated and confusing way"
+      ],
+      "correct_answer": "Speaking or writing in a fluent, expressive, and persuasive way",
+      "explanation": "'Eloquent' means able to use language beautifully and effectively. An eloquent speaker chooses words carefully and moves an audience. Famous speeches by figures like Martin Luther King Jr. are often described as eloquent."
+    }
+  },
+  {
+    "title": "Passage: Figurative Language Identification",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "'The city never sleeps — sirens wail like lonely wolves at midnight, and the streets hum their endless electric song.' What TWO literary devices are used in this passage?",
+      "type": "multiple_choice",
+      "options": [
+        "Irony and foreshadowing",
+        "Simile and personification",
+        "Alliteration and metaphor",
+        "Flashback and irony"
+      ],
+      "correct_answer": "Simile and personification",
+      "explanation": "'Sirens wail like lonely wolves' is a simile (comparison using 'like'). 'Streets hum their endless electric song' is personification (streets cannot hum or sing — those are human/living actions). The city 'never sleeping' is also personification."
+    }
+  },
+  {
+    "title": "Grammar: Sentence Types",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What type of sentence is: 'Although it was raining, we went for a walk because we needed the fresh air'?",
+      "type": "multiple_choice",
+      "options": [
+        "Simple sentence",
+        "Compound sentence",
+        "Complex sentence",
+        "Compound-complex sentence"
+      ],
+      "correct_answer": "Compound-complex sentence",
+      "explanation": "A compound-complex sentence has at least two independent clauses AND at least one dependent clause. Here: 'we went for a walk' (independent), 'Although it was raining' (dependent), and 'because we needed the fresh air' (dependent). Two dependent clauses + one independent clause = compound-complex."
+    }
+  },
+  {
+    "title": "Vocabulary in Context: 'pragmatic'",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 40,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "While others dreamed of a perfect solution, Nora took a pragmatic approach: she focused on what could realistically be done within the budget and time available. What does 'pragmatic' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Extremely creative and imaginative",
+        "Dealing with things practically based on what is actually possible",
+        "Stubborn and unwilling to compromise",
+        "Overly cautious and risk-averse"
+      ],
+      "correct_answer": "Dealing with things practically based on what is actually possible",
+      "explanation": "The context contrasts Nora with those who 'dreamed of a perfect solution' — she focused on what was realistic. 'Pragmatic' means practical, focused on results rather than ideals or theories."
+    }
+  },
+  {
+    "title": "Passage: Theme vs Topic",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A novel follows two brothers from rival families who become friends despite their families' hatred. In the end, their friendship helps end the feud. The topic is 'rivalry,' but what is the theme?",
+      "type": "multiple_choice",
+      "options": [
+        "Families often argue with each other.",
+        "Individual friendships can overcome inherited hatred.",
+        "Brothers are always close to each other.",
+        "Peace is impossible between enemies."
+      ],
+      "correct_answer": "Individual friendships can overcome inherited hatred.",
+      "explanation": "The topic is the subject (rivalry). The theme is the message or insight about that subject. The story shows that personal connections between people can transcend the conflicts passed down by their families — that is the theme."
+    }
+  },
+  {
+    "title": "Literary Device: Symbolism",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 40,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Throughout a novel, a caged bird appears whenever the main character feels trapped by her life circumstances. At the novel's end, the bird is released. The bird is an example of:",
+      "type": "multiple_choice",
+      "options": [
+        "Foreshadowing",
+        "Irony",
+        "Symbolism",
+        "Allusion"
+      ],
+      "correct_answer": "Symbolism",
+      "explanation": "Symbolism is when an object, person, or event represents something beyond its literal meaning. The caged bird represents the character's trapped feelings; its release symbolizes her freedom. Symbols add deeper layers of meaning to literature."
+    }
+  },
+  {
+    "title": "Vocabulary: 'cynical'",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'cynical' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Believing the best about people and situations",
+        "Distrustful of others' motives; believing people are selfish",
+        "Extremely curious and eager to learn",
+        "Easily upset by small problems"
+      ],
+      "correct_answer": "Distrustful of others' motives; believing people are selfish",
+      "explanation": "A cynical person believes that people always act out of self-interest and that idealism is naive. 'I do not believe they are donating out of kindness — they just want the tax break' is a cynical view."
+    }
+  },
+  {
+    "title": "Passage: Analyzing Character Motivation",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 40,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "General Voss ordered the retreat even though his troops could have fought on. He knew that winning this battle would cost thousands of lives and ultimately weaken the nation. What motivated General Voss?",
+      "type": "multiple_choice",
+      "options": [
+        "Fear of losing the battle",
+        "A desire to protect his soldiers and his nation''s long-term strength",
+        "He did not believe his army was capable of fighting",
+        "He was following orders from a superior"
+      ],
+      "correct_answer": "A desire to protect his soldiers and his nation''s long-term strength",
+      "explanation": "Voss chose retreat not out of fear (he knew they could fight) but because he weighed the cost — thousands of lives — against the outcome. His motivation was protecting his troops and long-term national strength over short-term victory."
+    }
+  },
+  {
+    "title": "Grammar: Parallel Structure",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 40,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which sentence uses parallel structure correctly?",
+      "type": "multiple_choice",
+      "options": [
+        "She likes hiking, to swim, and running.",
+        "She likes hiking, swimming, and running.",
+        "She likes to hike, swimming, and run.",
+        "She likes hiking, swim, and to run."
+      ],
+      "correct_answer": "She likes hiking, swimming, and running.",
+      "explanation": "Parallel structure means items in a list use the same grammatical form. All three activities should be in the same form: 'hiking, swimming, and running' (all gerunds/-ing forms). Mixing 'hiking,' 'to swim,' and 'running' breaks the parallel structure."
+    }
+  },
+  {
+    "title": "Figurative Language: Hyperbole",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 30,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which sentence is an example of hyperbole?",
+      "type": "multiple_choice",
+      "options": [
+        "The sun set slowly below the horizon.",
+        "I have told you a million times to clean your room!",
+        "The cat slept all afternoon on the couch.",
+        "She walked quickly to catch the bus."
+      ],
+      "correct_answer": "I have told you a million times to clean your room!",
+      "explanation": "Hyperbole is extreme exaggeration used for emphasis or humor. No one has literally said something a million times. This exaggeration communicates strong frustration or emphasis — that is hyperbole."
+    }
+  },
+  {
+    "title": "Vocabulary in Context: 'elusive'",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Scientists have searched for decades to observe the elusive giant squid in its natural habitat. Despite thousands of hours of deep-sea exploration, direct sightings remain extremely rare. What does 'elusive' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Large and dangerous",
+        "Difficult to find, catch, or observe",
+        "Recently discovered by scientists",
+        "Living in very deep water"
+      ],
+      "correct_answer": "Difficult to find, catch, or observe",
+      "explanation": "The clues are 'searched for decades' and 'sightings remain extremely rare.' Despite extensive effort, the squid remains hard to find. 'Elusive' means something that is difficult to catch, see, or pin down."
+    }
+  },
+  {
+    "title": "Literary Device: Allusion",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 40,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A character in a novel says: 'Opening that box was his Pandora''s box — once the secret was out, problems poured in from everywhere.' The reference to Pandora is an example of:",
+      "type": "multiple_choice",
+      "options": [
+        "Personification",
+        "Allusion",
+        "Metaphor",
+        "Irony"
+      ],
+      "correct_answer": "Allusion",
+      "explanation": "An allusion is a reference to a well-known person, place, event, or work of literature. 'Pandora''s box' refers to the Greek myth in which opening a box released all the world''s evils. The author uses this reference to add meaning without explaining it in full."
+    }
+  },
+  {
+    "title": "Passage: Summarizing a Complex Text",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 40,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Social media algorithms are designed to maximize engagement by showing content that triggers strong emotional reactions. Over time, users are fed increasingly extreme content in an 'engagement spiral.' Critics argue this polarizes public opinion and damages democracy. Which best summarizes this passage?",
+      "type": "multiple_choice",
+      "options": [
+        "Social media is entertaining and connects people worldwide.",
+        "Algorithm-driven content feeds may polarize society by amplifying extreme material.",
+        "Governments should ban all social media platforms.",
+        "Users are responsible for the content they choose to view."
+      ],
+      "correct_answer": "Algorithm-driven content feeds may polarize society by amplifying extreme material.",
+      "explanation": "A good summary captures the main idea without adding opinions or leaving out key points. The passage explains how algorithms cause engagement spirals with extreme content, and how critics link this to polarization — that is what this summary captures."
+    }
+  },
+  {
+    "title": "Grammar: Restrictive vs Non-restrictive Clauses",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 50,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "In the sentence 'The student who studied hardest won the award,' the clause 'who studied hardest' is restrictive. What does it mean for a clause to be restrictive?",
+      "type": "multiple_choice",
+      "options": [
+        "It is separated from the main clause by commas",
+        "It is essential to the meaning; removing it changes who is being talked about",
+        "It adds extra information that could be removed",
+        "It begins with 'which' instead of 'who'"
+      ],
+      "correct_answer": "It is essential to the meaning; removing it changes who is being talked about",
+      "explanation": "A restrictive clause is essential — it tells us WHICH specific person or thing is meant. Remove it and the meaning changes: 'The student won the award' no longer specifies which student. Non-restrictive clauses add extra, non-essential information and are set off by commas."
+    }
+  },
+  {
+    "title": "Vocabulary: 'ambivalent'",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 40,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'ambivalent' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Strongly in favor of something",
+        "Having mixed or contradictory feelings about something",
+        "Completely indifferent and uncaring",
+        "Extremely confident in a decision"
+      ],
+      "correct_answer": "Having mixed or contradictory feelings about something",
+      "explanation": "'Ambivalent' means experiencing two conflicting emotions or attitudes at the same time. For example, feeling both excited and nervous about moving to a new city. The prefix 'ambi-' means both, as in ambidextrous."
+    }
+  },
+  {
+    "title": "Passage: Evaluating Evidence",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 40,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "An author argues that video games improve problem-solving skills and cites: (1) a university study of 3,000 students, (2) a quote from one parent saying her child improved at chess after gaming, and (3) sales data showing video games are popular. Which piece of evidence BEST supports the argument?",
+      "type": "multiple_choice",
+      "options": [
+        "The parent''s quote, because it is a personal experience",
+        "The university study of 3,000 students, because it is large-scale and academic",
+        "The sales data, because it shows many people use video games",
+        "All three are equally strong evidence"
+      ],
+      "correct_answer": "The university study of 3,000 students, because it is large-scale and academic",
+      "explanation": "Strong evidence for a factual claim should be systematic and large-scale. A study of 3,000 students controls for variables and is peer-reviewed. A single parent''s anecdote is too limited, and sales data shows popularity but not educational benefit."
+    }
+  },
+  {
+    "title": "Literary Device: Dramatic Irony",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 50,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "In a play, the audience knows that the poison in the heroine''s drink is fake, but the hero believes it is real and drinks from a real poison cup to join her in 'death.' The hero dying of real poison while the heroine is unharmed is an example of:",
+      "type": "multiple_choice",
+      "options": [
+        "Situational irony",
+        "Verbal irony",
+        "Dramatic irony",
+        "Foreshadowing"
+      ],
+      "correct_answer": "Dramatic irony",
+      "explanation": "Dramatic irony occurs when the audience knows something that one or more characters do not. The audience knows the heroine''s poison is fake; the hero does not. His decision, made in ignorance of what the audience knows, creates dramatic irony. (This mirrors the plot of Shakespeare''s Romeo and Juliet.)"
+    }
+  },
+  {
+    "title": "Vocabulary in Context: 'corroborate'",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 40,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The detective could not charge the suspect without another witness to corroborate the testimony. What does 'corroborate' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "To challenge or contradict",
+        "To confirm or support with additional evidence",
+        "To explain in detail",
+        "To write down officially"
+      ],
+      "correct_answer": "To confirm or support with additional evidence",
+      "explanation": "The detective needed another witness to back up (confirm) the existing testimony. 'Corroborate' means to provide evidence that supports or confirms something. In law, corroborating evidence strengthens a case."
+    }
+  },
+  {
+    "title": "Passage: Analyzing Diction",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 40,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Consider two descriptions of the same march: (A) 'Two hundred protesters marched through downtown.' (B) 'A mob of agitators stormed the business district.' How does the word choice (diction) differ?",
+      "type": "multiple_choice",
+      "options": [
+        "Version A is more emotional; Version B is more neutral.",
+        "Version A is neutral and factual; Version B uses loaded language to portray the marchers negatively.",
+        "Both versions are equally objective and factual.",
+        "Version B is more accurate because it includes more details."
+      ],
+      "correct_answer": "Version A is neutral and factual; Version B uses loaded language to portray the marchers negatively.",
+      "explanation": "Diction (word choice) reveals bias. 'Protesters' is neutral; 'mob of agitators' is negative and emotional. 'Marched' is neutral; 'stormed' implies violence or aggression. Version B uses loaded language to shape the reader''s opinion against the marchers."
+    }
+  },
+  {
+    "title": "Grammar: Subjunctive Mood",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 50,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which sentence uses the subjunctive mood correctly?",
+      "type": "multiple_choice",
+      "options": [
+        "If I was you, I would apologize.",
+        "If I were you, I would apologize.",
+        "If I am you, I would apologize.",
+        "If I be you, I would apologize."
+      ],
+      "correct_answer": "If I were you, I would apologize.",
+      "explanation": "The subjunctive mood is used for hypothetical, contrary-to-fact, or wishful situations. 'If I were you' is contrary to fact (I am not you), so we use 'were' not 'was.' The subjunctive uses 'were' for all persons: 'If he were here...' 'If she were honest...' 'If I were rich...'"
+    }
+  },
+  {
+    "title": "Vocabulary: 'implicit'",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 40,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'implicit' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Stated clearly and directly in the text",
+        "Suggested or understood without being directly stated",
+        "Completely false and misleading",
+        "Requiring a great deal of explanation"
+      ],
+      "correct_answer": "Suggested or understood without being directly stated",
+      "explanation": "'Implicit' means something is implied or hinted at rather than said outright. 'He slammed the door without a word' implicitly tells us he is angry, even though anger is never stated. The opposite is 'explicit' — directly stated."
+    }
+  },
+  {
+    "title": "Passage: Unreliable Narrator",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 50,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "In a story, the narrator says he is perfectly calm and that the neighbors are simply jealous of his success. But he describes constant arguments with neighbors, losing three jobs this year, and being asked to leave the building. Why might readers question the narrator''s account?",
+      "type": "multiple_choice",
+      "options": [
+        "Because the narrator is telling the story in first person",
+        "Because the events he describes contradict his own self-assessment",
+        "Because the story is set in the past",
+        "Because the narrator uses too many adjectives"
+      ],
+      "correct_answer": "Because the events he describes contradict his own self-assessment",
+      "explanation": "An unreliable narrator is one whose account cannot be fully trusted, often due to self-deception or bias. The narrator claims calm and success, but the events he describes (job losses, conflicts, eviction) tell a different story. The gap between what he claims and what happens makes him unreliable."
+    }
+  },
+  {
+    "title": "Vocabulary: 'nuance'",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 40,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'nuance' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "A very strong and obvious difference",
+        "A subtle distinction or shade of meaning",
+        "A grammatical error in writing",
+        "A type of literary device in poetry"
+      ],
+      "correct_answer": "A subtle distinction or shade of meaning",
+      "explanation": "'Nuance' refers to a very fine or subtle difference in meaning, expression, or feeling. A skilled reader notices nuance — the difference between 'sad' and 'melancholy,' or the slight shift in a character''s tone that hints at hidden feelings."
+    }
+  },
+  {
+    "title": "Passage: Comparing Texts",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 50,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Text A (news article) reports: 'The city council voted 7-2 to approve the new transit plan.' Text B (opinion column) states: 'The council rammed through an unpopular transit scheme, ignoring the voices of ordinary residents.' How do these texts differ?",
+      "type": "multiple_choice",
+      "options": [
+        "Text A uses more facts; Text B uses emotionally charged language to express a negative opinion.",
+        "Text B is more accurate because it gives more detail.",
+        "Text A is biased in favor of the council; Text B is neutral.",
+        "Both texts present the same event with equal objectivity."
+      ],
+      "correct_answer": "Text A uses more facts; Text B uses emotionally charged language to express a negative opinion.",
+      "explanation": "Text A reports the vote objectively (7-2 approval). Text B uses charged words like 'rammed through,' 'unpopular,' and 'ignoring voices' to express disapproval. Comparing texts requires identifying factual reporting versus opinion and recognizing how language shapes perception."
+    }
+  },
+  {
+    "title": "Grammar: Semicolons",
+    "subject": "reading",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which sentence uses a semicolon correctly?",
+      "type": "multiple_choice",
+      "options": [
+        "She loves painting; and drawing landscapes.",
+        "I finished my homework; then I went to practice.",
+        "He is my best friend; who lives next door.",
+        "We need: milk; bread; and eggs."
+      ],
+      "correct_answer": "I finished my homework; then I went to practice.",
+      "explanation": "A semicolon connects two closely related independent clauses without a conjunction. 'I finished my homework' and 'then I went to practice' are both complete sentences linked by a semicolon. A semicolon should NOT be used before 'and' in a list or before a relative clause."
+    }
+  }
+]

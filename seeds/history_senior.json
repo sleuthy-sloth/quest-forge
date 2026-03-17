@@ -1,0 +1,1002 @@
+[
+  {
+    "title": "WWI: causes \u2014 MAIN",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Historians use the acronym MAIN to describe WWI's long-term causes. What does MAIN stand for?",
+      "type": "multiple_choice",
+      "options": [
+        "Military, Assassination, Industrialization, Nationalism",
+        "Militarism, Alliances, Imperialism, Nationalism",
+        "Monarchy, Armistice, Industry, Nations",
+        "Militarism, Austria, Imperialism, Neutrality"
+      ],
+      "correct_answer": "Militarism, Alliances, Imperialism, Nationalism",
+      "explanation": "MAIN: Militarism (arms race between European powers), Alliances (secret treaties that pulled nations into conflict), Imperialism (competition for colonies creating tensions), and Nationalism (ethnic pride and independence movements, especially in the Balkans)."
+    }
+  },
+  {
+    "title": "WWI: the spark",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The immediate trigger for World War I was the assassination of Archduke Franz Ferdinand. Why did this single event ignite a world war?",
+      "type": "multiple_choice",
+      "options": [
+        "Franz Ferdinand was the most powerful leader in the world",
+        "The alliance system meant Austria-Hungary's conflict with Serbia pulled in Germany, Russia, France, and Britain",
+        "All European nations had personal grudges against Serbia",
+        "The assassination was ordered by the German Kaiser"
+      ],
+      "correct_answer": "The alliance system meant Austria-Hungary's conflict with Serbia pulled in Germany, Russia, France, and Britain",
+      "explanation": "Europe was divided into two armed alliances \u2014 the Triple Entente and Triple Alliance. When Austria-Hungary declared war on Serbia, Russia mobilized for Serbia, Germany entered for Austria, France and Britain followed. The alliance system turned a regional dispute into a world war."
+    }
+  },
+  {
+    "title": "WWI: trench warfare",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Why did trench warfare on the Western Front create a stalemate for most of WWI?",
+      "type": "multiple_choice",
+      "options": [
+        "Neither side had enough soldiers to fight",
+        "Defensive technologies (machine guns, barbed wire, artillery) made advancing across open ground catastrophically costly",
+        "Both sides agreed to avoid fighting during winter months",
+        "The terrain was too muddy to dig trenches properly"
+      ],
+      "correct_answer": "Defensive technologies (machine guns, barbed wire, artillery) made advancing across open ground catastrophically costly",
+      "explanation": "Machine guns, barbed wire, and artillery made frontal assaults suicidal. Attackers crossed open ground ('no man's land') facing withering fire. The result was a stalemate for years \u2014 the Somme offensive cost 57,000 British casualties in a single day."
+    }
+  },
+  {
+    "title": "WWI: Treaty of Versailles",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "How did the Treaty of Versailles (1919) contribute to the rise of Adolf Hitler and World War II?",
+      "type": "multiple_choice",
+      "options": [
+        "It gave Germany too much territory and made it too powerful",
+        "It imposed crushing reparations, territorial losses, and humiliation on Germany, fueling resentment that Hitler exploited",
+        "It failed to end WWI formally, leaving Germany technically still at war",
+        "It forced Germany to share its military technology with other nations"
+      ],
+      "correct_answer": "It imposed crushing reparations, territorial losses, and humiliation on Germany, fueling resentment that Hitler exploited",
+      "explanation": "Versailles forced Germany to accept sole blame for WWI (the 'war guilt clause'), pay enormous reparations, lose 13% of its territory, and drastically reduce its military. Economic devastation and national humiliation created fertile ground for Hitler's extreme nationalism."
+    }
+  },
+  {
+    "title": "WWII: the Holocaust",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What was the Holocaust?",
+      "type": "multiple_choice",
+      "options": [
+        "Hitler's military strategy for conquering Europe",
+        "The Nazi regime's systematic genocide of approximately six million Jewish people and millions of others",
+        "The Allied bombing campaign against German cities",
+        "Germany's economic recovery program before WWII"
+      ],
+      "correct_answer": "The Nazi regime's systematic genocide of approximately six million Jewish people and millions of others",
+      "explanation": "The Holocaust was the state-sponsored systematic persecution and murder of six million Jews \u2014 two-thirds of European Jewry \u2014 along with millions of Roma, disabled people, political opponents, LGBTQ+ individuals, and others. It remains the most meticulously documented genocide in history."
+    }
+  },
+  {
+    "title": "WWII: D-Day",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What was the strategic importance of D-Day (June 6, 1944)?",
+      "type": "multiple_choice",
+      "options": [
+        "It was the first battle between the U.S. and Germany in WWII",
+        "It opened a massive Western Front in France, forcing Germany to fight a two-front war and accelerating its defeat",
+        "It was the final battle of WWII in Europe",
+        "It was the Allied invasion of Italy"
+      ],
+      "correct_answer": "It opened a massive Western Front in France, forcing Germany to fight a two-front war and accelerating its defeat",
+      "explanation": "The Normandy landings involved nearly 160,000 Allied troops and were the largest seaborne invasion in history. By opening a Western Front, Germany was caught between Allied forces in the west and the Soviet Union in the east \u2014 a strategic trap from which it could not escape."
+    }
+  },
+  {
+    "title": "WWII: causes \u2014 appeasement",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "British Prime Minister Neville Chamberlain pursued a policy of 'appeasement' toward Hitler. What was it, and why did it fail?",
+      "type": "multiple_choice",
+      "options": [
+        "Appeasement meant making trade deals with Germany; it failed when Germany went bankrupt",
+        "Appeasement meant giving Hitler territorial concessions hoping to satisfy him; it failed because Hitler's ambitions were limitless",
+        "Appeasement meant building up Britain's military; it failed because the military wasn't large enough",
+        "Appeasement meant threatening Germany with economic sanctions; it failed because Germany had too much industry"
+      ],
+      "correct_answer": "Appeasement meant giving Hitler territorial concessions hoping to satisfy him; it failed because Hitler's ambitions were limitless",
+      "explanation": "At Munich (1938), Britain and France allowed Hitler to annex part of Czechoslovakia believing this would satisfy him. Hitler then invaded the rest of Czechoslovakia, then Poland, proving appeasement only encouraged further aggression."
+    }
+  },
+  {
+    "title": "Civil Rights: Brown v. Board",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What did the 1954 Supreme Court ruling Brown v. Board of Education declare?",
+      "type": "multiple_choice",
+      "options": [
+        "Black Americans had the right to vote",
+        "Racial segregation in public schools was unconstitutional",
+        "The Civil Rights Act was constitutional",
+        "Affirmative action in university admissions was required"
+      ],
+      "correct_answer": "Racial segregation in public schools was unconstitutional",
+      "explanation": "Brown v. Board overturned Plessy v. Ferguson (1896), which had permitted 'separate but equal' facilities. The Court unanimously ruled that segregated schools were inherently unequal, violating the 14th Amendment. It was a landmark Civil Rights victory."
+    }
+  },
+  {
+    "title": "Civil Rights: primary sources",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Martin Luther King Jr.'s 'Letter from Birmingham Jail' (1963) is a famous primary source. What makes a document a 'primary source'?",
+      "type": "multiple_choice",
+      "options": [
+        "It was written by a historian who studied the event",
+        "It was created by someone who directly participated in or witnessed the events described",
+        "It was published in a major newspaper at the time",
+        "It has been studied by at least three historians"
+      ],
+      "correct_answer": "It was created by someone who directly participated in or witnessed the events described",
+      "explanation": "Primary sources are original documents or artifacts from the time period being studied \u2014 diaries, letters, speeches, photographs, and government documents. King wrote the letter while imprisoned for protesting. Secondary sources are analyses written later by historians."
+    }
+  },
+  {
+    "title": "Civil Rights: nonviolent resistance",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The Civil Rights Movement's strategy of nonviolent direct action was influenced by which historical figure?",
+      "type": "multiple_choice",
+      "options": [
+        "Abraham Lincoln",
+        "Mahatma Gandhi",
+        "Nelson Mandela",
+        "Frederick Douglass"
+      ],
+      "correct_answer": "Mahatma Gandhi",
+      "explanation": "MLK was deeply influenced by Gandhi's successful nonviolent resistance campaign against British rule in India. Tactics like sit-ins, marches, and boycotts were designed to expose injustice while maintaining moral authority and generating public sympathy."
+    }
+  },
+  {
+    "title": "Cold War: definition",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Why was the conflict between the U.S. and Soviet Union after WWII called the 'Cold War'?",
+      "type": "multiple_choice",
+      "options": [
+        "Most of the conflict took place in arctic regions",
+        "Both sides used freezing temperatures as a weapon",
+        "It was a prolonged political and ideological struggle without direct military conflict between the two superpowers",
+        "The war began in winter and was associated with cold weather"
+      ],
+      "correct_answer": "It was a prolonged political and ideological struggle without direct military conflict between the two superpowers",
+      "explanation": "The Cold War (1947\u20131991) was a sustained geopolitical rivalry between the U.S. (capitalism/democracy) and USSR (communism). Both sides had nuclear weapons, making direct war unthinkably destructive \u2014 so they competed through proxy wars, propaganda, espionage, and the space race."
+    }
+  },
+  {
+    "title": "Cold War: Cuban Missile Crisis",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The 1962 Cuban Missile Crisis is considered the closest the world came to nuclear war. How was it resolved?",
+      "type": "multiple_choice",
+      "options": [
+        "The U.S. invaded Cuba and destroyed the missiles",
+        "The Soviet Union secretly agreed to remove missiles from Cuba; the U.S. agreed not to invade Cuba and to remove missiles from Turkey",
+        "Cuba voluntarily dismantled the missiles after UN mediation",
+        "Kennedy threatened a nuclear strike and the USSR backed down completely"
+      ],
+      "correct_answer": "The Soviet Union secretly agreed to remove missiles from Cuba; the U.S. agreed not to invade Cuba and to remove missiles from Turkey",
+      "explanation": "After a tense 13-day standoff, Kennedy and Khrushchev negotiated secretly. The USSR removed nuclear missiles from Cuba; the U.S. pledged not to invade Cuba and quietly removed Jupiter missiles from Turkey. Diplomacy \u2014 not military action \u2014 prevented nuclear war."
+    }
+  },
+  {
+    "title": "Government: checks and balances",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Why did the Founders of the U.S. Constitution design a system of checks and balances?",
+      "type": "multiple_choice",
+      "options": [
+        "To make government decisions faster and more efficient",
+        "To prevent any single branch from accumulating too much power",
+        "To ensure the president had final authority on all decisions",
+        "To give states more power than the federal government"
+      ],
+      "correct_answer": "To prevent any single branch from accumulating too much power",
+      "explanation": "Influenced by Enlightenment thinkers like Montesquieu, the Founders divided power among three branches (executive, legislative, judicial), each with the ability to limit the others. This guarded against tyranny \u2014 a fear shaped by their experience under British rule."
+    }
+  },
+  {
+    "title": "Government: the three branches",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which branch of the U.S. government has the power of judicial review \u2014 the ability to declare laws unconstitutional?",
+      "type": "multiple_choice",
+      "options": [
+        "The Executive Branch (President)",
+        "The Legislative Branch (Congress)",
+        "The Judicial Branch (Supreme Court)",
+        "The States"
+      ],
+      "correct_answer": "The Judicial Branch (Supreme Court)",
+      "explanation": "Judicial review \u2014 the power to strike down laws that violate the Constitution \u2014 was established by the Supreme Court in Marbury v. Madison (1803). It wasn't explicitly written in the Constitution; Chief Justice John Marshall asserted this power."
+    }
+  },
+  {
+    "title": "Government: Bill of Rights",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Why was the Bill of Rights (the first 10 amendments to the Constitution) added in 1791?",
+      "type": "multiple_choice",
+      "options": [
+        "To give the federal government more power over states",
+        "To guarantee individual liberties and limit federal government power, addressing concerns of Anti-Federalists",
+        "To formally abolish slavery",
+        "To establish the Supreme Court"
+      ],
+      "correct_answer": "To guarantee individual liberties and limit federal government power, addressing concerns of Anti-Federalists",
+      "explanation": "Anti-Federalists feared the Constitution gave too much power to a central government with no explicit protections for citizens. The Bill of Rights \u2014 protecting free speech, religion, press, due process, and more \u2014 was the compromise that secured ratification."
+    }
+  },
+  {
+    "title": "Imperialism: the Scramble for Africa",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "During the 'Scramble for Africa' (1880s\u20131914), European powers colonized nearly the entire continent. What was the primary motivation?",
+      "type": "multiple_choice",
+      "options": [
+        "A desire to spread democracy and education",
+        "Competition for raw materials, trade markets, and strategic territory driven by industrialization and nationalism",
+        "A response to African nations requesting European help",
+        "Religious duty to convert all of Africa to Christianity"
+      ],
+      "correct_answer": "Competition for raw materials, trade markets, and strategic territory driven by industrialization and nationalism",
+      "explanation": "Industrialized European nations needed raw materials (rubber, minerals, cotton) and new markets. Nationalism added competition \u2014 nations acquired colonies partly as prestige. By 1914, over 90% of Africa was under European control, established without African consent at the Berlin Conference (1884\u201385)."
+    }
+  },
+  {
+    "title": "French Revolution: causes",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which combination of factors best explains why the French Revolution (1789) occurred?",
+      "type": "multiple_choice",
+      "options": [
+        "France lost a war to Britain and needed political reform",
+        "Financial crisis, food shortages, Enlightenment ideas, and resentment of aristocratic privilege combined to ignite mass revolt",
+        "The Church called for revolution against the monarchy",
+        "Napoleon led a military coup against a weak king"
+      ],
+      "correct_answer": "Financial crisis, food shortages, Enlightenment ideas, and resentment of aristocratic privilege combined to ignite mass revolt",
+      "explanation": "France was bankrupt from wars (including funding the American Revolution), bread prices spiked causing famine, and Enlightenment ideas about equality and rights had spread. The rigid three-estate system placed all tax burden on commoners while nobles paid nothing \u2014 a combustible combination."
+    }
+  },
+  {
+    "title": "Industrial Revolution: social impact",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The Industrial Revolution dramatically changed society. Which was NOT a major consequence?",
+      "type": "multiple_choice",
+      "options": [
+        "Rapid urbanization as people moved to cities for factory work",
+        "Emergence of a new industrial working class (proletariat) with poor living conditions",
+        "Immediate improvement in living standards for all social classes",
+        "Rise of capitalism, labor unions, and socialist political movements"
+      ],
+      "correct_answer": "Immediate improvement in living standards for all social classes",
+      "explanation": "The early Industrial Revolution actually worsened conditions for many workers \u2014 factory labor was dangerous, hours were brutal, child labor was common, and urban slums were overcrowded and disease-ridden. Long-term living standards eventually improved, but not immediately or equally."
+    }
+  },
+  {
+    "title": "American Civil War: causes",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "While multiple factors caused the Civil War, what was the central underlying issue?",
+      "type": "multiple_choice",
+      "options": [
+        "Disputes over tariff and trade policy",
+        "The question of whether slavery would expand into new territories, and its moral and economic role in American society",
+        "Southern states wanting to establish a monarchy",
+        "Disagreements over the power of the Supreme Court"
+      ],
+      "correct_answer": "The question of whether slavery would expand into new territories, and its moral and economic role in American society",
+      "explanation": "Slavery was the fundamental division. Southern states' economy depended on enslaved labor; Northern industrialists opposed its expansion into new territories. When Lincoln was elected on an anti-expansion platform, Southern states seceded, fearing the long-term threat to their institution."
+    }
+  },
+  {
+    "title": "Reconstruction: aftermath of Civil War",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Why did Reconstruction (1865\u20131877) ultimately fail to secure lasting equality for Black Americans?",
+      "type": "multiple_choice",
+      "options": [
+        "Black Americans chose not to participate in political life",
+        "The federal government withdrew troops and support, allowing Southern states to enact Black Codes and later Jim Crow laws that reimposed racial subjugation",
+        "The Supreme Court supported full equality from the beginning",
+        "Northern states never agreed to readmit Southern states to the Union"
+      ],
+      "correct_answer": "The federal government withdrew troops and support, allowing Southern states to enact Black Codes and later Jim Crow laws that reimposed racial subjugation",
+      "explanation": "After the Compromise of 1877, the federal government withdrew from the South. Without enforcement, Southern states passed Jim Crow laws enforcing segregation, used literacy tests and poll taxes to strip voting rights, and used terror to suppress Black Americans \u2014 effectively reimposing racial hierarchy."
+    }
+  },
+  {
+    "title": "Primary sources: evaluating bias",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A historian is reading a Confederate soldier's diary from 1862. What must they consider when evaluating this source?",
+      "type": "multiple_choice",
+      "options": [
+        "Nothing \u2014 eyewitness accounts are always reliable",
+        "The author's perspective, biases, purpose, and what the source leaves out, alongside other sources",
+        "Only whether the soldier was an officer or enlisted man",
+        "Whether the diary was published after the war ended"
+      ],
+      "correct_answer": "The author's perspective, biases, purpose, and what the source leaves out, alongside other sources",
+      "explanation": "Source analysis requires asking: Who wrote it? Why? What is their perspective and what might they omit or distort? A Confederate soldier's diary reflects one perspective. Good history triangulates multiple sources, including voices from different sides and positions."
+    }
+  },
+  {
+    "title": "Primary sources: Emancipation Proclamation",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The Emancipation Proclamation (1863) declared enslaved people in Confederate states free. What was a significant limitation of this document?",
+      "type": "multiple_choice",
+      "options": [
+        "It required Congressional approval before taking effect",
+        "It only applied to Confederate states \u2014 not border states still in the Union \u2014 and had no immediate power where the Confederacy controlled territory",
+        "It was never signed by Lincoln",
+        "It only freed women, not men"
+      ],
+      "correct_answer": "It only applied to Confederate states \u2014 not border states still in the Union \u2014 and had no immediate power where the Confederacy controlled territory",
+      "explanation": "The Proclamation was a war measure using presidential war powers. It strategically excluded loyal border states (Kentucky, Maryland, Missouri) to keep them in the Union. In Confederate territory, it couldn't be enforced until Union armies arrived. Full abolition required the 13th Amendment (1865)."
+    }
+  },
+  {
+    "title": "Cold War: the Berlin Wall",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "East Germany built the Berlin Wall in 1961. What was its primary purpose?",
+      "type": "multiple_choice",
+      "options": [
+        "To protect East Berlin from NATO military attack",
+        "To stop East Germans from fleeing to West Germany, which was embarrassing the Communist regime",
+        "To divide the city into racial zones",
+        "To mark the official border between two separate countries"
+      ],
+      "correct_answer": "To stop East Germans from fleeing to West Germany, which was embarrassing the Communist regime",
+      "explanation": "Over 3 million East Germans had emigrated West since 1945 \u2014 many skilled workers and professionals. This 'brain drain' was economically devastating and ideologically humiliating for communism. The Wall physically sealed the border; over 140 people died attempting to cross it."
+    }
+  },
+  {
+    "title": "Decolonization: India",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "India gained independence from Britain in 1947 and was simultaneously partitioned into two nations. What was the human cost of partition?",
+      "type": "multiple_choice",
+      "options": [
+        "It was a peaceful transition with no significant displacement",
+        "It caused one of history's largest mass migrations \u2014 10\u201320 million people displaced and up to 2 million killed in sectarian violence",
+        "About 100,000 people were displaced but quickly resettled",
+        "Only political leaders were affected; ordinary people experienced no disruption"
+      ],
+      "correct_answer": "It caused one of history's largest mass migrations \u2014 10\u201320 million people displaced and up to 2 million killed in sectarian violence",
+      "explanation": "India's partition into Hindu-majority India and Muslim-majority Pakistan led to catastrophic communal violence. Hindus and Sikhs fled Pakistan; Muslims fled India. Mass killings, rapes, and destruction accompanied the migration on both sides \u2014 a humanitarian catastrophe."
+    }
+  },
+  {
+    "title": "Enlightenment: key ideas",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "How did Enlightenment thinkers like John Locke influence the American Revolution?",
+      "type": "multiple_choice",
+      "options": [
+        "Locke designed the military strategy for the Continental Army",
+        "Locke's ideas about natural rights (life, liberty, property) and government by consent of the governed directly shaped the Declaration of Independence",
+        "Locke personally advised George Washington during the war",
+        "Enlightenment ideas came to America only after independence was achieved"
+      ],
+      "correct_answer": "Locke's ideas about natural rights (life, liberty, property) and government by consent of the governed directly shaped the Declaration of Independence",
+      "explanation": "Jefferson borrowed heavily from Locke's Second Treatise. Locke argued people have natural rights governments must protect; if a government violates them, citizens have the right to revolt. This logic \u2014 echoed almost verbatim in the Declaration \u2014 justified colonial rebellion."
+    }
+  },
+  {
+    "title": "WWI: the Armenian Genocide",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "During WWI, the Ottoman Empire carried out the systematic killing and deportation of approximately 1.5 million Armenians. This is recognized as:",
+      "type": "multiple_choice",
+      "options": [
+        "A military strategy that accidentally caused civilian deaths",
+        "The Armenian Genocide \u2014 one of the first genocides of the 20th century",
+        "A deportation program that was later reversed",
+        "A famine caused by wartime food shortages"
+      ],
+      "correct_answer": "The Armenian Genocide \u2014 one of the first genocides of the 20th century",
+      "explanation": "The Ottoman government, led by the Young Turks, carried out the systematic extermination and forced deportation of the Armenian population during WWI. It is widely recognized as genocide by historians and many governments, though Turkey still disputes this designation."
+    }
+  },
+  {
+    "title": "Government structures: democracy types",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is the difference between a direct democracy and a representative democracy?",
+      "type": "multiple_choice",
+      "options": [
+        "Direct democracy has elections; representative democracy does not",
+        "In direct democracy, citizens vote on laws themselves; in representative democracy, they elect officials to vote on their behalf",
+        "Representative democracy requires a monarch; direct democracy does not",
+        "They are two names for the same system"
+      ],
+      "correct_answer": "In direct democracy, citizens vote on laws themselves; in representative democracy, they elect officials to vote on their behalf",
+      "explanation": "Ancient Athens practiced direct democracy \u2014 citizens voted directly on laws. Modern democracies are mostly representative (republican): citizens elect legislators who vote for them. The U.S. is a federal constitutional republic \u2014 a form of representative democracy."
+    }
+  },
+  {
+    "title": "Russian Revolution",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What combination of factors led to the Russian Revolution of 1917?",
+      "type": "multiple_choice",
+      "options": [
+        "A foreign invasion that removed the Tsar from power",
+        "Catastrophic WWI losses, food shortages, deep social inequality under Tsarist autocracy, and Marxist revolutionary organizing",
+        "A peaceful democratic transition planned by the Tsar",
+        "An economic boom that gave workers too much power"
+      ],
+      "correct_answer": "Catastrophic WWI losses, food shortages, deep social inequality under Tsarist autocracy, and Marxist revolutionary organizing",
+      "explanation": "Russia suffered enormous WWI casualties under incompetent leadership, food ran out in cities, and workers and peasants had long been exploited under feudal conditions. Lenin's Bolsheviks, organized around Marxist ideology, led the October Revolution that toppled the provisional government."
+    }
+  },
+  {
+    "title": "Cause and effect: Great Depression \u2192 WWII",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "How did the Great Depression (1929\u20131939) contribute to the rise of fascism and eventually WWII?",
+      "type": "multiple_choice",
+      "options": [
+        "The Depression only affected America and had no global impact",
+        "Economic collapse, mass unemployment, and desperation made populations vulnerable to extremist political movements promising national restoration",
+        "The Depression caused the U.S. to start WWII to boost its economy",
+        "Fascist governments caused the Depression, not the other way around"
+      ],
+      "correct_answer": "Economic collapse, mass unemployment, and desperation made populations vulnerable to extremist political movements promising national restoration",
+      "explanation": "Global economic collapse discredited democratic governments that seemed unable to help. In Germany, 30% unemployment and hyperinflation made Hitler's nationalist promises appealing. In Japan and Italy, similar dynamics empowered militaristic regimes \u2014 creating the alliance that started WWII."
+    }
+  },
+  {
+    "title": "Women's suffrage",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "American women gained the constitutional right to vote with the 19th Amendment in 1920. What argument did suffragists most effectively make?",
+      "type": "multiple_choice",
+      "options": [
+        "That women were biologically superior to men at making political decisions",
+        "That taxation without representation \u2014 the same principle behind the American Revolution \u2014 applied equally to women",
+        "That women would always vote for peace and therefore prevent wars",
+        "That the Constitution already gave women the right to vote"
+      ],
+      "correct_answer": "That taxation without representation \u2014 the same principle behind the American Revolution \u2014 applied equally to women",
+      "explanation": "Suffragists powerfully invoked American founding principles: if 'no taxation without representation' justified revolution, it equally applied to women who paid taxes but couldn't vote. They also argued that democracy's legitimacy required the consent of all governed \u2014 not just half."
+    }
+  },
+  {
+    "title": "Cold War: Korean War",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The Korean War (1950\u20131953) is called 'the Forgotten War.' How does it fit into the Cold War context?",
+      "type": "multiple_choice",
+      "options": [
+        "It was a purely Korean conflict with no Cold War involvement",
+        "It was the first major proxy conflict of the Cold War \u2014 the U.S. and allies fought to contain Communist North Korea backed by China and the USSR",
+        "The Soviet Union and U.S. fought directly against each other in Korea",
+        "Korea was colonized by the U.S. after the war"
+      ],
+      "correct_answer": "It was the first major proxy conflict of the Cold War \u2014 the U.S. and allies fought to contain Communist North Korea backed by China and the USSR",
+      "explanation": "Korea illustrated Cold War 'containment' \u2014 the U.S. strategy of preventing communism from spreading. The war ended in an armistice (not a peace treaty) roughly restoring the pre-war border at the 38th parallel. North and South Korea technically remain at war today."
+    }
+  },
+  {
+    "title": "Cause and effect: colonialism's legacy",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 55,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Many postcolonial states in Africa and Asia have faced political instability since independence. Which historical factor from the colonial era most directly contributed to this?",
+      "type": "multiple_choice",
+      "options": [
+        "Colonial powers deliberately taught democratic governance",
+        "Colonial borders were drawn to suit European interests, often splitting ethnic groups or forcing rivals together, creating built-in tensions",
+        "Indigenous populations lacked political traditions before colonization",
+        "Independence was granted too quickly for any transition problems to occur"
+      ],
+      "correct_answer": "Colonial borders were drawn to suit European interests, often splitting ethnic groups or forcing rivals together, creating built-in tensions",
+      "explanation": "At the Berlin Conference (1884\u201385), European powers carved Africa into colonies based on geographic and economic convenience \u2014 not ethnic, linguistic, or cultural boundaries. When colonialism ended, these artificial borders created states with populations that had no common identity and longstanding rivalries forced to share nations."
+    }
+  },
+  {
+    "title": "Vietnam War: lessons",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The United States withdrew from Vietnam in 1973 after years of fighting with no decisive victory. What was the primary reason for U.S. failure?",
+      "type": "multiple_choice",
+      "options": [
+        "The U.S. military was technologically inferior to North Vietnam",
+        "Guerrilla warfare, lack of clear objectives, domestic opposition, and inability to separate combatants from civilians made conventional military superiority ineffective",
+        "The U.S. Congress cut all military funding in 1970",
+        "China directly intervened with ground troops, as in Korea"
+      ],
+      "correct_answer": "Guerrilla warfare, lack of clear objectives, domestic opposition, and inability to separate combatants from civilians made conventional military superiority ineffective",
+      "explanation": "North Vietnam and the Viet Cong used guerrilla tactics that neutralized U.S. firepower advantages. Without clear objectives or measurable progress, domestic opposition grew. The war demonstrated that military dominance doesn't guarantee political success."
+    }
+  },
+  {
+    "title": "Government: federalism",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is federalism, and why was it a controversial compromise at the founding of the United States?",
+      "type": "multiple_choice",
+      "options": [
+        "Federalism means the president has unlimited power; it was controversial because some wanted a weak executive",
+        "Federalism divides power between national and state governments; it was controversial because Federalists wanted a strong central government while Anti-Federalists feared it would oppress states' rights",
+        "Federalism eliminates state governments; it was controversial because states wanted to keep their armies",
+        "Federalism is a foreign policy doctrine; it was controversial because it involved treaties with Europe"
+      ],
+      "correct_answer": "Federalism divides power between national and state governments; it was controversial because Federalists wanted a strong central government while Anti-Federalists feared it would oppress states' rights",
+      "explanation": "The Constitution balanced Federalist desires for a strong national government (to replace the failing Articles of Confederation) against Anti-Federalist fears of centralized tyranny. The result was a divided sovereignty \u2014 some powers to the national government, others reserved to states."
+    }
+  },
+  {
+    "title": "Primary sources: propaganda",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A WWII-era poster shows a smiling factory worker with the slogan 'We Can Do It!' What must a historian consider when using this as a source?",
+      "type": "multiple_choice",
+      "options": [
+        "Nothing \u2014 government-produced materials are the most reliable sources",
+        "That it was produced by the government as propaganda to encourage war production, and reflects intended messaging rather than actual worker conditions",
+        "Only whether the depicted worker was real or fictional",
+        "The poster's artistic merit and style"
+      ],
+      "correct_answer": "That it was produced by the government as propaganda to encourage war production, and reflects intended messaging rather than actual worker conditions",
+      "explanation": "The 'We Can Do It!' poster (Rosie the Riveter) was wartime propaganda made by the War Production Coordinating Committee. It tells us what the government wanted workers to feel, not necessarily what workers actually experienced. Propaganda is a valuable primary source \u2014 but revealing about intent, not reality."
+    }
+  },
+  {
+    "title": "Cold War: arms race",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The Cold War arms race was described as 'Mutually Assured Destruction' (MAD). What did this doctrine imply?",
+      "type": "multiple_choice",
+      "options": [
+        "Both sides were irrational and therefore unpredictable",
+        "Any nuclear first strike would trigger a retaliatory strike that destroyed both nations \u2014 making nuclear war unwinnable and therefore deterring either side from starting it",
+        "The U.S. had enough weapons to destroy the USSR without itself being destroyed",
+        "Nuclear weapons technology was too unreliable to use in actual warfare"
+      ],
+      "correct_answer": "Any nuclear first strike would trigger a retaliatory strike that destroyed both nations \u2014 making nuclear war unwinnable and therefore deterring either side from starting it",
+      "explanation": "MAD was an ironically named doctrine of strategic stability: if both sides could survive a first strike and retaliate, neither would risk starting a nuclear war. The horrifying conclusion was that global annihilation capacity actually created a kind of peace \u2014 a 'balance of terror.'"
+    }
+  },
+  {
+    "title": "WWII: Pacific Theater",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "President Truman's decision to use atomic bombs on Hiroshima and Nagasaki (1945) is still debated by historians. What was his primary justification?",
+      "type": "multiple_choice",
+      "options": [
+        "To punish Japan for Pearl Harbor",
+        "To end the war quickly, avoiding a land invasion of Japan projected to cost hundreds of thousands of Allied and Japanese lives",
+        "To demonstrate American power to the Soviet Union",
+        "Because conventional bombing had proved completely ineffective"
+      ],
+      "correct_answer": "To end the war quickly, avoiding a land invasion of Japan projected to cost hundreds of thousands of Allied and Japanese lives",
+      "explanation": "Military planners estimated Operation Downfall (the planned invasion of Japan) would cost 250,000\u20131 million Allied casualties plus millions of Japanese. Truman argued the bombs shortened the war and saved more lives than the alternative. Critics argue Japan was already near surrender and the bombs were partly about deterring the USSR."
+    }
+  },
+  {
+    "title": "Cause and effect: printing press",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "How did Gutenberg's printing press (c. 1440) directly contribute to the Protestant Reformation?",
+      "type": "multiple_choice",
+      "options": [
+        "It allowed the Pope to distribute official Church doctrine faster",
+        "It enabled Martin Luther's 95 Theses and other reform ideas to spread rapidly across Europe before the Church could suppress them",
+        "It had no significant connection to religious reform",
+        "It was invented specifically to print Luther's Bible"
+      ],
+      "correct_answer": "It enabled Martin Luther's 95 Theses and other reform ideas to spread rapidly across Europe before the Church could suppress them",
+      "explanation": "When Luther nailed his 95 Theses in 1517, printed copies reached much of Europe within weeks. The printing press democratized information \u2014 ideas that previously spread slowly by hand-copied manuscripts now traveled faster than institutions could respond, permanently breaking the Church's information monopoly."
+    }
+  },
+  {
+    "title": "Government: separation of church and state",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The First Amendment contains an 'Establishment Clause.' What does it prohibit?",
+      "type": "multiple_choice",
+      "options": [
+        "Citizens from practicing any religion in public",
+        "The government from establishing an official religion or favoring one religion over others",
+        "Religious institutions from owning property",
+        "Political candidates from mentioning religion"
+      ],
+      "correct_answer": "The government from establishing an official religion or favoring one religion over others",
+      "explanation": "The Establishment Clause ('Congress shall make no law respecting an establishment of religion') prevents a state church like England's Church of England \u2014 a concern for many colonists who had fled religious persecution. Paired with the Free Exercise Clause, it protects religious liberty while keeping government secular."
+    }
+  },
+  {
+    "title": "Imperialism: the Opium Wars",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Britain fought the Opium Wars (1839\u20131842, 1856\u20131860) against China. What do these wars reveal about 19th-century imperialism?",
+      "type": "multiple_choice",
+      "options": [
+        "Western powers used military force to open markets and impose unequal trade agreements, regardless of the human cost",
+        "China was the aggressor in both wars and Britain acted in self-defense",
+        "The wars were fought over territory, not trade",
+        "Both sides agreed that the opium trade should continue"
+      ],
+      "correct_answer": "Western powers used military force to open markets and impose unequal trade agreements, regardless of the human cost",
+      "explanation": "Britain, facing a trade deficit with China, illegally smuggled opium to balance trade. When China destroyed British opium stocks, Britain used military force to compel China to legalize the drug trade and cede Hong Kong. It exemplifies how imperial powers used military superiority to impose economic exploitation."
+    }
+  },
+  {
+    "title": "Civil Rights: Voting Rights Act",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The Voting Rights Act of 1965 was a landmark law. What specifically had prevented many Black Americans from voting before it passed?",
+      "type": "multiple_choice",
+      "options": [
+        "The Constitution explicitly limited voting to white men",
+        "Literacy tests, poll taxes, grandfather clauses, and organized violence were used to disenfranchise Black voters, especially in the South",
+        "Black Americans had voluntarily chosen not to vote",
+        "The 15th Amendment had never actually been ratified"
+      ],
+      "correct_answer": "Literacy tests, poll taxes, grandfather clauses, and organized violence were used to disenfranchise Black voters, especially in the South",
+      "explanation": "Even though the 15th Amendment (1870) granted Black men voting rights, Southern states devised legal mechanisms \u2014 literacy tests (applied discriminatorily), poll taxes, grandfather clauses \u2014 backed by terror groups like the KKK to prevent Black voter registration. The VRA outlawed these practices."
+    }
+  },
+  {
+    "title": "End of Cold War",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What combination of factors led to the collapse of the Soviet Union in 1991?",
+      "type": "multiple_choice",
+      "options": [
+        "A U.S. military invasion that overwhelmed Soviet defenses",
+        "Economic stagnation, the unwinnable war in Afghanistan, Gorbachev's reforms that unleashed forces he couldn't control, and nationalist independence movements in Soviet republics",
+        "A nuclear accident that destroyed Soviet infrastructure",
+        "The Soviet government voluntarily dissolved itself after losing an election"
+      ],
+      "correct_answer": "Economic stagnation, the unwinnable war in Afghanistan, Gorbachev's reforms that unleashed forces he couldn't control, and nationalist independence movements in Soviet republics",
+      "explanation": "The USSR's centrally planned economy couldn't compete; Afghanistan was a costly quagmire like Vietnam was for the U.S.; Gorbachev's glasnost (openness) and perestroika (restructuring) were meant to save communism but instead freed dissent. Independence movements in the Baltic states and elsewhere accelerated the collapse."
+    }
+  },
+  {
+    "title": "Cause and effect: WWI \u2192 WWII chain",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 55,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Historians often describe WWI and WWII as a single 'Thirty Years' War' (1914\u20131945). What is the strongest argument for viewing them as one connected conflict?",
+      "type": "multiple_choice",
+      "options": [
+        "The same military generals commanded in both wars",
+        "The unresolved aftermath of WWI \u2014 especially Versailles's punitive terms and economic instability \u2014 directly created the political conditions in which WWII became inevitable",
+        "The same nations were involved in both wars on the same sides",
+        "Both wars were caused by the same assassination"
+      ],
+      "correct_answer": "The unresolved aftermath of WWI \u2014 especially Versailles's punitive terms and economic instability \u2014 directly created the political conditions in which WWII became inevitable",
+      "explanation": "Versailles humiliated Germany without destroying its capacity for revenge. The Great Depression (partly caused by war reparations distorting global finance) then provided the desperation. Hitler rose by exploiting both wounds. From this view, WWII wasn't a separate war \u2014 it was WWI's unfinished business, finally concluded."
+    }
+  },
+  {
+    "title": "Imperialism: Social Darwinism",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "How did 'Social Darwinism' serve as an ideological justification for European imperialism?",
+      "type": "multiple_choice",
+      "options": [
+        "It argued that all races were equal and should cooperate",
+        "It misapplied Darwin's evolutionary ideas to claim that European 'superiority' justified dominating 'lesser' peoples \u2014 providing a pseudo-scientific rationale for conquest",
+        "It was a scientific theory that had nothing to do with politics",
+        "It argued that weaker nations should be left alone to develop naturally"
+      ],
+      "correct_answer": "It misapplied Darwin's evolutionary ideas to claim that European 'superiority' justified dominating 'lesser' peoples \u2014 providing a pseudo-scientific rationale for conquest",
+      "explanation": "Social Darwinists wrongly applied 'survival of the fittest' to human societies, claiming European civilization was evolutionarily 'superior' and therefore had a right \u2014 even a duty \u2014 to rule over others. This ideology masked economic exploitation behind a veneer of science and racial paternalism."
+    }
+  },
+  {
+    "title": "American Revolution: ideological roots",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Thomas Paine's pamphlet 'Common Sense' (1776) was enormously influential. What was its central argument?",
+      "type": "multiple_choice",
+      "options": [
+        "That America should reconcile with Britain and negotiate better trade terms",
+        "That monarchy was an irrational form of government and American independence was not just justified \u2014 it was common sense",
+        "That only wealthy property owners should govern the new nation",
+        "That America should form an alliance with France before declaring independence"
+      ],
+      "correct_answer": "That monarchy was an irrational form of government and American independence was not just justified \u2014 it was common sense",
+      "explanation": "'Common Sense' sold 500,000 copies in a country of 2.5 million \u2014 proportionally one of the best-selling books in American history. Paine argued in plain language that hereditary monarchy was absurd and independence was not just a political option but a moral obligation."
+    }
+  },
+  {
+    "title": "WWII: the role of the Soviet Union",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The Soviet Union suffered approximately 27 million deaths in WWII \u2014 far more than any other nation. What does this suggest about who bore the greatest burden of defeating Nazi Germany?",
+      "type": "multiple_choice",
+      "options": [
+        "The Soviet Union was the primary theater of WWII in Europe; the Eastern Front was where Germany's military was largely destroyed",
+        "The Soviet Union's losses were mostly from internal political purges, not actual combat",
+        "Western Allied forces defeated Germany while the Soviets focused on Japan",
+        "Soviet casualties were exaggerated for Cold War propaganda purposes"
+      ],
+      "correct_answer": "The Soviet Union was the primary theater of WWII in Europe; the Eastern Front was where Germany's military was largely destroyed",
+      "explanation": "The Eastern Front was the largest and bloodiest theater in human history. The Battle of Stalingrad alone cost over a million casualties. By some estimates, the USSR destroyed 80% of Germany's military capacity. D-Day opened a critical second front, but the Soviet war effort was strategically decisive."
+    }
+  },
+  {
+    "title": "Nationalism: definition and effects",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Nationalism was a powerful force in 19th and 20th century history. How can nationalism have both constructive AND destructive effects?",
+      "type": "multiple_choice",
+      "options": [
+        "Nationalism is always destructive \u2014 it has no positive applications",
+        "Nationalism unified fragmented peoples (Italy, Germany) and drove independence movements, but also fueled ethnic hatred, imperialism, and two World Wars",
+        "Nationalism is always constructive \u2014 it simply means people love their country",
+        "Nationalism only mattered in Europe and had no effect elsewhere"
+      ],
+      "correct_answer": "Nationalism unified fragmented peoples (Italy, Germany) and drove independence movements, but also fueled ethnic hatred, imperialism, and two World Wars",
+      "explanation": "Nationalism's dual nature is a central tension in modern history. It united Italians and Germans into powerful nation-states; it inspired anticolonial independence movements in Asia and Africa. But extreme nationalism produced the ethnic cleansing of WWI's Balkans, Nazi Germany's genocidal racism, and Rwandan genocide."
+    }
+  },
+  {
+    "title": "Cold War: space race",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The Space Race between the U.S. and USSR was more than scientific achievement \u2014 why did it matter strategically?",
+      "type": "multiple_choice",
+      "options": [
+        "Space exploration was purely about scientific discovery with no political dimension",
+        "Rocket technology for space could also deliver nuclear warheads \u2014 so dominance in space meant military advantage, plus propaganda value in demonstrating ideological superiority",
+        "The Moon contained valuable minerals both nations wanted to mine",
+        "International law required nations to compete in space exploration"
+      ],
+      "correct_answer": "Rocket technology for space could also deliver nuclear warheads \u2014 so dominance in space meant military advantage, plus propaganda value in demonstrating ideological superiority",
+      "explanation": "When the USSR launched Sputnik (1957), Americans feared Soviet rockets could reach American cities. Space was also a propaganda battleground \u2014 each milestone (first satellite, first human in space, first Moon landing) was a claim that capitalism or communism produced superior civilization."
+    }
+  },
+  {
+    "title": "Medieval Europe: the Black Death's social impact",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "How did the Black Death (1347\u20131351) paradoxically improve the lives of surviving European peasants in the long term?",
+      "type": "multiple_choice",
+      "options": [
+        "It destroyed the Church's authority, freeing peasants from tithes",
+        "Labor became scarce as a third of the population died, giving surviving workers bargaining power to demand higher wages and better conditions",
+        "The plague only killed nobles, leaving peasants to inherit their land",
+        "It had no positive effects \u2014 it only created misery"
+      ],
+      "correct_answer": "Labor became scarce as a third of the population died, giving surviving workers bargaining power to demand higher wages and better conditions",
+      "explanation": "With so many dead, lords desperately needed laborers and had to compete for workers by offering better wages and freedoms. This began the slow erosion of serfdom in Western Europe. The catastrophe inadvertently accelerated the transition from medieval feudalism to early modern capitalism."
+    }
+  },
+  {
+    "title": "Cause and effect: technological change in warfare",
+    "subject": "history",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "How did the development of gunpowder weapons between 1300\u20131500 CE transform European society beyond just warfare?",
+      "type": "multiple_choice",
+      "options": [
+        "It had no social effects \u2014 warfare techniques rarely change society",
+        "It made castles and heavily armored knights obsolete, breaking the military monopoly of the feudal nobility and shifting power toward centralized monarchies that could afford cannons",
+        "It made warfare less deadly because guns were inaccurate",
+        "It exclusively benefited the Catholic Church which controlled gunpowder production"
+      ],
+      "correct_answer": "It made castles and heavily armored knights obsolete, breaking the military monopoly of the feudal nobility and shifting power toward centralized monarchies that could afford cannons",
+      "explanation": "Cannons could destroy castles that had been impregnable for centuries. Plate armor became useless against firearms. The knights who underpinned feudal society lost their military value. Only wealthy centralized states could fund cannon foundries and gunpowder armies \u2014 accelerating the rise of nation-states and the decline of feudalism."
+    }
+  }
+]

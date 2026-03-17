@@ -1,0 +1,752 @@
+[
+  {
+    "title": "Periodic table: atomic number",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does the atomic number of an element represent?",
+      "type": "multiple_choice",
+      "options": ["The number of neutrons in the nucleus", "The number of protons in the nucleus", "The total mass of the atom", "The number of electron shells"],
+      "correct_answer": "The number of protons in the nucleus",
+      "explanation": "The atomic number is the number of protons in an atom's nucleus. It uniquely identifies each element — carbon always has 6 protons, oxygen always has 8. The atomic number also equals the number of electrons in a neutral atom."
+    }
+  },
+  {
+    "title": "Periodic table: groups",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Elements in the same group (column) of the periodic table share which property?",
+      "type": "multiple_choice",
+      "options": ["The same atomic mass", "The same number of protons", "The same number of outer (valence) electrons", "The same state of matter at room temperature"],
+      "correct_answer": "The same number of outer (valence) electrons",
+      "explanation": "Elements in the same group have the same number of valence (outer shell) electrons. This gives them similar chemical properties. All Group 1 elements (alkali metals) have 1 valence electron and react vigorously with water."
+    }
+  },
+  {
+    "title": "Periodic table: noble gases",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Why are noble gases (Group 18) generally unreactive?",
+      "type": "multiple_choice",
+      "options": ["They are too heavy to react", "They have a full outer electron shell and are chemically stable", "They exist only as solids", "They have no protons"],
+      "correct_answer": "They have a full outer electron shell and are chemically stable",
+      "explanation": "Noble gases (helium, neon, argon, etc.) have 8 valence electrons — a full outer shell. Atoms react to gain or lose electrons to achieve a full shell. Noble gases are already stable, so they rarely form compounds."
+    }
+  },
+  {
+    "title": "Chemical reactions: evidence",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which of the following is NOT evidence that a chemical reaction has occurred?",
+      "type": "multiple_choice",
+      "options": ["A gas is produced (bubbles)", "A color change occurs", "Ice melting in warm water", "A precipitate (solid) forms in a liquid"],
+      "correct_answer": "Ice melting in warm water",
+      "explanation": "Ice melting is a physical change — water changes state but no new substance is formed. Chemical reaction signs include: gas production, color change, precipitate forming, energy release (heat/light), and irreversibility."
+    }
+  },
+  {
+    "title": "Chemical reactions: reactants and products",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "In the equation: 2H₂ + O₂ → 2H₂O, what are the reactants?",
+      "type": "multiple_choice",
+      "options": ["Only H₂O", "H₂ and O₂", "Only O₂", "H₂O and O₂"],
+      "correct_answer": "H₂ and O₂",
+      "explanation": "Reactants are the starting materials (on the left of the arrow). Products are what's formed (on the right). Here hydrogen gas (H₂) and oxygen gas (O₂) react to form water (H₂O)."
+    }
+  },
+  {
+    "title": "Chemical reactions: conservation of mass",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "If 10 g of reactants combine in a closed container and the reaction produces a gas, how much do all the products together weigh?",
+      "type": "multiple_choice",
+      "options": ["Less than 10 g because gas escapes", "More than 10 g because energy is added", "Exactly 10 g", "It depends on the temperature"],
+      "correct_answer": "Exactly 10 g",
+      "explanation": "The Law of Conservation of Mass states that matter is neither created nor destroyed in a chemical reaction. The total mass of products always equals the total mass of reactants. Atoms rearrange — they don't disappear."
+    }
+  },
+  {
+    "title": "Acids and bases: pH scale",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "On the pH scale, what does a pH of 7 indicate?",
+      "type": "multiple_choice",
+      "options": ["A strong acid", "A strong base", "A neutral substance", "A toxic substance"],
+      "correct_answer": "A neutral substance",
+      "explanation": "The pH scale runs from 0–14. pH 7 is neutral (pure water). Below 7 is acidic (the lower, the stronger). Above 7 is basic/alkaline (the higher, the stronger). Stomach acid is about pH 2; bleach is about pH 12."
+    }
+  },
+  {
+    "title": "Newton's First Law",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A ball is rolling across a frictionless surface. According to Newton's First Law, what will happen?",
+      "type": "multiple_choice",
+      "options": ["It will gradually slow down and stop", "It will speed up over time", "It will continue moving at the same speed in the same direction forever", "It will change direction randomly"],
+      "correct_answer": "It will continue moving at the same speed in the same direction forever",
+      "explanation": "Newton's First Law (Law of Inertia): an object in motion stays in motion, and an object at rest stays at rest, unless acted on by an external force. With no friction, nothing stops the ball."
+    }
+  },
+  {
+    "title": "Newton's Second Law",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A 5 kg object is pushed with a net force of 20 N. What is its acceleration?",
+      "type": "multiple_choice",
+      "options": ["4 m/s²", "25 m/s²", "100 m/s²", "0.25 m/s²"],
+      "correct_answer": "4 m/s²",
+      "explanation": "Newton's Second Law: F = ma, so a = F ÷ m. a = 20 N ÷ 5 kg = 4 m/s². The greater the force, the greater the acceleration. The greater the mass, the less acceleration for the same force."
+    }
+  },
+  {
+    "title": "Newton's Third Law",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A rocket launches by expelling hot gas downward. According to Newton's Third Law, what happens?",
+      "type": "multiple_choice",
+      "options": ["The gas pushes the rocket downward too", "The expelled gas pushes the rocket upward with equal force", "The rocket slows down as gas is lost", "Nothing acts on the rocket — only gravity matters"],
+      "correct_answer": "The expelled gas pushes the rocket upward with equal force",
+      "explanation": "Newton's Third Law: for every action, there is an equal and opposite reaction. The rocket pushes gas down; the gas pushes the rocket up with the same force. This is how all rockets and jet engines work."
+    }
+  },
+  {
+    "title": "Cell biology: cell types",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is the key difference between prokaryotic and eukaryotic cells?",
+      "type": "multiple_choice",
+      "options": ["Prokaryotes are larger than eukaryotes", "Eukaryotes have a membrane-bound nucleus; prokaryotes do not", "Prokaryotes have mitochondria; eukaryotes do not", "Eukaryotes only exist in plants"],
+      "correct_answer": "Eukaryotes have a membrane-bound nucleus; prokaryotes do not",
+      "explanation": "Eukaryotic cells (plants, animals, fungi) have a nucleus enclosed in a membrane, along with other organelles. Prokaryotic cells (bacteria) have no membrane-bound nucleus — their DNA floats in the cytoplasm."
+    }
+  },
+  {
+    "title": "Cell biology: mitochondria",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Why is the mitochondrion called the 'powerhouse of the cell'?",
+      "type": "multiple_choice",
+      "options": ["It controls what enters and exits the cell", "It produces ATP (energy) through cellular respiration", "It builds proteins from amino acids", "It stores the cell's genetic information"],
+      "correct_answer": "It produces ATP (energy) through cellular respiration",
+      "explanation": "Mitochondria convert glucose and oxygen into ATP (adenosine triphosphate) — the energy currency cells use for all their functions. The process is called cellular respiration: C₆H₁₂O₆ + O₂ → CO₂ + H₂O + ATP."
+    }
+  },
+  {
+    "title": "Cell biology: cell membrane",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The cell membrane is described as 'selectively permeable.' What does this mean?",
+      "type": "multiple_choice",
+      "options": ["It is completely impermeable — nothing passes through", "It allows all substances to pass through freely", "It allows some substances to pass while blocking others", "It only allows water to pass through"],
+      "correct_answer": "It allows some substances to pass while blocking others",
+      "explanation": "Selectively permeable means the membrane controls what enters and exits the cell. Small molecules like water and oxygen pass freely. Large or charged molecules need special protein channels or active transport."
+    }
+  },
+  {
+    "title": "Cell biology: photosynthesis equation",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which is the correct equation for photosynthesis?",
+      "type": "multiple_choice",
+      "options": ["CO₂ + H₂O + light → C₆H₁₂O₆ + O₂", "C₆H₁₂O₆ + O₂ → CO₂ + H₂O + ATP", "H₂O + O₂ → CO₂ + glucose", "light + O₂ → CO₂ + H₂O"],
+      "correct_answer": "CO₂ + H₂O + light → C₆H₁₂O₆ + O₂",
+      "explanation": "Photosynthesis: carbon dioxide + water + light energy → glucose + oxygen. Plants absorb CO₂ and H₂O, use light energy to build glucose (C₆H₁₂O₆), and release O₂ as a byproduct. The reverse is cellular respiration."
+    }
+  },
+  {
+    "title": "Genetics: DNA",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is the shape of a DNA molecule?",
+      "type": "multiple_choice",
+      "options": ["Single helix", "Double helix", "Straight ladder", "Circular loop"],
+      "correct_answer": "Double helix",
+      "explanation": "DNA is shaped like a twisted ladder — a double helix. The 'rungs' are pairs of nitrogenous bases (A-T and G-C). This structure was discovered by Watson and Crick in 1953, using X-ray data from Rosalind Franklin."
+    }
+  },
+  {
+    "title": "Genetics: base pairing",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "In DNA, adenine (A) always pairs with _______, and guanine (G) always pairs with _______.",
+      "type": "multiple_choice",
+      "options": ["Guanine (G) and Cytosine (C)", "Thymine (T) and Cytosine (C)", "Cytosine (C) and Thymine (T)", "Thymine (T) and Adenine (A)"],
+      "correct_answer": "Thymine (T) and Cytosine (C)",
+      "explanation": "DNA base pairing rules: A pairs with T (adenine-thymine), and G pairs with C (guanine-cytosine). These are called complementary base pairs. If one strand reads ATGC, the other reads TACG."
+    }
+  },
+  {
+    "title": "Genetics: dominant and recessive",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A pea plant has one dominant allele for tallness (T) and one recessive allele for shortness (t). What will the plant look like?",
+      "type": "multiple_choice",
+      "options": ["Short, because the recessive allele overpowers it", "Medium height", "Tall, because the dominant allele masks the recessive one", "It could be either, randomly"],
+      "correct_answer": "Tall, because the dominant allele masks the recessive one",
+      "explanation": "When one dominant allele (T) and one recessive allele (t) are present, the dominant trait is expressed. The plant is 'Tt' — heterozygous. Only 'tt' (two recessive alleles) produces a short plant."
+    }
+  },
+  {
+    "title": "Genetics: Punnett square",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Two heterozygous tall pea plants (Tt × Tt) are crossed. What percentage of offspring will be short (tt)?",
+      "type": "multiple_choice",
+      "options": ["0%", "25%", "50%", "75%"],
+      "correct_answer": "25%",
+      "explanation": "Using a Punnett square: Tt × Tt gives TT, Tt, Tt, tt. That's 1 TT : 2 Tt : 1 tt. Only tt is short = 1 out of 4 = 25%. This is Mendel's 3:1 ratio."
+    }
+  },
+  {
+    "title": "Genetics: mutations",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is a genetic mutation?",
+      "type": "multiple_choice",
+      "options": ["A change in an organism's behavior", "A permanent change in the DNA sequence", "The process of cell division", "The transfer of traits from parent to offspring"],
+      "correct_answer": "A permanent change in the DNA sequence",
+      "explanation": "A mutation is a change in the nucleotide sequence of DNA. Mutations can be caused by copying errors, radiation, or chemicals. Some are harmful, some neutral, and rarely, some are beneficial — driving evolution."
+    }
+  },
+  {
+    "title": "Ecology: biomes",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which biome receives less than 25 cm of rain per year and experiences extreme temperature swings between day and night?",
+      "type": "multiple_choice",
+      "options": ["Tropical rainforest", "Tundra", "Desert", "Temperate forest"],
+      "correct_answer": "Desert",
+      "explanation": "Deserts receive very little precipitation (under 25 cm/year) and can have dramatic temperature swings — scorching hot by day when sand absorbs heat, and cold at night when that heat radiates away quickly."
+    }
+  },
+  {
+    "title": "Ecology: symbiosis",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Clownfish live among sea anemone tentacles without being stung. The anemone eats scraps dropped by the clownfish. This relationship is an example of:",
+      "type": "multiple_choice",
+      "options": ["Parasitism", "Commensalism", "Mutualism", "Predation"],
+      "correct_answer": "Mutualism",
+      "explanation": "Mutualism is a symbiotic relationship where both species benefit. The clownfish gets protection from predators; the anemone gets food scraps and cleaning. Both win. Parasitism harms the host; commensalism benefits only one."
+    }
+  },
+  {
+    "title": "Ecology: carbon cycle",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "How does burning fossil fuels affect the carbon cycle?",
+      "type": "multiple_choice",
+      "options": ["It removes carbon from the atmosphere", "It releases stored carbon back into the atmosphere as CO₂", "It converts carbon into oxygen", "It has no measurable effect"],
+      "correct_answer": "It releases stored carbon back into the atmosphere as CO₂",
+      "explanation": "Fossil fuels (coal, oil, gas) are ancient organic matter — carbon stored underground for millions of years. Burning them releases that carbon as CO₂. This adds carbon to the atmosphere faster than natural cycles can absorb it, contributing to climate change."
+    }
+  },
+  {
+    "title": "Ecology: trophic levels",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Only about 10% of energy passes from one trophic level to the next. If producers contain 10,000 kcal of energy, how much energy is available to secondary consumers?",
+      "type": "multiple_choice",
+      "options": ["1,000 kcal", "100 kcal", "10 kcal", "10,000 kcal"],
+      "correct_answer": "100 kcal",
+      "explanation": "The 10% rule: 10,000 kcal (producers) → 1,000 kcal (primary consumers) → 100 kcal (secondary consumers). 90% is lost as heat at each level. This is why food chains rarely exceed 4–5 levels."
+    }
+  },
+  {
+    "title": "Waves: properties",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is the relationship between the frequency and wavelength of a wave if the speed stays constant?",
+      "type": "multiple_choice",
+      "options": ["Higher frequency = longer wavelength", "Higher frequency = shorter wavelength", "Frequency and wavelength are unrelated", "They always increase together"],
+      "correct_answer": "Higher frequency = shorter wavelength",
+      "explanation": "Wave speed = frequency × wavelength. If speed is constant, they're inversely proportional: increase frequency → decrease wavelength, and vice versa. Think of sound: higher pitch (frequency) = shorter waves."
+    }
+  },
+  {
+    "title": "Electromagnetic spectrum",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which type of electromagnetic radiation has the highest energy?",
+      "type": "multiple_choice",
+      "options": ["Radio waves", "Visible light", "Infrared", "Gamma rays"],
+      "correct_answer": "Gamma rays",
+      "explanation": "Energy in the EM spectrum increases with frequency. Order from lowest to highest energy: radio → microwave → infrared → visible → UV → X-ray → gamma rays. Gamma rays have the shortest wavelength and highest frequency."
+    }
+  },
+  {
+    "title": "Thermodynamics: heat transfer",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A metal spoon placed in hot soup becomes hot quickly. This is an example of:",
+      "type": "multiple_choice",
+      "options": ["Convection", "Radiation", "Conduction", "Evaporation"],
+      "correct_answer": "Conduction",
+      "explanation": "Conduction is heat transfer through direct contact between particles. Metals are excellent conductors because their free electrons transfer energy quickly. Convection moves heat through fluid circulation; radiation transfers heat through electromagnetic waves."
+    }
+  },
+  {
+    "title": "Atomic structure: isotopes",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Carbon-12 and Carbon-14 are isotopes of carbon. What makes them different?",
+      "type": "multiple_choice",
+      "options": ["They have different numbers of protons", "They have different numbers of electrons", "They have different numbers of neutrons", "They are different elements"],
+      "correct_answer": "They have different numbers of neutrons",
+      "explanation": "Isotopes are atoms of the same element with different numbers of neutrons. Carbon-12 has 6 protons and 6 neutrons; Carbon-14 has 6 protons and 8 neutrons. Same element, different mass. Carbon-14 is radioactive and used in dating ancient materials."
+    }
+  },
+  {
+    "title": "Evolution: natural selection",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A population of beetles lives on dark tree bark. Most are brown, but a few are green. Birds easily spot and eat the green beetles. Over many generations, what happens?",
+      "type": "multiple_choice",
+      "options": ["Green beetles evolve to become darker on purpose", "Brown beetles become the dominant color through natural selection", "All beetles eventually go extinct", "Birds stop eating green beetles"],
+      "correct_answer": "Brown beetles become the dominant color through natural selection",
+      "explanation": "Natural selection: organisms with traits better suited to their environment survive and reproduce more. Brown beetles survive longer, pass on their genes. Over generations, brown becomes more common. Evolution isn't intentional — it's differential survival."
+    }
+  },
+  {
+    "title": "Cell division: mitosis",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is the purpose of mitosis?",
+      "type": "multiple_choice",
+      "options": ["To produce sex cells (eggs and sperm)", "To produce two genetically identical daughter cells for growth and repair", "To reduce the chromosome number by half", "To combine DNA from two parents"],
+      "correct_answer": "To produce two genetically identical daughter cells for growth and repair",
+      "explanation": "Mitosis produces two identical copies of the original cell, used for growth, tissue repair, and asexual reproduction. Meiosis is different — it produces 4 sex cells with half the chromosomes, enabling sexual reproduction."
+    }
+  },
+  {
+    "title": "Cell division: meiosis",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Why is it important that meiosis produces cells with half the normal chromosome number (haploid)?",
+      "type": "multiple_choice",
+      "options": ["So cells are smaller and fit in reproductive organs", "So when two sex cells combine at fertilization, the offspring has the correct total chromosome number", "To prevent mutations from occurring", "So offspring are genetically identical to one parent"],
+      "correct_answer": "So when two sex cells combine at fertilization, the offspring has the correct total chromosome number",
+      "explanation": "Humans have 46 chromosomes (23 pairs). Meiosis halves this to 23. When sperm (23) and egg (23) unite at fertilization, the resulting zygote has 46 — the correct full number. Without this halving, chromosome numbers would double every generation."
+    }
+  },
+  {
+    "title": "Chemistry: physical vs chemical change",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which of the following is a chemical change (not just physical)?",
+      "type": "multiple_choice",
+      "options": ["Cutting paper into pieces", "Dissolving sugar in water", "Rusting iron", "Crushing a can"],
+      "correct_answer": "Rusting iron",
+      "explanation": "Rusting is a chemical change — iron reacts with oxygen and water to form iron oxide, a new substance with different properties. Physical changes (cutting, dissolving sugar, crushing) alter form but not chemical composition."
+    }
+  },
+  {
+    "title": "Physics: work and energy",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "You push a wall with all your strength but it doesn't move. In the scientific sense, how much work have you done on the wall?",
+      "type": "multiple_choice",
+      "options": ["A large amount — you exerted a lot of force", "Some — depending on how hard you pushed", "Zero — because the wall didn't move", "Negative work"],
+      "correct_answer": "Zero — because the wall didn't move",
+      "explanation": "In physics, Work = Force × Distance. If the wall doesn't move (distance = 0), then work = 0, regardless of how much force was applied. You felt tired, but scientifically, you did no work on the wall."
+    }
+  },
+  {
+    "title": "Physics: kinetic and potential energy",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A roller coaster at the top of its highest hill has maximum _______; at the bottom of the hill moving fastest, it has maximum _______.",
+      "type": "multiple_choice",
+      "options": ["kinetic energy; potential energy", "potential energy; kinetic energy", "speed; height", "mass; acceleration"],
+      "correct_answer": "potential energy; kinetic energy",
+      "explanation": "At the top: height is maximum, so gravitational potential energy (PE = mgh) is maximum, speed is minimum. At the bottom: height is zero, PE converts to kinetic energy (KE = ½mv²), so speed is maximum."
+    }
+  },
+  {
+    "title": "Periodic table: metals vs nonmetals",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which property do metals generally have that nonmetals do not?",
+      "type": "multiple_choice",
+      "options": ["They are poor conductors of electricity", "They are gases at room temperature", "They conduct heat and electricity well", "They are transparent"],
+      "correct_answer": "They conduct heat and electricity well",
+      "explanation": "Metals are good conductors because their outer electrons are loosely held and can move freely. Nonmetals generally don't conduct electricity (except graphite). Metals are also usually shiny, malleable, and have high melting points."
+    }
+  },
+  {
+    "title": "Genetics: sex-linked traits",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Color blindness is a recessive, X-linked trait. Why is it more common in males than females?",
+      "type": "multiple_choice",
+      "options": ["Males have stronger reactions to recessive genes", "Males only have one X chromosome, so one recessive allele is enough to express the trait", "The Y chromosome promotes color blindness", "Females are immune to X-linked conditions"],
+      "correct_answer": "Males only have one X chromosome, so one recessive allele is enough to express the trait",
+      "explanation": "Males are XY — they have only one X chromosome. If that X carries the color blindness allele, they express the trait. Females are XX — they need two copies of the recessive allele. One normal X is enough to prevent it in females."
+    }
+  },
+  {
+    "title": "Physics: Ohm's Law",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A circuit has a voltage of 12V and a resistance of 4 ohms. What is the current?",
+      "type": "multiple_choice",
+      "options": ["48 A", "3 A", "0.33 A", "8 A"],
+      "correct_answer": "3 A",
+      "explanation": "Ohm's Law: V = IR, so I = V ÷ R = 12 ÷ 4 = 3 A. V = voltage (volts), I = current (amps), R = resistance (ohms). Higher resistance reduces current for the same voltage."
+    }
+  },
+  {
+    "title": "Earth science: plate tectonics",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "When two tectonic plates collide and one is forced beneath the other, this is called:",
+      "type": "multiple_choice",
+      "options": ["Sea-floor spreading", "Subduction", "Continental drift", "Transform boundary"],
+      "correct_answer": "Subduction",
+      "explanation": "Subduction occurs at convergent boundaries when a denser oceanic plate dives beneath a continental plate. The descending plate melts in the mantle, which can create volcanoes above and deep ocean trenches below."
+    }
+  },
+  {
+    "title": "Earth science: rock cycle",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Limestone (sedimentary rock) deep underground is subjected to intense heat and pressure. It transforms into marble. This produces which type of rock?",
+      "type": "multiple_choice",
+      "options": ["Igneous", "Sedimentary", "Metamorphic", "Volcanic"],
+      "correct_answer": "Metamorphic",
+      "explanation": "Metamorphic rock forms when existing rocks are transformed by heat and pressure without melting. 'Metamorphic' comes from Greek meaning 'change form.' Limestone → marble and shale → slate are classic examples."
+    }
+  },
+  {
+    "title": "Cell biology: osmosis",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A red blood cell is placed in a solution with a higher salt concentration than the cell's interior. What happens?",
+      "type": "multiple_choice",
+      "options": ["Water moves into the cell and it swells", "Water moves out of the cell and it shrinks", "Salt enters the cell and it swells", "Nothing changes because the membrane blocks everything"],
+      "correct_answer": "Water moves out of the cell and it shrinks",
+      "explanation": "Osmosis is water moving across a semipermeable membrane from low solute concentration to high. The solution outside has more solute (salt), so water moves out of the cell toward higher concentration, causing the cell to shrink (crenation)."
+    }
+  },
+  {
+    "title": "Physics: speed vs velocity",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A car drives 100 km north, then 100 km south, returning to its starting point. After 2 hours total, what is its average velocity?",
+      "type": "multiple_choice",
+      "options": ["100 km/h", "0 km/h", "50 km/h", "200 km/h"],
+      "correct_answer": "0 km/h",
+      "explanation": "Velocity is displacement (change in position) ÷ time. The car returned to its start — net displacement is 0. So average velocity = 0 ÷ 2 = 0 km/h. Speed (total distance ÷ time) would be 100 km/h. Velocity includes direction and net change."
+    }
+  },
+  {
+    "title": "Chemistry: covalent vs ionic bonds",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is the main difference between an ionic bond and a covalent bond?",
+      "type": "multiple_choice",
+      "options": ["Ionic bonds share electrons; covalent bonds transfer them", "Ionic bonds transfer electrons between atoms; covalent bonds share electrons", "Ionic bonds only form in gases; covalent bonds only in solids", "There is no significant difference"],
+      "correct_answer": "Ionic bonds transfer electrons between atoms; covalent bonds share electrons",
+      "explanation": "Ionic bonds: one atom loses electrons, one gains them, creating oppositely charged ions that attract (e.g., NaCl — table salt). Covalent bonds: atoms share electrons (e.g., H₂O, CO₂). Ionic bonds form between metals and nonmetals; covalent between nonmetals."
+    }
+  },
+  {
+    "title": "Ecology: invasive species",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "An invasive species is introduced to a new ecosystem. Why can it often outcompete native species?",
+      "type": "multiple_choice",
+      "options": ["It always reproduces faster than native species", "It often has no natural predators in the new environment", "It instantly adapts to any new environment", "Native species always accept newcomers peacefully"],
+      "correct_answer": "It often has no natural predators in the new environment",
+      "explanation": "In its native habitat, an organism is kept in check by predators, parasites, and disease. In a new ecosystem, these controls may not exist, allowing the species to reproduce unchecked and overwhelm native competitors."
+    }
+  },
+  {
+    "title": "Human body: nervous system",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is the difference between the central nervous system (CNS) and the peripheral nervous system (PNS)?",
+      "type": "multiple_choice",
+      "options": ["The CNS includes all nerves; the PNS is only in the brain", "The CNS is the brain and spinal cord; the PNS is all other nerves in the body", "The PNS controls voluntary movement; the CNS controls involuntary", "They are two names for the same system"],
+      "correct_answer": "The CNS is the brain and spinal cord; the PNS is all other nerves in the body",
+      "explanation": "The CNS (brain + spinal cord) is the command center — it processes information and coordinates responses. The PNS is the network of nerves that carries signals between the CNS and the rest of the body."
+    }
+  },
+  {
+    "title": "Human body: hormones",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "When blood sugar rises after eating, the pancreas releases insulin. What does insulin do?",
+      "type": "multiple_choice",
+      "options": ["It breaks down fat for energy", "It signals cells to absorb glucose, lowering blood sugar", "It stimulates hunger", "It raises blood pressure"],
+      "correct_answer": "It signals cells to absorb glucose, lowering blood sugar",
+      "explanation": "Insulin is a hormone that acts like a key — it 'unlocks' cells so they can absorb glucose from the bloodstream. This lowers blood sugar back to normal. In Type 1 diabetes, the pancreas doesn't produce insulin; in Type 2, cells don't respond to it properly."
+    }
+  },
+  {
+    "title": "Scientific method: control group",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "In a drug trial, one group takes the new medication and another takes a sugar pill (placebo). What is the purpose of the placebo group?",
+      "type": "multiple_choice",
+      "options": ["To make the trial cheaper", "To serve as a baseline comparison so results can be attributed to the drug", "To ensure the drug is tested on unhealthy people", "To measure how effective placebos are"],
+      "correct_answer": "To serve as a baseline comparison so results can be attributed to the drug",
+      "explanation": "The control group (placebo) shows what happens without the treatment. Any difference between the groups can then be attributed to the drug itself. Without a control, you can't know if improvements were due to the drug or other factors."
+    }
+  },
+  {
+    "title": "Physics: momentum",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A 2 kg ball moving at 6 m/s collides with a stationary 4 kg ball. If they stick together, what is their combined velocity? (Assume no external forces.)",
+      "type": "multiple_choice",
+      "options": ["6 m/s", "3 m/s", "2 m/s", "4 m/s"],
+      "correct_answer": "2 m/s",
+      "explanation": "Conservation of momentum: p before = p after. Before: (2 kg × 6 m/s) + (4 kg × 0) = 12 kg·m/s. After: (2+4) kg × v = 12. v = 12 ÷ 6 = 2 m/s. Momentum is always conserved in a closed system."
+    }
+  },
+  {
+    "title": "Ecology: greenhouse effect",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The greenhouse effect is a natural process. Why is it currently a problem?",
+      "type": "multiple_choice",
+      "options": ["The greenhouse effect has never been natural — it is entirely human-caused", "Human activities are increasing greenhouse gas concentrations, trapping more heat than natural levels", "The Sun is emitting more radiation than in the past", "The ozone layer is growing thicker, trapping more light"],
+      "correct_answer": "Human activities are increasing greenhouse gas concentrations, trapping more heat than natural levels",
+      "explanation": "The natural greenhouse effect keeps Earth warm enough for life. The problem is enhancement: burning fossil fuels, deforestation, and agriculture add extra CO₂, methane, and nitrous oxide, trapping more heat and disrupting the global climate balance."
+    }
+  },
+  {
+    "title": "Human body: immune system",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "How do vaccines help the immune system fight disease?",
+      "type": "multiple_choice",
+      "options": ["They kill all bacteria in the body", "They introduce a weakened or inactive form of a pathogen so the immune system can build memory without full infection", "They increase body temperature to destroy viruses", "They replace white blood cells with stronger ones"],
+      "correct_answer": "They introduce a weakened or inactive form of a pathogen so the immune system can build memory without full infection",
+      "explanation": "Vaccines expose the immune system to an antigen (part of a pathogen or a weakened form) without causing disease. The immune system creates memory B-cells. If the real pathogen appears later, the immune system recognizes and destroys it rapidly."
+    }
+  },
+  {
+    "title": "Periodic table: electron configuration",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 55,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "An atom of sodium (Na) has atomic number 11. How many electrons are in its outermost shell?",
+      "type": "multiple_choice",
+      "options": ["1", "2", "8", "11"],
+      "correct_answer": "1",
+      "explanation": "Sodium has 11 electrons. Filled shells: 1st shell = 2, 2nd shell = 8, leaving 11 − 10 = 1 electron in the 3rd shell. This lone valence electron explains why sodium reacts readily — it easily loses that electron to achieve a stable full shell."
+    }
+  },
+  {
+    "title": "Physics: gravitational potential energy",
+    "subject": "science",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A 3 kg book is lifted to a shelf 2 meters high. Using PE = mgh (g = 10 m/s²), what is its gravitational potential energy?",
+      "type": "multiple_choice",
+      "options": ["6 J", "30 J", "60 J", "600 J"],
+      "correct_answer": "60 J",
+      "explanation": "PE = mgh = 3 kg × 10 m/s² × 2 m = 60 J (joules). This energy is 'stored' — if the book falls, that potential energy converts to kinetic energy as it accelerates downward."
+    }
+  }
+]

@@ -8,7 +8,13 @@
  *
  * Never hardcode /sprites/<path> in components — always use spriteUrl() or
  * the named exports below.
+ *
+ * SPRITE_MANIFEST is the typed catalog used by the character creator UI.
+ * It groups entries by AvatarLayerCategory. Color-variant entries use a
+ * {color} placeholder in `path`; the compositor resolves the final URL.
  */
+
+import type { SpriteEntry, SpriteManifest } from '@/types/avatar'
 
 const BASE =
   (process.env.NEXT_PUBLIC_SPRITE_BASE_URL ?? '/sprites').replace(/\/$/, '')
@@ -19,7 +25,758 @@ export function spriteUrl(assetPath: string): string {
 }
 
 // ---------------------------------------------------------------------------
-// Body sprites
+// Shared color variant lists
+// ---------------------------------------------------------------------------
+
+/** Standard palette used by most clothing items. */
+const STANDARD_COLORS = [
+  'black', 'bluegray', 'blue', 'brown', 'charcoal', 'forest', 'gray',
+  'green', 'lavender', 'leather', 'maroon', 'navy', 'orange', 'pink',
+  'purple', 'red', 'rose', 'sky', 'slate', 'tan', 'teal', 'walnut',
+  'white', 'yellow',
+] as const
+
+/** Metal tones used by plate and heavier armour. */
+const METAL_COLORS = [
+  'brass', 'bronze', 'ceramic', 'copper', 'gold', 'iron', 'silver', 'steel',
+] as const
+
+// ---------------------------------------------------------------------------
+// Typed SPRITE_MANIFEST
+// ---------------------------------------------------------------------------
+
+/**
+ * Typed manifest of all character creator sprite options.
+ * Organized by AvatarLayerCategory. Import this in components that need
+ * to enumerate options for a given layer.
+ */
+export const SPRITE_MANIFEST = {
+
+  // -------------------------------------------------------------------------
+  // body
+  // -------------------------------------------------------------------------
+  body: {
+    body_female: {
+      id: 'body_female',
+      displayName: 'Body (Female)',
+      category: 'body',
+      path: '/sprites/bodies/female_walkcycle.png',
+      bodyType: 'female',
+    },
+    body_male: {
+      id: 'body_male',
+      displayName: 'Body (Male)',
+      category: 'body',
+      path: '/sprites/bodies/male_walkcycle.png',
+      bodyType: 'male',
+    },
+    body_princess: {
+      id: 'body_princess',
+      displayName: 'Body (Princess)',
+      category: 'body',
+      path: '/sprites/bodies/princess.png',
+      bodyType: 'female',
+    },
+    body_soldier: {
+      id: 'body_soldier',
+      displayName: 'Body (Soldier)',
+      category: 'body',
+      path: '/sprites/bodies/soldier.png',
+      bodyType: 'universal',
+    },
+  } satisfies Record<string, SpriteEntry>,
+
+  // -------------------------------------------------------------------------
+  // eyes  (no separate eye-layer sprites in this asset set — placeholder)
+  // -------------------------------------------------------------------------
+  eyes: {} satisfies Record<string, SpriteEntry>,
+
+  // -------------------------------------------------------------------------
+  // hair
+  // -------------------------------------------------------------------------
+  hair: {
+    afro: {
+      id: 'afro',
+      displayName: 'Afro',
+      category: 'hair',
+      path: '/sprites/hair/hair/afro/female.png',
+      pathMale: '/sprites/hair/hair/afro/male.png',
+      bodyType: 'universal',
+    },
+    balding: {
+      id: 'balding',
+      displayName: 'Balding',
+      category: 'hair',
+      path: '/sprites/hair/hair/balding/female.png',
+      pathMale: '/sprites/hair/hair/balding/male.png',
+      bodyType: 'universal',
+    },
+    bangs_bun: {
+      id: 'bangs_bun',
+      displayName: 'Bangs Bun',
+      category: 'hair',
+      path: '/sprites/hair/hair/bangs_bun/female.png',
+      pathMale: '/sprites/hair/hair/bangs_bun/male.png',
+      bodyType: 'universal',
+    },
+    bob: {
+      id: 'bob',
+      displayName: 'Bob',
+      category: 'hair',
+      path: '/sprites/hair/hair/bob/female.png',
+      pathMale: '/sprites/hair/hair/bob/male.png',
+      bodyType: 'universal',
+    },
+    bob_side_part: {
+      id: 'bob_side_part',
+      displayName: 'Bob (Side Part)',
+      category: 'hair',
+      path: '/sprites/hair/hair/bob_side_part/female.png',
+      pathMale: '/sprites/hair/hair/bob_side_part/male.png',
+      bodyType: 'universal',
+    },
+    braid: {
+      id: 'braid',
+      displayName: 'Braid',
+      category: 'hair',
+      path: '/sprites/hair/hair/braid/female.png',
+      pathMale: '/sprites/hair/hair/braid/male.png',
+      bodyType: 'universal',
+    },
+    braid2: {
+      id: 'braid2',
+      displayName: 'Braid (Alt)',
+      category: 'hair',
+      path: '/sprites/hair/hair/braid2/female.png',
+      pathMale: '/sprites/hair/hair/braid2/male.png',
+      bodyType: 'universal',
+    },
+    buzzcut: {
+      id: 'buzzcut',
+      displayName: 'Buzzcut',
+      category: 'hair',
+      path: '/sprites/hair/hair/buzzcut/female.png',
+      pathMale: '/sprites/hair/hair/buzzcut/male.png',
+      bodyType: 'universal',
+    },
+    cornrows: {
+      id: 'cornrows',
+      displayName: 'Cornrows',
+      category: 'hair',
+      path: '/sprites/hair/hair/cornrows/female.png',
+      pathMale: '/sprites/hair/hair/cornrows/male.png',
+      bodyType: 'universal',
+    },
+    cowlick: {
+      id: 'cowlick',
+      displayName: 'Cowlick',
+      category: 'hair',
+      path: '/sprites/hair/hair/cowlick/female.png',
+      pathMale: '/sprites/hair/hair/cowlick/male.png',
+      bodyType: 'universal',
+    },
+    cowlick_tall: {
+      id: 'cowlick_tall',
+      displayName: 'Cowlick (Tall)',
+      category: 'hair',
+      path: '/sprites/hair/hair/cowlick_tall/female.png',
+      pathMale: '/sprites/hair/hair/cowlick_tall/male.png',
+      bodyType: 'universal',
+    },
+    curly_long: {
+      id: 'curly_long',
+      displayName: 'Curly (Long)',
+      category: 'hair',
+      path: '/sprites/hair/hair/curly_long/female.png',
+      pathMale: '/sprites/hair/hair/curly_long/male.png',
+      bodyType: 'universal',
+    },
+    curly_short: {
+      id: 'curly_short',
+      displayName: 'Curly (Short)',
+      category: 'hair',
+      path: '/sprites/hair/hair/curly_short/female.png',
+      pathMale: '/sprites/hair/hair/curly_short/male.png',
+      bodyType: 'universal',
+    },
+    curtains: {
+      id: 'curtains',
+      displayName: 'Curtains',
+      category: 'hair',
+      path: '/sprites/hair/hair/curtains/female.png',
+      pathMale: '/sprites/hair/hair/curtains/male.png',
+      bodyType: 'universal',
+    },
+    curtains_long: {
+      id: 'curtains_long',
+      displayName: 'Curtains (Long)',
+      category: 'hair',
+      path: '/sprites/hair/hair/curtains_long/female.png',
+      pathMale: '/sprites/hair/hair/curtains_long/male.png',
+      bodyType: 'universal',
+    },
+    dreadlocks_long: {
+      id: 'dreadlocks_long',
+      displayName: 'Dreadlocks (Long)',
+      category: 'hair',
+      path: '/sprites/hair/hair/dreadlocks_long/female.png',
+      pathMale: '/sprites/hair/hair/dreadlocks_long/male.png',
+      bodyType: 'universal',
+    },
+    dreadlocks_short: {
+      id: 'dreadlocks_short',
+      displayName: 'Dreadlocks (Short)',
+      category: 'hair',
+      path: '/sprites/hair/hair/dreadlocks_short/female.png',
+      pathMale: '/sprites/hair/hair/dreadlocks_short/male.png',
+      bodyType: 'universal',
+    },
+    flat_top_fade: {
+      id: 'flat_top_fade',
+      displayName: 'Flat Top Fade',
+      category: 'hair',
+      path: '/sprites/hair/hair/flat_top_fade/female.png',
+      pathMale: '/sprites/hair/hair/flat_top_fade/male.png',
+      bodyType: 'universal',
+    },
+    flat_top_straight: {
+      id: 'flat_top_straight',
+      displayName: 'Flat Top Straight',
+      category: 'hair',
+      path: '/sprites/hair/hair/flat_top_straight/female.png',
+      pathMale: '/sprites/hair/hair/flat_top_straight/male.png',
+      bodyType: 'universal',
+    },
+    half_up: {
+      id: 'half_up',
+      displayName: 'Half Up',
+      category: 'hair',
+      path: '/sprites/hair/hair/half_up/female.png',
+      pathMale: '/sprites/hair/hair/half_up/male.png',
+      bodyType: 'universal',
+    },
+    halfmessy: {
+      id: 'halfmessy',
+      displayName: 'Half Messy',
+      category: 'hair',
+      path: '/sprites/hair/hair/halfmessy/female.png',
+      pathMale: '/sprites/hair/hair/halfmessy/male.png',
+      bodyType: 'universal',
+    },
+    high_and_tight: {
+      id: 'high_and_tight',
+      displayName: 'High & Tight',
+      category: 'hair',
+      path: '/sprites/hair/hair/high_and_tight/female.png',
+      pathMale: '/sprites/hair/hair/high_and_tight/male.png',
+      bodyType: 'universal',
+    },
+    high_ponytail: {
+      id: 'high_ponytail',
+      displayName: 'High Ponytail',
+      category: 'hair',
+      path: '/sprites/hair/hair/high_ponytail/female.png',
+      pathMale: '/sprites/hair/hair/high_ponytail/male.png',
+      bodyType: 'universal',
+    },
+    idol: {
+      id: 'idol',
+      displayName: 'Idol',
+      category: 'hair',
+      path: '/sprites/hair/hair/idol/female.png',
+      pathMale: '/sprites/hair/hair/idol/male.png',
+      bodyType: 'universal',
+    },
+    lob: {
+      id: 'lob',
+      displayName: 'Lob',
+      category: 'hair',
+      path: '/sprites/hair/hair/lob/female.png',
+      pathMale: '/sprites/hair/hair/lob/male.png',
+      bodyType: 'universal',
+    },
+    long_band: {
+      id: 'long_band',
+      displayName: 'Long with Band',
+      category: 'hair',
+      path: '/sprites/hair/hair/long_band/female.png',
+      pathMale: '/sprites/hair/hair/long_band/male.png',
+      bodyType: 'universal',
+    },
+    long_center_part: {
+      id: 'long_center_part',
+      displayName: 'Long Center Part',
+      category: 'hair',
+      path: '/sprites/hair/hair/long_center_part/female.png',
+      pathMale: '/sprites/hair/hair/long_center_part/male.png',
+      bodyType: 'universal',
+    },
+    long_messy: {
+      id: 'long_messy',
+      displayName: 'Long Messy',
+      category: 'hair',
+      path: '/sprites/hair/hair/long_messy/female.png',
+      pathMale: '/sprites/hair/hair/long_messy/male.png',
+      bodyType: 'universal',
+    },
+    long_messy2: {
+      id: 'long_messy2',
+      displayName: 'Long Messy (Alt)',
+      category: 'hair',
+      path: '/sprites/hair/hair/long_messy2/female.png',
+      pathMale: '/sprites/hair/hair/long_messy2/male.png',
+      bodyType: 'universal',
+    },
+    long_tied: {
+      id: 'long_tied',
+      displayName: 'Long Tied',
+      category: 'hair',
+      path: '/sprites/hair/hair/long_tied/female.png',
+      pathMale: '/sprites/hair/hair/long_tied/male.png',
+      bodyType: 'universal',
+    },
+    messy3: {
+      id: 'messy3',
+      displayName: 'Messy',
+      category: 'hair',
+      path: '/sprites/hair/hair/messy3/female.png',
+      pathMale: '/sprites/hair/hair/messy3/male.png',
+      bodyType: 'universal',
+    },
+    mop: {
+      id: 'mop',
+      displayName: 'Mop',
+      category: 'hair',
+      path: '/sprites/hair/hair/mop/female.png',
+      pathMale: '/sprites/hair/hair/mop/male.png',
+      bodyType: 'universal',
+    },
+    natural: {
+      id: 'natural',
+      displayName: 'Natural',
+      category: 'hair',
+      path: '/sprites/hair/hair/natural/female.png',
+      pathMale: '/sprites/hair/hair/natural/male.png',
+      bodyType: 'universal',
+    },
+    part2: {
+      id: 'part2',
+      displayName: 'Side Part',
+      category: 'hair',
+      path: '/sprites/hair/hair/part2/female.png',
+      pathMale: '/sprites/hair/hair/part2/male.png',
+      bodyType: 'universal',
+    },
+    pigtails: {
+      id: 'pigtails',
+      displayName: 'Pigtails',
+      category: 'hair',
+      path: '/sprites/hair/hair/pigtails/female.png',
+      pathMale: '/sprites/hair/hair/pigtails/male.png',
+      bodyType: 'universal',
+    },
+    pigtails_bangs: {
+      id: 'pigtails_bangs',
+      displayName: 'Pigtails with Bangs',
+      category: 'hair',
+      path: '/sprites/hair/hair/pigtails_bangs/female.png',
+      pathMale: '/sprites/hair/hair/pigtails_bangs/male.png',
+      bodyType: 'universal',
+    },
+    sara: {
+      id: 'sara',
+      displayName: 'Sara',
+      category: 'hair',
+      path: '/sprites/hair/hair/sara/female.png',
+      pathMale: '/sprites/hair/hair/sara/male.png',
+      bodyType: 'universal',
+    },
+    spiked: {
+      id: 'spiked',
+      displayName: 'Spiked',
+      category: 'hair',
+      path: '/sprites/hair/hair/spiked/female.png',
+      pathMale: '/sprites/hair/hair/spiked/male.png',
+      bodyType: 'universal',
+    },
+    spiked2: {
+      id: 'spiked2',
+      displayName: 'Spiked (Alt)',
+      category: 'hair',
+      path: '/sprites/hair/hair/spiked2/female.png',
+      pathMale: '/sprites/hair/hair/spiked2/male.png',
+      bodyType: 'universal',
+    },
+    spiked_beehive: {
+      id: 'spiked_beehive',
+      displayName: 'Beehive Spiked',
+      category: 'hair',
+      path: '/sprites/hair/hair/spiked_beehive/female.png',
+      pathMale: '/sprites/hair/hair/spiked_beehive/male.png',
+      bodyType: 'universal',
+    },
+    spiked_liberty: {
+      id: 'spiked_liberty',
+      displayName: 'Liberty Spikes',
+      category: 'hair',
+      path: '/sprites/hair/hair/spiked_liberty/female.png',
+      pathMale: '/sprites/hair/hair/spiked_liberty/male.png',
+      bodyType: 'universal',
+    },
+    spiked_liberty2: {
+      id: 'spiked_liberty2',
+      displayName: 'Liberty Spikes (Alt)',
+      category: 'hair',
+      path: '/sprites/hair/hair/spiked_liberty2/female.png',
+      pathMale: '/sprites/hair/hair/spiked_liberty2/male.png',
+      bodyType: 'universal',
+    },
+    spiked_porcupine: {
+      id: 'spiked_porcupine',
+      displayName: 'Porcupine Spikes',
+      category: 'hair',
+      path: '/sprites/hair/hair/spiked_porcupine/female.png',
+      pathMale: '/sprites/hair/hair/spiked_porcupine/male.png',
+      bodyType: 'universal',
+    },
+    twists_fade: {
+      id: 'twists_fade',
+      displayName: 'Twists Fade',
+      category: 'hair',
+      path: '/sprites/hair/hair/twists_fade/female.png',
+      pathMale: '/sprites/hair/hair/twists_fade/male.png',
+      bodyType: 'universal',
+    },
+    twists_straight: {
+      id: 'twists_straight',
+      displayName: 'Twists Straight',
+      category: 'hair',
+      path: '/sprites/hair/hair/twists_straight/female.png',
+      pathMale: '/sprites/hair/hair/twists_straight/male.png',
+      bodyType: 'universal',
+    },
+  } satisfies Record<string, SpriteEntry>,
+
+  // -------------------------------------------------------------------------
+  // pants
+  // -------------------------------------------------------------------------
+  pants: {
+    pants: {
+      id: 'pants',
+      displayName: 'Pants',
+      category: 'pants',
+      path: '/sprites/clothing/legs/pants/female/{color}.png',
+      pathMale: '/sprites/clothing/legs/pants/teen/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'universal',
+    },
+    leggings: {
+      id: 'leggings',
+      displayName: 'Leggings',
+      category: 'pants',
+      path: '/sprites/clothing/legs/leggings/female/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'female',
+    },
+    skirt_plain: {
+      id: 'skirt_plain',
+      displayName: 'Skirt (Plain)',
+      category: 'pants',
+      path: '/sprites/clothing/legs/skirts/plain/female/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'female',
+    },
+    skirt_slit: {
+      id: 'skirt_slit',
+      displayName: 'Skirt (Slit)',
+      category: 'pants',
+      path: '/sprites/clothing/legs/skirts/slit/female/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'female',
+    },
+    skirt_straight: {
+      id: 'skirt_straight',
+      displayName: 'Skirt (Straight)',
+      category: 'pants',
+      path: '/sprites/clothing/legs/skirts/straight/female/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'female',
+    },
+    skirt_overskirt: {
+      id: 'skirt_overskirt',
+      displayName: 'Overskirt',
+      category: 'pants',
+      path: '/sprites/clothing/legs/skirts/overskirt/female/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'female',
+    },
+    plate_legs: {
+      id: 'plate_legs',
+      displayName: 'Plate Legguards',
+      category: 'pants',
+      path: '/sprites/clothing/legs/armour/plate/female/{color}.png',
+      pathMale: '/sprites/clothing/legs/armour/plate/male/{color}.png',
+      colorVariants: METAL_COLORS,
+      bodyType: 'universal',
+    },
+  } satisfies Record<string, SpriteEntry>,
+
+  // -------------------------------------------------------------------------
+  // shirt
+  // -------------------------------------------------------------------------
+  shirt: {
+    blouse: {
+      id: 'blouse',
+      displayName: 'Blouse',
+      category: 'shirt',
+      path: '/sprites/clothing/torso/clothes/blouse/female/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'female',
+    },
+    blouse_longsleeve: {
+      id: 'blouse_longsleeve',
+      displayName: 'Blouse (Long Sleeve)',
+      category: 'shirt',
+      path: '/sprites/clothing/torso/clothes/blouse_longsleeve/female/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'female',
+    },
+    longsleeve: {
+      id: 'longsleeve',
+      displayName: 'Long Sleeve Shirt',
+      category: 'shirt',
+      path: '/sprites/clothing/torso/clothes/longsleeve/female/{color}.png',
+      pathMale: '/sprites/clothing/torso/clothes/longsleeve/male/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'universal',
+    },
+    shortsleeve: {
+      id: 'shortsleeve',
+      displayName: 'Short Sleeve Shirt',
+      category: 'shirt',
+      path: '/sprites/clothing/torso/clothes/shortsleeve/female/{color}.png',
+      pathMale: '/sprites/clothing/torso/clothes/shortsleeve/male/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'universal',
+    },
+    tunic: {
+      id: 'tunic',
+      displayName: 'Tunic',
+      category: 'shirt',
+      path: '/sprites/clothing/torso/clothes/tunic/female/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'female',
+    },
+    tabard: {
+      id: 'tabard',
+      displayName: 'Tabard',
+      category: 'shirt',
+      path: '/sprites/clothing/torso/jacket/tabard/female/{color}.png',
+      pathMale: '/sprites/clothing/torso/jacket/tabard/male/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'universal',
+    },
+    leather_armour: {
+      id: 'leather_armour',
+      displayName: 'Leather Armour',
+      category: 'shirt',
+      path: '/sprites/clothing/torso/armour/leather/female/{color}.png',
+      pathMale: '/sprites/clothing/torso/armour/leather/male/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'universal',
+    },
+    plate_armour: {
+      id: 'plate_armour',
+      displayName: 'Plate Armour',
+      category: 'shirt',
+      path: '/sprites/clothing/torso/armour/plate/female/{color}.png',
+      pathMale: '/sprites/clothing/torso/armour/plate/male/{color}.png',
+      colorVariants: METAL_COLORS,
+      bodyType: 'universal',
+    },
+    legion_armour: {
+      id: 'legion_armour',
+      displayName: 'Legion Armour',
+      category: 'shirt',
+      path: '/sprites/clothing/torso/armour/legion/female/{color}.png',
+      pathMale: '/sprites/clothing/torso/armour/legion/male/{color}.png',
+      colorVariants: METAL_COLORS,
+      bodyType: 'universal',
+    },
+    chainmail: {
+      id: 'chainmail',
+      displayName: 'Chainmail',
+      category: 'shirt',
+      path: '/sprites/clothing/torso/chainmail/female/{color}.png',
+      pathMale: '/sprites/clothing/torso/chainmail/male/{color}.png',
+      colorVariants: ['gray'] as const,
+      bodyType: 'universal',
+    },
+    apron: {
+      id: 'apron',
+      displayName: 'Apron',
+      category: 'shirt',
+      path: '/sprites/clothing/torso/aprons/apron/female/{color}.png',
+      pathMale: '/sprites/clothing/torso/aprons/apron/male/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'universal',
+    },
+    overalls: {
+      id: 'overalls',
+      displayName: 'Overalls',
+      category: 'shirt',
+      path: '/sprites/clothing/torso/aprons/overalls/female/{color}.png',
+      pathMale: '/sprites/clothing/torso/aprons/overalls/male/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'universal',
+    },
+  } satisfies Record<string, SpriteEntry>,
+
+  // -------------------------------------------------------------------------
+  // boots
+  // -------------------------------------------------------------------------
+  boots: {
+    boots: {
+      id: 'boots',
+      displayName: 'Boots',
+      category: 'boots',
+      path: '/sprites/clothing/feet/boots/female/{color}.png',
+      pathMale: '/sprites/clothing/feet/boots/male/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'universal',
+    },
+    shoes: {
+      id: 'shoes',
+      displayName: 'Shoes',
+      category: 'boots',
+      path: '/sprites/clothing/feet/shoes/female/{color}.png',
+      pathMale: '/sprites/clothing/feet/shoes/male/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'universal',
+    },
+    sandals: {
+      id: 'sandals',
+      displayName: 'Sandals',
+      category: 'boots',
+      path: '/sprites/clothing/feet/sandals/female/{color}.png',
+      pathMale: '/sprites/clothing/feet/sandals/male/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'universal',
+    },
+    slippers: {
+      id: 'slippers',
+      displayName: 'Slippers',
+      category: 'boots',
+      path: '/sprites/clothing/feet/slippers/female/{color}.png',
+      pathMale: '/sprites/clothing/feet/slippers/male/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'universal',
+    },
+    ghillies: {
+      id: 'ghillies',
+      displayName: 'Ghillie Shoes',
+      category: 'boots',
+      path: '/sprites/clothing/feet/ghillies/female/{color}.png',
+      pathMale: '/sprites/clothing/feet/ghillies/male/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'universal',
+    },
+    plate_boots: {
+      id: 'plate_boots',
+      displayName: 'Plate Sabatons',
+      category: 'boots',
+      path: '/sprites/clothing/feet/armour/plate/female/{color}.png',
+      pathMale: '/sprites/clothing/feet/armour/plate/male/{color}.png',
+      colorVariants: METAL_COLORS,
+      bodyType: 'universal',
+    },
+  } satisfies Record<string, SpriteEntry>,
+
+  // -------------------------------------------------------------------------
+  // hands  (no dedicated hand/glove sprites found in current asset set)
+  // -------------------------------------------------------------------------
+  hands: {} satisfies Record<string, SpriteEntry>,
+
+  // -------------------------------------------------------------------------
+  // belt  (no dedicated belt sprites found in current asset set)
+  // -------------------------------------------------------------------------
+  belt: {} satisfies Record<string, SpriteEntry>,
+
+  // -------------------------------------------------------------------------
+  // cape  (no dedicated cape sprites found in current asset set)
+  // -------------------------------------------------------------------------
+  cape: {} satisfies Record<string, SpriteEntry>,
+
+  // -------------------------------------------------------------------------
+  // helmet  (head clothing in this asset set is fantasy creature parts;
+  //          excluded from character creator — use helmet: null)
+  // -------------------------------------------------------------------------
+  helmet: {} satisfies Record<string, SpriteEntry>,
+
+  // -------------------------------------------------------------------------
+  // weapon  (weapon animation sheets — 1.png–4.png per action)
+  // -------------------------------------------------------------------------
+  weapon: {
+    sword: {
+      id: 'sword',
+      displayName: 'Sword',
+      category: 'weapon',
+      path: '/sprites/weapons/female/slash/1.png',
+      pathMale: '/sprites/weapons/male/slash/1.png',
+      bodyType: 'universal',
+    },
+    longsword: {
+      id: 'longsword',
+      displayName: 'Longsword',
+      category: 'weapon',
+      path: '/sprites/weapons/female/bigslash/1.png',
+      pathMale: '/sprites/weapons/male/bigslash/1.png',
+      bodyType: 'universal',
+    },
+    spear: {
+      id: 'spear',
+      displayName: 'Spear',
+      category: 'weapon',
+      path: '/sprites/weapons/female/thrust/1.png',
+      pathMale: '/sprites/weapons/male/thrust/1.png',
+      bodyType: 'universal',
+    },
+    bow: {
+      id: 'bow',
+      displayName: 'Bow',
+      category: 'weapon',
+      path: '/sprites/weapons/female/shoot/1.png',
+      pathMale: '/sprites/weapons/male/shoot/1.png',
+      bodyType: 'universal',
+    },
+  } satisfies Record<string, SpriteEntry>,
+
+  // -------------------------------------------------------------------------
+  // shield
+  // -------------------------------------------------------------------------
+  shield: {
+    shield_round: {
+      id: 'shield_round',
+      displayName: 'Round Shield',
+      category: 'shield',
+      path: '/sprites/weapons/female/shield/1.png',
+      pathMale: '/sprites/weapons/male/shield/1.png',
+      bodyType: 'universal',
+    },
+    shield_kite: {
+      id: 'shield_kite',
+      displayName: 'Kite Shield',
+      category: 'shield',
+      path: '/sprites/weapons/female/shield/2.png',
+      pathMale: '/sprites/weapons/male/shield/2.png',
+      bodyType: 'universal',
+    },
+  } satisfies Record<string, SpriteEntry>,
+
+} satisfies SpriteManifest
+
+// ---------------------------------------------------------------------------
+// Legacy exports — preserved for backward compatibility with existing code
 // ---------------------------------------------------------------------------
 
 export const BODIES = {
@@ -34,10 +791,6 @@ export const BODIES = {
   female_spellcast: spriteUrl('bodies/female_spellcast.png'),
   female_hurt:      spriteUrl('bodies/female_hurt.png'),
 } as const
-
-// ---------------------------------------------------------------------------
-// Hair sprites
-// ---------------------------------------------------------------------------
 
 export const HAIR_STYLES = [
   'afro',
@@ -95,19 +848,15 @@ export function hairUrl(style: HairStyle, variant: HairVariant): string {
   return spriteUrl(`hair/hair/${style}/${variant}.png`)
 }
 
-// ---------------------------------------------------------------------------
-// Clothing sprites
-// ---------------------------------------------------------------------------
-
 export const CLOTHING = {
   torso: {
-    plate_male:      spriteUrl('clothing/torso/armour/plate/male'),
-    plate_female:    spriteUrl('clothing/torso/armour/plate/female'),
-    leather_male:    spriteUrl('clothing/torso/armour/leather/male'),
-    leather_female:  spriteUrl('clothing/torso/armour/leather/female'),
-    legion_male:     spriteUrl('clothing/torso/armour/legion/male'),
-    legion_female:   spriteUrl('clothing/torso/armour/legion/female'),
-    chainmail_male:  spriteUrl('clothing/torso/chainmail/male'),
+    plate_male:       spriteUrl('clothing/torso/armour/plate/male'),
+    plate_female:     spriteUrl('clothing/torso/armour/plate/female'),
+    leather_male:     spriteUrl('clothing/torso/armour/leather/male'),
+    leather_female:   spriteUrl('clothing/torso/armour/leather/female'),
+    legion_male:      spriteUrl('clothing/torso/armour/legion/male'),
+    legion_female:    spriteUrl('clothing/torso/armour/legion/female'),
+    chainmail_male:   spriteUrl('clothing/torso/chainmail/male'),
     chainmail_female: spriteUrl('clothing/torso/chainmail/female'),
   },
   legs: {
@@ -115,41 +864,33 @@ export const CLOTHING = {
     plate_female: spriteUrl('clothing/legs/armour/plate/female'),
   },
   feet: {
-    boots_male:    spriteUrl('clothing/feet/boots/male'),
-    boots_female:  spriteUrl('clothing/feet/boots/female'),
-    shoes_male:    spriteUrl('clothing/feet/shoes/male'),
-    shoes_female:  spriteUrl('clothing/feet/shoes/female'),
-    sandals_male:  spriteUrl('clothing/feet/sandals/male'),
+    boots_male:     spriteUrl('clothing/feet/boots/male'),
+    boots_female:   spriteUrl('clothing/feet/boots/female'),
+    shoes_male:     spriteUrl('clothing/feet/shoes/male'),
+    shoes_female:   spriteUrl('clothing/feet/shoes/female'),
+    sandals_male:   spriteUrl('clothing/feet/sandals/male'),
     sandals_female: spriteUrl('clothing/feet/sandals/female'),
   },
 } as const
 
-// ---------------------------------------------------------------------------
-// Weapon sprites
-// ---------------------------------------------------------------------------
-
 export const WEAPONS = {
-  slash_male:     spriteUrl('weapons/male/slash'),
-  thrust_male:    spriteUrl('weapons/male/thrust'),
-  bigslash_male:  spriteUrl('weapons/male/bigslash'),
-  shield_male:    spriteUrl('weapons/male/shield'),
-  slash_female:   spriteUrl('weapons/female/slash'),
-  thrust_female:  spriteUrl('weapons/female/thrust'),
+  slash_male:      spriteUrl('weapons/male/slash'),
+  thrust_male:     spriteUrl('weapons/male/thrust'),
+  bigslash_male:   spriteUrl('weapons/male/bigslash'),
+  shield_male:     spriteUrl('weapons/male/shield'),
+  slash_female:    spriteUrl('weapons/female/slash'),
+  thrust_female:   spriteUrl('weapons/female/thrust'),
   bigslash_female: spriteUrl('weapons/female/bigslash'),
-  shield_female:  spriteUrl('weapons/female/shield'),
+  shield_female:   spriteUrl('weapons/female/shield'),
 } as const
 
-// ---------------------------------------------------------------------------
-// Boss sprites
-// ---------------------------------------------------------------------------
-
 export const BOSSES = {
-  dragon:      spriteUrl('bosses/dragon'),
+  dragon:       spriteUrl('bosses/dragon'),
   small_dragon: spriteUrl('bosses/small_dragon'),
-  medusa:      spriteUrl('bosses/medusa'),
-  lizard:      spriteUrl('bosses/lizard'),
-  jinn:        spriteUrl('bosses/jinn_animation'),
-  demon:       spriteUrl('bosses/demon'),
+  medusa:       spriteUrl('bosses/medusa'),
+  lizard:       spriteUrl('bosses/lizard'),
+  jinn:         spriteUrl('bosses/jinn_animation'),
+  demon:        spriteUrl('bosses/demon'),
 } as const
 
 export type BossKey = keyof typeof BOSSES

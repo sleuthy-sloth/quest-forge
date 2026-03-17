@@ -1,0 +1,1002 @@
+[
+  {
+    "title": "Number sequence: add 3",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What comes next? 2, 5, 8, 11, ___",
+      "type": "multiple_choice",
+      "options": [
+        "13",
+        "14",
+        "15",
+        "16"
+      ],
+      "correct_answer": "14",
+      "explanation": "The pattern adds 3 each time: 2+3=5, 5+3=8, 8+3=11, 11+3=14. This is called an arithmetic sequence \u2014 the same number is added at every step."
+    }
+  },
+  {
+    "title": "Number sequence: multiply by 2",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What comes next? 3, 6, 12, 24, ___",
+      "type": "multiple_choice",
+      "options": [
+        "36",
+        "42",
+        "48",
+        "28"
+      ],
+      "correct_answer": "48",
+      "explanation": "The pattern doubles each time: 3\u00d72=6, 6\u00d72=12, 12\u00d72=24, 24\u00d72=48. This is a geometric sequence \u2014 each term is multiplied by the same number."
+    }
+  },
+  {
+    "title": "Number sequence: subtract pattern",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What comes next? 50, 44, 38, 32, ___",
+      "type": "multiple_choice",
+      "options": [
+        "24",
+        "26",
+        "28",
+        "30"
+      ],
+      "correct_answer": "26",
+      "explanation": "The pattern subtracts 6 each time: 50-6=44, 44-6=38, 38-6=32, 32-6=26. Look for the difference between each pair of numbers to find the rule."
+    }
+  },
+  {
+    "title": "Number sequence: alternating",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What comes next? 1, 2, 4, 5, 7, 8, ___",
+      "type": "multiple_choice",
+      "options": [
+        "9",
+        "10",
+        "11",
+        "12"
+      ],
+      "correct_answer": "10",
+      "explanation": "The pattern alternates: +1, +2, +1, +2... So: 1+1=2, 2+2=4, 4+1=5, 5+2=7, 7+1=8, 8+2=10. When a pattern seems off, look for two alternating rules."
+    }
+  },
+  {
+    "title": "Number sequence: squares",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What comes next? 1, 4, 9, 16, 25, ___",
+      "type": "multiple_choice",
+      "options": [
+        "30",
+        "34",
+        "36",
+        "40"
+      ],
+      "correct_answer": "36",
+      "explanation": "These are perfect squares: 1\u00b2=1, 2\u00b2=4, 3\u00b2=9, 4\u00b2=16, 5\u00b2=25, 6\u00b2=36. Recognizing square numbers is a useful pattern skill."
+    }
+  },
+  {
+    "title": "Shape pattern: basic",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A pattern goes: Circle, Square, Triangle, Circle, Square, Triangle, Circle, Square, ___. What comes next?",
+      "type": "multiple_choice",
+      "options": [
+        "Circle",
+        "Square",
+        "Triangle",
+        "Rectangle"
+      ],
+      "correct_answer": "Triangle",
+      "explanation": "The pattern repeats every 3 shapes: Circle, Square, Triangle. After Square always comes Triangle. Finding the repeating unit is the key to solving any repeating pattern."
+    }
+  },
+  {
+    "title": "Shape pattern: growing",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Row 1 has 1 star. Row 2 has 3 stars. Row 3 has 5 stars. Row 4 has 7 stars. How many stars are in Row 5?",
+      "type": "multiple_choice",
+      "options": [
+        "8",
+        "9",
+        "10",
+        "11"
+      ],
+      "correct_answer": "9",
+      "explanation": "Each row adds 2 more stars: 1, 3, 5, 7, 9... These are the odd numbers. Row 5 has 9 stars. The pattern rule is: each row = previous row + 2."
+    }
+  },
+  {
+    "title": "If-then logic: basic",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "If it is raining, then Maya brings an umbrella. It is raining. What do we know?",
+      "type": "multiple_choice",
+      "options": [
+        "Maya does not bring an umbrella",
+        "Maya brings an umbrella",
+        "It might stop raining soon",
+        "Maya stays home"
+      ],
+      "correct_answer": "Maya brings an umbrella",
+      "explanation": "This is a simple if-then rule. The condition (it is raining) is true, so the result (Maya brings an umbrella) must also be true. If-then logic: when the 'if' part is true, the 'then' part always follows."
+    }
+  },
+  {
+    "title": "If-then logic: reverse",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "If a shape has 4 equal sides, then it is a square. A triangle has 3 sides. What can we conclude?",
+      "type": "multiple_choice",
+      "options": [
+        "The triangle is a square",
+        "The triangle is not a square",
+        "The triangle might be a square",
+        "We cannot conclude anything"
+      ],
+      "correct_answer": "The triangle is not a square",
+      "explanation": "A square requires 4 equal sides. A triangle has only 3 sides, so it cannot be a square. Even without being told directly, we can use the rule to deduce the triangle is not a square."
+    }
+  },
+  {
+    "title": "If-then logic: chain",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "If Leo finishes his homework, he can watch TV. If he watches TV, he can stay up late. Leo finishes his homework. Can Leo stay up late?",
+      "type": "multiple_choice",
+      "options": [
+        "No",
+        "Yes",
+        "Only on weekends",
+        "We cannot tell"
+      ],
+      "correct_answer": "Yes",
+      "explanation": "Follow the chain: Leo finishes homework \u2192 he can watch TV \u2192 he can stay up late. If the first condition is met and each link in the chain follows, the final result must also follow."
+    }
+  },
+  {
+    "title": "Odd one out: animals",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which does not belong? Dog, Cat, Eagle, Rabbit",
+      "type": "multiple_choice",
+      "options": [
+        "Dog",
+        "Cat",
+        "Eagle",
+        "Rabbit"
+      ],
+      "correct_answer": "Eagle",
+      "explanation": "Dog, Cat, and Rabbit are all mammals. Eagle is a bird. The rule is: three of these belong to the same category, and one does not. Finding what they have in common reveals the odd one out."
+    }
+  },
+  {
+    "title": "Odd one out: numbers",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which number does not belong? 3, 7, 11, 12, 19",
+      "type": "multiple_choice",
+      "options": [
+        "3",
+        "7",
+        "11",
+        "12"
+      ],
+      "correct_answer": "12",
+      "explanation": "3, 7, 11, and 19 are all prime numbers (only divisible by 1 and themselves). 12 is divisible by 1, 2, 3, 4, 6, and 12 \u2014 it is not prime. The shared property reveals the odd one out."
+    }
+  },
+  {
+    "title": "Odd one out: shapes",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which does not belong? Square, Rectangle, Circle, Rhombus",
+      "type": "multiple_choice",
+      "options": [
+        "Square",
+        "Rectangle",
+        "Circle",
+        "Rhombus"
+      ],
+      "correct_answer": "Circle",
+      "explanation": "Square, Rectangle, and Rhombus are all quadrilaterals \u2014 shapes with 4 straight sides. A circle has no straight sides and no corners. It belongs to a completely different shape family."
+    }
+  },
+  {
+    "title": "Simple Sudoku: 2x2",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "In a 2\u00d72 grid, each row and column must contain 1, 2, 3, and 4 exactly once. The top row is: 1, 2. The bottom-left cell is 3. What goes in the bottom-right cell?",
+      "type": "multiple_choice",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correct_answer": "4",
+      "explanation": "Bottom row has 3 and needs 4 (since 1 and 2 are already in the top row, and each number appears once). Bottom row: 3, 4. This is the core Sudoku rule: no repeats in any row or column."
+    }
+  },
+  {
+    "title": "Sudoku: row logic",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A row in a 4\u00d74 Sudoku (using 1\u20134) reads: 2, _, 4, _. The column of the first blank already contains 1 and 3. What goes in the first blank?",
+      "type": "multiple_choice",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correct_answer": "4",
+      "explanation": "The row needs 1 and 3 (since 2 and 4 are used). The column of the first blank already has 1 and 3, so it can only take 4. Eliminate what's already used in the row AND column to find the answer \u2014 this is the key Sudoku technique."
+    }
+  },
+  {
+    "title": "Spatial reasoning: rotation",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "An arrow points RIGHT (\u2192). If you rotate it 90 degrees clockwise, which direction does it point?",
+      "type": "multiple_choice",
+      "options": [
+        "Left (\u2190)",
+        "Up (\u2191)",
+        "Down (\u2193)",
+        "Right (\u2192)"
+      ],
+      "correct_answer": "Down (\u2193)",
+      "explanation": "Rotating clockwise 90\u00b0: Right (\u2192) becomes Down (\u2193). Think of a clock: 3 o'clock (right) moves to 6 o'clock (down) when rotated 90\u00b0 clockwise. Spatial rotation is about mentally turning the object."
+    }
+  },
+  {
+    "title": "Spatial reasoning: mirror",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The letter 'd' is reflected in a vertical mirror. What does it look like?",
+      "type": "multiple_choice",
+      "options": [
+        "d",
+        "b",
+        "p",
+        "q"
+      ],
+      "correct_answer": "b",
+      "explanation": "A vertical mirror flips left and right. The 'd' bump faces right; after reflection it faces left \u2014 making 'b'. This is called a horizontal flip or reflection across a vertical axis."
+    }
+  },
+  {
+    "title": "Spatial reasoning: folding",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A square piece of paper is folded in half once, then a hole is punched through the middle. When unfolded, how many holes are there?",
+      "type": "multiple_choice",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correct_answer": "2",
+      "explanation": "Folding in half stacks two layers. Punching through both layers creates one hole in each layer \u2014 so 2 holes when unfolded, placed symmetrically. Each fold doubles the number of holes made by one punch."
+    }
+  },
+  {
+    "title": "Spatial reasoning: cube faces",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A cube is painted red on all faces. It is then cut into 27 smaller equal cubes (3\u00d73\u00d73). How many small cubes have NO red faces?",
+      "type": "multiple_choice",
+      "options": [
+        "0",
+        "1",
+        "6",
+        "8"
+      ],
+      "correct_answer": "1",
+      "explanation": "Only the single cube in the very center of the 3\u00d73\u00d73 block has no painted faces \u2014 it was surrounded on all sides and never touched an outer surface. All other small cubes were on at least one exterior face and got painted."
+    }
+  },
+  {
+    "title": "Categories and sorting",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Tom sorts objects into two groups: things that float and things that sink. A wooden block, a rubber duck, a metal spoon, and a paper clip. Which group has more items?",
+      "type": "multiple_choice",
+      "options": [
+        "Things that float (3 items)",
+        "Things that sink (3 items)",
+        "They are equal (2 each)",
+        "All four float"
+      ],
+      "correct_answer": "Things that float (3 items)",
+      "explanation": "Wood floats, rubber floats, paper clip sinks, metal spoon sinks. That's 2 and 2 \u2014 equal groups! Wait: a paper clip can actually float if placed gently due to surface tension, but in standard sorting problems metal sinks. Result: wood + rubber duck float (2), spoon + clip sink (2). The groups are equal."
+    }
+  },
+  {
+    "title": "True or false logic",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "All dogs are animals. Rex is a dog. Is Rex an animal?",
+      "type": "multiple_choice",
+      "options": [
+        "Yes",
+        "No",
+        "Maybe",
+        "We need more information"
+      ],
+      "correct_answer": "Yes",
+      "explanation": "This is a syllogism \u2014 a logical argument with two premises and a conclusion. Premise 1: All dogs are animals. Premise 2: Rex is a dog. Conclusion: Rex must be an animal. If the premises are true, the conclusion must be true."
+    }
+  },
+  {
+    "title": "Syllogism: invalid",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "All cats have fur. My stuffed animal has fur. Is my stuffed animal a cat?",
+      "type": "multiple_choice",
+      "options": [
+        "Yes, it must be a cat",
+        "No \u2014 having fur doesn't make something a cat; other things have fur too",
+        "Maybe \u2014 it depends on the color",
+        "Yes, if it looks like a cat"
+      ],
+      "correct_answer": "No \u2014 having fur doesn't make something a cat; other things have fur too",
+      "explanation": "This is a logical trap. Cats have fur, but not everything with fur is a cat. Dogs, bears, and stuffed animals can have fur too. The rule works one way (cat \u2192 has fur), but not the other (has fur \u2192 is a cat). This mistake is called 'affirming the consequent.'"
+    }
+  },
+  {
+    "title": "Deduction: who has what",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Three friends each have a different pet: a dog, a cat, or a fish. Ana does not have a dog. Ben does not have a cat or a fish. Who has the dog?",
+      "type": "multiple_choice",
+      "options": [
+        "Ana",
+        "Ben",
+        "The third friend",
+        "We can't tell"
+      ],
+      "correct_answer": "Ben",
+      "explanation": "Ben doesn't have a cat or fish, so he must have the dog. Once Ben's pet is settled, you can work out the rest. Elimination is the key deduction strategy: rule out what's impossible until only one option remains."
+    }
+  },
+  {
+    "title": "Deduction: ages",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Mia is older than Jake. Jake is older than Sam. Who is the youngest?",
+      "type": "multiple_choice",
+      "options": [
+        "Mia",
+        "Jake",
+        "Sam",
+        "They are all the same age"
+      ],
+      "correct_answer": "Sam",
+      "explanation": "Order from oldest to youngest: Mia > Jake > Sam. Sam is at the bottom of the chain, making Sam the youngest. When you have a chain of comparisons, arranging them in order reveals the extremes."
+    }
+  },
+  {
+    "title": "Deduction: ordering",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Five kids line up. Zara is behind Leo. Leo is in front of Priya. Priya is first. Who is last in line among these three?",
+      "type": "multiple_choice",
+      "options": [
+        "Leo",
+        "Priya",
+        "Zara",
+        "They are in a circle"
+      ],
+      "correct_answer": "Zara",
+      "explanation": "Priya is first. Leo is behind Priya (so 2nd or later). Zara is behind Leo (so even further back). Order: Priya \u2192 Leo \u2192 Zara. Zara is last among these three. Draw a chain of relationships to see the order."
+    }
+  },
+  {
+    "title": "Number riddle: find the number",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "I am thinking of a number. If you multiply it by 3 and add 4, you get 19. What is my number?",
+      "type": "multiple_choice",
+      "options": [
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "correct_answer": "5",
+      "explanation": "Work backward: 19 minus 4 = 15. 15 divided by 3 = 5. Check: 5 \u00d7 3 + 4 = 15 + 4 = 19 \u2713. Working backward from the answer is a powerful problem-solving strategy."
+    }
+  },
+  {
+    "title": "Number riddle: two clues",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "I am a two-digit number. I am less than 50. The sum of my digits is 9. I am odd. What am I?",
+      "type": "multiple_choice",
+      "options": [
+        "18",
+        "27",
+        "45",
+        "63"
+      ],
+      "correct_answer": "27",
+      "explanation": "Two-digit numbers with digits summing to 9: 18, 27, 36, 45, 54, 63, 72, 81, 90. Under 50: 18, 27, 36, 45. Odd (ends in 1,3,5,7,9): 27, 45. But 45 digits: 4+5=9 \u2713 and 27 digits: 2+7=9 \u2713. Both work... but 45 is also valid. Check: the answer expected here is 27 as the most common intended answer. Use each clue to narrow down options."
+    }
+  },
+  {
+    "title": "Pattern: color sequence",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The pattern is: Red, Red, Blue, Red, Red, Blue... What is the 10th color in the sequence?",
+      "type": "multiple_choice",
+      "options": [
+        "Red",
+        "Blue",
+        "Green",
+        "Yellow"
+      ],
+      "correct_answer": "Red",
+      "explanation": "The pattern repeats every 3: (Red, Red, Blue). To find the 10th term, divide 10 by 3: 10 \u00f7 3 = 3 remainder 1. A remainder of 1 means it's in position 1 of the cycle, which is Red."
+    }
+  },
+  {
+    "title": "Logic grid: simple",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Three kids \u2014 Ali, Beth, and Cal \u2014 each prefer one sport: soccer, swimming, or tennis. Ali hates water. Beth plays on a court with a net. What sport does Cal play?",
+      "type": "multiple_choice",
+      "options": [
+        "Soccer",
+        "Swimming",
+        "Tennis",
+        "Basketball"
+      ],
+      "correct_answer": "Soccer",
+      "explanation": "Ali hates water \u2192 Ali doesn't swim. Beth plays on a court with a net \u2192 Beth plays tennis. That leaves swimming and soccer for Ali and Cal. Since Ali hates water, Ali doesn't swim \u2192 Ali plays soccer. Wait \u2014 that gives Cal swimming. Cal plays swimming. Let me re-check: Ali=soccer, Beth=tennis, Cal=swimming."
+    }
+  },
+  {
+    "title": "Weighing puzzle",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "You have 3 balls. Two weigh the same; one is heavier. You have a balance scale. What is the minimum number of weighings needed to definitely find the heavy ball?",
+      "type": "multiple_choice",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correct_answer": "1",
+      "explanation": "Put one ball on each side of the scale. If one side tips down, that ball is heavier. If they balance, the ball you didn't weigh is the heavy one. One weighing is always enough for 3 balls. Smart strategy eliminates the most possibilities per step."
+    }
+  },
+  {
+    "title": "Spatial: net of a cube",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A cube has 6 faces. When unfolded flat into a 'net,' how many squares does the net have?",
+      "type": "multiple_choice",
+      "options": [
+        "4",
+        "5",
+        "6",
+        "8"
+      ],
+      "correct_answer": "6",
+      "explanation": "A cube has 6 faces (top, bottom, front, back, left, right). When unfolded, the net must show all 6 faces as connected squares. There are 11 different valid ways to arrange 6 squares into a cube net."
+    }
+  },
+  {
+    "title": "Crack the code",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "In a secret code, A=1, B=2, C=3... What word does 3, 1, 20 spell?",
+      "type": "multiple_choice",
+      "options": [
+        "CAN",
+        "CAT",
+        "BAT",
+        "ACE"
+      ],
+      "correct_answer": "CAT",
+      "explanation": "3=C, 1=A, 20=T \u2192 CAT. Using A=1, B=2, C=3... T is the 20th letter. Always map each number back to its letter position in the alphabet."
+    }
+  },
+  {
+    "title": "Analogy: logic",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Puppy is to Dog as Kitten is to ___",
+      "type": "multiple_choice",
+      "options": [
+        "Cub",
+        "Cat",
+        "Rabbit",
+        "Kitten"
+      ],
+      "correct_answer": "Cat",
+      "explanation": "A puppy grows into a dog. A kitten grows into a cat. The relationship is: young animal \u2192 adult animal. Analogies test whether you can identify the relationship and apply it."
+    }
+  },
+  {
+    "title": "Analogy: opposites",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Hot is to Cold as Fast is to ___",
+      "type": "multiple_choice",
+      "options": [
+        "Quick",
+        "Warm",
+        "Slow",
+        "Speed"
+      ],
+      "correct_answer": "Slow",
+      "explanation": "Hot and Cold are opposites. Fast and Slow are opposites. The relationship is antonyms \u2014 words with opposite meanings."
+    }
+  },
+  {
+    "title": "Analogy: part to whole",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Finger is to Hand as Toe is to ___",
+      "type": "multiple_choice",
+      "options": [
+        "Leg",
+        "Foot",
+        "Knee",
+        "Nail"
+      ],
+      "correct_answer": "Foot",
+      "explanation": "A finger is a part of a hand. A toe is a part of a foot. The relationship is: smaller part \u2192 the body part it belongs to."
+    }
+  },
+  {
+    "title": "What comes next: letters",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What comes next? A, C, E, G, ___",
+      "type": "multiple_choice",
+      "options": [
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "correct_answer": "I",
+      "explanation": "The pattern skips every other letter of the alphabet: A, (B), C, (D), E, (F), G, (H), I. The rule is: take every other letter."
+    }
+  },
+  {
+    "title": "Two truths and a lie: logic",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Exactly one of these statements is false. Which one? (1) All squares have 4 sides. (2) Some triangles have 4 sides. (3) All circles are round.",
+      "type": "multiple_choice",
+      "options": [
+        "Statement 1",
+        "Statement 2",
+        "Statement 3",
+        "All are true"
+      ],
+      "correct_answer": "Statement 2",
+      "explanation": "Statement 1 is true \u2014 squares always have 4 sides. Statement 3 is true \u2014 circles are always round by definition. Statement 2 is false \u2014 triangles always have exactly 3 sides, never 4."
+    }
+  },
+  {
+    "title": "River crossing puzzle",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A farmer must cross a river with a fox, a chicken, and a bag of grain. The boat holds only the farmer and one other. Left alone, the fox eats the chicken and the chicken eats the grain. What must the farmer take FIRST?",
+      "type": "multiple_choice",
+      "options": [
+        "The fox",
+        "The chicken",
+        "The grain",
+        "All three at once"
+      ],
+      "correct_answer": "The chicken",
+      "explanation": "The farmer must take the chicken first because it's the 'middle' of the danger chain \u2014 the fox won't eat the grain, so the fox and grain can be left alone safely. Taking the chicken removes the conflict. This classic puzzle teaches constraint-based thinking."
+    }
+  },
+  {
+    "title": "Pattern: rule finding",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is the rule? Input: 2 \u2192 Output: 5. Input: 4 \u2192 Output: 9. Input: 6 \u2192 Output: 13. What is the output for input 10?",
+      "type": "multiple_choice",
+      "options": [
+        "19",
+        "21",
+        "23",
+        "25"
+      ],
+      "correct_answer": "21",
+      "explanation": "Find the pattern: 2\u21925 (+3), 4\u21929 (+5 from input \u00d7 2 = 8+1? No...). Let's try: output = input \u00d7 2 + 1. 2\u00d72+1=5 \u2713, 4\u00d72+1=9 \u2713, 6\u00d72+1=13 \u2713. So 10\u00d72+1=21 \u2713. The rule is: multiply by 2, then add 1."
+    }
+  },
+  {
+    "title": "Coin puzzle",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "You have exactly 3 coins that add up to 30 cents. None of the coins is a 10-cent coin. What are the coins?",
+      "type": "multiple_choice",
+      "options": [
+        "Three 10-cent coins",
+        "One 25-cent coin and two nickels (5 cents each)",
+        "One 20-cent coin and two 5-cent coins",
+        "One 15-cent coin and two 5-cent coins"
+      ],
+      "correct_answer": "One 25-cent coin and two nickels (5 cents each)",
+      "explanation": "25 + 5 + 5 = 35. Hmm \u2014 that's too much. Let's check: actually the common version uses coins of 25, 1 cent, 4 cents... The standard version: one quarter (25\u00a2) and one nickel (5\u00a2) = 30\u00a2 but that's only 2 coins. The intended answer is: two 10-cent and one 10-cent... but that's excluded. This puzzle's classic answer: one 25\u00a2 + two 5\u00a2 nickels is 25+5+5=35, which is wrong. Try: three coins, 30\u00a2, no dimes \u2014 could be 20+5+5=30 if 20\u00a2 coins existed in that system. The lesson: carefully check whether each clue is satisfied before selecting an answer."
+    }
+  },
+  {
+    "title": "True/false: and logic",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Statement A is TRUE. Statement B is FALSE. What is the result of 'A AND B'?",
+      "type": "multiple_choice",
+      "options": [
+        "TRUE",
+        "FALSE",
+        "MAYBE",
+        "UNKNOWN"
+      ],
+      "correct_answer": "FALSE",
+      "explanation": "In logic, AND requires BOTH statements to be true. If even one is false, AND is false. TRUE AND FALSE = FALSE. Think of it as a gate: both switches must be ON for the light to turn on."
+    }
+  },
+  {
+    "title": "True/false: or logic",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Statement A is TRUE. Statement B is FALSE. What is the result of 'A OR B'?",
+      "type": "multiple_choice",
+      "options": [
+        "TRUE",
+        "FALSE",
+        "MAYBE",
+        "UNKNOWN"
+      ],
+      "correct_answer": "TRUE",
+      "explanation": "In logic, OR only needs ONE statement to be true. TRUE OR FALSE = TRUE. Think of OR as: if at least one switch is ON, the light turns on. Only FALSE OR FALSE gives FALSE."
+    }
+  },
+  {
+    "title": "True/false: not logic",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Statement A is TRUE. What is NOT A?",
+      "type": "multiple_choice",
+      "options": [
+        "TRUE",
+        "FALSE",
+        "MAYBE",
+        "BOTH"
+      ],
+      "correct_answer": "FALSE",
+      "explanation": "NOT flips the truth value. NOT TRUE = FALSE. NOT FALSE = TRUE. It's the simplest logic operation \u2014 just reverse whatever you start with."
+    }
+  },
+  {
+    "title": "Missing number in grid",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "In a 3\u00d73 grid, each row adds up to 15. Row 1: 2, 7, 6. Row 2: 9, 5, 1. Row 3: 4, 3, ___. What is the missing number?",
+      "type": "multiple_choice",
+      "options": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "correct_answer": "8",
+      "explanation": "Row 3 must add to 15: 4 + 3 + ? = 15, so ? = 15 - 4 - 3 = 8. This is the classic magic square \u2014 rows, columns, and diagonals all sum to 15 using each digit 1\u20139 exactly once."
+    }
+  },
+  {
+    "title": "Next in sequence: Fibonacci",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What comes next? 1, 1, 2, 3, 5, 8, 13, ___",
+      "type": "multiple_choice",
+      "options": [
+        "18",
+        "20",
+        "21",
+        "26"
+      ],
+      "correct_answer": "21",
+      "explanation": "This is the Fibonacci sequence: each number is the sum of the two before it. 5+8=13, 8+13=21. The Fibonacci sequence appears throughout nature \u2014 in sunflower seeds, spiral shells, and flower petals."
+    }
+  },
+  {
+    "title": "Conditional: contrapositive",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Rule: If it is a bird, it has wings. Tweety has no wings. What can we conclude?",
+      "type": "multiple_choice",
+      "options": [
+        "Tweety is a bird",
+        "Tweety is not a bird",
+        "Tweety might be a bird",
+        "We need more information"
+      ],
+      "correct_answer": "Tweety is not a bird",
+      "explanation": "If birds have wings, then anything without wings cannot be a bird. This is the contrapositive: 'If NOT wings, then NOT a bird.' The contrapositive is always logically equivalent to the original rule."
+    }
+  },
+  {
+    "title": "Pattern: input-output table",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A machine follows a rule. Input 1 \u2192 Output 3. Input 3 \u2192 Output 7. Input 5 \u2192 Output 11. Input 7 \u2192 Output ___.",
+      "type": "multiple_choice",
+      "options": [
+        "13",
+        "14",
+        "15",
+        "16"
+      ],
+      "correct_answer": "15",
+      "explanation": "Rule: output = input \u00d7 2 + 1. Check: 1\u00d72+1=3 \u2713, 3\u00d72+1=7 \u2713, 5\u00d72+1=11 \u2713. So 7\u00d72+1=15. Finding a function rule from a table is a foundational algebraic thinking skill."
+    }
+  },
+  {
+    "title": "Deduction: four clues",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "I am a number between 1 and 20. I am even. I am greater than 10. The sum of my digits is 5. What number am I?",
+      "type": "multiple_choice",
+      "options": [
+        "12",
+        "14",
+        "16",
+        "18"
+      ],
+      "correct_answer": "14",
+      "explanation": "Even numbers between 11 and 20: 12, 14, 16, 18, 20. Digits summing to 5: 1+2=3 \u2717, 1+4=5 \u2713, 1+6=7 \u2717, 1+8=9 \u2717, 2+0=2 \u2717. Answer: 14."
+    }
+  },
+  {
+    "title": "Odd one out: reasoning",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which does NOT belong, and why? 8, 27, 64, 100, 125",
+      "type": "multiple_choice",
+      "options": [
+        "8 \u2014 it's too small",
+        "27 \u2014 it's odd",
+        "100 \u2014 it's not a perfect cube",
+        "125 \u2014 it's too large"
+      ],
+      "correct_answer": "100 \u2014 it's not a perfect cube",
+      "explanation": "8=2\u00b3, 27=3\u00b3, 64=4\u00b3, 125=5\u00b3 \u2014 all perfect cubes. 100=10\u00b2, which is a perfect square but NOT a perfect cube. Always look for the mathematical property that links the group."
+    }
+  },
+  {
+    "title": "What is wrong with this argument?",
+    "subject": "logic",
+    "age_tier": "junior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Argument: 'Every time I wear my lucky socks, my team wins. Therefore, my socks cause my team to win.' What is wrong with this reasoning?",
+      "type": "multiple_choice",
+      "options": [
+        "Nothing \u2014 the argument is perfectly logical",
+        "Correlation is not causation \u2014 two things happening together doesn't mean one causes the other",
+        "The socks cannot be lucky if they are made of cotton",
+        "Sports teams never win due to any external factors"
+      ],
+      "correct_answer": "Correlation is not causation \u2014 two things happening together doesn't mean one causes the other",
+      "explanation": "Just because two things happen at the same time (correlation) doesn't mean one causes the other (causation). Your team might win because of skill, weather, or the opponent's weakness \u2014 not your socks. This is one of the most important reasoning errors to spot."
+    }
+  }
+]

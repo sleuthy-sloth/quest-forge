@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { PlayShell } from '@/components/play/PlayShell'
+import { signOut } from '@/app/actions/auth'
 
 export default async function PlayLayout({
   children,
@@ -18,7 +19,12 @@ export default async function PlayLayout({
     .eq('id', user.id)
     .single()
 
-  if (!profile) redirect('/login')
+  // Do NOT redirect to /login directly — the middleware would loop an authenticated
+  // user straight back to /play. Call signOut() to clear the session first.
+  if (!profile) {
+    await signOut()
+    redirect('/login') // unreachable; satisfies TypeScript narrowing
+  }
   if (profile.role !== 'player') redirect('/dashboard')
 
   return (

@@ -1,8 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { usePathname } from 'next/navigation'
+import { signOut } from '@/app/actions/auth'
 
 const TABS = [
   { href: '/play',         label: 'Home',    icon: '⟡' },
@@ -10,6 +10,7 @@ const TABS = [
   { href: '/play/academy', label: 'Academy', icon: '⚗' },
   { href: '/play/story',   label: 'Story',   icon: '📖' },
   { href: '/play/loot',    label: 'Loot',    icon: '💎' },
+  { href: '/play/profile', label: 'Profile', icon: '👤' },
 ]
 
 interface PlayShellProps {
@@ -20,13 +21,6 @@ interface PlayShellProps {
 
 export function PlayShell({ displayName, level, children }: PlayShellProps) {
   const pathname = usePathname()
-  const router = useRouter()
-
-  async function handleLogout() {
-    const supabase = createClient()
-    await supabase.auth.signOut()
-    router.push('/login')
-  }
 
   function isActive(href: string) {
     if (href === '/play') return pathname === '/play'
@@ -67,16 +61,18 @@ export function PlayShell({ displayName, level, children }: PlayShellProps) {
               Lv. {level}
             </p>
           </div>
-          <button
-            onClick={handleLogout}
-            className="w-8 h-8 flex items-center justify-center rounded-[3px]
-              border border-[#9c5e04]/30 text-[#b09a6e]/50 text-xs
-              hover:text-[#e05555] hover:border-[#e05555]/40 transition-colors duration-150"
-            aria-label="Sign out"
-            title="Sign out"
-          >
-            ⬡
-          </button>
+          <form action={signOut}>
+            <button
+              type="submit"
+              className="w-8 h-8 flex items-center justify-center rounded-[3px]
+                border border-[#9c5e04]/30 text-[#b09a6e]/50 text-xs
+                hover:text-[#e05555] hover:border-[#e05555]/40 transition-colors duration-150"
+              aria-label="Sign out"
+              title="Sign out"
+            >
+              ⬡
+            </button>
+          </form>
         </div>
       </header>
 

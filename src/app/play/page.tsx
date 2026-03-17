@@ -1,8 +1,10 @@
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { signOut } from '@/app/actions/auth'
 import { xpForLevel, xpProgressPercent, embershardState } from '@/lib/xp'
 import classesData from '@/lore/classes.json'
+import AvatarPreview from '@/components/avatar/AvatarPreview'
 
 // ── Nav grid config ──────────────────────────────────────────────────────
 
@@ -111,11 +113,14 @@ export default async function PlayHomePage() {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('display_name, avatar_class, level, xp_total, xp_available, gold, household_id')
+    .select('display_name, avatar_class, level, xp_total, xp_available, gold, household_id, avatar_config')
     .eq('id', user.id)
     .single()
 
-  if (!profile) redirect('/login')
+  if (!profile) {
+    await signOut()
+    redirect('/login') // unreachable; satisfies TypeScript narrowing
+  }
 
   // First-login guard — no class chosen yet
   if (!profile.avatar_class) redirect('/play/create-character')
@@ -183,6 +188,30 @@ export default async function PlayHomePage() {
         >
           {profile.display_name}
         </h1>
+
+        {/* Avatar portrait */}
+        <div className="flex justify-center mb-3">
+          <div
+            className="relative"
+            style={{
+              background: `radial-gradient(ellipse at 50% 80%, ${accent}20, transparent 70%)`,
+            }}
+          >
+            <AvatarPreview
+              avatarConfig={profile.avatar_config as Record<string, unknown> | null}
+              size={192}
+              className="block"
+            />
+            {/* Pixel-art frame border */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                boxShadow: `inset 0 0 0 2px ${accent}40, inset 0 0 0 4px #0a0f1e`,
+              }}
+              aria-hidden="true"
+            />
+          </div>
+        </div>
 
         {/* Class + motto */}
         {classInfo && (

@@ -1,0 +1,1002 @@
+[
+  {
+    "title": "Logic grid: 3\u00d73",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Three people (Alice, Bob, Cara) each own one pet (cat, dog, fish) and live on different floors (1, 2, 3). Alice lives above Bob. Cara owns the cat. Bob does not own the fish. Who owns the dog?",
+      "type": "multiple_choice",
+      "options": [
+        "Alice",
+        "Bob",
+        "Cara",
+        "Cannot determine"
+      ],
+      "correct_answer": "Bob",
+      "explanation": "Cara owns the cat. Bob doesn't own the fish, and Cara has the cat, so Bob must own the dog. Alice gets the fish. Floor ordering: Alice is above Bob, so Alice=3 or 2, Bob=1 or 2 (with Alice higher). Logic grids: eliminate what's impossible in each category until only one option remains per cell."
+    }
+  },
+  {
+    "title": "Logic grid: 4\u00d74",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Four students (W, X, Y, Z) each scored a unique grade (A, B, C, D). W scored higher than X. Z scored lower than Y. Y scored higher than W. Who scored the highest?",
+      "type": "multiple_choice",
+      "options": [
+        "W",
+        "X",
+        "Y",
+        "Z"
+      ],
+      "correct_answer": "Y",
+      "explanation": "Build the chain: Y > W > X, and Y > Z. Y is at the top of both chains. So Y scored highest (A). The full order from clues: Y > W > X, and Y > Z, but we don't know where Z falls relative to W and X without more info. Y is definitively first."
+    }
+  },
+  {
+    "title": "Syllogism: valid or invalid",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Evaluate: 'All politicians are liars. John is a liar. Therefore, John is a politician.' Is this valid?",
+      "type": "multiple_choice",
+      "options": [
+        "Valid \u2014 the conclusion follows from the premises",
+        "Invalid \u2014 being a liar doesn't make someone a politician",
+        "Valid \u2014 if John is a liar, he must be political",
+        "Invalid \u2014 the first premise is false"
+      ],
+      "correct_answer": "Invalid \u2014 being a liar doesn't make someone a politician",
+      "explanation": "This is the fallacy of 'affirming the consequent.' Just because all politicians are liars doesn't mean all liars are politicians. The set of liars is larger than the set of politicians. A valid syllogism requires the middle term to be distributed \u2014 here it isn't."
+    }
+  },
+  {
+    "title": "Syllogism: modus ponens",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "P1: If it rains, the ground gets wet. P2: It is raining. Conclusion: The ground is wet. What type of valid argument is this?",
+      "type": "multiple_choice",
+      "options": [
+        "Modus tollens",
+        "Modus ponens",
+        "Disjunctive syllogism",
+        "Hypothetical syllogism"
+      ],
+      "correct_answer": "Modus ponens",
+      "explanation": "Modus ponens (Latin: 'the way that affirms'): If P then Q. P is true. Therefore Q is true. It's the most fundamental valid argument form. Compare modus tollens: If P then Q. Q is false. Therefore P is false."
+    }
+  },
+  {
+    "title": "Syllogism: modus tollens",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "P1: If the alarm is working, it will ring at 7am. P2: The alarm did not ring at 7am. What must be true?",
+      "type": "multiple_choice",
+      "options": [
+        "The alarm is working",
+        "The alarm is not working",
+        "It is not 7am",
+        "The alarm might be working"
+      ],
+      "correct_answer": "The alarm is not working",
+      "explanation": "Modus tollens: If P then Q. Q is false. Therefore P is false. The alarm working \u2192 it rings. It didn't ring \u2192 it's not working. This is the logical contrapositive applied as an argument form."
+    }
+  },
+  {
+    "title": "Boolean: AND truth table",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which combination of A and B makes 'A AND B' TRUE?",
+      "type": "multiple_choice",
+      "options": [
+        "A=True, B=False",
+        "A=False, B=True",
+        "A=False, B=False",
+        "A=True, B=True"
+      ],
+      "correct_answer": "A=True, B=True",
+      "explanation": "AND (conjunction) is only true when ALL inputs are true. Truth table: T\u2227T=T, T\u2227F=F, F\u2227T=F, F\u2227F=F. In programming: used to require multiple conditions simultaneously (e.g., if age >= 13 AND has_permission)."
+    }
+  },
+  {
+    "title": "Boolean: OR truth table",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which combination of A and B makes 'A OR B' FALSE?",
+      "type": "multiple_choice",
+      "options": [
+        "A=True, B=False",
+        "A=False, B=True",
+        "A=False, B=False",
+        "A=True, B=True"
+      ],
+      "correct_answer": "A=False, B=False",
+      "explanation": "OR (disjunction) is false ONLY when ALL inputs are false. Truth table: T\u2228T=T, T\u2228F=T, F\u2228T=T, F\u2228F=F. In programming: used when any one condition being true is sufficient."
+    }
+  },
+  {
+    "title": "Boolean: XOR",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "XOR (exclusive OR) is TRUE only when inputs differ. What is True XOR True?",
+      "type": "multiple_choice",
+      "options": [
+        "True",
+        "False",
+        "Undefined",
+        "True only if both are the same"
+      ],
+      "correct_answer": "False",
+      "explanation": "XOR truth table: T\u2295T=F, T\u2295F=T, F\u2295T=T, F\u2295F=F. XOR is true only when exactly one input is true \u2014 they must be different. When both are true (or both false), XOR is false. Used heavily in cryptography and error detection."
+    }
+  },
+  {
+    "title": "Boolean: NAND gate",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A NAND gate outputs the opposite of AND. What does True NAND False equal?",
+      "type": "multiple_choice",
+      "options": [
+        "True",
+        "False",
+        "Undefined",
+        "Same as True AND False"
+      ],
+      "correct_answer": "True",
+      "explanation": "NAND = NOT(AND). True AND False = False, so True NAND False = NOT(False) = True. NAND is 'universal' \u2014 any logic circuit can be built from NAND gates alone. NAND truth table: T NAND T = F, T NAND F = T, F NAND T = T, F NAND F = T."
+    }
+  },
+  {
+    "title": "Boolean: complex expression",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A=True, B=False, C=True. Evaluate: (A AND B) OR (NOT B AND C)",
+      "type": "multiple_choice",
+      "options": [
+        "True",
+        "False",
+        "Undefined",
+        "Depends on order of operations"
+      ],
+      "correct_answer": "True",
+      "explanation": "Evaluate step by step: A AND B = True AND False = False. NOT B = NOT False = True. NOT B AND C = True AND True = True. False OR True = True. Always resolve NOT first, then AND, then OR (like PEMDAS for logic)."
+    }
+  },
+  {
+    "title": "Pseudocode: if-else",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does this pseudocode output when score = 75?\n\nIF score >= 90 THEN\n  PRINT 'A'\nELSEIF score >= 80 THEN\n  PRINT 'B'\nELSEIF score >= 70 THEN\n  PRINT 'C'\nELSE\n  PRINT 'F'\nENDIF",
+      "type": "multiple_choice",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "F"
+      ],
+      "correct_answer": "C",
+      "explanation": "75 is not >= 90 (skip A). 75 is not >= 80 (skip B). 75 IS >= 70 \u2192 print 'C'. In ELSEIF chains, the first condition that's true wins, and the rest are skipped. This is how grade calculators, game difficulty checks, and most decision logic works."
+    }
+  },
+  {
+    "title": "Pseudocode: loop output",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does this pseudocode output?\n\nSET total = 0\nFOR i = 1 TO 4\n  SET total = total + i\nENDFOR\nPRINT total",
+      "type": "multiple_choice",
+      "options": [
+        "4",
+        "8",
+        "10",
+        "16"
+      ],
+      "correct_answer": "10",
+      "explanation": "Trace through: i=1: total=0+1=1. i=2: total=1+2=3. i=3: total=3+3=6. i=4: total=6+4=10. Print 10. This accumulates 1+2+3+4=10. Tracing a loop manually (stepping through each iteration) is the essential debugging skill."
+    }
+  },
+  {
+    "title": "Pseudocode: nested condition",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "age=16, hasLicense=False. What does this output?\n\nIF age >= 16 THEN\n  IF hasLicense = True THEN\n    PRINT 'Can drive'\n  ELSE\n    PRINT 'Too young or no license'\n  ENDIF\nELSE\n  PRINT 'Too young'\nENDIF",
+      "type": "multiple_choice",
+      "options": [
+        "Can drive",
+        "Too young or no license",
+        "Too young",
+        "Nothing"
+      ],
+      "correct_answer": "Too young or no license",
+      "explanation": "age=16 >= 16: enter outer IF. hasLicense=False \u2260 True: go to inner ELSE \u2192 print 'Too young or no license'. Note: the message is slightly wrong for this case (not too young, but no license) \u2014 real code would use better labels. Nested IFs check multiple conditions in sequence."
+    }
+  },
+  {
+    "title": "Pseudocode: while loop",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "How many times does this loop execute?\n\nSET x = 1\nWHILE x < 32\n  SET x = x * 2\nENDWHILE",
+      "type": "multiple_choice",
+      "options": [
+        "4",
+        "5",
+        "6",
+        "31"
+      ],
+      "correct_answer": "5",
+      "explanation": "Trace: x=1 (<32, run): x=2. x=2 (<32, run): x=4. x=4 (<32, run): x=8. x=8 (<32, run): x=16. x=16 (<32, run): x=32. x=32 (not <32, stop). The loop ran 5 times. Recognizing doubling sequences (1,2,4,8,16,32) helps you count iterations quickly."
+    }
+  },
+  {
+    "title": "Probability: basic",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A bag has 4 red marbles, 3 blue marbles, and 3 green marbles. What is the probability of drawing a red OR blue marble?",
+      "type": "multiple_choice",
+      "options": [
+        "4/10",
+        "3/10",
+        "7/10",
+        "7/9"
+      ],
+      "correct_answer": "7/10",
+      "explanation": "P(red OR blue) = P(red) + P(blue) = 4/10 + 3/10 = 7/10. When events are mutually exclusive (can't happen at the same time), add the probabilities. Total marbles = 10."
+    }
+  },
+  {
+    "title": "Probability: independent events",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A fair coin is flipped twice. What is the probability of getting heads both times?",
+      "type": "multiple_choice",
+      "options": [
+        "1/2",
+        "1/4",
+        "1/3",
+        "2/4"
+      ],
+      "correct_answer": "1/4",
+      "explanation": "P(H and H) = P(H) \u00d7 P(H) = 1/2 \u00d7 1/2 = 1/4. For independent events (one doesn't affect the other), multiply probabilities. The four possible outcomes are HH, HT, TH, TT \u2014 only one is HH, so 1/4."
+    }
+  },
+  {
+    "title": "Probability: conditional",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A drawer has 5 red socks and 3 blue socks. You draw one sock (it's red) and keep it. What is the probability the NEXT sock is also red?",
+      "type": "multiple_choice",
+      "options": [
+        "5/8",
+        "4/7",
+        "5/7",
+        "4/8"
+      ],
+      "correct_answer": "4/7",
+      "explanation": "After removing one red sock: 4 red remain out of 7 total. P(2nd red | 1st was red) = 4/7. This is conditional probability \u2014 the first event changed the sample space. Without replacement always changes future probabilities."
+    }
+  },
+  {
+    "title": "Probability puzzle: birthday problem",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 55,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "In a room of 23 random people, there is approximately a 50% chance that two people share a birthday. Most people find this surprising. Why is the intuition wrong?",
+      "type": "multiple_choice",
+      "options": [
+        "Because 23 is close to 365/2 = 182",
+        "Because we're checking every pair of people \u2014 with 23 people there are 253 pairs, making a shared birthday quite likely",
+        "Because birthdays are not actually random",
+        "Because the calculation doesn't account for leap years"
+      ],
+      "correct_answer": "Because we're checking every pair of people \u2014 with 23 people there are 253 pairs, making a shared birthday quite likely",
+      "explanation": "People intuitively compare one person to 365 days. But with 23 people, there are C(23,2) = 253 unique pairs \u2014 each pair has a ~1/365 chance of sharing a birthday. The cumulative probability across hundreds of pairs reaches ~50%. This is why combinatorics (counting pairs) matters in probability."
+    }
+  },
+  {
+    "title": "Set theory: Venn diagram",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "In a class of 30 students: 18 play sport, 15 play music, and 7 play both. How many students play NEITHER sport nor music?",
+      "type": "multiple_choice",
+      "options": [
+        "2",
+        "4",
+        "7",
+        "10"
+      ],
+      "correct_answer": "4",
+      "explanation": "Use inclusion-exclusion: students playing sport OR music = 18 + 15 - 7 (subtract overlap) = 26. Students playing neither = 30 - 26 = 4. The formula is: |A \u222a B| = |A| + |B| - |A \u2229 B|."
+    }
+  },
+  {
+    "title": "Set theory: intersection",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Set A = {2, 4, 6, 8, 10}. Set B = {1, 2, 3, 4, 5}. What is A \u2229 B (A intersection B)?",
+      "type": "multiple_choice",
+      "options": [
+        "{2, 4}",
+        "{2, 4, 6}",
+        "{1, 2, 3, 4, 5, 6, 8, 10}",
+        "{6, 8, 10}"
+      ],
+      "correct_answer": "{2, 4}",
+      "explanation": "Intersection (\u2229) contains elements in BOTH sets. A \u2229 B = {2, 4} \u2014 these are the only numbers appearing in both A and B. Union (\u222a) would be all elements in either set."
+    }
+  },
+  {
+    "title": "Set theory: complement",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Universal set U = {1, 2, 3, 4, 5, 6, 7, 8}. Set A = {2, 4, 6, 8}. What is A' (the complement of A)?",
+      "type": "multiple_choice",
+      "options": [
+        "{2, 4, 6, 8}",
+        "{1, 3, 5, 7}",
+        "{1, 2, 3, 4, 5, 6, 7, 8}",
+        "{}"
+      ],
+      "correct_answer": "{1, 3, 5, 7}",
+      "explanation": "The complement A' contains all elements in U that are NOT in A. U = {1\u20138}, A = {2,4,6,8}, so A' = {1,3,5,7} \u2014 the odd numbers. A \u222a A' = U and A \u2229 A' = {} (empty set) always."
+    }
+  },
+  {
+    "title": "Number theory: modular arithmetic",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 17 mod 5?",
+      "type": "multiple_choice",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correct_answer": "2",
+      "explanation": "17 mod 5 = the remainder when 17 is divided by 5. 17 \u00f7 5 = 3 remainder 2. So 17 mod 5 = 2. Modular arithmetic is the math of remainders \u2014 used in clocks, calendars, cryptography, and hashing in computer science."
+    }
+  },
+  {
+    "title": "Number theory: clock arithmetic",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "It is 10 o'clock. What time will it be in 57 hours?",
+      "type": "multiple_choice",
+      "options": [
+        "7 o'clock",
+        "9 o'clock",
+        "11 o'clock",
+        "3 o'clock"
+      ],
+      "correct_answer": "7 o'clock",
+      "explanation": "57 mod 12 = 57 - (4\u00d712) = 57 - 48 = 9. 10 + 9 = 19. 19 mod 12 = 7. So it will be 7 o'clock. Clock arithmetic is modular arithmetic with modulus 12. (We can also note 57 = 2 days + 9 hours; 10 + 9 = 19; 19 - 12 = 7.)"
+    }
+  },
+  {
+    "title": "Combinatorics: counting arrangements",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "How many different ways can you arrange the letters A, B, C in a row?",
+      "type": "multiple_choice",
+      "options": [
+        "3",
+        "6",
+        "9",
+        "12"
+      ],
+      "correct_answer": "6",
+      "explanation": "3! (3 factorial) = 3 \u00d7 2 \u00d7 1 = 6. The arrangements are: ABC, ACB, BAC, BCA, CAB, CBA. For n distinct items in a row, the number of arrangements = n! This is called a permutation."
+    }
+  },
+  {
+    "title": "Combinatorics: choosing a committee",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "From 5 people, how many ways can you choose a committee of 2? (Order doesn't matter.)",
+      "type": "multiple_choice",
+      "options": [
+        "5",
+        "10",
+        "20",
+        "25"
+      ],
+      "correct_answer": "10",
+      "explanation": "Use combinations: C(5,2) = 5! / (2! \u00d7 3!) = (5\u00d74)/(2\u00d71) = 10. Combinations are used when order doesn't matter (choosing a committee). Permutations are used when order matters (arranging people in seats)."
+    }
+  },
+  {
+    "title": "Combinatorics: pigeonhole principle",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A drawer contains red, blue, and green socks. How many socks must you draw (in the dark, without looking) to GUARANTEE you have a matching pair?",
+      "type": "multiple_choice",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "6"
+      ],
+      "correct_answer": "4",
+      "explanation": "The Pigeonhole Principle: with 3 colors, you could draw 1 of each (3 socks, no match). The 4th sock must match one already drawn. Formula: n categories + 1 draw guarantees a match. This is guaranteed regardless of luck or arrangement."
+    }
+  },
+  {
+    "title": "Graph theory: paths",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "In a network of 4 cities where every city connects directly to every other city, how many direct connections (edges) are there?",
+      "type": "multiple_choice",
+      "options": [
+        "4",
+        "6",
+        "8",
+        "12"
+      ],
+      "correct_answer": "6",
+      "explanation": "C(4,2) = 6. Each pair of cities shares one connection. With 4 cities: A-B, A-C, A-D, B-C, B-D, C-D = 6 edges. A graph where every node connects to every other is called a 'complete graph,' written K\u2084. Edges = n(n-1)/2."
+    }
+  },
+  {
+    "title": "Deductive reasoning: chain",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "All mammals are warm-blooded. All whales are mammals. All warm-blooded animals have a heart. What can we definitely conclude about whales?",
+      "type": "multiple_choice",
+      "options": [
+        "Whales are fish",
+        "Whales have a heart",
+        "Whales breathe through gills",
+        "Whales are cold-blooded"
+      ],
+      "correct_answer": "Whales have a heart",
+      "explanation": "Chain: Whales \u2192 mammals \u2192 warm-blooded \u2192 have a heart. Therefore whales have a heart. This is a hypothetical syllogism: if A\u2192B and B\u2192C and C\u2192D, then A\u2192D. Transitive reasoning connects the chain."
+    }
+  },
+  {
+    "title": "Inductive vs deductive reasoning",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "'Every swan I have ever seen is white. Therefore, all swans are white.' This is an example of:",
+      "type": "multiple_choice",
+      "options": [
+        "Valid deductive reasoning",
+        "Inductive reasoning \u2014 a generalization from observations that could be wrong",
+        "A logical contradiction",
+        "Modus tollens"
+      ],
+      "correct_answer": "Inductive reasoning \u2014 a generalization from observations that could be wrong",
+      "explanation": "Inductive reasoning generalizes from specific observations. It can be very useful but is never certain \u2014 black swans exist in Australia. Deductive reasoning derives certain conclusions from premises that must be true. Science uses induction; mathematics uses deduction."
+    }
+  },
+  {
+    "title": "Logical fallacy: ad hominem",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "'You shouldn't listen to Dr. Smith's climate research \u2014 she drives a gas-powered car.' What fallacy is this?",
+      "type": "multiple_choice",
+      "options": [
+        "Straw man",
+        "Ad hominem",
+        "False dichotomy",
+        "Circular reasoning"
+      ],
+      "correct_answer": "Ad hominem",
+      "explanation": "Ad hominem (Latin: 'to the person') attacks the person making an argument rather than the argument itself. Dr. Smith's personal choices don't invalidate her scientific research. The data stands or falls on its own merits, not on her character."
+    }
+  },
+  {
+    "title": "Logical fallacy: straw man",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Person A: 'We should reduce military spending.' Person B: 'So you want to leave the country completely defenseless? That's absurd.' What fallacy does Person B commit?",
+      "type": "multiple_choice",
+      "options": [
+        "Ad hominem",
+        "False dichotomy",
+        "Straw man",
+        "Slippery slope"
+      ],
+      "correct_answer": "Straw man",
+      "explanation": "The straw man fallacy distorts the opponent's position into an extreme, easier-to-attack version. Person A said 'reduce,' not 'eliminate.' Person B attacks a position that wasn't made \u2014 a 'straw man' that can be easily knocked down."
+    }
+  },
+  {
+    "title": "Logical fallacy: false dichotomy",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "'You're either with us or against us.' What fallacy is this?",
+      "type": "multiple_choice",
+      "options": [
+        "Ad hominem",
+        "Circular reasoning",
+        "False dichotomy",
+        "Appeal to authority"
+      ],
+      "correct_answer": "False dichotomy",
+      "explanation": "A false dichotomy (or false dilemma) presents only two options when more exist. In reality, someone could be neutral, partially supportive, or oppose specific parts. Reducing a complex situation to two extreme choices is a manipulation tactic."
+    }
+  },
+  {
+    "title": "Logical fallacy: slippery slope",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "'If we allow students to retake one test, soon they'll want to retake every assignment, and eventually grades will become meaningless.' What fallacy is this?",
+      "type": "multiple_choice",
+      "options": [
+        "Straw man",
+        "Slippery slope",
+        "Ad hominem",
+        "Appeal to tradition"
+      ],
+      "correct_answer": "Slippery slope",
+      "explanation": "A slippery slope fallacy claims one small step inevitably leads to extreme consequences, without evidence for each link in the chain. The steps from 'one test retake' to 'grades become meaningless' are assumed, not argued. Each step would require its own justification."
+    }
+  },
+  {
+    "title": "Logical fallacy: circular reasoning",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "'The Bible is true because it says so in the Bible.' What fallacy does this commit?",
+      "type": "multiple_choice",
+      "options": [
+        "Straw man",
+        "Circular reasoning (begging the question)",
+        "Ad hominem",
+        "Appeal to authority"
+      ],
+      "correct_answer": "Circular reasoning (begging the question)",
+      "explanation": "Circular reasoning uses its conclusion as a premise. The argument assumes the Bible is authoritative in order to prove the Bible is authoritative. A valid argument must support its conclusion with independent evidence, not restate it."
+    }
+  },
+  {
+    "title": "Puzzle: two-door problem",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Two guards stand before two doors \u2014 one leads to freedom, one to danger. One guard always lies; one always tells the truth. You don't know which is which. What ONE question can you ask EITHER guard to identify the safe door?",
+      "type": "multiple_choice",
+      "options": [
+        "'Are you the truth-teller?'",
+        "'Which door is safe?'",
+        "'Which door would the OTHER guard say is safe?' \u2014 then pick the opposite door",
+        "'Do you lie?'"
+      ],
+      "correct_answer": "'Which door would the OTHER guard say is safe?' \u2014 then pick the opposite door",
+      "explanation": "The truth-teller accurately reports the liar's lie (pointing to the wrong door). The liar lies about the truth-teller's truth (also pointing to the wrong door). Both give the same wrong answer \u2014 so take the opposite. This elegant solution uses double-negation and meta-reasoning."
+    }
+  },
+  {
+    "title": "Puzzle: Monty Hall",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 55,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "You pick door #1 from 3 doors. The host (who knows where the prize is) opens door #3 to reveal no prize. Should you switch to door #2?",
+      "type": "multiple_choice",
+      "options": [
+        "No \u2014 it makes no difference; each remaining door is now 50/50",
+        "Yes \u2014 switching gives you a 2/3 chance of winning; staying gives only 1/3",
+        "Yes \u2014 but only because the host opened the highest-numbered door",
+        "No \u2014 the host's action gives new information that cancels the original probabilities"
+      ],
+      "correct_answer": "Yes \u2014 switching gives you a 2/3 chance of winning; staying gives only 1/3",
+      "explanation": "The Monty Hall Problem: your initial pick had 1/3 chance of being right. That doesn't change when the host (knowingly) reveals a goat. The 2/3 probability that you were wrong concentrates on the remaining door. Switching wins 2/3 of the time. Simulations and formal probability confirm this counterintuitive result."
+    }
+  },
+  {
+    "title": "Puzzle: hat colors",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Three people (A, B, C) sit in a line. Each wears a hat \u2014 either red or blue. C can see A and B. B can see only A. A can see no one. They must each guess their own hat color without communicating. B says 'I don't know.' What can A deduce?",
+      "type": "multiple_choice",
+      "options": [
+        "Nothing \u2014 A has no information",
+        "A's hat is definitely red",
+        "A's hat is definitely blue",
+        "A and B have different colored hats"
+      ],
+      "correct_answer": "Nothing \u2014 A has no information",
+      "explanation": "B sees only A's hat. If both A and B wore the same color, C could deduce C's own color (since only 2 of each color might exist \u2014 but the problem doesn't state the number of each color). Without knowing the distribution constraint, B saying 'I don't know' reveals only that A's hat alone doesn't let B be certain. A cannot determine their own hat from this alone."
+    }
+  },
+  {
+    "title": "Recursion: factorial",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A function: factorial(n) = n \u00d7 factorial(n-1), with factorial(1) = 1. What is factorial(4)?",
+      "type": "multiple_choice",
+      "options": [
+        "4",
+        "8",
+        "24",
+        "16"
+      ],
+      "correct_answer": "24",
+      "explanation": "Unwind the recursion: factorial(4) = 4 \u00d7 factorial(3) = 4 \u00d7 3 \u00d7 factorial(2) = 4 \u00d7 3 \u00d7 2 \u00d7 factorial(1) = 4 \u00d7 3 \u00d7 2 \u00d7 1 = 24. Recursion defines something in terms of itself with a base case to stop. It's a fundamental programming pattern."
+    }
+  },
+  {
+    "title": "Recursion: base case",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A recursive function without a base case will:",
+      "type": "multiple_choice",
+      "options": [
+        "Return 0 by default",
+        "Call itself indefinitely, causing a stack overflow error",
+        "Automatically stop when the input reaches 0",
+        "Run exactly once and return nothing"
+      ],
+      "correct_answer": "Call itself indefinitely, causing a stack overflow error",
+      "explanation": "Without a base case (a stopping condition), a recursive function calls itself forever. Each call uses memory on the call stack. Eventually the stack runs out of space \u2014 a 'stack overflow.' Every recursive function MUST have a base case that terminates the chain."
+    }
+  },
+  {
+    "title": "Algorithms: binary search",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "You're searching for number 73 in a sorted list of 128 numbers. Using binary search (always checking the middle), what is the MAXIMUM number of checks needed?",
+      "type": "multiple_choice",
+      "options": [
+        "7",
+        "8",
+        "12",
+        "64"
+      ],
+      "correct_answer": "7",
+      "explanation": "Binary search halves the search space each step. 128 \u2192 64 \u2192 32 \u2192 16 \u2192 8 \u2192 4 \u2192 2 \u2192 1. That's 7 steps. Maximum steps = log\u2082(n). For 128: log\u2082(128) = 7. Binary search is O(log n) \u2014 dramatically faster than linear search's O(n) for large datasets."
+    }
+  },
+  {
+    "title": "Algorithms: sorting logic",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Bubble sort compares adjacent pairs and swaps them if out of order. How many passes through [4, 3, 2, 1] are needed to fully sort it?",
+      "type": "multiple_choice",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correct_answer": "3",
+      "explanation": "Pass 1: 4,3,2,1 \u2192 3,4,2,1 \u2192 3,2,4,1 \u2192 3,2,1,4. Pass 2: 3,2,1,4 \u2192 2,3,1,4 \u2192 2,1,3,4. Pass 3: 2,1,3,4 \u2192 1,2,3,4. 3 passes needed. Bubble sort is O(n\u00b2) \u2014 slow for large lists. For n elements in reverse order, you need n-1 passes."
+    }
+  },
+  {
+    "title": "Probability: expected value",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A game: roll a die. Win $6 if you roll a 6. Win $0 otherwise. It costs $2 to play. What is your expected profit per game?",
+      "type": "multiple_choice",
+      "options": [
+        "+$1.00",
+        "-$1.00",
+        "$0.00",
+        "+$4.00"
+      ],
+      "correct_answer": "-$1.00",
+      "explanation": "Expected value of winnings: (1/6 \u00d7 $6) + (5/6 \u00d7 $0) = $1. Cost to play: $2. Expected profit = $1 - $2 = -$1. You lose $1 on average per game. Expected value = \u03a3(probability \u00d7 outcome) \u2014 it's the foundation of rational decision-making."
+    }
+  },
+  {
+    "title": "Logical equivalence: De Morgan's Law",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "De Morgan's Law states NOT(A AND B) = NOT A OR NOT B. Which is equivalent to NOT(A OR B)?",
+      "type": "multiple_choice",
+      "options": [
+        "NOT A AND NOT B",
+        "NOT A OR NOT B",
+        "A AND B",
+        "NOT A OR B"
+      ],
+      "correct_answer": "NOT A AND NOT B",
+      "explanation": "De Morgan's second law: NOT(A OR B) = NOT A AND NOT B. Negating an OR flips it to AND (and vice versa). This is crucial in programming: !(a || b) is equivalent to !a && !b. Simplifying logic expressions with De Morgan's avoids bugs."
+    }
+  },
+  {
+    "title": "Proof by contradiction",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 55,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "To prove 'there are infinitely many prime numbers,' Euclid assumed the opposite (finitely many primes) and derived a contradiction. What type of proof is this?",
+      "type": "multiple_choice",
+      "options": [
+        "Direct proof",
+        "Proof by induction",
+        "Proof by contradiction (reductio ad absurdum)",
+        "Proof by exhaustion"
+      ],
+      "correct_answer": "Proof by contradiction (reductio ad absurdum)",
+      "explanation": "Proof by contradiction: assume the opposite of what you want to prove, then show this assumption leads to an impossibility. Euclid multiplied all supposed primes + 1, which either is prime (contradiction: not in our list) or has a prime factor not in our list. Either way \u2014 contradiction. Therefore infinitely many primes exist."
+    }
+  },
+  {
+    "title": "Proof by induction concept",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 55,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Mathematical induction proves a statement is true for all positive integers. What are the two required steps?",
+      "type": "multiple_choice",
+      "options": [
+        "Step 1: Test 100 cases. Step 2: Generalize from evidence.",
+        "Step 1: Prove it's true for n=1 (base case). Step 2: Prove that if it's true for n=k, it must be true for n=k+1 (inductive step).",
+        "Step 1: Assume it's true. Step 2: Show assuming it false leads to contradiction.",
+        "Step 1: Prove for all even numbers. Step 2: Prove for all odd numbers."
+      ],
+      "correct_answer": "Step 1: Prove it's true for n=1 (base case). Step 2: Prove that if it's true for n=k, it must be true for n=k+1 (inductive step).",
+      "explanation": "Induction is like an infinite row of dominoes: prove the first falls (base case), then prove each domino knocks over the next (inductive step). Together, they guarantee all dominoes \u2014 all positive integers \u2014 satisfy the statement. It's a foundational proof technique in mathematics and computer science."
+    }
+  },
+  {
+    "title": "Puzzle: liar-truth-teller variation",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 55,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A person says 'I always lie.' Can this statement be true?",
+      "type": "multiple_choice",
+      "options": [
+        "Yes \u2014 liars can make true statements about themselves",
+        "No \u2014 if true, they'd be admitting to lying, contradicting the claim; if false, they don't always lie, so this could be a false statement",
+        "Yes \u2014 this is just a fact about their behavior",
+        "No \u2014 it is illegal to lie about lying"
+      ],
+      "correct_answer": "No \u2014 if true, they'd be admitting to lying, contradicting the claim; if false, they don't always lie, so this could be a false statement",
+      "explanation": "This is the Liar's Paradox variant. If 'I always lie' is true, then this statement is a lie, making it false \u2014 contradiction. If it's false, they don't always lie, which is consistent \u2014 so the statement CAN be false without paradox. A true liar cannot truthfully claim to always lie. This puzzle underpins G\u00f6del's incompleteness theorem."
+    }
+  },
+  {
+    "title": "Optimization: greedy thinking",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "You need to make change for 41 cents using the fewest coins (25\u00a2, 10\u00a2, 5\u00a2, 1\u00a2). A greedy algorithm always picks the largest coin that fits. How many coins does it use?",
+      "type": "multiple_choice",
+      "options": [
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "correct_answer": "4",
+      "explanation": "Greedy: 41\u00a2 \u2192 take 25\u00a2 (16 left) \u2192 take 10\u00a2 (6 left) \u2192 take 5\u00a2 (1 left) \u2192 take 1\u00a2 (done). 4 coins: 25+10+5+1=41. The greedy algorithm works optimally for standard U.S. coins. (It fails for some coin systems \u2014 a key lesson in algorithm design.)"
+    }
+  },
+  {
+    "title": "Logical equivalence: contrapositive",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The statement 'If it is a square, then it has 4 sides' is equivalent to which of the following?",
+      "type": "multiple_choice",
+      "options": [
+        "If it has 4 sides, then it is a square",
+        "If it does not have 4 sides, then it is not a square",
+        "If it is not a square, then it does not have 4 sides",
+        "All shapes with 4 sides are squares"
+      ],
+      "correct_answer": "If it does not have 4 sides, then it is not a square",
+      "explanation": "The contrapositive of 'If P then Q' is 'If not Q then not P' \u2014 logically equivalent to the original. 'If it is a square (P), then 4 sides (Q)' \u2192 contrapositive: 'If not 4 sides (not Q), then not a square (not P).' The converse ('If 4 sides, then square') is NOT equivalent \u2014 rectangles have 4 sides but aren't squares."
+    }
+  },
+  {
+    "title": "Puzzle: weighing coins",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 55,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "You have 9 coins \u2014 one is counterfeit and slightly heavier. Using a balance scale, what is the minimum number of weighings guaranteed to identify it?",
+      "type": "multiple_choice",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "9"
+      ],
+      "correct_answer": "2",
+      "explanation": "Divide into groups of 3. Weigh group A vs group B. If balanced: fake is in group C \u2014 weigh 2 of the 3 coins against each other to find it (2 weighings total). If unbalanced: fake is in the heavier group \u2014 weigh 2 of those 3 to find it. Maximum 2 weighings. Each weighing with a balance eliminates 2/3 of possibilities (3 outcomes: left heavy, right heavy, balanced)."
+    }
+  },
+  {
+    "title": "Puzzle: knights and knaves",
+    "subject": "logic",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "On an island, knights always tell the truth and knaves always lie. A person says: \"I am a knave.\" What are they?",
+      "type": "multiple_choice",
+      "options": [
+        "A knight",
+        "A knave",
+        "Either \u2014 we cannot tell",
+        "Neither \u2014 the statement is impossible"
+      ],
+      "correct_answer": "Neither \u2014 the statement is impossible",
+      "explanation": "If they were a knight (truth-teller), saying \"I am a knave\" would be a lie \u2014 contradiction. If they were a knave (liar), saying \"I am a knave\" would be true \u2014 contradiction. No consistent assignment exists. This is the self-referential Liar Paradox: a well-formed sentence that is neither provably true nor false within the system."
+    }
+  }
+]

@@ -1,5 +1,8 @@
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { SignOutButton } from '@/components/play/SignOutButton'
+import AvatarPreview from '@/components/avatar/AvatarPreview'
 import { xpForLevel, xpProgressPercent, embershardState } from '@/lib/xp'
 import classesData from '@/lore/classes.json'
 
@@ -126,7 +129,7 @@ export default async function ProfilePage() {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('display_name, avatar_class, level, xp_total, xp_available, gold, household_id, username')
+    .select('display_name, avatar_class, level, xp_total, xp_available, gold, household_id, username, avatar_config')
     .eq('id', user.id)
     .single()
   if (!profile) redirect('/login')
@@ -205,23 +208,17 @@ export default async function ProfilePage() {
           marginBottom: '1.75rem',
         }}
       >
-        {/* ── Avatar placeholder ──────────────────────────────────────── */}
+        {/* ── Avatar ──────────────────────────────────────────────────── */}
         <div style={{ flexShrink: 0 }}>
           <div
-            aria-label="Character avatar placeholder"
             style={{
-              width:           256,
-              height:          256,
-              background:      `radial-gradient(ellipse at 50% 30%, ${accent}0e, rgba(255,255,255,0.02))`,
+              position:        'relative',
+              width:            256,
+              height:           256,
+              background:      `radial-gradient(ellipse at 50% 80%, ${accent}12, transparent 70%)`,
               border:          `2px solid ${accent}20`,
               borderRadius:     4,
-              position:        'relative',
               overflow:        'hidden',
-              display:         'flex',
-              flexDirection:   'column',
-              alignItems:      'center',
-              justifyContent:  'center',
-              gap:             '0.5rem',
             }}
           >
             {/* Corner ornaments */}
@@ -236,6 +233,7 @@ export default async function ProfilePage() {
                 aria-hidden="true"
                 style={{
                   position:    'absolute',
+                  zIndex:       1,
                   width:        20,
                   height:       20,
                   borderColor: `${accent}40`,
@@ -244,77 +242,38 @@ export default async function ProfilePage() {
                 }}
               />
             ))}
-
-            {/* Pixel art character silhouette */}
-            <svg
-              viewBox="0 0 64 96"
-              width={120}
-              height={180}
-              style={{ imageRendering: 'pixelated' }}
-              aria-hidden="true"
-            >
-              {/* Head */}
-              <rect x="22" y="2"  width="20" height="20" fill={accent} opacity="0.22" rx="1" />
-              {/* Neck */}
-              <rect x="28" y="22" width="8"  height="4"  fill={accent} opacity="0.18" />
-              {/* Body */}
-              <rect x="18" y="26" width="28" height="26" fill={accent} opacity="0.18" rx="1" />
-              {/* Left arm */}
-              <rect x="8"  y="26" width="9"  height="22" fill={accent} opacity="0.16" rx="1" />
-              {/* Right arm */}
-              <rect x="47" y="26" width="9"  height="22" fill={accent} opacity="0.16" rx="1" />
-              {/* Left leg */}
-              <rect x="19" y="53" width="12" height="24" fill={accent} opacity="0.16" rx="1" />
-              {/* Right leg */}
-              <rect x="33" y="53" width="12" height="24" fill={accent} opacity="0.16" rx="1" />
-              {/* Left foot */}
-              <rect x="16" y="77" width="14" height="5"  fill={accent} opacity="0.2"  rx="1" />
-              {/* Right foot */}
-              <rect x="33" y="77" width="14" height="5"  fill={accent} opacity="0.2"  rx="1" />
-              {/* Embershard glow center-chest */}
-              <circle cx="32" cy="37" r="3" fill={accent2} opacity="0.45" />
-              <circle cx="32" cy="37" r="1.5" fill={accent2} opacity="0.7" />
-            </svg>
-
-            {/* Labels */}
-            <p
-              style={{
-                position:       'absolute',
-                bottom:          10,
-                fontFamily:     'var(--font-pixel), monospace',
-                fontSize:       '0.36rem',
-                imageRendering: 'pixelated',
-                color:          `${accent}50`,
-                letterSpacing:  '0.14em',
-              }}
-            >
-              SPRITE · PHASE 4
-            </p>
+            <AvatarPreview
+              avatarConfig={profile.avatar_config as Record<string, unknown> | null}
+              size={256}
+              className="block"
+            />
           </div>
 
-          {/* Edit Appearance button */}
-          <button
-            disabled
-            aria-disabled="true"
-            title="Avatar customisation coming in Phase 4"
+          {/* Edit Appearance link */}
+          <Link
+            href="/play/create-character?mode=edit"
             style={{
+              display:        'flex',
+              alignItems:     'center',
+              justifyContent: 'center',
               marginTop:      '0.65rem',
               width:           256,
               padding:        '0.7rem',
               borderRadius:    3,
-              border:         '1px solid rgba(255,255,255,0.07)',
-              background:     'rgba(255,255,255,0.03)',
-              color:          'rgba(200,215,255,0.2)',
+              border:         `1px solid ${accent}30`,
+              background:     `${accent}0a`,
+              color:          `${accent}cc`,
               fontFamily:     'var(--font-pixel), monospace',
               fontSize:       '0.42rem',
               letterSpacing:  '0.12em',
               imageRendering: 'pixelated',
-              cursor:         'not-allowed',
+              textDecoration: 'none',
               minHeight:       48,
+              transition:     'border-color 0.15s, background 0.15s',
             }}
           >
             ✦ Edit Appearance
-          </button>
+          </Link>
         </div>
 
         {/* ── Character Info ───────────────────────────────────────────── */}
@@ -905,6 +864,13 @@ export default async function ProfilePage() {
           </div>
         )}
       </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════
+          SIGN OUT
+      ═══════════════════════════════════════════════════════════════════ */}
+      <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid rgba(230,80,100,0.15)' }}>
+        <SignOutButton />
+      </div>
     </div>
   )
 }

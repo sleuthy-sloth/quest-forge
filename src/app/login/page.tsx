@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/client'
@@ -87,7 +86,6 @@ function AstrolabeRing({ size }: { size: number }) {
 
 // ── Main page ─────────────────────────────────────────────────
 export default function LoginPage() {
-  const router = useRouter()
   const supabase = createClient()
 
   const [tab, setTab] = useState<Tab>('gm')
@@ -144,13 +142,32 @@ export default function LoginPage() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { setServerError('Authentication failed. Please try again.'); return }
 
-      const { data: profile } = await supabase
+      const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('role')
         .eq('id', user.id)
         .single()
 
-      router.push(profile?.role === 'gm' ? '/dashboard' : '/play')
+      if (profileError || !profile) {
+        // Sign out so we don't leave a sessionless-profile user in a broken state
+        await supabase.auth.signOut()
+        setServerError(
+          'Your account was found but your profile is missing. ' +
+          'This can happen if signup did not complete. Please sign up again or contact support.'
+        )
+        return
+      }
+
+      if (profile.role !== 'gm') {
+        await supabase.auth.signOut()
+        setServerError('This account is a Player account. Use the Player tab to sign in.')
+        return
+      }
+
+      const params = new URLSearchParams(window.location.search)
+      const to = params.get('redirectTo')
+      const safeRedirect = to && to.startsWith('/') && !to.startsWith('//') ? to : '/dashboard'
+      window.location.href = safeRedirect
     } catch {
       setServerError('An unexpected error occurred. Please try again.')
     } finally {
@@ -199,7 +216,10 @@ export default function LoginPage() {
         return
       }
 
-      router.push('/play')
+      const params = new URLSearchParams(window.location.search)
+      const to = params.get('redirectTo')
+      const safeRedirect = to && to.startsWith('/') && !to.startsWith('//') ? to : '/play'
+      window.location.href = safeRedirect
     } catch {
       setServerError('An unexpected error occurred. Please try again.')
     } finally {

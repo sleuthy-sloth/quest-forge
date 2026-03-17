@@ -3,6 +3,7 @@
 
 import { useEffect, useState, useCallback, useRef, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import AvatarPreview from '@/components/avatar/AvatarPreview'
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -11,7 +12,7 @@ interface PendingCompletion {
   completed_at: string
   player_id: string
   chore_id: string
-  profiles: { display_name: string; username: string } | null
+  profiles: { display_name: string; username: string; avatar_config: unknown } | null
   chores: {
     title: string
     quest_flavor_text: string | null
@@ -35,23 +36,6 @@ function timeAgo(dateStr: string): string {
   if (diff < 3600) return `${Math.floor(diff / 60)}m ago`
   if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`
   return `${Math.floor(diff / 86400)}d ago`
-}
-
-// Deterministic avatar colour — matches palette in dashboard/page.tsx
-const PALETTES = [
-  { bg: 'rgba(100,30,140,0.85)',  border: 'rgba(160,80,220,0.6)',  text: '#d4a8f0' },
-  { bg: 'rgba(20,60,140,0.85)',   border: 'rgba(60,120,220,0.6)',  text: '#8ab4f8' },
-  { bg: 'rgba(20,100,70,0.85)',   border: 'rgba(40,180,120,0.6)',  text: '#6ed9a8' },
-  { bg: 'rgba(140,60,20,0.85)',   border: 'rgba(220,110,40,0.6)',  text: '#f0a86e' },
-  { bg: 'rgba(130,20,50,0.85)',   border: 'rgba(210,50,90,0.6)',   text: '#f08aaa' },
-  { bg: 'rgba(20,100,120,0.85)',  border: 'rgba(40,160,200,0.6)',  text: '#6ecef0' },
-  { bg: 'rgba(100,95,20,0.85)',   border: 'rgba(200,180,40,0.6)',  text: '#f0dc6e' },
-  { bg: 'rgba(60,20,100,0.85)',   border: 'rgba(120,50,200,0.6)',  text: '#b08af0' },
-]
-function avatarPalette(username: string) {
-  let h = 0
-  for (const c of username) h = (Math.imul(h, 31) + c.charCodeAt(0)) | 0
-  return PALETTES[Math.abs(h) % PALETTES.length]
 }
 
 // ── Main component ──────────────────────────────────────────────────────────
@@ -99,7 +83,7 @@ export default function ApprovalQueuePage() {
         completed_at,
         player_id,
         chore_id,
-        profiles!player_id ( display_name, username ),
+        profiles!player_id ( display_name, username, avatar_config ),
         chores ( title, quest_flavor_text, description, xp_reward, gold_reward )
       `)
       .eq('household_id', hid)
@@ -163,7 +147,7 @@ export default function ApprovalQueuePage() {
               completed_at,
               player_id,
               chore_id,
-              profiles!player_id ( display_name, username ),
+              profiles!player_id ( display_name, username, avatar_config ),
               chores ( title, quest_flavor_text, description, xp_reward, gold_reward )
             `)
             .eq('id', newId)
@@ -508,7 +492,6 @@ export default function ApprovalQueuePage() {
                 const player   = item.profiles
                 const chore    = item.chores
                 const username = player?.username ?? 'unknown'
-                const pal      = avatarPalette(username)
                 const isProcessing = processing.has(item.id)
                 const rejectOpen   = rejectExpanded[item.id] ?? false
 
@@ -535,20 +518,8 @@ export default function ApprovalQueuePage() {
                       }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
                           {/* Avatar */}
-                          <div style={{
-                            width: 38, height: 38, borderRadius: '50%', flexShrink: 0,
-                            background: pal.bg,
-                            border: `2px solid ${pal.border}`,
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          }}>
-                            <span style={{
-                              fontFamily: "'Press Start 2P', monospace",
-                              fontSize: 11,
-                              color: pal.text,
-                              imageRendering: 'pixelated',
-                            }}>
-                              {(player?.display_name ?? '?').charAt(0).toUpperCase()}
-                            </span>
+                          <div style={{ flexShrink: 0, lineHeight: 0 }}>
+                            <AvatarPreview avatarConfig={player?.avatar_config as Record<string, unknown> | null} size={64} />
                           </div>
                           <div>
                             <div style={{

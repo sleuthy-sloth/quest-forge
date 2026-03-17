@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import AvatarPreview from '@/components/avatar/AvatarPreview'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -136,6 +137,7 @@ export default function QuestsPage() {
   const [completions, setCompletions] = useState<Completion[]>([])
   const [userId,      setUserId]      = useState('')
   const [householdId, setHouseholdId] = useState('')
+  const [avatarConfig, setAvatarConfig] = useState<unknown>(null)
   const [loading,     setLoading]     = useState(true)
   const [completing,  setCompleting]  = useState<Set<string>>(new Set())
   const [msToMid,     setMsToMid]     = useState(0)
@@ -161,11 +163,12 @@ export default function QuestsPage() {
 
     const { data: profile } = await supabase
       .from('profiles')
-      .select('household_id')
+      .select('household_id, avatar_config')
       .eq('id', user.id)
       .single()
     if (!profile) { setLoading(false); return }
     setHouseholdId(profile.household_id)
+    setAvatarConfig(profile.avatar_config)
 
     const [{ data: choreData }, { data: completionData }] = await Promise.all([
       supabase
@@ -251,30 +254,36 @@ export default function QuestsPage() {
 
         {/* ── Page header ─────────────────────────────────────────────── */}
         <div className="flex items-start justify-between mb-6">
-          <div>
-            <h1
-              style={{
-                fontFamily:      'var(--font-pixel), monospace',
-                fontSize:        '0.52rem',
-                letterSpacing:   '0.14em',
-                color:           'rgba(201,168,76,0.85)',
-                imageRendering:  'pixelated',
-                textShadow:      '0 0 18px rgba(201,168,76,0.35)',
-              }}
-            >
-              ⚔ Quest Board
-            </h1>
-            <p
-              style={{
-                fontFamily:    'var(--font-heading), serif',
-                fontWeight:    300,
-                fontSize:      '0.7rem',
-                color:         'rgba(200,215,255,0.25)',
-                marginTop:     '0.2rem',
-              }}
-            >
-              {loading ? '…' : `${availableCount} quest${availableCount !== 1 ? 's' : ''} available`}
-            </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            {/* Avatar */}
+            <div style={{ flexShrink: 0, lineHeight: 0 }}>
+              <AvatarPreview avatarConfig={avatarConfig as Record<string, unknown> | null} size={64} />
+            </div>
+            <div>
+              <h1
+                style={{
+                  fontFamily:      'var(--font-pixel), monospace',
+                  fontSize:        '0.52rem',
+                  letterSpacing:   '0.14em',
+                  color:           'rgba(201,168,76,0.85)',
+                  imageRendering:  'pixelated',
+                  textShadow:      '0 0 18px rgba(201,168,76,0.35)',
+                }}
+              >
+                ⚔ Quest Board
+              </h1>
+              <p
+                style={{
+                  fontFamily:    'var(--font-heading), serif',
+                  fontWeight:    300,
+                  fontSize:      '0.7rem',
+                  color:         'rgba(200,215,255,0.25)',
+                  marginTop:     '0.2rem',
+                }}
+              >
+                {loading ? '…' : `${availableCount} quest${availableCount !== 1 ? 's' : ''} available`}
+              </p>
+            </div>
           </div>
 
           {/* Daily reset countdown */}

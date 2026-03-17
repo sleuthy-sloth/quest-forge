@@ -1,0 +1,1002 @@
+[
+  {
+    "title": "Define: ephemeral",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'ephemeral' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Lasting forever",
+        "Lasting only a very short time",
+        "Extremely powerful",
+        "Deeply mysterious"
+      ],
+      "correct_answer": "Lasting only a very short time",
+      "explanation": "'Ephemeral' means short-lived or transitory. A mayfly is ephemeral \u2014 it lives for only one day. From the Greek 'ephemeros' meaning 'lasting a day.'"
+    }
+  },
+  {
+    "title": "Define: perfidious",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'perfidious' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Extremely loyal",
+        "Deceitful and untrustworthy",
+        "Very skillful",
+        "Carefully planned"
+      ],
+      "correct_answer": "Deceitful and untrustworthy",
+      "explanation": "'Perfidious' means deliberately faithless or treacherous. A perfidious ally betrays your trust. From Latin 'perfidia' meaning treachery."
+    }
+  },
+  {
+    "title": "Define: sycophant",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 55,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'sycophant' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "A harsh critic",
+        "Someone who flatters powerful people to gain favor",
+        "A skilled negotiator",
+        "A type of musical instrument"
+      ],
+      "correct_answer": "Someone who flatters powerful people to gain favor",
+      "explanation": "'Sycophant' means a person who uses excessive flattery and fawning to win favor from those in power. Informally called a 'yes-man' or 'brownnoser.'"
+    }
+  },
+  {
+    "title": "Define: obfuscate",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 55,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'obfuscate' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "To make clear and simple",
+        "To make confusing or unclear on purpose",
+        "To speak very loudly",
+        "To organize neatly"
+      ],
+      "correct_answer": "To make confusing or unclear on purpose",
+      "explanation": "'Obfuscate' means to deliberately obscure or confuse. Politicians sometimes obfuscate the truth with vague language. From Latin 'obfuscare' meaning to darken."
+    }
+  },
+  {
+    "title": "Define: ambivalent",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'ambivalent' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Strongly in favor of something",
+        "Strongly opposed to something",
+        "Having mixed or conflicting feelings",
+        "Completely indifferent"
+      ],
+      "correct_answer": "Having mixed or conflicting feelings",
+      "explanation": "'Ambivalent' means simultaneously holding contradictory feelings. You might be ambivalent about moving to a new city \u2014 excited for opportunity but sad to leave friends."
+    }
+  },
+  {
+    "title": "Define: pragmatic",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'pragmatic' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Idealistic and dreamy",
+        "Dealing with things in a practical, realistic way",
+        "Overly emotional",
+        "Strictly following rules"
+      ],
+      "correct_answer": "Dealing with things in a practical, realistic way",
+      "explanation": "'Pragmatic' means focused on practical results rather than theories or ideals. A pragmatic solution is one that actually works, not just one that sounds good."
+    }
+  },
+  {
+    "title": "Define: tenacious",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'tenacious' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Quick to give up",
+        "Holding firmly on despite difficulty",
+        "Acting without thinking",
+        "Avoiding all conflict"
+      ],
+      "correct_answer": "Holding firmly on despite difficulty",
+      "explanation": "'Tenacious' means persistent and determined. A tenacious athlete keeps training through setbacks. From Latin 'tenax,' meaning holding fast."
+    }
+  },
+  {
+    "title": "Define: ostracize",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'ostracize' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "To include warmly in a group",
+        "To exclude someone from a group or society",
+        "To publicly celebrate someone",
+        "To compete fiercely with someone"
+      ],
+      "correct_answer": "To exclude someone from a group or society",
+      "explanation": "'Ostracize' means to banish or exclude someone. From ancient Athens, where citizens voted to exile dangerous people by writing on pottery shards called 'ostraka.'"
+    }
+  },
+  {
+    "title": "Define: loquacious",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'loquacious' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Very quiet and reserved",
+        "Tending to talk a great deal",
+        "Extremely logical",
+        "Easily frightened"
+      ],
+      "correct_answer": "Tending to talk a great deal",
+      "explanation": "'Loquacious' means very talkative or chatty. From Latin 'loqui' meaning to speak. The root 'loqu-' appears in words like 'eloquent' and 'soliloquy.'"
+    }
+  },
+  {
+    "title": "Define: venerate",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'venerate' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "To treat with deep respect or reverence",
+        "To argue against strongly",
+        "To investigate carefully",
+        "To imitate someone"
+      ],
+      "correct_answer": "To treat with deep respect or reverence",
+      "explanation": "'Venerate' means to regard with great respect, often for age or wisdom. Many cultures venerate their ancestors. From Latin 'venerari,' meaning to worship."
+    }
+  },
+  {
+    "title": "Analogy: teacher : student",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Complete the analogy: Teacher is to student as doctor is to _______.",
+      "type": "multiple_choice",
+      "options": [
+        "hospital",
+        "medicine",
+        "patient",
+        "nurse"
+      ],
+      "correct_answer": "patient",
+      "explanation": "A teacher instructs a student; a doctor treats a patient. The relationship is professional \u2192 the person they serve. Analogies test logical relationships between word pairs."
+    }
+  },
+  {
+    "title": "Analogy: petal : flower",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Complete the analogy: Petal is to flower as chapter is to _______.",
+      "type": "multiple_choice",
+      "options": [
+        "library",
+        "author",
+        "sentence",
+        "novel"
+      ],
+      "correct_answer": "novel",
+      "explanation": "A petal is a part of a flower; a chapter is a part of a novel. The relationship is part \u2192 whole."
+    }
+  },
+  {
+    "title": "Analogy: timid : bold",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Complete the analogy: Timid is to bold as loquacious is to _______.",
+      "type": "multiple_choice",
+      "options": [
+        "talkative",
+        "eloquent",
+        "taciturn",
+        "verbose"
+      ],
+      "correct_answer": "taciturn",
+      "explanation": "Timid and bold are antonyms. Loquacious means talkative, so its antonym is taciturn \u2014 meaning habitually silent. The relationship is antonym pairs."
+    }
+  },
+  {
+    "title": "Analogy: ephemeral : lasting",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Complete the analogy: Ephemeral is to lasting as ambivalent is to _______.",
+      "type": "multiple_choice",
+      "options": [
+        "confused",
+        "decisive",
+        "uncertain",
+        "powerful"
+      ],
+      "correct_answer": "decisive",
+      "explanation": "Ephemeral (short-lived) is the antonym of lasting. Ambivalent (having mixed feelings) is the antonym of decisive (having a clear, firm decision)."
+    }
+  },
+  {
+    "title": "Etymology: bene-",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The Latin root 'bene' means 'good' or 'well.' Which of the following words does NOT use this root?",
+      "type": "multiple_choice",
+      "options": [
+        "beneficial",
+        "benevolent",
+        "benign",
+        "belligerent"
+      ],
+      "correct_answer": "belligerent",
+      "explanation": "'Belligerent' comes from Latin 'bellum' (war), not 'bene.' Beneficial (helpful), benevolent (kind), and benign (harmless) all contain the 'good/well' root."
+    }
+  },
+  {
+    "title": "Etymology: mal-",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The Latin root 'mal' means 'bad.' Which word means 'speaking badly about someone'?",
+      "type": "multiple_choice",
+      "options": [
+        "magnify",
+        "malign",
+        "mandate",
+        "marvel"
+      ],
+      "correct_answer": "malign",
+      "explanation": "'Malign' means to speak critically or harmfully about someone. The 'mal-' root (bad) + 'ign' (related to 'genus,' nature) = bad-natured. Other 'mal' words: malice, malevolent, malfunction."
+    }
+  },
+  {
+    "title": "Etymology: -logy",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The Greek root '-logy' means 'the study of.' What does 'etymology' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "The study of insects",
+        "The study of word origins",
+        "The study of the Earth",
+        "The study of animals"
+      ],
+      "correct_answer": "The study of word origins",
+      "explanation": "'Etymology' comes from Greek 'etymon' (true meaning) + '-logy' (study of). It's the study of how words originated and evolved over time."
+    }
+  },
+  {
+    "title": "Etymology: circum-",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The Latin prefix 'circum-' means 'around.' What does 'circumspect' most likely mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Moving in circles",
+        "Looking carefully in all directions before acting",
+        "Speaking very loudly",
+        "Acting impulsively"
+      ],
+      "correct_answer": "Looking carefully in all directions before acting",
+      "explanation": "'Circumspect' = circum (around) + spect (look). To look around carefully before acting \u2014 cautious and thoughtful. Related: circumference, circumstance, circumnavigate."
+    }
+  },
+  {
+    "title": "Context clue: insipid",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Read: 'The film critic dismissed the movie as insipid \u2014 a predictable plot, forgettable characters, and no original ideas.' What does 'insipid' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Disturbing and violent",
+        "Lacking flavor, dullness, no interesting qualities",
+        "Technically impressive",
+        "Emotionally powerful"
+      ],
+      "correct_answer": "Lacking flavor, dullness, no interesting qualities",
+      "explanation": "'Insipid' means lacking interest, vigor, or flavor. Context clues: 'predictable,' 'forgettable,' and 'no original ideas' all reinforce the meaning of dull and lifeless."
+    }
+  },
+  {
+    "title": "Context clue: contrite",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Read: 'After snapping at her friend, Maya felt contrite \u2014 she immediately apologized and offered to make it up to her.' What does 'contrite' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Angry and defensive",
+        "Sincerely remorseful or sorry",
+        "Confused about what happened",
+        "Relieved it was over"
+      ],
+      "correct_answer": "Sincerely remorseful or sorry",
+      "explanation": "'Contrite' means feeling deep regret and remorse. The context clues \u2014 immediately apologizing and wanting to make amends \u2014 all point to sincere sorrow."
+    }
+  },
+  {
+    "title": "Context clue: magnanimous",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Read: 'Though she had every right to be angry, the champion was magnanimous in victory, praising her opponent's effort and refusing to gloat.' What does 'magnanimous' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Arrogant and boastful",
+        "Generous and noble in spirit",
+        "Quietly disappointed",
+        "Overly competitive"
+      ],
+      "correct_answer": "Generous and noble in spirit",
+      "explanation": "'Magnanimous' means generous and forgiving, especially toward rivals. From Latin 'magnus' (great) + 'animus' (spirit). A great-spirited person rises above pettiness."
+    }
+  },
+  {
+    "title": "Commonly confused: affect vs effect",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which sentence uses 'effect' correctly?",
+      "type": "multiple_choice",
+      "options": [
+        "The cold weather will effect how we feel.",
+        "Stress can effect your sleep.",
+        "The medication had a noticeable effect on her recovery.",
+        "How did the news effect you?"
+      ],
+      "correct_answer": "The medication had a noticeable effect on her recovery.",
+      "explanation": "'Effect' is usually a noun (the result). 'Affect' is usually a verb (to influence). Memory trick: Affect=Action (verb), Effect=End result (noun)."
+    }
+  },
+  {
+    "title": "Commonly confused: imply vs infer",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which sentence is correct?",
+      "type": "multiple_choice",
+      "options": [
+        "The data infers that sales will increase.",
+        "The speaker implied that changes were coming.",
+        "I implied from his tone that he was upset.",
+        "Her silence inferrred agreement."
+      ],
+      "correct_answer": "The speaker implied that changes were coming.",
+      "explanation": "The speaker implies (suggests indirectly); the listener infers (draws a conclusion). Speakers imply; listeners infer. A writer implies meaning; a reader infers it."
+    }
+  },
+  {
+    "title": "Commonly confused: disinterested vs uninterested",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A judge should be _______ in a case \u2014 meaning they have no personal stake in the outcome.",
+      "type": "multiple_choice",
+      "options": [
+        "uninterested",
+        "disinterested",
+        "either word works",
+        "neither word works"
+      ],
+      "correct_answer": "disinterested",
+      "explanation": "'Disinterested' means impartial, having no personal stake. 'Uninterested' means bored or lacking interest. A good judge is disinterested (fair), not uninterested (bored). These are commonly confused!"
+    }
+  },
+  {
+    "title": "Commonly confused: fewer vs less",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which sentence is grammatically correct?",
+      "type": "multiple_choice",
+      "options": [
+        "There are less students in the class today.",
+        "There are fewer water in the bottle.",
+        "There are fewer students in the class today.",
+        "Less people attended than expected."
+      ],
+      "correct_answer": "There are fewer students in the class today.",
+      "explanation": "'Fewer' is used with countable nouns (students, apples, cars). 'Less' is used with uncountable nouns (water, time, money). Memory trick: fewer items you can count; less of a mass."
+    }
+  },
+  {
+    "title": "Commonly confused: elicit vs illicit",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is the difference between 'elicit' and 'illicit'?",
+      "type": "multiple_choice",
+      "options": [
+        "They mean the same thing",
+        "'Elicit' means to draw out a response; 'illicit' means illegal or forbidden",
+        "'Illicit' means to draw out a response; 'elicit' means illegal or forbidden",
+        "Both mean something illegal"
+      ],
+      "correct_answer": "'Elicit' means to draw out a response; 'illicit' means illegal or forbidden",
+      "explanation": "Elicit (verb): to draw out or provoke \u2014 'The question elicited a strong reaction.' Illicit (adjective): unlawful or forbidden \u2014 'The investigation uncovered illicit activity.'"
+    }
+  },
+  {
+    "title": "Analogy: palliate : suffering",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 55,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Complete the analogy: Palliate is to suffering as _______.",
+      "type": "multiple_choice",
+      "options": [
+        "silence is to noise",
+        "amplify is to sound",
+        "extinguish is to hunger",
+        "create is to art"
+      ],
+      "correct_answer": "silence is to noise",
+      "explanation": "'Palliate' means to reduce the severity of suffering without curing it. Silence reduces noise. Both describe lessening or diminishing something. (Palliate comes from Latin 'pallium,' a cloak \u2014 to cover over.)"
+    }
+  },
+  {
+    "title": "Define: taciturn",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'taciturn' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Extremely talkative",
+        "Reserved, saying very little",
+        "Openly emotional",
+        "Highly intelligent"
+      ],
+      "correct_answer": "Reserved, saying very little",
+      "explanation": "'Taciturn' describes someone habitually silent and uncommunicative. From Latin 'tacitus' (silent). A taciturn person speaks only when necessary \u2014 the opposite of loquacious."
+    }
+  },
+  {
+    "title": "Define: inveterate",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 55,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'inveterate' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Recently acquired",
+        "Having a habit so deep it's unlikely to change",
+        "Feeling deep regret",
+        "Extremely skillful"
+      ],
+      "correct_answer": "Having a habit so deep it's unlikely to change",
+      "explanation": "'Inveterate' means deeply established by long habit. An inveterate liar lies constantly and compulsively. From Latin 'inveterare' meaning to make old."
+    }
+  },
+  {
+    "title": "Define: equivocate",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'equivocate' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "To speak clearly and directly",
+        "To use vague language to avoid committing to an answer",
+        "To argue passionately",
+        "To make a firm decision"
+      ],
+      "correct_answer": "To use vague language to avoid committing to an answer",
+      "explanation": "'Equivocate' means to be deliberately ambiguous to mislead or avoid commitment. Politicians sometimes equivocate on difficult issues. From Latin 'aequus' (equal) + 'vox' (voice) \u2014 speaking with equal weight on both sides."
+    }
+  },
+  {
+    "title": "Analogy: miser : money",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Complete the analogy: Miser is to money as glutton is to _______.",
+      "type": "multiple_choice",
+      "options": [
+        "exercise",
+        "food",
+        "silence",
+        "knowledge"
+      ],
+      "correct_answer": "food",
+      "explanation": "A miser hoards money excessively; a glutton consumes food excessively. The relationship is person \u2192 what they excessively desire or hoard."
+    }
+  },
+  {
+    "title": "Define: obsequious",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 55,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'obsequious' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Stubbornly independent",
+        "Excessively eager to serve or please, in a fawning way",
+        "Loudly critical of authority",
+        "Deeply philosophical"
+      ],
+      "correct_answer": "Excessively eager to serve or please, in a fawning way",
+      "explanation": "'Obsequious' means overly submissive and eager to please in a way that feels insincere. Similar to sycophantic \u2014 the obsequious employee agrees with everything the boss says."
+    }
+  },
+  {
+    "title": "Define: sardonic",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'sardonic' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Warmly cheerful",
+        "Grimly mocking or cynically humorous",
+        "Deeply sincere",
+        "Openly angry"
+      ],
+      "correct_answer": "Grimly mocking or cynically humorous",
+      "explanation": "'Sardonic' describes a type of humor that is darkly mocking or bitterly cynical. A sardonic smile suggests contempt hidden behind amusement."
+    }
+  },
+  {
+    "title": "Context clue: limpid",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Read: 'The mountain spring produced limpid water \u2014 so clear you could count the pebbles twelve feet below the surface.' What does 'limpid' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Extremely cold",
+        "Perfectly still",
+        "Clear and transparent",
+        "Slightly salty"
+      ],
+      "correct_answer": "Clear and transparent",
+      "explanation": "'Limpid' means transparently clear. The context \u2014 counting pebbles twelve feet down \u2014 tells us the water is exceptionally clear and unclouded."
+    }
+  },
+  {
+    "title": "Context clue: garrulous",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Read: 'The garrulous neighbor kept us on the porch for an hour, chattering about her garden, her cats, and every piece of neighborhood gossip.' What does 'garrulous' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Shy and reserved",
+        "Excessively talkative about trivial things",
+        "Intensely focused",
+        "Quietly observant"
+      ],
+      "correct_answer": "Excessively talkative about trivial things",
+      "explanation": "'Garrulous' means talking excessively about unimportant things. Similar to loquacious, but garrulous adds the sense of tiresome chatter. From Latin 'garrire' meaning to chatter."
+    }
+  },
+  {
+    "title": "Synonym for 'ephemeral'",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which word is the closest synonym for 'ephemeral'?",
+      "type": "multiple_choice",
+      "options": [
+        "Eternal",
+        "Transient",
+        "Vivid",
+        "Profound"
+      ],
+      "correct_answer": "Transient",
+      "explanation": "'Transient' and 'ephemeral' both mean lasting only a short time. Other synonyms: fleeting, momentary, transitory. The antonyms are eternal, permanent, and enduring."
+    }
+  },
+  {
+    "title": "Antonym for 'pragmatic'",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is the best antonym for 'pragmatic'?",
+      "type": "multiple_choice",
+      "options": [
+        "Efficient",
+        "Idealistic",
+        "Decisive",
+        "Reasonable"
+      ],
+      "correct_answer": "Idealistic",
+      "explanation": "'Idealistic' is the antonym of 'pragmatic.' Pragmatic focuses on what works in reality; idealistic focuses on what should be in an ideal world, sometimes at the expense of practicality."
+    }
+  },
+  {
+    "title": "Etymology: -voc-",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The Latin root 'voc/voke' means 'voice' or 'call.' Which word does NOT come from this root?",
+      "type": "multiple_choice",
+      "options": [
+        "vocal",
+        "evoke",
+        "provoke",
+        "volunteer"
+      ],
+      "correct_answer": "volunteer",
+      "explanation": "'Volunteer' comes from Latin 'voluntas' (will or wish), not 'vox' (voice). Vocal (relating to voice), evoke (call up feelings), and provoke (call forth a reaction) all use the 'voc' root."
+    }
+  },
+  {
+    "title": "Etymology: -cred-",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The Latin root 'cred' means 'believe' or 'trust.' What does 'incredulous' most likely mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Very trusting",
+        "Unable or unwilling to believe something",
+        "Highly intelligent",
+        "Easily frightened"
+      ],
+      "correct_answer": "Unable or unwilling to believe something",
+      "explanation": "'Incredulous' = in- (not) + credulous (believing). To be incredulous is to be skeptical or to find something hard to believe. Related words: credible, credential, incredible."
+    }
+  },
+  {
+    "title": "Define: recalcitrant",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 55,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'recalcitrant' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Eagerly cooperative",
+        "Stubbornly resistant to authority or control",
+        "Deeply thoughtful",
+        "Easily persuaded"
+      ],
+      "correct_answer": "Stubbornly resistant to authority or control",
+      "explanation": "'Recalcitrant' means stubbornly uncooperative and resistant. From Latin 're' (back) + 'calcitrare' (to kick) \u2014 like a horse kicking back against its rider."
+    }
+  },
+  {
+    "title": "Analogy: perfidious : loyal",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Complete the analogy: Perfidious is to loyal as sardonic is to _______.",
+      "type": "multiple_choice",
+      "options": [
+        "mocking",
+        "sincere",
+        "bitter",
+        "clever"
+      ],
+      "correct_answer": "sincere",
+      "explanation": "Perfidious (treacherous) is the antonym of loyal. Sardonic (grimly mocking) is the antonym of sincere (genuinely warm and earnest)."
+    }
+  },
+  {
+    "title": "Commonly confused: principal vs principle",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which sentence uses the correct word?",
+      "type": "multiple_choice",
+      "options": [
+        "She refused to compromise her principals.",
+        "The school principle gave a speech.",
+        "The principal reason for the delay was weather.",
+        "He had strong principals about honesty."
+      ],
+      "correct_answer": "The principal reason for the delay was weather.",
+      "explanation": "'Principal' means main/chief (as an adjective) or the head of a school (noun). 'Principle' means a rule or belief. Memory trick: the school principAL is your pAL; a principlE is a rulE."
+    }
+  },
+  {
+    "title": "Commonly confused: comprise vs compose",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which sentence is correct?",
+      "type": "multiple_choice",
+      "options": [
+        "The United States is comprised of 50 states.",
+        "The United States comprises 50 states.",
+        "Fifty states are comprising the United States.",
+        "The US is composed by 50 states."
+      ],
+      "correct_answer": "The United States comprises 50 states.",
+      "explanation": "The whole 'comprises' (includes) its parts. The parts 'compose' the whole. 'Is comprised of' is technically incorrect, though common. Think: 'The zoo comprises animals' = 'The zoo contains animals.'"
+    }
+  },
+  {
+    "title": "Define: inimical",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 55,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'inimical' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Friendly and supportive",
+        "Tending to obstruct or be harmful",
+        "Extremely rare",
+        "Deeply personal"
+      ],
+      "correct_answer": "Tending to obstruct or be harmful",
+      "explanation": "'Inimical' means hostile or harmful to something. Pollution is inimical to public health. From Latin 'inimicus' (enemy) \u2014 the same root as 'enemy.'"
+    }
+  },
+  {
+    "title": "Analogy: obfuscate : clarity",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 55,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Complete the analogy: Obfuscate is to clarity as ostracize is to _______.",
+      "type": "multiple_choice",
+      "options": [
+        "punishment",
+        "belonging",
+        "exile",
+        "confusion"
+      ],
+      "correct_answer": "belonging",
+      "explanation": "Obfuscate destroys clarity; ostracize destroys belonging (by excluding someone from a group). Both verbs describe actions that remove or damage something essential."
+    }
+  },
+  {
+    "title": "Context clue: pedantic",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Read: 'Rather than enjoying the novel, the pedantic critic spent his entire review correcting minor historical inaccuracies and grammatical imprecisions.' What does 'pedantic' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Warmly enthusiastic",
+        "Overly focused on minor rules and technical details",
+        "Deeply creative",
+        "Extremely concise"
+      ],
+      "correct_answer": "Overly focused on minor rules and technical details",
+      "explanation": "'Pedantic' describes someone excessively concerned with formal rules or minor details, missing the bigger picture. A pedantic person corrects grammar during an emotional conversation."
+    }
+  },
+  {
+    "title": "Define: propitious",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'propitious' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Threatening and ominous",
+        "Giving a good sign; favorable",
+        "Deeply mysterious",
+        "Extremely cautious"
+      ],
+      "correct_answer": "Giving a good sign; favorable",
+      "explanation": "'Propitious' means showing signs of future success or favorable conditions. A propitious moment is a good time to act. From Latin 'propitius' meaning favorable."
+    }
+  },
+  {
+    "title": "Commonly confused: tortuous vs torturous",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The mountain road followed a _______ path \u2014 winding back and forth for miles through the cliffs.",
+      "type": "multiple_choice",
+      "options": [
+        "torturous",
+        "tortuous",
+        "either works equally",
+        "neither is correct"
+      ],
+      "correct_answer": "tortuous",
+      "explanation": "'Tortuous' means full of twists and turns (literally or figuratively). 'Torturous' means causing torture or great pain. A tortuous road winds; a torturous experience causes agony."
+    }
+  },
+  {
+    "title": "Define: laconic",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does 'laconic' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Extremely detailed and thorough",
+        "Using very few words",
+        "Logically inconsistent",
+        "Deeply emotional"
+      ],
+      "correct_answer": "Using very few words",
+      "explanation": "'Laconic' means expressing much in few words. From 'Laconia,' the region of ancient Sparta \u2014 the Spartans were famous for brief, direct speech. 'Come and take them' is a legendary laconic reply."
+    }
+  },
+  {
+    "title": "Define: perspicacious",
+    "subject": "vocabulary",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 55,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does \"perspicacious\" mean?",
+      "type": "multiple_choice",
+      "options": [
+        "Easily confused",
+        "Having a ready insight into things; shrewd",
+        "Extremely talkative",
+        "Stubbornly opinionated"
+      ],
+      "correct_answer": "Having a ready insight into things; shrewd",
+      "explanation": "\"Perspicacious\" means having a sharp, clear understanding of things. A perspicacious detective notices clues others miss. From Latin \"perspicax\" meaning sharp-sighted \u2014 the same root as \"perspective\" and \"spectacles.\""
+    }
+  }
+]

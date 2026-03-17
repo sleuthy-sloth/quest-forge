@@ -1,0 +1,1002 @@
+[
+  {
+    "title": "States of matter: solid",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which of the following is an example of a solid?",
+      "type": "multiple_choice",
+      "options": [
+        "Steam",
+        "Milk",
+        "A rock",
+        "Air"
+      ],
+      "correct_answer": "A rock",
+      "explanation": "A rock is a solid. Solids have a definite shape and volume \u2014 they don't flow or spread out. Steam is a gas, milk is a liquid, and air is a gas."
+    }
+  },
+  {
+    "title": "States of matter: liquid",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What makes a liquid different from a solid?",
+      "type": "multiple_choice",
+      "options": [
+        "A liquid has no mass",
+        "A liquid takes the shape of its container",
+        "A liquid cannot be poured",
+        "A liquid is always cold"
+      ],
+      "correct_answer": "A liquid takes the shape of its container",
+      "explanation": "Liquids flow and take the shape of whatever container holds them, but they keep the same volume. Pour water into a tall glass or a wide bowl \u2014 same amount, different shape."
+    }
+  },
+  {
+    "title": "States of matter: gas",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What happens to the particles in a gas compared to a solid?",
+      "type": "multiple_choice",
+      "options": [
+        "Gas particles are packed tightly together",
+        "Gas particles move slowly and stay in place",
+        "Gas particles spread out and move freely in all directions",
+        "Gas particles are heavier than solid particles"
+      ],
+      "correct_answer": "Gas particles spread out and move freely in all directions",
+      "explanation": "In a gas, particles move fast and spread out to fill any space. In a solid, particles are tightly packed and vibrate in place. This is why gas fills a whole room but a rock stays the same shape."
+    }
+  },
+  {
+    "title": "Change of state: melting",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What happens when ice melts?",
+      "type": "multiple_choice",
+      "options": [
+        "It changes from liquid to solid",
+        "It changes from solid to liquid",
+        "It changes from liquid to gas",
+        "It disappears completely"
+      ],
+      "correct_answer": "It changes from solid to liquid",
+      "explanation": "Melting is when a solid turns into a liquid by gaining heat energy. Ice (solid) melts into water (liquid) when it gets warm. The water doesn't disappear \u2014 it just changes state."
+    }
+  },
+  {
+    "title": "Change of state: evaporation",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "When a puddle dries up after rain, what has happened to the water?",
+      "type": "multiple_choice",
+      "options": [
+        "It soaked into the sky",
+        "It evaporated into water vapor",
+        "It turned into ice underground",
+        "It was absorbed by clouds directly"
+      ],
+      "correct_answer": "It evaporated into water vapor",
+      "explanation": "Evaporation is when a liquid turns into a gas. Heat from the sun gives water molecules enough energy to escape into the air as invisible water vapor. The water isn't gone \u2014 it's in the atmosphere!"
+    }
+  },
+  {
+    "title": "Water cycle: condensation",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Why do clouds form in the sky?",
+      "type": "multiple_choice",
+      "options": [
+        "Wind pushes water up from the ocean",
+        "Water vapor cools and condenses into tiny droplets",
+        "The sun melts ice at the top of the atmosphere",
+        "Smoke from fires turns into clouds"
+      ],
+      "correct_answer": "Water vapor cools and condenses into tiny droplets",
+      "explanation": "Condensation is the opposite of evaporation. When warm, moist air rises and cools, water vapor turns back into tiny liquid droplets that cluster together to form clouds."
+    }
+  },
+  {
+    "title": "Butterfly life cycle",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is the correct order of a butterfly's life cycle?",
+      "type": "multiple_choice",
+      "options": [
+        "Egg \u2192 Adult \u2192 Caterpillar \u2192 Chrysalis",
+        "Caterpillar \u2192 Egg \u2192 Chrysalis \u2192 Adult",
+        "Egg \u2192 Caterpillar \u2192 Chrysalis \u2192 Adult",
+        "Chrysalis \u2192 Egg \u2192 Adult \u2192 Caterpillar"
+      ],
+      "correct_answer": "Egg \u2192 Caterpillar \u2192 Chrysalis \u2192 Adult",
+      "explanation": "A butterfly goes through 4 stages: egg, larva (caterpillar), pupa (chrysalis), and adult. This complete transformation is called metamorphosis."
+    }
+  },
+  {
+    "title": "Frog life cycle",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What hatches from a frog's egg?",
+      "type": "multiple_choice",
+      "options": [
+        "A tiny frog",
+        "A tadpole",
+        "A caterpillar",
+        "A larva"
+      ],
+      "correct_answer": "A tadpole",
+      "explanation": "Frog eggs hatch into tadpoles \u2014 aquatic creatures that breathe through gills and have tails but no legs. Over time, tadpoles grow legs, lose their tails, and become adult frogs."
+    }
+  },
+  {
+    "title": "Plant life cycle",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does a seed need to start growing (germinating)?",
+      "type": "multiple_choice",
+      "options": [
+        "Sunlight, sugar, and wind",
+        "Water, warmth, and oxygen",
+        "Moonlight, soil, and salt",
+        "Fertilizer, rocks, and ice"
+      ],
+      "correct_answer": "Water, warmth, and oxygen",
+      "explanation": "Seeds need water, warmth, and oxygen to germinate. They don't need sunlight yet \u2014 the seedling uses stored energy in the seed until it sprouts and can make its own food."
+    }
+  },
+  {
+    "title": "Photosynthesis",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What do plants use to make their own food through photosynthesis?",
+      "type": "multiple_choice",
+      "options": [
+        "Soil, water, and moonlight",
+        "Sunlight, water, and carbon dioxide",
+        "Oxygen, sugar, and fertilizer",
+        "Wind, rain, and heat"
+      ],
+      "correct_answer": "Sunlight, water, and carbon dioxide",
+      "explanation": "Plants make food using sunlight (energy), water (from roots), and carbon dioxide (from air). They produce glucose (sugar) as food and release oxygen as a byproduct \u2014 which is the air we breathe!"
+    }
+  },
+  {
+    "title": "Solar system: planets",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "How many planets are in our solar system?",
+      "type": "multiple_choice",
+      "options": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "correct_answer": "8",
+      "explanation": "There are 8 planets: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune. Pluto was reclassified as a 'dwarf planet' in 2006. Memory trick: My Very Educated Mother Just Served Us Nachos."
+    }
+  },
+  {
+    "title": "Solar system: closest to the sun",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which planet is closest to the Sun?",
+      "type": "multiple_choice",
+      "options": [
+        "Venus",
+        "Earth",
+        "Mercury",
+        "Mars"
+      ],
+      "correct_answer": "Mercury",
+      "explanation": "Mercury is the closest planet to the Sun. Despite being the closest, it's not the hottest \u2014 that's Venus, because Venus has a thick atmosphere that traps heat."
+    }
+  },
+  {
+    "title": "Solar system: largest planet",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which is the largest planet in our solar system?",
+      "type": "multiple_choice",
+      "options": [
+        "Saturn",
+        "Neptune",
+        "Jupiter",
+        "Uranus"
+      ],
+      "correct_answer": "Jupiter",
+      "explanation": "Jupiter is by far the largest planet \u2014 so big that all other planets could fit inside it. Its famous Great Red Spot is a storm that has raged for hundreds of years."
+    }
+  },
+  {
+    "title": "The Moon",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Why does the Moon appear to shine at night?",
+      "type": "multiple_choice",
+      "options": [
+        "It generates its own light like a star",
+        "It reflects light from the Sun",
+        "It absorbs heat from Earth and glows",
+        "It is made of glowing rock"
+      ],
+      "correct_answer": "It reflects light from the Sun",
+      "explanation": "The Moon has no light of its own. It acts like a giant mirror, reflecting sunlight toward Earth. That's also why we see different 'phases' of the Moon as it orbits us."
+    }
+  },
+  {
+    "title": "Stars vs planets",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is the main difference between a star and a planet?",
+      "type": "multiple_choice",
+      "options": [
+        "Stars are smaller than planets",
+        "Stars produce their own light; planets reflect light",
+        "Planets are hotter than stars",
+        "Stars orbit planets"
+      ],
+      "correct_answer": "Stars produce their own light; planets reflect light",
+      "explanation": "Stars are massive balls of burning gas that produce their own heat and light through nuclear fusion. Planets are solid or gaseous bodies that only reflect starlight \u2014 they don't make their own."
+    }
+  },
+  {
+    "title": "Simple machines: lever",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A seesaw is an example of which simple machine?",
+      "type": "multiple_choice",
+      "options": [
+        "Pulley",
+        "Wheel and axle",
+        "Lever",
+        "Inclined plane"
+      ],
+      "correct_answer": "Lever",
+      "explanation": "A seesaw is a lever \u2014 a rigid bar that pivots on a fixed point called a fulcrum. Levers help us lift heavy objects or move things with less effort. Scissors, bottle openers, and crowbars are also levers."
+    }
+  },
+  {
+    "title": "Simple machines: inclined plane",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Why is it easier to push a heavy box up a ramp than to lift it straight up?",
+      "type": "multiple_choice",
+      "options": [
+        "Ramps make objects lighter",
+        "A ramp spreads the work over a longer distance, requiring less force",
+        "Boxes slide faster on ramps",
+        "Ramps always point downhill"
+      ],
+      "correct_answer": "A ramp spreads the work over a longer distance, requiring less force",
+      "explanation": "An inclined plane (ramp) is a simple machine. It doesn't reduce the total work done, but it spreads it over a longer distance, so you need less force at any one moment. That's why moving trucks use ramps!"
+    }
+  },
+  {
+    "title": "Simple machines: pulley",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does a pulley help you do?",
+      "type": "multiple_choice",
+      "options": [
+        "Cut things in half",
+        "Change the direction of force to lift objects more easily",
+        "Spin objects faster",
+        "Push objects sideways"
+      ],
+      "correct_answer": "Change the direction of force to lift objects more easily",
+      "explanation": "A pulley uses a wheel and rope to change the direction of a force. Instead of lifting straight up (hard), you pull down (easier). Flagpoles and cranes use pulleys."
+    }
+  },
+  {
+    "title": "Simple machines: wheel and axle",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which of these is an example of a wheel and axle?",
+      "type": "multiple_choice",
+      "options": [
+        "A knife",
+        "A doorknob",
+        "A ramp",
+        "A ladder"
+      ],
+      "correct_answer": "A doorknob",
+      "explanation": "A doorknob is a wheel and axle \u2014 the large knob (wheel) rotates around a central shaft (axle). Turning the large knob takes little force, which is amplified to turn the tighter axle mechanism inside."
+    }
+  },
+  {
+    "title": "Weather: clouds and rain",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What causes rain to fall from clouds?",
+      "type": "multiple_choice",
+      "options": [
+        "Clouds get too cold and shatter",
+        "Water droplets in clouds combine and grow heavy enough to fall",
+        "Wind pushes water out of clouds",
+        "The sun pulls water down from clouds"
+      ],
+      "correct_answer": "Water droplets in clouds combine and grow heavy enough to fall",
+      "explanation": "Clouds are made of millions of tiny water droplets. When droplets bump into each other and join together, they form bigger drops. When the drops get heavy enough, gravity pulls them down as rain."
+    }
+  },
+  {
+    "title": "Weather: temperature",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What instrument is used to measure temperature?",
+      "type": "multiple_choice",
+      "options": [
+        "Barometer",
+        "Anemometer",
+        "Thermometer",
+        "Rain gauge"
+      ],
+      "correct_answer": "Thermometer",
+      "explanation": "A thermometer measures temperature. A barometer measures air pressure, an anemometer measures wind speed, and a rain gauge measures rainfall. Scientists use all of these to study weather."
+    }
+  },
+  {
+    "title": "Weather: the water cycle",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which correctly describes the water cycle in order?",
+      "type": "multiple_choice",
+      "options": [
+        "Rain \u2192 Evaporation \u2192 Snow \u2192 Clouds",
+        "Evaporation \u2192 Condensation \u2192 Precipitation \u2192 Collection",
+        "Clouds \u2192 Freezing \u2192 Melting \u2192 Steam",
+        "Collection \u2192 Condensation \u2192 Evaporation \u2192 Rain"
+      ],
+      "correct_answer": "Evaporation \u2192 Condensation \u2192 Precipitation \u2192 Collection",
+      "explanation": "The water cycle: water evaporates (turns to vapor), vapor rises and condenses (forms clouds), precipitation falls (rain/snow), and water collects (lakes, rivers, groundwater) to start again."
+    }
+  },
+  {
+    "title": "Human body: skeleton",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is the main job of your skeleton?",
+      "type": "multiple_choice",
+      "options": [
+        "To digest food",
+        "To pump blood through your body",
+        "To support your body and protect organs",
+        "To help you breathe"
+      ],
+      "correct_answer": "To support your body and protect organs",
+      "explanation": "Your skeleton does three key things: supports your body's structure, protects delicate organs (your skull protects your brain, your ribcage protects your heart and lungs), and works with muscles to allow movement."
+    }
+  },
+  {
+    "title": "Human body: heart",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What does your heart do?",
+      "type": "multiple_choice",
+      "options": [
+        "Filters waste from blood",
+        "Pumps blood around your body",
+        "Produces digestive juices",
+        "Controls your thoughts"
+      ],
+      "correct_answer": "Pumps blood around your body",
+      "explanation": "Your heart is a muscle that pumps blood continuously around your body. Blood carries oxygen and nutrients to every cell and carries waste away. It beats about 100,000 times a day!"
+    }
+  },
+  {
+    "title": "Human body: lungs",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What gas do your lungs take from the air when you breathe in?",
+      "type": "multiple_choice",
+      "options": [
+        "Carbon dioxide",
+        "Nitrogen",
+        "Oxygen",
+        "Hydrogen"
+      ],
+      "correct_answer": "Oxygen",
+      "explanation": "Your lungs take in oxygen from the air and pass it into your blood. In return, your blood gives carbon dioxide (a waste gas) back to your lungs, which you breathe out. This gas exchange happens constantly."
+    }
+  },
+  {
+    "title": "Human body: brain",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which organ controls all body functions including thinking, movement, and feelings?",
+      "type": "multiple_choice",
+      "options": [
+        "Heart",
+        "Stomach",
+        "Liver",
+        "Brain"
+      ],
+      "correct_answer": "Brain",
+      "explanation": "The brain is the control center of your body. It processes information from your senses, controls movement, stores memories, and regulates body functions \u2014 all at the same time!"
+    }
+  },
+  {
+    "title": "Human body: digestion",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is the first step in the digestion of food?",
+      "type": "multiple_choice",
+      "options": [
+        "The stomach breaks food down with acid",
+        "The small intestine absorbs nutrients",
+        "Chewing in the mouth breaks food into smaller pieces",
+        "The liver filters the food"
+      ],
+      "correct_answer": "Chewing in the mouth breaks food into smaller pieces",
+      "explanation": "Digestion starts in your mouth. Teeth break food into smaller pieces and saliva begins breaking down starches. This makes it easier for the rest of your digestive system to extract nutrients."
+    }
+  },
+  {
+    "title": "Animals: vertebrates vs invertebrates",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which of these is an invertebrate (animal without a backbone)?",
+      "type": "multiple_choice",
+      "options": [
+        "Dog",
+        "Salmon",
+        "Earthworm",
+        "Eagle"
+      ],
+      "correct_answer": "Earthworm",
+      "explanation": "An earthworm is an invertebrate \u2014 it has no backbone. Dogs, salmon, and eagles are all vertebrates \u2014 they have a spine. About 97% of all animal species are invertebrates!"
+    }
+  },
+  {
+    "title": "Animals: food chains",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "In a food chain: Grass \u2192 Rabbit \u2192 Fox. What is the grass called?",
+      "type": "multiple_choice",
+      "options": [
+        "Consumer",
+        "Predator",
+        "Producer",
+        "Decomposer"
+      ],
+      "correct_answer": "Producer",
+      "explanation": "Grass is a producer \u2014 it makes its own food using sunlight (photosynthesis). Rabbits and foxes are consumers because they eat other organisms. Producers are the foundation of every food chain."
+    }
+  },
+  {
+    "title": "Animals: habitat",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is a habitat?",
+      "type": "multiple_choice",
+      "options": [
+        "An animal's diet",
+        "The natural environment where an organism lives",
+        "A type of camouflage",
+        "The group of animals an organism belongs to"
+      ],
+      "correct_answer": "The natural environment where an organism lives",
+      "explanation": "A habitat is the natural home of a plant or animal that provides food, water, shelter, and space. A polar bear's habitat is the Arctic. A clownfish's habitat is a coral reef."
+    }
+  },
+  {
+    "title": "Animals: mammals",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which of these is NOT a characteristic of mammals?",
+      "type": "multiple_choice",
+      "options": [
+        "They are warm-blooded",
+        "They breathe with gills",
+        "They have hair or fur",
+        "They feed their young with milk"
+      ],
+      "correct_answer": "They breathe with gills",
+      "explanation": "Mammals breathe with lungs, not gills. All mammals are warm-blooded, have hair or fur, and females feed their young with milk. Fish and most amphibians breathe with gills."
+    }
+  },
+  {
+    "title": "Forces: gravity",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What force pulls objects toward the center of the Earth?",
+      "type": "multiple_choice",
+      "options": [
+        "Magnetism",
+        "Friction",
+        "Gravity",
+        "Electricity"
+      ],
+      "correct_answer": "Gravity",
+      "explanation": "Gravity is a force that pulls objects with mass toward each other. Earth's gravity pulls everything toward its center \u2014 that's why things fall down when you drop them, and why we stay on the ground."
+    }
+  },
+  {
+    "title": "Forces: friction",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Why is it harder to slide a heavy box across a rough carpet than a smooth floor?",
+      "type": "multiple_choice",
+      "options": [
+        "The carpet is heavier",
+        "Rough surfaces create more friction",
+        "Smooth floors create more gravity",
+        "The box shrinks on carpet"
+      ],
+      "correct_answer": "Rough surfaces create more friction",
+      "explanation": "Friction is a force that resists movement between surfaces. Rough surfaces have more friction than smooth ones. Friction can be helpful (stopping a car) or something to reduce (wheels on a bike)."
+    }
+  },
+  {
+    "title": "Magnets: poles",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What happens when you bring the north poles of two magnets together?",
+      "type": "multiple_choice",
+      "options": [
+        "They attract and stick together",
+        "They repel and push apart",
+        "One loses its magnetism",
+        "Nothing happens"
+      ],
+      "correct_answer": "They repel and push apart",
+      "explanation": "Like poles repel; opposite poles attract. Two north poles push each other away. A north pole and a south pole pull toward each other. This rule applies to all magnets."
+    }
+  },
+  {
+    "title": "Light: reflection",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Why can you see your reflection in a mirror?",
+      "type": "multiple_choice",
+      "options": [
+        "The mirror generates light showing your image",
+        "The mirror is transparent and shows what is behind it",
+        "Light bounces off the smooth mirror surface back to your eyes",
+        "Mirrors absorb light and replay it"
+      ],
+      "correct_answer": "Light bounces off the smooth mirror surface back to your eyes",
+      "explanation": "Reflection happens when light bounces off a surface. Smooth, shiny surfaces like mirrors reflect light in a very organized way, which produces a clear image. Rough surfaces scatter light in all directions, so no image forms."
+    }
+  },
+  {
+    "title": "Sound: vibration",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "How is sound produced?",
+      "type": "multiple_choice",
+      "options": [
+        "By objects stopping suddenly",
+        "By objects vibrating back and forth",
+        "By light reflecting off surfaces",
+        "By air becoming hotter"
+      ],
+      "correct_answer": "By objects vibrating back and forth",
+      "explanation": "Sound is created when an object vibrates (moves back and forth rapidly). Those vibrations travel through air as waves to your ears. Pluck a guitar string and you can actually see it vibrate!"
+    }
+  },
+  {
+    "title": "Sound: medium",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Can sound travel through outer space?",
+      "type": "multiple_choice",
+      "options": [
+        "Yes, faster than on Earth",
+        "Yes, but only in one direction",
+        "No, because space is a vacuum with no particles to vibrate",
+        "No, because it is too cold in space"
+      ],
+      "correct_answer": "No, because space is a vacuum with no particles to vibrate",
+      "explanation": "Sound needs a medium (like air, water, or solid material) to travel through. Space is a near-perfect vacuum \u2014 almost no particles exist there. Without particles to vibrate, sound cannot travel."
+    }
+  },
+  {
+    "title": "Ecosystems: decomposers",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What role do decomposers like fungi and bacteria play in an ecosystem?",
+      "type": "multiple_choice",
+      "options": [
+        "They hunt and eat other animals",
+        "They make food from sunlight",
+        "They break down dead organisms and return nutrients to the soil",
+        "They move seeds from plant to plant"
+      ],
+      "correct_answer": "They break down dead organisms and return nutrients to the soil",
+      "explanation": "Decomposers are nature's recyclers. They break down dead plants and animals into simpler substances, returning nutrients to the soil. Without decomposers, dead matter would pile up and nutrients would be lost."
+    }
+  },
+  {
+    "title": "Ecosystems: food web",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What would most likely happen in an ecosystem if all the rabbits suddenly disappeared?",
+      "type": "multiple_choice",
+      "options": [
+        "Foxes would thrive because they eat less",
+        "Foxes might struggle because they lost a food source",
+        "Grass would disappear too",
+        "Nothing would change"
+      ],
+      "correct_answer": "Foxes might struggle because they lost a food source",
+      "explanation": "In a food web, removing one species affects others. Without rabbits, predators like foxes lose a food source and their population may decline. This shows why biodiversity is so important."
+    }
+  },
+  {
+    "title": "Matter: mass vs weight",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "If an astronaut travels to the Moon, what happens to their mass and weight?",
+      "type": "multiple_choice",
+      "options": [
+        "Both mass and weight stay the same",
+        "Mass decreases, weight stays the same",
+        "Mass stays the same, weight decreases",
+        "Both mass and weight decrease equally"
+      ],
+      "correct_answer": "Mass stays the same, weight decreases",
+      "explanation": "Mass is the amount of matter in an object \u2014 it never changes. Weight is the force of gravity on that mass. The Moon has less gravity than Earth, so an astronaut weighs less there, but their mass is identical."
+    }
+  },
+  {
+    "title": "Energy: forms",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "When you turn on a light bulb, what energy transformation takes place?",
+      "type": "multiple_choice",
+      "options": [
+        "Light energy \u2192 electrical energy",
+        "Electrical energy \u2192 light and heat energy",
+        "Heat energy \u2192 sound energy",
+        "Chemical energy \u2192 electrical energy only"
+      ],
+      "correct_answer": "Electrical energy \u2192 light and heat energy",
+      "explanation": "A light bulb converts electrical energy into light energy and heat energy. Energy transformations happen all around us \u2014 a car converts chemical energy (fuel) into kinetic energy (movement)."
+    }
+  },
+  {
+    "title": "Energy: renewable vs nonrenewable",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which of these is a renewable energy source?",
+      "type": "multiple_choice",
+      "options": [
+        "Coal",
+        "Natural gas",
+        "Solar power",
+        "Oil"
+      ],
+      "correct_answer": "Solar power",
+      "explanation": "Renewable energy sources naturally replenish and won't run out. Solar power, wind, and water (hydroelectric) are renewable. Coal, oil, and natural gas are fossil fuels \u2014 they take millions of years to form and will eventually run out."
+    }
+  },
+  {
+    "title": "Plants: parts and functions",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is the main job of a plant's roots?",
+      "type": "multiple_choice",
+      "options": [
+        "To make food using sunlight",
+        "To absorb water and nutrients from soil and anchor the plant",
+        "To release oxygen into the air",
+        "To attract insects for pollination"
+      ],
+      "correct_answer": "To absorb water and nutrients from soil and anchor the plant",
+      "explanation": "Roots have two main jobs: absorbing water and minerals from the soil, and anchoring the plant so it doesn't fall over. Roots also store energy in some plants, like carrots and beets."
+    }
+  },
+  {
+    "title": "Solar system: Earth's rotation",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What causes day and night on Earth?",
+      "type": "multiple_choice",
+      "options": [
+        "The Sun moves around the Earth",
+        "The Moon blocks the Sun's light at night",
+        "The Earth spins (rotates) on its axis",
+        "Clouds cover the Sun at night"
+      ],
+      "correct_answer": "The Earth spins (rotates) on its axis",
+      "explanation": "Earth rotates on its axis once every 24 hours. The side facing the Sun experiences day; the side facing away experiences night. The Sun doesn't move \u2014 we spin past it!"
+    }
+  },
+  {
+    "title": "Solar system: seasons",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What causes the seasons on Earth?",
+      "type": "multiple_choice",
+      "options": [
+        "Earth getting closer and farther from the Sun",
+        "Earth's tilted axis as it orbits the Sun",
+        "The Moon's orbit changing the temperature",
+        "Clouds blocking different amounts of sunlight each month"
+      ],
+      "correct_answer": "Earth's tilted axis as it orbits the Sun",
+      "explanation": "Earth is tilted at about 23.5 degrees. As it orbits the Sun, different hemispheres tilt toward or away from the Sun, causing seasons. When your hemisphere tilts toward the Sun, you get summer; away = winter."
+    }
+  },
+  {
+    "title": "Adaptation: camouflage",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A stick insect looks exactly like a twig. This is an example of:",
+      "type": "multiple_choice",
+      "options": [
+        "Migration",
+        "Camouflage",
+        "Hibernation",
+        "Pollination"
+      ],
+      "correct_answer": "Camouflage",
+      "explanation": "Camouflage is when an animal's appearance blends with its surroundings. This adaptation helps animals hide from predators or sneak up on prey. Stick insects, leopards, and arctic hares all use camouflage."
+    }
+  },
+  {
+    "title": "Adaptation: hibernation",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Why do some animals hibernate in winter?",
+      "type": "multiple_choice",
+      "options": [
+        "They get bored in winter",
+        "Food is scarce and temperatures are too cold to survive active life",
+        "They need more sleep as they get older",
+        "Winter makes them grow faster"
+      ],
+      "correct_answer": "Food is scarce and temperatures are too cold to survive active life",
+      "explanation": "Hibernation is a survival adaptation. When food is scarce and temperatures drop, some animals (like bears and groundhogs) enter a deep sleep, slowing their metabolism to survive on stored body fat."
+    }
+  },
+  {
+    "title": "Scientific method: hypothesis",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "In the scientific method, what is a hypothesis?",
+      "type": "multiple_choice",
+      "options": [
+        "The final conclusion of an experiment",
+        "A testable prediction or educated guess about what will happen",
+        "The materials needed for an experiment",
+        "The data collected during an experiment"
+      ],
+      "correct_answer": "A testable prediction or educated guess about what will happen",
+      "explanation": "A hypothesis is an educated guess that can be tested. It's usually written as 'If... then...' For example: 'If plants get more sunlight, then they will grow taller.' You then design an experiment to test it."
+    }
+  },
+  {
+    "title": "Scientific method: variables",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A student tests if plants grow taller with more water. She uses the same soil, same sunlight, and same seeds, but gives each plant a different amount of water. What is the independent variable?",
+      "type": "multiple_choice",
+      "options": [
+        "The height of the plants",
+        "The type of soil",
+        "The amount of water given",
+        "The amount of sunlight"
+      ],
+      "correct_answer": "The amount of water given",
+      "explanation": "The independent variable is what the scientist deliberately changes. Here, water amount is changed on purpose. The dependent variable (what is measured) is plant height. The other factors kept the same are called controlled variables."
+    }
+  },
+  {
+    "title": "Electricity: circuit",
+    "subject": "science",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What must be true for a light bulb to turn on in a circuit?",
+      "type": "multiple_choice",
+      "options": [
+        "The circuit must be broken",
+        "The circuit must be complete with no gaps",
+        "The circuit must use only one wire",
+        "The battery must face away from the bulb"
+      ],
+      "correct_answer": "The circuit must be complete with no gaps",
+      "explanation": "Electricity needs a complete, unbroken path to flow. If there is any gap (like a switch turned off or a broken wire), the circuit is open and electricity stops flowing. Close the gap \u2014 the bulb lights up!"
+    }
+  }
+]

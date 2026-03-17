@@ -1,0 +1,1002 @@
+[
+  {
+    "title": "Ancient Egypt: pharaohs",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What was the title of the rulers of ancient Egypt?",
+      "type": "multiple_choice",
+      "options": [
+        "Emperor",
+        "Pharaoh",
+        "Sultan",
+        "Caesar"
+      ],
+      "correct_answer": "Pharaoh",
+      "explanation": "The rulers of ancient Egypt were called pharaohs. They were considered both political leaders and living gods. Famous pharaohs include Tutankhamun, Ramesses II, and Cleopatra."
+    }
+  },
+  {
+    "title": "Ancient Egypt: pyramids",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Why did ancient Egyptians build pyramids?",
+      "type": "multiple_choice",
+      "options": [
+        "As temples for daily worship",
+        "As tombs for pharaohs and royalty",
+        "As grain storage for famines",
+        "As fortresses to defend against invaders"
+      ],
+      "correct_answer": "As tombs for pharaohs and royalty",
+      "explanation": "Pyramids were monumental tombs built to house the bodies and treasures of pharaohs in the afterlife. The ancient Egyptians believed in life after death and spent enormous resources preparing for it."
+    }
+  },
+  {
+    "title": "Ancient Egypt: the Nile",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Why was the Nile River so important to ancient Egyptian civilization?",
+      "type": "multiple_choice",
+      "options": [
+        "It provided a barrier against all enemies",
+        "Its annual floods deposited rich soil that allowed farming in the desert",
+        "It was used only for transportation and trade",
+        "It supplied Egypt with gold and precious metals"
+      ],
+      "correct_answer": "Its annual floods deposited rich soil that allowed farming in the desert",
+      "explanation": "Each year the Nile flooded, leaving behind dark, fertile silt on its banks. This made farming possible in the middle of the desert. Egypt was called 'the gift of the Nile' by the ancient Greek historian Herodotus."
+    }
+  },
+  {
+    "title": "Ancient Egypt: hieroglyphics",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What were hieroglyphics?",
+      "type": "multiple_choice",
+      "options": [
+        "Ancient Egyptian coins",
+        "A writing system using pictures and symbols",
+        "Sacred paintings found only in pyramids",
+        "A type of ancient Egyptian weapon"
+      ],
+      "correct_answer": "A writing system using pictures and symbols",
+      "explanation": "Hieroglyphics were the writing system of ancient Egypt, using over 700 picture symbols to represent sounds, words, and ideas. The Rosetta Stone, discovered in 1799, helped scholars finally decode them."
+    }
+  },
+  {
+    "title": "Ancient Greece: democracy",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which ancient civilization is credited with inventing democracy?",
+      "type": "multiple_choice",
+      "options": [
+        "Rome",
+        "Egypt",
+        "Greece",
+        "Persia"
+      ],
+      "correct_answer": "Greece",
+      "explanation": "Ancient Athens, Greece, developed the world's first democracy around 508 BCE. Citizens could vote on laws and policies directly. The word 'democracy' comes from Greek: 'demos' (people) + 'kratos' (power)."
+    }
+  },
+  {
+    "title": "Ancient Greece: city-states",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Athens and Sparta were both ancient Greek city-states. What was Sparta most famous for?",
+      "type": "multiple_choice",
+      "options": [
+        "Art, philosophy, and democracy",
+        "A powerful military and warrior culture",
+        "Seafaring and ocean trade",
+        "Building the largest temples in Greece"
+      ],
+      "correct_answer": "A powerful military and warrior culture",
+      "explanation": "Sparta was a militaristic city-state where boys began military training at age 7. Spartan soldiers were legendary for their discipline and bravery. Their culture valued strength and sacrifice above all else."
+    }
+  },
+  {
+    "title": "Ancient Rome: the republic",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Before becoming an empire, Rome was a republic. What does 'republic' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "A country ruled by a king and queen",
+        "A system where citizens elect representatives to govern",
+        "A military dictatorship",
+        "A country with no laws"
+      ],
+      "correct_answer": "A system where citizens elect representatives to govern",
+      "explanation": "In the Roman Republic, elected officials called senators and consuls governed the state. The word 'republic' comes from Latin 'res publica' meaning 'public affair.' Rome was a republic for about 500 years before Julius Caesar's era."
+    }
+  },
+  {
+    "title": "Ancient Rome: Julius Caesar",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Julius Caesar was a famous leader of ancient Rome. What happened to him on the Ides of March, 44 BCE?",
+      "type": "multiple_choice",
+      "options": [
+        "He was crowned the first Roman Emperor",
+        "He was assassinated by senators who feared he had too much power",
+        "He won his greatest military victory",
+        "He retired and became a philosopher"
+      ],
+      "correct_answer": "He was assassinated by senators who feared he had too much power",
+      "explanation": "On March 15, 44 BCE, Julius Caesar was stabbed to death by a group of Roman senators who believed he was becoming a tyrant and wanted to preserve the republic. His death led to years of civil war and eventually the Roman Empire."
+    }
+  },
+  {
+    "title": "Ancient civilizations: Mesopotamia",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Mesopotamia is often called 'the cradle of civilization.' Where was it located?",
+      "type": "multiple_choice",
+      "options": [
+        "Along the Nile River in Africa",
+        "Between the Tigris and Euphrates rivers in modern-day Iraq",
+        "On the Italian peninsula in Europe",
+        "Along the Indus River in South Asia"
+      ],
+      "correct_answer": "Between the Tigris and Euphrates rivers in modern-day Iraq",
+      "explanation": "'Mesopotamia' means 'land between the rivers' in Greek. Located in modern-day Iraq, it was home to some of humanity's earliest cities, writing (cuneiform), laws, and agriculture \u2014 making it a starting point of civilization."
+    }
+  },
+  {
+    "title": "Ancient civilizations: first writing",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which ancient civilization is credited with inventing the first writing system?",
+      "type": "multiple_choice",
+      "options": [
+        "Ancient Egypt",
+        "Ancient China",
+        "The Sumerians of Mesopotamia",
+        "The Indus Valley civilization"
+      ],
+      "correct_answer": "The Sumerians of Mesopotamia",
+      "explanation": "The Sumerians of Mesopotamia developed cuneiform \u2014 one of the world's earliest writing systems \u2014 around 3400 BCE. They originally used it to keep records of trade and taxes, pressing wedge-shaped marks into clay tablets."
+    }
+  },
+  {
+    "title": "Famous explorers: Columbus",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "In 1492, Christopher Columbus sailed west from Spain hoping to reach Asia. What did he actually find?",
+      "type": "multiple_choice",
+      "options": [
+        "A new route around Africa",
+        "The Americas \u2014 a continent unknown to Europeans at the time",
+        "India and the Spice Islands",
+        "The North Pole"
+      ],
+      "correct_answer": "The Americas \u2014 a continent unknown to Europeans at the time",
+      "explanation": "Columbus landed in the Caribbean in 1492, making contact between Europe and the Americas. He never realized he hadn't reached Asia. His voyage began an era of European exploration and colonization that transformed the world."
+    }
+  },
+  {
+    "title": "Famous explorers: Magellan",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Ferdinand Magellan's expedition (1519\u20131522) was the first to do what?",
+      "type": "multiple_choice",
+      "options": [
+        "Cross the Atlantic Ocean",
+        "Reach North America from Europe",
+        "Circumnavigate (sail all the way around) the Earth",
+        "Discover Australia"
+      ],
+      "correct_answer": "Circumnavigate (sail all the way around) the Earth",
+      "explanation": "Magellan's expedition was the first to circumnavigate the globe, proving Earth was round and much larger than thought. Magellan himself died in the Philippines; his crew completed the journey under Elcano in 1522."
+    }
+  },
+  {
+    "title": "Famous explorers: Marco Polo",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Marco Polo was a famous explorer from Venice. Where did he travel that amazed Europeans with his accounts?",
+      "type": "multiple_choice",
+      "options": [
+        "The Americas",
+        "Sub-Saharan Africa",
+        "China and Asia along the Silk Road",
+        "The Arctic Circle"
+      ],
+      "correct_answer": "China and Asia along the Silk Road",
+      "explanation": "Marco Polo traveled from Venice to China in the 1270s, spending years at the court of Kublai Khan. His book describing Asia's wealth, technology, and culture opened European eyes to the riches of the Far East and inspired future explorers."
+    }
+  },
+  {
+    "title": "Famous explorers: Neil Armstrong",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 1,
+    "xp_reward": 20,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Neil Armstrong made history on July 20, 1969. What did he do?",
+      "type": "multiple_choice",
+      "options": [
+        "He became the first person to fly an airplane",
+        "He became the first human to walk on the Moon",
+        "He orbited Earth for the first time",
+        "He discovered a new planet"
+      ],
+      "correct_answer": "He became the first human to walk on the Moon",
+      "explanation": "Neil Armstrong, commander of Apollo 11, became the first human to walk on the Moon on July 20, 1969. His famous words: 'That's one small step for man, one giant leap for mankind.' Buzz Aldrin joined him shortly after."
+    }
+  },
+  {
+    "title": "Timeline ordering: ancient to modern",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which of these events happened FIRST in history?",
+      "type": "multiple_choice",
+      "options": [
+        "The American Revolution (1776)",
+        "The fall of the Western Roman Empire (476 CE)",
+        "The construction of the Great Pyramid at Giza (2560 BCE)",
+        "The birth of Islam (622 CE)"
+      ],
+      "correct_answer": "The construction of the Great Pyramid at Giza (2560 BCE)",
+      "explanation": "The Great Pyramid was built around 2560 BCE \u2014 over 2,000 years before Rome fell, over 3,000 years before Muhammad, and over 4,000 years before the American Revolution. BCE dates count backward, so larger BCE numbers are further back in time."
+    }
+  },
+  {
+    "title": "Timeline ordering: American history",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Put these American events in the correct order from earliest to latest:",
+      "type": "multiple_choice",
+      "options": [
+        "Civil War \u2192 American Revolution \u2192 Moon Landing \u2192 Columbus arrives",
+        "Columbus arrives \u2192 American Revolution \u2192 Civil War \u2192 Moon Landing",
+        "American Revolution \u2192 Columbus arrives \u2192 Moon Landing \u2192 Civil War",
+        "Moon Landing \u2192 Civil War \u2192 American Revolution \u2192 Columbus arrives"
+      ],
+      "correct_answer": "Columbus arrives \u2192 American Revolution \u2192 Civil War \u2192 Moon Landing",
+      "explanation": "Columbus: 1492 \u2192 American Revolution: 1775\u20131783 \u2192 Civil War: 1861\u20131865 \u2192 Moon Landing: 1969. Knowing approximate dates helps you sequence history correctly."
+    }
+  },
+  {
+    "title": "Inventions: printing press",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Johannes Gutenberg invented the movable-type printing press around 1440. Why was this so important?",
+      "type": "multiple_choice",
+      "options": [
+        "It allowed ships to travel faster across oceans",
+        "It made books cheap and widely available, spreading ideas faster than ever before",
+        "It replaced all forms of art and painting",
+        "It allowed governments to collect taxes more efficiently"
+      ],
+      "correct_answer": "It made books cheap and widely available, spreading ideas faster than ever before",
+      "explanation": "Before the printing press, books were hand-copied and extremely expensive. Gutenberg's invention allowed mass production of books, making knowledge accessible to more people. It helped spark the Renaissance, the Reformation, and the Scientific Revolution."
+    }
+  },
+  {
+    "title": "Inventions: the wheel",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The wheel is considered one of history's most important inventions. Where and when was it first used?",
+      "type": "multiple_choice",
+      "options": [
+        "Ancient Egypt, around 3000 BCE, primarily to build pyramids",
+        "Mesopotamia, around 3500 BCE, first used for pottery then transport",
+        "Ancient China, around 2000 BCE, for rice farming",
+        "Ancient Rome, around 500 BCE, for military chariots"
+      ],
+      "correct_answer": "Mesopotamia, around 3500 BCE, first used for pottery then transport",
+      "explanation": "The wheel was first invented in Mesopotamia around 3500 BCE, originally used as a potter's wheel. It was later applied to carts and chariots for transport. It transformed trade, warfare, and daily life across the ancient world."
+    }
+  },
+  {
+    "title": "Inventions: the compass",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The magnetic compass was invented in ancient China. How did it change exploration?",
+      "type": "multiple_choice",
+      "options": [
+        "It let sailors measure the depth of the ocean",
+        "It allowed sailors to determine direction at sea even without stars visible",
+        "It helped explorers communicate across long distances",
+        "It allowed sailors to predict weather"
+      ],
+      "correct_answer": "It allowed sailors to determine direction at sea even without stars visible",
+      "explanation": "Before the compass, sailors navigated by stars \u2014 impossible on cloudy nights or in fog. The magnetic compass always points north, allowing reliable navigation at sea and enabling longer, safer voyages of exploration."
+    }
+  },
+  {
+    "title": "Middle Ages: feudalism",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What was feudalism, the main social system of the Middle Ages?",
+      "type": "multiple_choice",
+      "options": [
+        "A system where all people were equal under the law",
+        "A system where kings owned everything and gave land to nobles in exchange for military service",
+        "A system where merchants controlled the government",
+        "A system where the Church owned all the land"
+      ],
+      "correct_answer": "A system where kings owned everything and gave land to nobles in exchange for military service",
+      "explanation": "Feudalism was a hierarchy: the king owned all land and gave parcels to nobles (lords) in exchange for loyalty and soldiers. Lords gave land to knights for service. Peasants (serfs) worked the land at the bottom of the pyramid."
+    }
+  },
+  {
+    "title": "Middle Ages: the Crusades",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What were the Crusades?",
+      "type": "multiple_choice",
+      "options": [
+        "Medieval trade expeditions to Asia for spices",
+        "A series of religious wars launched by European Christians to control the Holy Land",
+        "Viking raids on European coastal towns",
+        "Wars between the Roman Empire and the Mongols"
+      ],
+      "correct_answer": "A series of religious wars launched by European Christians to control the Holy Land",
+      "explanation": "The Crusades (1096\u20131291) were a series of military campaigns launched by European Christians to capture Jerusalem and the Holy Land from Muslim rule. They had enormous political, religious, and cultural consequences for both Europe and the Middle East."
+    }
+  },
+  {
+    "title": "Ancient China: the Great Wall",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Why was the Great Wall of China built?",
+      "type": "multiple_choice",
+      "options": [
+        "To mark the boundaries between Chinese provinces",
+        "To protect China from nomadic invasions from the north",
+        "To serve as a royal road for the emperor to travel",
+        "To control flooding from major rivers"
+      ],
+      "correct_answer": "To protect China from nomadic invasions from the north",
+      "explanation": "The Great Wall was built and extended over centuries \u2014 primarily during the Qin, Han, and Ming dynasties \u2014 to defend against raids from northern nomadic groups like the Mongols and Xiongnu. It stretches over 13,000 miles in total."
+    }
+  },
+  {
+    "title": "Ancient China: the Silk Road",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What was the Silk Road?",
+      "type": "multiple_choice",
+      "options": [
+        "A factory in ancient China that produced silk for the emperor",
+        "A network of trade routes connecting China to Europe and the Middle East",
+        "A royal palace built entirely of silk curtains",
+        "A river that ran through the center of ancient China"
+      ],
+      "correct_answer": "A network of trade routes connecting China to Europe and the Middle East",
+      "explanation": "The Silk Road was a network of overland and sea trade routes stretching from China to Rome and beyond. Merchants traded silk, spices, gold, and ideas. It also spread religions, diseases, and technologies across continents."
+    }
+  },
+  {
+    "title": "American Revolution: Declaration of Independence",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "When was the Declaration of Independence signed, and what did it declare?",
+      "type": "multiple_choice",
+      "options": [
+        "1776 \u2014 that the American colonies were free from British rule",
+        "1783 \u2014 that the Revolutionary War was officially over",
+        "1787 \u2014 that the Constitution was the law of the land",
+        "1765 \u2014 that colonists refused to pay the Stamp Act"
+      ],
+      "correct_answer": "1776 \u2014 that the American colonies were free from British rule",
+      "explanation": "On July 4, 1776, American colonial leaders signed the Declaration of Independence, formally declaring that the thirteen colonies were no longer part of the British Empire. Thomas Jefferson was its primary author."
+    }
+  },
+  {
+    "title": "American Revolution: cause",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What was one of the main reasons colonists in America wanted independence from Britain?",
+      "type": "multiple_choice",
+      "options": [
+        "Britain refused to trade with the colonies",
+        "Colonists were taxed by the British Parliament but had no representatives in it",
+        "Britain banned all religion in the colonies",
+        "The colonies wanted to join France instead"
+      ],
+      "correct_answer": "Colonists were taxed by the British Parliament but had no representatives in it",
+      "explanation": "'No taxation without representation' was a key colonial slogan. Colonists were angry at being taxed (Stamp Act, Tea Act) by a British Parliament where they had no elected representatives or voice."
+    }
+  },
+  {
+    "title": "Ancient India: the Indus Valley",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The Indus Valley Civilization (around 2500 BCE) was remarkable for its time. What was one of its impressive achievements?",
+      "type": "multiple_choice",
+      "options": [
+        "It built the first stone pyramids",
+        "It had advanced city planning with grid-pattern streets and drainage systems",
+        "It invented the first writing system",
+        "It created the first democracy"
+      ],
+      "correct_answer": "It had advanced city planning with grid-pattern streets and drainage systems",
+      "explanation": "Cities like Mohenjo-daro and Harappa had remarkable urban planning: straight streets laid out in grids, multi-story buildings, and sophisticated drainage and sewage systems \u2014 more advanced than many cities that came much later."
+    }
+  },
+  {
+    "title": "Inventions: gunpowder",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Gunpowder was invented in ancient China. How did it originally change history?",
+      "type": "multiple_choice",
+      "options": [
+        "It was used to create medicines and cure disease",
+        "It was used for fireworks and later transformed warfare with cannons and firearms",
+        "It was used to power early steam engines",
+        "It was only used in religious ceremonies"
+      ],
+      "correct_answer": "It was used for fireworks and later transformed warfare with cannons and firearms",
+      "explanation": "Chinese alchemists accidentally discovered gunpowder around the 9th century CE while searching for immortality elixirs. It was first used for fireworks, then weapons. When gunpowder reached Europe, it transformed medieval warfare and ended the age of castles and knights."
+    }
+  },
+  {
+    "title": "Famous leaders: Abraham Lincoln",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is Abraham Lincoln most famous for as U.S. President?",
+      "type": "multiple_choice",
+      "options": [
+        "Leading America through World War II",
+        "Issuing the Emancipation Proclamation and preserving the Union during the Civil War",
+        "Writing the Declaration of Independence",
+        "Negotiating the Louisiana Purchase"
+      ],
+      "correct_answer": "Issuing the Emancipation Proclamation and preserving the Union during the Civil War",
+      "explanation": "Lincoln served as president during the Civil War (1861\u20131865) and in 1863 issued the Emancipation Proclamation, declaring enslaved people in Confederate states free. He successfully preserved the United States and is regarded as one of America's greatest presidents."
+    }
+  },
+  {
+    "title": "Famous leaders: Cleopatra",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Cleopatra VII was a famous ruler of which ancient civilization?",
+      "type": "multiple_choice",
+      "options": [
+        "Ancient Rome",
+        "Ancient Greece",
+        "Ancient Egypt",
+        "Ancient Persia"
+      ],
+      "correct_answer": "Ancient Egypt",
+      "explanation": "Cleopatra VII (69\u201330 BCE) was the last active ruler of the Ptolemaic Kingdom of ancient Egypt. Highly intelligent, she spoke nine languages, formed alliances with Julius Caesar and Mark Antony, and fought to keep Egypt independent from Rome."
+    }
+  },
+  {
+    "title": "Famous leaders: Genghis Khan",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is Genghis Khan known for in history?",
+      "type": "multiple_choice",
+      "options": [
+        "Building the Great Wall of China",
+        "Founding the Mongol Empire, the largest contiguous land empire in history",
+        "Discovering the sea route from Europe to India",
+        "Unifying the city-states of ancient Greece"
+      ],
+      "correct_answer": "Founding the Mongol Empire, the largest contiguous land empire in history",
+      "explanation": "Genghis Khan (1162\u20131227) united the Mongol tribes and built an empire stretching from the Pacific Ocean to Eastern Europe. At its peak, the Mongol Empire covered about 24 million square kilometers \u2014 the largest contiguous empire ever."
+    }
+  },
+  {
+    "title": "Ancient Maya",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The Maya civilization was located in which region?",
+      "type": "multiple_choice",
+      "options": [
+        "South America, along the Andes Mountains",
+        "North America, around the Great Lakes",
+        "Mesoamerica \u2014 present-day Mexico and Central America",
+        "The Caribbean Islands"
+      ],
+      "correct_answer": "Mesoamerica \u2014 present-day Mexico and Central America",
+      "explanation": "The Maya thrived in Mesoamerica (Mexico and Central America) from around 2000 BCE to 1500 CE. They were known for advanced mathematics, astronomy, a complex writing system, and monumental cities like Tikal and Chichen Itza."
+    }
+  },
+  {
+    "title": "Ancient Aztec",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The Aztec Empire was conquered by Spanish explorer Hern\u00e1n Cort\u00e9s in 1521. What was the Aztec capital city called?",
+      "type": "multiple_choice",
+      "options": [
+        "Cusco",
+        "Tenochtitl\u00e1n",
+        "Machu Picchu",
+        "Chichen Itza"
+      ],
+      "correct_answer": "Tenochtitl\u00e1n",
+      "explanation": "Tenochtitl\u00e1n (present-day Mexico City) was the capital of the Aztec Empire, built on an island in Lake Texcoco. At its peak, it had a population of over 200,000 \u2014 larger than most European cities of the time."
+    }
+  },
+  {
+    "title": "Ancient Inca",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The Inca Empire was the largest empire in pre-Columbian America. Where was it located?",
+      "type": "multiple_choice",
+      "options": [
+        "North America, around the Mississippi River",
+        "Central America and the Caribbean",
+        "Along the Andes Mountains in South America",
+        "The Amazon rainforest of Brazil"
+      ],
+      "correct_answer": "Along the Andes Mountains in South America",
+      "explanation": "The Inca Empire stretched along the Andes Mountains through modern-day Peru, Ecuador, Colombia, Bolivia, Chile, and Argentina. Their capital Cusco and the famous mountaintop city Machu Picchu demonstrate their remarkable engineering skills."
+    }
+  },
+  {
+    "title": "Timeline: BCE vs CE",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "An event happened in 500 BCE and another in 200 BCE. Which event happened more recently?",
+      "type": "multiple_choice",
+      "options": [
+        "500 BCE \u2014 it's a bigger number",
+        "200 BCE \u2014 BCE years count backward toward zero",
+        "They happened at the same time",
+        "You cannot compare BCE dates"
+      ],
+      "correct_answer": "200 BCE \u2014 BCE years count backward toward zero",
+      "explanation": "BCE (Before Common Era) dates count backward \u2014 the smaller the number, the more recent it is. 200 BCE is closer to year 0 than 500 BCE. Think of it like a countdown: 500...400...300...200...1...then CE years start going up."
+    }
+  },
+  {
+    "title": "Timeline: centuries",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The year 1776 is in which century?",
+      "type": "multiple_choice",
+      "options": [
+        "The 16th century",
+        "The 17th century",
+        "The 18th century",
+        "The 19th century"
+      ],
+      "correct_answer": "The 18th century",
+      "explanation": "Centuries are named one ahead of their numbers: years 1700\u20131799 = the 18th century. A trick: drop the last two digits and add 1. 1776 \u2192 17 + 1 = 18th century. The year 1 CE began the 1st century."
+    }
+  },
+  {
+    "title": "Inventions: steam engine",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The invention of the steam engine was central to which major historical period?",
+      "type": "multiple_choice",
+      "options": [
+        "The Renaissance",
+        "The Industrial Revolution",
+        "The Age of Exploration",
+        "The Middle Ages"
+      ],
+      "correct_answer": "The Industrial Revolution",
+      "explanation": "The steam engine, improved by James Watt in the 1760s\u20131780s, powered the Industrial Revolution by running factories, trains, and ships. It transformed how goods were made, how people traveled, and where they lived."
+    }
+  },
+  {
+    "title": "Ancient Olympics",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The ancient Olympic Games were held in which civilization?",
+      "type": "multiple_choice",
+      "options": [
+        "Ancient Rome",
+        "Ancient Egypt",
+        "Ancient Greece",
+        "Ancient China"
+      ],
+      "correct_answer": "Ancient Greece",
+      "explanation": "The Olympic Games began in ancient Greece in 776 BCE at Olympia, held every four years in honor of the god Zeus. Athletes competed in events like running, wrestling, and chariot racing. They were discontinued in 393 CE and revived in 1896."
+    }
+  },
+  {
+    "title": "Famous explorers: Lewis and Clark",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What was the purpose of the Lewis and Clark Expedition (1804\u20131806)?",
+      "type": "multiple_choice",
+      "options": [
+        "To find a sea route from America to Europe",
+        "To explore and map the western United States after the Louisiana Purchase",
+        "To negotiate peace treaties with Native American nations",
+        "To search for gold in the Rocky Mountains"
+      ],
+      "correct_answer": "To explore and map the western United States after the Louisiana Purchase",
+      "explanation": "President Jefferson sent Meriwether Lewis and William Clark to explore the territory acquired in the Louisiana Purchase. They mapped the land, documented plants and animals, and found a route to the Pacific Ocean, helped by the Shoshone guide Sacagawea."
+    }
+  },
+  {
+    "title": "Black Death",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The Black Death was a devastating plague in the 14th century. How much of Europe's population did it kill?",
+      "type": "multiple_choice",
+      "options": [
+        "About 5%",
+        "About 15%",
+        "About one-third",
+        "Almost everyone"
+      ],
+      "correct_answer": "About one-third",
+      "explanation": "The Black Death (1347\u20131351) killed an estimated one-third of Europe's population \u2014 roughly 25 million people. It was caused by the bacterium Yersinia pestis, spread by fleas on rats. It permanently altered European society, economy, and culture."
+    }
+  },
+  {
+    "title": "Ancient Egypt: mummies",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Why did ancient Egyptians mummify their dead?",
+      "type": "multiple_choice",
+      "options": [
+        "To prevent the spread of disease",
+        "To preserve the body for the afterlife, which they believed required a physical form",
+        "To display them as symbols of royal power",
+        "Because the hot desert climate required it"
+      ],
+      "correct_answer": "To preserve the body for the afterlife, which they believed required a physical form",
+      "explanation": "Ancient Egyptians believed in an afterlife where the soul would return to its body. Mummification preserved the body so the soul could use it in the next life. The process took 70 days and involved removing organs and wrapping the body in linen."
+    }
+  },
+  {
+    "title": "The Renaissance",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The Renaissance began in Italy in the 14th century. What does 'Renaissance' mean?",
+      "type": "multiple_choice",
+      "options": [
+        "New beginning",
+        "Rebirth",
+        "Golden age",
+        "Revolution"
+      ],
+      "correct_answer": "Rebirth",
+      "explanation": "'Renaissance' is a French word meaning 'rebirth.' It described a revival of interest in ancient Greek and Roman art, science, and philosophy. It produced artists like Leonardo da Vinci and Michelangelo, and scientists like Galileo."
+    }
+  },
+  {
+    "title": "Famous women in history: Harriet Tubman",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is Harriet Tubman famous for?",
+      "type": "multiple_choice",
+      "options": [
+        "Writing the first American novel",
+        "Leading hundreds of enslaved people to freedom through the Underground Railroad",
+        "Becoming the first woman to serve in Congress",
+        "Founding the American Red Cross"
+      ],
+      "correct_answer": "Leading hundreds of enslaved people to freedom through the Underground Railroad",
+      "explanation": "Harriet Tubman escaped slavery in 1849 and then made approximately 13 missions back to the South, guiding around 70 enslaved people to freedom via the Underground Railroad \u2014 a secret network of safe houses and routes to the North."
+    }
+  },
+  {
+    "title": "World War II: beginning",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "World War II began in 1939 when Germany, led by Adolf Hitler, invaded which country?",
+      "type": "multiple_choice",
+      "options": [
+        "France",
+        "Britain",
+        "Poland",
+        "Russia"
+      ],
+      "correct_answer": "Poland",
+      "explanation": "Germany invaded Poland on September 1, 1939, triggering World War II when Britain and France declared war on Germany two days later. Hitler's Nazi regime sought to conquer Europe and pursued a genocidal policy against Jewish people and others."
+    }
+  },
+  {
+    "title": "World War II: ending in the Pacific",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What event brought the United States directly into World War II?",
+      "type": "multiple_choice",
+      "options": [
+        "Germany's invasion of France",
+        "Japan's surprise attack on Pearl Harbor, Hawaii, on December 7, 1941",
+        "The fall of Britain to German bombing",
+        "Italy declaring war on the United States"
+      ],
+      "correct_answer": "Japan's surprise attack on Pearl Harbor, Hawaii, on December 7, 1941",
+      "explanation": "Japan's surprise attack on the U.S. naval base at Pearl Harbor killed over 2,400 Americans and destroyed much of the Pacific Fleet. The next day, President Roosevelt declared war on Japan, bringing the United States fully into World War II."
+    }
+  },
+  {
+    "title": "Martin Luther King Jr.",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Martin Luther King Jr. was a leader of which movement in American history?",
+      "type": "multiple_choice",
+      "options": [
+        "The American Revolution",
+        "The Civil Rights Movement",
+        "The Labor Rights Movement",
+        "The Women's Suffrage Movement"
+      ],
+      "correct_answer": "The Civil Rights Movement",
+      "explanation": "Dr. Martin Luther King Jr. was a central leader of the Civil Rights Movement, which fought for equal rights for Black Americans in the 1950s and 60s. He advocated for nonviolent protest and is best known for his 'I Have a Dream' speech in 1963."
+    }
+  },
+  {
+    "title": "Causes of events: Boston Tea Party",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "In 1773, American colonists dumped British tea into Boston Harbor. Why?",
+      "type": "multiple_choice",
+      "options": [
+        "The tea had gone bad during the voyage",
+        "To protest British taxes on tea without colonial representation in Parliament",
+        "Because they preferred coffee",
+        "To start a trade war with China"
+      ],
+      "correct_answer": "To protest British taxes on tea without colonial representation in Parliament",
+      "explanation": "The Boston Tea Party was an act of political protest against the Tea Act, which gave the British East India Company a monopoly on tea sales and imposed a tax. Colonists dressed as Mohawk Indians dumped 342 chests of tea \u2014 worth millions today \u2014 into the harbor."
+    }
+  },
+  {
+    "title": "Native Americans: first peoples",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The people who lived in the Americas BEFORE European explorers arrived are called:",
+      "type": "multiple_choice",
+      "options": [
+        "Colonists",
+        "Pilgrims",
+        "Indigenous peoples or Native Americans",
+        "Settlers"
+      ],
+      "correct_answer": "Indigenous peoples or Native Americans",
+      "explanation": "Indigenous peoples (also called Native Americans in the U.S.) had lived in the Americas for tens of thousands of years before European contact. There were hundreds of distinct nations with different languages, cultures, and traditions across North, Central, and South America."
+    }
+  },
+  {
+    "title": "Timeline: placing events",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which pair of events is in the CORRECT chronological order (earlier event first)?",
+      "type": "multiple_choice",
+      "options": [
+        "World War II \u2192 World War I",
+        "The Civil War \u2192 The American Revolution",
+        "The Renaissance \u2192 The Middle Ages",
+        "Columbus reaches the Americas \u2192 The American Revolution"
+      ],
+      "correct_answer": "Columbus reaches the Americas \u2192 The American Revolution",
+      "explanation": "Columbus reached the Americas in 1492; the American Revolution began in 1775 \u2014 so Columbus came first. WWI (1914) came before WWII (1939). The American Revolution (1775) came before the Civil War (1861). The Middle Ages came before the Renaissance."
+    }
+  },
+  {
+    "title": "Ancient wonders: Colosseum",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The Colosseum in Rome was completed around 80 CE. What was it used for?",
+      "type": "multiple_choice",
+      "options": [
+        "As the Roman Senate's meeting place",
+        "As a massive amphitheater for gladiator fights and public spectacles",
+        "As the emperor's private palace",
+        "As a fortress to defend the city"
+      ],
+      "correct_answer": "As a massive amphitheater for gladiator fights and public spectacles",
+      "explanation": "The Colosseum could hold 50,000\u201380,000 spectators who came to watch gladiator battles, animal hunts, and other public shows. It had a retractable canvas roof and could even be flooded for mock naval battles."
+    }
+  },
+  {
+    "title": "Ancient Rome: the fall",
+    "subject": "history",
+    "age_tier": "junior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The Western Roman Empire fell in 476 CE. What is one major reason historians give for its collapse?",
+      "type": "multiple_choice",
+      "options": [
+        "A volcanic eruption destroyed Rome",
+        "Repeated invasions by Germanic tribes combined with internal political instability",
+        "A plague killed every Roman citizen",
+        "Rome was peacefully absorbed by Greece"
+      ],
+      "correct_answer": "Repeated invasions by Germanic tribes combined with internal political instability",
+      "explanation": "Rome's fall had many causes: constant attacks by Germanic tribes (Visigoths, Vandals, Huns), political chaos with dozens of emperors in a century, economic trouble, and a military stretched too thin. The 'fall' was actually a slow decline over hundreds of years."
+    }
+  }
+]

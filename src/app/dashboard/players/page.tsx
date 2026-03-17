@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import type { Tables } from '@/types/database'
 
@@ -191,7 +191,9 @@ const FORM_EMPTY: CreateForm = { displayName: '', username: '', password: '', ag
 
 // ── Main page ─────────────────────────────────────────────────
 export default function PlayersPage() {
-  const supabase = createClient()
+  // useMemo stabilises the client reference so the fetchPlayers useCallback
+  // doesn't regenerate on every render, which would trigger an infinite loop.
+  const supabase = useMemo(() => createClient(), [])
 
   const [players, setPlayers] = useState<PlayerProfile[]>([])
   const [loading, setLoading] = useState(true)

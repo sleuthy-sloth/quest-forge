@@ -1,0 +1,1002 @@
+[
+  {
+    "title": "Solve for x: basic",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Solve for x: x + 14 = 31",
+      "type": "multiple_choice",
+      "options": [
+        "15",
+        "17",
+        "45",
+        "16"
+      ],
+      "correct_answer": "17",
+      "explanation": "x = 17. Subtract 14 from both sides: x = 31 \u2212 14 = 17. Always do the same operation to both sides of the equation."
+    }
+  },
+  {
+    "title": "Solve for x: multiplication",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Solve for x: 5x = 60",
+      "type": "multiple_choice",
+      "options": [
+        "10",
+        "12",
+        "15",
+        "300"
+      ],
+      "correct_answer": "12",
+      "explanation": "x = 12. Divide both sides by 5: x = 60 \u00f7 5 = 12. Check: 5 \u00d7 12 = 60. \u2713"
+    }
+  },
+  {
+    "title": "Solve for x: two steps",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Solve for x: 3x + 7 = 22",
+      "type": "multiple_choice",
+      "options": [
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "correct_answer": "5",
+      "explanation": "x = 5. Step 1: Subtract 7 from both sides: 3x = 15. Step 2: Divide by 3: x = 5. Check: 3(5)+7 = 22. \u2713"
+    }
+  },
+  {
+    "title": "Solve for x: negative result",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Solve for x: 2x + 10 = 4",
+      "type": "multiple_choice",
+      "options": [
+        "\u22123",
+        "\u22127",
+        "7",
+        "3"
+      ],
+      "correct_answer": "\u22123",
+      "explanation": "x = \u22123. Subtract 10: 2x = \u22126. Divide by 2: x = \u22123. Negative answers are totally valid!"
+    }
+  },
+  {
+    "title": "Solve for x: variable both sides",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Solve for x: 5x \u2212 3 = 2x + 9",
+      "type": "multiple_choice",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "6"
+      ],
+      "correct_answer": "4",
+      "explanation": "x = 4. Subtract 2x from both sides: 3x \u2212 3 = 9. Add 3: 3x = 12. Divide by 3: x = 4. Check: 5(4)\u22123 = 17, and 2(4)+9 = 17. \u2713"
+    }
+  },
+  {
+    "title": "PEMDAS basic",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 3 + 4 \u00d7 2?",
+      "type": "multiple_choice",
+      "options": [
+        "11",
+        "14",
+        "10",
+        "16"
+      ],
+      "correct_answer": "11",
+      "explanation": "11. Multiply first (PEMDAS): 4 \u00d7 2 = 8, then add: 3 + 8 = 11. Multiplication always comes before addition."
+    }
+  },
+  {
+    "title": "PEMDAS with parentheses",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is (3 + 4) \u00d7 2?",
+      "type": "multiple_choice",
+      "options": [
+        "11",
+        "14",
+        "10",
+        "16"
+      ],
+      "correct_answer": "14",
+      "explanation": "14. Parentheses first: (3+4) = 7, then multiply: 7 \u00d7 2 = 14. Parentheses change the order of operations."
+    }
+  },
+  {
+    "title": "PEMDAS nested",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 2 + (3 \u00d7 (4 + 1)) \u2212 6?",
+      "type": "multiple_choice",
+      "options": [
+        "9",
+        "11",
+        "13",
+        "17"
+      ],
+      "correct_answer": "11",
+      "explanation": "11. Work inside out: (4+1)=5, then 3\u00d75=15, then 2+15\u22126=11. Always start with the innermost parentheses."
+    }
+  },
+  {
+    "title": "Exponents basic",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 3\u00b2?",
+      "type": "multiple_choice",
+      "options": [
+        "6",
+        "8",
+        "9",
+        "12"
+      ],
+      "correct_answer": "9",
+      "explanation": "3\u00b2 = 9. An exponent tells you how many times to multiply the base by itself: 3 \u00d7 3 = 9."
+    }
+  },
+  {
+    "title": "Exponents in PEMDAS",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 2 + 3\u00b2 \u00d7 4?",
+      "type": "multiple_choice",
+      "options": [
+        "38",
+        "44",
+        "50",
+        "100"
+      ],
+      "correct_answer": "38",
+      "explanation": "38. PEMDAS order: exponent first: 3\u00b2=9. Then multiply: 9\u00d74=36. Then add: 2+36=38."
+    }
+  },
+  {
+    "title": "Percentage of a number",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 25% of 80?",
+      "type": "multiple_choice",
+      "options": [
+        "15",
+        "20",
+        "25",
+        "40"
+      ],
+      "correct_answer": "20",
+      "explanation": "25% of 80 = 20. Convert: 25% = 0.25. Then 0.25 \u00d7 80 = 20. Or: 25% = 1/4, and 80 \u00f7 4 = 20."
+    }
+  },
+  {
+    "title": "Percentage increase",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A shirt costs $40. The price increases by 15%. What is the new price?",
+      "type": "multiple_choice",
+      "options": [
+        "$44",
+        "$46",
+        "$48",
+        "$55"
+      ],
+      "correct_answer": "$46",
+      "explanation": "$46. Find 15% of $40: 0.15 \u00d7 40 = $6. Add to original: $40 + $6 = $46."
+    }
+  },
+  {
+    "title": "Percentage decrease",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A jacket costs $90 and is on sale for 30% off. What is the sale price?",
+      "type": "multiple_choice",
+      "options": [
+        "$54",
+        "$60",
+        "$63",
+        "$67"
+      ],
+      "correct_answer": "$63",
+      "explanation": "$63. Find 30% of $90: 0.30 \u00d7 90 = $27. Subtract: $90 \u2212 $27 = $63."
+    }
+  },
+  {
+    "title": "What percent is X of Y",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "18 out of 24 students passed a test. What percentage passed?",
+      "type": "multiple_choice",
+      "options": [
+        "65%",
+        "70%",
+        "75%",
+        "80%"
+      ],
+      "correct_answer": "75%",
+      "explanation": "75%. Divide: 18 \u00f7 24 = 0.75. Multiply by 100: 75%. The formula is: (part \u00f7 whole) \u00d7 100."
+    }
+  },
+  {
+    "title": "Ratio simplification",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Simplify the ratio 16:24",
+      "type": "multiple_choice",
+      "options": [
+        "4:8",
+        "2:3",
+        "8:12",
+        "3:4"
+      ],
+      "correct_answer": "2:3",
+      "explanation": "2:3. Divide both by their GCF (8): 16\u00f78=2, 24\u00f78=3. So 16:24 = 2:3."
+    }
+  },
+  {
+    "title": "Area of a rectangle",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A rectangle has a length of 12 cm and a width of 7 cm. What is its area?",
+      "type": "multiple_choice",
+      "options": [
+        "38 cm\u00b2",
+        "74 cm\u00b2",
+        "84 cm\u00b2",
+        "96 cm\u00b2"
+      ],
+      "correct_answer": "84 cm\u00b2",
+      "explanation": "84 cm\u00b2. Area of a rectangle = length \u00d7 width = 12 \u00d7 7 = 84 cm\u00b2."
+    }
+  },
+  {
+    "title": "Perimeter of a rectangle",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A rectangle has a length of 9 m and a width of 4 m. What is its perimeter?",
+      "type": "multiple_choice",
+      "options": [
+        "13 m",
+        "26 m",
+        "36 m",
+        "52 m"
+      ],
+      "correct_answer": "26 m",
+      "explanation": "26 m. Perimeter = 2 \u00d7 (length + width) = 2 \u00d7 (9 + 4) = 2 \u00d7 13 = 26 m."
+    }
+  },
+  {
+    "title": "Area of a triangle",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A triangle has a base of 10 cm and a height of 6 cm. What is its area?",
+      "type": "multiple_choice",
+      "options": [
+        "30 cm\u00b2",
+        "60 cm\u00b2",
+        "16 cm\u00b2",
+        "32 cm\u00b2"
+      ],
+      "correct_answer": "30 cm\u00b2",
+      "explanation": "30 cm\u00b2. Area of a triangle = \u00bd \u00d7 base \u00d7 height = 0.5 \u00d7 10 \u00d7 6 = 30 cm\u00b2."
+    }
+  },
+  {
+    "title": "Circumference of a circle",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A circle has a radius of 5 cm. What is its circumference? (Use \u03c0 \u2248 3.14)",
+      "type": "multiple_choice",
+      "options": [
+        "15.7 cm",
+        "31.4 cm",
+        "78.5 cm",
+        "25 cm"
+      ],
+      "correct_answer": "31.4 cm",
+      "explanation": "31.4 cm. Circumference = 2\u03c0r = 2 \u00d7 3.14 \u00d7 5 = 31.4 cm."
+    }
+  },
+  {
+    "title": "Area of a circle",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A circle has a radius of 4 cm. What is its area? (Use \u03c0 \u2248 3.14)",
+      "type": "multiple_choice",
+      "options": [
+        "12.56 cm\u00b2",
+        "25.12 cm\u00b2",
+        "50.24 cm\u00b2",
+        "16 cm\u00b2"
+      ],
+      "correct_answer": "50.24 cm\u00b2",
+      "explanation": "50.24 cm\u00b2. Area = \u03c0r\u00b2 = 3.14 \u00d7 4\u00b2 = 3.14 \u00d7 16 = 50.24 cm\u00b2."
+    }
+  },
+  {
+    "title": "Missing side from area",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A rectangle has an area of 48 m\u00b2 and a length of 8 m. What is its width?",
+      "type": "multiple_choice",
+      "options": [
+        "4 m",
+        "5 m",
+        "6 m",
+        "7 m"
+      ],
+      "correct_answer": "6 m",
+      "explanation": "6 m. Area = length \u00d7 width, so width = area \u00f7 length = 48 \u00f7 8 = 6 m."
+    }
+  },
+  {
+    "title": "Pythagorean theorem",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A right triangle has legs of 3 cm and 4 cm. What is the length of the hypotenuse?",
+      "type": "multiple_choice",
+      "options": [
+        "5 cm",
+        "6 cm",
+        "7 cm",
+        "25 cm"
+      ],
+      "correct_answer": "5 cm",
+      "explanation": "5 cm. Use a\u00b2 + b\u00b2 = c\u00b2: 3\u00b2 + 4\u00b2 = 9 + 16 = 25. \u221a25 = 5. The 3-4-5 triangle is a classic Pythagorean triple!"
+    }
+  },
+  {
+    "title": "Angles in a triangle",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A triangle has angles of 40\u00b0 and 75\u00b0. What is the third angle?",
+      "type": "multiple_choice",
+      "options": [
+        "55\u00b0",
+        "65\u00b0",
+        "75\u00b0",
+        "115\u00b0"
+      ],
+      "correct_answer": "65\u00b0",
+      "explanation": "65\u00b0. The angles in a triangle always add up to 180\u00b0. So: 180 \u2212 40 \u2212 75 = 65\u00b0."
+    }
+  },
+  {
+    "title": "Supplementary angles",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Two supplementary angles. One is 112\u00b0. What is the other?",
+      "type": "multiple_choice",
+      "options": [
+        "58\u00b0",
+        "68\u00b0",
+        "78\u00b0",
+        "88\u00b0"
+      ],
+      "correct_answer": "68\u00b0",
+      "explanation": "68\u00b0. Supplementary angles add up to 180\u00b0. So: 180 \u2212 112 = 68\u00b0."
+    }
+  },
+  {
+    "title": "Volume of a rectangular prism",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A box is 5 cm long, 4 cm wide, and 3 cm tall. What is its volume?",
+      "type": "multiple_choice",
+      "options": [
+        "47 cm\u00b3",
+        "60 cm\u00b3",
+        "80 cm\u00b3",
+        "120 cm\u00b3"
+      ],
+      "correct_answer": "60 cm\u00b3",
+      "explanation": "60 cm\u00b3. Volume = length \u00d7 width \u00d7 height = 5 \u00d7 4 \u00d7 3 = 60 cm\u00b3."
+    }
+  },
+  {
+    "title": "Solving proportions",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Solve the proportion: 3/5 = x/20",
+      "type": "multiple_choice",
+      "options": [
+        "10",
+        "12",
+        "15",
+        "16"
+      ],
+      "correct_answer": "12",
+      "explanation": "x = 12. Cross-multiply: 3 \u00d7 20 = 5 \u00d7 x \u2192 60 = 5x \u2192 x = 12."
+    }
+  },
+  {
+    "title": "Speed formula",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A car travels 150 miles in 3 hours. What is its average speed?",
+      "type": "multiple_choice",
+      "options": [
+        "40 mph",
+        "45 mph",
+        "50 mph",
+        "55 mph"
+      ],
+      "correct_answer": "50 mph",
+      "explanation": "50 mph. Speed = distance \u00f7 time = 150 \u00f7 3 = 50 miles per hour."
+    }
+  },
+  {
+    "title": "Identify slope",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is the slope of a line that passes through (0, 2) and (4, 10)?",
+      "type": "multiple_choice",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correct_answer": "2",
+      "explanation": "Slope = 2. Use rise/run: (10\u22122) \u00f7 (4\u22120) = 8 \u00f7 4 = 2. Slope tells you how steep the line is."
+    }
+  },
+  {
+    "title": "Slope-intercept form",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "In the equation y = 3x + 5, what is the y-intercept?",
+      "type": "multiple_choice",
+      "options": [
+        "x",
+        "3",
+        "5",
+        "3x"
+      ],
+      "correct_answer": "5",
+      "explanation": "5. In y = mx + b, the y-intercept is b. Here b = 5, meaning the line crosses the y-axis at (0, 5)."
+    }
+  },
+  {
+    "title": "Function input/output",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "If f(x) = 2x \u2212 4, what is f(7)?",
+      "type": "multiple_choice",
+      "options": [
+        "8",
+        "10",
+        "14",
+        "18"
+      ],
+      "correct_answer": "10",
+      "explanation": "f(7) = 10. Substitute x = 7: f(7) = 2(7) \u2212 4 = 14 \u2212 4 = 10."
+    }
+  },
+  {
+    "title": "Negative exponents",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is 2\u207b\u00b3?",
+      "type": "multiple_choice",
+      "options": [
+        "\u22128",
+        "\u22126",
+        "1/8",
+        "1/6"
+      ],
+      "correct_answer": "1/8",
+      "explanation": "2\u207b\u00b3 = 1/8. A negative exponent means 1 divided by the positive exponent: 2\u207b\u00b3 = 1 \u00f7 2\u00b3 = 1 \u00f7 8 = 1/8."
+    }
+  },
+  {
+    "title": "Scientific notation",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Write 45,000 in scientific notation.",
+      "type": "multiple_choice",
+      "options": [
+        "4.5 \u00d7 10\u00b3",
+        "4.5 \u00d7 10\u2074",
+        "45 \u00d7 10\u00b3",
+        "0.45 \u00d7 10\u2075"
+      ],
+      "correct_answer": "4.5 \u00d7 10\u2074",
+      "explanation": "4.5 \u00d7 10\u2074. Move the decimal left until you have one digit before it: 4.5, and count the moves (4). So 45,000 = 4.5 \u00d7 10\u2074."
+    }
+  },
+  {
+    "title": "Probability basic",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A bag has 3 red, 2 blue, and 5 green marbles. What is the probability of picking a red marble?",
+      "type": "multiple_choice",
+      "options": [
+        "1/3",
+        "3/10",
+        "3/7",
+        "1/5"
+      ],
+      "correct_answer": "3/10",
+      "explanation": "3/10. Probability = favorable outcomes \u00f7 total outcomes. There are 3 red out of 10 total: 3/10."
+    }
+  },
+  {
+    "title": "Probability complement",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "The probability of rain tomorrow is 0.35. What is the probability it will NOT rain?",
+      "type": "multiple_choice",
+      "options": [
+        "0.35",
+        "0.55",
+        "0.65",
+        "0.75"
+      ],
+      "correct_answer": "0.65",
+      "explanation": "0.65. The probability of something NOT happening = 1 \u2212 P(event). 1 \u2212 0.35 = 0.65."
+    }
+  },
+  {
+    "title": "Mean of a data set",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Find the mean of: 8, 12, 15, 7, 18",
+      "type": "multiple_choice",
+      "options": [
+        "10",
+        "11",
+        "12",
+        "13"
+      ],
+      "correct_answer": "12",
+      "explanation": "Mean = 12. Add all values: 8+12+15+7+18 = 60. Divide by the count (5): 60 \u00f7 5 = 12."
+    }
+  },
+  {
+    "title": "Median of a data set",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Find the median of: 4, 11, 7, 2, 9",
+      "type": "multiple_choice",
+      "options": [
+        "4",
+        "7",
+        "9",
+        "11"
+      ],
+      "correct_answer": "7",
+      "explanation": "Median = 7. First sort the values: 2, 4, 7, 9, 11. The middle value (3rd of 5) is 7."
+    }
+  },
+  {
+    "title": "Algebra word problem",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Emma is 3 years older than twice her brother's age. Her brother is 7. How old is Emma?",
+      "type": "multiple_choice",
+      "options": [
+        "14",
+        "17",
+        "20",
+        "24"
+      ],
+      "correct_answer": "17",
+      "explanation": "Emma = 17. Write it as an equation: E = 2 \u00d7 7 + 3 = 14 + 3 = 17."
+    }
+  },
+  {
+    "title": "Inequality solving",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Solve the inequality: 2x + 3 > 11. What values of x make this true?",
+      "type": "multiple_choice",
+      "options": [
+        "x > 4",
+        "x > 7",
+        "x < 4",
+        "x \u2265 4"
+      ],
+      "correct_answer": "x > 4",
+      "explanation": "x > 4. Subtract 3: 2x > 8. Divide by 2: x > 4. Any number greater than 4 works."
+    }
+  },
+  {
+    "title": "Distribute and simplify",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Simplify: 3(x + 4) + 2x",
+      "type": "multiple_choice",
+      "options": [
+        "5x + 4",
+        "5x + 12",
+        "3x + 14",
+        "6x + 4"
+      ],
+      "correct_answer": "5x + 12",
+      "explanation": "5x + 12. Distribute: 3(x+4) = 3x + 12. Then combine like terms: 3x + 2x = 5x. Final: 5x + 12."
+    }
+  },
+  {
+    "title": "Combine like terms",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Simplify: 4x + 7 \u2212 2x + 3",
+      "type": "multiple_choice",
+      "options": [
+        "2x + 10",
+        "6x + 10",
+        "2x + 4",
+        "6x + 4"
+      ],
+      "correct_answer": "2x + 10",
+      "explanation": "2x + 10. Group like terms: (4x \u2212 2x) + (7 + 3) = 2x + 10."
+    }
+  },
+  {
+    "title": "Surface area of a cube",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "What is the surface area of a cube with a side length of 5 cm?",
+      "type": "multiple_choice",
+      "options": [
+        "25 cm\u00b2",
+        "75 cm\u00b2",
+        "125 cm\u00b2",
+        "150 cm\u00b2"
+      ],
+      "correct_answer": "150 cm\u00b2",
+      "explanation": "150 cm\u00b2. A cube has 6 equal square faces. Area of one face = 5\u00b2 = 25 cm\u00b2. Total: 6 \u00d7 25 = 150 cm\u00b2."
+    }
+  },
+  {
+    "title": "Two-step word problem",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A plumber charges $45 per hour plus a $60 call-out fee. A job costs $195. How many hours did the job take?",
+      "type": "multiple_choice",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "correct_answer": "3",
+      "explanation": "3 hours. Set up: 45h + 60 = 195. Subtract 60: 45h = 135. Divide: h = 3."
+    }
+  },
+  {
+    "title": "Percentage word problem",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "A store marks up a $120 item by 35%, then offers 10% off the marked price. What is the final price?",
+      "type": "multiple_choice",
+      "options": [
+        "$138.60",
+        "$145.80",
+        "$148.50",
+        "$162.00"
+      ],
+      "correct_answer": "$145.80",
+      "explanation": "$145.80. First: 120 \u00d7 1.35 = $162 (marked up price). Then: 162 \u00d7 0.90 = $145.80 (10% off)."
+    }
+  },
+  {
+    "title": "Substitution in expressions",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "If a = 3 and b = \u22122, what is 2a\u00b2 \u2212 b?",
+      "type": "multiple_choice",
+      "options": [
+        "14",
+        "16",
+        "18",
+        "20"
+      ],
+      "correct_answer": "20",
+      "explanation": "20. Substitute: 2(3\u00b2) \u2212 (\u22122) = 2(9) + 2 = 18 + 2 = 20. Watch the double negative: subtracting \u22122 adds 2."
+    }
+  },
+  {
+    "title": "Direct proportion",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "If 4 pencils cost $2.80, how much do 7 pencils cost?",
+      "type": "multiple_choice",
+      "options": [
+        "$4.20",
+        "$4.90",
+        "$5.60",
+        "$6.30"
+      ],
+      "correct_answer": "$4.90",
+      "explanation": "$4.90. Price per pencil: $2.80 \u00f7 4 = $0.70. For 7 pencils: 7 \u00d7 $0.70 = $4.90."
+    }
+  },
+  {
+    "title": "Exponent rules",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Simplify: x\u00b3 \u00d7 x\u2074",
+      "type": "multiple_choice",
+      "options": [
+        "x\u2077",
+        "x\u00b9\u00b2",
+        "2x\u2077",
+        "x\u2077\u207ax"
+      ],
+      "correct_answer": "x\u2077",
+      "explanation": "x\u2077. When multiplying powers with the same base, add the exponents: x\u00b3 \u00d7 x\u2074 = x^(3+4) = x\u2077."
+    }
+  },
+  {
+    "title": "Graphing: which quadrant?",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 2,
+    "xp_reward": 25,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "In which quadrant does the point (\u22123, 5) lie?",
+      "type": "multiple_choice",
+      "options": [
+        "Quadrant I",
+        "Quadrant II",
+        "Quadrant III",
+        "Quadrant IV"
+      ],
+      "correct_answer": "Quadrant II",
+      "explanation": "Quadrant II. Negative x and positive y = Quadrant II. Remember: QI(+,+), QII(\u2212,+), QIII(\u2212,\u2212), QIV(+,\u2212)."
+    }
+  },
+  {
+    "title": "Rational vs irrational",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 3,
+    "xp_reward": 35,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Which of these numbers is irrational?",
+      "type": "multiple_choice",
+      "options": [
+        "0.75",
+        "\u221a9",
+        "\u221a7",
+        "3/11"
+      ],
+      "correct_answer": "\u221a7",
+      "explanation": "\u221a7 is irrational. It can't be written as a simple fraction and its decimal never repeats or terminates. \u221a9 = 3, which is rational."
+    }
+  },
+  {
+    "title": "Systems of equations",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 5,
+    "xp_reward": 55,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "If x + y = 10 and x \u2212 y = 4, what is the value of x?",
+      "type": "multiple_choice",
+      "options": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "correct_answer": "7",
+      "explanation": "x = 7. Add the two equations: 2x = 14, so x = 7. Then y = 10 \u2212 7 = 3. Check: 7 \u2212 3 = 4. \u2713"
+    }
+  },
+  {
+    "title": "Factoring basics",
+    "subject": "math",
+    "age_tier": "senior",
+    "difficulty": 4,
+    "xp_reward": 45,
+    "challenge_type": "quiz",
+    "content": {
+      "question": "Factor completely: 6x\u00b2 + 9x",
+      "type": "multiple_choice",
+      "options": [
+        "3x(2x + 3)",
+        "6x(x + 3)",
+        "3(2x\u00b2 + 3x)",
+        "9x(x + 1)"
+      ],
+      "correct_answer": "3x(2x + 3)",
+      "explanation": "3x(2x + 3). Find the GCF of 6x\u00b2 and 9x, which is 3x. Factor it out: 6x\u00b2\u00f73x = 2x and 9x\u00f73x = 3. So: 3x(2x + 3)."
+    }
+  }
+]
