@@ -412,6 +412,8 @@ export default function ScienceLabyrinth({
         addTimer(setTimeout(() => setWallMounted(false), 300))
         // Advance question
         if (questionIndex === 9) {
+          setFeedback(null)
+          setChosenWrong(null)
           finishGame(score, newAnswers, questions)
         } else {
           setQuestionIndex(qi => qi + 1)
