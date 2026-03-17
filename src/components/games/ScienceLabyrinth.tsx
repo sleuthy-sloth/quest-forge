@@ -369,6 +369,324 @@ export default function ScienceLabyrinth({
     )
   }
 
-  // ── Playing phase (rendered below in Task 3) ───────────────────────────────
-  return <div />
+  // ── Answer handler ─────────────────────────────────────────────────────────
+
+  function handleAnswer(option: string) {
+    if (feedback !== null) return
+
+    const current = questions[questionIndex]
+    const isCorrect = option === current.content.correct_answer
+    const newAnswers = [...answers, option]
+
+    if (isCorrect) {
+      const newScore = score + 1
+      setScore(newScore)
+      setAnswers(newAnswers)
+      setFeedback('correct')
+      setCorridorAdvancing(true)
+      setScreenFlash('green')
+
+      addTimer(setTimeout(() => setScreenFlash(null), 300))
+      addTimer(setTimeout(() => setCorridorAdvancing(false), 600))
+      addTimer(setTimeout(() => {
+        if (questionIndex === 9) {
+          finishGame(newScore, newAnswers, questions)
+        } else {
+          setQuestionIndex(qi => qi + 1)
+          setFeedback(null)
+        }
+      }, 1000))
+    } else {
+      setAnswers(newAnswers)
+      setFeedback('wrong')
+      setChosenWrong(option)
+      setScreenFlash('red')
+      setWallMounted(true)
+      setWallVisible(true)
+
+      addTimer(setTimeout(() => setScreenFlash(null), 300))
+      addTimer(setTimeout(() => {
+        // Start wall lift
+        setWallVisible(false)
+        // Remove wall from DOM after lift completes (300ms) so it can't eat pointer events
+        addTimer(setTimeout(() => setWallMounted(false), 300))
+        // Advance question
+        if (questionIndex === 9) {
+          finishGame(score, newAnswers, questions)
+        } else {
+          setQuestionIndex(qi => qi + 1)
+          setFeedback(null)
+          setChosenWrong(null)
+        }
+      }, 3000))
+    }
+  }
+
+  // ── Playing phase render ────────────────────────────────────────────────────
+
+  const current = questions[questionIndex]
+  const correctCount = score
+
+  return (
+    <>
+      <style>{`
+        @keyframes corridor-advance {
+          0%   { transform: scale(1);    opacity: 1; }
+          40%  { transform: scale(1.18); opacity: 0.7; }
+          100% { transform: scale(1);    opacity: 1; }
+        }
+        @keyframes dead-end-drop {
+          0%   { transform: translateY(-100%); }
+          100% { transform: translateY(0%); }
+        }
+        @keyframes dead-end-lift {
+          0%   { transform: translateY(0%); }
+          100% { transform: translateY(-100%); }
+        }
+        @keyframes card-rise {
+          from { opacity: 0; transform: translateY(6px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+
+      <div className="px-4 pt-4 pb-8" style={{ maxWidth: '480px', margin: '0 auto' }}>
+
+        {/* ── Arena bar ──────────────────────────────────────────────── */}
+        <div style={{
+          position: 'relative',
+          display: 'flex', alignItems: 'center', gap: '8px',
+          background: 'linear-gradient(180deg,#0d0f1c,#070910)',
+          border: '1px solid rgba(30,138,74,0.2)',
+          borderLeft: '3px solid #1e8a4a',
+          borderRadius: '3px', padding: '10px',
+          marginBottom: '12px', overflow: 'hidden',
+        }}>
+
+          {/* Screen flash overlay */}
+          <div style={{
+            position: 'absolute', inset: 0, pointerEvents: 'none',
+            background: screenFlash === 'green'
+              ? 'rgba(30,138,74,0.25)'
+              : screenFlash === 'red'
+              ? 'rgba(224,85,85,0.25)'
+              : 'transparent',
+            transition: 'background 0.1s',
+            zIndex: 10,
+          }} />
+
+          {/* Left: Player */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px', flexShrink: 0 }}>
+            <AvatarPreview avatarConfig={avatarConfig} size={64} />
+            <div style={{
+              fontFamily: 'var(--font-pixel)', fontSize: '5px', color: '#c9a84c',
+              maxWidth: '64px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+            }}>
+              {displayName}
+            </div>
+            <div style={{ width: '64px', height: '5px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px', overflow: 'hidden' }}>
+              <div style={{ height: '100%', width: '100%', background: 'linear-gradient(90deg,#2eb85c,#5aab6e)', borderRadius: '2px' }} />
+            </div>
+          </div>
+
+          {/* Center: VS + pips + counter */}
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
+            <div style={{
+              fontFamily: 'var(--font-pixel)', fontSize: '7px', color: '#1e8a4a',
+              background: 'rgba(30,138,74,0.12)', border: '1px solid rgba(30,138,74,0.3)',
+              borderRadius: '2px', padding: '3px 6px',
+            }}>
+              VS
+            </div>
+            <div style={{ display: 'flex', gap: '3px' }}>
+              {Array.from({ length: 10 }, (_, i) => (
+                <div key={i} style={{
+                  width: '7px', height: '7px', borderRadius: '1px',
+                  background: i < correctCount ? '#1e8a4a' : 'transparent',
+                  border: `1px solid ${i < correctCount ? '#1e8a4a' : 'rgba(30,138,74,0.3)'}`,
+                }} />
+              ))}
+            </div>
+            <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '5px', color: '#7a6a44' }}>
+              Q{questionIndex + 1} / 10
+            </div>
+          </div>
+
+          {/* Right: First-person corridor */}
+          <div style={{ flexShrink: 0, position: 'relative', width: 64, height: 64, background: '#0a0c14', borderRadius: '2px', overflow: 'hidden' }}>
+
+            {/* Corridor inner group — target of corridor-advance animation */}
+            <div style={{
+              position: 'absolute', inset: 0,
+              animation: corridorAdvancing ? 'corridor-advance 0.4s ease-in-out forwards' : 'none',
+            }}>
+              {/* Floor */}
+              <div style={{
+                position: 'absolute',
+                bottom: 0, left: 0, right: 0, height: '50%',
+                clipPath: 'polygon(0% 100%, 100% 100%, 75% 0%, 25% 0%)',
+                background: 'linear-gradient(180deg, #1a1a2e 0%, #0d0d1a 100%)',
+                borderTop: '1px solid rgba(30,138,74,0.15)',
+              }} />
+              {/* Ceiling */}
+              <div style={{
+                position: 'absolute',
+                top: 0, left: 0, right: 0, height: '50%',
+                clipPath: 'polygon(0% 0%, 100% 0%, 75% 100%, 25% 100%)',
+                background: 'linear-gradient(180deg, #0a0a14 0%, #0d0d1a 100%)',
+                borderBottom: '1px solid rgba(30,138,74,0.1)',
+              }} />
+              {/* Left wall */}
+              <div style={{
+                position: 'absolute',
+                top: 0, left: 0, width: '25%', height: '100%',
+                clipPath: 'polygon(0% 0%, 100% 25%, 100% 75%, 0% 100%)',
+                background: 'linear-gradient(90deg, #0d1a0d 0%, #142814 100%)',
+                borderRight: '1px solid rgba(30,138,74,0.12)',
+              }} />
+              {/* Right wall */}
+              <div style={{
+                position: 'absolute',
+                top: 0, right: 0, width: '25%', height: '100%',
+                clipPath: 'polygon(0% 25%, 100% 0%, 100% 100%, 0% 75%)',
+                background: 'linear-gradient(270deg, #0d1a0d 0%, #142814 100%)',
+                borderLeft: '1px solid rgba(30,138,74,0.12)',
+              }} />
+              {/* Inner corridor frame lines */}
+              <div style={{
+                position: 'absolute',
+                top: '25%', left: '25%', right: '25%', bottom: '25%',
+                border: '1px solid rgba(30,138,74,0.2)',
+              }} />
+              {/* Vanishing-point glow */}
+              <div style={{
+                position: 'absolute',
+                top: '50%', left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 20, height: 20,
+                borderRadius: '50%',
+                background: 'radial-gradient(circle, rgba(30,138,74,0.6) 0%, transparent 100%)',
+              }} />
+            </div>
+
+            {/* Dead-end wall overlay — mounted when wallMounted, animates on wallVisible */}
+            {wallMounted && (
+              <div style={{
+                position: 'absolute', top: 0, left: 0,
+                width: 64, height: 64,
+                zIndex: 5,
+                background: '#3a3530',
+                backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 6px, rgba(0,0,0,0.15) 6px, rgba(0,0,0,0.15) 7px)',
+                animation: wallVisible
+                  ? 'dead-end-drop 0.3s ease-in forwards'
+                  : 'dead-end-lift 0.3s ease-out forwards',
+              }}>
+                {/* Stone crack SVG */}
+                <svg
+                  viewBox="0 0 64 64"
+                  width={64} height={64}
+                  style={{ position: 'absolute', inset: 0, opacity: 0.3 }}
+                  aria-hidden="true"
+                >
+                  <polyline points="32,4 28,20 34,28 26,44 30,60" fill="none" stroke="#1a0e08" strokeWidth="1.5" strokeLinejoin="round" />
+                  <polyline points="36,8 40,22 35,30" fill="none" stroke="#1a0e08" strokeWidth="1" strokeLinejoin="round" />
+                </svg>
+              </div>
+            )}
+
+            {/* Label */}
+            <div style={{
+              position: 'absolute', bottom: 2, left: 0, right: 0,
+              fontFamily: 'var(--font-pixel)', fontSize: '5px',
+              color: '#1e8a4a', textAlign: 'center', letterSpacing: '1px',
+              pointerEvents: 'none',
+            }}>
+              LABYRINTH
+            </div>
+          </div>
+        </div>
+
+        {/* ── Question card ────────────────────────────────────────── */}
+        <div
+          key={questionIndex}
+          style={{
+            background: 'rgba(13,15,28,0.9)',
+            border: '1px solid rgba(201,168,76,0.18)', borderRadius: '3px',
+            padding: '14px 12px',
+            animation: 'card-rise 0.25s ease',
+          }}
+        >
+          {/* Card header */}
+          <div style={{
+            fontFamily: 'var(--font-pixel)', fontSize: '7px',
+            color: '#1e8a4a', textAlign: 'center',
+            marginBottom: '4px', letterSpacing: '2px',
+          }}>
+            🧪 SCIENCE QUESTION
+          </div>
+          <div style={{
+            fontFamily: 'var(--font-pixel)', fontSize: '5px',
+            color: '#7a6a44', textAlign: 'center',
+            marginBottom: '10px', letterSpacing: '1px',
+          }}>
+            QUESTION {questionIndex + 1} OF 10
+          </div>
+
+          {/* Question text */}
+          <div style={{
+            fontFamily: 'var(--font-pixel)', fontSize: '9px', color: '#f0e6c8',
+            textAlign: 'center', lineHeight: 1.9, marginBottom: '16px',
+            minHeight: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            {current.content.question}
+          </div>
+
+          {/* Answer grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '10px' }}>
+            {current.content.options.map((option) => {
+              const isCorrect = option === current.content.correct_answer
+              const isChosen  = option === chosenWrong
+              let borderColor = 'rgba(201,168,76,0.22)'
+              if (feedback === 'wrong') {
+                if (isCorrect)     borderColor = '#2eb85c'
+                else if (isChosen) borderColor = '#e05555'
+              } else if (feedback === 'correct' && isCorrect) {
+                borderColor = '#1e8a4a'
+              }
+              return (
+                <button
+                  key={option}
+                  onClick={() => handleAnswer(option)}
+                  disabled={feedback !== null}
+                  style={{
+                    background: 'linear-gradient(135deg,#1a1c2e,#12131f)',
+                    border: `1px solid ${borderColor}`,
+                    borderRadius: '3px', padding: '12px 8px',
+                    fontFamily: 'var(--font-pixel)', fontSize: '7px', color: '#f0e6c8',
+                    textAlign: 'center', cursor: feedback !== null ? 'not-allowed' : 'pointer',
+                    pointerEvents: feedback !== null ? 'none' : 'auto',
+                    minHeight: '48px', lineHeight: 1.6,
+                    transition: 'border-color 0.15s',
+                  }}
+                >
+                  {option}
+                </button>
+              )
+            })}
+          </div>
+
+          {/* Explanation — wrong answers only */}
+          {feedback === 'wrong' && current.content.explanation && (
+            <div style={{
+              fontFamily: 'var(--font-body)', fontStyle: 'italic',
+              fontSize: '12px', color: '#7a6a44', textAlign: 'center',
+              padding: '6px 8px', borderTop: '1px solid rgba(201,168,76,0.1)',
+            }}>
+              {current.content.explanation}
+            </div>
+          )}
+        </div>
+
+      </div>
+    </>
+  )
 }
