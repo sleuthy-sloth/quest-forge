@@ -35,7 +35,7 @@ export function DashboardShell({ householdName, displayName, children }: Dashboa
     return pathname.startsWith(href)
   }
 
-  const SidebarContent = () => (
+  const sidebarContent = (
     <aside
       className="flex flex-col h-full w-56 border-r relative"
       style={{
@@ -131,7 +131,7 @@ export function DashboardShell({ householdName, displayName, children }: Dashboa
     <div className="flex min-h-screen bg-[#040812]">
       {/* Desktop sidebar — fixed */}
       <div className="hidden md:flex fixed inset-y-0 left-0 z-40 w-56">
-        <SidebarContent />
+        {sidebarContent}
       </div>
 
       {/* Mobile: hamburger button */}
@@ -162,7 +162,7 @@ export function DashboardShell({ householdName, displayName, children }: Dashboa
           transition-transform duration-200 ease-in-out
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
-        <SidebarContent />
+        {sidebarContent}
       </div>
 
       {/* Main content */}
