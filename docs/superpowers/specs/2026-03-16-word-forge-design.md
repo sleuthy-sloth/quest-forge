@@ -75,8 +75,8 @@ Additional state:
 **On answer selected:**
 - If `feedback !== null`: ignore (debounce during feedback window)
 - Compare chosen option to `content.correct_answer`
-- **Correct:** set `feedback = 'correct'`, `score++`, `ironHit = true`, `screenFlash = 'blue'`. After 300ms clear flash; after 600ms clear ironHit; after 1000ms advance to next question (or → `saving` if last)
-- **Wrong:** set `feedback = 'wrong'`, `chosenWrong = option`, `screenFlash = 'red'`. After 300ms clear flash. After 3000ms advance
+- **Correct:** set `feedback = 'correct'`, `score++`, `ironHit = true`, `screenFlash = 'blue'`. After 300ms clear flash; after 600ms clear ironHit; after 1000ms: set `feedback = null`, advance `questionIndex` by 1 (or → `saving` if last)
+- **Wrong:** set `feedback = 'wrong'`, `chosenWrong = option`, `screenFlash = 'red'`. After 300ms clear flash. After 3000ms: set `feedback = null`, `chosenWrong = null`, advance `questionIndex` by 1 (or → `saving` if last)
 
 ### `saving`
 - Insert `edu_completions` row
