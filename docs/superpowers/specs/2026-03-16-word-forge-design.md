@@ -26,7 +26,7 @@ A pixel-art blacksmith-themed educational vocabulary game. Players face a forge 
 3. Fetch `profiles`: `display_name, age, avatar_config, household_id, level, avatar_class, xp_total, xp_available`
 4. `if (!profile) redirect('/login')` · `if (!profile.avatar_class) redirect('/play/create-character')`
 5. Derive `ageTier`: `age != null && age >= 11 ? 'senior' : 'junior'`
-6. Render `<WordForge>` with props: `ageTier`, `householdId`, `playerId`, `avatarConfig`, `displayName`, `xpTotal`, `xpAvailable`
+6. Render `<WordForge>` with props: `ageTier`, `householdId`, `playerId={user.id}` (from the auth call in step 2, not from the profile row), `avatarConfig`, `displayName`, `xpTotal`, `xpAvailable`
 
 ### Component (`WordForge.tsx`) — `'use client'`
 
@@ -69,7 +69,7 @@ Additional state:
 - `answers: string[]` (player's chosen option per question)
 - `feedback: null | 'correct' | 'wrong'`
 - `ironHit: boolean` (triggers iron-heat animation on the bar)
-- `screenFlash: 'blue' | 'red' | null`
+- `screenFlash: 'blue' | 'red' | null` — note: the conditional render checks `screenFlash === 'blue'` (not `=== 'green'` as in Math Arena) to apply `rgba(26,92,158,0.25)`
 - `chosenWrong: string | null`
 
 **On answer selected:**
@@ -121,7 +121,7 @@ Dark panel with word-forge blue left accent border (`border-left: 3px solid #1a5
 - `position: absolute` div covering the full arena bar
 - Normally `opacity: 0`; on correct: `rgba(26,92,158,0.25)` for 300ms; on wrong: `rgba(224,85,85,0.25)` for 300ms
 
-**Iron bar heat animation** (CSS keyframe `iron-heat`):
+**Iron bar heat animation** (CSS keyframe `iron-heat`, applied as `animation: iron-heat 0.6s ease forwards` when `ironHit === true`):
 ```css
 @keyframes iron-heat {
   0%   { background: #555; box-shadow: none; }
@@ -130,16 +130,18 @@ Dark panel with word-forge blue left accent border (`border-left: 3px solid #1a5
   100% { background: #cc5500; box-shadow: 0 0 6px rgba(204,85,0,0.4); }
 }
 ```
+`ironHit` is set to `false` after 600ms (matching the animation duration); when `ironHit` is `false` the bar returns to its heat-level color derived from `(correct / 10)` interpolated between cold gray and hot orange.
 
 ### Question Card (below arena)
 - `animation: card-rise 0.25s ease` on mount (from globals.css) — plays each new question
-- Vocabulary word header: `⚒ {WORD}` in Press Start 2P, 9px, gold — word extracted from `content.question` or `title` (whichever contains the word being defined; use `title` field stripped of "Define: " prefix if present)
+- Vocabulary word header: `⚒ {WORD}` in Press Start 2P, 9px, gold — word extracted from `title` by taking everything after the first `": "` (colon-space). All seed titles follow the pattern `"{Category}: {word or phrase}"` (e.g. `"Define: ancient"` → `"ANCIENT"`, `"Fill in the blank: exhausted"` → `"EXHAUSTED"`, `"Context clue: insipid"` → `"INSIPID"`). Implementation: `title.includes(': ') ? title.split(': ').slice(1).join(': ').toUpperCase() : title.toUpperCase()`
 - Question text: Press Start 2P, ~10px, centered, `lineHeight: 1.8`
 - Answer grid: 2×2, each button min 48px tall (touch target)
 
 **Heat Forge letter animation (correct answers):**
 - Applied to the vocabulary word header letters on correct feedback
-- Each letter wrapped in a `<span>` with `animation-delay: index * 80ms`
+- Each letter wrapped in a `<span>` with `animation: letter-forge 0.4s ease forwards` and `animation-delay: index * 50ms`
+- With 50ms per-letter delay, a 13-letter word's last letter starts at 600ms and completes at 1000ms — just within the 1000ms auto-advance window
 - Keyframe `letter-forge`:
 ```css
 @keyframes letter-forge {
@@ -149,7 +151,7 @@ Dark panel with word-forge blue left accent border (`border-left: 3px solid #1a5
   100% { color: #c9a84c; text-shadow: 0 0 4px rgba(201,168,76,0.3); }
 }
 ```
-- Animation runs only when `feedback === 'correct'`; resets on next question
+- Animation runs only when `feedback === 'correct'`; letter spans re-render (via `key={questionIndex}`) on next question, resetting animation state
 
 **Button states:**
 - Default: dark bg, gold border `rgba(201,168,76,0.22)`
