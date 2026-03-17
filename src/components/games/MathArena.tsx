@@ -91,6 +91,7 @@ export default function MathArena({
   // Results
   const [xpEarned, setXpEarned] = useState(0)
   const [saveError, setSaveError] = useState(false)
+  const [hasBoss, setHasBoss] = useState(false)
 
   // ── Fetch questions ──────────────────────────────────────────────────────
 
@@ -185,8 +186,10 @@ export default function MathArena({
     setAnswers(finalAnswers)
     setPhase('saving')
 
+    let anySaveError = false
+
+    // 1. edu_completions
     try {
-      // 1. edu_completions
       await supabase.from('edu_completions').insert({
         household_id: householdId,
         challenge_id: qs[0].id,
@@ -195,8 +198,12 @@ export default function MathArena({
         completed_at: new Date().toISOString(),
         xp_awarded:   earned,
       })
+    } catch {
+      anySaveError = true
+    }
 
-      // 2. XP update
+    // 2. XP update
+    try {
       await supabase
         .from('profiles')
         .update({
@@ -204,8 +211,13 @@ export default function MathArena({
           xp_available: xpAvailable + earned,
         })
         .eq('id', playerId)
+    } catch {
+      anySaveError = true
+    }
 
-      // 3. Boss damage
+    // 3. Boss damage
+    let foundBoss = false
+    try {
       const { data: boss } = await supabase
         .from('story_chapters')
         .select('id, boss_current_hp')
@@ -217,14 +229,18 @@ export default function MathArena({
         .maybeSingle()
 
       if (boss) {
+        foundBoss = true
         await supabase
           .from('story_chapters')
           .update({ boss_current_hp: Math.max(0, boss.boss_current_hp - earned) })
           .eq('id', boss.id)
       }
     } catch {
-      setSaveError(true)
+      anySaveError = true
     }
+
+    setHasBoss(foundBoss)
+    if (anySaveError) setSaveError(true)
 
     setPhase('results')
   }
@@ -334,7 +350,7 @@ export default function MathArena({
                 {correctCount} / 10
               </div>
               <div style={{ fontFamily: 'var(--font-heading)', fontSize: '11px', color: '#7a6a44', marginTop: '2px' }}>
-                +{xpEarned} XP · −{xpEarned} Boss HP
+                +{xpEarned} XP · {hasBoss ? `−${xpEarned} Boss HP` : 'No active boss'}
               </div>
             </div>
             <div style={{
