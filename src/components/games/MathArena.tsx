@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import AvatarPreview from '@/components/avatar/AvatarPreview'
@@ -70,7 +70,7 @@ export default function MathArena({
   xpAvailable,
 }: Props) {
   const router = useRouter()
-  const supabase = createClient()
+  const supabase = useMemo(() => createClient(), [])
 
   // Phase
   const [phase, setPhase] = useState<Phase>('loading')
@@ -87,6 +87,13 @@ export default function MathArena({
   const [dummyHit, setDummyHit] = useState(false)
   const [screenFlash, setScreenFlash] = useState<ScreenFlash>(null)
   const [chosenWrong, setChosenWrong] = useState<string | null>(null)
+
+  // Timer refs for cleanup
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([])
+
+  function addTimer(id: ReturnType<typeof setTimeout>) {
+    timersRef.current.push(id)
+  }
 
   // Results
   const [xpEarned, setXpEarned] = useState(0)
@@ -132,6 +139,11 @@ export default function MathArena({
 
   useEffect(() => { fetchQuestions() }, [fetchQuestions])
 
+  useEffect(() => {
+    const timers = timersRef.current
+    return () => { timers.forEach(clearTimeout) }
+  }, [])
+
   // ── Answer handler ───────────────────────────────────────────────────────
 
   function handleAnswer(option: string) {
@@ -149,24 +161,24 @@ export default function MathArena({
       setDummyHit(true)
       setScreenFlash('green')
 
-      setTimeout(() => setScreenFlash(null), 300)
-      setTimeout(() => setDummyHit(false), 500)
-      setTimeout(() => {
+      addTimer(setTimeout(() => setScreenFlash(null), 300))
+      addTimer(setTimeout(() => setDummyHit(false), 500))
+      addTimer(setTimeout(() => {
         if (questionIndex === 9) {
           finishGame(newScore, newAnswers, questions)
         } else {
           setQuestionIndex(qi => qi + 1)
           setFeedback(null)
         }
-      }, 800)
+      }, 800))
     } else {
       setAnswers(newAnswers)
       setFeedback('wrong')
       setChosenWrong(option)
       setScreenFlash('red')
 
-      setTimeout(() => setScreenFlash(null), 300)
-      setTimeout(() => {
+      addTimer(setTimeout(() => setScreenFlash(null), 300))
+      addTimer(setTimeout(() => {
         if (questionIndex === 9) {
           finishGame(score, newAnswers, questions)
         } else {
@@ -174,7 +186,7 @@ export default function MathArena({
           setFeedback(null)
           setChosenWrong(null)
         }
-      }, 3000)
+      }, 3000))
     }
   }
 
