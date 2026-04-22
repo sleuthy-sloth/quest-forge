@@ -18,7 +18,8 @@ Create `.env.local` with:
 NEXT_PUBLIC_SUPABASE_URL=https://<project-id>.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-key>
 SUPABASE_SERVICE_ROLE_KEY=<service-role-key>
-GEMINI_API_KEY=<gemini-key>
+OPENROUTER_API_KEY=<openrouter-key>
+GEMINI_API_KEY=<gemini-key>  # Optional fallback
 NEXT_PUBLIC_SPRITE_BASE_URL=https://<project-id>.supabase.co/storage/v1/object/public/sprites
 ```
 

@@ -1,4 +1,4 @@
-import { geminiModel } from './client'
+import { generateWithFallback, aiClient, geminiModel } from '@/lib/ai/client'
 import { canMakeRequest, incrementUsage } from './rate-limiter'
 
 // ── Fallback template bank ────────────────────────────────────────────────────
@@ -231,9 +231,10 @@ Rules:
  *
  * Flow:
  * 1. Check rate limit — if at capacity, return fallback immediately
- * 2. Call Gemini Flash with the chore details
- * 3. Increment usage counter on success
- * 4. Return generated text, or fallback on any error
+ * 2. Call OpenRouter (primary) with the chore details
+ * 3. Fall back to Gemini if OpenRouter unavailable
+ * 4. Increment usage counter on success
+ * 5. Return generated text, or fallback on any error
  */
 export async function generateFlavorText(
   choreTitle: string,
@@ -244,7 +245,7 @@ export async function generateFlavorText(
   // Rate limit check
   const allowed = await canMakeRequest().catch(() => false)
   if (!allowed) {
-    console.warn('[flavor] Daily Gemini limit reached — serving fallback')
+    console.warn('[flavor] Daily AI limit reached — serving fallback')
     return fallback
   }
 
@@ -252,31 +253,20 @@ export async function generateFlavorText(
     ? `Chore: "${choreTitle}"\nDetails: "${choreDescription}"`
     : `Chore: "${choreTitle}"`
 
-  try {
-    const result = await geminiModel.generateContent({
-      systemInstruction: SYSTEM_PROMPT,
-      contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
-      generationConfig: {
-        maxOutputTokens: 200,
-        temperature: 0.85,
-        topP: 0.95,
-      },
-    })
+  // Try OpenRouter first, then Gemini fallback
+  const text = await generateWithFallback({
+    system: SYSTEM_PROMPT,
+    user: userPrompt,
+  })
 
-    const text = result.response.text().trim()
-
-    if (!text) {
-      console.warn('[flavor] Gemini returned empty response — serving fallback')
-      return fallback
-    }
-
-    await incrementUsage().catch(err =>
-      console.error('[flavor] Failed to increment usage counter:', err)
-    )
-
-    return text
-  } catch (err) {
-    console.error('[flavor] Gemini call failed — serving fallback:', err)
+  if (!text) {
+    console.warn('[flavor] Both AI providers failed — serving fallback')
     return fallback
   }
+
+  await incrementUsage().catch(err =>
+    console.error('[flavor] Failed to increment usage counter:', err)
+  )
+
+  return text
 }
