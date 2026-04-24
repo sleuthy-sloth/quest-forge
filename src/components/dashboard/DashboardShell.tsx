@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { signOut } from '@/app/actions/auth'
 import MobileNav from '@/components/ui/MobileNav'
+import MuteButton from '@/components/ui/MuteButton'
 
 const NAV = [
   { href: '/dashboard',          label: 'Overview',   icon: '⟡' },
@@ -98,13 +99,16 @@ export function DashboardShell({ householdName, displayName, children }: Dashboa
 
       {/* GM info + logout */}
       <div className="px-3 py-4 space-y-2 relative" style={{ borderTop: '1px solid rgba(180,50,80,0.20)', zIndex: 1 }}>
-        <p
-          className="px-3 text-[0.65rem] leading-relaxed"
-          style={{ fontFamily: 'var(--font-heading), serif', color: 'rgba(200,180,140,0.68)' }}
-        >
-          Signed in as<br />
-          <span style={{ color: '#c9a84c', fontSize: '0.7rem' }}>{displayName}</span>
-        </p>
+        <div className="flex items-center justify-between px-3">
+          <p
+            className="text-[0.65rem] leading-relaxed"
+            style={{ fontFamily: 'var(--font-heading), serif', color: 'rgba(200,180,140,0.68)' }}
+          >
+            Signed in as<br />
+            <span style={{ color: '#c9a84c', fontSize: '0.7rem' }}>{displayName}</span>
+          </p>
+          <MuteButton size="text-base" />
+        </div>
         <form action={signOut}>
           <button
             type="submit"

@@ -23,6 +23,7 @@ See `CLAUDE.md` for full architecture documentation.
 - **Loot store** — spend gold on rewards redeemable IRL
 - **Pixel art avatars** — LPC sprite compositing with character creator
 - **AI-generated content** — story chapters and quest flavor text via Gemini/OpenRouter
+- **Audio system** — Howler-based BGM with crossfade, SFX, and mute toggle
 
 ## Setup for New Developers
 
@@ -43,6 +44,8 @@ SUPABASE_SERVICE_ROLE_KEY=<service-role-key>
 OPENROUTER_API_KEY=<openrouter-key>
 GEMINI_API_KEY=<gemini-key>  # Optional fallback
 NEXT_PUBLIC_SPRITE_BASE_URL=https://<project-id>.supabase.co/storage/v1/object/public/sprites
+# Audio assets are served from the same bucket:
+#   NEXT_PUBLIC_SPRITE_BASE_URL + '/audio/[track].mp3'
 ```
 
 ### 3. Upload sprite assets
@@ -107,6 +110,7 @@ src/
 
 ## Recent Updates
 
+- **Audio system** — Howler-based BGM with crossfade, SFX, and mute toggle in nav shells
 - **Science Labyrinth** — dungeon-crawler game where players navigate corridors and answer science questions
 - **Word Forge** — smithy-themed vocab game with heat animations and anvil feedback
 - **Avatar system** — LPC sprite compositing with walk animation and proper body offsets

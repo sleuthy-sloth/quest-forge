@@ -3,6 +3,7 @@ import { Press_Start_2P, Cinzel, Crimson_Text } from 'next/font/google'
 import { AuthProvider } from '@/lib/auth-context'
 import { Toaster } from 'sonner'
 import ToastListener from '@/components/ui/ToastListener'
+import AudioInit from '@/components/ui/AudioInit'
 import './globals.css'
 
 const pressStart2P = Press_Start_2P({
@@ -59,6 +60,7 @@ export default function RootLayout({
             }}
           />
           <ToastListener />
+          <AudioInit />
           {children}
         </AuthProvider>
       </body>

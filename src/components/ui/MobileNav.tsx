@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import MuteButton from '@/components/ui/MuteButton'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -73,6 +74,11 @@ export default function MobileNav({ items }: MobileNavProps) {
           </Link>
         )
       })}
+
+      {/* Mute toggle */}
+      <div className="flex items-center justify-center min-w-[48px]">
+        <MuteButton size="text-base" />
+      </div>
     </nav>
   )
 }
