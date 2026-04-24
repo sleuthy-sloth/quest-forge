@@ -87,9 +87,66 @@ export const SPRITE_MANIFEST = {
   } satisfies Record<string, SpriteEntry>,
 
   // -------------------------------------------------------------------------
-  // eyes  (no separate eye-layer sprites in this asset set — placeholder)
+  // eyes
   // -------------------------------------------------------------------------
-  eyes: {} satisfies Record<string, SpriteEntry>,
+  eyes: {
+    eyes_blue: {
+      id: 'eyes_blue',
+      displayName: 'Blue Eyes',
+      category: 'eyes',
+      path: 'eyes/human/blue.png',
+      bodyType: 'universal',
+    },
+    eyes_brown: {
+      id: 'eyes_brown',
+      displayName: 'Brown Eyes',
+      category: 'eyes',
+      path: 'eyes/human/brown.png',
+      bodyType: 'universal',
+    },
+    eyes_gray: {
+      id: 'eyes_gray',
+      displayName: 'Gray Eyes',
+      category: 'eyes',
+      path: 'eyes/human/gray.png',
+      bodyType: 'universal',
+    },
+    eyes_green: {
+      id: 'eyes_green',
+      displayName: 'Green Eyes',
+      category: 'eyes',
+      path: 'eyes/human/green.png',
+      bodyType: 'universal',
+    },
+    eyes_orange: {
+      id: 'eyes_orange',
+      displayName: 'Orange Eyes',
+      category: 'eyes',
+      path: 'eyes/human/orange.png',
+      bodyType: 'universal',
+    },
+    eyes_purple: {
+      id: 'eyes_purple',
+      displayName: 'Purple Eyes',
+      category: 'eyes',
+      path: 'eyes/human/purple.png',
+      bodyType: 'universal',
+    },
+    eyes_red: {
+      id: 'eyes_red',
+      displayName: 'Red Eyes',
+      category: 'eyes',
+      path: 'eyes/human/red.png',
+      bodyType: 'universal',
+    },
+    eyes_yellow: {
+      id: 'eyes_yellow',
+      displayName: 'Yellow Eyes',
+      category: 'eyes',
+      path: 'eyes/human/yellow.png',
+      bodyType: 'universal',
+    },
+  } satisfies Record<string, SpriteEntry>,
 
   // -------------------------------------------------------------------------
   // hair
@@ -703,15 +760,65 @@ export const SPRITE_MANIFEST = {
   belt: {} satisfies Record<string, SpriteEntry>,
 
   // -------------------------------------------------------------------------
-  // cape  (no dedicated cape sprites found in current asset set)
+  // cape
   // -------------------------------------------------------------------------
-  cape: {} satisfies Record<string, SpriteEntry>,
+  cape: {
+    solid: {
+      id: 'solid',
+      displayName: 'Solid Cape',
+      category: 'cape',
+      path: 'cape/solid/female/{color}.png',
+      pathMale: 'cape/solid/male/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'universal',
+    },
+    tattered: {
+      id: 'tattered',
+      displayName: 'Tattered Cape',
+      category: 'cape',
+      path: 'cape/tattered/female/{color}.png',
+      pathMale: 'cape/tattered/male/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'universal',
+    },
+  } satisfies Record<string, SpriteEntry>,
 
   // -------------------------------------------------------------------------
-  // helmet  (head clothing in this asset set is fantasy creature parts;
-  //          excluded from character creator — use helmet: null)
+  // helmet
   // -------------------------------------------------------------------------
-  helmet: {} satisfies Record<string, SpriteEntry>,
+  helmet: {
+    hood: {
+      id: 'hood',
+      displayName: 'Hood',
+      category: 'helmet',
+      path: 'helmet/hood/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'universal',
+    },
+    bandana: {
+      id: 'bandana',
+      displayName: 'Bandana',
+      category: 'helmet',
+      path: 'helmet/bandana/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'universal',
+    },
+    crown: {
+      id: 'crown',
+      displayName: 'Crown',
+      category: 'helmet',
+      path: 'helmet/crown/gold.png',
+      bodyType: 'universal',
+    },
+    leather_cap: {
+      id: 'leather_cap',
+      displayName: 'Leather Cap',
+      category: 'helmet',
+      path: 'helmet/leather_cap/{color}.png',
+      colorVariants: STANDARD_COLORS,
+      bodyType: 'universal',
+    },
+  } satisfies Record<string, SpriteEntry>,
 
   // -------------------------------------------------------------------------
   // weapon  (weapon animation sheets — 1.png–4.png per action)

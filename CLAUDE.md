@@ -526,12 +526,14 @@ npm run fetch-sprites:bosses   # Create boss sprite placeholders
 ```
 
 ## Sprite Asset Pipeline
-- **Source:** [Universal LPC Spritesheet Character Generator](https://github.com/LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator)
-- **License:** CC-BY-SA 3.0 / GPL 3.0 (dual-licensed)
+- **Source:** [Universal LPC Spritesheet Character Generator](https://github.com/LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator) (bodies, hair, eyes, clothing, capes, hats), [makrohn/Universal-LPC-spritesheet](https://github.com/makrohn/Universal-LPC-spritesheet) (weapons), [LPC Monsters](https://opengameart.org/content/lpc-monsters) (bosses)
+- **License:** CC-BY-SA 3.0 / GPL 3.0 (dual-licensed) unless otherwise noted
 - **Script:** `scripts/fetch-sprites.mjs` downloads assets and saves to `public/sprites/`
 - **Attribution:** See `public/sprites/CREDITS.md`
-- **Current status:** 469 real assets, 154 placeholders (weapons, bosses, some clothing variants)
-- **Missing assets:** Weapon sprites (not in LPC repo — need separate source), boss sprites (need OpenGameArt source), skirts/leggings (need separate source)
+- **Current status:** 802 real assets, 0 placeholders
+  - Bodies: 11, Hair: 90, Eyes: 8, Clothing: 486, Capes: 96, Helmets: 73, Weapons: 10, Bosses: 28
+- **Missing assets:** Folder-based boss sprites (dragon, demon, medusa, jinn, lizard) need manual sourcing from OpenGameArt
+- **Color variant strategy:** Items with per-color PNGs (boots, shoes, capes, hats) are downloaded directly. Items with base-only sprites (shirts, armour) use compositor `hexTint` for runtime color application.
 
 ## Critical Reminders
 - MULTI-TENANT: Every query MUST be scoped to `household_id`. No exceptions.
