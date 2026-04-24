@@ -1,38 +1,57 @@
 import OpenAI from 'openai'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 
-const openai = process.env.OPENROUTER_API_KEY
+// ── Provider initialization ──────────────────────────────────────────────────
+
+const openRouterClient = process.env.OPENROUTER_API_KEY
   ? new OpenAI({
       apiKey: process.env.OPENROUTER_API_KEY,
       baseURL: 'https://openrouter.ai/api/v1',
     })
   : null
 
-const { GoogleGenerativeAI } = require('@google/generative-ai')
-const genAI = process.env.GEMINI_API_KEY
+const geminiClient = process.env.GEMINI_API_KEY
   ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
   : null
 
-export const aiClient = openai
-export const geminiModel = genAI
-  ? genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+export const geminiModel = geminiClient
+  ? geminiClient.getGenerativeModel({ model: 'gemini-2.0-flash' })
   : null
+
+// ── Constants ────────────────────────────────────────────────────────────────
 
 export const PRIMARY_MODEL = 'openrouter/free'
 
-export async function generateWithFallback(prompt: {
+// ── Core generation function ────────────────────────────────────────────────
+
+export interface GenerationPrompt {
   system: string
   user: string
-}): Promise<string | null> {
-  if (openai) {
+  maxTokens?: number
+  temperature?: number
+}
+
+/**
+ * Generates text using OpenRouter (primary) with Gemini fallback.
+ * Returns null if both providers fail or are unavailable.
+ */
+export async function generateWithFallback(
+  prompt: GenerationPrompt
+): Promise<string | null> {
+  const maxTokens = prompt.maxTokens ?? 200
+  const temperature = prompt.temperature ?? 0.85
+
+  // Primary: OpenRouter
+  if (openRouterClient) {
     try {
-      const response = await openai.chat.completions.create({
+      const response = await openRouterClient.chat.completions.create({
         model: PRIMARY_MODEL,
         messages: [
           { role: 'system', content: prompt.system },
           { role: 'user', content: prompt.user },
         ],
-        max_tokens: 200,
-        temperature: 0.85,
+        max_tokens: maxTokens,
+        temperature,
       })
       const text = response.choices[0]?.message?.content?.trim()
       if (text) return text
@@ -41,14 +60,15 @@ export async function generateWithFallback(prompt: {
     }
   }
 
+  // Fallback: Gemini
   if (geminiModel) {
     try {
       const result = await geminiModel.generateContent({
         systemInstruction: prompt.system,
         contents: [{ role: 'user', parts: [{ text: prompt.user }] }],
         generationConfig: {
-          maxOutputTokens: 200,
-          temperature: 0.85,
+          maxOutputTokens: maxTokens,
+          temperature,
           topP: 0.95,
         },
       })
@@ -60,4 +80,30 @@ export async function generateWithFallback(prompt: {
   }
 
   return null
+}
+
+/**
+ * Direct OpenRouter call for model-specific requests.
+ * Returns null if OpenRouter is unavailable or the call fails.
+ */
+export async function callOpenRouter(
+  model: string,
+  messages: Array<{ role: 'system' | 'user' | 'assistant'; content: string }>,
+  maxTokens = 200,
+  temperature = 0.85
+): Promise<string | null> {
+  if (!openRouterClient) return null
+
+  try {
+    const response = await openRouterClient.chat.completions.create({
+      model,
+      messages,
+      max_tokens: maxTokens,
+      temperature,
+    })
+    return response.choices[0]?.message?.content?.trim() ?? null
+  } catch (err) {
+    console.warn(`[ai] OpenRouter call failed (model: ${model}):`, err)
+    return null
+  }
 }

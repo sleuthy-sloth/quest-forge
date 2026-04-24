@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
-import { generateFlavorText } from '@/lib/gemini/flavor'
+import { generateFlavorText } from '@/lib/ai/flavor'
 
 const Schema = z.object({
   choreTitle: z.string().min(1, 'Title is required').max(200),

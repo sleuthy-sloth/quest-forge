@@ -1,4 +1,4 @@
-import { geminiModel, callOpenRouter } from './client'
+import { generateWithFallback } from './client'
 import { canMakeRequest, incrementUsage } from './rate-limiter'
 
 // ── Fallback template bank ────────────────────────────────────────────────────
@@ -190,16 +190,9 @@ export const FLAVOR_TEMPLATES: FlavorTemplate[] = [
   },
 ]
 
-/** Generic fallback when no keywords match at all. */
 const GENERIC_FALLBACK =
   'A worthy quest has appeared on the Hearthhold\'s board, calling for a capable champion to step forward! Rise to this challenge with determination and skill. Complete the task faithfully, for every deed of service to the household — however humble it may appear — strengthens the bonds of the Hearthhold and brings glory to all who dwell within.'
 
-// ── Template matcher ──────────────────────────────────────────────────────────
-
-/**
- * Finds the best matching fallback template for a given chore.
- * Checks keywords against the combined lowercased title + description.
- */
 export function getFallbackFlavorText(choreTitle: string, choreDescription = ''): string {
   const haystack = `${choreTitle} ${choreDescription}`.toLowerCase()
 
@@ -226,92 +219,36 @@ Rules:
 
 // ── Main export ───────────────────────────────────────────────────────────────
 
-/**
- * Generates fantasy quest flavor text for a chore with dynamic failover.
- *
- * Flow:
- * 1. Check rate limit — if at capacity, return fallback immediately
- * 2. Primary: Call Gemini 2.5 Flash
- * 3. Fallback: If Gemini fails, call OpenRouter (meta-llama/llama-3.1-8b-instruct)
- * 4. Absolute fallback: If both fail, return keyword-matched template
- * 5. Increment usage counter on any AI success
- */
 export async function generateFlavorText(
   choreTitle: string,
   choreDescription = ''
 ): Promise<string> {
   const fallback = getFallbackFlavorText(choreTitle, choreDescription)
 
+  const allowed = await canMakeRequest().catch(() => false)
+  if (!allowed) {
+    console.warn('[flavor] Daily AI limit reached — serving fallback')
+    return fallback
+  }
+
   const userPrompt = choreDescription.trim()
     ? `Chore: "${choreTitle}"\nDetails: "${choreDescription}"`
     : `Chore: "${choreTitle}"`
 
-  try {
-    const allowed = await canMakeRequest().catch(() => false)
-    if (!allowed) {
-      console.warn('[flavor] Daily API limit reached — serving fallback')
-      return fallback
-    }
+  const text = await generateWithFallback({
+    system: SYSTEM_PROMPT,
+    user: userPrompt,
+    maxTokens: 200,
+    temperature: 0.85,
+  })
 
-    try {
-      console.log('[flavor] Attempting Gemini 2.5 Flash...')
-      const result = await geminiModel.generateContent({
-        systemInstruction: SYSTEM_PROMPT,
-        contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
-        generationConfig: {
-          maxOutputTokens: 200,
-          temperature: 0.85,
-          topP: 0.95,
-        },
-      })
-
-      const text = result.response.text().trim()
-
-      if (!text) {
-        console.warn('[flavor] Gemini returned empty response — trying OpenRouter fallback')
-        throw new Error('Empty Gemini response')
-      }
-
-      await incrementUsage().catch(err =>
-        console.error('[flavor] Failed to increment usage counter:', err)
-      )
-
-      console.log('[flavor] Success: Gemini 2.5 Flash')
-      return text
-    } catch (geminiError) {
-      console.warn('[flavor] Gemini failed, trying OpenRouter fallback:', geminiError)
-
-      try {
-        console.log('[flavor] Attempting OpenRouter (meta-llama/llama-3.1-8b-instruct)...')
-        const text = await callOpenRouter(
-          'meta-llama/llama-3.1-8b-instruct',
-          [
-            { role: 'system', content: SYSTEM_PROMPT },
-            { role: 'user', content: userPrompt },
-          ],
-          200,
-          0.85
-        )
-
-        if (!text) {
-          console.warn('[flavor] OpenRouter returned empty response — serving template fallback')
-          return fallback
-        }
-
-        await incrementUsage().catch(err =>
-          console.error('[flavor] Failed to increment usage counter:', err)
-        )
-
-        console.log('[flavor] Success: OpenRouter fallback')
-        return text
-      } catch (openRouterError) {
-        console.error('[flavor] OpenRouter fallback failed:', openRouterError)
-        console.log('[flavor] Serving template fallback')
-        return fallback
-      }
-    }
-  } catch (err) {
-    console.error('[flavor] Unexpected error:', err)
+  if (!text) {
     return fallback
   }
+
+  await incrementUsage().catch(err =>
+    console.error('[flavor] Failed to increment usage counter:', err)
+  )
+
+  return text
 }

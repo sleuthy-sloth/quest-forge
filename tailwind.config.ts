@@ -37,6 +37,14 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function (helpers: { addUtilities: (utilities: Record<string, Record<string, string>>) => void }) {
+      helpers.addUtilities({
+        '.pixelated': {
+          'image-rendering': 'pixelated',
+        },
+      })
+    },
+  ],
 };
 export default config;
