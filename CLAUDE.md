@@ -517,7 +517,21 @@ npm run lint         # ESLint
 npm run type-check   # TypeScript compiler check
 npx supabase start   # Local Supabase (Docker)
 npx supabase db push # Push migrations
+npm run fetch-sprites          # Download all LPC sprite assets
+npm run fetch-sprites:bodies   # Download only body sprites
+npm run fetch-sprites:hair     # Download only hair sprites
+npm run fetch-sprites:clothing # Download only clothing sprites
+npm run fetch-sprites:weapons  # Download only weapon sprites
+npm run fetch-sprites:bosses   # Create boss sprite placeholders
 ```
+
+## Sprite Asset Pipeline
+- **Source:** [Universal LPC Spritesheet Character Generator](https://github.com/LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator)
+- **License:** CC-BY-SA 3.0 / GPL 3.0 (dual-licensed)
+- **Script:** `scripts/fetch-sprites.mjs` downloads assets and saves to `public/sprites/`
+- **Attribution:** See `public/sprites/CREDITS.md`
+- **Current status:** 469 real assets, 154 placeholders (weapons, bosses, some clothing variants)
+- **Missing assets:** Weapon sprites (not in LPC repo — need separate source), boss sprites (need OpenGameArt source), skirts/leggings (need separate source)
 
 ## Critical Reminders
 - MULTI-TENANT: Every query MUST be scoped to `household_id`. No exceptions.

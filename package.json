@@ -8,7 +8,13 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "fetch-sprites": "node scripts/fetch-sprites.mjs",
+    "fetch-sprites:bodies": "node scripts/fetch-sprites.mjs --bodies",
+    "fetch-sprites:hair": "node scripts/fetch-sprites.mjs --hair",
+    "fetch-sprites:clothing": "node scripts/fetch-sprites.mjs --clothing",
+    "fetch-sprites:weapons": "node scripts/fetch-sprites.mjs --weapons",
+    "fetch-sprites:bosses": "node scripts/fetch-sprites.mjs --bosses"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
@@ -29,6 +35,7 @@
     "eslint-config-next": "14.2.35",
     "jsdom": "^29.0.0",
     "postcss": "^8",
+    "sharp": "^0.34.5",
     "tailwindcss": "^3.4.1",
     "typescript": "^5",
     "vitest": "^4.1.0"
