@@ -15,7 +15,7 @@ const geminiClient = process.env.GEMINI_API_KEY
   : null
 
 export const geminiModel = geminiClient
-  ? geminiClient.getGenerativeModel({ model: 'gemini-2.0-flash' })
+  ? geminiClient.getGenerativeModel({ model: 'gemini-2.5-flash' })
   : null
 
 // ── Constants ────────────────────────────────────────────────────────────────
@@ -32,7 +32,7 @@ export interface GenerationPrompt {
 }
 
 /**
- * Generates text using OpenRouter (primary) with Gemini fallback.
+ * Generates text using Gemini Flash (primary) with OpenRouter fallback.
  * Returns null if both providers fail or are unavailable.
  */
 export async function generateWithFallback(
@@ -41,26 +41,7 @@ export async function generateWithFallback(
   const maxTokens = prompt.maxTokens ?? 200
   const temperature = prompt.temperature ?? 0.85
 
-  // Primary: OpenRouter
-  if (openRouterClient) {
-    try {
-      const response = await openRouterClient.chat.completions.create({
-        model: PRIMARY_MODEL,
-        messages: [
-          { role: 'system', content: prompt.system },
-          { role: 'user', content: prompt.user },
-        ],
-        max_tokens: maxTokens,
-        temperature,
-      })
-      const text = response.choices[0]?.message?.content?.trim()
-      if (text) return text
-    } catch (err) {
-      console.warn('[ai] OpenRouter failed:', err)
-    }
-  }
-
-  // Fallback: Gemini
+  // Primary: Gemini Flash
   if (geminiModel) {
     try {
       const result = await geminiModel.generateContent({
@@ -75,7 +56,26 @@ export async function generateWithFallback(
       const text = result.response.text().trim()
       if (text) return text
     } catch (err) {
-      console.warn('[ai] Gemini fallback failed:', err)
+      console.warn('[ai] Gemini failed:', err)
+    }
+  }
+
+  // Fallback: OpenRouter
+  if (openRouterClient) {
+    try {
+      const response = await openRouterClient.chat.completions.create({
+        model: PRIMARY_MODEL,
+        messages: [
+          { role: 'system', content: prompt.system },
+          { role: 'user', content: prompt.user },
+        ],
+        max_tokens: maxTokens,
+        temperature,
+      })
+      const text = response.choices[0]?.message?.content?.trim()
+      if (text) return text
+    } catch (err) {
+      console.warn('[ai] OpenRouter fallback failed:', err)
     }
   }
 

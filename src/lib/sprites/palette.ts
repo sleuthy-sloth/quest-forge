@@ -61,37 +61,6 @@ export interface BossSpriteInfo {
 }
 
 export const BOSS_SPRITE_MANIFEST: Record<string, BossSpriteInfo> = {
-  // --- Folder-based: 256×256 individual PNGs ---
-  demon: {
-    format: 'folder',
-    basePath: 'bosses/demon',
-    idleFrames: ['Idle1.png', 'Idle2.png', 'Idle3.png'],
-  },
-  dragon: {
-    format: 'folder',
-    basePath: 'bosses/dragon',
-    idleFrames: ['Idle1.png', 'Idle2.png', 'Idle3.png'],
-  },
-  small_dragon: {
-    format: 'folder',
-    basePath: 'bosses/small_dragon',
-    idleFrames: ['Idle1.png', 'Idle2.png', 'Idle3.png'],
-  },
-  jinn: {
-    format: 'folder',
-    basePath: 'bosses/jinn_animation',
-    idleFrames: ['Idle1.png', 'Idle2.png', 'Idle3.png'],
-  },
-  medusa: {
-    format: 'folder',
-    basePath: 'bosses/medusa',
-    idleFrames: ['Idle1.png', 'Idle2.png', 'Idle3.png'],
-  },
-  lizard: {
-    format: 'folder',
-    basePath: 'bosses/lizard',
-    idleFrames: ['Idle1.png', 'Idle2.png', 'Idle3.png'],
-  },
   // --- Sheet-based: single PNG, 64×64 cells ---
   bat: {
     format: 'sheet',

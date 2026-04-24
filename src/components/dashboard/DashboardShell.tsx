@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { signOut } from '@/app/actions/auth'
+import MobileNav from '@/components/ui/MobileNav'
 
 const NAV = [
   { href: '/dashboard',          label: 'Overview',   icon: '⟡' },
@@ -21,13 +21,14 @@ interface DashboardShellProps {
 }
 
 export function DashboardShell({ householdName, displayName, children }: DashboardShellProps) {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
   const pathname = usePathname()
 
   function isActive(href: string) {
     if (href === '/dashboard') return pathname === '/dashboard'
     return pathname.startsWith(href)
   }
+
+  const mobileNavItems = NAV.map(item => ({ href: item.href, label: item.label, icon: item.icon }))
 
   const sidebarContent = (
     <aside
@@ -72,11 +73,10 @@ export function DashboardShell({ householdName, displayName, children }: Dashboa
       {/* Nav */}
       <nav className="flex-1 flex flex-col gap-0.5 px-2 py-3 relative" style={{ zIndex: 1 }} aria-label="Dashboard navigation">
         {NAV.map(item => (
-          <Link
-            key={item.href}
-            href={item.href}
-            onClick={() => setSidebarOpen(false)}
-            className={`
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`
               flex items-center gap-2.5 px-3 py-2.5 rounded-[3px]
               text-[0.68rem] font-semibold tracking-widest uppercase
               transition-colors duration-150
@@ -128,46 +128,18 @@ export function DashboardShell({ householdName, displayName, children }: Dashboa
 
   return (
     <div className="flex min-h-screen bg-[#040812]">
-      {/* Desktop sidebar — fixed */}
+      {/* Desktop sidebar — fixed left */}
       <div className="hidden md:flex fixed inset-y-0 left-0 z-40 w-56">
         {sidebarContent}
       </div>
 
-      {/* Mobile: hamburger button */}
-      <button
-        onClick={() => setSidebarOpen(true)}
-        className="md:hidden fixed top-4 left-4 z-50 w-10 h-10
-          flex flex-col items-center justify-center gap-[5px]
-          bg-[#040812] border border-[#c9a84c]/25 rounded-[3px]"
-        aria-label="Open navigation menu"
-      >
-        <span className="w-[18px] h-px bg-[#c9a84c]/65 block" />
-        <span className="w-[18px] h-px bg-[#c9a84c]/65 block" />
-        <span className="w-[18px] h-px bg-[#c9a84c]/65 block" />
-      </button>
-
-      {/* Mobile: overlay */}
-      {sidebarOpen && (
-        <div
-          className="md:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
-          onClick={() => setSidebarOpen(false)}
-          aria-hidden="true"
-        />
-      )}
-
-      {/* Mobile: slide-in drawer */}
-      <div
-        className={`md:hidden fixed inset-y-0 left-0 z-50 w-56
-          transition-transform duration-200 ease-in-out
-          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
-      >
-        {sidebarContent}
-      </div>
-
-      {/* Main content */}
-      <div className="flex-1 md:ml-56 flex flex-col min-h-screen">
+      {/* Main content — pushes above the mobile nav bar */}
+      <div className="flex-1 md:ml-56 flex flex-col min-h-screen pb-16 md:pb-0">
         {children}
       </div>
+
+      {/* Mobile bottom nav — replaces sidebar on small screens */}
+      <MobileNav items={mobileNavItems} />
     </div>
   )
 }

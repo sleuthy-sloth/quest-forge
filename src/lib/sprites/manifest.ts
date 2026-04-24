@@ -990,14 +990,3 @@ export const WEAPONS = {
   bigslash_female: spriteUrl('weapons/female/bigslash'),
   shield_female:   spriteUrl('weapons/female/shield'),
 } as const
-
-export const BOSSES = {
-  dragon:       spriteUrl('bosses/dragon'),
-  small_dragon: spriteUrl('bosses/small_dragon'),
-  medusa:       spriteUrl('bosses/medusa'),
-  lizard:       spriteUrl('bosses/lizard'),
-  jinn:         spriteUrl('bosses/jinn_animation'),
-  demon:        spriteUrl('bosses/demon'),
-} as const
-
-export type BossKey = keyof typeof BOSSES

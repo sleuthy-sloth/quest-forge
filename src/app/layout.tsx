@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Press_Start_2P, Cinzel, Crimson_Text } from 'next/font/google'
 import { AuthProvider } from '@/lib/auth-context'
+import { Toaster } from 'sonner'
+import ToastListener from '@/components/ui/ToastListener'
 import './globals.css'
 
 const pressStart2P = Press_Start_2P({
@@ -42,6 +44,21 @@ export default function RootLayout({
     >
       <body>
         <AuthProvider>
+          <Toaster
+            richColors
+            closeButton
+            position="top-center"
+            toastOptions={{
+              style: {
+                fontFamily: 'var(--font-heading, Cinzel, serif)',
+                fontSize: '0.85rem',
+                background: 'linear-gradient(135deg, #1a0a2e, #0f0620)',
+                border: '1px solid rgba(155,48,255,0.4)',
+                color: '#d4b0ff',
+              },
+            }}
+          />
+          <ToastListener />
           {children}
         </AuthProvider>
       </body>
