@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState, useCallback } from 'react'
 import BossSprite, { type BossSpriteHandle } from '@/components/boss/BossSprite'
 import BossHPBar from '@/components/boss/BossHPBar'
 import { useBoss } from '@/hooks/useBoss'
@@ -21,6 +21,19 @@ export default function BossArena({ householdId }: BossArenaProps) {
   const { bossState, loading, error, refresh } = useBoss(householdId)
   const spriteRef = useRef<BossSpriteHandle>(null)
 
+  // Shared keyframes used across multiple render branches (defeated view,
+  // loading skeleton, etc.)
+  const Keyframes = (
+    <style>{`
+      @keyframes spin  { to { transform: rotate(360deg); } }
+      @keyframes shimmer { 0%,100%{opacity:1} 50%{opacity:0.3} }
+      @keyframes slide-in {
+        from { opacity: 0; transform: translateY(12px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+    `}</style>
+  )
+
   // ── HP-change animation detection ───────────────────────────────────────
   // Must sit in BossArena (not the hook) because it needs the sprite ref.
   //
@@ -30,6 +43,40 @@ export default function BossArena({ householdId }: BossArenaProps) {
 
   const prevHpRef = useRef<number | null>(null)
   const defeatTriggeredRef = useRef(false)
+  const narrativeRequestedRef = useRef(false)
+
+  // ── AI-generated victory narrative state ──────────────────────────────
+
+  const [victoryNarrative, setVictoryNarrative] = useState<string | null>(null)
+  const [generatingNarrative, setGeneratingNarrative] = useState(false)
+
+  // ── Narrative generation (called once when HP drops to 0) ─────────────
+
+  const fetchVictoryNarrative = useCallback(
+    async (chapterId: string) => {
+      // Guard: only call once per chapter
+      if (narrativeRequestedRef.current) return
+      narrativeRequestedRef.current = true
+
+      setGeneratingNarrative(true)
+      try {
+        const res = await fetch('/api/story/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chapterId }),
+        })
+        const data = (await res.json()) as { narrative?: string }
+        if (res.ok && data.narrative) {
+          setVictoryNarrative(data.narrative)
+        }
+      } catch {
+        // Silently fail — the view falls back to bossState.narrativeText
+      } finally {
+        setGeneratingNarrative(false)
+      }
+    },
+    [],
+  )
 
   useEffect(() => {
     const currentHp = bossState?.boss?.currentHp
@@ -50,359 +97,194 @@ export default function BossArena({ householdId }: BossArenaProps) {
         defeatTriggeredRef.current = true
         // Brief delay so the last damage flash renders before disintegration
         setTimeout(() => spriteRef.current?.defeat(), 250)
+
+        // Generate AI victory narrative (once) — runs async in background
+        if (bossState?.chapterId) {
+          fetchVictoryNarrative(bossState.chapterId)
+        }
       }
     }
 
     prevHpRef.current = currentHp
+    // chapterId is intentionally omitted — chapter-change reset is handled
+    // by the separate effect below. fetchVictoryNarrative is stable via useCallback.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bossState?.boss?.currentHp])
 
-  // Reset defeat flag when the chapter changes (new week)
+  // Reset defeat + narrative flags when the chapter changes (new week)
   useEffect(() => {
     defeatTriggeredRef.current = false
+    narrativeRequestedRef.current = false
     prevHpRef.current = null
+    setVictoryNarrative(null)
+    setGeneratingNarrative(false)
   }, [bossState?.chapterId])
 
-  // ── Loading state ──────────────────────────────────────────────────────
+  // ── Render ─────────────────────────────────────────────────────────────
+
+  const isDefeated = bossState?.boss?.currentHp === 0
+
+  let content: React.ReactNode
 
   if (loading) {
-    return (
+    content = (
       <div style={{
-        minHeight: '100vh',
-        background: '#0a0a12',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '1.5rem',
-        padding: '2rem',
+        minHeight: '100vh', background: '#0a0a12', display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'center', gap: '1.5rem', padding: '2rem',
         fontFamily: 'var(--font-body)',
       }}>
         <div style={{ width: 280, height: 24, background: '#1a1a2e', borderRadius: 2, overflow: 'hidden' }}>
-          <div style={{
-            width: '30%',
-            height: '100%',
-            background: '#2a2a42',
-            borderRadius: 2,
-            animation: 'shimmer 1.2s ease-in-out infinite',
-          }} />
+          <div style={{ width: '30%', height: '100%', background: '#2a2a42', borderRadius: 2, animation: 'shimmer 1.2s ease-in-out infinite' }} />
         </div>
-        <div style={{
-          width: 200, height: 200,
-          background: '#1a1a2e',
-          borderRadius: 4,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: '#333',
-          fontSize: '0.8rem',
-        }}>
+        <div style={{ width: 200, height: 200, background: '#1a1a2e', borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#333', fontSize: '0.8rem' }}>
           Summoning boss…
         </div>
-        <style>{`@keyframes shimmer { 0%,100%{opacity:1} 50%{opacity:0.3} }`}</style>
       </div>
     )
-  }
-
-  // ── Error state ────────────────────────────────────────────────────────
-
-  if (error) {
-    return (
+  } else if (error) {
+    content = (
       <div style={{
-        minHeight: '100vh',
-        background: '#0a0a12',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '1rem',
-        padding: '2rem',
+        minHeight: '100vh', background: '#0a0a12', display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'center', gap: '1rem', padding: '2rem',
         fontFamily: 'var(--font-body)',
       }}>
         <div style={{ color: '#e05555', fontSize: '0.9rem', textAlign: 'center' }}>{error}</div>
-        <button
-          onClick={refresh}
-          style={{
-            fontFamily: 'var(--font-pixel)',
-            fontSize: '0.65rem',
-            color: '#f0e6c8',
-            background: 'linear-gradient(135deg,#c43a00,#8b1e00)',
-            border: '1px solid rgba(196,58,0,0.5)',
-            borderRadius: '3px',
-            padding: '10px 16px',
-            cursor: 'pointer',
-          }}
-        >
+        <button onClick={refresh} style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.65rem', color: '#f0e6c8', background: 'linear-gradient(135deg,#c43a00,#8b1e00)', border: '1px solid rgba(196,58,0,0.5)', borderRadius: '3px', padding: '10px 16px', cursor: 'pointer' }}>
           RETRY
         </button>
       </div>
     )
-  }
-
-  // ── No active chapter (GM hasn't started) ──────────────────────────────
-
-  if (!bossState) {
-    return (
+  } else if (!bossState) {
+    content = (
       <div style={{
-        minHeight: '100vh',
-        background: '#0a0a12',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '1rem',
-        padding: '2rem',
-        fontFamily: 'var(--font-body)',
-        textAlign: 'center',
+        minHeight: '100vh', background: '#0a0a12', display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'center', gap: '1rem', padding: '2rem',
+        fontFamily: 'var(--font-body)', textAlign: 'center',
       }}>
         <div style={{ fontSize: '2.5rem', opacity: 0.3 }}>⚔</div>
-        <div style={{
-          fontFamily: 'var(--font-heading)',
-          fontSize: '1.1rem',
-          color: '#c9a84c',
-        }}>
-          The next chapter has not yet begun.
-        </div>
-        <div style={{ color: '#7a6a44', fontSize: '0.85rem', maxWidth: 360 }}>
-          Your Game Master is preparing the next story. Check back soon — the Emberlight awaits.
-        </div>
-        <button
-          onClick={refresh}
-          style={{
-            fontFamily: 'var(--font-pixel)',
-            fontSize: '0.6rem',
-            color: '#c9a84c',
-            background: 'transparent',
-            border: '1px solid rgba(201,168,76,0.25)',
-            borderRadius: '3px',
-            padding: '8px 14px',
-            cursor: 'pointer',
-            marginTop: '0.5rem',
-          }}
-        >
+        <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.1rem', color: '#c9a84c' }}>The next chapter has not yet begun.</div>
+        <div style={{ color: '#7a6a44', fontSize: '0.85rem', maxWidth: 360 }}>Your Game Master is preparing the next story. Check back soon — the Emberlight awaits.</div>
+        <button onClick={refresh} style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.6rem', color: '#c9a84c', background: 'transparent', border: '1px solid rgba(201,168,76,0.25)', borderRadius: '3px', padding: '8px 14px', cursor: 'pointer', marginTop: '0.5rem' }}>
           CHECK AGAIN
         </button>
       </div>
     )
-  }
-
-  // ── Boss without sprite data (misconfigured) ──────────────────────────
-
-  if (!bossState.boss) {
-    return (
+  } else if (!bossState.boss) {
+    content = (
       <div style={{
-        minHeight: '100vh',
-        background: '#0a0a12',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '1rem',
-        padding: '2rem',
-        fontFamily: 'var(--font-body)',
-        textAlign: 'center',
+        minHeight: '100vh', background: '#0a0a12', display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'center', gap: '1rem', padding: '2rem',
+        fontFamily: 'var(--font-body)', textAlign: 'center',
       }}>
         <div style={{ fontSize: '2rem', opacity: 0.3 }}>☠</div>
-        <div style={{
-          fontFamily: 'var(--font-heading)',
-          fontSize: '1.1rem',
-          color: '#c9a84c',
-        }}>
-          A presence stirs…
-        </div>
+        <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.1rem', color: '#c9a84c' }}>A presence stirs…</div>
         <div style={{ color: '#7a6a44', fontSize: '0.85rem', maxWidth: 400 }}>
-          Something lurks in the shadows of this chapter, but it has not yet taken form.
-          The Game Master may need to complete the weekly setup.
+          Something lurks in the shadows of this chapter, but it has not yet taken form. The Game Master may need to complete the weekly setup.
         </div>
       </div>
     )
-  }
-
-  // ── Rewards already claimed ────────────────────────────────────────────
-
-  if (bossState.rewardsClaimed) {
-    return (
+  } else if (bossState.rewardsClaimed) {
+    content = (
       <div style={{
-        minHeight: '100vh',
-        background: '#0a0a12',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '1rem',
-        padding: '2rem',
-        fontFamily: 'var(--font-body)',
-        textAlign: 'center',
+        minHeight: '100vh', background: '#0a0a12', display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'center', gap: '1rem', padding: '2rem',
+        fontFamily: 'var(--font-body)', textAlign: 'center',
       }}>
         <div style={{ fontSize: '2.5rem' }}>✦</div>
-        <div style={{
-          fontFamily: 'var(--font-heading)',
-          fontSize: '1.2rem',
-          color: '#c9a84c',
-        }}>
+        <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.2rem', color: '#c9a84c' }}>
           {bossState.boss.name} has been defeated!
         </div>
         <div style={{ color: '#7a6a44', fontSize: '0.85rem', maxWidth: 400 }}>
-          The Emberbearers&apos; combined light has cleansed this chapter&apos;s threat.
-          The town is safe — for now.
+          The Emberbearers&apos; combined light has cleansed this chapter&apos;s threat. The town is safe — for now.
         </div>
         {bossState.narrativeText && (
-          <div style={{
-            color: '#5a5a3a',
-            fontStyle: 'italic',
-            fontSize: '0.8rem',
-            maxWidth: 440,
-            lineHeight: 1.5,
-            marginTop: '0.5rem',
-            padding: '0 1rem',
-          }}>
+          <div style={{ color: '#5a5a3a', fontStyle: 'italic', fontSize: '0.8rem', maxWidth: 440, lineHeight: 1.5, marginTop: '0.5rem', padding: '0 1rem' }}>
             &ldquo;{bossState.narrativeText}&rdquo;
           </div>
         )}
       </div>
     )
-  }
-
-  // ── Boss defeated this session (HP just hit 0) ────────────────────────
-
-  const isDefeated = bossState.boss.currentHp === 0
-
-  if (isDefeated) {
-    return (
+  } else if (isDefeated) {
+    content = (
       <div style={{
-        minHeight: '100vh',
-        background: '#0a0a12',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '1.5rem',
-        padding: '2rem',
-        fontFamily: 'var(--font-body)',
-        textAlign: 'center',
+        minHeight: '100vh', background: '#0a0a12', display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'center', gap: '1.5rem', padding: '2rem',
+        fontFamily: 'var(--font-body)', textAlign: 'center',
       }}>
-        <BossSprite
-          key={bossState.chapterId}
-          ref={spriteRef}
-          config={bossState.boss.spriteConfig}
-        />
+        <BossSprite key={bossState.chapterId} ref={spriteRef} config={bossState.boss.spriteConfig} />
 
-        <div style={{
-          fontFamily: 'var(--font-heading)',
-          fontSize: '1.2rem',
-          color: '#c9a84c',
-        }}>
+        <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.2rem', color: '#c9a84c' }}>
           ✦ {bossState.boss.name} is no more ✦
         </div>
 
         {bossState.boss.description && (
-          <div style={{
-            color: '#7a6a44',
-            fontSize: '0.85rem',
-            maxWidth: 400,
-          }}>
+          <div style={{ color: '#7a6a44', fontSize: '0.85rem', maxWidth: 400 }}>
             {bossState.boss.description}
           </div>
         )}
 
         {bossState.narrativeText && (
-          <div style={{
-            color: '#5a5a3a',
-            fontStyle: 'italic',
-            fontSize: '0.8rem',
-            maxWidth: 440,
-            lineHeight: 1.5,
-          }}>
+          <div style={{ color: '#5a5a3a', fontStyle: 'italic', fontSize: '0.8rem', maxWidth: 440, lineHeight: 1.5 }}>
             &ldquo;{bossState.narrativeText}&rdquo;
+          </div>
+        )}
+
+        {/* ═══ AI-generated victory narrative ═══ */}
+        {generatingNarrative && (
+          <div style={{ marginTop: '0.5rem', fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: '#7a6a44', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span style={{ display: 'inline-block', width: '14px', height: '14px', borderRadius: '50%', border: '2px solid rgba(201,168,76,0.2)', borderTopColor: 'rgba(201,168,76,0.8)', animation: 'spin 0.7s linear infinite' }} />
+            The scribes are recording this victory…
+          </div>
+        )}
+
+        {victoryNarrative && (
+          <div style={{ marginTop: '1rem', fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: '#c9a84c', maxWidth: 520, lineHeight: 1.7, textAlign: 'center', background: 'rgba(201,168,76,0.04)', border: '1px solid rgba(201,168,76,0.12)', borderRadius: '4px', padding: '1.25rem 1.5rem', animation: 'slide-in 0.6s ease both' }}>
+            {victoryNarrative}
+            <div style={{ marginTop: '0.75rem', fontFamily: 'var(--font-pixel)', fontSize: '0.5rem', color: 'rgba(201,168,76,0.3)', letterSpacing: '0.5px' }}>
+              — RECORDED IN THE EMBERLIGHT CHRONICLES —
+            </div>
           </div>
         )}
       </div>
     )
+  } else {
+    // ── Active boss ──
+    content = (
+      <div style={{
+        minHeight: '100vh', background: '#0a0a12', display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'center', gap: '2rem', padding: '2rem',
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.3rem', color: '#f0e6c8', marginBottom: '0.2rem' }}>
+            ⚔ {bossState.title}
+          </div>
+          <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: '#7a6a44' }}>
+            Week {bossState.weekNumber} — Chapter {bossState.chapterNumber}
+          </div>
+        </div>
+
+        <BossHPBar currentHp={bossState.boss.currentHp} maxHp={bossState.boss.maxHp} bossName={bossState.boss.name} />
+
+        <BossSprite key={bossState.chapterId} ref={spriteRef} config={bossState.boss.spriteConfig} />
+
+        {bossState.boss.description && (
+          <div style={{ fontFamily: 'var(--font-body)', fontStyle: 'italic', fontSize: '0.8rem', color: '#7a6a44', maxWidth: 440, textAlign: 'center', lineHeight: 1.6 }}>
+            {bossState.boss.description}
+          </div>
+        )}
+
+        {bossState.narrativeText && (
+          <div style={{ fontFamily: 'var(--font-body)', fontStyle: 'italic', fontSize: '0.75rem', color: '#5a5a3a', maxWidth: 440, textAlign: 'center', lineHeight: 1.5 }}>
+            &ldquo;{bossState.narrativeText}&rdquo;
+          </div>
+        )}
+
+        <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.6rem', color: '#555', letterSpacing: '0.5px' }}>
+          COMPLETE QUESTS AND CHALLENGES TO ATTACK
+        </div>
+      </div>
+    )
   }
 
-  // ── Active boss ────────────────────────────────────────────────────────
-
-  return (
-    <div style={{
-      minHeight: '100vh',
-      background: '#0a0a12',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: '2rem',
-      padding: '2rem',
-    }}>
-      {/* Chapter / Boss title */}
-      <div style={{ textAlign: 'center' }}>
-        <div style={{
-          fontFamily: 'var(--font-heading)',
-          fontSize: '1.3rem',
-          color: '#f0e6c8',
-          marginBottom: '0.2rem',
-        }}>
-          ⚔ {bossState.title}
-        </div>
-        <div style={{
-          fontFamily: 'var(--font-body)',
-          fontSize: '0.75rem',
-          color: '#7a6a44',
-        }}>
-          Week {bossState.weekNumber} — Chapter {bossState.chapterNumber}
-        </div>
-      </div>
-
-      {/* HP bar */}
-      <BossHPBar
-        currentHp={bossState.boss.currentHp}
-        maxHp={bossState.boss.maxHp}
-        bossName={bossState.boss.name}
-      />
-
-      {/* Boss sprite */}
-      <BossSprite
-        key={bossState.chapterId}
-        ref={spriteRef}
-        config={bossState.boss.spriteConfig}
-      />
-
-      {/* Boss description */}
-      {bossState.boss.description && (
-        <div style={{
-          fontFamily: 'var(--font-body)',
-          fontStyle: 'italic',
-          fontSize: '0.8rem',
-          color: '#7a6a44',
-          maxWidth: 440,
-          textAlign: 'center',
-          lineHeight: 1.6,
-        }}>
-          {bossState.boss.description}
-        </div>
-      )}
-
-      {bossState.narrativeText && (
-        <div style={{
-          fontFamily: 'var(--font-body)',
-          fontStyle: 'italic',
-          fontSize: '0.75rem',
-          color: '#5a5a3a',
-          maxWidth: 440,
-          textAlign: 'center',
-          lineHeight: 1.5,
-        }}>
-          &ldquo;{bossState.narrativeText}&rdquo;
-        </div>
-      )}
-
-      {/* Narrative context */}
-      <div style={{
-        fontFamily: 'var(--font-pixel)',
-        fontSize: '0.6rem',
-        color: '#555',
-        letterSpacing: '0.5px',
-      }}>
-        COMPLETE QUESTS AND CHALLENGES TO ATTACK
-      </div>
-    </div>
-  )
+  return <>{Keyframes}{content}</>
 }
