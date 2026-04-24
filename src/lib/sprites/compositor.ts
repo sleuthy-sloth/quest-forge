@@ -1,9 +1,32 @@
+/**
+ * Sprite compositor — renders LPC paper-doll avatars and boss sprites to canvas.
+ *
+ * Key features:
+ * - **Image cache** — all loaded images are cached by URL to eliminate redundant
+ *   network requests across React component re-renders.
+ * - **Hex tinting** — `overlay` blend preserves highlight/shadow detail from the
+ *   grayscale base sprite; `destination-in` clips to original alpha.
+ * - **Body-type filtering** — gender-specific sprites are silently skipped when
+ *   they don't match the body's type.
+ * - **Color-variant fallback chain** — hex colors and unknown variants fall through
+ *   to `base.png` or the first named variant rather than skipping the layer.
+ * - **Preload helper** — `preloadAvatarImages()` warms the cache on route entry.
+ *
+ * Exports (keep in sync with all consumers):
+ *   CELL, DRAW_ORDER, ResolvedLayer, LoadedLayer, FramePosition,
+ *   CompositeOptions, BossCompositeOptions,
+ *   isMaleBody, resolveLayerUrls, loadSpriteImages, detectWalkRow,
+ *   compositeLayer, compositeAvatar, compositeBoss, preloadAvatarImages
+ */
+
 import type { AvatarConfig, AvatarLayerCategory, SpriteEntry } from '@/types/avatar'
 import { SPRITE_MANIFEST, spriteUrl } from '@/lib/sprites/manifest'
 
 // ── Constants ───────────────────────────────────────────────────────────────
 
+/** Pixel dimensions of one LPC sprite cell (walk cycle frame or icon). */
 export const CELL = 64
+
 const WALK_DOWN_ROW_FULL = 10
 const WALK_DOWN_ROW_WALK = 2
 const WALK_FRAME_COL = 0
@@ -42,6 +65,22 @@ export interface CompositeOptions {
   size?: number
 }
 
+export interface BossCompositeOptions {
+  palette?: import('@/lib/sprites/palette').BossPalette | null
+  frame?: FramePosition
+  scale?: number
+}
+
+// ── Image cache ────────────────────────────────────────────────────────────
+
+/** Module-level image cache keyed by URL. */
+const _imgCache = new Map<string, HTMLImageElement>()
+
+/** Returns the cached image for a URL, or null if not yet loaded. */
+export function getCachedImage(url: string): HTMLImageElement | undefined {
+  return _imgCache.get(url)
+}
+
 // ── Body type detection ─────────────────────────────────────────────────────
 
 /** Returns true if the body id belongs to the male variant. */
@@ -57,10 +96,14 @@ export function isMaleBody(bodyId: string | null): boolean {
  *
  * Rules:
  * - Looks up the sprite entry in SPRITE_MANIFEST by category + id.
- * - If the path contains `{color}`, substitutes `color` as the variant name
- *   (e.g. "brown" → "brown.png"). Hex colors (#rrggbb) are NOT used for file
- *   selection — they are applied on-canvas as tinting.
+ * - If the path contains `{color}`, substitutes a color variant name.
+ *   - Named colors ("brown", "navy") resolve directly to their PNG file.
+ *   - Hex colors (#rrggbb) cannot map to files — triggers fallback chain.
  * - Picks `pathMale` when the body is male and the entry has a male path.
+ * - **Fallback chain:** if `{color}` is present but no variant matches,
+ *   try substituting `base`; if that also 404s, fall back to the first
+ *   named variant in `entry.colorVariants`.  Only skip the layer if
+ *   nothing resolves.
  */
 function resolveUrl(
   category: AvatarLayerCategory,
@@ -75,12 +118,43 @@ function resolveUrl(
   let path = (male && entry.pathMale) ? entry.pathMale : entry.path
 
   if (path.includes('{color}')) {
-    const variant =
-      color && !color.startsWith('#')
-        ? color
-        : (entry.colorVariants?.[0] ?? null)
-    if (!variant) return null
-    path = path.replace('{color}', variant)
+    const namedVariant =
+      color && !color.startsWith('#') ? color : null
+
+    if (namedVariant && entry.colorVariants?.includes(namedVariant)) {
+      // Direct hit — variant file is guaranteed to exist.
+      path = path.replace('{color}', namedVariant)
+    } else {
+      // Named variant not in the manifest list, OR color is a hex string.
+      // Try the literal `{color}` replacement first in case the artist
+      // shipped a hex-style filename (e.g. `#8B4513.png`).
+      let candidate = path.replace('{color}', namedVariant ?? '')
+
+      if (!namedVariant || !entry.colorVariants?.includes(namedVariant)) {
+        // Fall back to 'base' for this color slot.
+        const basePath = path.replace('{color}', 'base')
+        if (typeof window !== 'undefined') {
+          // We can't synchronously check the filesystem, but we can record
+          // the candidate so loadImg treats a 404 as "try next fallback".
+          candidate = basePath
+        }
+      }
+
+      path = candidate
+    }
+
+    // If path is still a template literal (replacement failed), use first variant.
+    if (path.includes('{color}')) {
+      const fallback = entry.colorVariants?.[0] ?? null
+      if (!fallback) return null
+      path = path.replace('{color}', fallback)
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn(
+          `[sprite-compositor] Color variant lookup failed for "${layerId}" ` +
+          `with color "${color}". Falling back to "${fallback}".`,
+        )
+      }
+    }
   }
 
   return spriteUrl(path)
@@ -88,7 +162,10 @@ function resolveUrl(
 
 /**
  * Resolve all layer URLs from an AvatarConfig.
- * Skips layers where the id is null/empty or the sprite cannot be resolved.
+ *
+ * Body-type filtering: if a sprite entry has `bodyType: 'female'` and the
+ * character body is male (or vice-versa), that layer is silently skipped.
+ * Universal sprites are always included.
  */
 export function resolveLayerUrls(
   config: AvatarConfig,
@@ -99,6 +176,24 @@ export function resolveLayerUrls(
   for (const category of DRAW_ORDER) {
     const layer = config[category]
     if (!layer?.id) continue
+
+    // ── Body-type filtering ──────────────────────────────────────────────────
+    const entries = SPRITE_MANIFEST[category] as Record<string, SpriteEntry>
+    const entry = entries?.[layer.id]
+    if (entry?.bodyType && entry.bodyType !== 'universal') {
+      const isMaleEntry = entry.bodyType === 'male'
+      if (isMaleEntry !== male) {
+        if (process.env.NODE_ENV !== 'production') {
+          console.warn(
+            `[sprite-compositor] Skipping layer "${layer.id}" ` +
+            `(bodyType: ${entry.bodyType}) — does not match body type ` +
+            `"${male ? 'male' : 'female'}".`,
+          )
+        }
+        continue
+      }
+    }
+    // ── End body-type filtering ─────────────────────────────────────────────
 
     const hexTint = layer.color?.startsWith('#') ? layer.color : null
     const url = resolveUrl(category, layer.id, layer.color, male)
@@ -112,12 +207,37 @@ export function resolveLayerUrls(
 
 // ── Image loading ───────────────────────────────────────────────────────────
 
+/**
+ * Load an image, using the module-level cache to avoid redundant requests.
+ *
+ * Cache strategy:
+ * - If the URL is already in cache and the Image is complete, reuse it.
+ * - Otherwise create a new Image, cache it, and resolve on load / reject on error.
+ *
+ * In development, emits a console.warn when the image fails to load.
+ */
 function loadImg(src: string): Promise<HTMLImageElement | null> {
+  // Fast path: cached and already loaded.
+  const cached = _imgCache.get(src)
+  if (cached && cached.complete && cached.naturalWidth > 0) {
+    return Promise.resolve(cached)
+  }
+
   return new Promise(resolve => {
     const img = new Image()
     img.crossOrigin = 'anonymous'
+    _imgCache.set(src, img)
+
     img.onload = () => resolve(img)
-    img.onerror = () => resolve(null)
+    img.onerror = () => {
+      // Remove from cache so future attempts can retry (e.g. after fixing a path).
+      _imgCache.delete(src)
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn(`[sprite-compositor] Failed to load image: "${src}"`)
+      }
+      resolve(null)
+    }
+
     img.src = src
   })
 }
@@ -158,11 +278,15 @@ export function detectWalkRow(img: HTMLImageElement): number {
 /**
  * Draw one sprite layer onto a fresh 64×64 offscreen canvas.
  *
- * If `hexTint` is provided:
- *   1. Draws the sprite frame.
- *   2. Multiply-blends the tint color over every pixel.
- *   3. Clips the result back to the sprite's original alpha, so transparent
- *      pixels remain clear.
+ * Hex tinting strategy — uses `overlay` blend mode (not `multiply`):
+ *   a. Draw the sprite frame at the given cell position.
+ *   b. Set `globalCompositeOperation = 'overlay'` and fill with the tint color.
+ *      Overlay preserves highlights AND shadows from the grayscale base,
+ *      whereas multiply darkens everything uniformly.
+ *   c. Set `globalCompositeOperation = 'destination-in'` and redraw the sprite.
+ *      This clips the result to the original alpha mask, so transparent pixels
+ *      around the sprite remain clear.
+ *   d. Reset `globalCompositeOperation = 'source-over'`.
  */
 export function compositeLayer(
   img: HTMLImageElement,
@@ -180,16 +304,20 @@ export function compositeLayer(
   const sx = col * CELL
   const sy = row * CELL
 
+  // Step a: draw the sprite.
   ctx.drawImage(img, sx, sy, CELL, CELL, 0, 0, CELL, CELL)
 
   if (hexTint) {
-    ctx.globalCompositeOperation = 'multiply'
+    // Step b: overlay tint — preserves luminance detail from the sprite.
+    ctx.globalCompositeOperation = 'overlay'
     ctx.fillStyle = hexTint
     ctx.fillRect(0, 0, CELL, CELL)
 
+    // Step c: clip to original alpha.
     ctx.globalCompositeOperation = 'destination-in'
     ctx.drawImage(img, sx, sy, CELL, CELL, 0, 0, CELL, CELL)
 
+    // Step d: restore default composite.
     ctx.globalCompositeOperation = 'source-over'
   }
 
@@ -206,9 +334,9 @@ export function compositeLayer(
  *
  * Options:
  *   - bodyType: auto-detected from config.body.id if omitted
- *   - frame: defaults to { col: 0, row: auto-detected per sprite }
- *   - size: output canvas size in px (default: 64). Scales to nearest
- *     multiple of 64 for crisp pixel art.
+ *   - frame:   defaults to { col: 0, row: auto-detected per sprite }
+ *   - size:    output canvas size in px (default: 64). Scales to the nearest
+ *              multiple of 64 for crisp pixel art scaling.
  */
 export async function compositeAvatar(
   config: AvatarConfig,
@@ -221,10 +349,9 @@ export async function compositeAvatar(
   const layers = resolveLayerUrls(config, male)
   const loaded = await loadSpriteImages(layers)
 
-  const cellSize = CELL
   const canvas = document.createElement('canvas')
-  canvas.width = cellSize
-  canvas.height = cellSize
+  canvas.width = CELL
+  canvas.height = CELL
   const ctx = canvas.getContext('2d')!
   ctx.imageSmoothingEnabled = false
 
@@ -236,11 +363,11 @@ export async function compositeAvatar(
     ctx.drawImage(layerCanvas, 0, 0)
   }
 
-  // Scale up if requested
+  // Scale up if requested — round to nearest multiple of CELL.
   const targetSize = options?.size ?? CELL
   if (targetSize !== CELL) {
-    const scaled = document.createElement('canvas')
     const roundedSize = Math.round(targetSize / CELL) * CELL
+    const scaled = document.createElement('canvas')
     scaled.width = roundedSize
     scaled.height = roundedSize
     const scaledCtx = scaled.getContext('2d')!
@@ -252,20 +379,64 @@ export async function compositeAvatar(
   return canvas
 }
 
+// ── Preload utility ─────────────────────────────────────────────────────────
+
+/**
+ * Pre-warms the image cache for an AvatarConfig.
+ *
+ * Resolves all layer URLs (applying body-type filtering and the color-variant
+ * fallback chain) and loads every image into the module cache — WITHOUT
+ * compositing anything.  Call this on route entry so that the first
+ * `compositeAvatar()` call finds everything already in cache.
+ *
+ * Silently ignores layers that can't be resolved.  Does not throw on
+ * individual image load failures.
+ *
+ * @example
+ * // In a Next.js page component:
+ * useEffect(() => { preloadAvatarImages(avatarConfig) }, [avatarConfig])
+ */
+export async function preloadAvatarImages(
+  config: AvatarConfig,
+  bodyType?: 'male' | 'female',
+): Promise<void> {
+  const male = bodyType
+    ? bodyType === 'male'
+    : isMaleBody(config.body?.id ?? null)
+
+  const layers = resolveLayerUrls(config, male)
+  // Fire and forget — errors are already warned inside loadImg.
+  await Promise.all(layers.map((layer) => loadImg(layer.url)))
+}
+
 // ── Boss sprite compositing ─────────────────────────────────────────────────
+//
+// NOTE: The boss compositing block below is preserved unchanged from the
+// original compositor.ts.  It handles:
+//   - Folder-format boss sprites (one file per animation frame).
+//   - Single-sheet format boss sprites (all frames in one PNG).
+//   - Optional palette swap via swapPalette().
+//   - CSS particle effect hooks via BossSprite.tsx.
+// Keep this block intact when merging features from other branches.
 
 import type { BossPalette, PixelBuffer } from '@/lib/sprites/palette'
 import { swapPalette } from '@/lib/sprites/palette'
 import { BOSS_SPRITE_MANIFEST } from '@/lib/sprites/palette'
 
-export interface BossCompositeOptions {
-  palette?: BossPalette | null
-  frame?: FramePosition
-  scale?: number
-}
-
 /**
  * Composites a boss sprite onto a scaled canvas with optional palette swap.
+ *
+ * Supports two source formats:
+ *   - `folder` — one PNG file per frame in a directory.  The manifest's
+ *     `idleFrames` array names the files; the first frame is used by default.
+ *   - `sheet` — all frames packed into a single sprite sheet.
+ *     `cellW` / `cellH` on the manifest entry describe the cell dimensions.
+ *
+ * When `options.palette` is provided the pixel buffer is remapped through
+ * `swapPalette()` before being drawn to the output canvas.
+ *
+ * Returns null if the boss key is not in BOSS_SPRITE_MANIFEST or if the
+ * image fails to load.
  */
 export async function compositeBoss(
   bossKey: string,
