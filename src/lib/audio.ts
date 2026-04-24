@@ -34,6 +34,10 @@ let sfxInstances: Record<SfxName, Howl | null> = { victory: null, coin: null, at
 let masterGain: Howl | null = null
 let globalMuted = false
 
+// ── SFX throttle ──────────────────────────────────────────────
+const SFX_THROTTLE_MS = 50
+const sfxLastPlayed = new Map<SfxName, number>()
+
 // ── AudioContext unlock (must be called from a user gesture) ───
 export function initAudio(): void {
   if (unlocked) return
@@ -109,6 +113,12 @@ export function playSfx(name: SfxName): void {
   const inst = sfxInstances[name]
   if (!inst) return
   if (globalMuted) return
+
+  const now = performance.now()
+  const last = sfxLastPlayed.get(name) ?? 0
+  if (now - last < SFX_THROTTLE_MS) return
+  sfxLastPlayed.set(name, now)
+
   inst.play()
 }
 
