@@ -1,8 +1,30 @@
 # Quest Forge: The Emberlight Chronicles
 
-A multi-tenant fantasy RPG chore-tracking and educational app for families. See `CLAUDE.md` for full architecture documentation.
+A multi-tenant fantasy RPG chore-tracking and educational app for families. Parents create households and add children as players. Completing real-world chores and educational challenges earns XP, advances a persistent narrative, and unlocks rewards from a loot store.
 
-## Setup for new developers
+See `CLAUDE.md` for full architecture documentation.
+
+## Tech Stack
+
+- **Framework:** Next.js 14 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Database:** Supabase (PostgreSQL + Auth + RLS)
+- **AI Engine:** OpenRouter (free tier) with Gemini fallback
+- **Art:** Pixel art sprites (LPC-compatible)
+
+## Features
+
+- **Multi-tenant households** — complete data isolation between families via Row-Level Security
+- **Player accounts** — children log in with username (no email required)
+- **Chore quests** — real-world tasks wrapped in fantasy flavor text
+- **Educational mini-games** — Math Arena, Word Forge, Science Labyrinth
+- **Cooperative boss battles** — household members fight together weekly
+- **Loot store** — spend gold on rewards redeemable IRL
+- **Pixel art avatars** — LPC sprite compositing with character creator
+- **AI-generated content** — story chapters and quest flavor text via Gemini/OpenRouter
+
+## Setup for New Developers
 
 ### 1. Install dependencies
 
@@ -12,7 +34,7 @@ npm install
 
 ### 2. Configure environment variables
 
-Create `.env.local` with:
+Create `.env.local`:
 
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://<project-id>.supabase.co
@@ -25,47 +47,75 @@ NEXT_PUBLIC_SPRITE_BASE_URL=https://<project-id>.supabase.co/storage/v1/object/p
 
 ### 3. Upload sprite assets
 
-Sprite PNGs are not committed to Git. After cloning, run this once to upload your local `public/sprites/` folder to Supabase Storage:
+Sprite PNGs are not committed to Git. Run this once to upload local sprites to Supabase Storage:
 
 ```bash
 npx tsx scripts/upload-sprites.ts
 ```
 
-The script creates a public `sprites` bucket, uploads all PNGs preserving the folder structure, and skips files that already exist — safe to re-run.
+### 4. Push database migrations
 
----
+```bash
+npx supabase db push
+```
+
+### 5. Seed the database
+
+```bash
+npx supabase db seed
+```
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Available Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run dev          # Start dev server
+npm run build        # Production build
+npm run lint         # ESLint
+npm run type-check   # TypeScript compiler check
+```
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/
+│   ├── login/, signup/     # Auth pages
+│   ├── dashboard/          # GM (parent) dashboard
+│   ├── play/               # Player (child) experience
+│   │   ├── quests/         # Chore quests
+│   │   ├── academy/        # Educational games
+│   │   └── loot/          # Loot store
+│   └── api/               # API routes
+├── components/
+│   ├── avatar/            # SpriteCanvas, CharacterCreator
+│   ├── games/             # MathArena, WordForge, ScienceLabyrinth
+│   └── boss/             # BossSprite, BossHPBar
+├── lib/
+│   ├── supabase/          # Client, server, admin clients
+│   ├── gemini/            # AI integration with rate limiting
+│   └── sprites/           # Compositor, palette, particles
+└── hooks/                  # usePlayer, useHousehold, useBoss
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Recent Updates
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Science Labyrinth** — dungeon-crawler game where players navigate corridors and answer science questions
+- **Word Forge** — smithy-themed vocab game with heat animations and anvil feedback
+- **Avatar system** — LPC sprite compositing with walk animation and proper body offsets
+- **OpenRouter integration** — free-tier AI with Gemini fallback for story generation
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npx vercel
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See `CLAUDE.md` for detailed deployment instructions.
