@@ -2,11 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { useQuestStore } from '@/store/useQuestStore'
-
-/** XP needed to reach level N (1-indexed). */
-function xpForLevel(level: number): number {
-  return (50 * level * (level + 1)) / 2
-}
+import { xpForLevel } from '@/lib/xp'
 
 /**
  * Blocky retro XP bar.

@@ -1,12 +1,6 @@
 import { create } from 'zustand'
 import { playSfx } from '@/lib/audio'
-
-// ── Helpers ────────────────────────────────────────────────────
-
-/** Total XP needed to reach level N (1-indexed). */
-function xpForLevel(level: number): number {
-  return (50 * level * (level + 1)) / 2
-}
+import { xpForLevel } from '@/lib/xp'
 
 // ── Types ──────────────────────────────────────────────────────
 

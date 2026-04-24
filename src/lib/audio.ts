@@ -31,7 +31,6 @@ let currentBgm: BgmTrack | null = null
 let currentBgmId: number | null = null
 let bgmInstances: Record<BgmTrack, Howl | null> = { hub: null, academy: null, boss: null }
 let sfxInstances: Record<SfxName, Howl | null> = { victory: null, coin: null, attack: null, click: null }
-let masterGain: Howl | null = null
 let globalMuted = false
 
 // ── SFX throttle ──────────────────────────────────────────────
