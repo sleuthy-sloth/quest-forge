@@ -12,23 +12,28 @@ export default async function DashboardLayout({
 
   if (!user) redirect('/login')
 
+  // Fetch profile + household in a single PostgREST round-trip via the
+  // foreign-key relation rather than two sequential SELECTs.
   const { data: profile } = await supabase
     .from('profiles')
-    .select('role, display_name, household_id')
+    .select('role, display_name, household_id, households(name)')
     .eq('id', user.id)
-    .single()
+    .single<{
+      role: 'gm' | 'player'
+      display_name: string
+      household_id: string
+      households: { name: string } | { name: string }[] | null
+    }>()
 
   if (!profile || profile.role !== 'gm') redirect('/play')
 
-  const { data: household } = await supabase
-    .from('households')
-    .select('name')
-    .eq('id', profile.household_id)
-    .single()
+  const householdName = Array.isArray(profile.households)
+    ? profile.households[0]?.name ?? ''
+    : profile.households?.name ?? ''
 
   return (
     <DashboardShell
-      householdName={household?.name ?? ''}
+      householdName={householdName}
       displayName={profile.display_name}
     >
       {children}

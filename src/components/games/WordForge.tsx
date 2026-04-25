@@ -131,6 +131,27 @@ export default function WordForge({
     setSaveError(false)
 
     try {
+      // 1. AI-generated questions first.
+      try {
+        const aiRes = await fetch('/api/edu/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ subject: 'vocabulary', age_tier: ageTier, count: 10 }),
+          signal: AbortSignal.timeout(9000),
+        })
+        if (aiRes.ok) {
+          const json = (await aiRes.json()) as { questions?: Question[] }
+          if (json.questions && json.questions.length >= 5) {
+            setQuestions(shuffle(json.questions).slice(0, 10))
+            setPhase('playing')
+            return
+          }
+        }
+      } catch (err) {
+        console.warn('[WordForge] AI generate fell through to DB:', err)
+      }
+
+      // 2. Fallback: seeded edu_challenges in the database.
       const { data, error } = await supabase
         .from('edu_challenges')
         .select('id, title, content, xp_reward')
@@ -139,8 +160,10 @@ export default function WordForge({
         .eq('is_active', true)
         .order('id')
         .limit(50)
+        .abortSignal(AbortSignal.timeout(8000))
 
       if (error) {
+        console.error('[WordForge] fetch failed:', error)
         setFetchErrorKind('network')
         return
       }
@@ -151,7 +174,8 @@ export default function WordForge({
 
       setQuestions(shuffle(data as Question[]).slice(0, 10))
       setPhase('playing')
-    } catch {
+    } catch (err) {
+      console.error('[WordForge] fetch threw:', err)
       setFetchErrorKind('network')
     }
   }, [supabase, ageTier])

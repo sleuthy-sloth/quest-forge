@@ -29,6 +29,7 @@ const BOSS_SPRITES = [
 interface QuestForm {
   title: string
   description: string
+  quest_flavor_text: string
   xp_reward: string
   gold_reward: string
   assigned_to: string
@@ -41,6 +42,7 @@ interface QuestForm {
 const FORM_EMPTY: QuestForm = {
   title: '',
   description: '',
+  quest_flavor_text: '',
   xp_reward: '10',
   gold_reward: '5',
   assigned_to: '',
@@ -61,6 +63,7 @@ export default function NewQuestPage() {
   const [formErrors, setFormErrors] = useState<Partial<Record<keyof QuestForm, string>>>({})
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
+  const [generatingFlavor, setGeneratingFlavor] = useState(false)
 
   useEffect(() => {
     async function init() {
@@ -139,6 +142,7 @@ export default function NewQuestPage() {
     const payload = {
       title: form.title.trim(),
       description: form.description.trim(),
+      quest_flavor_text: form.quest_flavor_text.trim(),
       xp_reward: parseInt(form.xp_reward, 10),
       gold_reward: parseInt(form.gold_reward, 10) || 0,
       assigned_to: form.assigned_to || null,
@@ -312,17 +316,81 @@ export default function NewQuestPage() {
               {formErrors.title && <p className="text-[0.7rem] font-heading mt-1" style={{ color: 'rgba(220,100,100,0.8)' }}>{formErrors.title}</p>}
             </div>
 
-            {/* Description */}
+            {/* Description (the actual task — shown in italics under the flavor) */}
             <div>
-              <label className="qf-label" htmlFor="q-desc">Description</label>
+              <label className="qf-label" htmlFor="q-desc">
+                Real task <span style={{ color: 'rgba(200,215,255,0.45)', fontWeight: 400, textTransform: 'none', letterSpacing: '0.04em' }}>(plain language; players see this in italics under the lore)</span>
+              </label>
               <textarea
                 id="q-desc"
                 className="qf-input"
-                placeholder="Describe the quest..."
+                placeholder="e.g. Defeat the boss by completing your math homework every day this week"
                 value={form.description}
                 onChange={e => setField('description', e.target.value)}
                 disabled={submitting}
                 rows={2}
+              />
+            </div>
+
+            {/* Lore prose (auto-generated from title + description) */}
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
+                <label className="qf-label" htmlFor="q-flavor" style={{ marginBottom: 0 }}>
+                  Quest lore <span style={{ color: 'rgba(200,215,255,0.45)', fontWeight: 400, textTransform: 'none', letterSpacing: '0.04em' }}>(optional)</span>
+                </label>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    if (!form.title.trim()) {
+                      setFormErrors(p => ({ ...p, title: 'Enter a title first' }))
+                      return
+                    }
+                    setGeneratingFlavor(true)
+                    try {
+                      const res = await fetch('/api/quests/flavor', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          questTitle: form.title.trim(),
+                          questDescription: form.description.trim(),
+                        }),
+                        signal: AbortSignal.timeout(15000),
+                      })
+                      const data = (await res.json()) as { flavorText?: string; error?: string }
+                      if (res.ok && data.flavorText) {
+                        setField('quest_flavor_text', data.flavorText)
+                      }
+                    } catch (err) {
+                      console.warn('[quests/new] flavor generate failed:', err)
+                    } finally {
+                      setGeneratingFlavor(false)
+                    }
+                  }}
+                  disabled={generatingFlavor || submitting}
+                  style={{
+                    fontFamily: 'var(--font-pixel), monospace',
+                    fontSize: '0.5rem',
+                    letterSpacing: '0.1em',
+                    color: '#c9a84c',
+                    background: 'rgba(201,168,76,0.08)',
+                    border: '1px solid rgba(201,168,76,0.35)',
+                    borderRadius: 2,
+                    padding: '4px 10px',
+                    cursor: generatingFlavor ? 'wait' : 'pointer',
+                    opacity: generatingFlavor || submitting ? 0.55 : 1,
+                  }}
+                >
+                  {generatingFlavor ? 'SCRIBING...' : '✦ GENERATE'}
+                </button>
+              </div>
+              <textarea
+                id="q-flavor"
+                className="qf-input"
+                placeholder="Click ✦ Generate to turn the title + task above into Embervale lore."
+                value={form.quest_flavor_text}
+                onChange={e => setField('quest_flavor_text', e.target.value)}
+                disabled={submitting}
+                rows={4}
               />
             </div>
 

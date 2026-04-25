@@ -1,4 +1,4 @@
-import { Howl } from 'howler'
+import { Howl, Howler } from 'howler'
 
 // ── Types ─────────────────────────────────────────────────────
 export type BgmTrack = 'hub' | 'academy' | 'boss'
@@ -127,6 +127,25 @@ export function initAudio(): void {
     // Web Audio API not available — no audio at all
   }
 
+  // Resume audio when the tab regains focus. Mobile browsers commonly
+  // suspend the AudioContext + pause Howl playback when the tab is
+  // backgrounded; without this listener the BGM stays silent after the
+  // user comes back.
+  if (typeof document !== 'undefined') {
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState !== 'visible') return
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => { /* ignore */ })
+      }
+      if (currentBgm && currentBgmId !== null) {
+        const inst = bgmInstances[currentBgm]
+        if (inst && !inst.playing(currentBgmId)) {
+          try { inst.play(currentBgmId) } catch { /* ignore */ }
+        }
+      }
+    })
+  }
+
   // Pre-create all Howl instances
   for (const track of Object.keys(BGM_FILES) as BgmTrack[]) {
     bgmInstances[track] = new Howl({
@@ -145,6 +164,15 @@ export function initAudio(): void {
         // silence.
         if (currentBgm === track) {
           stopProceduralBgm()
+          startProceduralBgm(track)
+        }
+      },
+      onplayerror: (_id: number, err: unknown) => {
+        // Browser autoplay blocked or device couldn't play. Use the
+        // procedural oscillator instead so the player still gets ambient
+        // sound.
+        console.warn(`[audio] play error for "${track}":`, err)
+        if (currentBgm === track) {
           startProceduralBgm(track)
         }
       },
