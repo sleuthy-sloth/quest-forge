@@ -2,7 +2,7 @@
   "world_name": "Embervale",
   "core_force": "The Emberlight",
   "core_threat": "The Hollow",
-  "summary": "Embervale is a realm sustained by the Emberlight, a primordial force that flows through all living things. Where it burns strong, the world thrives. Where it dims, the Hollow creeps in — an entropy made manifest. A group of young heroes from the same family, chosen as Emberbearers, must strengthen the light through effort, learning, and cooperation.",
+  "summary": "Embervale is a realm sustained by a primordial warmth — the Emberlight — that flows through all living things. Where it burns strong, the world thrives. Where it dims, the Hollow creeps in — an entropy made manifest. Chosen as Emberbearers, a group of young heroes must strengthen the light through effort, learning, and cooperation.",
   "player_terminology": {
     "singular": "the Emberbearer",
     "plural": "the Emberbearers",
@@ -17,19 +17,19 @@
     {
       "name": "The Heartwood",
       "type": "forest",
-      "description": "A vast ancient forest at the center of Embervale. The oldest trees have roots that touch the Emberlight's source. Home to Hearthhold, the heroes' base of operations.",
+      "description": "A vast ancient forest at the center of Embervale. The oldest trees have roots that reach the deep Radiance. Home to Hearthhold, the heroes' base of operations.",
       "associated_arcs": [1]
     },
     {
       "name": "The Shattered Coast",
       "type": "coastal",
-      "description": "A western shoreline fractured into hundreds of islands. The waters glow faintly amber at night from Emberlight veins in the ocean floor. Pirates, traders, and sea creatures dwell here.",
+      "description": "A western shoreline fractured into hundreds of islands. The waters glow faintly at night from radiant veins beneath the waves. Pirates, traders, and sea creatures dwell here.",
       "associated_arcs": [2]
     },
     {
       "name": "The Ironspine Mountains",
       "type": "mountains",
-      "description": "Northern peaks so tall their summits vanish into cloud. Home to the Forgekin and the Wind Readers. Deep beneath lie the Ember Veins — rivers of raw Emberlight.",
+      "description": "Northern peaks so tall their summits vanish into cloud. Home to the Forgekin and the Wind Readers. Deep beneath run the Glimmerveins — rivers of raw light-energy.",
       "associated_arcs": [3]
     },
     {
@@ -47,13 +47,13 @@
     {
       "name": "The Underbright",
       "type": "underground",
-      "description": "A vast cavern network lit by bioluminescent fungi and crystallized Emberlight. Beautiful and dangerous in equal measure.",
+      "description": "A vast cavern network lit by bioluminescent fungi and crystallized light-stone. Beautiful and dangerous in equal measure.",
       "associated_arcs": [5]
     }
   ],
   "home_base": {
     "name": "Hearthhold",
-    "description": "A fortified village at the edge of the Heartwood, built around the Hearthstone — a massive ember-crystal that warms the village and holds back the Hollow. Its light has been dimming for years.",
+    "description": "A fortified village at the edge of the Heartwood, built around the Hearthstone — a massive crystal-heart that warms the village and holds back the Hollow. Its light has been dimming for years.",
     "locations": {
       "quest_board": "The village square board where tasks are posted.",
       "academy": "A tower where scholars teach all disciplines.",
@@ -105,7 +105,7 @@
     { "level_range": [6, 10], "name": "Steady Flame", "description": "The shard pulses with visible light. It hums when the Hollow is near." },
     { "level_range": [11, 15], "name": "Bright Blaze", "description": "The shard projects light outward, illuminating dark places and weakening Hollow creatures." },
     { "level_range": [16, 20], "name": "Radiant Core", "description": "The shard shapes itself to its bearer's class, taking on unique properties." },
-    { "level_range": [21, 25], "name": "Emberstorm", "description": "The shard affects the environment — warming air, pushing back ash, calling sparks." },
+    { "level_range": [21, 25], "name": "Stormtide", "description": "The shard affects the environment — warming air, pushing back ash, calling sparks." },
     { "level_range": [26, 30], "name": "Living Light", "description": "The shard becomes semi-sentient, occasionally acting on its own to protect its bearer." },
     { "level_range": [31, 99], "name": "Hearthfire", "description": "The bearer doesn't carry the shard — they are the shard. Their presence alone pushes back the Hollow." }
   ]

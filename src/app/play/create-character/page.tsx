@@ -7,6 +7,7 @@ import SpriteCanvas from '@/components/avatar/SpriteCanvas'
 import type { AvatarConfig, SpriteEntry } from '@/types/avatar'
 import { SPRITE_MANIFEST } from '@/lib/sprites/manifest'
 import classesData from '@/lore/classes.json'
+import { playBgm, stopBgm } from '@/lib/audio'
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -56,6 +57,16 @@ const HAIR_COLORS = [
   { label: 'Rose',       value: '#a02850' },
 ]
 
+/** Maps hex eye colors to the corresponding sprite entry id in SPRITE_MANIFEST.eyes. */
+const EYE_COLOR_TO_ID: Record<string, string> = {
+  '#3a2010': 'eyes_brown',
+  '#3a6a9a': 'eyes_blue',
+  '#2a6a3a': 'eyes_green',
+  '#607080': 'eyes_gray',
+  '#9a6a20': 'eyes_orange',
+  '#6a3a8a': 'eyes_purple',
+}
+
 const EYE_COLORS = [
   { label: 'Brown',  value: '#3a2010' },
   { label: 'Blue',   value: '#3a6a9a' },
@@ -93,16 +104,16 @@ const METAL_COLOR_SWATCHES = [
   { label: 'Ceramic', value: 'ceramic', hex: '#e8dcc8' },
 ]
 
-const SHIRT_OPTIONS_UNIVERSAL = ['longsleeve', 'shortsleeve', 'leather_armour', 'plate_armour', 'chainmail', 'tabard', 'overalls']
-const SHIRT_OPTIONS_FEMALE_EXTRA = ['blouse', 'tunic']
+const SHIRT_OPTIONS_UNIVERSAL = ['longsleeve', 'shortsleeve', 'leather_armour', 'plate_armour', 'chainmail']
+const SHIRT_OPTIONS_FEMALE_EXTRA: string[] = []
 const PANTS_OPTIONS_UNIVERSAL = ['pants', 'plate_legs']
-const PANTS_OPTIONS_FEMALE_EXTRA = ['leggings', 'skirt_plain']
+const PANTS_OPTIONS_FEMALE_EXTRA: string[] = []
 const BOOT_OPTIONS = ['boots', 'shoes', 'sandals', 'ghillies', 'plate_boots']
 const WEAPON_OPTIONS = ['sword', 'longsword', 'spear', 'bow']
 
 const DEFAULT_CONFIG: AvatarConfig = {
   body:    { id: 'body_female', color: null },
-  eyes:    { id: null,          color: '#3a6a9a' },
+  eyes:    { id: 'eyes_blue',   color: '#3a6a9a' },
   hair:    { id: 'bob',         color: '#3d2200' },
   pants:   { id: 'pants',       color: 'navy' },
   shirt:   { id: 'longsleeve',  color: 'navy' },
@@ -571,7 +582,12 @@ function StepForgeIdentity({
                   hex={c.value}
                   label={c.label}
                   selected={config.eyes.color === c.value}
-                  onClick={() => onChange({ eyes: { id: config.eyes.id, color: c.value } })}
+                  onClick={() => onChange({
+                    eyes: {
+                      id: EYE_COLOR_TO_ID[c.value] ?? config.eyes.id,
+                      color: c.value,
+                    },
+                  })}
                 />
               ))}
             </div>
@@ -724,6 +740,7 @@ function StepReveal({
   displayName,
   onConfirm,
   isSaving,
+  saveError,
   particles,
 }: {
   config: AvatarConfig
@@ -731,6 +748,7 @@ function StepReveal({
   displayName: string
   onConfirm: () => void
   isSaving: boolean
+  saveError: string | null
   particles: EmberParticle[]
 }) {
   return (
@@ -837,6 +855,19 @@ function StepReveal({
           'Begin Your Quest!'
         )}
       </button>
+
+      {saveError && (
+        <p style={{
+          marginTop: '1rem',
+          color: '#ff6b6b',
+          fontSize: '0.75rem',
+          textAlign: 'center',
+          fontFamily: 'var(--font-body), sans-serif',
+          maxWidth: 320,
+        }}>
+          {saveError}
+        </p>
+      )}
     </div>
   )
 }
@@ -853,6 +884,7 @@ function CreateCharacterInner() {
   const [isSaving, setIsSaving] = useState(false)
   const [displayName, setDisplayName] = useState('Emberbearer')
   const [isLoading, setIsLoading] = useState(true)
+  const [saveError, setSaveError] = useState<string | null>(null)
 
   // Pre-generate ember particles to avoid Math.random() in render
   const particles = useMemo<EmberParticle[]>(() => {
@@ -867,6 +899,12 @@ function CreateCharacterInner() {
       delay:    `${(i * 0.17) % 2}s`,
       drift:    `${-20 + (i * 11) % 40}px`,
     }))
+  }, [])
+
+  // Play hub music on mount, stop on unmount
+  useEffect(() => {
+    playBgm('hub')
+    return () => stopBgm()
   }, [])
 
   // On mount: check auth. In edit mode, load existing config and jump to step 2.
@@ -938,6 +976,7 @@ function CreateCharacterInner() {
   const handleSave = useCallback(async () => {
     if (!selectedClass) return
     setIsSaving(true)
+    setSaveError(null)
 
     try {
       const { data: { user } } = await supabase.auth.getUser()
@@ -954,7 +993,9 @@ function CreateCharacterInner() {
       if (error) throw error
       router.push('/play')
     } catch (err) {
+      const message = err instanceof Error ? err.message : 'Something went wrong saving your character.'
       console.error('Failed to save character:', err)
+      setSaveError(message)
       setIsSaving(false)
     }
   }, [selectedClass, config, supabase, router])
@@ -1084,6 +1125,7 @@ function CreateCharacterInner() {
             displayName={displayName}
             onConfirm={handleSave}
             isSaving={isSaving}
+            saveError={saveError}
             particles={particles}
           />
         )}

@@ -276,17 +276,76 @@ export function detectWalkRow(img: HTMLImageElement): number {
 // ── Per-layer compositing ───────────────────────────────────────────────────
 
 /**
+ * Per-pixel HSL tint helper — recolor a pixel buffer using the target hue
+ * while preserving each pixel's original saturation and lightness.
+ *
+ * This is needed because LPC hair sprites are palettized (indexed PNGs)
+ * with pre-existing red/warm tones rather than pure grayscale.  The
+ * `overlay` blend mode produces muddy reddish results on these sprites,
+ * so we use per-pixel HSL replacement instead.
+ *
+ * @param pixels    — Uint8ClampedArray (RGBA, 4 bytes per pixel)
+ * @param hexTint   — leading-# hex color, e.g. "#1a1008"
+ */
+function recolorToHue(pixels: Uint8ClampedArray, hexTint: string): void {
+  // ── Parse target hex ────────────────────────────────────────────────────
+  const tr = parseInt(hexTint.slice(1, 3), 16) / 255
+  const tg = parseInt(hexTint.slice(3, 5), 16) / 255
+  const tb = parseInt(hexTint.slice(5, 7), 16) / 255
+
+  // ── Compute target HSL ──────────────────────────────────────────────────
+  const tMax = Math.max(tr, tg, tb)
+  const tMin = Math.min(tr, tg, tb)
+  const tL = (tMax + tMin) / 2
+  const tD = tMax - tMin
+  const tS = tL > 0.5 ? tD / (2 - tMax - tMin) : tD / (tMax + tMin)
+  let tH = 0
+  if (tD > 0) {
+    if (tMax === tr) tH = ((tg - tb) / tD + (tg < tb ? 6 : 0)) / 6
+    else if (tMax === tg) tH = ((tb - tr) / tD + 2) / 6
+    else tH = ((tr - tg) / tD + 4) / 6
+  }
+
+  // ── Per-pixel recolor ───────────────────────────────────────────────────
+  // Helper: convert HSL channel to RGB (single channel)
+  const hue2rgb = (p: number, q: number, t: number): number => {
+    if (t < 0) t += 1
+    if (t > 1) t -= 1
+    if (t < 1 / 6) return p + (q - p) * 6 * t
+    if (t < 1 / 2) return q
+    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6
+    return p
+  }
+
+  for (let i = 0; i < pixels.length; i += 4) {
+    const a = pixels[i + 3]
+    if (a === 0) continue // skip transparent
+
+    const r = pixels[i] / 255
+    const g = pixels[i + 1] / 255
+    const b = pixels[i + 2] / 255
+    const max = Math.max(r, g, b)
+    const min = Math.min(r, g, b)
+    const l = (max + min) / 2
+
+    // Reconstruct: target H & S, original L  →  RGB
+    const q = l < 0.5 ? l * (1 + tS) : l + tS - l * tS
+    const p = 2 * l - q
+
+    pixels[i]     = Math.round(hue2rgb(p, q, tH + 1 / 3) * 255)
+    pixels[i + 1] = Math.round(hue2rgb(p, q, tH) * 255)
+    pixels[i + 2] = Math.round(hue2rgb(p, q, tH - 1 / 3) * 255)
+  }
+}
+
+/**
  * Draw one sprite layer onto a fresh 64×64 offscreen canvas.
  *
- * Hex tinting strategy — uses `overlay` blend mode (not `multiply`):
+ * Hex tinting strategy — uses per-pixel HSL recolor (not `overlay` blend mode):
  *   a. Draw the sprite frame at the given cell position.
- *   b. Set `globalCompositeOperation = 'overlay'` and fill with the tint color.
- *      Overlay preserves highlights AND shadows from the grayscale base,
- *      whereas multiply darkens everything uniformly.
- *   c. Set `globalCompositeOperation = 'destination-in'` and redraw the sprite.
- *      This clips the result to the original alpha mask, so transparent pixels
- *      around the sprite remain clear.
- *   d. Reset `globalCompositeOperation = 'source-over'`.
+ *   b. Extract pixel data and apply `recolorToHue()` to replace the hue
+ *      while preserving each pixel's original saturation and luminance.
+ *   c. Put the modified pixel data back onto the canvas.
  */
 export function compositeLayer(
   img: HTMLImageElement,
@@ -308,17 +367,12 @@ export function compositeLayer(
   ctx.drawImage(img, sx, sy, CELL, CELL, 0, 0, CELL, CELL)
 
   if (hexTint) {
-    // Step b: overlay tint — preserves luminance detail from the sprite.
-    ctx.globalCompositeOperation = 'overlay'
-    ctx.fillStyle = hexTint
-    ctx.fillRect(0, 0, CELL, CELL)
-
-    // Step c: clip to original alpha.
-    ctx.globalCompositeOperation = 'destination-in'
-    ctx.drawImage(img, sx, sy, CELL, CELL, 0, 0, CELL, CELL)
-
-    // Step d: restore default composite.
-    ctx.globalCompositeOperation = 'source-over'
+    // Step b: per-pixel HSL recolor — replaces hue while preserving saturation
+    // and lightness from the original sprite, producing correct color results
+    // regardless of the source sprite's base palette.
+    const imageData = ctx.getImageData(0, 0, CELL, CELL)
+    recolorToHue(imageData.data, hexTint)
+    ctx.putImageData(imageData, 0, 0)
   }
 
   return off
