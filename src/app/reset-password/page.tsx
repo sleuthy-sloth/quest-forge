@@ -110,16 +110,50 @@ export default function ResetPasswordPage() {
 
   // Verify the user has a (recovery) session. The /auth/callback handler
   // should have already exchanged the code and set cookies before
-  // redirecting here.
+  // redirecting here. We use getSession() (local cookie read, no network)
+  // so this can't hang on a slow Supabase API call.
   useEffect(() => {
     let cancelled = false
-    ;(async () => {
-      const { data: { user } } = await supabase.auth.getUser()
+
+    const timeout = setTimeout(() => {
       if (cancelled) return
-      setHasSession(!!user)
+      setHasSession(false)
       setSessionChecked(true)
+    }, 5000)
+
+    ;(async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
+        if (cancelled) return
+        setHasSession(!!session)
+      } catch {
+        if (cancelled) return
+        setHasSession(false)
+      } finally {
+        if (!cancelled) {
+          clearTimeout(timeout)
+          setSessionChecked(true)
+        }
+      }
     })()
-    return () => { cancelled = true }
+
+    // The Supabase SDK fires PASSWORD_RECOVERY shortly after the cookie
+    // is hydrated — listen for it in case getSession() ran before the
+    // SDK had finished bootstrapping.
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (cancelled) return
+      if (event === 'PASSWORD_RECOVERY' || event === 'SIGNED_IN' || session) {
+        clearTimeout(timeout)
+        setHasSession(true)
+        setSessionChecked(true)
+      }
+    })
+
+    return () => {
+      cancelled = true
+      clearTimeout(timeout)
+      subscription.unsubscribe()
+    }
   }, [supabase])
 
   function setField(key: keyof ResetFields) {
