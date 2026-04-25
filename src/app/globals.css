@@ -440,3 +440,75 @@ canvas.pixel,
 .sidebar-signout:hover {
   color: #e05555 !important;
 }
+
+/* ── GM Dashboard light parchment theme ──────────────────── */
+/* Scoped to .theme-dashboard-light on the /dashboard layout root.
+   Auth pages (/login, /signup, /forgot-password, /reset-password)
+   keep the global dark astrolabe theme. */
+.theme-dashboard-light {
+  --bg-void:        #f4ecd8;
+  --bg-deep:        #ece2c8;
+  --bg-surface:     #faf3e0;
+  --bg-card:        #fffaf0;
+  --bg-card-alt:    #f4ecd8;
+  --text-primary:   #2a2418;
+  --text-secondary: #6b5a3a;
+  --text-muted:     #9a8757;
+
+  background: var(--bg-void);
+  color: var(--text-primary);
+}
+
+.theme-dashboard-light .dash-topbar {
+  background: rgba(140, 90, 30, 0.05);
+  border-bottom-color: rgba(140, 90, 30, 0.20);
+}
+.theme-dashboard-light .dash-page-title {
+  color: rgba(120, 80, 20, 0.85);
+}
+.theme-dashboard-light .ov-card {
+  background: var(--bg-card) !important;
+  border-color: rgba(140, 90, 30, 0.25) !important;
+  border-top-color: rgba(180, 130, 40, 0.45) !important;
+  box-shadow: 0 2px 12px rgba(80, 50, 10, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+}
+.theme-dashboard-light .ov-card:hover {
+  border-color: rgba(140, 90, 30, 0.40) !important;
+  box-shadow: 0 4px 16px rgba(80, 50, 10, 0.12) !important;
+}
+.theme-dashboard-light .px-corner::before,
+.theme-dashboard-light .px-corner::after,
+.theme-dashboard-light .px-corner > span::before,
+.theme-dashboard-light .px-corner > span::after {
+  border-color: rgba(140, 90, 30, 0.45);
+}
+.theme-dashboard-light .section-rule h2 {
+  color: rgba(120, 80, 20, 0.85);
+}
+.theme-dashboard-light .section-rule .rule-line {
+  background: linear-gradient(90deg, rgba(140, 90, 30, 0.30), transparent);
+}
+.theme-dashboard-light .pending-badge {
+  background: rgba(220, 80, 60, 0.10);
+  border-color: rgba(220, 80, 60, 0.40);
+  color: rgba(160, 50, 30, 0.95);
+}
+.theme-dashboard-light .pending-badge.large {
+  background: rgba(220, 80, 60, 0.10);
+  border-color: rgba(220, 80, 60, 0.35);
+}
+.theme-dashboard-light .boss-hp-track {
+  background: rgba(40, 25, 10, 0.18);
+  border-color: rgba(140, 90, 30, 0.25);
+}
+.theme-dashboard-light .settings-section {
+  background: var(--bg-card) !important;
+  border-color: rgba(140, 90, 30, 0.20) !important;
+}
+.theme-dashboard-light .settings-row {
+  border-bottom-color: rgba(140, 90, 30, 0.10) !important;
+  color: rgba(60, 45, 20, 0.85) !important;
+}
+.theme-dashboard-light .settings-row-muted {
+  color: rgba(120, 95, 50, 0.70) !important;
+}

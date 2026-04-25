@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { getAdminClient } from '@/lib/supabase/admin'
+import { seedStoryChaptersForHousehold } from '@/lib/story/seed-chapters'
 
 const SignupGmSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -114,6 +115,15 @@ async function handleSignup(request: Request) {
     await admin.auth.admin.deleteUser(userId).catch(() => {})
     console.error('[signup-gm] profile insert failed:', profileError)
     return NextResponse.json({ error: 'Could not create profile.' }, { status: 500 })
+  }
+
+  // 4. Seed 52 story chapters for the new household. Best-effort: a failure
+  // here leaves the household functional and an admin can re-run the seeder
+  // via /api/admin/seed-story.
+  try {
+    await seedStoryChaptersForHousehold(admin, householdId)
+  } catch (seedErr) {
+    console.error('[signup-gm] seedStoryChaptersForHousehold failed:', seedErr)
   }
 
   return NextResponse.json({ success: true }, { status: 201 })
