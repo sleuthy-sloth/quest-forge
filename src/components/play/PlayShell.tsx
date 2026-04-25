@@ -1,8 +1,10 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { signOut } from '@/app/actions/auth'
+import { playBgm, stopBgm } from '@/lib/audio'
 import WalkthroughOverlay from '@/components/play/WalkthroughOverlay'
 
 const TABS = [
@@ -23,6 +25,16 @@ interface PlayShellProps {
 
 export function PlayShell({ displayName, level, avatarClass, children }: PlayShellProps) {
   const pathname = usePathname()
+  const bgmStarted = useRef(false)
+
+  // Start hub BGM on first mount (no cleanup on navigation — we want it to
+  // persist across pages within /play/*. ZoneManager on child pages will
+  // crossfade to different tracks; when they unmount, this keeps playing).
+  useEffect(() => {
+    if (bgmStarted.current) return
+    bgmStarted.current = true
+    playBgm('hub')
+  }, [])
 
   function isActive(href: string) {
     if (href === '/play') return pathname === '/play'

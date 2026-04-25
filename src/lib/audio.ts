@@ -135,7 +135,8 @@ export function initAudio(): void {
       volume: 0,
       html5: true,
       preload: true,
-      onloaderror: () => {
+      onloaderror: (_id: number, err: unknown) => {
+        console.warn(`[audio] MP3 unavailable for "${track}":`, err)
         // MP3 unavailable — mark as null so playBgm falls through to procedural
         bgmInstances[track] = null
       },
