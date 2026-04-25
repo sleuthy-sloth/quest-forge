@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { signOut } from '@/app/actions/auth'
+import WalkthroughOverlay from '@/components/play/WalkthroughOverlay'
 
 const TABS = [
   { href: '/play',         label: 'Home',    icon: '⟡' },
@@ -16,10 +17,11 @@ const TABS = [
 interface PlayShellProps {
   displayName: string
   level: number
+  avatarClass: string | null
   children: React.ReactNode
 }
 
-export function PlayShell({ displayName, level, children }: PlayShellProps) {
+export function PlayShell({ displayName, level, avatarClass, children }: PlayShellProps) {
   const pathname = usePathname()
 
   function isActive(href: string) {
@@ -29,6 +31,7 @@ export function PlayShell({ displayName, level, children }: PlayShellProps) {
 
   return (
     <div className="flex flex-col min-h-dvh bg-[#040812]">
+      <WalkthroughOverlay avatarClass={avatarClass} />
       {/* Top bar */}
       <header
         className="fixed top-0 left-0 right-0 z-50 h-14

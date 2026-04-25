@@ -1,7 +1,7 @@
 import React from 'react'
 
 const FILL_GRADIENT = {
-  xp:   'linear-gradient(90deg, #c95a00, #ff8c00, #ffc040)',
+  xp:   'linear-gradient(90deg, #9a6000, #c97d0a, #d4a040)',
   hp:   'linear-gradient(90deg, #8b0000, #dd2222)',
   boss: 'linear-gradient(90deg, #7f0000, #cc0000)',
 } as const

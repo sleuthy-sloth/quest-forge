@@ -15,7 +15,7 @@ export default async function PlayLayout({
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('role, display_name, level')
+    .select('role, display_name, level, avatar_class')
     .eq('id', user.id)
     .single()
 
@@ -28,7 +28,11 @@ export default async function PlayLayout({
   if (profile.role !== 'player') redirect('/dashboard')
 
   return (
-    <PlayShell displayName={profile.display_name} level={profile.level ?? 1}>
+    <PlayShell
+      displayName={profile.display_name}
+      level={profile.level ?? 1}
+      avatarClass={profile.avatar_class ?? null}
+    >
       {children}
     </PlayShell>
   )

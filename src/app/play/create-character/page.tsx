@@ -1,7 +1,7 @@
 'use client'
 
-import { useMemo, useState, useEffect, useCallback, Suspense } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useMemo, useState, useEffect, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import SpriteCanvas from '@/components/avatar/SpriteCanvas'
 import type { AvatarConfig, SpriteEntry } from '@/types/avatar'
@@ -845,8 +845,6 @@ function StepReveal({
 
 function CreateCharacterInner() {
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const isEditMode = searchParams.get('mode') === 'edit'
   const supabase = useMemo(() => createClient(), [])
 
   const [step, setStep] = useState<1 | 2 | 3>(1)
@@ -873,9 +871,18 @@ function CreateCharacterInner() {
 
   // On mount: check auth. In edit mode, load existing config and jump to step 2.
   useEffect(() => {
+    // Safety timeout: force loading off after 12s so the user never sees a
+    // perpetual spinner if auth or profile query hangs.
+    const safetyTimer = setTimeout(() => setIsLoading(false), 12_000)
+
     async function checkAuth() {
+      // Determine edit mode from URL (avoids useSearchParams Suspense issue)
+      const isEditMode = new URLSearchParams(window.location.search).get('mode') === 'edit'
+
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) {
+        clearTimeout(safetyTimer)
+        setIsLoading(false)
         router.replace('/login')
         return
       }
@@ -887,9 +894,13 @@ function CreateCharacterInner() {
         .single()
 
       if (!profile) {
+        clearTimeout(safetyTimer)
+        setIsLoading(false)
         router.replace('/login')
         return
       }
+
+      clearTimeout(safetyTimer)
 
       if (profile.display_name) {
         setDisplayName(profile.display_name)
@@ -909,6 +920,7 @@ function CreateCharacterInner() {
       }
 
       if (profile.avatar_class && !isEditMode) {
+        setIsLoading(false)
         router.replace('/play')
         return
       }
@@ -917,7 +929,7 @@ function CreateCharacterInner() {
     }
 
     checkAuth()
-  }, [supabase, router, isEditMode])
+  }, [supabase, router])
 
   const patchConfig = useCallback((patch: Partial<AvatarConfig>) => {
     setConfig(prev => ({ ...prev, ...patch }))
@@ -1081,15 +1093,5 @@ function CreateCharacterInner() {
 }
 
 export default function CreateCharacterPage() {
-  return (
-    <Suspense fallback={
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#040812' }}>
-        <div style={{ fontFamily: 'var(--font-pixel), monospace', fontSize: '0.55rem', color: '#a08040', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-          Summoning the forge...
-        </div>
-      </div>
-    }>
-      <CreateCharacterInner />
-    </Suspense>
-  )
+  return <CreateCharacterInner />
 }

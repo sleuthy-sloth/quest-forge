@@ -869,7 +869,33 @@ export default async function ProfilePage() {
           SIGN OUT
       ═══════════════════════════════════════════════════════════════════ */}
       <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid rgba(230,80,100,0.15)' }}>
-        <SignOutButton />
+        <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '0.75rem' }}>
+          <SignOutButton />
+          <Link
+            href="/play?walkthrough=1"
+            style={{
+              flex: 1,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.4rem',
+              padding: '0.7rem 1rem',
+              borderRadius: 3,
+              border: `1px solid ${accent}30`,
+              background: `${accent}0a`,
+              color: `${accent}cc`,
+              fontFamily: 'var(--font-pixel), monospace',
+              fontSize: '0.4rem',
+              letterSpacing: '0.12em',
+              imageRendering: 'pixelated',
+              textDecoration: 'none',
+              minHeight: 48,
+              transition: 'border-color 0.15s, background 0.15s',
+            }}
+          >
+            ⟡ Replay Guide
+          </Link>
+        </div>
       </div>
     </div>
   )
