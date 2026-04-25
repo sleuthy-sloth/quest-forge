@@ -386,6 +386,45 @@ export type Database = {
           },
         ]
       }
+      player_inventory: {
+        Row: {
+          acquired_at: string
+          id: string
+          is_used: boolean
+          player_id: string
+          reward_id: string
+        }
+        Insert: {
+          acquired_at?: string
+          id?: string
+          is_used?: boolean
+          player_id: string
+          reward_id: string
+        }
+        Update: {
+          acquired_at?: string
+          id?: string
+          is_used?: boolean
+          player_id?: string
+          reward_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "player_inventory_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "player_inventory_reward_id_fkey"
+            columns: ["reward_id"]
+            isOneToOne: false
+            referencedRelation: "rewards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           age: number | null
@@ -493,6 +532,44 @@ export type Database = {
             columns: ["player_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rewards: {
+        Row: {
+          cost: number
+          created_at: string
+          description: string
+          household_id: string
+          icon_type: string
+          id: string
+          title: string
+        }
+        Insert: {
+          cost: number
+          created_at?: string
+          description?: string
+          household_id: string
+          icon_type?: string
+          id?: string
+          title: string
+        }
+        Update: {
+          cost?: number
+          created_at?: string
+          description?: string
+          household_id?: string
+          icon_type?: string
+          id?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rewards_household_id_fkey"
+            columns: ["household_id"]
+            isOneToOne: false
+            referencedRelation: "households"
             referencedColumns: ["id"]
           },
         ]
@@ -614,6 +691,7 @@ export type Database = {
         Args: { p_chapter_id: string; p_damage: number }
         Returns: number
       }
+      deduct_gold: { Args: { p_player_id: string; p_amount: number }; Returns: boolean }
       get_my_household_id: { Args: never; Returns: string }
       is_gm: { Args: { hid: string }; Returns: boolean }
     }

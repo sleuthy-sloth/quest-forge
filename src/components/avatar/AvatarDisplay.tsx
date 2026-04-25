@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState, useMemo } from 'react'
 import type { AvatarConfig } from '@/types/avatar'
 import {
   compositeLayer,
@@ -69,7 +69,10 @@ export default function AvatarDisplay({
   const totalLayers = DRAW_ORDER.length
 
   // Stable config key for useEffect dependency — avoids re-renders from object identity changes
-  const configKey = config !== null ? JSON.stringify(config) : 'null'
+  const configKey = useMemo(
+    () => (config !== null ? JSON.stringify(config) : 'null'),
+    [config],
+  )
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -146,7 +149,7 @@ export default function AvatarDisplay({
     return () => {
       cancelled = true
     }
-  }, [configKey, size])
+  }, [config, size])
 
   // ── Progress bar segments (4 segments = 3 layers each for 12 total) ──────
   const segments = 4

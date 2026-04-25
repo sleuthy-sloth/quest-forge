@@ -2,7 +2,7 @@ import { Howl } from 'howler'
 
 // ── Types ─────────────────────────────────────────────────────
 export type BgmTrack = 'hub' | 'academy' | 'boss'
-export type SfxName  = 'victory' | 'coin' | 'attack' | 'click'
+export type SfxName  = 'victory' | 'coin' | 'attack' | 'click' | 'purchase'
 
 // ── URL resolver ──────────────────────────────────────────────
 const BASE = (process.env.NEXT_PUBLIC_SPRITE_BASE_URL ?? '').replace(/\/$/, '')
@@ -19,10 +19,11 @@ const BGM_FILES: Record<BgmTrack, string> = {
 }
 
 const SFX_FILES: Record<SfxName, string> = {
-  victory: 'sfx_victory.mp3',
-  coin:    'sfx_coin.mp3',
-  attack:  'sfx_attack.mp3',
-  click:   'sfx_click.mp3',
+  victory:  'sfx_victory.mp3',
+  coin:     'sfx_coin.mp3',
+  attack:   'sfx_attack.mp3',
+  click:    'sfx_click.mp3',
+  purchase: 'sfx_purchase.mp3',
 }
 
 // ── Singleton state ───────────────────────────────────────────
@@ -30,7 +31,7 @@ let unlocked = false
 let currentBgm: BgmTrack | null = null
 let currentBgmId: number | null = null
 let bgmInstances: Record<BgmTrack, Howl | null> = { hub: null, academy: null, boss: null }
-let sfxInstances: Record<SfxName, Howl | null> = { victory: null, coin: null, attack: null, click: null }
+let sfxInstances: Record<SfxName, Howl | null> = { victory: null, coin: null, attack: null, click: null, purchase: null }
 let globalMuted = false
 
 // ── SFX throttle ──────────────────────────────────────────────
@@ -145,6 +146,6 @@ export function _reset(): void {
   currentBgm = null
   currentBgmId = null
   bgmInstances = { hub: null, academy: null, boss: null }
-  sfxInstances = { victory: null, coin: null, attack: null, click: null }
+  sfxInstances = { victory: null, coin: null, attack: null, click: null, purchase: null }
   globalMuted = false
 }

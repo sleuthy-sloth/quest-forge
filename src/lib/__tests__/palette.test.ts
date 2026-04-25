@@ -20,26 +20,25 @@ describe('BOSS_PALETTES', () => {
 })
 
 describe('BOSS_SPRITE_MANIFEST', () => {
-  it('has folder-format entries for the six named bosses', () => {
-    for (const key of ['demon', 'dragon', 'small_dragon', 'jinn', 'medusa', 'lizard']) {
-      expect(BOSS_SPRITE_MANIFEST[key].format).toBe('folder')
+  it('all entries use sheet format', () => {
+    for (const [key, entry] of Object.entries(BOSS_SPRITE_MANIFEST)) {
+      expect(entry.format, `${key}.format`).toBe('sheet')
     }
   })
 
-  it('folder entries have idleFrames with 3 items', () => {
-    expect(BOSS_SPRITE_MANIFEST.demon.idleFrames).toHaveLength(3)
-    expect(BOSS_SPRITE_MANIFEST.demon.idleFrames![0]).toBe('Idle1.png')
-  })
-
-  it('has sheet-format entries for sheet sprites', () => {
+  it('has the expected sheet-format entries', () => {
     for (const key of ['bat', 'ghost', 'slime', 'eyeball', 'pumpking', 'bee', 'big_worm', 'man_eater_flower', 'small_worm', 'snake']) {
       expect(BOSS_SPRITE_MANIFEST[key].format).toBe('sheet')
     }
   })
 
-  it('sheet entries have cellW and cellH of 64', () => {
-    expect(BOSS_SPRITE_MANIFEST.bat.cellW).toBe(64)
-    expect(BOSS_SPRITE_MANIFEST.bat.cellH).toBe(64)
+  it('every sheet entry has cellW and cellH', () => {
+    for (const [key, entry] of Object.entries(BOSS_SPRITE_MANIFEST)) {
+      expect(entry.cellW, `${key}.cellW`).toBeGreaterThan(0)
+      expect(entry.cellH, `${key}.cellH`).toBeGreaterThan(0)
+      expect(entry.cols, `${key}.cols`).toBeGreaterThan(0)
+      expect(entry.rows, `${key}.rows`).toBeGreaterThan(0)
+    }
   })
 })
 
