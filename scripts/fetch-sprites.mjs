@@ -341,7 +341,7 @@ async function downloadClothing() {
     for (const color of asset.colors) {
       // Female (thin) variant
       const femaleOutput = join(SPRITES_DIR, 'clothing', 'feet', asset.id, 'female', `${color}.png`)
-      if (!existsSync(femaleOutput) || (await import('fs')).statSync(femaleOutput).size <= 100) {
+      if (!existsSync(femaleOutput) || (await import('fs')).statSync(femaleOutput).size <= 2000) {
         const urls = [
           `${LPC_BASE}/${asset.lpcDir}/${asset.female}/walk/${color}.png`,
           `${LPC_BASE}/${asset.lpcDir}/${asset.female}/walk.png`,
@@ -352,7 +352,7 @@ async function downloadClothing() {
 
       // Male variant
       const maleOutput = join(SPRITES_DIR, 'clothing', 'feet', asset.id, 'male', `${color}.png`)
-      if (!existsSync(maleOutput) || (await import('fs')).statSync(maleOutput).size <= 100) {
+      if (!existsSync(maleOutput) || (await import('fs')).statSync(maleOutput).size <= 2000) {
         const urls = [
           `${LPC_BASE}/${asset.lpcDir}/${asset.male}/walk/${color}.png`,
           `${LPC_BASE}/${asset.lpcDir}/${asset.male}/walk.png`,
@@ -373,7 +373,7 @@ async function downloadClothing() {
     for (const color of asset.colors) {
       // Female variant
       const femaleOutput = join(SPRITES_DIR, 'clothing', 'legs', asset.id, 'female', `${color}.png`)
-      if (!existsSync(femaleOutput) || (await import('fs')).statSync(femaleOutput).size <= 100) {
+      if (!existsSync(femaleOutput) || (await import('fs')).statSync(femaleOutput).size <= 2000) {
         const urls = [
           `${LPC_BASE}/${asset.lpcDir}/${asset.female}/walk/${color}.png`,
           `${LPC_BASE}/${asset.lpcDir}/${asset.female}/walk.png`,
@@ -385,7 +385,7 @@ async function downloadClothing() {
       // Male variant
       const maleDir = asset.teen || asset.male
       const maleOutput = join(SPRITES_DIR, 'clothing', 'legs', asset.id, 'male', `${color}.png`)
-      if (!existsSync(maleOutput) || (await import('fs')).statSync(maleOutput).size <= 100) {
+      if (!existsSync(maleOutput) || (await import('fs')).statSync(maleOutput).size <= 2000) {
         const urls = [
           `${LPC_BASE}/${asset.lpcDir}/${maleDir}/walk/${color}.png`,
           `${LPC_BASE}/${asset.lpcDir}/${maleDir}/walk.png`,
@@ -412,7 +412,7 @@ async function downloadClothing() {
     for (const color of asset.colors) {
       if (asset.female) {
         const femaleOutput = join(SPRITES_DIR, 'clothing', 'torso', asset.id, 'female', `${color}.png`)
-        if (!existsSync(femaleOutput) || (await import('fs')).statSync(femaleOutput).size <= 100) {
+        if (!existsSync(femaleOutput) || (await import('fs')).statSync(femaleOutput).size <= 2000) {
           const urls = [
             `${LPC_BASE}/${asset.lpcDir}/${asset.female}/walk/${color}.png`,
             `${LPC_BASE}/${asset.lpcDir}/${asset.female}/walk.png`,
@@ -424,7 +424,7 @@ async function downloadClothing() {
 
       if (asset.male) {
         const maleOutput = join(SPRITES_DIR, 'clothing', 'torso', asset.id, 'male', `${color}.png`)
-        if (!existsSync(maleOutput) || (await import('fs')).statSync(maleOutput).size <= 100) {
+        if (!existsSync(maleOutput) || (await import('fs')).statSync(maleOutput).size <= 2000) {
           const urls = [
             `${LPC_BASE}/${asset.lpcDir}/${asset.male}/walk/${color}.png`,
             `${LPC_BASE}/${asset.lpcDir}/${asset.male}/walk.png`,

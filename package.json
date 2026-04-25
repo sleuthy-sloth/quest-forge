@@ -31,6 +31,7 @@
     "zustand": "^5.0.12"
   },
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
     "@types/howler": "^2.2.12",
     "@types/jsdom": "^28.0.0",
     "@types/node": "^20",

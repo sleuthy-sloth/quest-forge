@@ -41,6 +41,50 @@ export const DRAW_ORDER: AvatarLayerCategory[] = [
   'weapon', 'shield',
 ]
 
+/**
+ * Maps named color strings (as used in AvatarConfig and the character creator)
+ * to their hex equivalents for runtime tinting.
+ *
+ * Standard colors match the LPC palette conventions; metal tones are used
+ * by plate and heavier armour variants.
+ */
+const COLOR_HEX_MAP: Record<string, string> = {
+  // Standard palette
+  black:    '#222222',
+  blue:     '#4466dd',
+  bluegray: '#6688aa',
+  brown:    '#885533',
+  charcoal: '#333333',
+  forest:   '#337733',
+  gray:     '#888888',
+  green:    '#44aa44',
+  lavender: '#cc99cc',
+  leather:  '#996644',
+  maroon:   '#883333',
+  navy:     '#223388',
+  orange:   '#dd8833',
+  pink:     '#dd88aa',
+  purple:   '#8844aa',
+  red:      '#cc3333',
+  rose:     '#cc4477',
+  sky:      '#88bbdd',
+  slate:    '#667788',
+  tan:      '#ccaa77',
+  teal:     '#338888',
+  walnut:   '#664433',
+  white:    '#eeeeee',
+  yellow:   '#ddcc33',
+  // Metal tones
+  brass:    '#b5a642',
+  bronze:   '#cd7f32',
+  ceramic:  '#e8e0d0',
+  copper:   '#b87333',
+  gold:     '#ffd700',
+  iron:     '#434b4d',
+  silver:   '#c0c0c0',
+  steel:    '#71797e',
+}
+
 // ── Types ───────────────────────────────────────────────────────────────────
 
 export interface ResolvedLayer {
@@ -196,7 +240,18 @@ export function resolveLayerUrls(
     }
     // ── End body-type filtering ─────────────────────────────────────────────
 
-    const hexTint = layer.color?.startsWith('#') ? layer.color : null
+    // Resolve hex tint: hex colors (#...) pass through directly;
+    // named colors (navy, blue, brown, etc.) are mapped via COLOR_HEX_MAP
+    // so that base sprites downloaded from LPC (which ship uncolored) get
+    // runtime per-pixel hue recolor applied.
+    let hexTint: string | null = null
+    if (layer.color) {
+      if (layer.color.startsWith('#')) {
+        hexTint = layer.color
+      } else if (COLOR_HEX_MAP[layer.color]) {
+        hexTint = COLOR_HEX_MAP[layer.color]
+      }
+    }
     const url = resolveUrl(category, layer.id, layer.color, male)
     if (!url) continue
 
