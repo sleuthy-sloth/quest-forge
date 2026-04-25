@@ -34,6 +34,83 @@ let bgmInstances: Record<BgmTrack, Howl | null> = { hub: null, academy: null, bo
 let sfxInstances: Record<SfxName, Howl | null> = { victory: null, coin: null, attack: null, click: null, purchase: null }
 let globalMuted = false
 
+// ── Procedural audio fallback ─────────────────────────────────
+// Generates simple ambient tones when MP3 files are unavailable.
+// Uses Web Audio API oscillator nodes with light LFO modulation
+// for a pleasant background hum.
+
+let audioCtx: AudioContext | null = null
+let procBgmNodes: Record<BgmTrack, { gain: GainNode; osc: OscillatorNode } | null> = {
+  hub: null, academy: null, boss: null,
+}
+let procBgmPlaying: BgmTrack | null = null
+
+/** Mappings from BgmTrack to oscillator + gain parameters for procedural fallback */
+const PROC_BGM_PARAMS: Record<BgmTrack, { freq: number; type: OscillatorType; gain: number }> = {
+  hub:    { freq: 110, type: 'sine',     gain: 0.08 },
+  academy: { freq: 130, type: 'triangle', gain: 0.06 },
+  boss:   { freq: 82,  type: 'sawtooth', gain: 0.05 },
+}
+
+function startProceduralBgm(track: BgmTrack): void {
+  if (!audioCtx) return
+  if (procBgmPlaying === track) return
+
+  // Stop previous
+  stopProceduralBgm()
+
+  const params = PROC_BGM_PARAMS[track]
+  const ctx = audioCtx
+
+  // Master gain for this track
+  const masterGain = ctx.createGain()
+  masterGain.gain.value = globalMuted ? 0 : params.gain
+  masterGain.connect(ctx.destination)
+
+  // Oscillator
+  const osc = ctx.createOscillator()
+  osc.type = params.type
+  osc.frequency.value = params.freq
+  osc.connect(masterGain)
+
+  // LFO for gentle modulation
+  const lfo = ctx.createOscillator()
+  lfo.type = 'sine'
+  lfo.frequency.value = 0.3 // slow pulse
+  const lfoGain = ctx.createGain()
+  lfoGain.gain.value = params.freq * 0.02 // slight pitch wobble
+  lfo.connect(lfoGain)
+  lfoGain.connect(osc.frequency)
+  lfo.start()
+
+  // Second harmonic for warmth
+  const harmGain = ctx.createGain()
+  harmGain.gain.value = params.gain * 0.3
+  harmGain.connect(ctx.destination)
+  const harm = ctx.createOscillator()
+  harm.type = 'sine'
+  harm.frequency.value = params.freq * 2
+  harm.connect(harmGain)
+
+  osc.start()
+  harm.start()
+
+  procBgmNodes[track] = { gain: masterGain, osc }
+  procBgmPlaying = track
+}
+
+function stopProceduralBgm(): void {
+  if (procBgmPlaying && procBgmNodes[procBgmPlaying]) {
+    const node = procBgmNodes[procBgmPlaying]
+    if (node) {
+      try { node.osc.stop() } catch { /* already stopped */ }
+      try { node.gain.disconnect() } catch { /* already disconnected */ }
+    }
+    procBgmNodes[procBgmPlaying] = null
+  }
+  procBgmPlaying = null
+}
+
 // ── SFX throttle ──────────────────────────────────────────────
 const SFX_THROTTLE_MS = 50
 const sfxLastPlayed = new Map<SfxName, number>()
@@ -43,6 +120,13 @@ export function initAudio(): void {
   if (unlocked) return
   unlocked = true
 
+  // Create AudioContext for procedural fallback
+  try {
+    audioCtx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
+  } catch {
+    // Web Audio API not available — no audio at all
+  }
+
   // Pre-create all Howl instances
   for (const track of Object.keys(BGM_FILES) as BgmTrack[]) {
     bgmInstances[track] = new Howl({
@@ -51,6 +135,10 @@ export function initAudio(): void {
       volume: 0,
       html5: true,
       preload: true,
+      onloaderror: () => {
+        // MP3 unavailable — mark as null so playBgm falls through to procedural
+        bgmInstances[track] = null
+      },
     })
   }
 
@@ -63,40 +151,68 @@ export function initAudio(): void {
       preload: true,
     })
   }
-
-  // Unlock the Web Audio API context (Howler does this internally on first play)
 }
 
 // ── BGM control ────────────────────────────────────────────────
 const CROSSFADE_DURATION = 1500 // ms
 
 export function playBgm(track: BgmTrack): void {
-  const next = bgmInstances[track]
-  if (!next) return
-
-  if (currentBgm === track && next.playing()) return
-
-  // Fade out current
-  if (currentBgmId !== null) {
-    const prev = bgmInstances[currentBgm!]
-    if (prev) {
-      prev.fade(prev.volume(), 0, CROSSFADE_DURATION)
-      const prevId = currentBgmId
-      setTimeout(() => { if (prev.playing()) prev.pause(prevId) }, CROSSFADE_DURATION + 50)
-    }
+  // Auto-initialize if first call happens before any user interaction
+  if (!unlocked) {
+    initAudio()
   }
 
-  // Fade in next
-  const targetVolume = globalMuted ? 0 : 0.5
-  const id = next.play()
-  next.volume(0, id)
-  next.fade(0, targetVolume, CROSSFADE_DURATION, id)
+  const howl = bgmInstances[track]
 
-  currentBgm = track
-  currentBgmId = id
+  if (howl) {
+    // ── Howl path (MP3 available) ──
+    if (currentBgm === track && howl.playing()) return
+
+    // Fade out current Howl
+    if (currentBgmId !== null) {
+      const prev = bgmInstances[currentBgm!]
+      if (prev) {
+        prev.fade(prev.volume(), 0, CROSSFADE_DURATION)
+        const prevId = currentBgmId
+        setTimeout(() => { if (prev.playing()) prev.pause(prevId) }, CROSSFADE_DURATION + 50)
+      }
+    }
+
+    // Fade in next Howl
+    const targetVolume = globalMuted ? 0 : 0.5
+    const id = howl.play()
+    howl.volume(0, id)
+    howl.fade(0, targetVolume, CROSSFADE_DURATION, id)
+
+    currentBgm = track
+    currentBgmId = id
+
+    // Also stop procedural if it was playing
+    stopProceduralBgm()
+  } else {
+    // ── Procedural fallback path (no MP3) ──
+    if (procBgmPlaying === track) return
+
+    // Fade out current Howl (if any) — quick fade
+    if (currentBgmId !== null) {
+      const prev = bgmInstances[currentBgm!]
+      if (prev) {
+        prev.fade(prev.volume(), 0, 200)
+        setTimeout(() => prev.pause(), 300)
+      }
+      currentBgm = null
+      currentBgmId = null
+    }
+
+    stopProceduralBgm()
+    startProceduralBgm(track)
+    currentBgm = track
+    currentBgmId = null
+  }
 }
 
 export function stopBgm(): void {
+  // Stop Howl BGM
   if (currentBgmId !== null && currentBgm) {
     const inst = bgmInstances[currentBgm]
     if (inst) {
@@ -104,6 +220,10 @@ export function stopBgm(): void {
       setTimeout(() => inst.stop(), 600)
     }
   }
+
+  // Stop procedural BGM
+  stopProceduralBgm()
+
   currentBgm = null
   currentBgmId = null
 }
@@ -127,7 +247,15 @@ export function setAudioMuted(muted: boolean): void {
   globalMuted = muted
   Howler.mute(muted)
 
-  // Also sync currently-playing BGM volume
+  // Sync procedural BGM volume
+  if (procBgmPlaying && procBgmNodes[procBgmPlaying]) {
+    const node = procBgmNodes[procBgmPlaying]
+    if (node) {
+      node.gain.gain.value = muted ? 0 : PROC_BGM_PARAMS[procBgmPlaying].gain
+    }
+  }
+
+  // Sync Howl BGM volume
   if (currentBgm && currentBgmId !== null) {
     const inst = bgmInstances[currentBgm]
     if (inst) {
@@ -142,10 +270,15 @@ export function isAudioMuted(): boolean {
 
 // ── Singleton reset (for testing) ──────────────────────────────
 export function _reset(): void {
+  stopProceduralBgm()
   unlocked = false
   currentBgm = null
   currentBgmId = null
   bgmInstances = { hub: null, academy: null, boss: null }
   sfxInstances = { victory: null, coin: null, attack: null, click: null, purchase: null }
   globalMuted = false
+  if (audioCtx) {
+    audioCtx.close().catch(() => {})
+    audioCtx = null
+  }
 }

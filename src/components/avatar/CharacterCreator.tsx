@@ -157,7 +157,7 @@ export default function CharacterCreator({ userId, onSaved }: Props) {
       {/* ── Left: Preview ── */}
       <div className="flex-shrink-0 flex flex-col items-center md:sticky md:top-4 md:self-start">
         <AvatarDisplay config={draftConfig} size={256} className="mb-3" />
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-gray-300">
           {activeLayerCount} / {Object.keys(SPRITE_MANIFEST).length} layers
         </p>
       </div>

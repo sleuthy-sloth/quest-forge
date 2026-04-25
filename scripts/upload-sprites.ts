@@ -69,7 +69,7 @@ async function ensureBucket(): Promise<void> {
 
   const { error: createError } = await supabase.storage.createBucket(BUCKET, {
     public: true,
-    allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
+    allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp', 'audio/mpeg', 'audio/mp3', 'audio/ogg', 'audio/wav'],
   })
   if (createError) throw new Error(`Could not create bucket: ${createError.message}`)
   console.log(`  ✅ Created public bucket "${BUCKET}".`)

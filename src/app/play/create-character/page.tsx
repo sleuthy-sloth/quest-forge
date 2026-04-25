@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import SpriteCanvas from '@/components/avatar/SpriteCanvas'
 import type { AvatarConfig, SpriteEntry } from '@/types/avatar'
+import type { Json } from '@/types/database'
 import { SPRITE_MANIFEST } from '@/lib/sprites/manifest'
 import classesData from '@/lore/classes.json'
 import { playBgm, stopBgm } from '@/lib/audio'
@@ -316,7 +317,7 @@ function StepChoosePath({
       >
         Choose Your Path
       </h2>
-      <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.45)', fontSize: '0.85rem', marginBottom: '1.5rem', fontFamily: 'var(--font-body), sans-serif' }}>
+      <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.65)', fontSize: '0.85rem', marginBottom: '1.5rem', fontFamily: 'var(--font-body), sans-serif' }}>
         Your class shapes your legend. Choose wisely, Emberbearer.
       </p>
 
@@ -354,7 +355,7 @@ function StepChoosePath({
                   {cls.name}
                 </span>
               </div>
-              <span style={{ fontSize: '0.7rem', color: isSelected ? cls.color_secondary : 'rgba(255,255,255,0.35)', marginBottom: 8, fontFamily: 'var(--font-body), sans-serif' }}>
+              <span style={{ fontSize: '0.7rem', color: isSelected ? cls.color_secondary : 'rgba(255,255,255,0.55)', marginBottom: 8, fontFamily: 'var(--font-body), sans-serif' }}>
                 {cls.archetype}
               </span>
               <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.75)', fontStyle: 'italic', marginBottom: 8, lineHeight: 1.5, fontFamily: 'var(--font-body), sans-serif' }}>
@@ -458,7 +459,7 @@ function StepForgeIdentity({
           <p style={{ ...PIXEL_FONT_STYLE, fontSize: '0.5rem', color: selectedClass.color_secondary, marginTop: 12, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
             {selectedClass.name}
           </p>
-          <p style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.35)', marginTop: 4, fontFamily: 'var(--font-body), sans-serif', textAlign: 'center' }}>
+          <p style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.55)', marginTop: 4, fontFamily: 'var(--font-body), sans-serif', textAlign: 'center' }}>
             Appearance preview
           </p>
         </div>
@@ -813,11 +814,11 @@ function StepReveal({
         Welcome, {displayName} the {selectedClass.name}!
       </h2>
 
-      <p style={{ fontStyle: 'italic', color: 'rgba(255,255,255,0.5)', marginBottom: '1.2rem', textAlign: 'center', fontFamily: 'var(--font-body), sans-serif', maxWidth: 400 }}>
+      <p style={{ fontStyle: 'italic', color: 'rgba(255,255,255,0.7)', marginBottom: '1.2rem', textAlign: 'center', fontFamily: 'var(--font-body), sans-serif', maxWidth: 400 }}>
         &ldquo;{selectedClass.motto}&rdquo;
       </p>
 
-      <p style={{ color: selectedClass.color_secondary, fontSize: '0.85rem', marginBottom: '2rem', textAlign: 'center', fontFamily: 'var(--font-body), sans-serif' }}>
+      <p style={{ color: selectedClass.color_secondary, fontSize: '0.9rem', marginBottom: '2rem', textAlign: 'center', fontFamily: 'var(--font-body), sans-serif', fontWeight: 500 }}>
         Your Embershard: ✦ {selectedClass.embershard_form}
       </p>
 
@@ -864,11 +865,14 @@ function StepReveal({
       {saveError && (
         <p style={{
           marginTop: '1rem',
-          color: '#ff6b6b',
-          fontSize: '0.75rem',
+          color: '#ff4444',
+          fontSize: '0.85rem',
           textAlign: 'center',
           fontFamily: 'var(--font-body), sans-serif',
           maxWidth: 320,
+          backgroundColor: 'rgba(0,0,0,0.6)',
+          padding: '8px 12px',
+          borderRadius: 4,
         }}>
           {saveError}
         </p>
@@ -985,17 +989,18 @@ function CreateCharacterInner() {
 
     try {
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user) { router.replace('/login'); return }
+      if (!user) { setIsSaving(false); router.replace('/login'); return }
 
       const { error } = await supabase
         .from('profiles')
         .update({
-          avatar_config: config as unknown as { [key: string]: import('@/types/database').Json | undefined },
+          avatar_config: config as unknown as Json,
           avatar_class: selectedClass.id,
         })
         .eq('id', user.id)
 
       if (error) throw error
+      setIsSaving(false)
       router.push('/play')
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Something went wrong saving your character.'
@@ -1077,7 +1082,7 @@ function CreateCharacterInner() {
                   ←
                 </button>
               )}
-              <p style={{ ...PIXEL_FONT_STYLE, fontSize: '0.42rem', letterSpacing: '0.15em', color: 'rgba(255,255,255,0.35)', margin: 0 }}>
+              <p style={{ ...PIXEL_FONT_STYLE, fontSize: '0.42rem', letterSpacing: '0.15em', color: 'rgba(255,255,255,0.55)', margin: 0 }}>
                 STEP {step} OF 3 · {stepTitles[step - 1]}
               </p>
             </div>
