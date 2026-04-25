@@ -114,27 +114,31 @@ export default function MathArena({
     setChosenWrong(null)
     setSaveError(false)
 
-    const { data, error } = await supabase
-      .from('edu_challenges')
-      .select('id, title, content, xp_reward')
-      .eq('subject', 'math')
-      .eq('age_tier', ageTier)
-      .eq('is_active', true)
-      .order('id')
-      .limit(50)
+    try {
+      const { data, error } = await supabase
+        .from('edu_challenges')
+        .select('id, title, content, xp_reward')
+        .eq('subject', 'math')
+        .eq('age_tier', ageTier)
+        .eq('is_active', true)
+        .order('id')
+        .limit(50)
 
-    if (error) {
+      if (error) {
+        setFetchErrorKind('network')
+        return
+      }
+      if (!data || data.length === 0) {
+        setFetchErrorKind('empty')
+        return
+      }
+
+      const picked = shuffle(data as Question[]).slice(0, 10)
+      setQuestions(picked)
+      setPhase('playing')
+    } catch {
       setFetchErrorKind('network')
-      return
     }
-    if (!data || data.length === 0) {
-      setFetchErrorKind('empty')
-      return
-    }
-
-    const picked = shuffle(data as Question[]).slice(0, 10)
-    setQuestions(picked)
-    setPhase('playing')
   }, [supabase, ageTier])
 
   useEffect(() => { fetchQuestions() }, [fetchQuestions])

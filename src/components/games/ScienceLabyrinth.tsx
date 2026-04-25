@@ -122,20 +122,24 @@ export default function ScienceLabyrinth({
     setWallVisible(false)
     setWallMounted(false)
 
-    const { data, error } = await supabase
-      .from('edu_challenges')
-      .select('id, title, content, xp_reward')
-      .eq('subject', 'science')
-      .eq('age_tier', ageTier)
-      .eq('is_active', true)
-      .order('id')
-      .limit(50)
+    try {
+      const { data, error } = await supabase
+        .from('edu_challenges')
+        .select('id, title, content, xp_reward')
+        .eq('subject', 'science')
+        .eq('age_tier', ageTier)
+        .eq('is_active', true)
+        .order('id')
+        .limit(50)
 
-    if (error) { setFetchErrorKind('network'); return }
-    if (!data || data.length === 0) { setFetchErrorKind('empty'); return }
+      if (error) { setFetchErrorKind('network'); return }
+      if (!data || data.length === 0) { setFetchErrorKind('empty'); return }
 
-    setQuestions(shuffle(data as Question[]).slice(0, 10))
-    setPhase('playing')
+      setQuestions(shuffle(data as Question[]).slice(0, 10))
+      setPhase('playing')
+    } catch {
+      setFetchErrorKind('network')
+    }
   }, [supabase, ageTier])
 
   useEffect(() => { fetchQuestions() }, [fetchQuestions])

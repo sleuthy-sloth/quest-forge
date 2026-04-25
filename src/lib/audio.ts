@@ -137,8 +137,16 @@ export function initAudio(): void {
       preload: true,
       onloaderror: (_id: number, err: unknown) => {
         console.warn(`[audio] MP3 unavailable for "${track}":`, err)
-        // MP3 unavailable — mark as null so playBgm falls through to procedural
+        // MP3 unavailable — mark as null so future playBgm calls fall
+        // through to the procedural oscillator fallback.
         bgmInstances[track] = null
+        // If this MP3 was the currently active BGM, transition to the
+        // procedural fallback immediately so the player doesn't hear
+        // silence.
+        if (currentBgm === track) {
+          stopProceduralBgm()
+          startProceduralBgm(track)
+        }
       },
     })
   }

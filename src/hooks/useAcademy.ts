@@ -115,32 +115,37 @@ export function useAcademy(
     setSessionCorrect(0)
     setSessionXp(0)
 
-    let query = supabase
-      .from('edu_challenges')
-      .select('id, title, subject, age_tier, difficulty, xp_reward, content')
-      .eq('age_tier', ageTier)
-      .eq('is_active', true)
-      .order('id')
-      .limit(50)
+    try {
+      let query = supabase
+        .from('edu_challenges')
+        .select('id, title, subject, age_tier, difficulty, xp_reward, content')
+        .eq('age_tier', ageTier)
+        .eq('is_active', true)
+        .order('id')
+        .limit(50)
 
-    if (subject) query = query.eq('subject', subject as never)
+      if (subject) query = query.eq('subject', subject as never)
 
-    const { data, error: fetchError } = await query
+      const { data, error: fetchError } = await query
 
-    if (fetchError) {
+      if (fetchError) {
+        setError('Failed to load challenges')
+        setLoading(false)
+        return
+      }
+
+      if (!data || data.length === 0) {
+        setError('No challenges available')
+        setLoading(false)
+        return
+      }
+
+      setChallenges(shuffle(data as EduChallenge[]).slice(0, 10))
+      setLoading(false)
+    } catch {
       setError('Failed to load challenges')
       setLoading(false)
-      return
     }
-
-    if (!data || data.length === 0) {
-      setError('No challenges available')
-      setLoading(false)
-      return
-    }
-
-    setChallenges(shuffle(data as EduChallenge[]).slice(0, 10))
-    setLoading(false)
   }, [supabase, ageTier])
 
   // ── Submit answer ─────────────────────────────────────────────────────────

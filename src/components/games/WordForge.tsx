@@ -130,26 +130,30 @@ export default function WordForge({
     setChosenWrong(null)
     setSaveError(false)
 
-    const { data, error } = await supabase
-      .from('edu_challenges')
-      .select('id, title, content, xp_reward')
-      .eq('subject', 'vocabulary')
-      .eq('age_tier', ageTier)
-      .eq('is_active', true)
-      .order('id')
-      .limit(50)
+    try {
+      const { data, error } = await supabase
+        .from('edu_challenges')
+        .select('id, title, content, xp_reward')
+        .eq('subject', 'vocabulary')
+        .eq('age_tier', ageTier)
+        .eq('is_active', true)
+        .order('id')
+        .limit(50)
 
-    if (error) {
+      if (error) {
+        setFetchErrorKind('network')
+        return
+      }
+      if (!data || data.length === 0) {
+        setFetchErrorKind('empty')
+        return
+      }
+
+      setQuestions(shuffle(data as Question[]).slice(0, 10))
+      setPhase('playing')
+    } catch {
       setFetchErrorKind('network')
-      return
     }
-    if (!data || data.length === 0) {
-      setFetchErrorKind('empty')
-      return
-    }
-
-    setQuestions(shuffle(data as Question[]).slice(0, 10))
-    setPhase('playing')
   }, [supabase, ageTier])
 
   useEffect(() => { fetchQuestions() }, [fetchQuestions])
