@@ -118,11 +118,27 @@ export default function ForgotPasswordPage() {
     setIsLoading(true)
     try {
       const redirectTo = `${window.location.origin}/auth/callback?next=/reset-password`
-      // Intentionally ignore the error — we show the same message either way
-      // to avoid revealing whether an email is registered.
-      await supabase.auth.resetPasswordForEmail(result.data.email, { redirectTo })
+      const { error } = await supabase.auth.resetPasswordForEmail(result.data.email, { redirectTo })
+
+      if (error) {
+        console.error('[forgot-password] resetPasswordForEmail error:', error)
+        const msg = (error.message || '').toLowerCase()
+        const isRateLimit =
+          error.status === 429 ||
+          msg.includes('rate limit') ||
+          msg.includes('for security purposes') ||
+          msg.includes('too many')
+        if (isRateLimit) {
+          setServerError('Too many recovery requests. Please wait a few minutes and try again.')
+          return
+        }
+        // Other errors: stay silent in the UI to preserve enumeration
+        // protection — the console log above is enough for diagnostics.
+      }
+
       setSubmitted(true)
-    } catch {
+    } catch (err) {
+      console.error('[forgot-password] resetPasswordForEmail threw:', err)
       setServerError('An unexpected error occurred. Please try again.')
     } finally {
       setIsLoading(false)
