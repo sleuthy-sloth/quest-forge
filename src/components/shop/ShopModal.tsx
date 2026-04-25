@@ -22,7 +22,9 @@ const STALL_COLORS = [
 export default function ShopModal({ open, onClose }: ShopModalProps) {
   const householdId = useQuestStore((s) => s.householdId)
   const gold = useQuestStore((s) => s.gold)
+  const playerId = useQuestStore((s) => s.playerId)
   const buyReward = useQuestStore((s) => s.buyReward)
+  const redeemVoucher = useQuestStore((s) => s.redeemVoucher)
 
   const [rewards, setRewards] = useState<RewardRow[]>([])
   const [loading, setLoading] = useState(true)
@@ -40,7 +42,7 @@ export default function ShopModal({ open, onClose }: ShopModalProps) {
       const supabase = createClient()
       const { data, error: err } = await supabase
         .from('rewards')
-        .select('id, household_id, title, description, cost, icon_type, created_at')
+        .select('id, household_id, title, description, cost, icon_type, reward_type, created_at')
         .eq('household_id', hId)
         .order('cost', { ascending: true })
 
@@ -58,10 +60,14 @@ export default function ShopModal({ open, onClose }: ShopModalProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, householdId])
 
-  async function handleBuy(rewardId: string, cost: number) {
+  async function handleBuy(rewardId: string, cost: number, rewardType: string) {
     playSfx('click')
     setBuyingId(rewardId)
-    const ok = await buyReward(rewardId, cost)
+
+    const ok = rewardType === 'real_world'
+      ? await redeemVoucher(rewardId, cost)
+      : await buyReward(rewardId, cost)
+
     setBuyingId(null)
     if (ok) {
       setRewards((prev) => prev.filter((r) => r.id !== rewardId))
@@ -188,6 +194,15 @@ export default function ShopModal({ open, onClose }: ShopModalProps) {
                         {reward.description}
                       </p>
 
+                      {/* Reward type badge */}
+                      <span className={`font-pixel text-[0.35rem] px-1.5 py-0.5 rounded-sm uppercase ${
+                        (reward as { reward_type?: string }).reward_type === 'real_world'
+                          ? 'text-[#e8a020] bg-[#e8a020]/10 border border-[#e8a020]/20'
+                          : 'text-[#4d8aff] bg-[#4d8aff]/10 border border-[#4d8aff]/20'
+                      }`}>
+                        {(reward as { reward_type?: string }).reward_type === 'real_world' ? '🎁 Real' : '💠 Digital'}
+                      </span>
+
                       {/* Price + Buy */}
                       <div className="mt-auto w-full flex items-center justify-between">
                         <span
@@ -197,7 +212,7 @@ export default function ShopModal({ open, onClose }: ShopModalProps) {
                           {reward.cost}G
                         </span>
                         <button
-                          onClick={() => handleBuy(reward.id, reward.cost)}
+                          onClick={() => handleBuy(reward.id, reward.cost, (reward as { reward_type?: string }).reward_type ?? 'digital')}
                           disabled={!canAfford || isBuying}
                           className={`px-2 py-0.5 text-[0.5rem] font-mono tracking-wider uppercase
                             border transition-colors [image-rendering:pixelated]

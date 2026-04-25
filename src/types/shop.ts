@@ -13,6 +13,7 @@ export interface RewardRow {
   description: string
   cost: number
   icon_type: string
+  reward_type?: string
   created_at: string
 }
 
@@ -40,6 +41,62 @@ export interface PlayerInventoryInsert {
   reward_id: string
   is_used?: boolean
   acquired_at?: string
+}
+
+export interface RedemptionRow {
+  id: string
+  household_id: string
+  player_id: string
+  reward_id: string
+  status: 'pending' | 'approved' | 'redeemed'
+  created_at: string
+  approved_at: string | null
+}
+
+export interface RedemptionInsert {
+  id?: string
+  household_id: string
+  player_id: string
+  reward_id: string
+  status?: 'pending' | 'approved' | 'redeemed'
+  created_at?: string
+  approved_at?: string | null
+}
+
+export interface QuestRow {
+  id: string
+  household_id: string
+  created_by: string
+  title: string
+  description: string
+  xp_reward: number
+  gold_reward: number
+  assigned_to: string | null
+  difficulty: 'easy' | 'medium' | 'hard'
+  is_boss: boolean
+  boss_health: number | null
+  boss_current_health: number | null
+  boss_sprite: string | null
+  is_active: boolean
+  created_at: string
+}
+
+export interface QuestInsert {
+  id?: string
+  household_id: string
+  created_by: string
+  title: string
+  description?: string
+  xp_reward: number
+  gold_reward?: number
+  assigned_to?: string | null
+  difficulty?: 'easy' | 'medium' | 'hard'
+  is_boss?: boolean
+  boss_health?: number | null
+  boss_current_health?: number | null
+  boss_sprite?: string | null
+  is_active?: boolean
+  created_at?: string
 }
 
 /**

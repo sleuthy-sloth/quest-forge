@@ -17,8 +17,7 @@ const SignupGmSchema = z.object({
  * session, which doesn't exist yet during signup).
  *
  * Flow:
- *  1. Admin creates the Supabase Auth user (email_confirm: true — GMs
- *     are trusted; they log in with a real email + password)
+ *  1. Admin creates the Supabase Auth user (email_confirm: true)
  *  2. Admin inserts the household row
  *  3. Admin inserts the GM profile row
  *  4. Returns success — the client then calls signInWithPassword to get a session
@@ -43,7 +42,7 @@ export async function POST(request: Request) {
   const { data: authData, error: authError } = await admin.auth.admin.createUser({
     email,
     password,
-    email_confirm: true, // Skip email verification — GM authenticates with password
+    email_confirm: true,
   })
 
   if (authError) {
@@ -63,18 +62,22 @@ export async function POST(request: Request) {
 
   const userId = authData.user.id
 
-  // 2. Create household
-  const { data: household, error: householdError } = await admin
+  // 2. Create household — use .select() WITHOUT .single() to avoid RLS
+  //    blocking the return (no profile exists yet so get_my_household_id()
+  //    returns NULL). With the admin client this isn't an issue, but this
+  //    pattern is safe for both service-role and anon-key clients.
+  const { data: households, error: householdError } = await admin
     .from('households')
     .insert({ name: householdName, created_by: userId })
     .select('id')
-    .single()
 
-  if (householdError || !household) {
+  if (householdError || !households || households.length === 0) {
     await admin.auth.admin.deleteUser(userId)
     console.error('[signup-gm] household insert failed:', householdError)
     return NextResponse.json({ error: 'Could not create household.' }, { status: 500 })
   }
+
+  const householdId = households[0].id
 
   // 3. Create GM profile
   const username = `gm_${email.split('@')[0].toLowerCase().replace(/[^a-z0-9_]/g, '_')}_${Date.now().toString(36)}`
@@ -83,13 +86,14 @@ export async function POST(request: Request) {
     .from('profiles')
     .insert({
       id: userId,
-      household_id: household.id,
+      household_id: householdId,
       display_name: displayName,
       username,
       role: 'gm',
     })
 
   if (profileError) {
+    // Roll back: delete auth user + household (cascade handles the rest)
     await admin.auth.admin.deleteUser(userId)
     console.error('[signup-gm] profile insert failed:', profileError)
     return NextResponse.json({ error: 'Could not create profile.' }, { status: 500 })

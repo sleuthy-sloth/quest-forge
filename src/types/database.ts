@@ -682,6 +682,134 @@ export type Database = {
           },
         ]
       }
+      quests: {
+        Row: {
+          assigned_to: string | null
+          boss_current_health: number | null
+          boss_health: number | null
+          boss_sprite: string | null
+          created_at: string
+          created_by: string
+          description: string
+          difficulty: string
+          gold_reward: number
+          household_id: string
+          id: string
+          is_active: boolean
+          is_boss: boolean
+          title: string
+          xp_reward: number
+        }
+        Insert: {
+          assigned_to?: string | null
+          boss_current_health?: number | null
+          boss_health?: number | null
+          boss_sprite?: string | null
+          created_at?: string
+          created_by: string
+          description?: string
+          difficulty?: string
+          gold_reward?: number
+          household_id: string
+          id?: string
+          is_active?: boolean
+          is_boss?: boolean
+          title: string
+          xp_reward: number
+        }
+        Update: {
+          assigned_to?: string | null
+          boss_current_health?: number | null
+          boss_health?: number | null
+          boss_sprite?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string
+          difficulty?: string
+          gold_reward?: number
+          household_id?: string
+          id?: string
+          is_active?: boolean
+          is_boss?: boolean
+          title?: string
+          xp_reward?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quests_assigned_to_fkey"
+            columns: ["assigned_to"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quests_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quests_household_id_fkey"
+            columns: ["household_id"]
+            isOneToOne: false
+            referencedRelation: "households"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      redemptions: {
+        Row: {
+          approved_at: string | null
+          created_at: string
+          household_id: string
+          id: string
+          player_id: string
+          reward_id: string
+          status: string
+        }
+        Insert: {
+          approved_at?: string | null
+          created_at?: string
+          household_id: string
+          id?: string
+          player_id: string
+          reward_id: string
+          status?: string
+        }
+        Update: {
+          approved_at?: string | null
+          created_at?: string
+          household_id?: string
+          id?: string
+          player_id?: string
+          reward_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "redemptions_household_id_fkey"
+            columns: ["household_id"]
+            isOneToOne: false
+            referencedRelation: "households"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "redemptions_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "redemptions_reward_id_fkey"
+            columns: ["reward_id"]
+            isOneToOne: false
+            referencedRelation: "rewards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -715,6 +843,8 @@ export type Database = {
         | "vocabulary"
         | "logic"
       user_role: "gm" | "player"
+      redemption_status: "pending" | "approved" | "redeemed"
+      reward_type: "digital" | "real_world"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -863,6 +993,8 @@ export const Constants = {
         "logic",
       ],
       user_role: ["gm", "player"],
+      redemption_status: ["pending", "approved", "redeemed"],
+      reward_type: ["digital", "real_world"],
     },
   },
 } as const

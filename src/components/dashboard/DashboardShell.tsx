@@ -7,12 +7,14 @@ import MobileNav from '@/components/ui/MobileNav'
 import MuteButton from '@/components/ui/MuteButton'
 
 const NAV = [
-  { href: '/dashboard',          label: 'Overview',   icon: '⟡' },
-  { href: '/dashboard/players',  label: 'Players',    icon: '⚔' },
-  { href: '/dashboard/chores',   label: 'Quests',     icon: '📜' },
-  { href: '/dashboard/loot',     label: 'Loot Store', icon: '💎' },
-  { href: '/dashboard/story',    label: 'Story',      icon: '📖' },
-  { href: '/dashboard/settings', label: 'Settings',   icon: '⚙' },
+  { href: '/dashboard',              label: 'Overview',    icon: '⟡' },
+  { href: '/dashboard/players',      label: 'Players',     icon: '⚔' },
+  { href: '/dashboard/quests',       label: 'Quests',      icon: '⚔' },
+  { href: '/dashboard/chores',       label: 'Chores',      icon: '📜' },
+  { href: '/dashboard/loot',         label: 'Loot Store',  icon: '💎' },
+  { href: '/dashboard/redemptions',  label: 'Vouchers',    icon: '🎁' },
+  { href: '/dashboard/story',        label: 'Story',       icon: '📖' },
+  { href: '/dashboard/settings',     label: 'Settings',    icon: '⚙' },
 ]
 
 interface DashboardShellProps {

@@ -51,7 +51,21 @@ export interface QuestState {
   heal: (amount?: number) => void
 
   /**
-   * Buy a reward. Full real flow:
+   * Create a household + GM profile for the current user.
+   * Safe to call from client components (uses anon key + RLS).
+   *
+   * Design notes (avoids the chicken-and-egg trap):
+   *   1. Uses .select() WITHOUT .single() — the RLS policy on
+   *      households_select uses `OR created_by = auth.uid()`
+   *      so the SELECT returns the row even before the profile
+   *      exists (see migration 008).
+   *   2. If the profile already exists for this user, returns
+   *      false (guard against double-creation).
+   */
+  createHousehold: (householdName: string, displayName: string) => Promise<boolean>
+
+  /**
+   * Buy a digital reward. Full real flow:
    *   1. Check local gold >= cost
    *   2. Optimistic deduction + coin SFX
    *   3. UPDATE profiles SET gold = gold - cost (server validates balance)
@@ -61,11 +75,21 @@ export interface QuestState {
    */
   buyReward: (rewardId: string, cost: number) => Promise<boolean>
 
+  /**
+   * Redeem a real-world voucher. Creates a row in redemptions table.
+   */
+  redeemVoucher: (rewardId: string, cost: number) => Promise<boolean>
+
   /** Parent-only: set is_unlocked = true on a chapter. */
   unlockChapter: (chapterId: string) => Promise<boolean>
 
   /** Fetch all unlocked chapters for this household, ordered by sequence_order. */
   fetchStoryData: () => Promise<ChapterRow[]>
+
+  /**
+   * Attack a boss quest: deduct health + trigger overdue damage.
+   */
+  attackBoss: (questId: string, damage: number) => Promise<void>
 }
 
 // ── Defaults ───────────────────────────────────────────────────
@@ -121,6 +145,69 @@ export const useQuestStore = create<QuestState>((set, get) => ({
 
     playSfx('coin')
     if (leveledUp) playSfx('victory')
+  },
+
+  createHousehold: async (householdName, displayName) => {
+    const supabase = createClient()
+
+    // Guard: check if user already has a profile (prevents double-creation)
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return false
+
+    const { data: existingProfile } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('id', user.id)
+      .maybeSingle()
+
+    if (existingProfile) return false
+
+    // Insert household — use .select() WITHOUT .single() to avoid the
+    // "0 rows returned" trap (migration 008's RLS fix handles this).
+    const { data: households, error: householdError } = await supabase
+      .from('households')
+      .insert({ name: householdName, created_by: user.id })
+      .select('id')
+
+    if (householdError || !households || households.length === 0) {
+      return false
+    }
+
+    const householdId = households[0].id
+
+    // Insert GM profile
+    const username = `gm_${user.email?.split('@')[0].toLowerCase().replace(/[^a-z0-9_]/g, '_')}_${Date.now().toString(36)}`
+
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .insert({
+        id: user.id,
+        household_id: householdId,
+        display_name: displayName,
+        username,
+        role: 'gm',
+      })
+
+    if (profileError) {
+      // Clean up orphan household
+      await supabase.from('households').delete().eq('id', householdId)
+      return false
+    }
+
+    // Hydrate store
+    set({
+      householdId,
+      playerId: user.id,
+      gold: 0,
+      xp: 0,
+      xpAvailable: 0,
+      level: 1,
+      health: DEFAULT_MAX_HEALTH,
+      maxHealth: DEFAULT_MAX_HEALTH,
+    })
+
+    playSfx('coin')
+    return true
   },
 
   takeDamage(amount) {
@@ -190,6 +277,54 @@ export const useQuestStore = create<QuestState>((set, get) => ({
     return true
   },
 
+  redeemVoucher: async (rewardId, cost) => {
+    const { gold: currentGold, playerId, householdId } = get()
+    if (currentGold < cost || !playerId || !householdId) return false
+
+    const previousGold = currentGold
+    set({ gold: currentGold - cost })
+    playSfx('coin')
+
+    const supabase = createClient()
+
+    // Deduct gold
+    const { error: goldError } = await supabase.rpc('deduct_gold', {
+      p_player_id: playerId,
+      p_amount: cost,
+    })
+
+    if (goldError) {
+      const { error: directError } = await supabase
+        .from('profiles')
+        .update({ gold: currentGold - cost })
+        .eq('id', playerId)
+
+      if (directError) {
+        set({ gold: previousGold })
+        return false
+      }
+    }
+
+    // Insert redemption
+    const { error: insertError } = await supabase
+      .from('redemptions')
+      .insert({
+        player_id: playerId,
+        reward_id: rewardId,
+        household_id: householdId,
+        status: 'pending',
+      })
+
+    if (insertError) {
+      await supabase.from('profiles').update({ gold: previousGold }).eq('id', playerId)
+      set({ gold: previousGold })
+      return false
+    }
+
+    playSfx('purchase')
+    return true
+  },
+
   unlockChapter: async (chapterId) => {
     const { householdId } = get()
     if (!householdId) return false
@@ -233,5 +368,58 @@ export const useQuestStore = create<QuestState>((set, get) => ({
     const chapters = (error || !data) ? [] : data as unknown as ChapterRow[]
     set({ chapters, chaptersLoading: false })
     return chapters
+  },
+
+  attackBoss: async (questId, damage) => {
+    const { householdId } = get()
+    if (!householdId) return
+
+    const supabase = createClient()
+
+    // Deduct boss health
+    const { data: quest } = await supabase
+      .from('quests')
+      .select('boss_current_health, boss_health, is_boss, created_at')
+      .eq('id', questId)
+      .eq('household_id', householdId)
+      .single()
+
+    if (!quest || !quest.is_boss) return
+
+    const newHealth = Math.max(0, (quest.boss_current_health ?? quest.boss_health ?? 0) - damage)
+    await supabase
+      .from('quests')
+      .update({ boss_current_health: newHealth })
+      .eq('id', questId)
+
+    // Overdue quest: damage the player
+    if (quest.created_at) {
+      const ageHours = (Date.now() - new Date(quest.created_at).getTime()) / 3600000
+      if (ageHours > 48) {
+        get().takeDamage(5)
+      }
+    }
+
+    playSfx('attack')
+
+    // Victory: unlock next chapter
+    if (newHealth <= 0) {
+      playSfx('victory')
+      const { data: nextChapter } = await supabase
+        .from('story_chapters')
+        .select('id')
+        .eq('household_id', householdId)
+        .eq('is_unlocked', false)
+        .order('sequence_order', { ascending: true })
+        .limit(1)
+        .maybeSingle()
+
+      if (nextChapter) {
+        await supabase
+          .from('story_chapters')
+          .update({ is_unlocked: true })
+          .eq('id', nextChapter.id)
+      }
+    }
   },
 }))
