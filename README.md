@@ -1,125 +1,149 @@
 # Quest Forge: The Emberlight Chronicles
 
-A multi-tenant fantasy RPG chore-tracking and educational app for families. Parents create households and add children as players. Completing real-world chores and educational challenges earns XP, advances a persistent narrative, and unlocks rewards from a loot store.
+A fantasy RPG adventure where real-world chores become heroic quests, and educational challenges unlock epic story chapters. Designed for families with children ages 6-16.
 
-See `CLAUDE.md` for full architecture documentation.
+## How It Works
 
-## Tech Stack
+**Parents** act as Game Masters — creating chores, managing rewards, and guiding the household's epic adventure. **Kids** are players — completing quests, battling bosses, and earning treasure.
 
-- **Framework:** Next.js 14 (App Router)
-- **Language:** TypeScript
-- **Styling:** Tailwind CSS
-- **Database:** Supabase (PostgreSQL + Auth + RLS)
-- **AI Engine:** OpenRouter (free tier) with Gemini fallback
-- **Art:** Pixel art sprites (LPC-compatible)
+---
 
-## Features
+## For Parents (Game Master Dashboard)
 
-- **Multi-tenant households** — complete data isolation between families via Row-Level Security
-- **Player accounts** — children log in with username (no email required)
-- **Chore quests** — real-world tasks wrapped in fantasy flavor text
-- **Educational mini-games** — Math Arena, Word Forge, Science Labyrinth
-- **Cooperative boss battles** — household members fight together weekly
-- **Loot store** — spend gold on rewards redeemable IRL
-- **Pixel art avatars** — LPC sprite compositing with character creator
-- **AI-generated content** — story chapters and quest flavor text via Gemini/OpenRouter
-- **Audio system** — Howler-based BGM with crossfade, SFX, and mute toggle
+### Household Management
+- Create your family household and invite players
+- Add unlimited child accounts with simple username/password login (no email required for kids)
+- View each player's progress, XP, gold, and completed quests
 
-## Setup for New Developers
+### Quest Creation
+- Create chores with custom titles, descriptions, and rewards
+- Assign quests to specific children or the whole household
+- Set recurrence: one-time, daily, or weekly tasks
+- Choose difficulty levels: Easy, Medium, Hard, or Epic (higher difficulty = higher rewards)
+- AI-enhanced flavor text automatically transforms "clean your room" into an epic heroic task
 
-### 1. Install dependencies
+### Loot Store
+- Create custom rewards with gold and XP costs
+- Categorize rewards: real-world prizes (ice cream outing, extra screen time), cosmetics, power-ups, and story unlocks
+- Track redemption status for physical rewards
+- Set your own prize values — you're in control of what rewards cost
 
-```bash
-npm install
-```
+### Boss Battles & Story
+- Launch weekly boss battles that scale to your household size
+- All players fight the same boss — encouraging family cooperation
+- Bosses carry over week-to-week until defeated
+- Unlock new story chapters when bosses fall
+- AI-generated narrative featuring your family's player names and classes
 
-### 2. Configure environment variables
+### Progress Tracking
+- See detailed completion history for each player
+- Verify quest completions before awarding rewards
+- Monitor educational game scores and progress
 
-Create `.env.local`:
+---
 
-```
-NEXT_PUBLIC_SUPABASE_URL=https://<project-id>.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-key>
-SUPABASE_SERVICE_ROLE_KEY=<service-role-key>
-OPENROUTER_API_KEY=<openrouter-key>
-GEMINI_API_KEY=<gemini-key>  # Optional fallback
-NEXT_PUBLIC_SPRITE_BASE_URL=https://<project-id>.supabase.co/storage/v1/object/public/sprites
-# Audio assets are served from the same bucket:
-#   NEXT_PUBLIC_SPRITE_BASE_URL + '/audio/[track].mp3'
-```
+## For Kids (Player Experience)
 
-### 3. Upload sprite assets
+### Character Creation
+- Choose your hero class: Blazewarden, Lorescribe, Thornwood, Stormcaller, or Shadowveil
+- Customize your pixel art avatar with body, hair, eyes, and clothing options
+- View your character stats: XP, gold, level, and equipped items
 
-Sprite PNGs are not committed to Git. Run this once to upload local sprites to Supabase Storage:
+### Quest Board
+- Browse your assigned quests with heroic flavor text
+- Mark tasks complete and await parent verification
+- Track which quests are done, pending, or verified
+- See XP and gold rewards for each task
 
-```bash
-npx tsx scripts/upload-sprites.ts
-```
+### The Academy (Educational Games)
 
-### 4. Push database migrations
+**Math Arena**
+- Timed math challenges at three difficulty levels
+- Earn XP based on accuracy and speed
+- Covers addition, subtraction, multiplication, and division
 
-```bash
-npx supabase db push
-```
+**Word Forge**
+- Vocabulary-building smithy game
+- Match words to definitions with heat-based feedback
+- Progressive difficulty across rounds
 
-### 5. Seed the database
+**Science Labyrinth**
+- Dungeon-crawler adventure with science questions
+- Navigate corridors, battle enemies, collect power-ups
+- Topics: life science, earth science, and physical science
 
-```bash
-npx supabase db seed
-```
+**History Scroll**
+- Ancient scroll-themed reading comprehension challenges
+- Read passages and answer questions
+- Unlock new scrolls as you progress
 
-## Getting Started
+**Vocab Duel**
+- Turn-based vocabulary battles
+- Defeat opponents by demonstrating word knowledge
+- Earn gold for victories
 
-```bash
-npm run dev
-```
+**Logic Gate**
+- Puzzle challenges using circuits and switches
+- Solve logic problems through interactive gameplay
+- Earn bonus XP for quick solutions
 
-Open [http://localhost:3000](http://localhost:3000).
+### Boss Battles
+- Fight weekly bosses with your entire household
+- Every completed quest and educational challenge deals damage
+- Watch the boss HP bar drop as your family works together
+- Defeat bosses to unlock new story chapters and bonus rewards
 
-## Available Scripts
+### Story Mode
+- Read your family's personalized adventure chapters
+- Characters are referenced by name and class title
+- Unlock new chapters by completing quests and defeating bosses
+- Chapters adapt to your household size and player count
 
-```bash
-npm run dev          # Start dev server
-npm run build        # Production build
-npm run lint         # ESLint
-npm run type-check   # TypeScript compiler check
-```
+### Loot Store
+- Spend gold and XP on rewards
+- Browse real-world prizes, cosmetics, and power-ups
+- Track purchased items and redemption status
 
-## Project Structure
+### Profile & Inventory
+- View your stats, level, and total XP earned
+- See your collected items and equipment
+- Track your story progress and unlocked chapters
 
-```
-src/
-├── app/
-│   ├── login/, signup/     # Auth pages
-│   ├── dashboard/          # GM (parent) dashboard
-│   ├── play/               # Player (child) experience
-│   │   ├── quests/         # Chore quests
-│   │   ├── academy/        # Educational games
-│   │   └── loot/          # Loot store
-│   └── api/               # API routes
-├── components/
-│   ├── avatar/            # SpriteCanvas, CharacterCreator
-│   ├── games/             # MathArena, WordForge, ScienceLabyrinth
-│   └── boss/             # BossSprite, BossHPBar
-├── lib/
-│   ├── supabase/          # Client, server, admin clients
-│   ├── gemini/            # AI integration with rate limiting
-│   └── sprites/           # Compositor, palette, particles
-└── hooks/                  # usePlayer, useHousehold, useBoss
-```
+---
 
-## Recent Updates
+## Game Mechanics
 
-- **Audio system** — Howler-based BGM with crossfade, SFX, and mute toggle in nav shells
-- **Science Labyrinth** — dungeon-crawler game where players navigate corridors and answer science questions
-- **Word Forge** — smithy-themed vocab game with heat animations and anvil feedback
-- **Avatar system** — LPC sprite compositing with walk animation and proper body offsets
-- **OpenRouter integration** — free-tier AI with Gemini fallback for story generation
+### XP & Leveling
+- Complete quests and educational challenges to earn XP
+- Level up as you accumulate XP (higher levels require more experience)
+- Dual tracking: total XP (for leveling) and available XP (spendable in store)
 
-## Deploy on Vercel
+### Gold
+- Earned alongside XP from completed tasks
+- Used to purchase items in the loot store
+- Bonus gold awarded for educational game victories
 
-```bash
-npx vercel
-```
+### Cooperative Combat
+- Boss HP scales with household size (solo players and large families both have engaging battles)
+- All players contribute to the same boss — teamwork matters
+- Undefeated bosses persist week-to-week with remaining HP
 
-See `CLAUDE.md` for detailed deployment instructions.
+### AI-Enhanced Narrative
+- Story chapters feature your family's player names, classes, and accomplishments
+- Quest flavor text transforms mundane tasks into heroic adventures
+- Fresh educational questions generated on-demand
+
+---
+
+## Pixel Art & Design
+
+- Character avatars built from layered LPC-compatible sprite sheets
+- Customizable body, hair, eyes, clothing, and equipment
+- Animated boss sprites with particle effects
+- All pixel art rendered with crisp integer scaling (`image-rendering: pixelated`)
+
+---
+
+## Household Privacy
+
+Every family's data is completely isolated. Row-Level Security ensures you only see your own household's quests, players, and progress. Your family's story stays private.
