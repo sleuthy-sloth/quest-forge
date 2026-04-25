@@ -149,15 +149,20 @@ export default function SignupPage() {
     try {
       const { householdName, displayName, email, password } = result.data
 
-      // 1. Create auth user + household + GM profile via server route (admin client
-      //    bypasses RLS, which requires an active session that doesn't exist yet
-      //    during signup when Supabase email confirmation is enabled).
       const res = await fetch('/api/auth/signup-gm', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password, householdName, displayName }),
       })
-      const data = await res.json() as { success?: boolean; error?: string }
+
+      let data: { success?: boolean; error?: string } = {}
+      try {
+        data = await res.json()
+      } catch {
+        // Response was not JSON (HTML error page from Next.js)
+        setServerError(`Server error (${res.status}). Check that the SUPABASE_SERVICE_ROLE_KEY environment variable is set in your Vercel project.`)
+        return
+      }
 
       if (!res.ok) {
         setServerError(data.error ?? 'Something went wrong. Please try again.')

@@ -25,6 +25,18 @@ const SignupGmSchema = z.object({
  * Rolls back (deletes auth user) if any subsequent step fails.
  */
 export async function POST(request: Request) {
+  try {
+    return await handleSignup(request)
+  } catch (err) {
+    console.error('[signup-gm] UNEXPECTED CRASH:', err)
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : 'An unexpected server error occurred.' },
+      { status: 500 },
+    )
+  }
+}
+
+async function handleSignup(request: Request) {
   let body: unknown
   try { body = await request.json() } catch {
     return NextResponse.json({ error: 'Invalid request body.' }, { status: 400 })
@@ -36,7 +48,16 @@ export async function POST(request: Request) {
   }
 
   const { email, password, householdName, displayName } = result.data
-  const admin = getAdminClient()
+
+  let admin
+  try {
+    admin = getAdminClient()
+  } catch {
+    return NextResponse.json(
+      { error: 'Server configuration error: admin client unavailable. Please check SUPABASE_SERVICE_ROLE_KEY.' },
+      { status: 500 },
+    )
+  }
 
   // 1. Create Auth user
   const { data: authData, error: authError } = await admin.auth.admin.createUser({
@@ -62,17 +83,14 @@ export async function POST(request: Request) {
 
   const userId = authData.user.id
 
-  // 2. Create household — use .select() WITHOUT .single() to avoid RLS
-  //    blocking the return (no profile exists yet so get_my_household_id()
-  //    returns NULL). With the admin client this isn't an issue, but this
-  //    pattern is safe for both service-role and anon-key clients.
+  // 2. Create household
   const { data: households, error: householdError } = await admin
     .from('households')
     .insert({ name: householdName, created_by: userId })
     .select('id')
 
   if (householdError || !households || households.length === 0) {
-    await admin.auth.admin.deleteUser(userId)
+    await admin.auth.admin.deleteUser(userId).catch(() => {})
     console.error('[signup-gm] household insert failed:', householdError)
     return NextResponse.json({ error: 'Could not create household.' }, { status: 500 })
   }
@@ -93,8 +111,7 @@ export async function POST(request: Request) {
     })
 
   if (profileError) {
-    // Roll back: delete auth user + household (cascade handles the rest)
-    await admin.auth.admin.deleteUser(userId)
+    await admin.auth.admin.deleteUser(userId).catch(() => {})
     console.error('[signup-gm] profile insert failed:', profileError)
     return NextResponse.json({ error: 'Could not create profile.' }, { status: 500 })
   }
