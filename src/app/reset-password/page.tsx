@@ -3,35 +3,29 @@
 export const dynamic = 'force-dynamic'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/client'
 
-// ── Validation ────────────────────────────────────────────────
-const SignupSchema = z.object({
-  householdName: z
-    .string()
-    .min(2, 'Hearthhold name must be at least 2 characters')
-    .max(60, 'Hearthhold name must be 60 characters or fewer'),
-  displayName: z
-    .string()
-    .min(2, 'Your name must be at least 2 characters')
-    .max(40, 'Your name must be 40 characters or fewer'),
-  email: z.string().email('Please enter a valid email address'),
+// ── Schema ────────────────────────────────────────────────────
+const ResetSchema = z.object({
   password: z
     .string()
     .min(8, 'Password must be at least 8 characters')
     .max(72, 'Password must be 72 characters or fewer'),
+  confirm: z.string(),
+}).refine(v => v.password === v.confirm, {
+  message: 'Passwords do not match',
+  path: ['confirm'],
 })
 
-type SignupFields = z.infer<typeof SignupSchema>
-type FieldErrors = Partial<Record<keyof SignupFields, string>>
+type ResetFields = z.infer<typeof ResetSchema>
+type FieldErrors = Partial<Record<keyof ResetFields, string>>
 
 // ── Star field ────────────────────────────────────────────────
 interface Star { id: number; x: number; y: number; size: number; opacity: number; twinkle: number }
 
-// ── Astrolabe SVG ─────────────────────────────────────────────
+// ── Astrolabe (cw, matches signup) ────────────────────────────
 function AstrolabeRing({ size }: { size: number }) {
   const cx = size / 2, cy = size / 2
   const outerR = size / 2 - 4
@@ -40,22 +34,17 @@ function AstrolabeRing({ size }: { size: number }) {
   return (
     <svg
       viewBox={`0 0 ${size} ${size}`}
-      width={size}
-      height={size}
+      width={size} height={size}
       style={{
         position: 'absolute',
-        top: '50%',
-        left: '50%',
+        top: '50%', left: '50%',
         transform: 'translate(-50%, -50%)',
         animation: 'astro-spin 65s linear infinite',
         pointerEvents: 'none',
       }}
     >
-      {/* Outer ring */}
       <circle cx={cx} cy={cy} r={outerR} fill="none" stroke="rgba(201,168,76,0.2)" strokeWidth="1.5" />
-      {/* Inner dashed ring */}
       <circle cx={cx} cy={cy} r={innerR} fill="none" stroke="rgba(100,160,255,0.1)" strokeWidth="0.75" strokeDasharray="5 12" />
-      {/* Cardinal long marks */}
       {[0, 90, 180, 270].map(deg => {
         const rad = (deg - 90) * Math.PI / 180
         return (
@@ -66,7 +55,6 @@ function AstrolabeRing({ size }: { size: number }) {
           />
         )
       })}
-      {/* Tick marks — 36 divisions */}
       {Array.from({ length: 36 }, (_, i) => {
         const rad = (i * 10 - 90) * Math.PI / 180
         const major = i % 3 === 0
@@ -80,7 +68,6 @@ function AstrolabeRing({ size }: { size: number }) {
           />
         )
       })}
-      {/* Constellation cross-hair lines */}
       {[0, 90].map(deg => {
         const rad = deg * Math.PI / 180
         return (
@@ -91,7 +78,6 @@ function AstrolabeRing({ size }: { size: number }) {
           />
         )
       })}
-      {/* Travelling marker at top */}
       <circle cx={cx} cy={cy - outerR} r={5} fill="#c9a84c" />
       <circle cx={cx} cy={cy - outerR} r={10} fill="none" stroke="rgba(201,168,76,0.35)" strokeWidth="1" />
       <circle cx={cx} cy={cy - outerR} r={15} fill="none" stroke="rgba(201,168,76,0.12)" strokeWidth="0.5" />
@@ -100,18 +86,17 @@ function AstrolabeRing({ size }: { size: number }) {
 }
 
 // ── Main page ─────────────────────────────────────────────────
-export default function SignupPage() {
-  const router = useRouter()
+export default function ResetPasswordPage() {
   const supabase = createClient()
 
-  const [form, setForm] = useState<SignupFields>({ householdName: '', displayName: '', email: '', password: '' })
+  const [form, setForm] = useState<ResetFields>({ password: '', confirm: '' })
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({})
   const [serverError, setServerError] = useState<string | null>(null)
-  const [duplicateEmail, setDuplicateEmail] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [sessionChecked, setSessionChecked] = useState(false)
+  const [hasSession, setHasSession] = useState(false)
   const [stars, setStars] = useState<Star[]>([])
 
-  // Generate stars client-side only (avoids hydration mismatch)
   useEffect(() => {
     setStars(Array.from({ length: 200 }, (_, i) => ({
       id: i,
@@ -123,64 +108,51 @@ export default function SignupPage() {
     })))
   }, [])
 
-  function setField(key: keyof SignupFields) {
-    return (value: string) => {
-      setForm(prev => ({ ...prev, [key]: value }))
-      if (fieldErrors[key]) setFieldErrors(prev => ({ ...prev, [key]: undefined }))
+  // Verify the user has a (recovery) session. The /auth/callback handler
+  // should have already exchanged the code and set cookies before
+  // redirecting here.
+  useEffect(() => {
+    let cancelled = false
+    ;(async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (cancelled) return
+      setHasSession(!!user)
+      setSessionChecked(true)
+    })()
+    return () => { cancelled = true }
+  }, [supabase])
+
+  function setField(key: keyof ResetFields) {
+    return (v: string) => {
+      setForm(p => ({ ...p, [key]: v }))
+      if (fieldErrors[key]) setFieldErrors(p => ({ ...p, [key]: undefined }))
     }
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setServerError(null)
-    setDuplicateEmail(false)
 
-    const result = SignupSchema.safeParse(form)
+    const result = ResetSchema.safeParse(form)
     if (!result.success) {
-      const errors: FieldErrors = {}
+      const errs: FieldErrors = {}
       result.error.issues.forEach(issue => {
-        const field = issue.path[0] as keyof SignupFields
-        if (!errors[field]) errors[field] = issue.message
+        const field = issue.path[0] as keyof ResetFields
+        if (!errs[field]) errs[field] = issue.message
       })
-      setFieldErrors(errors)
-      document.getElementById(Object.keys(errors)[0])?.focus()
+      setFieldErrors(errs)
+      document.getElementById(Object.keys(errs)[0])?.focus()
       return
     }
 
     setIsLoading(true)
     try {
-      const { householdName, displayName, email, password } = result.data
-
-      const res = await fetch('/api/auth/signup-gm', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, householdName, displayName }),
-      })
-
-      let data: { success?: boolean; error?: string } = {}
-      try {
-        data = await res.json()
-      } catch {
-        // Response was not JSON (HTML error page from Next.js)
-        setServerError(`Server error (${res.status}). Check that the SUPABASE_SERVICE_ROLE_KEY environment variable is set in your Vercel project.`)
+      const { error } = await supabase.auth.updateUser({ password: result.data.password })
+      if (error) {
+        setServerError(error.message || 'Could not update password. Please try again.')
         return
       }
-
-      if (!res.ok) {
-        if (res.status === 409) setDuplicateEmail(true)
-        setServerError(data.error ?? 'Something went wrong. Please try again.')
-        return
-      }
-
-      // 2. Sign in to establish a client-side session
-      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password })
-      if (signInError) {
-        setServerError('Account created but sign-in failed. Please log in manually.')
-        router.push('/login')
-        return
-      }
-
-      router.push('/dashboard')
+      window.location.href = '/dashboard'
     } catch {
       setServerError('An unexpected error occurred. Please try again.')
     } finally {
@@ -214,9 +186,7 @@ export default function SignupPage() {
           0%,100% { box-shadow: 0 0 18px rgba(100,160,255,0.35), 0 0 40px rgba(80,100,255,0.1); }
           50%      { box-shadow: 0 0 28px rgba(100,160,255,0.6), 0 0 60px rgba(80,100,255,0.2); }
         }
-        @keyframes spinner {
-          to { transform: rotate(360deg); }
-        }
+        @keyframes spinner { to { transform: rotate(360deg); } }
 
         .ob-label {
           display: block;
@@ -286,7 +256,6 @@ export default function SignupPage() {
         }
       `}</style>
 
-      {/* Void */}
       <div style={{
         minHeight: '100dvh',
         background: '#040812',
@@ -298,7 +267,6 @@ export default function SignupPage() {
         overflow: 'hidden',
       }}>
 
-        {/* Nebula glows */}
         <div aria-hidden="true" style={{
           position: 'fixed', top: '-15%', left: '-10%', width: '65%', height: '65%',
           background: 'radial-gradient(ellipse, rgba(28,55,160,0.16) 0%, transparent 70%)',
@@ -311,14 +279,7 @@ export default function SignupPage() {
           animation: 'nebula-drift 28s ease-in-out infinite reverse',
           pointerEvents: 'none',
         }} />
-        <div aria-hidden="true" style={{
-          position: 'fixed', top: '40%', right: '-5%', width: '40%', height: '40%',
-          background: 'radial-gradient(ellipse, rgba(0,100,180,0.06) 0%, transparent 70%)',
-          animation: 'nebula-drift 16s ease-in-out 4s infinite',
-          pointerEvents: 'none',
-        }} />
 
-        {/* Stars */}
         {stars.map(s => (
           <div key={s.id} aria-hidden="true" style={{
             position: 'fixed',
@@ -333,7 +294,6 @@ export default function SignupPage() {
           }} />
         ))}
 
-        {/* Astrolabe + Card wrapper */}
         <div style={{
           position: 'relative',
           width: '100%',
@@ -341,12 +301,10 @@ export default function SignupPage() {
           animation: 'card-emerge 1s cubic-bezier(0.16,1,0.3,1) 0.1s both',
         }}>
 
-          {/* Astrolabe ring — 760px diameter behind/around the card */}
           <div style={{ position: 'absolute', inset: 0, overflow: 'visible', pointerEvents: 'none' }}>
             <AstrolabeRing size={760} />
           </div>
 
-          {/* Card */}
           <div style={{
             position: 'relative',
             background: 'linear-gradient(158deg, rgba(7,10,26,0.97) 0%, rgba(10,6,22,0.97) 100%)',
@@ -357,7 +315,6 @@ export default function SignupPage() {
             boxShadow: '0 0 80px rgba(20,40,160,0.18), 0 24px 80px rgba(0,0,0,0.55)',
           }}>
 
-            {/* Cardinal-point diamond accents */}
             {[
               { top: -6, left: '50%', transform: 'translateX(-50%) rotate(45deg)' },
               { bottom: -6, left: '50%', transform: 'translateX(-50%) rotate(45deg)' },
@@ -372,9 +329,7 @@ export default function SignupPage() {
               }} />
             ))}
 
-            {/* ── Header ──────────────────────────────────────── */}
             <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-              {/* Astrolabe mark */}
               <div style={{ display: 'inline-block', marginBottom: '1.1rem' }}>
                 <svg width="56" height="56" viewBox="0 0 56 56">
                   <circle cx="28" cy="28" r="26" fill="none" stroke="rgba(201,168,76,0.22)" strokeWidth="0.75" />
@@ -400,7 +355,7 @@ export default function SignupPage() {
                 marginBottom: '0.5rem',
                 textShadow: '0 0 24px rgba(201,168,76,0.28)',
               }}>
-                Forge Your Hearthhold
+                Forge a New Passphrase
               </h1>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', margin: '0.8rem 0' }}>
@@ -416,110 +371,114 @@ export default function SignupPage() {
                 fontSize: '0.87rem',
                 letterSpacing: '0.04em',
               }}>
-                Register your household and begin the chronicle
+                Choose a new password for your Game Master account.
               </p>
             </div>
 
-            {/* ── Form ────────────────────────────────────────── */}
-            <form onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
-
-              {[
-                { label: 'Hearthhold Name', key: 'householdName' as const, placeholder: 'Name your household...', autoComplete: 'organization' },
-                { label: 'Your Name', key: 'displayName' as const, placeholder: 'How players will see you...', autoComplete: 'name' },
-                { label: 'Email Address', key: 'email' as const, type: 'email', placeholder: 'your@email.com', autoComplete: 'email' },
-                { label: 'Password', key: 'password' as const, type: 'password', placeholder: 'At least 8 characters...', autoComplete: 'new-password' },
-              ].map(f => (
-                <div key={f.key}>
-                  <label htmlFor={f.key} className="ob-label">{f.label}</label>
-                  <input
-                    id={f.key}
-                    className="ob-input"
-                    type={f.type || 'text'}
-                    placeholder={f.placeholder}
-                    autoComplete={f.autoComplete}
-                    value={form[f.key]}
-                    onChange={e => setField(f.key)(e.target.value)}
-                    disabled={isLoading}
-                    aria-invalid={!!fieldErrors[f.key]}
-                    aria-describedby={fieldErrors[f.key] ? `${f.key}-err` : undefined}
-                  />
-                  {fieldErrors[f.key] && (
-                    <p id={`${f.key}-err`} role="alert" style={{
-                      fontFamily: "'Raleway', sans-serif",
-                      fontWeight: 400,
-                      fontSize: '0.8rem',
-                      color: 'rgba(220,100,100,0.85)',
-                      marginTop: '0.4rem',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.35rem',
-                    }}>
-                      <span aria-hidden="true">△</span> {fieldErrors[f.key]}
-                    </p>
-                  )}
-                </div>
-              ))}
-
-              {/* Server error */}
-              {serverError && (
-                <div role="alert" style={{
-                  background: 'rgba(220,60,60,0.08)',
-                  border: '1px solid rgba(220,60,60,0.3)',
-                  borderRadius: '2px',
-                  padding: '0.7rem 0.9rem',
-                  display: 'flex',
-                  gap: '0.6rem',
-                  alignItems: 'flex-start',
-                }}>
+            {!sessionChecked ? (
+              <p style={{
+                textAlign: 'center',
+                fontFamily: "'Raleway', sans-serif",
+                fontWeight: 300,
+                color: 'rgba(200,215,255,0.4)',
+                fontSize: '0.9rem',
+                padding: '1rem',
+              }}>
+                Verifying recovery link...
+              </p>
+            ) : !hasSession ? (
+              <div role="alert" style={{
+                background: 'rgba(220,60,60,0.08)',
+                border: '1px solid rgba(220,60,60,0.3)',
+                borderRadius: '2px',
+                padding: '1rem 1.1rem',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.8rem',
+              }}>
+                <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
                   <span aria-hidden="true" style={{ color: 'rgba(220,100,100,0.8)', flexShrink: 0 }}>⚠</span>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <p style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 400, color: 'rgba(220,100,100,0.85)', fontSize: '0.88rem' }}>
-                      {serverError}
-                    </p>
-                    {duplicateEmail && (
-                      <p style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 400, fontSize: '0.85rem', color: 'rgba(220,210,180,0.75)' }}>
-                        Forgot your password?{' '}
-                        <Link
-                          href="/forgot-password"
-                          style={{ color: 'rgba(201,168,76,0.95)', textDecoration: 'underline', fontWeight: 500 }}
-                        >
-                          Reset it here
-                        </Link>
-                        .
+                  <p style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 400, color: 'rgba(220,100,100,0.9)', fontSize: '0.9rem', lineHeight: 1.55 }}>
+                    This recovery link is invalid or has expired. Request a new one and try again.
+                  </p>
+                </div>
+                <Link
+                  href="/forgot-password"
+                  style={{
+                    alignSelf: 'flex-start',
+                    color: 'rgba(201,168,76,0.85)',
+                    fontFamily: "'Cinzel', serif",
+                    fontSize: '0.78rem',
+                    letterSpacing: '0.1em',
+                    textDecoration: 'underline',
+                  }}
+                >
+                  Request a new recovery link
+                </Link>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+                {[
+                  { label: 'New Password', key: 'password' as const, placeholder: 'At least 8 characters...', autoComplete: 'new-password' },
+                  { label: 'Confirm Password', key: 'confirm' as const, placeholder: 'Re-enter your password...', autoComplete: 'new-password' },
+                ].map(f => (
+                  <div key={f.key}>
+                    <label htmlFor={f.key} className="ob-label">{f.label}</label>
+                    <input
+                      id={f.key}
+                      className="ob-input"
+                      type="password"
+                      placeholder={f.placeholder}
+                      autoComplete={f.autoComplete}
+                      value={form[f.key]}
+                      onChange={e => setField(f.key)(e.target.value)}
+                      disabled={isLoading}
+                      aria-invalid={!!fieldErrors[f.key]}
+                      aria-describedby={fieldErrors[f.key] ? `${f.key}-err` : undefined}
+                    />
+                    {fieldErrors[f.key] && (
+                      <p id={`${f.key}-err`} role="alert" style={{
+                        fontFamily: "'Raleway', sans-serif",
+                        fontWeight: 400,
+                        fontSize: '0.8rem',
+                        color: 'rgba(220,100,100,0.85)',
+                        marginTop: '0.4rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.35rem',
+                      }}>
+                        <span aria-hidden="true">△</span> {fieldErrors[f.key]}
                       </p>
                     )}
                   </div>
-                </div>
-              )}
+                ))}
 
-              {/* Submit */}
-              <div style={{ marginTop: '0.4rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <button type="submit" className="ob-btn" disabled={isLoading} aria-busy={isLoading}>
-                  {isLoading ? (
-                    <><div className="ob-spinner" aria-hidden="true" /> Charting the Stars...</>
-                  ) : (
-                    <>⟡ Begin the Chronicle ⟡</>
-                  )}
+                {serverError && (
+                  <div role="alert" style={{
+                    background: 'rgba(220,60,60,0.08)',
+                    border: '1px solid rgba(220,60,60,0.3)',
+                    borderRadius: '2px',
+                    padding: '0.7rem 0.9rem',
+                    display: 'flex',
+                    gap: '0.6rem',
+                    alignItems: 'flex-start',
+                  }}>
+                    <span aria-hidden="true" style={{ color: 'rgba(220,100,100,0.8)', flexShrink: 0 }}>⚠</span>
+                    <p style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 400, color: 'rgba(220,100,100,0.85)', fontSize: '0.88rem' }}>
+                      {serverError}
+                    </p>
+                  </div>
+                )}
+
+                <button type="submit" className="ob-btn" disabled={isLoading} aria-busy={isLoading} style={{ marginTop: '0.25rem' }}>
+                  {isLoading
+                    ? <><div className="ob-spinner" aria-hidden="true" /> Forging New Passphrase...</>
+                    : <>⟡ Update Password ⟡</>
+                  }
                 </button>
+              </form>
+            )}
 
-                <p style={{
-                  textAlign: 'center',
-                  fontFamily: "'Raleway', sans-serif",
-                  fontWeight: 300,
-                  color: 'rgba(200,215,255,0.3)',
-                  fontSize: '0.83rem',
-                }}>
-                  Already have a hearthhold?{' '}
-                  <Link href="/login" style={{ color: 'rgba(201,168,76,0.65)', textDecoration: 'none', fontWeight: 400, transition: 'color 0.2s' }}
-                    onMouseEnter={e => (e.currentTarget.style.color = 'rgba(201,168,76,1)')}
-                    onMouseLeave={e => (e.currentTarget.style.color = 'rgba(201,168,76,0.65)')}
-                  >
-                    Return to the Gates
-                  </Link>
-                </p>
-              </div>
-
-            </form>
           </div>
         </div>
       </div>

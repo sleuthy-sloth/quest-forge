@@ -4,7 +4,11 @@ import { updateSession } from '@/lib/supabase/middleware'
 // Routes that require authentication
 const PROTECTED_PREFIXES = ['/dashboard', '/play']
 
-// Routes only accessible when NOT authenticated
+// Routes only accessible when NOT authenticated.
+// Note: /forgot-password and /reset-password are intentionally NOT listed
+// here. /auth/callback establishes a recovery session before redirecting
+// to /reset-password, so the user is authenticated by the time they
+// submit a new password — gating those routes would break the flow.
 const AUTH_ONLY_ROUTES = ['/login', '/signup']
 
 export async function middleware(request: NextRequest) {
