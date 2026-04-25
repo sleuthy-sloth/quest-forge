@@ -22,6 +22,13 @@ export async function GET(request: NextRequest) {
     if (!error) {
       return NextResponse.redirect(`${origin}${safeNext}`)
     }
+    console.error('[auth/callback] exchangeCodeForSession failed:', {
+      message: error.message,
+      status: error.status,
+      name: error.name,
+    })
+  } else {
+    console.error('[auth/callback] missing code param', { url: request.url })
   }
 
   return NextResponse.redirect(`${origin}/login?error=recovery_link_invalid`)

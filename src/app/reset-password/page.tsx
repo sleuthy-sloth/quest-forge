@@ -181,14 +181,51 @@ export default function ResetPasswordPage() {
 
     setIsLoading(true)
     try {
-      const { error } = await supabase.auth.updateUser({ password: result.data.password })
+      // Race the SDK call against a 15s timeout so a hung network never
+      // leaves the user staring at "Forging New Passphrase..." forever.
+      const updatePromise = supabase.auth.updateUser({ password: result.data.password })
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        setTimeout(() => reject(new Error('TIMEOUT')), 15000)
+      })
+
+      const { error } = await Promise.race([updatePromise, timeoutPromise])
+
       if (error) {
+        console.error('[reset-password] updateUser error:', error)
+        const msg = (error.message || '').toLowerCase()
+        const looksLikeExpiredAuth =
+          (typeof error.status === 'number' && error.status === 401) ||
+          msg.includes('jwt') ||
+          msg.includes('expired') ||
+          msg.includes('session') ||
+          msg.includes('not authenticated')
+
+        if (looksLikeExpiredAuth) {
+          // Flip back to the expired-link UI so the user can request a fresh email.
+          setHasSession(false)
+          return
+        }
         setServerError(error.message || 'Could not update password. Please try again.')
         return
       }
-      window.location.href = '/dashboard'
-    } catch {
-      setServerError('An unexpected error occurred. Please try again.')
+
+      // Sign out the recovery session so the user logs in fresh with the new
+      // password — confirms it works and avoids any "is this a real session?"
+      // ambiguity on protected routes.
+      try {
+        await supabase.auth.signOut()
+      } catch (signOutErr) {
+        console.error('[reset-password] signOut after update failed:', signOutErr)
+      }
+      window.location.href = '/login?reset=success'
+    } catch (err) {
+      const isTimeout = err instanceof Error && err.message === 'TIMEOUT'
+      console.error('[reset-password] update flow failed:', err)
+      setServerError(
+        isTimeout
+          ? 'The request took too long. Check your connection and try again.'
+          : 'An unexpected error occurred. Please try again.'
+      )
     } finally {
       setIsLoading(false)
     }
