@@ -42,7 +42,7 @@ export default function StoryPlayer() {
     )
   }
 
-  const chars = chapter.content.split('')
+  const chars = chapter.narrative_text.split('')
 
   return (
     <AnimatePresence mode="wait">
@@ -68,7 +68,7 @@ export default function StoryPlayer() {
               className="text-[#c9a84c] text-[0.5rem] tracking-widest uppercase"
               style={{ fontFamily: 'var(--font-pixel), monospace' }}
             >
-              Chapter&nbsp;{chapter.sequence_order}
+              Chapter&nbsp;{chapter.week_number}
             </span>
             <span className="text-[#b09a6e]/40 text-[0.4rem]">━━</span>
           </div>

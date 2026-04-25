@@ -37,35 +37,35 @@ export function DashboardShell({ householdName, displayName, children }: Dashboa
     <aside
       className="flex flex-col h-full w-56 border-r relative"
       style={{
-        background: 'linear-gradient(180deg, #ece2c8 0%, #f4ecd8 100%)',
-        borderRightColor: 'rgba(140,90,30,0.25)',
+        background: 'linear-gradient(180deg, #080510 0%, #050810 100%)',
+        borderRightColor: 'rgba(180,50,80,0.18)',
       }}
     >
-      {/* Warm floor glow — subtle parchment depth at bottom of sidebar */}
+      {/* Floor glow — subtle depth at bottom of sidebar */}
       <div
         className="pointer-events-none absolute bottom-0 left-0 right-0"
-        style={{ height: 100, background: 'linear-gradient(0deg, rgba(180,130,40,0.10) 0%, transparent 100%)', zIndex: 0 }}
+        style={{ height: 100, background: 'linear-gradient(0deg, rgba(140,20,50,0.07) 0%, transparent 100%)', zIndex: 0 }}
         aria-hidden="true"
       />
 
       {/* Brand */}
-      <div className="px-5 py-5 relative" style={{ borderBottom: '1px solid rgba(140,90,30,0.22)', zIndex: 1 }}>
+      <div className="px-5 py-5 relative" style={{ borderBottom: '1px solid rgba(201,168,76,0.18)', zIndex: 1 }}>
         <span
           className="block text-[0.6rem] tracking-widest leading-relaxed"
-          style={{ fontFamily: 'var(--font-pixel), monospace', color: '#8c5a14', textShadow: '0 0 12px rgba(201,140,40,0.18)' }}
+          style={{ fontFamily: 'var(--font-pixel), monospace', color: '#c9a84c', textShadow: '0 0 12px rgba(201,140,40,0.18)' }}
         >
           Quest Forge
         </span>
         <span
           className="block text-[0.65rem] tracking-wider mt-1"
-          style={{ fontFamily: 'var(--font-heading), serif', color: 'rgba(80,55,20,0.80)' }}
+          style={{ fontFamily: 'var(--font-heading), serif', color: 'rgba(200,175,130,0.72)' }}
         >
           Game Master Console
         </span>
         {householdName && (
           <span
             className="block text-[0.7rem] mt-2 truncate"
-            style={{ fontFamily: 'var(--font-heading), serif', color: 'rgba(120,80,20,0.95)' }}
+            style={{ fontFamily: 'var(--font-heading), serif', color: 'rgba(201,168,76,0.80)' }}
             title={householdName}
           >
             {householdName}
@@ -89,8 +89,8 @@ export function DashboardShell({ householdName, displayName, children }: Dashboa
               }
             `}
             style={isActive(item.href)
-              ? { fontFamily: 'var(--font-heading), serif', color: '#8c5a14', textShadow: '0 0 6px rgba(201,140,40,0.25)', borderLeftColor: 'rgba(140,90,30,0.85)' }
-              : { fontFamily: 'var(--font-heading), serif', color: 'rgba(80,55,20,0.85)' }
+              ? { fontFamily: 'var(--font-heading), serif', color: '#c9a84c', textShadow: '0 0 6px rgba(201,140,40,0.25)', borderLeftColor: 'rgba(201,140,40,0.80)' }
+              : { fontFamily: 'var(--font-heading), serif', color: 'rgba(200,185,145,0.72)' }
             }
           >
             <span className="text-sm w-4 text-center" aria-hidden="true">{item.icon}</span>
@@ -100,14 +100,14 @@ export function DashboardShell({ householdName, displayName, children }: Dashboa
       </nav>
 
       {/* GM info + logout */}
-      <div className="px-3 py-4 space-y-2 relative" style={{ borderTop: '1px solid rgba(140,90,30,0.22)', zIndex: 1 }}>
+      <div className="px-3 py-4 space-y-2 relative" style={{ borderTop: '1px solid rgba(180,50,80,0.20)', zIndex: 1 }}>
         <div className="flex items-center justify-between px-3">
           <p
             className="text-[0.65rem] leading-relaxed"
-            style={{ fontFamily: 'var(--font-heading), serif', color: 'rgba(80,55,20,0.78)' }}
+            style={{ fontFamily: 'var(--font-heading), serif', color: 'rgba(200,180,140,0.68)' }}
           >
             Signed in as<br />
-            <span style={{ color: '#8c5a14', fontSize: '0.7rem' }}>{displayName}</span>
+            <span style={{ color: '#c9a84c', fontSize: '0.7rem' }}>{displayName}</span>
           </p>
           <MuteButton size="text-base" />
         </div>
@@ -119,9 +119,9 @@ export function DashboardShell({ householdName, displayName, children }: Dashboa
               hover:bg-[#c44545]/12 active:scale-[0.97]"
             style={{
               fontFamily: 'var(--font-heading), serif',
-              color: 'rgba(170,50,60,1.0)',
-              border: '1px solid rgba(170,50,60,0.45)',
-              background: 'rgba(170,50,60,0.04)',
+              color: 'rgba(230,80,100,1.0)',
+              border: '1px solid rgba(230,80,100,0.45)',
+              background: 'rgba(230,80,100,0.04)',
             }}
           >
             ⬡ Sign Out
@@ -132,7 +132,7 @@ export function DashboardShell({ householdName, displayName, children }: Dashboa
   )
 
   return (
-    <div className="flex min-h-screen bg-[var(--bg-void)]">
+    <div className="flex min-h-screen bg-[#040812]">
       {/* Desktop sidebar — fixed left */}
       <div className="hidden md:flex fixed inset-y-0 left-0 z-40 w-56">
         {sidebarContent}

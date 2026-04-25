@@ -169,7 +169,8 @@ export default function ChoresPage() {
     if (editingId) {
       const { error } = await supabase.from('chores').update(payload).eq('id', editingId)
       if (error) {
-        setSubmitError('Failed to update quest.')
+        console.error('[chores] update failed:', error)
+        setSubmitError(error.message ?? 'Failed to update quest.')
       } else {
         setChores(prev => prev.map(c => c.id === editingId ? { ...c, ...payload } : c))
         setEditingId(null); setFormState(FORM_EMPTY)
@@ -182,7 +183,8 @@ export default function ChoresPage() {
         .select('id, title, description, xp_reward, gold_reward, assigned_to, recurrence, difficulty, quest_flavor_text, is_active, created_at')
         .single()
       if (error || !data) {
-        setSubmitError('Failed to create quest.')
+        console.error('[chores] insert failed:', error)
+        setSubmitError(error?.message ?? 'Failed to create quest. Check the browser console for details.')
       } else {
         setChores(prev => [data, ...prev])
         setFormState(FORM_EMPTY)

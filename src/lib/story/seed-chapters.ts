@@ -42,17 +42,14 @@ export async function seedStoryChaptersForHousehold(
     const richScaffold = scaffolds.find(
       (c) => c.week === boss.week && c.type !== 'prologue',
     )
-    const content = richScaffold?.scaffold ?? boss.description
     const title = richScaffold?.title ?? boss.name
 
     return {
       household_id: householdId,
       week_number: boss.week,
       chapter_number: boss.arc,
-      sequence_order: boss.week,
       title,
-      content,
-      narrative_text: boss.defeat_narrative ?? '',
+      narrative_text: boss.defeat_narrative ?? boss.description,
       boss_name: boss.name,
       boss_description: boss.description,
       boss_hp: boss.hp,

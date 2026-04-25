@@ -8,8 +8,8 @@ import { xpForLevel } from '@/lib/xp'
 export interface ChapterRow {
   id: string
   title: string
-  content: string
-  sequence_order: number
+  narrative_text: string
+  week_number: number
   is_unlocked: boolean
   household_id: string
 }
@@ -83,7 +83,7 @@ export interface QuestState {
   /** Parent-only: set is_unlocked = true on a chapter. */
   unlockChapter: (chapterId: string) => Promise<boolean>
 
-  /** Fetch all unlocked chapters for this household, ordered by sequence_order. */
+  /** Fetch all unlocked chapters for this household, ordered by week_number. */
   fetchStoryData: () => Promise<ChapterRow[]>
 
   /**
@@ -360,10 +360,10 @@ export const useQuestStore = create<QuestState>((set, get) => ({
     const supabase = createClient()
     const { data, error } = await supabase
       .from('story_chapters')
-      .select('id, title, content, sequence_order, is_unlocked, household_id')
+      .select('id, title, narrative_text, week_number, is_unlocked, household_id')
       .eq('household_id', householdId)
       .eq('is_unlocked', true)
-      .order('sequence_order', { ascending: true })
+      .order('week_number', { ascending: true })
 
     const chapters = (error || !data) ? [] : data as unknown as ChapterRow[]
     set({ chapters, chaptersLoading: false })
@@ -410,7 +410,7 @@ export const useQuestStore = create<QuestState>((set, get) => ({
         .select('id')
         .eq('household_id', householdId)
         .eq('is_unlocked', false)
-        .order('sequence_order', { ascending: true })
+        .order('week_number', { ascending: true })
         .limit(1)
         .maybeSingle()
 
