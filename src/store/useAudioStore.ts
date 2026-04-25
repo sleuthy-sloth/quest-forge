@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 import type { BgmTrack } from '@/lib/audio'
 
 interface AudioState {
@@ -9,19 +10,25 @@ interface AudioState {
   setBgm: (track: BgmTrack | null) => void
 }
 
-export const useAudioStore = create<AudioState>((set) => ({
-  isMuted: false,
-  currentBgm: null,
+export const useAudioStore = create<AudioState>()(
+  persist(
+    (set) => ({
+      isMuted: false,
+      currentBgm: null,
 
-  toggleMute: () =>
-    set((state) => {
-      const next = !state.isMuted
-      return { isMuted: next }
+      toggleMute: () =>
+        set((state) => ({ isMuted: !state.isMuted })),
+
+      setMuted: (muted: boolean) =>
+        set({ isMuted: muted }),
+
+      setBgm: (track: BgmTrack | null) =>
+        set({ currentBgm: track }),
     }),
-
-  setMuted: (muted: boolean) =>
-    set({ isMuted: muted }),
-
-  setBgm: (track: BgmTrack | null) =>
-    set({ currentBgm: track }),
-}))
+    {
+      name: 'qf_audio_muted',
+      // Persist only the user's mute preference; currentBgm is volatile.
+      partialize: (state) => ({ isMuted: state.isMuted }),
+    }
+  )
+)

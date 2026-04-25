@@ -139,8 +139,10 @@ export default function WordForge({
         .eq('is_active', true)
         .order('id')
         .limit(50)
+        .abortSignal(AbortSignal.timeout(8000))
 
       if (error) {
+        console.error('[WordForge] fetch failed:', error)
         setFetchErrorKind('network')
         return
       }
@@ -151,7 +153,8 @@ export default function WordForge({
 
       setQuestions(shuffle(data as Question[]).slice(0, 10))
       setPhase('playing')
-    } catch {
+    } catch (err) {
+      console.error('[WordForge] fetch threw:', err)
       setFetchErrorKind('network')
     }
   }, [supabase, ageTier])

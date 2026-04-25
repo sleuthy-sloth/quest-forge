@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import { useAudioStore } from '@/store/useAudioStore'
 import { setAudioMuted, playSfx } from '@/lib/audio'
 
@@ -10,18 +11,23 @@ interface MuteButtonProps {
 
 /**
  * Accessible mute/unmute toggle.
- * Syncs with both the Zustand store (for UI reactivity) and the Howler
- * singleton (for actual audio muting).
- *
- * Can be embedded in any nav shell (sidebar, mobile nav, etc.)
+ * The Zustand store is the persisted source of truth (via the persist
+ * middleware). A useEffect mirrors its value to the Howler singleton on
+ * mount and on every change, so a fresh page load with `isMuted=true`
+ * actually starts muted.
  */
 export default function MuteButton({ size = 'text-base' }: MuteButtonProps) {
   const isMuted = useAudioStore((s) => s.isMuted)
   const toggleMute = useAudioStore((s) => s.toggleMute)
 
+  // Hydration: keep Howler in sync with the persisted mute preference.
+  useEffect(() => {
+    setAudioMuted(isMuted)
+  }, [isMuted])
+
   function handleToggle() {
-    toggleMute()
     const nextMuted = !isMuted
+    toggleMute()
     setAudioMuted(nextMuted)
     if (!nextMuted) playSfx('click')
   }

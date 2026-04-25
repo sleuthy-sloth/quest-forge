@@ -123,8 +123,10 @@ export default function MathArena({
         .eq('is_active', true)
         .order('id')
         .limit(50)
+        .abortSignal(AbortSignal.timeout(8000))
 
       if (error) {
+        console.error('[MathArena] fetch failed:', error)
         setFetchErrorKind('network')
         return
       }
@@ -136,7 +138,8 @@ export default function MathArena({
       const picked = shuffle(data as Question[]).slice(0, 10)
       setQuestions(picked)
       setPhase('playing')
-    } catch {
+    } catch (err) {
+      console.error('[MathArena] fetch threw:', err)
       setFetchErrorKind('network')
     }
   }, [supabase, ageTier])

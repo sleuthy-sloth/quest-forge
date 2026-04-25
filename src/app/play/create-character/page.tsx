@@ -991,6 +991,8 @@ function CreateCharacterInner() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { setIsSaving(false); router.replace('/login'); return }
 
+      // 15s timeout — if Supabase is unreachable the kid gets a clear
+      // error instead of an indefinitely-spinning save button.
       const { error } = await supabase
         .from('profiles')
         .update({
@@ -998,12 +1000,19 @@ function CreateCharacterInner() {
           avatar_class: selectedClass.id,
         })
         .eq('id', user.id)
+        .abortSignal(AbortSignal.timeout(15000))
 
       if (error) throw error
       setIsSaving(false)
       router.push('/play')
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Something went wrong saving your character.'
+      const isAbort =
+        err instanceof DOMException && err.name === 'AbortError'
+      const message = isAbort
+        ? 'Save took too long. Please check your connection and try again.'
+        : err instanceof Error
+          ? err.message
+          : 'Something went wrong saving your character.'
       console.error('Failed to save character:', err)
       setSaveError(message)
       setIsSaving(false)

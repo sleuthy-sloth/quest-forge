@@ -131,13 +131,19 @@ export default function ScienceLabyrinth({
         .eq('is_active', true)
         .order('id')
         .limit(50)
+        .abortSignal(AbortSignal.timeout(8000))
 
-      if (error) { setFetchErrorKind('network'); return }
+      if (error) {
+        console.error('[ScienceLabyrinth] fetch failed:', error)
+        setFetchErrorKind('network')
+        return
+      }
       if (!data || data.length === 0) { setFetchErrorKind('empty'); return }
 
       setQuestions(shuffle(data as Question[]).slice(0, 10))
       setPhase('playing')
-    } catch {
+    } catch (err) {
+      console.error('[ScienceLabyrinth] fetch threw:', err)
       setFetchErrorKind('network')
     }
   }, [supabase, ageTier])
