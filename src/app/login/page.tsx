@@ -109,6 +109,14 @@ export default function LoginPage() {
     })))
   }, [])
 
+  // Surface ?error=recovery_link_invalid coming back from /auth/callback
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('error') === 'recovery_link_invalid') {
+      setServerError('That recovery link is invalid or has expired. Request a new one below.')
+    }
+  }, [])
+
   // Clear errors when switching tabs
   function switchTab(next: Tab) {
     setTab(next)
@@ -557,6 +565,23 @@ export default function LoginPage() {
                     )}
                   </div>
                 ))}
+
+                <div style={{ textAlign: 'right', marginTop: '-0.4rem' }}>
+                  <Link
+                    href="/forgot-password"
+                    style={{
+                      fontFamily: "'Raleway', sans-serif",
+                      fontSize: '0.78rem',
+                      color: 'rgba(201,168,76,0.55)',
+                      textDecoration: 'none',
+                      transition: 'color 0.2s',
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.color = 'rgba(201,168,76,0.95)')}
+                    onMouseLeave={e => (e.currentTarget.style.color = 'rgba(201,168,76,0.55)')}
+                  >
+                    Forgot password?
+                  </Link>
+                </div>
 
                 <ServerError msg={serverError} />
 
