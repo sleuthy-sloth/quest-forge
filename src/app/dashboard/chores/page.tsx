@@ -102,6 +102,13 @@ export default function ChoresPage() {
 
   useEffect(() => { loadData() }, [loadData])
 
+  // Safety timeout: force loading off after 15s so the user never sees a
+  // perpetual spinner if the data fetch fails silently.
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 15_000)
+    return () => clearTimeout(timer)
+  }, [])
+
   // ── Form helpers ────────────────────────────────────────────────────────────
   function setField<K extends keyof ChoreForm>(k: K, v: ChoreForm[K]) {
     setFormState(p => ({ ...p, [k]: v }))

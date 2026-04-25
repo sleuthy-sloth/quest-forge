@@ -28,7 +28,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Username is required.' }, { status: 400 })
   }
 
-  const admin = getAdminClient()
+  let admin
+  try {
+    admin = getAdminClient()
+  } catch (err) {
+    console.error('[lookup-username] admin client init failed:', err)
+    return NextResponse.json({ error: 'Invalid username or password.' }, { status: 500 })
+  }
 
   const { data, error } = await admin
     .from('profiles')
@@ -38,7 +44,8 @@ export async function POST(request: Request) {
     .single()
 
   if (error || !data) {
-    // Generic message — don't reveal whether the username exists
+    // Log the actual error for debugging; surface generic message to user
+    if (error) console.error('[lookup-username] profile query failed:', error.message)
     return NextResponse.json({ error: 'Invalid username or password.' }, { status: 404 })
   }
 

@@ -65,7 +65,10 @@ export default function NewQuestPage() {
   useEffect(() => {
     async function init() {
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
+      if (!user) {
+        console.error('[quests/new] no authenticated user')
+        return
+      }
       setUserId(user.id)
 
       const { data: profile } = await supabase
@@ -74,7 +77,10 @@ export default function NewQuestPage() {
         .eq('id', user.id)
         .single()
 
-      if (!profile) return
+      if (!profile) {
+        console.error('[quests/new] no profile found for user')
+        return
+      }
       setHouseholdId(profile.household_id)
 
       const { data: pData } = await supabase

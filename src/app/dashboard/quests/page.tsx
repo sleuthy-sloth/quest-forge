@@ -25,11 +25,11 @@ export default function QuestListPage() {
   useEffect(() => {
     async function load() {
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
+      if (!user) { setLoading(false); return }
 
       const { data: profile } = await supabase
         .from('profiles').select('household_id').eq('id', user.id).single()
-      if (!profile) return
+      if (!profile) { setLoading(false); return }
 
       const { data } = await supabase
         .from('quests')
