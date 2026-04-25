@@ -181,31 +181,36 @@ export default function ResetPasswordPage() {
 
     setIsLoading(true)
     try {
-      // Race the SDK call against a 15s timeout so a hung network never
-      // leaves the user staring at "Forging New Passphrase..." forever.
-      const updatePromise = supabase.auth.updateUser({ password: result.data.password })
-      const timeoutPromise = new Promise<never>((_, reject) => {
-        setTimeout(() => reject(new Error('TIMEOUT')), 15000)
-      })
+      // Hand off to the server route so the heavy network work happens on
+      // Vercel's network, not on a flaky mobile cell connection. A 30s
+      // AbortController cap keeps the spinner from ever stranding the user.
+      const controller = new AbortController()
+      const timer = setTimeout(() => controller.abort(), 30000)
 
-      const { error } = await Promise.race([updatePromise, timeoutPromise])
+      let res: Response
+      try {
+        res = await fetch('/api/auth/update-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: result.data.password }),
+          signal: controller.signal,
+        })
+      } finally {
+        clearTimeout(timer)
+      }
 
-      if (error) {
-        console.error('[reset-password] updateUser error:', error)
-        const msg = (error.message || '').toLowerCase()
-        const looksLikeExpiredAuth =
-          (typeof error.status === 'number' && error.status === 401) ||
-          msg.includes('jwt') ||
-          msg.includes('expired') ||
-          msg.includes('session') ||
-          msg.includes('not authenticated')
+      const data: { success?: boolean; error?: string } =
+        await res.json().catch(() => ({}))
 
-        if (looksLikeExpiredAuth) {
-          // Flip back to the expired-link UI so the user can request a fresh email.
+      if (!res.ok) {
+        console.error('[reset-password] update-password response:', res.status, data)
+        if (res.status === 401) {
+          // Recovery session expired between landing here and submit —
+          // flip to the expired-link UI so the user can request a new email.
           setHasSession(false)
           return
         }
-        setServerError(error.message || 'Could not update password. Please try again.')
+        setServerError(data.error || 'Could not update password. Please try again.')
         return
       }
 
@@ -219,10 +224,10 @@ export default function ResetPasswordPage() {
       }
       window.location.href = '/login?reset=success'
     } catch (err) {
-      const isTimeout = err instanceof Error && err.message === 'TIMEOUT'
+      const isAbort = err instanceof DOMException && err.name === 'AbortError'
       console.error('[reset-password] update flow failed:', err)
       setServerError(
-        isTimeout
+        isAbort
           ? 'The request took too long. Check your connection and try again.'
           : 'An unexpected error occurred. Please try again.'
       )
