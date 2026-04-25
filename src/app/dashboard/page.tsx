@@ -206,7 +206,7 @@ export default async function OverviewPage() {
             fontFamily: 'Cinzel, serif',
             fontWeight: 300,
             fontSize: '0.72rem',
-            color: 'rgba(200,215,255,0.40)',
+            color: 'rgba(80,55,20,0.55)',
           }}>
             {(players ?? []).length} {(players ?? []).length === 1 ? 'adventurer' : 'adventurers'}
           </span>
@@ -247,7 +247,7 @@ export default async function OverviewPage() {
             marginBottom: '2rem',
           }}>
             <div style={{ fontSize: '2rem', marginBottom: '0.75rem', opacity: 0.3 }}>⚔</div>
-            <p style={{ fontFamily: 'Cinzel, serif', fontSize: '0.78rem', color: 'rgba(200,215,255,0.3)', letterSpacing: '0.06em' }}>
+            <p style={{ fontFamily: 'Cinzel, serif', fontSize: '0.78rem', color: 'rgba(80,55,20,0.45)', letterSpacing: '0.06em' }}>
               No adventurers yet
             </p>
             <Link
@@ -305,7 +305,7 @@ export default async function OverviewPage() {
                             fontFamily: 'Cinzel, serif',
                             fontSize: '0.9rem',
                             fontWeight: 600,
-                            color: '#e8f0ff',
+                            color: '#1a1410',
                             letterSpacing: '0.02em',
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
@@ -331,7 +331,7 @@ export default async function OverviewPage() {
                           fontFamily: 'Cinzel, serif',
                           fontWeight: 300,
                           fontSize: '0.68rem',
-                          color: 'rgba(180,200,255,0.62)',
+                          color: 'rgba(80,55,20,0.70)',
                         }}>
                           @{player.username}
                         </span>
@@ -353,7 +353,7 @@ export default async function OverviewPage() {
                         fontFamily: 'Cinzel, serif',
                         fontWeight: 300,
                         fontSize: '0.62rem',
-                        color: 'rgba(180,200,255,0.58)',
+                        color: 'rgba(80,55,20,0.65)',
                       }}>
                         <span>{current.toLocaleString()} XP</span>
                         <span>{needed.toLocaleString()} to Lv.{player.level + 1}</span>
@@ -371,14 +371,14 @@ export default async function OverviewPage() {
                       <div className="stat-chip" style={{ color: 'rgba(201,168,76,0.75)' }}>
                         <span className="icon" aria-hidden="true">⬡</span>
                         <span>{player.xp_available.toLocaleString()}</span>
-                        <span style={{ fontFamily: 'Cinzel, serif', fontWeight: 300, fontSize: '0.55rem', color: 'rgba(180,200,255,0.55)' }}>xp</span>
+                        <span style={{ fontFamily: 'Cinzel, serif', fontWeight: 300, fontSize: '0.55rem', color: 'rgba(80,55,20,0.55)' }}>xp</span>
                       </div>
 
                       {/* Gold */}
                       <div className="stat-chip" style={{ color: 'rgba(249,200,70,0.8)' }}>
                         <span className="icon" aria-hidden="true">◈</span>
                         <span>{player.gold.toLocaleString()}</span>
-                        <span style={{ fontFamily: 'Cinzel, serif', fontWeight: 300, fontSize: '0.55rem', color: 'rgba(180,200,255,0.55)' }}>gp</span>
+                        <span style={{ fontFamily: 'Cinzel, serif', fontWeight: 300, fontSize: '0.55rem', color: 'rgba(80,55,20,0.55)' }}>gp</span>
                       </div>
 
                       {/* Pending approvals for this player */}
@@ -412,10 +412,10 @@ export default async function OverviewPage() {
             borderRadius: 3,
           }}>
             <div style={{ fontSize: '2rem', marginBottom: '0.75rem', opacity: 0.25 }}>⚔</div>
-            <p style={{ fontFamily: 'Cinzel, serif', fontSize: '0.78rem', color: 'rgba(200,215,255,0.25)', letterSpacing: '0.06em' }}>
+            <p style={{ fontFamily: 'Cinzel, serif', fontSize: '0.78rem', color: 'rgba(80,55,20,0.40)', letterSpacing: '0.06em' }}>
               No active boss
             </p>
-            <p style={{ fontFamily: 'Cinzel, serif', fontWeight: 300, fontSize: '0.72rem', color: 'rgba(200,215,255,0.18)', marginTop: '0.4rem' }}>
+            <p style={{ fontFamily: 'Cinzel, serif', fontWeight: 300, fontSize: '0.72rem', color: 'rgba(80,55,20,0.30)', marginTop: '0.4rem' }}>
               Generate a story chapter from the Story page to begin the campaign.
             </p>
             <Link
@@ -442,9 +442,6 @@ export default async function OverviewPage() {
             className="ov-card px-corner slide-in"
             style={{
               padding: '1.5rem 1.75rem',
-              background: 'rgba(80,10,20,0.10)',
-              borderTop: '1px solid rgba(180,50,80,0.35)',
-              boxShadow: '0 2px 24px rgba(140,20,50,0.10)',
             }}
           >
             <span aria-hidden="true" />
@@ -457,7 +454,7 @@ export default async function OverviewPage() {
                     fontFamily: 'Cinzel, serif',
                     fontSize: '1.15rem',
                     fontWeight: 700,
-                    color: '#e8f0ff',
+                    color: '#1a1410',
                     letterSpacing: '0.04em',
                   }}>
                     {boss.boss_name}
@@ -505,7 +502,7 @@ export default async function OverviewPage() {
                   fontFamily: 'Cinzel, serif',
                   fontWeight: 300,
                   fontSize: '0.6rem',
-                  color: 'rgba(200,215,255,0.42)',
+                  color: 'rgba(80,55,20,0.65)',
                   letterSpacing: '0.06em',
                 }}>
                   HP remaining
@@ -519,7 +516,7 @@ export default async function OverviewPage() {
                 fontFamily: 'Cinzel, serif',
                 fontWeight: 300,
                 fontSize: '0.82rem',
-                color: 'rgba(200,215,255,0.50)',
+                color: 'rgba(60,45,20,0.85)',
                 lineHeight: 1.65,
                 fontStyle: 'italic',
                 marginBottom: '1.25rem',
@@ -533,10 +530,10 @@ export default async function OverviewPage() {
             {/* HP bar */}
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.6rem', color: 'rgba(200,215,255,0.42)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.6rem', color: 'rgba(80,55,20,0.65)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                   Boss HP
                 </span>
-                <span style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.45rem', color: 'rgba(200,215,255,0.35)', imageRendering: 'pixelated' }}>
+                <span style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.45rem', color: 'rgba(80,55,20,0.50)', imageRendering: 'pixelated' }}>
                   {Math.round(bossHpPct)}%
                 </span>
               </div>
@@ -562,7 +559,7 @@ export default async function OverviewPage() {
                 fontFamily: 'Cinzel, serif',
                 fontWeight: 300,
                 fontSize: '0.68rem',
-                color: 'rgba(200,215,255,0.42)',
+                color: 'rgba(80,55,20,0.65)',
                 marginTop: 8,
               }}>
                 Every approved quest and academy challenge deals damage equal to its XP reward.

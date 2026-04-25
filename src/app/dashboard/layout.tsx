@@ -27,11 +27,13 @@ export default async function DashboardLayout({
     .single()
 
   return (
-    <DashboardShell
-      householdName={household?.name ?? ''}
-      displayName={profile.display_name}
-    >
-      {children}
-    </DashboardShell>
+    <div className="theme-dashboard-light">
+      <DashboardShell
+        householdName={household?.name ?? ''}
+        displayName={profile.display_name}
+      >
+        {children}
+      </DashboardShell>
+    </div>
   )
 }
