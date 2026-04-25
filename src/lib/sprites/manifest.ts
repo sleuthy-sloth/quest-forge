@@ -87,6 +87,26 @@ export const SPRITE_MANIFEST = {
   } satisfies Record<string, SpriteEntry>,
 
   // -------------------------------------------------------------------------
+  // head
+  // -------------------------------------------------------------------------
+  head: {
+    human_female: {
+      id: 'human_female',
+      displayName: 'Human Female Head',
+      category: 'head',
+      path: 'heads/human/female/walk.png',
+      bodyType: 'female',
+    },
+    human_male: {
+      id: 'human_male',
+      displayName: 'Human Male Head',
+      category: 'head',
+      path: 'heads/human/male/walk.png',
+      bodyType: 'male',
+    },
+  } satisfies Record<string, SpriteEntry>,
+
+  // -------------------------------------------------------------------------
   // eyes
   // -------------------------------------------------------------------------
   eyes: {

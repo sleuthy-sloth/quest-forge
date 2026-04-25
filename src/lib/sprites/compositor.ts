@@ -4,8 +4,8 @@
  * Key features:
  * - **Image cache** — all loaded images are cached by URL to eliminate redundant
  *   network requests across React component re-renders.
- * - **Hex tinting** — `overlay` blend preserves highlight/shadow detail from the
- *   grayscale base sprite; `destination-in` clips to original alpha.
+ * - **HSL recolor** — per-pixel hue replacement for hair/eyes tinting (preserves
+ *   saturation and luminance from the source sprite).
  * - **Body-type filtering** — gender-specific sprites are silently skipped when
  *   they don't match the body's type.
  * - **Color-variant fallback chain** — hex colors and unknown variants fall through
@@ -32,10 +32,11 @@ const WALK_DOWN_ROW_WALK = 2
 const WALK_FRAME_COL = 0
 
 // Bottom → top, matching the LPC paper-doll spec.
-// Hair is drawn once at position 3 (before clothing) as a simplified preview.
+// Head is drawn after body to provide face features (eyes, nose, mouth).
+// Hair is drawn at position 4 (before clothing) as a simplified preview.
 // In full animation the hair sheet would be split into rear + front layers.
 export const DRAW_ORDER: AvatarLayerCategory[] = [
-  'body', 'eyes', 'hair', 'pants', 'shirt',
+  'body', 'head', 'eyes', 'hair', 'pants', 'shirt',
   'boots', 'hands', 'belt', 'cape', 'helmet',
   'weapon', 'shield',
 ]

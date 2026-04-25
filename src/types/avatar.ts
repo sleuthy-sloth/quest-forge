@@ -2,17 +2,17 @@
  * Avatar system types for the LPC paper-doll character system.
  *
  * Layer stack (bottom to top):
- *   1. body        — base body (skin tone + body type)
- *   2. eyes        — eye color overlay
- *   3. hair_rear   — long hair behind body (rendered as part of hair style)
- *   4. pants       — leg clothing
- *   5. shirt       — torso clothing or armour
- *   6. boots       — footwear
- *   7. hands       — gloves
- *   8. belt        — waist accessory
- *   9. cape        — back/cape accessory
- *  10. helmet      — head armour or hat
- *  11. hair_front  — hair front layer (rendered as part of hair style)
+ *   1. body        — base body (skin tone + body type, neck down)
+ *   2. head        — full face with features (eyes, nose, mouth)
+ *   3. eyes        — eye color overlay (colored irises on transparent)
+ *   4. hair        — hair style sheet (simplified preview, single pass)
+ *   5. pants       — leg clothing
+ *   6. shirt       — torso clothing or armour
+ *   7. boots       — footwear
+ *   8. hands       — gloves
+ *   9. belt        — waist accessory
+ *  10. cape        — back/cape accessory
+ *  11. helmet      — head armour or hat
  *  12. weapon      — held weapon
  *  13. shield      — off-hand shield
  */
@@ -24,6 +24,7 @@
 /** The ordered set of avatar layer keys. */
 export type AvatarLayerCategory =
   | 'body'
+  | 'head'
   | 'eyes'
   | 'hair'
   | 'pants'
@@ -47,6 +48,7 @@ export interface SpriteLayer {
 /** The full avatar configuration stored in profiles.avatar_config. */
 export interface AvatarConfig {
   body: SpriteLayer
+  head: SpriteLayer
   eyes: SpriteLayer
   hair: SpriteLayer
   pants: SpriteLayer

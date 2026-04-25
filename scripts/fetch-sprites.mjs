@@ -30,6 +30,7 @@
  *   node scripts/fetch-sprites.mjs --weapons  # only weapons
  *   node scripts/fetch-sprites.mjs --bosses   # only bosses
  *   node scripts/fetch-sprites.mjs --eyes      # only eyes
+ *   node scripts/fetch-sprites.mjs --heads     # only head/face sprites
  *   node scripts/fetch-sprites.mjs --accessories # capes, hats
  *   node scripts/fetch-sprites.mjs --placeholders # only placeholders
  *
@@ -288,6 +289,33 @@ async function downloadEyes() {
     ]
 
     const ok = await tryDownload(urls, outputPath)
+    if (!ok) await createPlaceholder(outputPath)
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Download: Heads
+// ---------------------------------------------------------------------------
+
+async function downloadHeads() {
+  console.log('\n📦 Downloading head/face sprites...')
+
+  // LPC head sprites — separate face layer that overlays the body
+  // Source: head/heads/human/{male|female}/walk.png
+  const headVariants = [
+    { variant: 'male',   output: 'heads/human/male/walk.png' },
+    { variant: 'female', output: 'heads/human/female/walk.png' },
+  ]
+
+  for (const { variant, output } of headVariants) {
+    const outputPath = join(SPRITES_DIR, output)
+    if (existsSync(outputPath) && (await import('fs')).statSync(outputPath).size > 100) {
+      console.log(`  ✓ (cached) ${output}`)
+      continue
+    }
+
+    const url = `${LPC_BASE}/head/heads/human/${variant}/walk.png`
+    const ok = await download(url, outputPath)
     if (!ok) await createPlaceholder(outputPath)
   }
 }
@@ -565,10 +593,11 @@ async function main() {
   const runAll = args.length === 0
   const runBodies = runAll || args.includes('--bodies')
   const runHair = runAll || args.includes('--hair')
+  const runEyes = runAll || args.includes('--eyes')
+  const runHeads = runAll || args.includes('--heads')
   const runClothing = runAll || args.includes('--clothing')
   const runWeapons = runAll || args.includes('--weapons')
   const runBosses = runAll || args.includes('--bosses')
-  const runEyes = runAll || args.includes('--eyes')
   const runAccessories = runAll || args.includes('--accessories')
   const runPlaceholders = args.includes('--placeholders')
 
@@ -600,6 +629,7 @@ async function main() {
   if (runBodies) await downloadBodies()
   if (runHair) await downloadHair()
   if (runEyes) await downloadEyes()
+  if (runHeads) await downloadHeads()
   if (runClothing) await downloadClothing()
   if (runAccessories) {
     await downloadCapes()
@@ -636,7 +666,7 @@ async function main() {
     return { total, real, placeholder }
   }
 
-  const categories = ['bodies', 'hair', 'eyes', 'clothing', 'cape', 'helmet', 'weapons', 'bosses']
+  const categories = ['bodies', 'heads', 'hair', 'eyes', 'clothing', 'cape', 'helmet', 'weapons', 'bosses']
   let grandTotal = 0, grandReal = 0, grandPlaceholder = 0
   for (const cat of categories) {
     const dir = join(SPRITES_DIR, cat)
@@ -654,7 +684,6 @@ async function main() {
   console.log('  Remaining work:')
   console.log('  1. Folder-based boss sprites (dragon, demon, medusa, etc.) need manual sourcing')
   console.log('  2. Some clothing items use base sprites with compositor tinting for color')
-  console.log('  3. Update manifest.ts to add eyes, capes, and hats entries')
 }
 
 main().catch(err => {

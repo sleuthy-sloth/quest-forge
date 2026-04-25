@@ -26,6 +26,7 @@ interface Props {
  */
 const DEFAULT_CONFIG: AvatarConfig = {
   body:   { id: 'body_female', color: null },
+  head:   { id: 'human_female', color: null },
   eyes:   { id: 'eyes_blue', color: '#3a6a9a' },
   hair:   { id: 'bob', color: '#3d2200' },
   pants:  { id: 'pants', color: 'brown' },

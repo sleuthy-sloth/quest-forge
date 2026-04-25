@@ -113,6 +113,7 @@ const WEAPON_OPTIONS = ['sword', 'longsword', 'spear', 'bow']
 
 const DEFAULT_CONFIG: AvatarConfig = {
   body:    { id: 'body_female', color: null },
+  head:    { id: 'human_female', color: null },
   eyes:    { id: 'eyes_blue',   color: '#3a6a9a' },
   hair:    { id: 'bob',         color: '#3d2200' },
   pants:   { id: 'pants',       color: 'navy' },
@@ -492,8 +493,12 @@ function StepForgeIdentity({
                       if (pantsEntry?.bodyType === 'female') pantsId = 'pants'
                     }
 
+                    // Auto-select matching head for body type
+                    const headId = newMale ? 'human_male' : 'human_female'
+
                     onChange({
                       body: { id: newBodyId, color: config.body.color },
+                      head: { id: headId, color: null },
                       shirt: { id: shirtId, color: config.shirt.color },
                       pants: { id: pantsId, color: config.pants.color },
                     })

@@ -25,6 +25,7 @@ const CATEGORIES_WITH_ENTRIES = (Object.keys(SPRITE_MANIFEST) as AvatarLayerCate
 
 const CATEGORY_LABELS: Record<AvatarLayerCategory, string> = {
   body: 'Body',
+  head: 'Face',
   eyes: 'Eyes',
   hair: 'Hair',
   pants: 'Legs',
@@ -157,7 +158,7 @@ export default function CharacterCreator({ userId, onSaved }: Props) {
       <div className="flex-shrink-0 flex flex-col items-center md:sticky md:top-4 md:self-start">
         <AvatarDisplay config={draftConfig} size={256} className="mb-3" />
         <p className="text-xs text-gray-500">
-          {activeLayerCount} / 12 layers
+          {activeLayerCount} / {Object.keys(SPRITE_MANIFEST).length} layers
         </p>
       </div>
 

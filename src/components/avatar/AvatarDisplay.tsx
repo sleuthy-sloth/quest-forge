@@ -151,7 +151,7 @@ export default function AvatarDisplay({
     }
   }, [config, size])
 
-  // ── Progress bar segments (4 segments = 3 layers each for 12 total) ──────
+  // ── Progress bar segments (4 segments for 13 layers ~3.25 each) ────────
   const segments = 4
   const layersPerSegment = totalLayers / segments
   const filledSegments = Math.floor(loadedCount / layersPerSegment)
