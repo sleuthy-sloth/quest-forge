@@ -95,6 +95,7 @@ export default function LoginPage() {
   const [player, setPlayer] = useState<PlayerFields>({ username: '', password: '' })
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
   const [serverError, setServerError] = useState<string | null>(null)
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [stars, setStars] = useState<Star[]>([])
 
@@ -109,11 +110,14 @@ export default function LoginPage() {
     })))
   }, [])
 
-  // Surface ?error=recovery_link_invalid coming back from /auth/callback
+  // Surface flags coming back from /auth/callback or /reset-password.
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     if (params.get('error') === 'recovery_link_invalid') {
       setServerError('That recovery link is invalid or has expired. Request a new one below.')
+    }
+    if (params.get('reset') === 'success') {
+      setSuccessMessage('Password updated. Sign in with your new password.')
     }
   }, [])
 
@@ -529,6 +533,8 @@ export default function LoginPage() {
               ))}
             </div>
 
+            <SuccessMessage msg={successMessage} />
+
             {/* ── GM Panel ────────────────────────────────────── */}
             {tab === 'gm' && (
               <form
@@ -695,6 +701,27 @@ function ServerError({ msg }: { msg: string | null }) {
     }}>
       <span aria-hidden="true" style={{ color: 'rgba(220,100,100,0.8)', flexShrink: 0 }}>⚠</span>
       <p style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 400, color: 'rgba(220,100,100,0.85)', fontSize: '0.88rem' }}>
+        {msg}
+      </p>
+    </div>
+  )
+}
+
+function SuccessMessage({ msg }: { msg: string | null }) {
+  if (!msg) return null
+  return (
+    <div role="status" style={{
+      background: 'rgba(60,140,90,0.1)',
+      border: '1px solid rgba(100,180,120,0.35)',
+      borderRadius: '2px',
+      padding: '0.7rem 0.9rem',
+      display: 'flex',
+      gap: '0.6rem',
+      alignItems: 'flex-start',
+      marginBottom: '1.25rem',
+    }}>
+      <span aria-hidden="true" style={{ color: 'rgba(140,220,160,0.9)', flexShrink: 0 }}>✦</span>
+      <p style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 400, color: 'rgba(210,235,220,0.9)', fontSize: '0.88rem' }}>
         {msg}
       </p>
     </div>
