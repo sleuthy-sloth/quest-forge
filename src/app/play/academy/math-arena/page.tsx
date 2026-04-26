@@ -9,7 +9,7 @@ export default async function MathArenaPage() {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('display_name, age, avatar_config, household_id, level, avatar_class, xp_total, xp_available')
+    .select('display_name, age, avatar_config, household_id, avatar_class')
     .eq('id', user.id)
     .single()
 
@@ -33,8 +33,6 @@ export default async function MathArenaPage() {
         playerId={user.id}
         avatarConfig={profile.avatar_config as Record<string, unknown> | null}
         displayName={profile.display_name}
-        xpTotal={profile.xp_total ?? 0}
-        xpAvailable={profile.xp_available ?? 0}
       />
     </div>
   )

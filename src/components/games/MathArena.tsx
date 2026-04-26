@@ -19,10 +19,14 @@ interface Question {
   xp_reward: number
 }
 
-type Phase = 'loading' | 'playing' | 'saving' | 'results'
+type Phase = 'loading' | 'playing' | 'results'
 type Feedback = null | 'correct' | 'wrong'
 type ScreenFlash = 'green' | 'red' | null
 type FetchErrorKind = 'network' | 'empty' | null
+type QuestionSource = 'ai' | 'db' | 'fallback'
+
+// RFC 4122 UUID — DB challenge ids match this; fallback ids ('fb_*') don't.
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
 interface Props {
   ageTier: 'junior' | 'senior'
@@ -30,8 +34,6 @@ interface Props {
   playerId: string
   avatarConfig: Record<string, unknown> | null
   displayName: string
-  xpTotal: number
-  xpAvailable: number
 }
 
 // ── Fisher-Yates shuffle ──────────────────────────────────────────────────────
@@ -75,19 +77,6 @@ function fallbackQuestions(ageTier: 'junior' | 'senior'): Question[] {
   return bank
 }
 
-// ── XP calculation ────────────────────────────────────────────────────────────
-
-function calcXp(correct: number, questions: Question[]): number {
-  const potential = questions.reduce((sum, q) => sum + q.xp_reward, 0)
-  const accuracy = correct / 10
-  let multiplier: number
-  if (accuracy === 1.0) multiplier = 1.0
-  else if (accuracy >= 0.8) multiplier = 0.8
-  else if (accuracy >= 0.6) multiplier = 0.5
-  else return 10
-  return Math.round(potential * multiplier)
-}
-
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function MathArena({
@@ -96,8 +85,6 @@ export default function MathArena({
   playerId,
   avatarConfig,
   displayName,
-  xpTotal,
-  xpAvailable,
 }: Props) {
   const router = useRouter()
   const supabase = useMemo(() => createClient(), [])
@@ -107,6 +94,7 @@ export default function MathArena({
 
   // Questions
   const [questions, setQuestions] = useState<Question[]>([])
+  const [questionSource, setQuestionSource] = useState<QuestionSource | null>(null)
   const [fetchErrorKind, setFetchErrorKind] = useState<FetchErrorKind>(null)
 
   // Playing state
@@ -125,10 +113,9 @@ export default function MathArena({
     timersRef.current.push(id)
   }
 
-  // Results
+  // Results — XP accumulates per correct answer (DB trigger awards it on insert)
   const [xpEarned, setXpEarned] = useState(0)
   const [saveError, setSaveError] = useState(false)
-  const [hasBoss, setHasBoss] = useState(false)
 
   // ── Fetch questions ──────────────────────────────────────────────────────
   // Runs AI generation and DB fallback IN PARALLEL. Prefers AI results when
@@ -140,12 +127,14 @@ export default function MathArena({
     setFetchErrorKind(null)
     setQuestionIndex(0)
     setScore(0)
+    setXpEarned(0)
     setAnswers([])
     setFeedback(null)
     setDummyHit(false)
     setScreenFlash(null)
     setChosenWrong(null)
     setSaveError(false)
+    setQuestionSource(null)
 
     console.log('[MathArena] ageTier:', ageTier, 'householdId:', householdId?.slice(0, 8))
 
@@ -197,6 +186,7 @@ export default function MathArena({
       const aiQuestions = await Promise.race([aiPromise, overallTimeout])
       if (aiQuestions) {
         setQuestions(shuffle(aiQuestions).slice(0, 10))
+        setQuestionSource('ai')
         setPhase('playing')
         return
       }
@@ -205,19 +195,21 @@ export default function MathArena({
       const dbQuestions = await Promise.race<Question[] | null>([dbPromise, overallTimeout])
       if (dbQuestions) {
         setQuestions(shuffle(dbQuestions).slice(0, 10))
+        setQuestionSource('db')
         setPhase('playing')
         return
       }
 
-      // 3. Neither source delivered — use hardcoded fallback
+      // 3. Neither source delivered — use hardcoded fallback (no save on these)
       console.warn('[MathArena] AI + DB both failed, using fallback questions')
       setQuestions(shuffle(fallbackQuestions(ageTier)).slice(0, 10))
+      setQuestionSource('fallback')
       setPhase('playing')
     } catch {
       console.error('[MathArena] overall timeout fetching questions')
       setFetchErrorKind('network')
     }
-  }, [supabase, ageTier])
+  }, [ageTier, householdId])
 
   useEffect(() => { fetchQuestions() }, [fetchQuestions])
 
@@ -227,6 +219,38 @@ export default function MathArena({
   }, [])
 
   // ── Answer handler ───────────────────────────────────────────────────────
+  // Inserts one row in edu_completions per answered question. The DB trigger
+  // `handle_edu_completed` (see migration 001) atomically awards XP, deals
+  // boss damage, and records story_progress contributions — so we MUST NOT
+  // also write those manually here, or everything double-counts.
+
+  async function recordAnswer(question: Question, isCorrect: boolean) {
+    // Skip persistence for fallback questions: their string ids ('fb_*') are
+    // not valid UUIDs and would fail the FK to edu_challenges. The player
+    // still gets a working game; XP and boss damage just aren't applied.
+    if (!UUID_RE.test(question.id)) return
+
+    const xpToAward = isCorrect ? question.xp_reward : 0
+    if (isCorrect) setXpEarned((prev) => prev + xpToAward)
+
+    try {
+      const { error } = await supabase.from('edu_completions').insert({
+        household_id: householdId,
+        challenge_id: question.id,
+        player_id:    playerId,
+        score:        isCorrect ? 1 : 0,
+        completed_at: new Date().toISOString(),
+        xp_awarded:   xpToAward,
+      })
+      if (error) {
+        console.error('[MathArena] edu_completions insert failed:', error)
+        setSaveError(true)
+      }
+    } catch (err) {
+      console.error('[MathArena] edu_completions insert threw:', err)
+      setSaveError(true)
+    }
+  }
 
   function handleAnswer(option: string) {
     if (feedback !== null) return // debounce
@@ -234,6 +258,9 @@ export default function MathArena({
     const current = questions[questionIndex]
     const correct = option === current.content.correct_answer
     const newAnswers = [...answers, option]
+
+    // Fire the persistence in the background; UI doesn't block on it.
+    void recordAnswer(current, correct)
 
     if (correct) {
       const newScore = score + 1
@@ -247,7 +274,8 @@ export default function MathArena({
       addTimer(setTimeout(() => setDummyHit(false), 500))
       addTimer(setTimeout(() => {
         if (questionIndex === 9) {
-          finishGame(newScore, newAnswers, questions)
+          setAnswers(newAnswers)
+          setPhase('results')
         } else {
           setQuestionIndex(qi => qi + 1)
           setFeedback(null)
@@ -262,7 +290,8 @@ export default function MathArena({
       addTimer(setTimeout(() => setScreenFlash(null), 300))
       addTimer(setTimeout(() => {
         if (questionIndex === 9) {
-          finishGame(score, newAnswers, questions)
+          setAnswers(newAnswers)
+          setPhase('results')
         } else {
           setQuestionIndex(qi => qi + 1)
           setFeedback(null)
@@ -270,73 +299,6 @@ export default function MathArena({
         }
       }, 3000))
     }
-  }
-
-  // ── Save & transition to results ─────────────────────────────────────────
-
-  async function finishGame(finalScore: number, finalAnswers: string[], qs: Question[]) {
-    const earned = calcXp(finalScore, qs)
-    setXpEarned(earned)
-    setAnswers(finalAnswers)
-    setPhase('saving')
-
-    let anySaveError = false
-
-    // 1. edu_completions
-    try {
-      await supabase.from('edu_completions').insert({
-        household_id: householdId,
-        challenge_id: qs[0].id,
-        player_id:    playerId,
-        score:        finalScore,
-        completed_at: new Date().toISOString(),
-        xp_awarded:   earned,
-      })
-    } catch {
-      anySaveError = true
-    }
-
-    // 2. XP update
-    try {
-      await supabase
-        .from('profiles')
-        .update({
-          xp_total:     xpTotal     + earned,
-          xp_available: xpAvailable + earned,
-        })
-        .eq('id', playerId)
-    } catch {
-      anySaveError = true
-    }
-
-    // 3. Boss damage
-    let foundBoss = false
-    try {
-      const { data: boss } = await supabase
-        .from('story_chapters')
-        .select('id, boss_current_hp')
-        .eq('household_id', householdId)
-        .eq('is_unlocked', false)
-        .gt('boss_current_hp', 0)
-        .order('week_number', { ascending: true })
-        .limit(1)
-        .maybeSingle()
-
-      if (boss) {
-        foundBoss = true
-        await supabase
-          .from('story_chapters')
-          .update({ boss_current_hp: Math.max(0, boss.boss_current_hp - earned) })
-          .eq('id', boss.id)
-      }
-    } catch {
-      anySaveError = true
-    }
-
-    setHasBoss(foundBoss)
-    if (anySaveError) setSaveError(true)
-
-    setPhase('results')
   }
 
   // ── Render helpers ───────────────────────────────────────────────────────
@@ -400,18 +362,6 @@ export default function MathArena({
     )
   }
 
-  // ── Saving phase ─────────────────────────────────────────────────────────
-
-  if (phase === 'saving') {
-    return (
-      <div style={{ padding: '48px 16px', textAlign: 'center' }}>
-        <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '7px', color: '#c9a84c', letterSpacing: '2px' }}>
-          SAVING RESULTS…
-        </div>
-      </div>
-    )
-  }
-
   // ── Results phase ─────────────────────────────────────────────────────────
 
   if (phase === 'results') {
@@ -444,7 +394,9 @@ export default function MathArena({
                 {correctCount} / 10
               </div>
               <div style={{ fontFamily: 'var(--font-heading)', fontSize: '11px', color: '#7a6a44', marginTop: '2px' }}>
-                +{xpEarned} XP · {hasBoss ? `−${xpEarned} Boss HP` : 'No active boss'}
+                {questionSource === 'fallback'
+                  ? 'Practice round — XP not awarded (offline questions)'
+                  : `+${xpEarned} XP awarded`}
               </div>
             </div>
             <div style={{
@@ -574,12 +526,37 @@ export default function MathArena({
 
           {/* Center: VS + score pips + counter */}
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
-            <div style={{
-              fontFamily: 'var(--font-pixel)', fontSize: '7px', color: '#c43a00',
-              background: 'rgba(196,58,0,0.12)', border: '1px solid rgba(196,58,0,0.3)',
-              borderRadius: '2px', padding: '3px 6px',
-            }}>
-              VS
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <div style={{
+                fontFamily: 'var(--font-pixel)', fontSize: '7px', color: '#c43a00',
+                background: 'rgba(196,58,0,0.12)', border: '1px solid rgba(196,58,0,0.3)',
+                borderRadius: '2px', padding: '3px 6px',
+              }}>
+                VS
+              </div>
+              {questionSource && (
+                <div
+                  title={
+                    questionSource === 'ai'
+                      ? 'Questions generated by AI'
+                      : questionSource === 'db'
+                      ? 'Questions from the seeded library'
+                      : 'Offline fallback questions'
+                  }
+                  style={{
+                    fontFamily: 'var(--font-pixel)', fontSize: '5px',
+                    color:
+                      questionSource === 'ai' ? '#7c4dff' :
+                      questionSource === 'db' ? '#2eb85c' : '#7a6a44',
+                    background: 'rgba(255,255,255,0.04)',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    borderRadius: '2px', padding: '2px 4px',
+                    letterSpacing: '1px',
+                  }}
+                >
+                  {questionSource.toUpperCase()}
+                </div>
+              )}
             </div>
             {/* Score pips */}
             <div style={{ display: 'flex', gap: '3px' }}>

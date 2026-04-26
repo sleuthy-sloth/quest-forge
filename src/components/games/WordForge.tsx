@@ -19,10 +19,13 @@ interface Question {
   xp_reward: number
 }
 
-type Phase = 'loading' | 'playing' | 'saving' | 'results'
+type Phase = 'loading' | 'playing' | 'results'
 type Feedback = null | 'correct' | 'wrong'
 type ScreenFlash = 'blue' | 'red' | null
 type FetchErrorKind = 'network' | 'empty' | null
+type QuestionSource = 'ai' | 'db' | 'fallback'
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
 interface Props {
   ageTier: 'junior' | 'senior'
@@ -30,8 +33,6 @@ interface Props {
   playerId: string
   avatarConfig: Record<string, unknown> | null
   displayName: string
-  xpTotal: number
-  xpAvailable: number
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -75,17 +76,6 @@ function fallbackQuestions(ageTier: 'junior' | 'senior'): Question[] {
   return bank
 }
 
-function calcXp(correct: number, questions: Question[]): number {
-  const potential = questions.reduce((sum, q) => sum + q.xp_reward, 0)
-  const accuracy = correct / 10
-  let multiplier: number
-  if (accuracy === 1.0) multiplier = 1.0
-  else if (accuracy >= 0.8) multiplier = 0.8
-  else if (accuracy >= 0.6) multiplier = 0.5
-  else return 10
-  return Math.round(potential * multiplier)
-}
-
 /** Extract the vocabulary word/phrase from a title like "Define: ancient" → "ANCIENT" */
 function extractWord(title: string): string {
   return title.includes(': ')
@@ -117,14 +107,13 @@ export default function WordForge({
   playerId,
   avatarConfig,
   displayName,
-  xpTotal,
-  xpAvailable,
 }: Props) {
   const router = useRouter()
   const supabase = useMemo(() => createClient(), [])
 
   const [phase, setPhase] = useState<Phase>('loading')
   const [questions, setQuestions] = useState<Question[]>([])
+  const [questionSource, setQuestionSource] = useState<QuestionSource | null>(null)
   const [fetchErrorKind, setFetchErrorKind] = useState<FetchErrorKind>(null)
 
   const [questionIndex, setQuestionIndex] = useState(0)
@@ -137,7 +126,6 @@ export default function WordForge({
 
   const [xpEarned, setXpEarned] = useState(0)
   const [saveError, setSaveError] = useState(false)
-  const [hasBoss, setHasBoss] = useState(false)
 
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([])
   function addTimer(id: ReturnType<typeof setTimeout>) {
@@ -155,12 +143,14 @@ export default function WordForge({
     setFetchErrorKind(null)
     setQuestionIndex(0)
     setScore(0)
+    setXpEarned(0)
     setAnswers([])
     setFeedback(null)
     setIronHit(false)
     setScreenFlash(null)
     setChosenWrong(null)
     setSaveError(false)
+    setQuestionSource(null)
 
     console.log('[WordForge] ageTier:', ageTier, 'householdId:', householdId?.slice(0, 8))
 
@@ -208,31 +198,31 @@ export default function WordForge({
     )
 
     try {
-      // 1. Try AI first (may already be settled)
       const aiQuestions = await Promise.race([aiPromise, overallTimeout])
       if (aiQuestions) {
         setQuestions(shuffle(aiQuestions).slice(0, 10))
+        setQuestionSource('ai')
         setPhase('playing')
         return
       }
 
-      // 2. AI fell through — wait for DB (which was running in parallel)
       const dbQuestions = await Promise.race<Question[] | null>([dbPromise, overallTimeout])
       if (dbQuestions) {
         setQuestions(shuffle(dbQuestions).slice(0, 10))
+        setQuestionSource('db')
         setPhase('playing')
         return
       }
 
-      // 3. Neither source delivered — use hardcoded fallback
       console.warn('[WordForge] AI + DB both failed, using fallback questions')
       setQuestions(shuffle(fallbackQuestions(ageTier)).slice(0, 10))
+      setQuestionSource('fallback')
       setPhase('playing')
     } catch {
       console.error('[WordForge] overall timeout fetching questions')
       setFetchErrorKind('network')
     }
-  }, [supabase, ageTier])
+  }, [ageTier, householdId])
 
   useEffect(() => { fetchQuestions() }, [fetchQuestions])
 
@@ -242,6 +232,33 @@ export default function WordForge({
   }, [])
 
   // ── Answer handler ───────────────────────────────────────────────────────
+  // Inserts one row in edu_completions per answered question. The DB trigger
+  // `handle_edu_completed` atomically awards XP and deals boss damage.
+
+  async function recordAnswer(question: Question, isCorrect: boolean) {
+    if (!UUID_RE.test(question.id)) return
+
+    const xpToAward = isCorrect ? question.xp_reward : 0
+    if (isCorrect) setXpEarned((prev) => prev + xpToAward)
+
+    try {
+      const { error } = await supabase.from('edu_completions').insert({
+        household_id: householdId,
+        challenge_id: question.id,
+        player_id:    playerId,
+        score:        isCorrect ? 1 : 0,
+        completed_at: new Date().toISOString(),
+        xp_awarded:   xpToAward,
+      })
+      if (error) {
+        console.error('[WordForge] edu_completions insert failed:', error)
+        setSaveError(true)
+      }
+    } catch (err) {
+      console.error('[WordForge] edu_completions insert threw:', err)
+      setSaveError(true)
+    }
+  }
 
   function handleAnswer(option: string) {
     if (feedback !== null) return
@@ -249,6 +266,8 @@ export default function WordForge({
     const current = questions[questionIndex]
     const isCorrect = option === current.content.correct_answer
     const newAnswers = [...answers, option]
+
+    void recordAnswer(current, isCorrect)
 
     if (isCorrect) {
       const newScore = score + 1
@@ -262,7 +281,8 @@ export default function WordForge({
       addTimer(setTimeout(() => setIronHit(false), 600))
       addTimer(setTimeout(() => {
         if (questionIndex === 9) {
-          finishGame(newScore, newAnswers, questions)
+          setAnswers(newAnswers)
+          setPhase('results')
         } else {
           setQuestionIndex(qi => qi + 1)
           setFeedback(null)
@@ -277,7 +297,8 @@ export default function WordForge({
       addTimer(setTimeout(() => setScreenFlash(null), 300))
       addTimer(setTimeout(() => {
         if (questionIndex === 9) {
-          finishGame(score, newAnswers, questions)
+          setAnswers(newAnswers)
+          setPhase('results')
         } else {
           setQuestionIndex(qi => qi + 1)
           setFeedback(null)
@@ -285,60 +306,6 @@ export default function WordForge({
         }
       }, 3000))
     }
-  }
-
-  // ── Save & results ───────────────────────────────────────────────────────
-
-  async function finishGame(finalScore: number, finalAnswers: string[], qs: Question[]) {
-    const earned = calcXp(finalScore, qs)
-    setXpEarned(earned)
-    setAnswers(finalAnswers)
-    setPhase('saving')
-
-    let anySaveError = false
-
-    try {
-      await supabase.from('edu_completions').insert({
-        household_id: householdId,
-        challenge_id: qs[0].id,
-        player_id:    playerId,
-        score:        finalScore,
-        completed_at: new Date().toISOString(),
-        xp_awarded:   earned,
-      })
-    } catch { anySaveError = true }
-
-    try {
-      await supabase
-        .from('profiles')
-        .update({ xp_total: xpTotal + earned, xp_available: xpAvailable + earned })
-        .eq('id', playerId)
-    } catch { anySaveError = true }
-
-    let foundBoss = false
-    try {
-      const { data: boss } = await supabase
-        .from('story_chapters')
-        .select('id, boss_current_hp')
-        .eq('household_id', householdId)
-        .eq('is_unlocked', false)
-        .gt('boss_current_hp', 0)
-        .order('week_number', { ascending: true })
-        .limit(1)
-        .maybeSingle()
-
-      if (boss) {
-        foundBoss = true
-        await supabase
-          .from('story_chapters')
-          .update({ boss_current_hp: Math.max(0, boss.boss_current_hp - earned) })
-          .eq('id', boss.id)
-      }
-    } catch { anySaveError = true }
-
-    setHasBoss(foundBoss)
-    if (anySaveError) setSaveError(true)
-    setPhase('results')
   }
 
   // ── Loading ──────────────────────────────────────────────────────────────
@@ -388,18 +355,6 @@ export default function WordForge({
     )
   }
 
-  // ── Saving ───────────────────────────────────────────────────────────────
-
-  if (phase === 'saving') {
-    return (
-      <div style={{ padding: '48px 16px', textAlign: 'center' }}>
-        <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '7px', color: '#c9a84c', letterSpacing: '2px' }}>
-          SAVING RESULTS…
-        </div>
-      </div>
-    )
-  }
-
   // ── Results ──────────────────────────────────────────────────────────────
 
   if (phase === 'results') {
@@ -431,7 +386,9 @@ export default function WordForge({
                 {correctCount} / 10
               </div>
               <div style={{ fontFamily: 'var(--font-heading)', fontSize: '11px', color: '#7a6a44', marginTop: '2px' }}>
-                +{xpEarned} XP · {hasBoss ? `−${xpEarned} Boss HP` : 'No active boss'}
+                {questionSource === 'fallback'
+                  ? 'Practice round — XP not awarded (offline questions)'
+                  : `+${xpEarned} XP awarded`}
               </div>
             </div>
             <div style={{
@@ -569,12 +526,37 @@ export default function WordForge({
 
           {/* Center: VS + pips + counter */}
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
-            <div style={{
-              fontFamily: 'var(--font-pixel)', fontSize: '7px', color: '#1a5c9e',
-              background: 'rgba(26,92,158,0.12)', border: '1px solid rgba(26,92,158,0.3)',
-              borderRadius: '2px', padding: '3px 6px',
-            }}>
-              VS
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <div style={{
+                fontFamily: 'var(--font-pixel)', fontSize: '7px', color: '#1a5c9e',
+                background: 'rgba(26,92,158,0.12)', border: '1px solid rgba(26,92,158,0.3)',
+                borderRadius: '2px', padding: '3px 6px',
+              }}>
+                VS
+              </div>
+              {questionSource && (
+                <div
+                  title={
+                    questionSource === 'ai'
+                      ? 'Questions generated by AI'
+                      : questionSource === 'db'
+                      ? 'Questions from the seeded library'
+                      : 'Offline fallback questions'
+                  }
+                  style={{
+                    fontFamily: 'var(--font-pixel)', fontSize: '5px',
+                    color:
+                      questionSource === 'ai' ? '#7c4dff' :
+                      questionSource === 'db' ? '#2eb85c' : '#7a6a44',
+                    background: 'rgba(255,255,255,0.04)',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    borderRadius: '2px', padding: '2px 4px',
+                    letterSpacing: '1px',
+                  }}
+                >
+                  {questionSource.toUpperCase()}
+                </div>
+              )}
             </div>
             <div style={{ display: 'flex', gap: '3px' }}>
               {Array.from({ length: 10 }, (_, i) => (

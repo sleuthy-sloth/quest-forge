@@ -29,9 +29,17 @@ export async function canMakeRequest(): Promise<boolean> {
       console.warn('[rate-limiter] canMakeRequest error:', error)
       return false
     }
-    return (data as number) < DAILY_LIMIT
-  } catch {
-    // If we can't read the table, be conservative and deny
+    const used = data as number
+    if (used >= DAILY_LIMIT) {
+      console.warn(`[rate-limiter] daily AI quota reached (${used}/${DAILY_LIMIT})`)
+      return false
+    }
+    return true
+  } catch (err) {
+    // If we can't read the table, be conservative and deny — but log it,
+    // because a silent deny here would manifest as "AI questions never work"
+    // with no visible cause.
+    console.warn('[rate-limiter] canMakeRequest threw, denying AI request:', err)
     return false
   }
 }
