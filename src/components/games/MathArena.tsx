@@ -164,35 +164,25 @@ export default function MathArena({
       .catch(() => null)
 
     // Wrap dbPromise with its own timeout so it can't hang indefinitely.
+    // Uses a server API route (which reliably connects) to bypass the
+    // browser-side Supabase REST connection issue.
     const dbPromise = (async (): Promise<Question[] | null> => {
       try {
-        const queryPromise = supabase
-          .from('edu_challenges')
-          .select('id, title, content, xp_reward')
-          .eq('subject', 'math')
-          .eq('age_tier', ageTier)
-          .eq('is_active', true)
-          .limit(50)
-
-        const result = await Promise.race([
-          queryPromise,
-          new Promise<null>((_, reject) =>
-            setTimeout(() => reject(new Error('db timeout')), 10_000),
-          ),
-        ])
-        if (!result) return null
-        const { data, error } = result as Awaited<typeof queryPromise>
-        if (error) {
-          console.error('[MathArena] DB query error:', JSON.stringify(error))
+        const res = await fetch(`/api/edu/challenges?subject=math&age_tier=${ageTier}&count=10`, {
+          signal: AbortSignal.timeout(12000),
+        })
+        if (!res.ok) {
+          console.error('[MathArena] API route error:', res.status)
           return null
         }
-        if (!data || data.length === 0) {
-          console.warn('[MathArena] DB query returned 0 rows, ageTier:', ageTier)
+        const json = (await res.json()) as { questions?: Question[] }
+        if (!json.questions || json.questions.length === 0) {
+          console.warn('[MathArena] API route returned 0 questions, ageTier:', ageTier)
           return null
         }
-        return data as Question[]
+        return json.questions
       } catch (err) {
-        console.error('[MathArena] DB query threw:', err)
+        console.error('[MathArena] API route threw:', err)
         return null
       }
     })()
