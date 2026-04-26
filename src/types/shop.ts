@@ -1,6 +1,6 @@
 /**
  * Reward Shop type definitions.
- * Paired with supabase/migrations/005_reward_shop.sql.
+ * Schema created in migrations 006 (production_shop) and 007 (quests_and_redemptions).
  *
  * When you regenerate the main Database type via `supabase gen types`,
  * these tables will appear in src/types/database.ts automatically.
@@ -13,7 +13,7 @@ export interface RewardRow {
   description: string
   cost: number
   icon_type: string
-  reward_type?: string
+  reward_type: 'digital' | 'real_world'
   created_at: string
 }
 
@@ -31,16 +31,16 @@ export interface PlayerInventoryRow {
   id: string
   player_id: string
   reward_id: string
-  is_used: boolean
-  acquired_at: string
+  household_id: string
+  created_at: string
 }
 
 export interface PlayerInventoryInsert {
   id?: string
   player_id: string
   reward_id: string
-  is_used?: boolean
-  acquired_at?: string
+  household_id: string
+  created_at?: string
 }
 
 export interface RedemptionRow {

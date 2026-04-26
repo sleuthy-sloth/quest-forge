@@ -86,10 +86,6 @@ export interface QuestState {
   /** Fetch all unlocked chapters for this household, ordered by week_number. */
   fetchStoryData: () => Promise<ChapterRow[]>
 
-  /**
-   * Attack a boss quest: deduct health + trigger overdue damage.
-   */
-  attackBoss: (questId: string, damage: number) => Promise<void>
 }
 
 // ── Defaults ───────────────────────────────────────────────────
@@ -370,56 +366,4 @@ export const useQuestStore = create<QuestState>((set, get) => ({
     return chapters
   },
 
-  attackBoss: async (questId, damage) => {
-    const { householdId } = get()
-    if (!householdId) return
-
-    const supabase = createClient()
-
-    // Deduct boss health
-    const { data: quest } = await supabase
-      .from('quests')
-      .select('boss_current_health, boss_health, is_boss, created_at')
-      .eq('id', questId)
-      .eq('household_id', householdId)
-      .single()
-
-    if (!quest || !quest.is_boss) return
-
-    const newHealth = Math.max(0, (quest.boss_current_health ?? quest.boss_health ?? 0) - damage)
-    await supabase
-      .from('quests')
-      .update({ boss_current_health: newHealth })
-      .eq('id', questId)
-
-    // Overdue quest: damage the player
-    if (quest.created_at) {
-      const ageHours = (Date.now() - new Date(quest.created_at).getTime()) / 3600000
-      if (ageHours > 48) {
-        get().takeDamage(5)
-      }
-    }
-
-    playSfx('attack')
-
-    // Victory: unlock next chapter
-    if (newHealth <= 0) {
-      playSfx('victory')
-      const { data: nextChapter } = await supabase
-        .from('story_chapters')
-        .select('id')
-        .eq('household_id', householdId)
-        .eq('is_unlocked', false)
-        .order('week_number', { ascending: true })
-        .limit(1)
-        .maybeSingle()
-
-      if (nextChapter) {
-        await supabase
-          .from('story_chapters')
-          .update({ is_unlocked: true })
-          .eq('id', nextChapter.id)
-      }
-    }
-  },
 }))

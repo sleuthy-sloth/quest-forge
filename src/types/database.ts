@@ -388,25 +388,25 @@ export type Database = {
       }
       player_inventory: {
         Row: {
-          acquired_at: string
           id: string
-          is_used: boolean
           player_id: string
           reward_id: string
+          household_id: string
+          created_at: string
         }
         Insert: {
-          acquired_at?: string
           id?: string
-          is_used?: boolean
           player_id: string
           reward_id: string
+          household_id: string
+          created_at?: string
         }
         Update: {
-          acquired_at?: string
           id?: string
-          is_used?: boolean
           player_id?: string
           reward_id?: string
+          household_id?: string
+          created_at?: string
         }
         Relationships: [
           {
@@ -421,6 +421,13 @@ export type Database = {
             columns: ["reward_id"]
             isOneToOne: false
             referencedRelation: "rewards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "player_inventory_household_id_fkey"
+            columns: ["household_id"]
+            isOneToOne: false
+            referencedRelation: "households"
             referencedColumns: ["id"]
           },
         ]
@@ -544,6 +551,7 @@ export type Database = {
           household_id: string
           icon_type: string
           id: string
+          reward_type: Database["public"]["Enums"]["reward_type"]
           title: string
         }
         Insert: {
@@ -553,6 +561,7 @@ export type Database = {
           household_id: string
           icon_type?: string
           id?: string
+          reward_type?: Database["public"]["Enums"]["reward_type"]
           title: string
         }
         Update: {
@@ -562,6 +571,7 @@ export type Database = {
           household_id?: string
           icon_type?: string
           id?: string
+          reward_type?: Database["public"]["Enums"]["reward_type"]
           title?: string
         }
         Relationships: [
@@ -582,11 +592,13 @@ export type Database = {
           boss_name: string | null
           boss_sprite_config: Json | null
           chapter_number: number
-          household_id: string
+          content: string | null
+        household_id: string
           id: string
           is_unlocked: boolean
           narrative_text: string
           rewards_claimed: boolean
+          sequence_order: number | null
           title: string
           week_number: number
           xp_threshold_to_unlock: number
@@ -598,11 +610,13 @@ export type Database = {
           boss_name?: string | null
           boss_sprite_config?: Json | null
           chapter_number: number
-          household_id: string
+          content?: string | null
+        household_id: string
           id?: string
           is_unlocked?: boolean
           narrative_text?: string
           rewards_claimed?: boolean
+          sequence_order?: number | null
           title?: string
           week_number: number
           xp_threshold_to_unlock?: number
@@ -614,11 +628,13 @@ export type Database = {
           boss_name?: string | null
           boss_sprite_config?: Json | null
           chapter_number?: number
-          household_id?: string
+          content?: string | null
+        household_id?: string
           id?: string
           is_unlocked?: boolean
           narrative_text?: string
           rewards_claimed?: boolean
+          sequence_order?: number | null
           title?: string
           week_number?: number
           xp_threshold_to_unlock?: number

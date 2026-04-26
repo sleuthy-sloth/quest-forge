@@ -22,8 +22,18 @@ function classKey(avatarClass: string | null): string {
 export default async function GMHomePage() {
   const supabase = await createClient()
 
+  // Resolve household_id for defense-in-depth query scoping.
+  // The dashboard layout already guards: only GMs who pass the role check
+  // reach this page, so the profile + household_id always exist.
+  const { data: { user } } = await supabase.auth.getUser()
+  const { data: profileBrief } = await supabase
+    .from('profiles')
+    .select('household_id')
+    .eq('id', user!.id)
+    .maybeSingle()
+  const householdId = profileBrief!.household_id
+
   // Fetch in parallel: roster, pending approvals, current week's boss.
-  // Each is independent and small.
   const [
     { data: players },
     { data: pending },
@@ -38,11 +48,13 @@ export default async function GMHomePage() {
     supabase
       .from('chore_completions')
       .select('id, xp_awarded, gold_awarded')
-      .eq('verified', false),
+      .eq('verified', false)
+      .eq('household_id', householdId),
 
     supabase
       .from('story_chapters')
       .select('title, boss_name, boss_hp, boss_current_hp, week_number, chapter_number, is_unlocked')
+      .eq('household_id', householdId)
       .order('week_number', { ascending: false })
       .limit(1)
       .maybeSingle(),
