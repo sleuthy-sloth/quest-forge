@@ -40,10 +40,10 @@ export async function POST(request: Request) {
 
   const { subject, age_tier, count } = result.data
 
-  // 8s timeout — if Gemini stalls we want the client to fall through to its
-  // DB-backed seed rather than hang the academy "Preparing the arena…" UI.
+  // 12s timeout — Gemini (primary) + OpenRouter (fallback) both get a chance
+  // before the client falls through to the seeded edu_challenges DB rows.
   const timeoutPromise = new Promise<null>((resolve) =>
-    setTimeout(() => resolve(null), 8000),
+    setTimeout(() => resolve(null), 12_000),
   )
   const generationPromise = generateEduChallenges(
     subject as EduSubject,
