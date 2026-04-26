@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { getAdminClient } from '@/lib/supabase/admin'
 import { generateEduChallenges, type EduSubject, type AgeTier } from '@/lib/ai/edu'
 
 const SUBJECTS = ['math', 'reading', 'science', 'history', 'vocabulary', 'logic'] as const
@@ -13,13 +14,29 @@ const Schema = z.object({
 })
 
 /**
+ * Difficulty heuristic: senior tiers are harder than junior. Also, the AI
+ * varies xp_reward 15–40, so map xp into the 1–5 difficulty bucket required
+ * by the edu_challenges schema.
+ */
+function deriveDifficulty(xpReward: number, ageTier: AgeTier): number {
+  const base = ageTier === 'senior' ? 3 : 2
+  if (xpReward >= 38) return Math.min(5, base + 2)
+  if (xpReward >= 30) return Math.min(5, base + 1)
+  if (xpReward >= 22) return base
+  if (xpReward >= 17) return Math.max(1, base - 1)
+  return Math.max(1, base - 2)
+}
+
+/**
  * POST /api/edu/generate
  *
- * Returns a fresh batch of AI-generated quiz questions. Authenticated kids
- * (player role) can call this from the academy game pages. The handler
- * returns 200 with `{ questions: [...] }` on success, or `{ questions: [] }`
- * when AI is unavailable / rate-limited so the client falls back to the
- * seeded edu_challenges DB rows.
+ * Generates a fresh batch of quiz questions via the AI client AND persists
+ * them into the `edu_challenges` table so subsequent inserts into
+ * `edu_completions` (which has a UUID FK to `edu_challenges.id`) can succeed.
+ *
+ * Returns 200 with `{ questions: [...] }` (each question has a real UUID `id`)
+ * on success, or `{ questions: [] }` when AI is unavailable / rate-limited so
+ * the client falls back to seeded `edu_challenges` rows.
  */
 export async function POST(request: Request) {
   const supabase = await createClient()
@@ -41,7 +58,6 @@ export async function POST(request: Request) {
   const { subject, age_tier, count } = result.data
 
   // 12s timeout — Gemini (primary) + OpenRouter (fallback) both get a chance
-  // before the client falls through to the seeded edu_challenges DB rows.
   const timeoutPromise = new Promise<null>((resolve) =>
     setTimeout(() => resolve(null), 12_000),
   )
@@ -51,13 +67,50 @@ export async function POST(request: Request) {
     count,
   )
 
-  let questions
+  let generated
   try {
-    questions = await Promise.race([generationPromise, timeoutPromise])
+    generated = await Promise.race([generationPromise, timeoutPromise])
   } catch (err) {
     console.error('[edu/generate] generation threw:', err)
-    questions = null
+    generated = null
   }
 
-  return NextResponse.json({ questions: questions ?? [] })
+  if (!generated || generated.length === 0) {
+    return NextResponse.json({ questions: [] })
+  }
+
+  // Persist into edu_challenges so the FK in edu_completions resolves.
+  // Uses the admin client because edu_challenges has no INSERT RLS policy
+  // (the table is meant to be seed/service-managed).
+  let admin
+  try {
+    admin = getAdminClient()
+  } catch (err) {
+    console.error('[edu/generate] admin client unavailable; cannot persist AI questions:', err)
+    return NextResponse.json({ questions: [] })
+  }
+
+  const rows = generated.map((q) => ({
+    title: q.title,
+    subject: subject as EduSubject,
+    age_tier: age_tier as AgeTier,
+    difficulty: deriveDifficulty(q.xp_reward, age_tier as AgeTier),
+    xp_reward: q.xp_reward,
+    challenge_type: 'ai_generated' as const,
+    content: q.content,
+    is_active: true,
+  }))
+
+  const { data: inserted, error: insertError } = await admin
+    .from('edu_challenges')
+    .insert(rows)
+    .select('id, title, content, xp_reward')
+
+  if (insertError || !inserted) {
+    console.error('[edu/generate] failed to persist AI questions:', insertError)
+    return NextResponse.json({ questions: [] })
+  }
+
+  console.log(`[edu/generate] persisted ${inserted.length} ${subject}/${age_tier} questions`)
+  return NextResponse.json({ questions: inserted })
 }

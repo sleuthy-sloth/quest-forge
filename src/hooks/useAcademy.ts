@@ -9,10 +9,10 @@ import { createClient } from '@/lib/supabase/client'
 
 export interface EduChallenge {
   id: string
-  title: string
-  subject: string
-  age_tier: 'junior' | 'senior'
-  difficulty: number
+  title?: string
+  subject?: string
+  age_tier?: 'junior' | 'senior'
+  difficulty?: number
   xp_reward: number
   content: {
     question: string
@@ -23,9 +23,13 @@ export interface EduChallenge {
   }
 }
 
+export type QuestionSource = 'ai' | 'db' | 'fallback'
+
 export interface UseAcademyResult {
   /** Currently loaded challenge set (up to 10). */
   challenges: EduChallenge[]
+  /** Where the loaded challenges came from (null until first fetch resolves). */
+  source: QuestionSource | null
   /** Whether challenges are still being fetched. */
   loading: boolean
   /** Human-readable error, or null when OK. */
@@ -73,6 +77,8 @@ function shuffle<T>(arr: T[]): T[] {
   return a
 }
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
 // ---------------------------------------------------------------------------
 // Hook
 // ---------------------------------------------------------------------------
@@ -84,6 +90,7 @@ export function useAcademy(
   const supabase = useMemo(() => createClient(), [])
 
   const [challenges, setChallenges] = useState<EduChallenge[]>([])
+  const [source, setSource] = useState<QuestionSource | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [ageTier, setAgeTier] = useState<'junior' | 'senior' | null>(null)
@@ -110,46 +117,84 @@ export function useAcademy(
   }, [userId, supabase])
 
   // ── Fetch challenges ──────────────────────────────────────────────────────
+  // Mirrors the arena-game pattern: tries AI generation first (which now
+  // persists into edu_challenges and returns real UUIDs), then the seeded DB
+  // via the server proxy route — bypasses the browser-side Supabase REST hang
+  // that affected direct queries.
 
   const fetchChallenges = useCallback(async (subject?: string) => {
     if (!ageTier) return // age not yet loaded; caller should wait
     setLoading(true)
     setError(null)
+    setSource(null)
     setSessionCorrect(0)
     setSessionXp(0)
 
+    // Quiz-style games (Reading, History, Vocab, Logic) always pass `subject`.
+    // Without it we can't sensibly call the AI generator.
+    const aiPromise: Promise<EduChallenge[] | null> = subject
+      ? fetch('/api/edu/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ subject, age_tier: ageTier, count: 10 }),
+          signal: AbortSignal.timeout(9000),
+        })
+          .then(async (res) => {
+            if (!res.ok) return null
+            const json = (await res.json()) as { questions?: EduChallenge[] }
+            return json.questions && json.questions.length >= 5 ? json.questions : null
+          })
+          .catch(() => null)
+      : Promise.resolve(null)
+
+    const dbPromise: Promise<EduChallenge[] | null> = (async () => {
+      try {
+        const params = new URLSearchParams({ age_tier: ageTier, count: '10' })
+        if (subject) params.set('subject', subject)
+        const res = await fetch(`/api/edu/challenges?${params.toString()}`, {
+          signal: AbortSignal.timeout(12000),
+        })
+        if (!res.ok) {
+          console.error('[useAcademy] API route error:', res.status)
+          return null
+        }
+        const json = (await res.json()) as { questions?: EduChallenge[] }
+        if (!json.questions || json.questions.length === 0) return null
+        return json.questions
+      } catch (err) {
+        console.error('[useAcademy] API route threw:', err)
+        return null
+      }
+    })()
+
+    const overallTimeout: Promise<never> = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('timeout')), 16_000),
+    )
+
     try {
-      let query = supabase
-        .from('edu_challenges')
-        .select('id, title, subject, age_tier, difficulty, xp_reward, content')
-        .eq('age_tier', ageTier)
-        .eq('is_active', true)
-        .order('id')
-        .limit(50)
-
-      if (subject) query = query.eq('subject', subject as never)
-
-      const { data, error: fetchError } = await query
-
-      if (fetchError) {
-        setError('Failed to load challenges')
+      const aiResults = await Promise.race([aiPromise, overallTimeout])
+      if (aiResults) {
+        setChallenges(shuffle(aiResults).slice(0, 10))
+        setSource('ai')
         setLoading(false)
         return
       }
 
-      if (!data || data.length === 0) {
-        setError('No challenges available')
+      const dbResults = await Promise.race<EduChallenge[] | null>([dbPromise, overallTimeout])
+      if (dbResults) {
+        setChallenges(shuffle(dbResults).slice(0, 10))
+        setSource('db')
         setLoading(false)
         return
       }
 
-      setChallenges(shuffle(data as EduChallenge[]).slice(0, 10))
+      setError('No challenges available')
       setLoading(false)
     } catch {
       setError('Failed to load challenges')
       setLoading(false)
     }
-  }, [supabase, ageTier])
+  }, [ageTier])
 
   // ── Submit answer ─────────────────────────────────────────────────────────
 
@@ -176,8 +221,12 @@ export function useAcademy(
         setSessionXp(prev => prev + xpToAward)
       }
 
+      // Skip persistence if the id isn't a UUID — protects against the FK
+      // violation that would silently abort the save.
+      if (!UUID_RE.test(challengeId)) return
+
       // Insert completion  →  DB trigger awards XP + deals boss damage
-      await supabase.from('edu_completions').insert({
+      const { error: insertError } = await supabase.from('edu_completions').insert({
         household_id: householdId,
         challenge_id: challengeId,
         player_id: userId,
@@ -185,7 +234,12 @@ export function useAcademy(
         completed_at: new Date().toISOString(),
         xp_awarded: xpToAward,
       })
-    } catch {
+      if (insertError) {
+        console.error('[useAcademy] edu_completions insert failed:', insertError)
+        setError('Failed to save answer')
+      }
+    } catch (err) {
+      console.error('[useAcademy] edu_completions insert threw:', err)
       setError('Failed to save answer')
     } finally {
       submittingRef.current = false
@@ -203,6 +257,7 @@ export function useAcademy(
 
   return {
     challenges,
+    source,
     loading,
     error,
     ageTier,

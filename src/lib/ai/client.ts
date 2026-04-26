@@ -54,10 +54,16 @@ export async function generateWithFallback(
         },
       })
       const text = result.response.text().trim()
-      if (text) return text
+      if (text) {
+        console.log('[ai] gemini-2.0-flash served the request')
+        return text
+      }
+      console.warn('[ai] Gemini returned empty response, trying OpenRouter')
     } catch (err) {
       console.warn('[ai] Gemini failed:', err)
     }
+  } else {
+    console.warn('[ai] GEMINI_API_KEY not set — skipping Gemini')
   }
 
   // Fallback: OpenRouter
@@ -73,10 +79,16 @@ export async function generateWithFallback(
         temperature,
       })
       const text = response.choices[0]?.message?.content?.trim()
-      if (text) return text
+      if (text) {
+        console.log(`[ai] OpenRouter (${PRIMARY_MODEL}) served the request`)
+        return text
+      }
+      console.warn('[ai] OpenRouter returned empty response')
     } catch (err) {
       console.warn('[ai] OpenRouter fallback failed:', err)
     }
+  } else {
+    console.warn('[ai] OPENROUTER_API_KEY not set — no fallback available')
   }
 
   return null

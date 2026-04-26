@@ -19,10 +19,13 @@ interface Question {
   xp_reward: number
 }
 
-type Phase = 'loading' | 'playing' | 'saving' | 'results'
+type Phase = 'loading' | 'playing' | 'results'
 type Feedback = null | 'correct' | 'wrong'
 type ScreenFlash = 'green' | 'red' | null
 type FetchErrorKind = 'network' | 'empty' | null
+type QuestionSource = 'ai' | 'db' | 'fallback'
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
 interface Props {
   ageTier: 'junior' | 'senior'
@@ -30,8 +33,6 @@ interface Props {
   playerId: string
   avatarConfig: Record<string, unknown> | null
   displayName: string
-  xpTotal: number
-  xpAvailable: number
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
@@ -75,15 +76,6 @@ function fallbackQuestions(ageTier: 'junior' | 'senior'): Question[] {
   return bank
 }
 
-function calcXp(correct: number, questions: Question[]): number {
-  const potential = questions.reduce((sum, q) => sum + q.xp_reward, 0)
-  const accuracy = correct / 10
-  if (accuracy === 1.0) return Math.round(potential * 1.0)
-  if (accuracy >= 0.8)  return Math.round(potential * 0.8)
-  if (accuracy >= 0.6)  return Math.round(potential * 0.5)
-  return 10
-}
-
 function accuracyColor(n: number): string {
   const pct = n / 10
   if (pct >= 0.8) return '#2eb85c'
@@ -99,8 +91,6 @@ export default function ScienceLabyrinth({
   playerId,
   avatarConfig,
   displayName,
-  xpTotal,
-  xpAvailable,
 }: Props) {
   const router = useRouter()
   const supabase = useMemo(() => createClient(), [])
@@ -108,6 +98,7 @@ export default function ScienceLabyrinth({
   // Phase + fetch
   const [phase, setPhase] = useState<Phase>('loading')
   const [questions, setQuestions] = useState<Question[]>([])
+  const [questionSource, setQuestionSource] = useState<QuestionSource | null>(null)
   const [fetchErrorKind, setFetchErrorKind] = useState<FetchErrorKind>(null)
 
   // Playing state
@@ -126,7 +117,6 @@ export default function ScienceLabyrinth({
   // Results state
   const [xpEarned, setXpEarned] = useState(0)
   const [saveError, setSaveError] = useState(false)
-  const [hasBoss, setHasBoss] = useState(false)
 
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([])
   function addTimer(id: ReturnType<typeof setTimeout>) {
@@ -144,11 +134,13 @@ export default function ScienceLabyrinth({
     setFetchErrorKind(null)
     setQuestionIndex(0)
     setScore(0)
+    setXpEarned(0)
     setAnswers([])
     setFeedback(null)
     setScreenFlash(null)
     setChosenWrong(null)
     setSaveError(false)
+    setQuestionSource(null)
     // Reset maze animation state
     setCorridorAdvancing(false)
     setWallVisible(false)
@@ -200,31 +192,31 @@ export default function ScienceLabyrinth({
     )
 
     try {
-      // 1. Try AI first (may already be settled)
       const aiQuestions = await Promise.race([aiPromise, overallTimeout])
       if (aiQuestions) {
         setQuestions(shuffle(aiQuestions).slice(0, 10))
+        setQuestionSource('ai')
         setPhase('playing')
         return
       }
 
-      // 2. AI fell through — wait for DB (which was running in parallel)
       const dbQuestions = await Promise.race<Question[] | null>([dbPromise, overallTimeout])
       if (dbQuestions) {
         setQuestions(shuffle(dbQuestions).slice(0, 10))
+        setQuestionSource('db')
         setPhase('playing')
         return
       }
 
-      // 3. Neither source delivered — use hardcoded fallback
       console.warn('[ScienceLabyrinth] AI + DB both failed, using fallback questions')
       setQuestions(shuffle(fallbackQuestions(ageTier)).slice(0, 10))
+      setQuestionSource('fallback')
       setPhase('playing')
     } catch {
       console.error('[ScienceLabyrinth] overall timeout fetching questions')
       setFetchErrorKind('network')
     }
-  }, [supabase, ageTier])
+  }, [ageTier, householdId])
 
   useEffect(() => { fetchQuestions() }, [fetchQuestions])
 
@@ -233,58 +225,32 @@ export default function ScienceLabyrinth({
     return () => { timers.forEach(clearTimeout) }
   }, [])
 
-  // ── Save & results ─────────────────────────────────────────────────────────
+  // ── Save handler ───────────────────────────────────────────────────────────
+  // Per-question insert; DB trigger handles XP + boss damage atomically.
 
-  async function finishGame(finalScore: number, finalAnswers: string[], qs: Question[]) {
-    const earned = calcXp(finalScore, qs)
-    setXpEarned(earned)
-    setAnswers(finalAnswers)
-    setPhase('saving')
+  async function recordAnswer(question: Question, isCorrect: boolean) {
+    if (!UUID_RE.test(question.id)) return
 
-    let anySaveError = false
+    const xpToAward = isCorrect ? question.xp_reward : 0
+    if (isCorrect) setXpEarned((prev) => prev + xpToAward)
 
     try {
-      await supabase.from('edu_completions').insert({
+      const { error } = await supabase.from('edu_completions').insert({
         household_id: householdId,
-        challenge_id: qs[0].id,
+        challenge_id: question.id,
         player_id:    playerId,
-        score:        finalScore,
+        score:        isCorrect ? 1 : 0,
         completed_at: new Date().toISOString(),
-        xp_awarded:   earned,
+        xp_awarded:   xpToAward,
       })
-    } catch { anySaveError = true }
-
-    try {
-      await supabase
-        .from('profiles')
-        .update({ xp_total: xpTotal + earned, xp_available: xpAvailable + earned })
-        .eq('id', playerId)
-    } catch { anySaveError = true }
-
-    let foundBoss = false
-    try {
-      const { data: boss } = await supabase
-        .from('story_chapters')
-        .select('id, boss_current_hp')
-        .eq('household_id', householdId)
-        .eq('is_unlocked', false)
-        .gt('boss_current_hp', 0)
-        .order('week_number', { ascending: true })
-        .limit(1)
-        .maybeSingle()
-
-      if (boss) {
-        foundBoss = true
-        await supabase
-          .from('story_chapters')
-          .update({ boss_current_hp: Math.max(0, boss.boss_current_hp - earned) })
-          .eq('id', boss.id)
+      if (error) {
+        console.error('[ScienceLabyrinth] edu_completions insert failed:', error)
+        setSaveError(true)
       }
-    } catch { anySaveError = true }
-
-    setHasBoss(foundBoss)
-    if (anySaveError) setSaveError(true)
-    setPhase('results')
+    } catch (err) {
+      console.error('[ScienceLabyrinth] edu_completions insert threw:', err)
+      setSaveError(true)
+    }
   }
 
   // ── Loading phase ──────────────────────────────────────────────────────────
@@ -334,18 +300,6 @@ export default function ScienceLabyrinth({
     )
   }
 
-  // ── Saving phase ───────────────────────────────────────────────────────────
-
-  if (phase === 'saving') {
-    return (
-      <div style={{ padding: '48px 16px', textAlign: 'center' }}>
-        <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '7px', color: '#c9a84c', letterSpacing: '2px' }}>
-          MAPPING YOUR ROUTE…
-        </div>
-      </div>
-    )
-  }
-
   // ── Results phase ──────────────────────────────────────────────────────────
 
   if (phase === 'results') {
@@ -378,7 +332,9 @@ export default function ScienceLabyrinth({
                 {correctCount} / 10
               </div>
               <div style={{ fontFamily: 'var(--font-heading)', fontSize: '11px', color: '#7a6a44', marginTop: '2px' }}>
-                +{xpEarned} XP · Maze Explored{hasBoss ? ` · −${xpEarned} Boss HP` : ' · No active threat'}
+                {questionSource === 'fallback'
+                  ? 'Practice round — XP not awarded (offline questions)'
+                  : `+${xpEarned} XP · Maze Explored`}
               </div>
             </div>
             <div style={{
@@ -466,6 +422,8 @@ export default function ScienceLabyrinth({
     const isCorrect = option === current.content.correct_answer
     const newAnswers = [...answers, option]
 
+    void recordAnswer(current, isCorrect)
+
     if (isCorrect) {
       const newScore = score + 1
       setScore(newScore)
@@ -478,7 +436,8 @@ export default function ScienceLabyrinth({
       addTimer(setTimeout(() => setCorridorAdvancing(false), 600))
       addTimer(setTimeout(() => {
         if (questionIndex === 9) {
-          finishGame(newScore, newAnswers, questions)
+          setAnswers(newAnswers)
+          setPhase('results')
         } else {
           setQuestionIndex(qi => qi + 1)
           setFeedback(null)
@@ -502,7 +461,8 @@ export default function ScienceLabyrinth({
         if (questionIndex === 9) {
           setFeedback(null)
           setChosenWrong(null)
-          finishGame(score, newAnswers, questions)
+          setAnswers(newAnswers)
+          setPhase('results')
         } else {
           setQuestionIndex(qi => qi + 1)
           setFeedback(null)
@@ -580,12 +540,37 @@ export default function ScienceLabyrinth({
 
           {/* Center: VS + pips + counter */}
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
-            <div style={{
-              fontFamily: 'var(--font-pixel)', fontSize: '7px', color: '#1e8a4a',
-              background: 'rgba(30,138,74,0.12)', border: '1px solid rgba(30,138,74,0.3)',
-              borderRadius: '2px', padding: '3px 6px',
-            }}>
-              VS
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <div style={{
+                fontFamily: 'var(--font-pixel)', fontSize: '7px', color: '#1e8a4a',
+                background: 'rgba(30,138,74,0.12)', border: '1px solid rgba(30,138,74,0.3)',
+                borderRadius: '2px', padding: '3px 6px',
+              }}>
+                VS
+              </div>
+              {questionSource && (
+                <div
+                  title={
+                    questionSource === 'ai'
+                      ? 'Questions generated by AI'
+                      : questionSource === 'db'
+                      ? 'Questions from the seeded library'
+                      : 'Offline fallback questions'
+                  }
+                  style={{
+                    fontFamily: 'var(--font-pixel)', fontSize: '5px',
+                    color:
+                      questionSource === 'ai' ? '#7c4dff' :
+                      questionSource === 'db' ? '#2eb85c' : '#7a6a44',
+                    background: 'rgba(255,255,255,0.04)',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    borderRadius: '2px', padding: '2px 4px',
+                    letterSpacing: '1px',
+                  }}
+                >
+                  {questionSource.toUpperCase()}
+                </div>
+              )}
             </div>
             <div style={{ display: 'flex', gap: '3px' }}>
               {Array.from({ length: 10 }, (_, i) => (
