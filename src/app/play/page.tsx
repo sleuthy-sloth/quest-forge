@@ -2,18 +2,14 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import classesData from '@/lore/classes.json'
 import { signOut } from '@/app/actions/auth'
+import AvatarPreview from '@/components/avatar/AvatarPreview'
 import {
-  PixelAvatar,
   XPBar,
   HPBar,
   XPIcon,
   BossSprite,
 } from '@/components/qf'
 import { embershardState, xpForLevel } from '@/lib/xp'
-
-function classKey(avatarClass: string | null): string {
-  return (avatarClass ?? 'blazewarden').toLowerCase()
-}
 
 export default async function PlayerHomePage() {
   const supabase = await createClient()
@@ -22,7 +18,7 @@ export default async function PlayerHomePage() {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('display_name, avatar_class, level, xp_total, xp_available, gold, household_id')
+    .select('display_name, avatar_class, avatar_config, level, xp_total, xp_available, gold, household_id')
     .eq('id', user.id)
     .single()
 
@@ -106,7 +102,7 @@ export default async function PlayerHomePage() {
               border: '1px solid var(--qf-rule-strong)',
             }}
           >
-            <PixelAvatar klass={classKey(profile.avatar_class)} size={52} />
+            <AvatarPreview avatarConfig={profile.avatar_config as Record<string, unknown> | null} size={52} />
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div

@@ -122,49 +122,56 @@ export default function ScienceLabyrinth({
     setWallVisible(false)
     setWallMounted(false)
 
+    const overallTimeout = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('timeout')), 14_000)
+    )
+
     try {
-      // 1. AI-generated questions first.
-      try {
-        const aiRes = await fetch('/api/edu/generate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ subject: 'science', age_tier: ageTier, count: 10 }),
-          signal: AbortSignal.timeout(9000),
-        })
-        if (aiRes.ok) {
-          const json = (await aiRes.json()) as { questions?: Question[] }
-          if (json.questions && json.questions.length >= 5) {
-            setQuestions(shuffle(json.questions).slice(0, 10))
+      const result = await Promise.race([
+        (async () => {
+          // 1a. AI-generated questions
+          try {
+            const aiRes = await fetch('/api/edu/generate', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ subject: 'science', age_tier: ageTier, count: 10 }),
+              signal: AbortSignal.timeout(9000),
+            })
+            if (aiRes.ok) {
+              const json = (await aiRes.json()) as { questions?: Question[] }
+              if (json.questions && json.questions.length >= 5) {
+                setQuestions(shuffle(json.questions).slice(0, 10))
+                setPhase('playing')
+                return
+              }
+            }
+          } catch { /* fall through */ }
+
+          // 1b. DB fallback
+          try {
+            const { data, error } = await supabase
+              .from('edu_challenges')
+              .select('id, title, content, xp_reward')
+              .eq('subject', 'science')
+              .eq('age_tier', ageTier)
+              .eq('is_active', true)
+              .order('id')
+              .limit(50)
+              .abortSignal(AbortSignal.timeout(10000))
+
+            if (error) { setFetchErrorKind('network'); return }
+            if (!data || data.length === 0) { setFetchErrorKind('empty'); return }
+
+            setQuestions(shuffle(data as Question[]).slice(0, 10))
             setPhase('playing')
-            return
+          } catch {
+            setFetchErrorKind('network')
           }
-        }
-      } catch (err) {
-        console.warn('[ScienceLabyrinth] AI generate fell through to DB:', err)
-      }
-
-      // 2. Fallback: seeded edu_challenges in the database.
-      const { data, error } = await supabase
-        .from('edu_challenges')
-        .select('id, title, content, xp_reward')
-        .eq('subject', 'science')
-        .eq('age_tier', ageTier)
-        .eq('is_active', true)
-        .order('id')
-        .limit(50)
-        .abortSignal(AbortSignal.timeout(8000))
-
-      if (error) {
-        console.error('[ScienceLabyrinth] fetch failed:', error)
-        setFetchErrorKind('network')
-        return
-      }
-      if (!data || data.length === 0) { setFetchErrorKind('empty'); return }
-
-      setQuestions(shuffle(data as Question[]).slice(0, 10))
-      setPhase('playing')
-    } catch (err) {
-      console.error('[ScienceLabyrinth] fetch threw:', err)
+        })(),
+        overallTimeout,
+      ])
+    } catch {
+      console.error('[ScienceLabyrinth] overall timeout fetching questions')
       setFetchErrorKind('network')
     }
   }, [supabase, ageTier])

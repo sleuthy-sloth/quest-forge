@@ -54,6 +54,7 @@ export default function QuizInterface({
     challenges,
     loading: fetching,
     error: fetchError,
+    ageTier,
     sessionCorrect,
     sessionXp,
     submitting,
@@ -75,23 +76,25 @@ export default function QuizInterface({
     timersRef.current.push(id)
   }
 
-  // ── Load challenges on mount & when fetchChallenges ref changes ─────────
-  // (fetchChallenges reference updates when ageTier stabilises in the hook,
-  //  ensuring we query with the correct tier even on first load.)
-
-  const initialLoad = useRef(true)
+  // ── Load challenges when age tier is known ──────────────────────────────
+  // fetchChallenges() returns early if ageTier is null, so we only fire it
+  // once the hook finishes loading the player's age from the profile.
+  // This avoids the race-condition double-fetch that happened when the hook
+  // defaulted to 'junior' before the profile age arrived.
+  const startedRef = useRef(false)
   useEffect(() => {
-    initialLoad.current = false
+    if (!ageTier || startedRef.current) return
+    startedRef.current = true
     fetchChallenges(subject)
-  }, [fetchChallenges, subject])
+  }, [ageTier, fetchChallenges, subject])
 
   // Drain fetching into phase
   useEffect(() => {
     if (!fetching && challenges.length > 0) setPhase('playing')
-    if (!fetching && fetchError) setPhase('loading') // stays loading with error UI
+    if (!fetching && fetchError) setPhase('loading')
   }, [fetching, challenges.length, fetchError])
 
-  // Safety timeout: if still loading after 15 s, force a re-fetch or error
+  // Safety timeout: if still loading after 18 s, force a re-fetch
   const loadingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   useEffect(() => {
     if (phase !== 'loading' || fetchError || challenges.length > 0) {
@@ -102,11 +105,11 @@ export default function QuizInterface({
       return
     }
     loadingTimerRef.current = setTimeout(() => {
+      startedRef.current = false
       if (phase === 'loading' && !fetching && challenges.length === 0 && !fetchError) {
-        // Stuck — no data, no error, not even fetching. Kick it.
         fetchChallenges(subject)
       }
-    }, 15000)
+    }, 18000)
     return () => {
       if (loadingTimerRef.current) clearTimeout(loadingTimerRef.current)
     }

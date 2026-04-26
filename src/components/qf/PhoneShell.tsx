@@ -2,8 +2,9 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect, useRef, type ReactNode } from 'react'
+import { useEffect, type ReactNode } from 'react'
 import { playBgm } from '@/lib/audio'
+import MuteButton from '@/components/ui/MuteButton'
 import WalkthroughOverlay from '@/components/play/WalkthroughOverlay'
 import { Embershard } from './Embershard'
 import { Embers } from './Embers'
@@ -83,14 +84,10 @@ export function PhoneShell({
   avatarClass = null,
 }: PhoneShellProps) {
   const pathname = usePathname()
-  const bgmStarted = useRef(false)
 
-  // Start hub BGM on first mount. No cleanup on navigation — we want it to
-  // persist across pages within /play/*. ZoneManager on child pages will
-  // crossfade to different tracks; when they unmount, this keeps playing.
+  // Start hub BGM on mount. Stays playing across all /play/* pages.
+  // ZoneManager on academy/boss pages will crossfade to other tracks.
   useEffect(() => {
-    if (bgmStarted.current) return
-    bgmStarted.current = true
     playBgm('hub')
   }, [])
 
@@ -156,7 +153,8 @@ export function PhoneShell({
             {statusbarTitle.toUpperCase()}
           </div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <MuteButton size="text-sm" />
           {goldDisplay !== null && goldDisplay !== undefined && (
             <span
               className="font-pixel"

@@ -30,8 +30,8 @@ export interface UseAcademyResult {
   loading: boolean
   /** Human-readable error, or null when OK. */
   error: string | null
-  /** Derived age tier for the current player. */
-  ageTier: 'junior' | 'senior'
+  /** Derived age tier for the current player. Null until profile age loads. */
+  ageTier: 'junior' | 'senior' | null
   /** Running count of correct answers in this session. */
   sessionCorrect: number
   /** Running XP earned this session (sum of xp_reward for correct answers). */
@@ -86,7 +86,7 @@ export function useAcademy(
   const [challenges, setChallenges] = useState<EduChallenge[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [ageTier, setAgeTier] = useState<'junior' | 'senior'>('junior')
+  const [ageTier, setAgeTier] = useState<'junior' | 'senior' | null>(null)
   const [sessionCorrect, setSessionCorrect] = useState(0)
   const [sessionXp, setSessionXp] = useState(0)
   const [submitting, setSubmitting] = useState(false)
@@ -110,6 +110,7 @@ export function useAcademy(
   // ── Fetch challenges ──────────────────────────────────────────────────────
 
   const fetchChallenges = useCallback(async (subject?: string) => {
+    if (!ageTier) return // age not yet loaded; caller should wait
     setLoading(true)
     setError(null)
     setSessionCorrect(0)

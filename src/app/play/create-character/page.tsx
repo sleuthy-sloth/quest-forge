@@ -8,7 +8,7 @@ import type { AvatarConfig, SpriteEntry } from '@/types/avatar'
 import type { Json } from '@/types/database'
 import { SPRITE_MANIFEST } from '@/lib/sprites/manifest'
 import classesData from '@/lore/classes.json'
-import { playBgm, stopBgm } from '@/lib/audio'
+import { playBgm } from '@/lib/audio'
 import { saveCharacter } from '@/app/actions/save-character'
 
 // ── Types ──────────────────────────────────────────────────────────────────
@@ -911,10 +911,9 @@ function CreateCharacterInner() {
     }))
   }, [])
 
-  // Play hub music on mount, stop on unmount
+  // Play hub music on mount. PhoneShell handles lifecycle — no cleanup needed.
   useEffect(() => {
     playBgm('hub')
-    return () => stopBgm()
   }, [])
 
   // On mount: check auth. In edit mode, load existing config and jump to step 2.

@@ -29,6 +29,13 @@ const GAMES = [
     accent:  '#1e8a4a',
   },
   {
+    slug:    'reading-tome',
+    name:    'Reading Tome',
+    icon:    'scroll' as const,
+    tagline: 'Journey through enchanted stories',
+    accent:  '#c9a84c',
+  },
+  {
     slug:    'history-scroll',
     name:    'History Scroll',
     icon:    'scroll' as const,
@@ -91,8 +98,9 @@ export default async function AcademyPage() {
   const className = profile.avatar_class ?? 'Emberbearer'
 
   // Split games into two shelves of 3
-  const shelf1 = GAMES.slice(0, 3)
-  const shelf2 = GAMES.slice(3, 6)
+  const mid = Math.ceil(GAMES.length / 2)
+  const shelf1 = GAMES.slice(0, mid)
+  const shelf2 = GAMES.slice(mid)
 
   return (
     <div

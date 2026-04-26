@@ -114,53 +114,58 @@ export default function MathArena({
     setChosenWrong(null)
     setSaveError(false)
 
+    // Overall 14-second safety net: if neither AI nor DB resolves, show error
+    const overallTimeout = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('timeout')), 14_000)
+    )
+
     try {
-      // 1. Try AI-generated questions first.
-      try {
-        const aiRes = await fetch('/api/edu/generate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ subject: 'math', age_tier: ageTier, count: 10 }),
-          signal: AbortSignal.timeout(9000),
-        })
-        if (aiRes.ok) {
-          const json = (await aiRes.json()) as { questions?: Question[] }
-          if (json.questions && json.questions.length >= 5) {
-            setQuestions(shuffle(json.questions).slice(0, 10))
+      const result = await Promise.race([
+        (async () => {
+          // 1a. AI-generated questions
+          try {
+            const aiRes = await fetch('/api/edu/generate', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ subject: 'math', age_tier: ageTier, count: 10 }),
+              signal: AbortSignal.timeout(9000),
+            })
+            if (aiRes.ok) {
+              const json = (await aiRes.json()) as { questions?: Question[] }
+              if (json.questions && json.questions.length >= 5) {
+                setQuestions(shuffle(json.questions).slice(0, 10))
+                setPhase('playing')
+                return
+              }
+            }
+          } catch { /* fall through */ }
+
+          // 1b. DB fallback
+          try {
+            const { data, error } = await supabase
+              .from('edu_challenges')
+              .select('id, title, content, xp_reward')
+              .eq('subject', 'math')
+              .eq('age_tier', ageTier)
+              .eq('is_active', true)
+              .order('id')
+              .limit(50)
+              .abortSignal(AbortSignal.timeout(10000))
+
+            if (error) { setFetchErrorKind('network'); return }
+            if (!data || data.length === 0) { setFetchErrorKind('empty'); return }
+
+            setQuestions(shuffle(data as Question[]).slice(0, 10))
             setPhase('playing')
-            return
+          } catch {
+            setFetchErrorKind('network')
           }
-        }
-      } catch (err) {
-        console.warn('[MathArena] AI generate fell through to DB:', err)
-      }
-
-      // 2. Fallback: seeded edu_challenges in the database.
-      const { data, error } = await supabase
-        .from('edu_challenges')
-        .select('id, title, content, xp_reward')
-        .eq('subject', 'math')
-        .eq('age_tier', ageTier)
-        .eq('is_active', true)
-        .order('id')
-        .limit(50)
-        .abortSignal(AbortSignal.timeout(8000))
-
-      if (error) {
-        console.error('[MathArena] fetch failed:', error)
-        setFetchErrorKind('network')
-        return
-      }
-      if (!data || data.length === 0) {
-        setFetchErrorKind('empty')
-        return
-      }
-
-      const picked = shuffle(data as Question[]).slice(0, 10)
-      setQuestions(picked)
-      setPhase('playing')
-    } catch (err) {
-      console.error('[MathArena] fetch threw:', err)
+        })(),
+        overallTimeout,
+      ])
+    } catch {
+      // Overall timeout hit — neither source returned
+      console.error('[MathArena] overall timeout fetching questions')
       setFetchErrorKind('network')
     }
   }, [supabase, ageTier])

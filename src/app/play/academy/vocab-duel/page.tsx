@@ -9,11 +9,12 @@ export default async function VocabDuelPage() {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('age, avatar_config, household_id, display_name')
+    .select('age, avatar_class, avatar_config, household_id, display_name')
     .eq('id', user.id)
     .single()
 
   if (!profile) redirect('/login')
+  if (!profile.avatar_class) redirect('/play/create-character')
 
   return (
     <div

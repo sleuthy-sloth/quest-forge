@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import QuizInterface from '@/components/games/QuizInterface'
 
-export default async function LogicGatePage() {
+export default async function ReadingTomePage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -27,7 +27,7 @@ export default async function LogicGatePage() {
       <QuizInterface
         userId={user.id}
         householdId={profile.household_id}
-        subject="logic"
+        subject="reading"
         avatarConfig={profile.avatar_config as Record<string, unknown> | null}
         displayName={profile.display_name}
       />
