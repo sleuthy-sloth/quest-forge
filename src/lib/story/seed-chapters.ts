@@ -55,7 +55,7 @@ export async function seedStoryChaptersForHousehold(
       boss_hp: boss.hp,
       boss_current_hp: boss.hp,
       xp_threshold_to_unlock: Math.max(0, (boss.week - 1) * 250),
-      is_unlocked: boss.week === 1,
+      is_unlocked: false,
       rewards_claimed: false,
     }
   })

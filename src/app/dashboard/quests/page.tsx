@@ -49,32 +49,7 @@ export default async function GMQuestsPage() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-      <style>{`
-        @media (max-width: 767px) {
-          .qg-header { display: none !important; }
-          .qg-row {
-            grid-template-columns: 1fr !important;
-            gap: 4px !important;
-            padding: 16px !important;
-          }
-          .qg-assignee {
-            font-size: 12px !important;
-          }
-          .qg-rewards {
-            flex-direction: row !important;
-            gap: 12px !important;
-          }
-          .qg-head-row {
-            flex-direction: column !important;
-            align-items: stretch !important;
-            gap: 12px !important;
-          }
-          .qg-head-row .qf-btn {
-            align-self: flex-start;
-          }
-        }
-      `}</style>
-                <div
+      <div
           className="qg-head-row"
           style={{
             display: 'flex',

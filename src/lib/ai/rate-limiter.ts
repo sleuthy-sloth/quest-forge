@@ -8,52 +8,20 @@ function todayDate(): string {
 }
 
 /**
- * Ensures a row exists for today in api_usage and returns the current count.
- * If no row exists, inserts one with request_count = 0.
- */
-async function getOrCreateTodayRow(): Promise<number> {
-  const supabase = await createClient()
-  const today = todayDate()
-
-  // Try to read existing row first
-  const { data: existing } = await supabase
-    .from('api_usage')
-    .select('request_count')
-    .eq('date', today)
-    .maybeSingle()
-
-  if (existing !== null) {
-    return existing.request_count
-  }
-
-  // Row doesn't exist — insert it. If another request races us, the DB
-  // unique constraint on date will reject the duplicate; we ignore that error
-  // and re-read the row.
-  const { error: insertError } = await supabase
-    .from('api_usage')
-    .insert({ date: today, request_count: 0, last_updated: new Date().toISOString() })
-
-  if (insertError) {
-    // Likely a unique violation from a concurrent insert — re-read
-    const { data: retry } = await supabase
-      .from('api_usage')
-      .select('request_count')
-      .eq('date', today)
-      .maybeSingle()
-    return retry?.request_count ?? 0
-  }
-
-  return 0
-}
-
-/**
  * Returns true if we have budget remaining for another AI request today.
+ * Uses the get_api_usage_today RPC (read-only, no side effects).
  * Call this BEFORE every AI API call.
  */
 export async function canMakeRequest(): Promise<boolean> {
   try {
-    const count = await getOrCreateTodayRow()
-    return count < DAILY_LIMIT
+    const supabase = await createClient()
+    const { data, error } = await supabase
+      .rpc('get_api_usage_today', { p_date: todayDate() })
+    if (error) {
+      console.warn('[rate-limiter] canMakeRequest error:', error)
+      return false
+    }
+    return (data as number) < DAILY_LIMIT
   } catch {
     // If we can't read the table, be conservative and deny
     return false
@@ -61,29 +29,23 @@ export async function canMakeRequest(): Promise<boolean> {
 }
 
 /**
- * Atomically increments today's usage counter.
+ * Atomically increments today's usage counter via a DB RPC.
+ * The RPC uses INSERT … ON CONFLICT DO UPDATE, so a single round-trip
+ * handles both first-request-of-day row creation and concurrent updates
+ * without the read-then-write race of the previous implementation.
+ *
  * Call this AFTER a successful AI API response.
+ * Returns the new count (useful for logging).
  */
-export async function incrementUsage(): Promise<void> {
+export async function incrementUsage(): Promise<number> {
   const supabase = await createClient()
-  const today = todayDate()
-
-  // Read current count then write count+1.
-  // Not a true CAS, but the rate limit is a soft cap so this is acceptable.
-  const { data } = await supabase
-    .from('api_usage')
-    .select('request_count')
-    .eq('date', today)
-    .maybeSingle()
-
-  const next = (data?.request_count ?? 0) + 1
-
-  await supabase
-    .from('api_usage')
-    .upsert(
-      { date: today, request_count: next, last_updated: new Date().toISOString() },
-      { onConflict: 'date' }
-    )
+  const { data, error } = await supabase
+    .rpc('increment_api_usage', { p_date: todayDate() })
+  if (error) {
+    console.warn('[rate-limiter] incrementUsage error:', error)
+    return 0
+  }
+  return data as number
 }
 
 /**
@@ -91,7 +53,10 @@ export async function incrementUsage(): Promise<void> {
  */
 export async function getUsageToday(): Promise<number> {
   try {
-    return await getOrCreateTodayRow()
+    const supabase = await createClient()
+    const { data } = await supabase
+      .rpc('get_api_usage_today', { p_date: todayDate() })
+    return (data as number) ?? 0
   } catch {
     return 0
   }

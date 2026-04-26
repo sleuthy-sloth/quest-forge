@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState, useEffect, type ReactNode } from 'react'
+import { useState, useEffect, useRef, type ReactNode } from 'react'
 import { signOut } from '@/app/actions/auth'
 import { Embershard } from './Embershard'
 import { Embers } from './Embers'
@@ -33,6 +33,9 @@ export function GMShell({ children, householdName, displayName, weeklyBoss }: GM
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
+  const hamburgerRef = useRef<HTMLButtonElement>(null)
+  const sidebarRef   = useRef<HTMLElement>(null)
+
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 1023px)')
     const handler = (e: MediaQueryListEvent | MediaQueryList) => {
@@ -44,17 +47,94 @@ export function GMShell({ children, householdName, displayName, weeklyBoss }: GM
     return () => mq.removeEventListener('change', handler)
   }, [])
 
+  // Focus management and focus-trap for mobile sidebar.
+  useEffect(() => {
+    if (!isMobile || !sidebarOpen) return
+
+    // Move focus to the first focusable element inside the sidebar.
+    const sidebar = sidebarRef.current
+    if (sidebar) {
+      const first = sidebar.querySelector<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+      first?.focus()
+    }
+
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        setSidebarOpen(false)
+        hamburgerRef.current?.focus()
+        return
+      }
+      if (e.key !== 'Tab') return
+
+      const sb = sidebarRef.current
+      if (!sb) return
+      const focusable = Array.from(
+        sb.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      )
+      if (focusable.length === 0) return
+      const first = focusable[0]
+      const last  = focusable[focusable.length - 1]
+
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault()
+          last.focus()
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault()
+          first.focus()
+        }
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [isMobile, sidebarOpen])
+
   function isActive(href: string) {
     if (href === '/dashboard') return pathname === '/dashboard'
     return pathname.startsWith(href)
   }
 
   function closeNav() {
-    if (isMobile) setSidebarOpen(false)
+    if (isMobile) {
+      setSidebarOpen(false)
+      hamburgerRef.current?.focus()
+    }
   }
 
   return (
     <div className="qf-shell qf-gm-shell">
+      {/* Skip-to-content link — visible on keyboard focus only */}
+      <a
+        href="#main-content"
+        style={{
+          position: 'absolute',
+          top: 8,
+          left: 8,
+          zIndex: 100,
+          padding: '6px 14px',
+          background: 'var(--qf-gold-400)',
+          color: 'var(--qf-bg-void)',
+          fontFamily: 'var(--font-heading)',
+          fontWeight: 700,
+          fontSize: 13,
+          textDecoration: 'none',
+          borderRadius: 2,
+          transform: 'translateY(-100px)',
+          transition: 'transform 0.1s',
+        }}
+        onFocus={e => ((e.target as HTMLAnchorElement).style.transform = 'translateY(0)')}
+        onBlur={e => ((e.target as HTMLAnchorElement).style.transform = 'translateY(-100px)')}
+      >
+        Skip to content
+      </a>
+
       <div className="qf-ember-bg" aria-hidden="true" />
       <Embers count={14} />
 
@@ -75,8 +155,11 @@ export function GMShell({ children, householdName, displayName, weeklyBoss }: GM
       >
         {/* Hamburger — only visible on mobile */}
         <button
+          ref={hamburgerRef}
           onClick={() => setSidebarOpen(o => !o)}
           aria-label={sidebarOpen ? 'Close navigation' : 'Open navigation'}
+          aria-expanded={sidebarOpen}
+          aria-controls="gm-sidebar"
           style={{
             display: isMobile ? 'flex' : 'none',
             alignItems: 'center',
@@ -174,7 +257,8 @@ export function GMShell({ children, householdName, displayName, weeklyBoss }: GM
         {/* Overlay backdrop (mobile only) */}
         {isMobile && sidebarOpen && (
           <div
-            onClick={() => setSidebarOpen(false)}
+            onClick={() => { setSidebarOpen(false); hamburgerRef.current?.focus() }}
+            aria-hidden="true"
             style={{
               position: 'fixed',
               inset: 0,
@@ -186,6 +270,11 @@ export function GMShell({ children, householdName, displayName, weeklyBoss }: GM
 
         {/* Sidebar */}
         <aside
+          id="gm-sidebar"
+          ref={sidebarRef}
+          role={isMobile ? 'dialog' : undefined}
+          aria-modal={isMobile ? true : undefined}
+          aria-label={isMobile ? 'Navigation' : undefined}
           style={{
             width: 232,
             padding: '24px 14px',
@@ -194,7 +283,6 @@ export function GMShell({ children, householdName, displayName, weeklyBoss }: GM
             flexDirection: 'column',
             gap: 4,
             flexShrink: 0,
-            // Border + mobile overlay handled via spread below
             ...(isMobile
               ? {
                   position: 'fixed' as const,
@@ -206,6 +294,8 @@ export function GMShell({ children, householdName, displayName, weeklyBoss }: GM
                   transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)',
                   transition: 'transform 0.2s ease',
                   boxShadow: sidebarOpen ? '4px 0 24px rgba(0,0,0,0.4)' : 'none',
+                  // Hidden from AT when collapsed so screen readers don't traverse it
+                  visibility: sidebarOpen ? 'visible' : 'hidden',
                 }
               : {
                   position: 'relative' as const,
@@ -231,6 +321,7 @@ export function GMShell({ children, householdName, displayName, weeklyBoss }: GM
                 key={n.href}
                 href={n.href}
                 onClick={closeNav}
+                aria-current={active ? 'page' : undefined}
                 style={{
                   padding: '10px 12px',
                   borderLeft: active
@@ -319,7 +410,7 @@ export function GMShell({ children, householdName, displayName, weeklyBoss }: GM
         </aside>
 
         {/* Content */}
-        <main style={{ flex: 1, padding: isMobile ? 16 : 28, overflow: 'auto' }}>
+        <main id="main-content" style={{ flex: 1, padding: isMobile ? 16 : 28, overflow: 'auto' }}>
           {children}
         </main>
       </div>

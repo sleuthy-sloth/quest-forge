@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+
+const Schema = z.object({
+  itemId: z.string().uuid('itemId must be a valid UUID'),
+})
 
 export async function POST(req: NextRequest) {
   const supabase = await createClient()
@@ -7,74 +12,50 @@ export async function POST(req: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const body = await req.json() as { itemId?: string }
-  if (!body.itemId) return NextResponse.json({ error: 'itemId required' }, { status: 400 })
-
-  // Fetch player profile
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('household_id, xp_available, gold')
-    .eq('id', user.id)
-    .single()
-  if (!profile) return NextResponse.json({ error: 'Profile not found' }, { status: 404 })
-
-  // Fetch item — must belong to same household and be available
-  const { data: item } = await supabase
-    .from('loot_store_items')
-    .select('id, name, cost_xp, cost_gold, is_available')
-    .eq('id', body.itemId)
-    .eq('household_id', profile.household_id)
-    .single()
-  if (!item || !item.is_available) {
-    return NextResponse.json({ error: 'Item not found or unavailable' }, { status: 404 })
+  let body: unknown
+  try { body = await req.json() } catch {
+    return NextResponse.json({ error: 'Invalid request body.' }, { status: 400 })
   }
 
-  // Check affordability
-  if (profile.xp_available < item.cost_xp || profile.gold < item.cost_gold) {
-    return NextResponse.json({ error: 'Insufficient funds' }, { status: 402 })
+  const result = Schema.safeParse(body)
+  if (!result.success) {
+    return NextResponse.json({ error: result.error.issues[0].message }, { status: 400 })
   }
 
-  // Deduct currencies — the .gte() guards prevent deducting below zero
-  // in a concurrent scenario (TOCTOU mitigation)
-  const { data: updated, error: updateErr } = await supabase
-    .from('profiles')
-    .update({
-      xp_available: profile.xp_available - item.cost_xp,
-      gold:         profile.gold         - item.cost_gold,
+  const { itemId } = result.data
+
+  // Delegate the entire purchase (affordability check + deduction + insert) to
+  // a single Postgres transaction via RPC. This eliminates the TOCTOU window
+  // and ensures the rollback is handled atomically by the DB.
+  const { data, error } = await supabase
+    .rpc('purchase_loot_item', {
+      p_player_id: user.id,
+      p_item_id:   itemId,
     })
-    .eq('id', user.id)
-    .gte('xp_available', item.cost_xp)
-    .gte('gold',         item.cost_gold)
-    .select('xp_available, gold')
-    .single()
 
-  if (updateErr || !updated) {
-    return NextResponse.json({ error: 'Purchase failed — balance changed, please retry' }, { status: 409 })
+  if (error) {
+    console.error('[purchase] rpc error:', error)
+    return NextResponse.json({ error: 'Purchase failed. Please try again.' }, { status: 500 })
   }
 
-  // Create purchase record
-  const { data: purchase, error: purchaseErr } = await supabase
-    .from('purchases')
-    .insert({
-      item_id:      item.id,
-      player_id:    user.id,
-      household_id: profile.household_id,
-    })
-    .select('id, item_id, purchased_at, redeemed, redeemed_at')
-    .single()
+  const result2 = data as {
+    error?: string
+    purchaseId?: string
+    newXpAvailable?: number
+    newGold?: number
+  }
 
-  if (purchaseErr || !purchase) {
-    // Best-effort rollback: restore currencies
-    await supabase
-      .from('profiles')
-      .update({ xp_available: profile.xp_available, gold: profile.gold })
-      .eq('id', user.id)
-    return NextResponse.json({ error: 'Failed to record purchase' }, { status: 500 })
+  if (result2.error) {
+    const status =
+      result2.error === 'Insufficient funds'     ? 402 :
+      result2.error === 'Profile not found'       ? 404 :
+      result2.error.includes('not found')         ? 404 : 400
+    return NextResponse.json({ error: result2.error }, { status })
   }
 
   return NextResponse.json({
-    newXpAvailable: updated.xp_available,
-    newGold:        updated.gold,
-    purchase,
+    purchaseId:     result2.purchaseId,
+    newXpAvailable: result2.newXpAvailable,
+    newGold:        result2.newGold,
   })
 }

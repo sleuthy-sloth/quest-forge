@@ -1,5 +1,7 @@
+import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { xpForLevel } from '@/lib/xp'
 import {
   StatCard,
   PixelAvatar,
@@ -8,13 +10,6 @@ import {
   Coin,
 } from '@/components/qf'
 
-// XP curve mirrors src/lib/xp.ts. Inlined here so the page stays a pure
-// server component fetch + render.
-function xpForLevel(level: number) {
-  if (level <= 1) return 0
-  return (50 * (level - 1) * (level + 2)) / 2
-}
-
 function classKey(avatarClass: string | null): string {
   return (avatarClass ?? 'blazewarden').toLowerCase()
 }
@@ -22,16 +17,20 @@ function classKey(avatarClass: string | null): string {
 export default async function GMHomePage() {
   const supabase = await createClient()
 
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
+
   // Resolve household_id for defense-in-depth query scoping.
   // The dashboard layout already guards: only GMs who pass the role check
   // reach this page, so the profile + household_id always exist.
-  const { data: { user } } = await supabase.auth.getUser()
   const { data: profileBrief } = await supabase
     .from('profiles')
     .select('household_id')
-    .eq('id', user!.id)
+    .eq('id', user.id)
     .maybeSingle()
-  const householdId = profileBrief!.household_id
+
+  if (!profileBrief?.household_id) redirect('/login')
+  const householdId = profileBrief.household_id
 
   // Fetch in parallel: roster, pending approvals, current week's boss.
   const [
@@ -42,6 +41,7 @@ export default async function GMHomePage() {
     supabase
       .from('profiles')
       .select('id, display_name, username, level, xp_total, xp_available, gold, avatar_class')
+      .eq('household_id', householdId)
       .eq('role', 'player')
       .order('created_at', { ascending: true }),
 
@@ -74,6 +74,7 @@ export default async function GMHomePage() {
   const { data: weekRows } = await supabase
     .from('chore_completions')
     .select('xp_awarded')
+    .eq('household_id', householdId)
     .eq('verified', true)
     .gte('verified_at', weekStart.toISOString())
   const weekXP = (weekRows ?? []).reduce((acc, r) => acc + (r.xp_awarded ?? 0), 0)
@@ -90,26 +91,6 @@ export default async function GMHomePage() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-      <style>{`
-        .dash-stat-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 14px;
-        }
-        .dash-panels {
-          display: grid;
-          grid-template-columns: 2fr 1fr;
-          gap: 16px;
-        }
-        @media (max-width: 900px) {
-          .dash-stat-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 640px) {
-          .dash-stat-grid { grid-template-columns: 1fr; }
-          .dash-panels { grid-template-columns: 1fr; }
-        }
-      `}</style>
-
       {/* Greeting */}
       <div>
         <div

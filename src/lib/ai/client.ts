@@ -15,7 +15,7 @@ const geminiClient = process.env.GEMINI_API_KEY
   : null
 
 export const geminiModel = geminiClient
-  ? geminiClient.getGenerativeModel({ model: 'gemini-2.5-flash' })
+  ? geminiClient.getGenerativeModel({ model: 'gemini-2.0-flash' })
   : null
 
 // ── Constants ────────────────────────────────────────────────────────────────

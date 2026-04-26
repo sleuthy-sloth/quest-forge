@@ -259,6 +259,43 @@ canvas.pixel,
   }
 }
 
+/* ── Dashboard home page grids ───────────────────────────── */
+.dash-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+.dash-panels {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 900px) {
+  .dash-stat-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .dash-stat-grid { grid-template-columns: 1fr; }
+  .dash-panels    { grid-template-columns: 1fr; }
+}
+
+/* ── Quest board table (GM quests page) ──────────────────── */
+@media (max-width: 767px) {
+  .qg-header { display: none !important; }
+  .qg-row {
+    grid-template-columns: 1fr !important;
+    gap: 4px !important;
+    padding: 16px !important;
+  }
+  .qg-assignee { font-size: 12px !important; }
+  .qg-rewards  { flex-direction: row !important; gap: 12px !important; }
+  .qg-head-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+  .qg-head-row .qf-btn { align-self: flex-start; }
+}
+
 /* ── Dashboard shell utilities (used by child pages) ─────── */
 .dash-topbar {
   border-bottom: 1px solid rgba(180,50,80,0.12);
