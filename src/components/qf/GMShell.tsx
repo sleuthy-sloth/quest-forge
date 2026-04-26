@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import type { ReactNode } from 'react'
+import { useState, useEffect, type ReactNode } from 'react'
 import { signOut } from '@/app/actions/auth'
 import { Embershard } from './Embershard'
 import { Embers } from './Embers'
@@ -30,10 +30,27 @@ const NAV = [
 export function GMShell({ children, householdName, displayName, weeklyBoss }: GMShellProps) {
   const pathname = usePathname()
   const initial = (displayName || '').trim().charAt(0).toUpperCase() || 'G'
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 1023px)')
+    const handler = (e: MediaQueryListEvent | MediaQueryList) => {
+      setIsMobile(e.matches)
+      if (!e.matches) setSidebarOpen(false)
+    }
+    handler(mq)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
 
   function isActive(href: string) {
     if (href === '/dashboard') return pathname === '/dashboard'
     return pathname.startsWith(href)
+  }
+
+  function closeNav() {
+    if (isMobile) setSidebarOpen(false)
   }
 
   return (
@@ -56,6 +73,37 @@ export function GMShell({ children, householdName, displayName, weeklyBoss }: GM
           flexShrink: 0,
         }}
       >
+        {/* Hamburger — only visible on mobile */}
+        <button
+          onClick={() => setSidebarOpen(o => !o)}
+          aria-label={sidebarOpen ? 'Close navigation' : 'Open navigation'}
+          style={{
+            display: isMobile ? 'flex' : 'none',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'none',
+            border: 'none',
+            color: 'var(--qf-gold-300)',
+            cursor: 'pointer',
+            padding: 0,
+            marginRight: 14,
+          }}
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            {sidebarOpen ? (
+              <>
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </>
+            ) : (
+              <>
+                <line x1="4" y1="6" x2="20" y2="6" />
+                <line x1="4" y1="12" x2="20" y2="12" />
+                <line x1="4" y1="18" x2="20" y2="18" />
+              </>
+            )}
+          </svg>
+        </button>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <Embershard size={22} />
           <div
@@ -123,17 +171,46 @@ export function GMShell({ children, householdName, displayName, weeklyBoss }: GM
           zIndex: 4,
         }}
       >
+        {/* Overlay backdrop (mobile only) */}
+        {isMobile && sidebarOpen && (
+          <div
+            onClick={() => setSidebarOpen(false)}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              background: 'rgba(0,0,0,0.6)',
+              zIndex: 10,
+            }}
+          />
+        )}
+
         {/* Sidebar */}
         <aside
           style={{
             width: 232,
-            borderRight: '1px solid var(--qf-rule)',
             padding: '24px 14px',
-            background: 'rgba(10,11,15,0.55)',
+            background: isMobile ? 'var(--qf-bg-deep)' : 'rgba(10,11,15,0.55)',
             display: 'flex',
             flexDirection: 'column',
             gap: 4,
             flexShrink: 0,
+            // Border + mobile overlay handled via spread below
+            ...(isMobile
+              ? {
+                  position: 'fixed' as const,
+                  top: 64,
+                  left: 0,
+                  bottom: 0,
+                  zIndex: 11,
+                  borderRight: '1px solid var(--qf-rule)',
+                  transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)',
+                  transition: 'transform 0.2s ease',
+                  boxShadow: sidebarOpen ? '4px 0 24px rgba(0,0,0,0.4)' : 'none',
+                }
+              : {
+                  position: 'relative' as const,
+                  borderRight: '1px solid var(--qf-rule)',
+                }),
           }}
         >
           <div
@@ -153,6 +230,7 @@ export function GMShell({ children, householdName, displayName, weeklyBoss }: GM
               <Link
                 key={n.href}
                 href={n.href}
+                onClick={closeNav}
                 style={{
                   padding: '10px 12px',
                   borderLeft: active
@@ -241,7 +319,9 @@ export function GMShell({ children, householdName, displayName, weeklyBoss }: GM
         </aside>
 
         {/* Content */}
-        <main style={{ flex: 1, padding: 28, overflow: 'auto' }}>{children}</main>
+        <main style={{ flex: 1, padding: isMobile ? 16 : 28, overflow: 'auto' }}>
+          {children}
+        </main>
       </div>
     </div>
   )

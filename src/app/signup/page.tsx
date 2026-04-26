@@ -54,7 +54,7 @@ function AstrolabeRing({ size }: { size: number }) {
       {/* Outer ring */}
       <circle cx={cx} cy={cy} r={outerR} fill="none" stroke="rgba(201,168,76,0.2)" strokeWidth="1.5" />
       {/* Inner dashed ring */}
-      <circle cx={cx} cy={cy} r={innerR} fill="none" stroke="rgba(100,160,255,0.1)" strokeWidth="0.75" strokeDasharray="5 12" />
+      <circle cx={cx} cy={cy} r={innerR} fill="none" stroke="rgba(232,160,32,0.08)" strokeWidth="0.75" strokeDasharray="5 12" />
       {/* Cardinal long marks */}
       {[0, 90, 180, 270].map(deg => {
         const rad = (deg - 90) * Math.PI / 180
@@ -191,7 +191,6 @@ export default function SignupPage() {
   return (
     <>
       <style suppressHydrationWarning>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         @keyframes twinkle {
@@ -210,56 +209,28 @@ export default function SignupPage() {
           0%,100% { transform: translate(0,0) scale(1); }
           50%      { transform: translate(20px,-15px) scale(1.06); }
         }
-        @keyframes sigil-pulse {
-          0%,100% { box-shadow: 0 0 18px rgba(100,160,255,0.35), 0 0 40px rgba(80,100,255,0.1); }
-          50%      { box-shadow: 0 0 28px rgba(100,160,255,0.6), 0 0 60px rgba(80,100,255,0.2); }
-        }
         @keyframes spinner {
           to { transform: rotate(360deg); }
         }
 
         .ob-label {
           display: block;
-          font-family: 'Cinzel', serif;
+          font-family: var(--font-heading), Cinzel, serif;
           font-size: 0.63rem;
           letter-spacing: 0.15em;
           text-transform: uppercase;
-          color: rgba(201,168,76,0.65);
+          color: var(--qf-gold-600);
           margin-bottom: 0.4rem;
-        }
-        .ob-input {
-          width: 100%;
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(201,168,76,0.18);
-          border-radius: 2px;
-          color: #e8f0ff;
-          font-family: 'Raleway', sans-serif;
-          font-size: 0.95rem;
-          font-weight: 300;
-          padding: 0.7rem 0.95rem;
-          outline: none;
-          transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
-        }
-        .ob-input::placeholder { color: rgba(200,210,255,0.22); }
-        .ob-input:focus {
-          border-color: rgba(201,168,76,0.5);
-          background: rgba(201,168,76,0.035);
-          box-shadow: 0 0 0 3px rgba(100,160,255,0.07), 0 0 16px rgba(201,168,76,0.07);
-        }
-        .ob-input[aria-invalid="true"] {
-          border-color: rgba(220,80,80,0.55);
-          box-shadow: 0 0 0 3px rgba(220,80,80,0.08);
         }
         .ob-btn {
           width: 100%;
-          background: linear-gradient(135deg, rgba(22,40,90,0.95), rgba(45,18,95,0.95));
-          border: 1px solid rgba(201,168,76,0.4);
-          border-radius: 2px;
-          color: rgba(201,168,76,0.95);
-          font-family: 'Cinzel', serif;
-          font-size: 0.8rem;
-          font-weight: 600;
-          letter-spacing: 0.16em;
+          background: linear-gradient(135deg, var(--qf-gold-500) 0%, var(--qf-gold-400) 50%, var(--qf-gold-500) 100%);
+          background-size: 200% 100%;
+          border: 2px solid var(--qf-gold-300);
+          color: var(--qf-bg-void);
+          font-family: var(--font-heading), Cinzel, serif;
+          font-weight: 700;
+          letter-spacing: 0.08em;
           text-transform: uppercase;
           padding: 0.9rem;
           cursor: pointer;
@@ -267,19 +238,22 @@ export default function SignupPage() {
           align-items: center;
           justify-content: center;
           gap: 0.6rem;
-          animation: sigil-pulse 3s ease-in-out infinite;
-          transition: background 0.3s, color 0.2s, border-color 0.2s;
+          box-shadow: 0 0 12px rgba(232,160,32,0.3), inset 0 1px 0 rgba(255,255,255,0.2);
+          border-radius: 2px;
+          font-size: 0.8rem;
+          transition: background-position 0.3s, transform 0.1s, box-shadow 0.2s;
         }
         .ob-btn:hover:not(:disabled) {
-          background: linear-gradient(135deg, rgba(32,56,120,0.98), rgba(62,26,130,0.98));
-          color: rgba(240,208,100,1);
-          border-color: rgba(201,168,76,0.65);
+          background-position: 100% 0;
+          box-shadow: 0 0 24px rgba(232,160,32,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+          transform: translateY(-1px);
+          color: var(--qf-bg-void);
         }
         .ob-btn:disabled { opacity: 0.6; cursor: not-allowed; animation: none; }
         .ob-spinner {
           width: 14px; height: 14px;
-          border: 2px solid rgba(201,168,76,0.25);
-          border-top-color: rgba(201,168,76,0.8);
+          border: 2px solid rgba(255,255,255,0.25);
+          border-top-color: rgba(255,255,255,0.8);
           border-radius: 50%;
           animation: spinner 0.7s linear infinite;
           flex-shrink: 0;
@@ -289,7 +263,7 @@ export default function SignupPage() {
       {/* Void */}
       <div style={{
         minHeight: '100dvh',
-        background: '#040812',
+        background: 'var(--qf-bg-void)',
         position: 'relative',
         display: 'flex',
         alignItems: 'center',
@@ -300,21 +274,15 @@ export default function SignupPage() {
 
         {/* Nebula glows */}
         <div aria-hidden="true" style={{
-          position: 'fixed', top: '-15%', left: '-10%', width: '65%', height: '65%',
-          background: 'radial-gradient(ellipse, rgba(28,55,160,0.16) 0%, transparent 70%)',
+          position: 'fixed', top: '-20%', left: '-15%', width: '60%', height: '60%',
+          background: 'radial-gradient(ellipse, rgba(255,96,16,0.08) 0%, transparent 70%)',
           animation: 'nebula-drift 20s ease-in-out infinite',
           pointerEvents: 'none',
         }} />
         <div aria-hidden="true" style={{
-          position: 'fixed', bottom: '-20%', right: '-12%', width: '70%', height: '70%',
-          background: 'radial-gradient(ellipse, rgba(100,18,180,0.12) 0%, transparent 70%)',
+          position: 'fixed', bottom: '-20%', right: '-10%', width: '60%', height: '60%',
+          background: 'radial-gradient(ellipse, rgba(201,125,10,0.06) 0%, transparent 70%)',
           animation: 'nebula-drift 28s ease-in-out infinite reverse',
-          pointerEvents: 'none',
-        }} />
-        <div aria-hidden="true" style={{
-          position: 'fixed', top: '40%', right: '-5%', width: '40%', height: '40%',
-          background: 'radial-gradient(ellipse, rgba(0,100,180,0.06) 0%, transparent 70%)',
-          animation: 'nebula-drift 16s ease-in-out 4s infinite',
           pointerEvents: 'none',
         }} />
 
@@ -325,8 +293,8 @@ export default function SignupPage() {
             left: `${s.x}%`, top: `${s.y}%`,
             width: `${s.size}px`, height: `${s.size}px`,
             borderRadius: '50%',
-            background: s.size > 1.8 ? `rgba(200,220,255,${s.opacity})` : `rgba(255,255,255,${s.opacity})`,
-            boxShadow: s.size > 1.8 ? `0 0 ${s.size * 3}px rgba(180,210,255,0.45)` : 'none',
+            background: s.size > 1.8 ? `rgba(240,230,200,${s.opacity})` : `rgba(255,255,255,${s.opacity})`,
+            boxShadow: s.size > 1.8 ? `0 0 ${s.size * 3}px rgba(240,230,200,0.45)` : 'none',
             ['--op' as string]: s.opacity,
             animation: `twinkle ${s.twinkle}s ease-in-out ${s.id * 0.05}s infinite`,
             pointerEvents: 'none',
@@ -349,12 +317,12 @@ export default function SignupPage() {
           {/* Card */}
           <div style={{
             position: 'relative',
-            background: 'linear-gradient(158deg, rgba(7,10,26,0.97) 0%, rgba(10,6,22,0.97) 100%)',
-            border: '1px solid rgba(201,168,76,0.25)',
+            background: 'linear-gradient(180deg, var(--qf-bg-card) 0%, var(--qf-bg-card-alt) 100%)',
+            border: '1px solid var(--qf-rule)',
             borderRadius: '3px',
             padding: 'clamp(2rem, 5vw, 2.8rem)',
             backdropFilter: 'blur(6px)',
-            boxShadow: '0 0 80px rgba(20,40,160,0.18), 0 24px 80px rgba(0,0,0,0.55)',
+            boxShadow: '0 0 80px rgba(201,125,10,0.10), 0 24px 80px rgba(0,0,0,0.55)',
           }}>
 
             {/* Cardinal-point diamond accents */}
@@ -378,12 +346,12 @@ export default function SignupPage() {
               <div style={{ display: 'inline-block', marginBottom: '1.1rem' }}>
                 <svg width="56" height="56" viewBox="0 0 56 56">
                   <circle cx="28" cy="28" r="26" fill="none" stroke="rgba(201,168,76,0.22)" strokeWidth="0.75" />
-                  <circle cx="28" cy="28" r="18" fill="none" stroke="rgba(100,160,255,0.12)" strokeWidth="0.5" strokeDasharray="3 8" />
+                  <circle cx="28" cy="28" r="18" fill="none" stroke="rgba(232,160,32,0.08)" strokeWidth="0.5" strokeDasharray="3 8" />
                   {[0, 90, 180, 270].map(d => {
                     const r = (d - 90) * Math.PI / 180
                     return <circle key={d} cx={28 + 26 * Math.cos(r)} cy={28 + 26 * Math.sin(r)} r="2.5" fill="rgba(201,168,76,0.65)" />
                   })}
-                  <circle cx="28" cy="28" r="6" fill="rgba(100,160,255,0.1)" stroke="rgba(201,168,76,0.4)" strokeWidth="1" />
+                  <circle cx="28" cy="28" r="6" fill="rgba(232,160,32,0.08)" stroke="rgba(201,168,76,0.4)" strokeWidth="1" />
                   <circle cx="28" cy="28" r="2.2" fill="rgba(201,168,76,0.55)" />
                   <line x1="28" y1="2" x2="28" y2="54" stroke="rgba(201,168,76,0.08)" strokeWidth="0.5" />
                   <line x1="2" y1="28" x2="54" y2="28" stroke="rgba(201,168,76,0.08)" strokeWidth="0.5" />
@@ -391,7 +359,7 @@ export default function SignupPage() {
               </div>
 
               <h1 style={{
-                fontFamily: "'Cinzel', serif",
+                fontFamily: "var(--font-heading), Cinzel, serif",
                 fontSize: 'clamp(1.1rem, 3.5vw, 1.45rem)',
                 color: '#c9a84c',
                 fontWeight: 700,
@@ -405,14 +373,14 @@ export default function SignupPage() {
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', margin: '0.8rem 0' }}>
                 <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(201,168,76,0.28))' }} />
-                <span style={{ color: 'rgba(201,168,76,0.38)', fontFamily: "'Cinzel', serif", fontSize: '0.5rem', letterSpacing: '0.2em' }}>✦ ✦ ✦</span>
+                <span style={{ color: 'rgba(201,168,76,0.38)', fontFamily: "var(--font-heading), Cinzel, serif", fontSize: '0.5rem', letterSpacing: '0.2em' }}>✦ ✦ ✦</span>
                 <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, rgba(201,168,76,0.28), transparent)' }} />
               </div>
 
               <p style={{
-                fontFamily: "'Raleway', sans-serif",
+                fontFamily: "var(--font-body), 'Crimson Text', Georgia, serif",
                 fontWeight: 300,
-                color: 'rgba(200,215,255,0.4)',
+                color: 'rgba(240,230,200,0.4)',
                 fontSize: '0.87rem',
                 letterSpacing: '0.04em',
               }}>
@@ -433,7 +401,7 @@ export default function SignupPage() {
                   <label htmlFor={f.key} className="ob-label">{f.label}</label>
                   <input
                     id={f.key}
-                    className="ob-input"
+                    className="quest-input"
                     type={f.type || 'text'}
                     placeholder={f.placeholder}
                     autoComplete={f.autoComplete}
@@ -445,10 +413,10 @@ export default function SignupPage() {
                   />
                   {fieldErrors[f.key] && (
                     <p id={`${f.key}-err`} role="alert" style={{
-                      fontFamily: "'Raleway', sans-serif",
+                      fontFamily: "var(--font-body), 'Crimson Text', Georgia, serif",
                       fontWeight: 400,
                       fontSize: '0.8rem',
-                      color: 'rgba(220,100,100,0.85)',
+                      color: 'var(--qf-error)',
                       marginTop: '0.4rem',
                       display: 'flex',
                       alignItems: 'center',
@@ -463,25 +431,25 @@ export default function SignupPage() {
               {/* Server error */}
               {serverError && (
                 <div role="alert" style={{
-                  background: 'rgba(220,60,60,0.08)',
-                  border: '1px solid rgba(220,60,60,0.3)',
+                  background: 'rgba(224,85,85,0.08)',
+                  border: '1px solid rgba(224,85,85,0.3)',
                   borderRadius: '2px',
                   padding: '0.7rem 0.9rem',
                   display: 'flex',
                   gap: '0.6rem',
                   alignItems: 'flex-start',
                 }}>
-                  <span aria-hidden="true" style={{ color: 'rgba(220,100,100,0.8)', flexShrink: 0 }}>⚠</span>
+                  <span aria-hidden="true" style={{ color: 'var(--qf-error)', flexShrink: 0 }}>⚠</span>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <p style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 400, color: 'rgba(220,100,100,0.85)', fontSize: '0.88rem' }}>
+                    <p style={{ fontFamily: "var(--font-body), 'Crimson Text', Georgia, serif", fontWeight: 400, color: 'var(--qf-error)', fontSize: '0.88rem' }}>
                       {serverError}
                     </p>
                     {duplicateEmail && (
-                      <p style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 400, fontSize: '0.85rem', color: 'rgba(220,210,180,0.75)' }}>
+                      <p style={{ fontFamily: "var(--font-body), 'Crimson Text', Georgia, serif", fontWeight: 400, fontSize: '0.85rem', color: 'rgba(240,230,200,0.75)' }}>
                         Forgot your password?{' '}
                         <Link
                           href="/forgot-password"
-                          style={{ color: 'rgba(201,168,76,0.95)', textDecoration: 'underline', fontWeight: 500 }}
+                          style={{ color: 'var(--qf-gold-600)', textDecoration: 'underline', fontWeight: 500 }}
                         >
                           Reset it here
                         </Link>
@@ -504,15 +472,15 @@ export default function SignupPage() {
 
                 <p style={{
                   textAlign: 'center',
-                  fontFamily: "'Raleway', sans-serif",
+                  fontFamily: "var(--font-body), 'Crimson Text', Georgia, serif",
                   fontWeight: 300,
-                  color: 'rgba(200,215,255,0.3)',
+                  color: 'rgba(240,230,200,0.3)',
                   fontSize: '0.83rem',
                 }}>
                   Already have a hearthhold?{' '}
-                  <Link href="/login" style={{ color: 'rgba(201,168,76,0.65)', textDecoration: 'none', fontWeight: 400, transition: 'color 0.2s' }}
-                    onMouseEnter={e => (e.currentTarget.style.color = 'rgba(201,168,76,1)')}
-                    onMouseLeave={e => (e.currentTarget.style.color = 'rgba(201,168,76,0.65)')}
+                  <Link href="/login" style={{ color: 'var(--qf-gold-600)', textDecoration: 'none', fontWeight: 400, transition: 'color 0.2s' }}
+                    onMouseEnter={e => (e.currentTarget.style.color = 'var(--qf-gold-400)')}
+                    onMouseLeave={e => (e.currentTarget.style.color = 'var(--qf-gold-600)')}
                   >
                     Return to the Gates
                   </Link>

@@ -131,21 +131,41 @@ export function PhoneShell({
             {statusbarTitle.toUpperCase()}
           </div>
         </div>
-        {goldDisplay !== null && goldDisplay !== undefined && (
-          <span
-            className="font-pixel"
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          {goldDisplay !== null && goldDisplay !== undefined && (
+            <span
+              className="font-pixel"
+              style={{
+                fontSize: 7,
+                color: 'var(--qf-gold-200)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 3,
+              }}
+            >
+              <Coin size={10} />
+              {goldDisplay.toLocaleString()}
+            </span>
+          )}
+          <Link
+            href="/play/profile"
+            aria-label="Profile"
             style={{
-              fontSize: 7,
-              color: 'var(--qf-gold-200)',
               display: 'flex',
               alignItems: 'center',
-              gap: 3,
+              justifyContent: 'center',
+              color: 'var(--qf-parchment-muted)',
+              transition: 'color 0.15s',
             }}
+            onMouseEnter={e => (e.currentTarget.style.color = 'var(--qf-gold-300)')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'var(--qf-parchment-muted)')}
           >
-            <Coin size={10} />
-            {goldDisplay.toLocaleString()}
-          </span>
-        )}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 21v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2" />
+            </svg>
+          </Link>
+        </div>
       </div>
 
       {/* Content */}

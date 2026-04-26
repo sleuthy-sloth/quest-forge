@@ -49,13 +49,39 @@ export default async function GMQuestsPage() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'flex-end',
-          justifyContent: 'space-between',
-        }}
-      >
+      <style>{`
+        @media (max-width: 767px) {
+          .qg-header { display: none !important; }
+          .qg-row {
+            grid-template-columns: 1fr !important;
+            gap: 4px !important;
+            padding: 16px !important;
+          }
+          .qg-assignee {
+            font-size: 12px !important;
+          }
+          .qg-rewards {
+            flex-direction: row !important;
+            gap: 12px !important;
+          }
+          .qg-head-row {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 12px !important;
+          }
+          .qg-head-row .qf-btn {
+            align-self: flex-start;
+          }
+        }
+      `}</style>
+                <div
+          className="qg-head-row"
+          style={{
+            display: 'flex',
+            alignItems: 'flex-end',
+            justifyContent: 'space-between',
+          }}
+        >
         <div>
           <div
             className="font-pixel"
@@ -125,6 +151,7 @@ export default async function GMQuestsPage() {
       {/* Table */}
       <div className="qf-ornate-panel" style={{ padding: 0, overflow: 'hidden' }}>
         <div
+          className="qg-header"
           style={{
             display: 'grid',
             gridTemplateColumns: '2.5fr 1fr 1fr 0.8fr',
@@ -165,17 +192,18 @@ export default async function GMQuestsPage() {
           rows.map((q, i) => {
             const accent = DIFF_COLOR[q.difficulty] ?? 'var(--qf-gold-300)'
             return (
-              <div
-                key={q.id}
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '2.5fr 1fr 1fr 0.8fr',
-                  padding: '12px 18px',
-                  gap: 12,
-                  alignItems: 'center',
-                  borderBottom: i < rows.length - 1 ? '1px solid var(--qf-rule)' : 'none',
-                }}
-              >
+                <div
+                  key={q.id}
+                  className="qg-row"
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '2.5fr 1fr 1fr 0.8fr',
+                    padding: '12px 18px',
+                    gap: 12,
+                    alignItems: 'center',
+                    borderBottom: i < rows.length - 1 ? '1px solid var(--qf-rule)' : 'none',
+                  }}
+                >
                 <div>
                   <div
                     className="font-heading"
@@ -207,12 +235,12 @@ export default async function GMQuestsPage() {
                   <Chip color={accent}>{difficultyLabel(q.difficulty)}</Chip>
                 </div>
                 <div
-                  className="font-heading"
+                  className="font-heading qg-assignee"
                   style={{ fontSize: 13, color: 'var(--qf-parchment)' }}
                 >
                   {q.assigned_to ? (playerById.get(q.assigned_to) ?? 'Unknown') : 'Everyone'}
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <div className="qg-rewards" style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                   <span
                     className="font-pixel"
                     style={{

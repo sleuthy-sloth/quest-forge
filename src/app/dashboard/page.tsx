@@ -90,6 +90,26 @@ export default async function GMHomePage() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      <style>{`
+        .dash-stat-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 14px;
+        }
+        .dash-panels {
+          display: grid;
+          grid-template-columns: 2fr 1fr;
+          gap: 16px;
+        }
+        @media (max-width: 900px) {
+          .dash-stat-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 640px) {
+          .dash-stat-grid { grid-template-columns: 1fr; }
+          .dash-panels { grid-template-columns: 1fr; }
+        }
+      `}</style>
+
       {/* Greeting */}
       <div>
         <div
@@ -129,7 +149,7 @@ export default async function GMHomePage() {
       </div>
 
       {/* Stat row */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14 }}>
+      <div className="dash-stat-grid">
         <StatCard
           label="QUESTS PENDING"
           value={totalPending}
@@ -156,13 +176,7 @@ export default async function GMHomePage() {
       </div>
 
       {/* Two cols: pending approvals + emberbearers */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '2fr 1fr',
-          gap: 16,
-        }}
-      >
+      <div className="dash-panels">
         {/* Approvals teaser */}
         <div
           className="qf-ornate-panel"

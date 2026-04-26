@@ -375,6 +375,12 @@ export default function PlayersPage() {
           to   { opacity: 1; transform: translateY(0); }
         }
         .slide-in { animation: slide-in 0.2s ease both; }
+
+        @media (max-width: 767px) {
+          .players-grid { grid-template-columns: 1fr !important; }
+          .create-form-section { padding: 1.25rem !important; }
+          .player-card-inner { flex-wrap: wrap !important; }
+        }
       `}</style>
 
       <PageHeader
@@ -396,7 +402,7 @@ export default function PlayersPage() {
       />
 
       <div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 340px', gap: '1.5rem', alignItems: 'start' }}>
+        <div className="players-grid" style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 340px', gap: '1.5rem', alignItems: 'start' }}>
 
           {/* ── Player Roster ── */}
           <section>
@@ -436,7 +442,7 @@ export default function PlayersPage() {
               {players.map(player => (
                 <div key={player.id} className="player-card slide-in">
                   {/* Main row */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.9rem 1rem' }}>
+                  <div className="player-card-inner" style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.9rem 1rem' }}>
 
                     {/* Avatar */}
                     <AvatarCircle name={player.display_name} username={player.username} size={48} />
@@ -505,7 +511,7 @@ export default function PlayersPage() {
 
           {/* ── Create Player Form ── */}
           <section style={{ position: 'sticky', top: '1.5rem' }}>
-            <div style={{
+            <div className="create-form-section" style={{
               background: 'linear-gradient(158deg, rgba(7,10,26,0.97) 0%, rgba(10,6,22,0.97) 100%)',
               border: '1px solid rgba(201,168,76,0.22)',
               borderRadius: 3,

@@ -427,6 +427,15 @@ export default function ChoresPage() {
           to   { opacity: 1; transform: translateY(0); }
         }
         .slide-in { animation: slide-in 0.3s ease both; }
+
+        @media (max-width: 767px) {
+          .chores-layout {
+            grid-template-columns: 1fr !important;
+          }
+          .chores-layout > section:last-child {
+            position: static !important;
+          }
+        }
       `}</style>
 
       <PageHeader
@@ -448,7 +457,7 @@ export default function ChoresPage() {
       />
 
       <div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 380px', gap: '2rem', alignItems: 'start' }}>
+        <div className="chores-layout" style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 380px', gap: '2rem', alignItems: 'start' }}>
 
           {/* ════════════════════════════════════════════════════════════════════
               LEFT COLUMN — Quest Board (list)
