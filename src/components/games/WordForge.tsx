@@ -154,12 +154,18 @@ export default function WordForge({
           .eq('subject', 'vocabulary')
           .eq('age_tier', ageTier)
           .eq('is_active', true)
-          .order('id')
           .limit(50)
-          .abortSignal(AbortSignal.timeout(12000))
-        if (error || !data || data.length === 0) return null
+        if (error) {
+          console.error('[WordForge] DB query error:', JSON.stringify(error))
+          return null
+        }
+        if (!data || data.length === 0) {
+          console.warn('[WordForge] DB query returned 0 rows, ageTier:', ageTier)
+          return null
+        }
         return data as Question[]
-      } catch {
+      } catch (err) {
+        console.error('[WordForge] DB query threw:', err)
         return null
       }
     })()
