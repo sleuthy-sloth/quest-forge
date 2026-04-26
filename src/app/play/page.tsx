@@ -9,13 +9,7 @@ import {
   XPIcon,
   BossSprite,
 } from '@/components/qf'
-import { embershardState } from '@/lib/xp'
-
-// Mirrors src/lib/xp.ts. Inlined so this stays a pure server component.
-function xpForLevel(level: number) {
-  if (level <= 1) return 0
-  return (50 * (level - 1) * (level + 2)) / 2
-}
+import { embershardState, xpForLevel } from '@/lib/xp'
 
 function classKey(avatarClass: string | null): string {
   return (avatarClass ?? 'blazewarden').toLowerCase()
@@ -50,12 +44,13 @@ export default async function PlayerHomePage() {
   const xpPct       = xpNeeded > 0 ? Math.round((xpIntoLevel / xpNeeded) * 100) : 0
   const shard       = embershardState(level)
 
-  // Active boss for this household — the unlocked chapter with HP > 0.
+  // Active boss — is_unlocked=false means battle in progress;
+  // the trigger sets is_unlocked=true only when boss_current_hp reaches 0.
   const { data: boss } = await supabase
     .from('story_chapters')
     .select('boss_name, boss_description, boss_hp, boss_current_hp, week_number, boss_sprite_config')
     .eq('household_id', profile.household_id)
-    .eq('is_unlocked', true)
+    .eq('is_unlocked', false)
     .gt('boss_current_hp', 0)
     .order('week_number', { ascending: false })
     .limit(1)

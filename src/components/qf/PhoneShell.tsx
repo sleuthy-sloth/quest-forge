@@ -101,6 +101,31 @@ export function PhoneShell({
 
   return (
     <div className="qf-phone-shell">
+      {/* Skip-to-content link — visible on keyboard focus only */}
+      <a
+        href="#main-content"
+        style={{
+          position: 'absolute',
+          top: 8,
+          left: 8,
+          zIndex: 100,
+          padding: '6px 14px',
+          background: 'var(--qf-gold-400)',
+          color: 'var(--qf-bg-void)',
+          fontFamily: 'var(--font-heading)',
+          fontWeight: 700,
+          fontSize: 13,
+          textDecoration: 'none',
+          borderRadius: 2,
+          transform: 'translateY(-100px)',
+          transition: 'transform 0.1s',
+        }}
+        onFocus={e => ((e.target as HTMLAnchorElement).style.transform = 'translateY(0)')}
+        onBlur={e => ((e.target as HTMLAnchorElement).style.transform = 'translateY(-100px)')}
+      >
+        Skip to content
+      </a>
+
       <WalkthroughOverlay avatarClass={avatarClass} />
       <div className="qf-ember-bg" aria-hidden="true" />
       <Embers count={8} />
@@ -169,9 +194,9 @@ export function PhoneShell({
       </div>
 
       {/* Content */}
-      <div style={{ flex: 1, position: 'relative', zIndex: 3, overflow: 'auto' }}>
+      <main id="main-content" style={{ flex: 1, position: 'relative', zIndex: 3, overflow: 'auto' }}>
         {children}
-      </div>
+      </main>
 
       {/* Bottom tab bar */}
       <nav
@@ -195,6 +220,7 @@ export function PhoneShell({
             <Link
               key={t.id}
               href={t.href}
+              aria-current={active ? 'page' : undefined}
               style={{
                 display: 'flex',
                 flexDirection: 'column',

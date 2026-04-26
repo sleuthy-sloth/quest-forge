@@ -7,6 +7,7 @@ interface EmbersProps {
 }
 
 interface EmberSpec {
+  id: string
   left: number
   drift: string
   duration: number
@@ -20,13 +21,18 @@ interface EmberSpec {
  */
 export function Embers({ count = 18 }: EmbersProps) {
   const specs = useMemo<EmberSpec[]>(() => {
-    return Array.from({ length: count }, () => ({
-      left: Math.random() * 100,
-      drift: Math.random() * 60 - 30 + 'px',
-      duration: 8 + Math.random() * 8,
-      delay: -(Math.random() * 16),
-      size: 2 + Math.random() * 2,
-    }))
+    return Array.from({ length: count }, (_, i) => {
+      const left     = Math.random() * 100
+      const duration = 8 + Math.random() * 8
+      return {
+        id: `ember-${i}-${Math.round(left)}-${Math.round(duration * 10)}`,
+        left,
+        drift:    Math.random() * 60 - 30 + 'px',
+        duration,
+        delay:    -(Math.random() * 16),
+        size:     2 + Math.random() * 2,
+      }
+    })
   }, [count])
 
   return (
@@ -40,9 +46,9 @@ export function Embers({ count = 18 }: EmbersProps) {
       }}
       aria-hidden="true"
     >
-      {specs.map((s, i) => (
+      {specs.map((s) => (
         <div
-          key={i}
+          key={s.id}
           className="qf-ember"
           style={{
             left: s.left + '%',

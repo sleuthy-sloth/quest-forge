@@ -31,11 +31,12 @@ export default async function DashboardLayout({
     ? profile.households[0]?.name ?? ''
     : profile.households?.name ?? ''
 
+  // Active boss — is_unlocked=false while the battle is in progress.
   const { data: boss } = await supabase
     .from('story_chapters')
     .select('boss_name, boss_hp, boss_current_hp')
     .eq('household_id', profile.household_id)
-    .eq('is_unlocked', true)
+    .eq('is_unlocked', false)
     .gt('boss_current_hp', 0)
     .order('week_number', { ascending: false })
     .limit(1)
