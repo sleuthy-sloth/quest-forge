@@ -15,6 +15,35 @@ DO $$ BEGIN
 EXCEPTION WHEN duplicate_object THEN NULL;
 END $$;
 
+-- Rewards / player_inventory safety guards --------------------
+-- Ensure these tables exist even if 006 was skipped
+CREATE TABLE IF NOT EXISTS rewards (
+  id           uuid        PRIMARY KEY DEFAULT gen_random_uuid(),
+  title        text        NOT NULL,
+  description  text        NOT NULL DEFAULT '',
+  cost         int         NOT NULL CHECK (cost >= 1),
+  icon_type    text        NOT NULL DEFAULT 'chest',
+  household_id uuid        NOT NULL REFERENCES households(id) ON DELETE CASCADE,
+  created_at   timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS idx_rewards_household ON rewards(household_id);
+
+CREATE TABLE IF NOT EXISTS player_inventory (
+  id            uuid        PRIMARY KEY DEFAULT gen_random_uuid(),
+  player_id     uuid        NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  reward_id     uuid        NOT NULL REFERENCES rewards(id) ON DELETE CASCADE,
+  household_id  uuid        NOT NULL REFERENCES households(id) ON DELETE CASCADE,
+  created_at    timestamptz NOT NULL DEFAULT now(),
+  UNIQUE (player_id, reward_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_player_inventory_player ON player_inventory(player_id);
+CREATE INDEX IF NOT EXISTS idx_player_inventory_reward ON player_inventory(reward_id);
+
+-- Rewards: add reward_type column ----------------------------
+ALTER TABLE rewards ADD COLUMN IF NOT EXISTS reward_type reward_type NOT NULL DEFAULT 'digital';
+
 -- Quests ------------------------------------------------------
 -- RPG-style quests created by parents. Can be boss encounters.
 CREATE TABLE IF NOT EXISTS quests (
@@ -37,9 +66,6 @@ CREATE TABLE IF NOT EXISTS quests (
 
 CREATE INDEX IF NOT EXISTS idx_quests_household ON quests(household_id);
 CREATE INDEX IF NOT EXISTS idx_quests_assigned  ON quests(assigned_to);
-
--- Rewards: add reward_type column ----------------------------
-ALTER TABLE rewards ADD COLUMN IF NOT EXISTS reward_type reward_type NOT NULL DEFAULT 'digital';
 
 -- Redemptions ------------------------------------------------
 CREATE TABLE IF NOT EXISTS redemptions (
