@@ -17,16 +17,17 @@ let cached: SupabaseClient | null = null
 export function createClient(): SupabaseClient {
   if (cached) return cached
 
+  // During SSR (next build / prerender), always use a stub. The real
+  // browser client is created on hydration where env vars are available
+  // and the browser APIs (URL, cookies) are present.
+  if (typeof window === 'undefined') {
+    return makeStubClient() as unknown as SupabaseClient
+  }
+
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   if (!url || !key) {
-    if (typeof window === 'undefined') {
-      // SSR/prerender without env vars: return a stub. Method calls become
-      // no-ops; await on them yields harmless empty results so React trees
-      // can render to HTML during `next build`.
-      return makeStubClient() as unknown as SupabaseClient
-    }
     throw new Error(
       'Supabase client is misconfigured: NEXT_PUBLIC_SUPABASE_URL and ' +
       'NEXT_PUBLIC_SUPABASE_ANON_KEY must be set.'
