@@ -13,9 +13,17 @@ export async function updateSession(request: NextRequest) {
   // Start with a passthrough response; cookies will be written onto it below.
   let response = NextResponse.next({ request })
 
+  // If the required env vars are missing (e.g. not yet set in Vercel), bail
+  // early instead of crashing every route with "Invalid supabaseUrl".
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!supabaseUrl || !supabaseKey) {
+    return { response, user: null, supabase: null }
+  }
+
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    supabaseUrl,
+    supabaseKey,
     {
       cookies: {
         getAll() {

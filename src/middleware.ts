@@ -15,6 +15,11 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const { response, user, supabase } = await updateSession(request)
 
+  // Env vars missing (supabase is null) → skip auth gating so public pages
+  // render.  Protected routes will naturally 500 without a DB, but that's
+  // better than every route crashing before it can even serve an error page.
+  if (!supabase) return response
+
   const isProtected = PROTECTED_PREFIXES.some((prefix) =>
     pathname.startsWith(prefix)
   )
