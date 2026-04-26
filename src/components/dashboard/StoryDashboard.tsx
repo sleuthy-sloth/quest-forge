@@ -1,15 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { createClient } from '@/lib/supabase/client'
-import { playSfx } from '@/lib/audio'
 
 interface Chapter {
   id: string
   title: string
-  content: string
-  sequence_order: number
+  content: string | null
+  sequence_order: number | null
   is_unlocked: boolean
 }
 
@@ -37,7 +35,6 @@ function PreviewModal({ chapter, onClose }: PreviewModalProps) {
           className="relative max-w-lg w-full border-4 border-[#5a3a1a] bg-[#0e0a14]
             shadow-[6px_6px_0px_0px_rgba(0,0,0,0.7)] p-6 max-h-[80vh] overflow-y-auto"
         >
-          {/* Close button */}
           <button
             onClick={onClose}
             className="absolute top-2 right-2 w-7 h-7 flex items-center justify-center
@@ -49,7 +46,7 @@ function PreviewModal({ chapter, onClose }: PreviewModalProps) {
           </button>
 
           <span className="font-mono text-[0.45rem] text-[#b09a6e]/40 tracking-widest">
-            Ch. {chapter.sequence_order} — Preview
+            Ch. {chapter.sequence_order ?? '?'} — Preview
           </span>
           <h2
             className="mt-2 text-[#d4b0ff] text-sm"
@@ -71,44 +68,71 @@ function PreviewModal({ chapter, onClose }: PreviewModalProps) {
 }
 
 export function StoryDashboard() {
-  const supabase = createClient()
   const [chapters, setChapters] = useState<Chapter[]>([])
   const [loading, setLoading] = useState(true)
+  const [fetchError, setFetchError] = useState<string | null>(null)
   const [toggleLoading, setToggleLoading] = useState<string | null>(null)
   const [preview, setPreview] = useState<Chapter | null>(null)
+  const [seeding, setSeeding] = useState(false)
+  const [seedError, setSeedError] = useState<string | null>(null)
 
-  const fetchChapters = async () => {
-    const { data, error } = await supabase
-      .from('story_chapters')
-      .select('id, title, content, sequence_order, is_unlocked')
-      .order('sequence_order', { ascending: true })
-
-    if (!error && data) {
-      setChapters(data as unknown as Chapter[])
+  const fetchChapters = useCallback(async () => {
+    setLoading(true)
+    setFetchError(null)
+    try {
+      const res = await fetch('/api/story/chapters')
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({})) as { error?: string }
+        throw new Error(json.error ?? `HTTP ${res.status}`)
+      }
+      const json = await res.json() as { chapters: Chapter[] }
+      setChapters(json.chapters)
+    } catch (err) {
+      console.error('[StoryDashboard] fetch failed:', err)
+      setFetchError('Could not load chapters. Check your connection and refresh.')
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
-  }
+  }, [])
 
   useEffect(() => {
     fetchChapters()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [fetchChapters])
 
-  async function toggleUnlock(id: string, currentlyLocked: boolean) {
-    playSfx('click')
+  async function toggleUnlock(id: string, currentlyUnlocked: boolean) {
     setToggleLoading(id)
-
-    const { error } = await supabase
-      .from('story_chapters')
-      .update({ is_unlocked: !currentlyLocked })
-      .eq('id', id)
-
-    if (!error) {
-      setChapters((prev) =>
-        prev.map((c) => (c.id === id ? { ...c, is_unlocked: !currentlyLocked } : c)),
-      )
+    try {
+      const res = await fetch('/api/story/chapters', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, is_unlocked: !currentlyUnlocked }),
+      })
+      if (res.ok) {
+        setChapters((prev) =>
+          prev.map((c) => (c.id === id ? { ...c, is_unlocked: !currentlyUnlocked } : c)),
+        )
+      }
+    } catch {
+      // Ignore toggle errors — state stays unchanged
     }
     setToggleLoading(null)
+  }
+
+  async function handleSeed() {
+    setSeeding(true)
+    setSeedError(null)
+    try {
+      const res = await fetch('/api/admin/seed-story', { method: 'POST' })
+      const json = await res.json().catch(() => ({})) as { error?: string }
+      if (!res.ok) {
+        setSeedError(json.error ?? 'Seeding failed. Please try again.')
+      } else {
+        await fetchChapters()
+      }
+    } catch {
+      setSeedError('Network error during seeding. Please try again.')
+    }
+    setSeeding(false)
   }
 
   const unlockedCount = chapters.filter((c) => c.is_unlocked).length
@@ -135,10 +159,36 @@ export function StoryDashboard() {
       <div className="space-y-2">
         {loading ? (
           <p className="text-[#b09a6e]/40 font-mono text-sm">Loading...</p>
+        ) : fetchError ? (
+          <div className="space-y-2">
+            <p className="text-red-400/70 font-mono text-sm">{fetchError}</p>
+            <button
+              onClick={fetchChapters}
+              className="px-3 py-1.5 text-[0.45rem] font-mono tracking-wider uppercase
+                border border-[#c9a84c]/30 text-[#c9a84c]/60 hover:text-[#c9a84c]
+                hover:bg-[#c9a84c]/08 transition-colors"
+            >
+              ↺ Retry
+            </button>
+          </div>
         ) : chapters.length === 0 ? (
-          <p className="text-[#b09a6e]/40 font-mono text-sm">
-            No chapters found. Create one via SQL or the API.
-          </p>
+          <div className="space-y-3">
+            <p className="text-[#b09a6e]/40 font-mono text-sm">
+              No chapters found. Initialize the story to begin your household&apos;s adventure.
+            </p>
+            {seedError && (
+              <p className="text-red-400/70 font-mono text-[0.6rem]">{seedError}</p>
+            )}
+            <button
+              onClick={handleSeed}
+              disabled={seeding}
+              className="px-4 py-2 text-[0.5rem] font-mono tracking-wider uppercase
+                border border-[#c9a84c]/40 text-[#c9a84c] hover:bg-[#c9a84c]/10
+                transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {seeding ? 'Initializing…' : '✦ Initialize Story (53 chapters)'}
+            </button>
+          </div>
         ) : (
           chapters.map((ch) => (
             <div
@@ -167,7 +217,7 @@ export function StoryDashboard() {
                   className={`font-mono text-[0.55rem] font-bold
                     ${ch.is_unlocked ? 'text-[#c9a84c]/60' : 'text-[#5a4a3a]/50'}`}
                 >
-                  {String(ch.sequence_order).padStart(2, '0')}
+                  {String(ch.sequence_order ?? '').padStart(2, '0')}
                 </span>
               </div>
 

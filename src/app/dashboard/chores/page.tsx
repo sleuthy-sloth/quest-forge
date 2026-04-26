@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { createClient } from '@/lib/supabase/client'
 import type { Tables } from '@/types/database'
 import { PixelBadge, PixelButton } from '@/components/ui'
 import { PageHeader } from '@/components/qf'
@@ -52,13 +51,10 @@ const FORM_EMPTY: ChoreForm = {
 
 // ── Main component ────────────────────────────────────────────────────────────
 export default function ChoresPage() {
-  const supabase = createClient()
   const formRef = useRef<HTMLElement>(null)
 
   const [players,     setPlayers]     = useState<Player[]>([])
   const [chores,      setChores]      = useState<Chore[]>([])
-  const [householdId, setHouseholdId] = useState('')
-  const [userId,      setUserId]      = useState('')
   const [loading,     setLoading]     = useState(true)
 
   const [form,        setFormState]   = useState<ChoreForm>(FORM_EMPTY)
@@ -73,33 +69,21 @@ export default function ChoresPage() {
   const [filterRec,  setFilterRec]  = useState<'' | Recurrence>('')
   const [deactivatingId, setDeactivatingId] = useState<string | null>(null)
 
-  // ── Data fetch ──────────────────────────────────────────────────────────────
+  // ── Data fetch via API ──────────────────────────────────────────────────────
   const loadData = useCallback(async () => {
     setLoading(true)
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) { setLoading(false); return }
-    setUserId(user.id)
-
-    const { data: profile } = await supabase
-      .from('profiles').select('household_id').eq('id', user.id).single()
-    if (!profile) { setLoading(false); return }
-    setHouseholdId(profile.household_id)
-
-    const [{ data: pData }, { data: cData }] = await Promise.all([
-      supabase.from('profiles')
-        .select('id, display_name, username')
-        .eq('role', 'player')
-        .order('created_at', { ascending: true }),
-      supabase.from('chores')
-        .select('id, title, description, xp_reward, gold_reward, assigned_to, recurrence, difficulty, quest_flavor_text, is_active, created_at')
-        .eq('is_active', true)
-        .order('created_at', { ascending: false }),
-    ])
-
-    setPlayers(pData ?? [])
-    setChores(cData ?? [])
-    setLoading(false)
-  }, [supabase])
+    try {
+      const res = await fetch('/api/chores')
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      const json = await res.json() as { chores: Chore[]; players: Player[] }
+      setChores(json.chores)
+      setPlayers(json.players)
+    } catch (err) {
+      console.error('[chores] loadData failed:', err)
+    } finally {
+      setLoading(false)
+    }
+  }, [])
 
   useEffect(() => { loadData() }, [loadData])
 
@@ -157,7 +141,7 @@ export default function ChoresPage() {
     setGenerating(false)
   }
 
-  // ── Submit ──────────────────────────────────────────────────────────────────
+  // ── Submit (create or update) via API ───────────────────────────────────────
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!validate()) return
@@ -174,30 +158,39 @@ export default function ChoresPage() {
       quest_flavor_text: form.quest_flavor_text.trim(),
     }
 
-    if (editingId) {
-      const { error } = await supabase.from('chores').update(payload).eq('id', editingId)
-      if (error) {
-        console.error('[chores] update failed:', error)
-        setSubmitError(error.message ?? 'Failed to update quest.')
-      } else {
-        setChores(prev => prev.map(c => c.id === editingId ? { ...c, ...payload } : c))
+    try {
+      if (editingId) {
+        // ── Update ──
+        const res = await fetch('/api/chores', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: editingId, ...payload }),
+        })
+        const json = await res.json() as { chore?: Chore; error?: string }
+        if (!res.ok || !json.chore) {
+          throw new Error(json.error ?? 'Failed to update quest.')
+        }
+        setChores(prev => prev.map(c => c.id === editingId ? { ...c, ...json.chore! } : c))
         setEditingId(null); setFormState(FORM_EMPTY)
         setSubmitOk('Quest updated!')
-      }
-    } else {
-      const { data, error } = await supabase
-        .from('chores')
-        .insert({ ...payload, household_id: householdId, created_by: userId, is_active: true })
-        .select('id, title, description, xp_reward, gold_reward, assigned_to, recurrence, difficulty, quest_flavor_text, is_active, created_at')
-        .single()
-      if (error || !data) {
-        console.error('[chores] insert failed:', error)
-        setSubmitError(error?.message ?? 'Failed to create quest. Check the browser console for details.')
       } else {
-        setChores(prev => [data, ...prev])
+        // ── Create ──
+        const res = await fetch('/api/chores', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        })
+        const json = await res.json() as { chore?: Chore; error?: string }
+        if (!res.ok || !json.chore) {
+          throw new Error(json.error ?? 'Failed to create quest.')
+        }
+        setChores(prev => [json.chore!, ...prev])
         setFormState(FORM_EMPTY)
-        setSubmitOk(`"${data.title}" added to the quest board!`)
+        setSubmitOk(`"${json.chore.title}" added to the quest board!`)
       }
+    } catch (err) {
+      console.error('[chores] submit failed:', err)
+      setSubmitError(err instanceof Error ? err.message : 'Failed to save quest.')
     }
     setSubmitting(false)
   }
@@ -224,13 +217,21 @@ export default function ChoresPage() {
     setSubmitError(null); setSubmitOk(null)
   }
 
-  // ── Deactivate ──────────────────────────────────────────────────────────────
+  // ── Deactivate via API ──────────────────────────────────────────────────────
   async function handleDeactivate(id: string) {
     setDeactivatingId(id)
-    const { error } = await supabase.from('chores').update({ is_active: false }).eq('id', id)
-    if (!error) {
-      setChores(prev => prev.filter(c => c.id !== id))
-      if (editingId === id) cancelEdit()
+    try {
+      const res = await fetch('/api/chores', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      })
+      if (res.ok) {
+        setChores(prev => prev.filter(c => c.id !== id))
+        if (editingId === id) cancelEdit()
+      }
+    } catch (err) {
+      console.error('[chores] deactivate failed:', err)
     }
     setDeactivatingId(null)
   }
