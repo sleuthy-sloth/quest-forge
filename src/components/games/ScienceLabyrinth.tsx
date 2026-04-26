@@ -104,6 +104,8 @@ export default function ScienceLabyrinth({
   }
 
   // ── Fetch questions ────────────────────────────────────────────────────────
+  // Runs AI generation and DB fallback IN PARALLEL. Prefers AI results when
+  // they arrive quickly; falls back to the DB if AI fails.
 
   const fetchQuestions = useCallback(async () => {
     timersRef.current.forEach(clearTimeout)
@@ -122,54 +124,62 @@ export default function ScienceLabyrinth({
     setWallVisible(false)
     setWallMounted(false)
 
-    const overallTimeout = new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error('timeout')), 14_000)
+    // Kick off AI and DB at the same time — the winner may supply questions
+    const aiPromise = fetch('/api/edu/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ subject: 'science', age_tier: ageTier, count: 10 }),
+      signal: AbortSignal.timeout(9000),
+    })
+      .then(async (res) => {
+        if (!res.ok) return null
+        const json = (await res.json()) as { questions?: Question[] }
+        return json.questions && json.questions.length >= 5 ? json.questions : null
+      })
+      .catch(() => null)
+
+    const dbPromise = (async (): Promise<Question[] | null> => {
+      try {
+        const { data, error } = await supabase
+          .from('edu_challenges')
+          .select('id, title, content, xp_reward')
+          .eq('subject', 'science')
+          .eq('age_tier', ageTier)
+          .eq('is_active', true)
+          .order('id')
+          .limit(50)
+          .abortSignal(AbortSignal.timeout(12000))
+        if (error || !data || data.length === 0) return null
+        return data as Question[]
+      } catch {
+        return null
+      }
+    })()
+
+    // Safety net: 16 s is well above the parallel worst case (max 9 s / 12 s)
+    const overallTimeout: Promise<never> = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('timeout')), 16_000),
     )
 
     try {
-      const result = await Promise.race([
-        (async () => {
-          // 1a. AI-generated questions
-          try {
-            const aiRes = await fetch('/api/edu/generate', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ subject: 'science', age_tier: ageTier, count: 10 }),
-              signal: AbortSignal.timeout(9000),
-            })
-            if (aiRes.ok) {
-              const json = (await aiRes.json()) as { questions?: Question[] }
-              if (json.questions && json.questions.length >= 5) {
-                setQuestions(shuffle(json.questions).slice(0, 10))
-                setPhase('playing')
-                return
-              }
-            }
-          } catch { /* fall through */ }
+      // 1. Try AI first (may already be settled)
+      const aiQuestions = await Promise.race([aiPromise, overallTimeout])
+      if (aiQuestions) {
+        setQuestions(shuffle(aiQuestions).slice(0, 10))
+        setPhase('playing')
+        return
+      }
 
-          // 1b. DB fallback
-          try {
-            const { data, error } = await supabase
-              .from('edu_challenges')
-              .select('id, title, content, xp_reward')
-              .eq('subject', 'science')
-              .eq('age_tier', ageTier)
-              .eq('is_active', true)
-              .order('id')
-              .limit(50)
-              .abortSignal(AbortSignal.timeout(10000))
+      // 2. AI fell through — wait for DB (which was running in parallel)
+      const dbQuestions = await Promise.race<Question[] | null>([dbPromise, overallTimeout])
+      if (dbQuestions) {
+        setQuestions(shuffle(dbQuestions).slice(0, 10))
+        setPhase('playing')
+        return
+      }
 
-            if (error) { setFetchErrorKind('network'); return }
-            if (!data || data.length === 0) { setFetchErrorKind('empty'); return }
-
-            setQuestions(shuffle(data as Question[]).slice(0, 10))
-            setPhase('playing')
-          } catch {
-            setFetchErrorKind('network')
-          }
-        })(),
-        overallTimeout,
-      ])
+      // 3. Neither source delivered
+      setFetchErrorKind('network')
     } catch {
       console.error('[ScienceLabyrinth] overall timeout fetching questions')
       setFetchErrorKind('network')

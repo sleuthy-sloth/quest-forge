@@ -103,7 +103,9 @@ export function useAcademy(
         .select('age')
         .eq('id', userId)
         .single()
-      if (data) setAgeTier(deriveAgeTier(data.age))
+      // Fallback to 'junior' if profile fetch fails — ensures questions
+      // can still load even if the profiles RLS or query has an issue.
+      setAgeTier(data ? deriveAgeTier(data.age) : 'junior')
     })()
   }, [userId, supabase])
 
