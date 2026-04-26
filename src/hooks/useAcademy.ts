@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
 // ---------------------------------------------------------------------------
@@ -81,7 +81,7 @@ export function useAcademy(
   userId: string | null,
   householdId: string | null,
 ): UseAcademyResult {
-  const supabase = createClient()
+  const supabase = useMemo(() => createClient(), [])
 
   const [challenges, setChallenges] = useState<EduChallenge[]>([])
   const [loading, setLoading] = useState(true)

@@ -18,6 +18,14 @@ export async function canMakeRequest(): Promise<boolean> {
     const { data, error } = await supabase
       .rpc('get_api_usage_today', { p_date: todayDate() })
     if (error) {
+      // If the RPC function doesn't exist (migration 015 not yet applied to
+      // this Supabase instance), allow requests rather than blocking all AI
+      // generation. The Gemini API enforces its own hard quota; this limiter
+      // only adds a safety margin on top.
+      const msg = (error.message ?? '').toLowerCase()
+      const isMissingFn =
+        msg.includes('function') || error.code === '42883' || error.code === 'PGRST202'
+      if (isMissingFn) return true
       console.warn('[rate-limiter] canMakeRequest error:', error)
       return false
     }
