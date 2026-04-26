@@ -20,7 +20,7 @@ export const geminiModel = geminiClient
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
-export const PRIMARY_MODEL = 'openrouter/free'
+export const PRIMARY_MODEL = 'meta-llama/llama-3.1-8b-instruct:free'
 
 // ── Core generation function ────────────────────────────────────────────────
 
