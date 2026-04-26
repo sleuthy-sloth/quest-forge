@@ -19,7 +19,12 @@ export async function POST(req: NextRequest) {
 
   const result = Schema.safeParse(body)
   if (!result.success) {
-    return NextResponse.json({ error: result.error.issues[0].message }, { status: 400 })
+    const issue = result.error.issues[0]
+    const field = issue.path.join('.')
+    const friendly = field
+      ? `${field}: ${issue.message}`
+      : issue.message
+    return NextResponse.json({ error: friendly }, { status: 400 })
   }
 
   const { itemId } = result.data

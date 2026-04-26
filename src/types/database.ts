@@ -836,8 +836,20 @@ export type Database = {
         Returns: number
       }
       deduct_gold: { Args: { p_player_id: string; p_amount: number }; Returns: boolean }
+      get_api_usage_today: {
+        Args: { p_date: string }
+        Returns: number
+      }
       get_my_household_id: { Args: never; Returns: string }
+      increment_api_usage: {
+        Args: { p_date: string }
+        Returns: number
+      }
       is_gm: { Args: { hid: string }; Returns: boolean }
+      purchase_loot_item: {
+        Args: { p_player_id: string; p_item_id: string }
+        Returns: Record<string, unknown>
+      }
     }
     Enums: {
       age_tier_type: "junior" | "senior"

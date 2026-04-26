@@ -23,3 +23,7 @@ SET    is_unlocked = false
 WHERE  week_number = 1
   AND  boss_current_hp > 0
   AND  is_unlocked  = true;
+
+-- Document the counterintuitive semantics so future developers don't misread the column.
+COMMENT ON COLUMN story_chapters.is_unlocked IS
+  'false = boss battle in progress (players dealing damage), true = boss defeated, story narrative revealed';

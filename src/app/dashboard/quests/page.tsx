@@ -49,14 +49,7 @@ export default async function GMQuestsPage() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-      <div
-          className="qg-head-row"
-          style={{
-            display: 'flex',
-            alignItems: 'flex-end',
-            justifyContent: 'space-between',
-          }}
-        >
+      <div className="qg-head-row">
         <div>
           <div
             className="font-pixel"
@@ -125,17 +118,7 @@ export default async function GMQuestsPage() {
 
       {/* Table */}
       <div className="qf-ornate-panel" style={{ padding: 0, overflow: 'hidden' }}>
-        <div
-          className="qg-header"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '2.5fr 1fr 1fr 0.8fr',
-            padding: '10px 18px',
-            gap: 12,
-            borderBottom: '1px solid var(--qf-rule)',
-            background: 'rgba(0,0,0,0.2)',
-          }}
-        >
+        <div className="qg-header">
           {['Quest', 'Difficulty', 'Assigned', 'Reward'].map((h) => (
             <div
               key={h}
@@ -171,11 +154,6 @@ export default async function GMQuestsPage() {
                   key={q.id}
                   className="qg-row"
                   style={{
-                    display: 'grid',
-                    gridTemplateColumns: '2.5fr 1fr 1fr 0.8fr',
-                    padding: '12px 18px',
-                    gap: 12,
-                    alignItems: 'center',
                     borderBottom: i < rows.length - 1 ? '1px solid var(--qf-rule)' : 'none',
                   }}
                 >
@@ -215,7 +193,7 @@ export default async function GMQuestsPage() {
                 >
                   {q.assigned_to ? (playerById.get(q.assigned_to) ?? 'Unknown') : 'Everyone'}
                 </div>
-                <div className="qg-rewards" style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <div className="qg-rewards">
                   <span
                     className="font-pixel"
                     style={{

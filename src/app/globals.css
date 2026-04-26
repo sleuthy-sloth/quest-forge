@@ -279,19 +279,44 @@ canvas.pixel,
 }
 
 /* ── Quest board table (GM quests page) ──────────────────── */
+.qg-head-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.qg-header {
+  display: grid;
+  grid-template-columns: 2.5fr 1fr 1fr 0.8fr;
+  padding: 10px 18px;
+  gap: 12px;
+  border-bottom: 1px solid var(--qf-rule);
+  background: rgba(0,0,0,0.2);
+}
+.qg-row {
+  display: grid;
+  grid-template-columns: 2.5fr 1fr 1fr 0.8fr;
+  padding: 12px 18px;
+  gap: 12px;
+  align-items: center;
+}
+.qg-rewards {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
 @media (max-width: 767px) {
-  .qg-header { display: none !important; }
+  .qg-header { display: none; }
   .qg-row {
-    grid-template-columns: 1fr !important;
-    gap: 4px !important;
-    padding: 16px !important;
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 16px;
   }
-  .qg-assignee { font-size: 12px !important; }
-  .qg-rewards  { flex-direction: row !important; gap: 12px !important; }
+  .qg-assignee { font-size: 12px; }
+  .qg-rewards  { flex-direction: row; gap: 12px; }
   .qg-head-row {
-    flex-direction: column !important;
-    align-items: stretch !important;
-    gap: 12px !important;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
   }
   .qg-head-row .qf-btn { align-self: flex-start; }
 }
