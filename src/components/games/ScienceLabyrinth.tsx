@@ -45,6 +45,36 @@ function shuffle<T>(arr: T[]): T[] {
   return a
 }
 
+/** Hardcoded fallback questions used when AI + DB both fail. */
+function fallbackQuestions(ageTier: 'junior' | 'senior'): Question[] {
+  const bank: Question[] = ageTier === 'junior'
+    ? [
+        { id: 'fb_s1', title: 'Water cycle', content: { question: 'What is the process called when water turns into vapor?', options: ['Condensation', 'Evaporation', 'Precipitation', 'Collection'], correct_answer: 'Evaporation', explanation: 'Evaporation is when water turns into vapor from heat.' }, xp_reward: 25 },
+        { id: 'fb_s2', title: 'Planets', content: { question: 'Which planet is closest to the Sun?', options: ['Venus', 'Mercury', 'Earth', 'Mars'], correct_answer: 'Mercury', explanation: 'Mercury is the closest planet to the Sun.' }, xp_reward: 25 },
+        { id: 'fb_s3', title: 'Mammals', content: { question: 'Which of these is a mammal?', options: ['Snake', 'Frog', 'Whale', 'Lizard'], correct_answer: 'Whale', explanation: 'Whales are mammals that live in the ocean.' }, xp_reward: 20 },
+        { id: 'fb_s4', title: 'Gravity', content: { question: 'Who discovered gravity?', options: ['Einstein', 'Newton', 'Galileo', 'Darwin'], correct_answer: 'Newton', explanation: 'Isaac Newton discovered gravity in the 1600s.' }, xp_reward: 20 },
+        { id: 'fb_s5', title: 'Leaves', content: { question: 'What gas do plants absorb from the air?', options: ['Oxygen', 'Nitrogen', 'Carbon dioxide', 'Hydrogen'], correct_answer: 'Carbon dioxide', explanation: 'Plants absorb CO₂ to make food through photosynthesis.' }, xp_reward: 25 },
+        { id: 'fb_s6', title: 'Solar system', content: { question: 'How many planets are in our solar system?', options: ['7', '8', '9', '10'], correct_answer: '8', explanation: 'There are 8 planets in our solar system.' }, xp_reward: 20 },
+        { id: 'fb_s7', title: 'Materials', content: { question: 'Which material is a good conductor of electricity?', options: ['Plastic', 'Wood', 'Copper', 'Glass'], correct_answer: 'Copper', explanation: 'Copper is a metal that conducts electricity well.' }, xp_reward: 25 },
+        { id: 'fb_s8', title: 'Human body', content: { question: 'How many bones are in the human body?', options: ['106', '206', '306', '406'], correct_answer: '206', explanation: 'An adult human has 206 bones.' }, xp_reward: 25 },
+        { id: 'fb_s9', title: 'Weather', content: { question: 'What instrument measures temperature?', options: ['Barometer', 'Thermometer', 'Hygrometer', 'Anemometer'], correct_answer: 'Thermometer', explanation: 'A thermometer measures temperature.' }, xp_reward: 20 },
+        { id: 'fb_s10', title: 'Life cycle', content: { question: 'What is the first stage in a butterfly life cycle?', options: ['Caterpillar', 'Pupa', 'Egg', 'Adult'], correct_answer: 'Egg', explanation: 'A butterfly starts life as an egg.' }, xp_reward: 20 },
+      ]
+    : [
+        { id: 'fb_s1', title: 'DNA', content: { question: 'What does DNA stand for?', options: ['Deoxyribonucleic Acid', 'Dinitrogen Acid', 'Double Nuclear Acid', 'Dextrose Nucleic Acid'], correct_answer: 'Deoxyribonucleic Acid', explanation: 'DNA is deoxyribonucleic acid, the molecule that carries genetic instructions.' }, xp_reward: 35 },
+        { id: 'fb_s2', title: 'Photosynthesis', content: { question: 'What is the main product of photosynthesis?', options: ['Oxygen only', 'Glucose', 'Water', 'ATP'], correct_answer: 'Glucose', explanation: 'Photosynthesis produces glucose (sugar) and oxygen from CO₂ and water.' }, xp_reward: 35 },
+        { id: 'fb_s3', title: 'Newton\'s laws', content: { question: 'An object at rest stays at rest unless acted upon by a force. Which law is this?', options: ['First', 'Second', 'Third', 'Fourth'], correct_answer: 'First', explanation: 'This is Newton\'s First Law of Motion (inertia).' }, xp_reward: 35 },
+        { id: 'fb_s4', title: 'Elements', content: { question: 'What is the chemical symbol for gold?', options: ['Go', 'Gd', 'Au', 'Ag'], correct_answer: 'Au', explanation: 'Au comes from the Latin word "aurum" meaning gold.' }, xp_reward: 30 },
+        { id: 'fb_s5', title: 'Velocity', content: { question: 'What is the difference between speed and velocity?', options: ['Velocity has direction', 'Velocity is faster', 'They are the same', 'Velocity is average'], correct_answer: 'Velocity has direction', explanation: 'Velocity is speed with a direction, while speed is scalar.' }, xp_reward: 35 },
+        { id: 'fb_s6', title: 'pH scale', content: { question: 'What pH value is neutral?', options: ['0', '7', '14', '1'], correct_answer: '7', explanation: 'A pH of 7 is neutral, like pure water.' }, xp_reward: 30 },
+        { id: 'fb_s7', title: 'Mitosis', content: { question: 'How many daughter cells does mitosis produce?', options: ['1', '2', '4', '8'], correct_answer: '2', explanation: 'Mitosis produces 2 identical daughter cells.' }, xp_reward: 35 },
+        { id: 'fb_s8', title: 'Electricity', content: { question: 'What is the unit of electric current?', options: ['Volt', 'Ohm', 'Ampere', 'Watt'], correct_answer: 'Ampere', explanation: 'Electric current is measured in amperes (amps).' }, xp_reward: 30 },
+        { id: 'fb_s9', title: 'Evolution', content: { question: 'Who proposed the theory of evolution by natural selection?', options: ['Lamarck', 'Darwin', 'Wallace', 'Mendel'], correct_answer: 'Darwin', explanation: 'Charles Darwin proposed evolution by natural selection in "On the Origin of Species".' }, xp_reward: 35 },
+        { id: 'fb_s10', title: 'Atoms', content: { question: 'What subatomic particle has a positive charge?', options: ['Electron', 'Neutron', 'Proton', 'Photon'], correct_answer: 'Proton', explanation: 'Protons have a positive charge and are found in the nucleus.' }, xp_reward: 30 },
+      ]
+  return bank
+}
+
 function calcXp(correct: number, questions: Question[]): number {
   const potential = questions.reduce((sum, q) => sum + q.xp_reward, 0)
   const accuracy = correct / 10
@@ -124,6 +154,8 @@ export default function ScienceLabyrinth({
     setWallVisible(false)
     setWallMounted(false)
 
+    console.log('[ScienceLabyrinth] ageTier:', ageTier, 'householdId:', householdId?.slice(0, 8))
+
     // Kick off AI and DB at the same time — the winner may supply questions
     const aiPromise = fetch('/api/edu/generate', {
       method: 'POST',
@@ -138,15 +170,26 @@ export default function ScienceLabyrinth({
       })
       .catch(() => null)
 
+    // Wrap dbPromise with its own timeout so it can't hang indefinitely.
+    // Avoids relying on .abortSignal() which may not work in this runtime.
     const dbPromise = (async (): Promise<Question[] | null> => {
       try {
-        const { data, error } = await supabase
+        const queryPromise = supabase
           .from('edu_challenges')
           .select('id, title, content, xp_reward')
           .eq('subject', 'science')
           .eq('age_tier', ageTier)
           .eq('is_active', true)
           .limit(50)
+
+        const result = await Promise.race([
+          queryPromise,
+          new Promise<null>((_, reject) =>
+            setTimeout(() => reject(new Error('db timeout')), 10_000),
+          ),
+        ])
+        if (!result) return null
+        const { data, error } = result as Awaited<typeof queryPromise>
         if (error) {
           console.error('[ScienceLabyrinth] DB query error:', JSON.stringify(error))
           return null
@@ -184,8 +227,10 @@ export default function ScienceLabyrinth({
         return
       }
 
-      // 3. Neither source delivered
-      setFetchErrorKind('network')
+      // 3. Neither source delivered — use hardcoded fallback
+      console.warn('[ScienceLabyrinth] AI + DB both failed, using fallback questions')
+      setQuestions(shuffle(fallbackQuestions(ageTier)).slice(0, 10))
+      setPhase('playing')
     } catch {
       console.error('[ScienceLabyrinth] overall timeout fetching questions')
       setFetchErrorKind('network')

@@ -45,6 +45,36 @@ function shuffle<T>(arr: T[]): T[] {
   return a
 }
 
+/** Hardcoded fallback vocabulary questions used when AI + DB both fail. */
+function fallbackQuestions(ageTier: 'junior' | 'senior'): Question[] {
+  const bank: Question[] = ageTier === 'junior'
+    ? [
+        { id: 'fb_v1', title: 'Define: ancient', content: { question: 'What does "ancient" mean?', options: ['Very old', 'Very new', 'Very fast', 'Very small'], correct_answer: 'Very old', explanation: 'Ancient means from a long time ago.' }, xp_reward: 25 },
+        { id: 'fb_v2', title: 'Define: curious', content: { question: 'What does "curious" mean?', options: ['Bored', 'Sleepy', 'Eager to learn', 'Angry'], correct_answer: 'Eager to learn', explanation: 'Curious means wanting to know more about something.' }, xp_reward: 25 },
+        { id: 'fb_v3', title: 'Define: enormous', content: { question: 'What does "enormous" mean?', options: ['Very small', 'Very large', 'Very fast', 'Very slow'], correct_answer: 'Very large', explanation: 'Enormous means extremely large.' }, xp_reward: 20 },
+        { id: 'fb_v4', title: 'Synonym: happy', content: { question: 'Which word is a synonym for "happy"?', options: ['Sad', 'Angry', 'Joyful', 'Tired'], correct_answer: 'Joyful', explanation: 'Joyful means the same as happy.' }, xp_reward: 20 },
+        { id: 'fb_v5', title: 'Antonym: hot', content: { question: 'Which word is an antonym (opposite) of "hot"?', options: ['Warm', 'Cold', 'Cool', 'Mild'], correct_answer: 'Cold', explanation: 'Cold is the opposite of hot.' }, xp_reward: 25 },
+        { id: 'fb_v6', title: 'Define: brave', content: { question: 'What does "brave" mean?', options: ['Scared', 'Courageous', 'Quiet', 'Loud'], correct_answer: 'Courageous', explanation: 'Brave means showing courage in the face of danger.' }, xp_reward: 25 },
+        { id: 'fb_v7', title: 'Define: vanish', content: { question: 'What does "vanish" mean?', options: ['Appear', 'Disappear', 'Grow', 'Sleep'], correct_answer: 'Disappear', explanation: 'To vanish means to suddenly disappear.' }, xp_reward: 20 },
+        { id: 'fb_v8', title: 'Synonym: quick', content: { question: 'Which word is a synonym for "quick"?', options: ['Slow', 'Fast', 'Heavy', 'Light'], correct_answer: 'Fast', explanation: 'Fast means the same as quick.' }, xp_reward: 20 },
+        { id: 'fb_v9', title: 'Define: whisper', content: { question: 'What does "whisper" mean?', options: ['To shout', 'To speak softly', 'To sing', 'To cry'], correct_answer: 'To speak softly', explanation: 'Whisper means to speak very quietly.' }, xp_reward: 25 },
+        { id: 'fb_v10', title: 'Define: journey', content: { question: 'What does "journey" mean?', options: ['A meal', 'A trip', 'A game', 'A book'], correct_answer: 'A trip', explanation: 'A journey is a long trip from one place to another.' }, xp_reward: 20 },
+      ]
+    : [
+        { id: 'fb_s1', title: 'Define: ubiquitous', content: { question: 'What does "ubiquitous" mean?', options: ['Rare', 'Everywhere', 'Unique', 'Hidden'], correct_answer: 'Everywhere', explanation: 'Ubiquitous means found or present everywhere.' }, xp_reward: 35 },
+        { id: 'fb_s2', title: 'Define: ambiguous', content: { question: 'What does "ambiguous" mean?', options: ['Clear', 'Open to interpretation', 'Hidden', 'Simple'], correct_answer: 'Open to interpretation', explanation: 'Ambiguous means having more than one possible meaning.' }, xp_reward: 35 },
+        { id: 'fb_s3', title: 'Synonym: benevolent', content: { question: 'Which word is a synonym for "benevolent"?', options: ['Cruel', 'Kind', 'Angry', 'Strict'], correct_answer: 'Kind', explanation: 'Benevolent means well-meaning and kindly.' }, xp_reward: 35 },
+        { id: 'fb_s4', title: 'Define: ephemeral', content: { question: 'What does "ephemeral" mean?', options: ['Permanent', 'Short-lived', 'Everlasting', 'Strong'], correct_answer: 'Short-lived', explanation: 'Ephemeral means lasting for a very short time.' }, xp_reward: 35 },
+        { id: 'fb_s5', title: 'Antonym: pessimistic', content: { question: 'Which word is an antonym of "pessimistic"?', options: ['Gloomy', 'Optimistic', 'Realistic', 'Skeptical'], correct_answer: 'Optimistic', explanation: 'Optimistic is the opposite of pessimistic.' }, xp_reward: 30 },
+        { id: 'fb_s6', title: 'Define: pragmatic', content: { question: 'What does "pragmatic" mean?', options: ['Idealistic', 'Practical', 'Theoretical', 'Emotional'], correct_answer: 'Practical', explanation: 'Pragmatic means dealing with things in a practical way.' }, xp_reward: 35 },
+        { id: 'fb_s7', title: 'Synonym: arduous', content: { question: 'Which word is a synonym for "arduous"?', options: ['Easy', 'Difficult', 'Fun', 'Quick'], correct_answer: 'Difficult', explanation: 'Arduous means involving great effort or difficulty.' }, xp_reward: 30 },
+        { id: 'fb_s8', title: 'Define: concise', content: { question: 'What does "concise" mean?', options: ['Wordy', 'Brief and clear', 'Confusing', 'Detailed'], correct_answer: 'Brief and clear', explanation: 'Concise means giving information clearly in few words.' }, xp_reward: 30 },
+        { id: 'fb_s9', title: 'Define: scrutinize', content: { question: 'What does "scrutinize" mean?', options: ['To ignore', 'To examine closely', 'To destroy', 'To create'], correct_answer: 'To examine closely', explanation: 'To scrutinize means to examine something very carefully.' }, xp_reward: 35 },
+        { id: 'fb_s10', title: 'Antonym: abundant', content: { question: 'Which word is an antonym of "abundant"?', options: ['Plentiful', 'Scarce', 'Enough', 'Excessive'], correct_answer: 'Scarce', explanation: 'Scarce is the opposite of abundant.' }, xp_reward: 30 },
+      ]
+  return bank
+}
+
 function calcXp(correct: number, questions: Question[]): number {
   const potential = questions.reduce((sum, q) => sum + q.xp_reward, 0)
   const accuracy = correct / 10
@@ -132,6 +162,8 @@ export default function WordForge({
     setChosenWrong(null)
     setSaveError(false)
 
+    console.log('[WordForge] ageTier:', ageTier, 'householdId:', householdId?.slice(0, 8))
+
     // Kick off AI and DB at the same time — the winner may supply questions
     const aiPromise = fetch('/api/edu/generate', {
       method: 'POST',
@@ -146,15 +178,25 @@ export default function WordForge({
       })
       .catch(() => null)
 
+    // Wrap dbPromise with its own timeout so it can't hang indefinitely.
     const dbPromise = (async (): Promise<Question[] | null> => {
       try {
-        const { data, error } = await supabase
+        const queryPromise = supabase
           .from('edu_challenges')
           .select('id, title, content, xp_reward')
           .eq('subject', 'vocabulary')
           .eq('age_tier', ageTier)
           .eq('is_active', true)
           .limit(50)
+
+        const result = await Promise.race([
+          queryPromise,
+          new Promise<null>((_, reject) =>
+            setTimeout(() => reject(new Error('db timeout')), 10_000),
+          ),
+        ])
+        if (!result) return null
+        const { data, error } = result as Awaited<typeof queryPromise>
         if (error) {
           console.error('[WordForge] DB query error:', JSON.stringify(error))
           return null
@@ -192,8 +234,10 @@ export default function WordForge({
         return
       }
 
-      // 3. Neither source delivered
-      setFetchErrorKind('network')
+      // 3. Neither source delivered — use hardcoded fallback
+      console.warn('[WordForge] AI + DB both failed, using fallback questions')
+      setQuestions(shuffle(fallbackQuestions(ageTier)).slice(0, 10))
+      setPhase('playing')
     } catch {
       console.error('[WordForge] overall timeout fetching questions')
       setFetchErrorKind('network')

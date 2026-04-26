@@ -45,6 +45,36 @@ function shuffle<T>(arr: T[]): T[] {
   return a
 }
 
+/** Hardcoded fallback math questions used when AI + DB both fail. */
+function fallbackQuestions(ageTier: 'junior' | 'senior'): Question[] {
+  const bank: Question[] = ageTier === 'junior'
+    ? [
+        { id: 'fb_m1', title: '6 × 7', content: { question: 'What is 6 × 7?', options: ['36', '42', '48', '54'], correct_answer: '42', explanation: '6 × 7 = 42.' }, xp_reward: 25 },
+        { id: 'fb_m2', title: '8 × 9', content: { question: 'What is 8 × 9?', options: ['63', '72', '81', '64'], correct_answer: '72', explanation: '8 × 9 = 72.' }, xp_reward: 25 },
+        { id: 'fb_m3', title: '15 + 8', content: { question: 'What is 15 + 8?', options: ['21', '22', '23', '24'], correct_answer: '23', explanation: '15 + 8 = 23.' }, xp_reward: 20 },
+        { id: 'fb_m4', title: '100 − 37', content: { question: 'What is 100 − 37?', options: ['63', '73', '67', '57'], correct_answer: '63', explanation: '100 − 37 = 63.' }, xp_reward: 25 },
+        { id: 'fb_m5', title: '12 ÷ 4', content: { question: 'What is 12 ÷ 4?', options: ['2', '3', '4', '6'], correct_answer: '3', explanation: '12 ÷ 4 = 3.' }, xp_reward: 20 },
+        { id: 'fb_m6', title: 'Shape sides', content: { question: 'How many sides does a hexagon have?', options: ['4', '5', '6', '8'], correct_answer: '6', explanation: 'A hexagon has 6 sides.' }, xp_reward: 20 },
+        { id: 'fb_m7', title: '3 × 12', content: { question: 'What is 3 × 12?', options: ['24', '36', '32', '48'], correct_answer: '36', explanation: '3 × 12 = 36.' }, xp_reward: 25 },
+        { id: 'fb_m8', title: 'Half of 50', content: { question: 'What is half of 50?', options: ['20', '25', '30', '35'], correct_answer: '25', explanation: 'Half of 50 is 25.' }, xp_reward: 20 },
+        { id: 'fb_m9', title: '7 + 9', content: { question: 'What is 7 + 9?', options: ['14', '15', '16', '17'], correct_answer: '16', explanation: '7 + 9 = 16.' }, xp_reward: 20 },
+        { id: 'fb_m10', title: '10 × 10', content: { question: 'What is 10 × 10?', options: ['50', '100', '110', '20'], correct_answer: '100', explanation: '10 × 10 = 100.' }, xp_reward: 20 },
+      ]
+    : [
+        { id: 'fb_s1', title: '15% of 200', content: { question: 'What is 15% of 200?', options: ['25', '30', '35', '40'], correct_answer: '30', explanation: '15% of 200 = 0.15 × 200 = 30.' }, xp_reward: 35 },
+        { id: 'fb_s2', title: 'Slope', content: { question: 'What is the slope of y = 3x + 5?', options: ['3', '5', '−3', '−5'], correct_answer: '3', explanation: 'In y = mx + b, the slope m is 3.' }, xp_reward: 35 },
+        { id: 'fb_s3', title: 'Reciprocal', content: { question: 'What is the reciprocal of 2/3?', options: ['−2/3', '3/2', '1.5', '−1.5'], correct_answer: '3/2', explanation: 'The reciprocal of 2/3 is 3/2.' }, xp_reward: 30 },
+        { id: 'fb_s4', title: 'Pythagorean', content: { question: 'In a right triangle with legs 6 and 8, what is the hypotenuse?', options: ['10', '12', '14', '9'], correct_answer: '10', explanation: '√(6² + 8²) = √100 = 10.' }, xp_reward: 40 },
+        { id: 'fb_s5', title: 'x² = 49', content: { question: 'If x² = 49, what is x?', options: ['±7', '7', '−7', '49'], correct_answer: '±7', explanation: 'x = ±√49 = ±7.' }, xp_reward: 30 },
+        { id: 'fb_s6', title: 'Area of circle', content: { question: 'What is the area of a circle with radius 4? (Use π = 3.14)', options: ['50.24', '25.12', '12.56', '100.48'], correct_answer: '50.24', explanation: 'Area = πr² = 3.14 × 16 = 50.24.' }, xp_reward: 40 },
+        { id: 'fb_s7', title: 'Prime numbers', content: { question: 'Which of these is a prime number?', options: ['49', '51', '53', '57'], correct_answer: '53', explanation: '53 is only divisible by 1 and itself.' }, xp_reward: 30 },
+        { id: 'fb_s8', title: '−5 + 12', content: { question: 'What is −5 + 12?', options: ['7', '−7', '17', '−17'], correct_answer: '7', explanation: '−5 + 12 = 7.' }, xp_reward: 25 },
+        { id: 'fb_s9', title: 'GCF', content: { question: 'What is the greatest common factor of 24 and 36?', options: ['6', '8', '12', '18'], correct_answer: '12', explanation: 'The GCF of 24 and 36 is 12.' }, xp_reward: 35 },
+        { id: 'fb_s10', title: 'Probability', content: { question: 'What is the probability of rolling an even number on a 6-sided die?', options: ['1/2', '1/3', '2/3', '1/6'], correct_answer: '1/2', explanation: '3 out of 6 numbers are even, so P = 3/6 = 1/2.' }, xp_reward: 30 },
+      ]
+  return bank
+}
+
 // ── XP calculation ────────────────────────────────────────────────────────────
 
 function calcXp(correct: number, questions: Question[]): number {
@@ -117,6 +147,8 @@ export default function MathArena({
     setChosenWrong(null)
     setSaveError(false)
 
+    console.log('[MathArena] ageTier:', ageTier, 'householdId:', householdId?.slice(0, 8))
+
     // Kick off AI and DB at the same time — the winner may supply questions
     const aiPromise = fetch('/api/edu/generate', {
       method: 'POST',
@@ -131,15 +163,25 @@ export default function MathArena({
       })
       .catch(() => null)
 
+    // Wrap dbPromise with its own timeout so it can't hang indefinitely.
     const dbPromise = (async (): Promise<Question[] | null> => {
       try {
-        const { data, error } = await supabase
+        const queryPromise = supabase
           .from('edu_challenges')
           .select('id, title, content, xp_reward')
           .eq('subject', 'math')
           .eq('age_tier', ageTier)
           .eq('is_active', true)
           .limit(50)
+
+        const result = await Promise.race([
+          queryPromise,
+          new Promise<null>((_, reject) =>
+            setTimeout(() => reject(new Error('db timeout')), 10_000),
+          ),
+        ])
+        if (!result) return null
+        const { data, error } = result as Awaited<typeof queryPromise>
         if (error) {
           console.error('[MathArena] DB query error:', JSON.stringify(error))
           return null
@@ -177,8 +219,10 @@ export default function MathArena({
         return
       }
 
-      // 3. Neither source delivered
-      setFetchErrorKind('network')
+      // 3. Neither source delivered — use hardcoded fallback
+      console.warn('[MathArena] AI + DB both failed, using fallback questions')
+      setQuestions(shuffle(fallbackQuestions(ageTier)).slice(0, 10))
+      setPhase('playing')
     } catch {
       console.error('[MathArena] overall timeout fetching questions')
       setFetchErrorKind('network')
