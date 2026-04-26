@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import type { Tables } from '@/types/database'
 import { PixelBadge, PixelButton } from '@/components/ui'
+import { PageHeader } from '@/components/qf'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type Chore = Pick<
@@ -428,15 +429,25 @@ export default function ChoresPage() {
         .slide-in { animation: slide-in 0.3s ease both; }
       `}</style>
 
-      {/* ── Top bar ──────────────────────────────────────────────────────────── */}
-      <div className="dash-topbar">
-        <span className="dash-page-title">📜 Quests</span>
-        <span style={{ fontFamily: 'var(--font-heading, Cinzel, serif)', fontWeight: 300, fontSize: '0.72rem', color: 'rgba(200,215,255,0.25)' }}>
-          {chores.length} active {chores.length === 1 ? 'quest' : 'quests'}
-        </span>
-      </div>
+      <PageHeader
+        kicker="THE CHORE LEDGER"
+        title="Recurring Chores"
+        sub="The deeds you ask your Hearthhold to perform — daily, weekly, or one-time."
+        right={
+          <span
+            className="font-pixel"
+            style={{
+              fontSize: 7,
+              color: 'var(--qf-parchment-muted)',
+              letterSpacing: '0.12em',
+            }}
+          >
+            {chores.length} ACTIVE {chores.length === 1 ? 'CHORE' : 'CHORES'}
+          </span>
+        }
+      />
 
-      <div className="dash-content">
+      <div>
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 380px', gap: '2rem', alignItems: 'start' }}>
 
           {/* ════════════════════════════════════════════════════════════════════

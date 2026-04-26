@@ -15,11 +15,12 @@ export default async function PlayLayout({
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('role, gold, households(name)')
+    .select('role, gold, avatar_class, households(name)')
     .eq('id', user.id)
     .single<{
       role: 'gm' | 'player'
       gold: number | null
+      avatar_class: string | null
       households: { name: string } | { name: string }[] | null
     }>()
 
@@ -40,6 +41,7 @@ export default async function PlayLayout({
     <PhoneShell
       statusbarTitle={householdName || 'Hearthhold'}
       goldDisplay={profile.gold ?? 0}
+      avatarClass={profile.avatar_class}
     >
       {children}
     </PhoneShell>

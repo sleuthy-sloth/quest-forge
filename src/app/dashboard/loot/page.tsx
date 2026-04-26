@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import type { Tables } from '@/types/database'
 import { PixelButton } from '@/components/ui'
+import { PageHeader } from '@/components/qf'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type LootItem = Pick<
@@ -399,18 +400,25 @@ export default function LootPage() {
         }
       `}</style>
 
-      {/* ── Top bar ──────────────────────────────────────────────────────────── */}
-      <div className="dash-topbar">
-        <span className="dash-page-title">💎 Loot Store</span>
-        <span style={{
-          fontFamily: 'var(--font-heading, Cinzel, serif)',
-          fontWeight: 300, fontSize: '0.72rem', color: 'rgba(200,215,255,0.25)',
-        }}>
-          {items.filter(i => i.is_available).length} of {items.length} available
-        </span>
-      </div>
+      <PageHeader
+        kicker="ROOK'S WARES"
+        title="Loot Emporium"
+        sub="Forge real-world rewards, cosmetics, and power-ups for your Emberbearers."
+        right={
+          <span
+            className="font-pixel"
+            style={{
+              fontSize: 7,
+              color: 'var(--qf-parchment-muted)',
+              letterSpacing: '0.12em',
+            }}
+          >
+            {items.filter(i => i.is_available).length} OF {items.length} AVAILABLE
+          </span>
+        }
+      />
 
-      <div className="dash-content">
+      <div>
         <div
           className="loot-layout"
           style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 360px', gap: '2rem', alignItems: 'start' }}

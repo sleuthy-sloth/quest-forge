@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import AvatarPreview from '@/components/avatar/AvatarPreview'
+import { PixelIcon } from '@/components/qf'
 
 // ── Game catalog ──────────────────────────────────────────────────────────────
 
@@ -9,42 +10,42 @@ const GAMES = [
   {
     slug:    'math-arena',
     name:    'Math Arena',
-    icon:    '⚔️',
+    icon:    'sword' as const,
     tagline: 'Test your numbers in battle',
     accent:  '#c43a00',
   },
   {
     slug:    'word-forge',
     name:    'Word Forge',
-    icon:    '🔨',
+    icon:    'hammer' as const,
     tagline: 'Forge words from molten letters',
     accent:  '#1a5c9e',
   },
   {
     slug:    'science-labyrinth',
     name:    'Science Labyrinth',
-    icon:    '🧪',
+    icon:    'flask' as const,
     tagline: 'Navigate the maze of knowledge',
     accent:  '#1e8a4a',
   },
   {
     slug:    'history-scroll',
     name:    'History Scroll',
-    icon:    '📜',
+    icon:    'scroll' as const,
     tagline: 'Unravel the tales of ages past',
     accent:  '#9e6a1a',
   },
   {
     slug:    'vocab-duel',
     name:    'Vocab Duel',
-    icon:    '📖',
+    icon:    'book' as const,
     tagline: 'Master the language of power',
     accent:  '#7a1a9e',
   },
   {
     slug:    'logic-gate',
     name:    'Logic Gate',
-    icon:    '⚡',
+    icon:    'circuit' as const,
     tagline: 'Unlock the puzzles of the mind',
     accent:  '#1e8ab8',
   },
@@ -280,9 +281,8 @@ function GameCard({
         }}
       >
         {/* Icon */}
-        <div style={{ fontSize: '24px', lineHeight: 1 }} aria-hidden="true">
-          {game.icon}
-        </div>
+        <PixelIcon id={game.icon} size={28} color={game.accent} />
+
 
         {/* Name */}
         <div
