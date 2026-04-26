@@ -4,6 +4,7 @@
 import { useEffect, useState, useCallback, useRef, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import AvatarPreview from '@/components/avatar/AvatarPreview'
+import { PageHeader, PageDivider, Chip, XPIcon, Coin } from '@/components/qf'
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -379,60 +380,31 @@ export default function ApprovalQueuePage() {
           from { opacity: 0; transform: translateY(8px); }
           to   { opacity: 1; transform: translateY(0); }
         }
-        .section-rule {
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
-          margin-bottom: 1rem;
-        }
-        .section-rule h2 {
-          font-family: 'Cinzel', serif;
-          font-size: 0.72rem;
-          font-weight: 700;
-          color: rgba(201,168,76,0.65);
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          white-space: nowrap;
-          flex-shrink: 0;
-        }
-        .section-rule .rule-line {
-          flex: 1;
-          height: 1px;
-          background: linear-gradient(90deg, rgba(201,168,76,0.2), transparent);
-        }
       `}</style>
 
-      {/* ── Top bar ───────────────────────────────────────────────── */}
-      <div className="dash-topbar">
-        <span className="dash-page-title">⚑ Approval Queue</span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          {!loading && pending.length > 0 && (
-            <span style={{
-              fontFamily: "'Press Start 2P', monospace",
-              fontSize: '0.48rem',
-              color: 'rgba(230,110,90,0.9)',
-              background: 'rgba(220,80,60,0.12)',
-              border: '1px solid rgba(220,80,60,0.3)',
-              borderRadius: 2,
-              padding: '3px 8px',
-              imageRendering: 'pixelated',
-            }}>
-              {pending.length} pending
-            </span>
-          )}
-          <button
-            className="aq-btn aq-btn-batch"
-            disabled={loading || pending.length === 0 || isBatching}
-            onClick={batchApproveAll}
-          >
-            {batchProgress
-              ? `Approving ${batchProgress.current} of ${batchProgress.total}…`
-              : 'Batch Approve All'}
-          </button>
-        </div>
-      </div>
+      <PageHeader
+        kicker="AWAITING YOUR VERDICT"
+        title="Quest Approvals"
+        sub="Approve to grant XP and deal boss damage. Reject to send it back."
+        right={
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            {!loading && pending.length > 0 && (
+              <Chip color="var(--qf-ember-bright)">{pending.length} PENDING</Chip>
+            )}
+            <button
+              className="aq-btn aq-btn-batch"
+              disabled={loading || pending.length === 0 || isBatching}
+              onClick={batchApproveAll}
+            >
+              {batchProgress
+                ? `Approving ${batchProgress.current} of ${batchProgress.total}…`
+                : 'Batch Approve All'}
+            </button>
+          </div>
+        }
+      />
 
-      <div className="dash-content">
+      <div>
 
         {/* ── Loading skeleton ───────────────────────────────────── */}
         {loading && (
@@ -482,10 +454,7 @@ export default function ApprovalQueuePage() {
         {/* ── Pending item list ──────────────────────────────────── */}
         {!loading && pending.length > 0 && (
           <>
-            <div className="section-rule">
-              <h2>Pending Quests</h2>
-              <div className="rule-line" />
-            </div>
+            <PageDivider>Pending Quests</PageDivider>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               {pending.map(item => {
@@ -580,26 +549,17 @@ export default function ApprovalQueuePage() {
                       <div style={{
                         display: 'flex',
                         gap: '1rem',
+                        alignItems: 'center',
                         marginBottom: '1rem',
                         paddingBottom: '1rem',
-                        borderBottom: '1px solid rgba(201,168,76,0.06)',
+                        borderBottom: '1px solid var(--qf-rule)',
                       }}>
-                        <span style={{
-                          fontFamily: "'Press Start 2P', monospace",
-                          fontSize: '0.45rem',
-                          color: 'rgba(201,168,76,0.75)',
-                          imageRendering: 'pixelated',
-                        }}>
-                          +{chore?.xp_reward ?? 0} XP
+                        <span className="font-pixel" style={{ fontSize: 8, color: 'var(--qf-gold-300)', display: 'flex', alignItems: 'center', gap: 4 }}>
+                          <XPIcon size={11} /> +{chore?.xp_reward ?? 0}
                         </span>
                         {(chore?.gold_reward ?? 0) > 0 && (
-                          <span style={{
-                            fontFamily: "'Press Start 2P', monospace",
-                            fontSize: '0.45rem',
-                            color: 'rgba(249,200,70,0.75)',
-                            imageRendering: 'pixelated',
-                          }}>
-                            +{chore?.gold_reward} GP
+                          <span className="font-pixel" style={{ fontSize: 8, color: 'var(--qf-gold-200)', display: 'flex', alignItems: 'center', gap: 4 }}>
+                            <Coin size={11} /> +{chore?.gold_reward}
                           </span>
                         )}
                       </div>

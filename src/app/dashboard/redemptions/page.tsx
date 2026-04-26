@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { createClient } from '@/lib/supabase/client'
 import { playSfx } from '@/lib/audio'
+import { PageHeader, Chip } from '@/components/qf'
 
 interface RedemptionWithDetails {
   id: string
@@ -114,21 +115,18 @@ export default function RedemptionDashboardPage() {
         }
       `}</style>
 
-      <div className="dash-topbar">
-        <span className="dash-page-title">🎁 Voucher Redemptions</span>
-        {pendingCount > 0 && (
-          <span className="font-pixel text-[0.42rem] px-2 py-1 rounded-sm" style={{
-            background: 'rgba(232,160,32,0.12)',
-            border: '1px solid rgba(232,160,32,0.3)',
-            color: '#e8a020',
-            imageRendering: 'pixelated',
-          }}>
-            {pendingCount} pending
-          </span>
-        )}
-      </div>
+      <PageHeader
+        kicker="VOUCHER REDEMPTIONS"
+        title="Real-World Rewards"
+        sub="Approve when you've delivered the IRL reward to your Emberbearer."
+        right={
+          pendingCount > 0 ? (
+            <Chip color="var(--qf-gold-300)">{pendingCount} PENDING</Chip>
+          ) : null
+        }
+      />
 
-      <div className="dash-content">
+      <div>
         {loading ? (
           <p className="text-center font-heading text-sm text-[#b09a6e]/40">Loading redemptions...</p>
         ) : redemptions.length === 0 ? (

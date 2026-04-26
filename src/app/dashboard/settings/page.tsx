@@ -1,6 +1,7 @@
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
+import { createClient } from '@/lib/supabase/server'
+import { PageHeader, PageDivider } from '@/components/qf'
 
 export default async function SettingsPage() {
   const supabase = await createClient()
@@ -16,105 +17,99 @@ export default async function SettingsPage() {
   if (!profile || profile.role !== 'gm') redirect('/play')
 
   return (
-    <main style={{ padding: '2rem', maxWidth: 640, margin: '0 auto' }}>
-      <style suppressHydrationWarning>{`
-        .settings-section {
-          border-style: solid;
-          border-width: 1px;
-          border-color: rgba(201,168,76,0.12);
-          background: #0d0f1a;
-          padding: 1.5rem;
-          margin-bottom: 1.25rem;
-        }
-        .settings-section-title {
-          font-family: var(--font-heading, 'Cinzel', serif);
-          font-size: 0.75rem;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          color: var(--gold-400, #c9a84c);
-          margin-bottom: 1rem;
-          padding-bottom: 0.5rem;
-          border-bottom: 1px solid rgba(201,168,76,0.1);
-        }
-        .settings-row {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 0.6rem 0;
-          border-bottom: 1px solid rgba(255,255,255,0.04);
-          font-size: 0.8rem;
-          color: rgba(240,230,200,0.7);
-          font-family: var(--font-heading, 'Cinzel', serif);
-        }
-        .settings-row:last-child { border-bottom: none; }
-        .settings-row-muted {
-          font-size: 0.68rem;
-          color: rgba(176,154,110,0.45);
-          font-family: var(--font-heading, 'Cinzel', serif);
-        }
-        .settings-link {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 0.6rem 0;
-          font-size: 0.8rem;
-          font-family: var(--font-heading, 'Cinzel', serif);
-          color: rgba(201,168,76,0.7);
-          text-decoration: none;
-          transition: color 0.15s;
-          border-bottom: 1px solid rgba(255,255,255,0.04);
-        }
-        .settings-link:hover { color: #c9a84c; }
-        .settings-link:last-child { border-bottom: none; }
-      `}</style>
+    <div style={{ maxWidth: 720 }}>
+      <PageHeader
+        kicker="HEARTHHOLD CONFIGURATION"
+        title="Settings"
+        sub="Account details and credits for The Emberlight Chronicles."
+      />
 
-      <h1 style={{
-        fontFamily: 'var(--font-heading, "Cinzel", serif)',
-        fontSize: '1rem',
-        letterSpacing: '0.15em',
-        color: '#c9a84c',
-        marginBottom: '1.75rem',
-        textTransform: 'uppercase',
-      }}>
-        ⚙ Settings
-      </h1>
-
-      {/* Account info */}
-      <section className="settings-section">
-        <div className="settings-section-title">Account</div>
-        <div className="settings-row">
-          <span>Game Master</span>
-          <span className="settings-row-muted">{profile.display_name}</span>
-        </div>
-        <div className="settings-row">
-          <span>Role</span>
-          <span className="settings-row-muted">GM</span>
-        </div>
-        <div className="settings-row">
-          <span>Household ID</span>
-          <span className="settings-row-muted" style={{ fontFamily: 'monospace', fontSize: '0.6rem' }}>
-            {profile.household_id}
-          </span>
-        </div>
-      </section>
+      {/* Account */}
+      <PageDivider>Account</PageDivider>
+      <div className="qf-ornate-panel" style={{ padding: 18, marginBottom: 18 }}>
+        {[
+          { label: 'Game Master', value: profile.display_name },
+          { label: 'Role', value: 'GM' },
+          { label: 'Household ID', value: profile.household_id, mono: true },
+        ].map((row, i, all) => (
+          <div
+            key={row.label}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '0.6rem 0',
+              borderBottom: i < all.length - 1 ? '1px solid var(--qf-rule)' : 'none',
+              fontFamily: 'var(--font-heading), Cinzel, serif',
+              fontSize: 13,
+              color: 'var(--qf-parchment)',
+            }}
+          >
+            <span>{row.label}</span>
+            <span
+              style={{
+                color: 'var(--qf-parchment-dim)',
+                fontFamily: row.mono ? 'monospace' : undefined,
+                fontSize: row.mono ? 11 : undefined,
+              }}
+            >
+              {row.value}
+            </span>
+          </div>
+        ))}
+      </div>
 
       {/* About & legal */}
-      <section className="settings-section">
-        <div className="settings-section-title">About</div>
-        <Link href="/dashboard/settings/about" className="settings-link">
+      <PageDivider>About</PageDivider>
+      <div className="qf-ornate-panel" style={{ padding: 18 }}>
+        <Link
+          href="/dashboard/settings/about"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            padding: '0.6rem 0',
+            borderBottom: '1px solid var(--qf-rule)',
+            fontFamily: 'var(--font-heading), Cinzel, serif',
+            fontSize: 13,
+            color: 'var(--qf-gold-300)',
+            textDecoration: 'none',
+          }}
+        >
           <span>◆</span>
           <span>Credits &amp; Art Attribution</span>
-          <span style={{ marginLeft: 'auto', fontSize: '0.6rem', opacity: 0.45 }}>›</span>
+          <span
+            style={{
+              marginLeft: 'auto',
+              fontSize: 11,
+              opacity: 0.45,
+            }}
+          >
+            ›
+          </span>
         </Link>
-        <div className="settings-row">
-          <span>Version</span>
-          <span className="settings-row-muted">Phase 4</span>
-        </div>
-        <div className="settings-row">
-          <span>World</span>
-          <span className="settings-row-muted">Embervale</span>
-        </div>
-      </section>
-    </main>
+        {[
+          { label: 'Version', value: 'Phase 4' },
+          { label: 'World', value: 'Embervale' },
+        ].map((row, i, all) => (
+          <div
+            key={row.label}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '0.6rem 0',
+              borderBottom: i < all.length - 1 ? '1px solid var(--qf-rule)' : 'none',
+              fontFamily: 'var(--font-heading), Cinzel, serif',
+              fontSize: 13,
+              color: 'var(--qf-parchment)',
+            }}
+          >
+            <span>{row.label}</span>
+            <span style={{ color: 'var(--qf-parchment-dim)' }}>{row.value}</span>
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }

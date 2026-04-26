@@ -2,7 +2,9 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import type { ReactNode } from 'react'
+import { useEffect, useRef, type ReactNode } from 'react'
+import { playBgm } from '@/lib/audio'
+import WalkthroughOverlay from '@/components/play/WalkthroughOverlay'
 import { Embershard } from './Embershard'
 import { Embers } from './Embers'
 import { Coin } from './Coin'
@@ -11,6 +13,7 @@ interface PhoneShellProps {
   children: ReactNode
   statusbarTitle?: string
   goldDisplay?: number | null
+  avatarClass?: string | null
 }
 
 const TABS = [
@@ -77,8 +80,19 @@ export function PhoneShell({
   children,
   statusbarTitle = 'Hearthhold',
   goldDisplay,
+  avatarClass = null,
 }: PhoneShellProps) {
   const pathname = usePathname()
+  const bgmStarted = useRef(false)
+
+  // Start hub BGM on first mount. No cleanup on navigation — we want it to
+  // persist across pages within /play/*. ZoneManager on child pages will
+  // crossfade to different tracks; when they unmount, this keeps playing.
+  useEffect(() => {
+    if (bgmStarted.current) return
+    bgmStarted.current = true
+    playBgm('hub')
+  }, [])
 
   function isActive(href: string) {
     if (href === '/play') return pathname === '/play'
@@ -87,6 +101,7 @@ export function PhoneShell({
 
   return (
     <div className="qf-phone-shell">
+      <WalkthroughOverlay avatarClass={avatarClass} />
       <div className="qf-ember-bg" aria-hidden="true" />
       <Embers count={8} />
 

@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import type { Tables } from '@/types/database'
+import { PageHeader, PageDivider } from '@/components/qf'
 
 type PlayerProfile = Pick<
   Tables<'profiles'>,
@@ -376,28 +377,30 @@ export default function PlayersPage() {
         .slide-in { animation: slide-in 0.2s ease both; }
       `}</style>
 
-      {/* Topbar */}
-      <div className="dash-topbar">
-        <span className="dash-page-title">⚔ Players</span>
-        <span style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 300, fontSize: '0.78rem', color: 'rgba(200,215,255,0.3)' }}>
-          {players.length} {players.length === 1 ? 'adventurer' : 'adventurers'} in your Hearthhold
-        </span>
-      </div>
+      <PageHeader
+        kicker="THE EMBERBEARERS"
+        title="Players"
+        sub="Forge child accounts. No email is ever collected — username + secret word only."
+        right={
+          <span
+            className="font-pixel"
+            style={{
+              fontSize: 7,
+              color: 'var(--qf-parchment-muted)',
+              letterSpacing: '0.12em',
+            }}
+          >
+            {players.length} {players.length === 1 ? 'ADVENTURER' : 'ADVENTURERS'}
+          </span>
+        }
+      />
 
-      <div className="dash-content">
+      <div>
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 340px', gap: '1.5rem', alignItems: 'start' }}>
 
           {/* ── Player Roster ── */}
           <section>
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: '0.75rem',
-              marginBottom: '1rem',
-            }}>
-              <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: '0.8rem', fontWeight: 700, color: 'rgba(201,168,76,0.7)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                Adventurer Roster
-              </h2>
-              <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, rgba(201,168,76,0.2), transparent)' }} />
-            </div>
+            <PageDivider>Adventurer Roster</PageDivider>
 
             {loading && (
               <div style={{ textAlign: 'center', padding: '3rem', color: 'rgba(200,215,255,0.3)', fontFamily: "'Raleway', sans-serif", fontWeight: 300, fontSize: '0.88rem' }}>
