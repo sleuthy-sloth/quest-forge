@@ -9,6 +9,7 @@ import type { Json } from '@/types/database'
 import { SPRITE_MANIFEST } from '@/lib/sprites/manifest'
 import classesData from '@/lore/classes.json'
 import { playBgm, stopBgm } from '@/lib/audio'
+import { saveCharacter } from '@/app/actions/save-character'
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -988,36 +989,21 @@ function CreateCharacterInner() {
     setSaveError(null)
 
     try {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) { setIsSaving(false); router.replace('/login'); return }
-
-      // 15s timeout — if Supabase is unreachable the kid gets a clear
-      // error instead of an indefinitely-spinning save button.
-      const { error } = await supabase
-        .from('profiles')
-        .update({
-          avatar_config: config as unknown as Json,
-          avatar_class: selectedClass.id,
-        })
-        .eq('id', user.id)
-        .abortSignal(AbortSignal.timeout(15000))
-
-      if (error) throw error
-      setIsSaving(false)
+      const result = await saveCharacter(config as unknown as Json, selectedClass.id)
+      if (result.error) {
+        setSaveError(result.error)
+        setIsSaving(false)
+        return
+      }
       router.push('/play')
     } catch (err) {
-      const isAbort =
-        err instanceof DOMException && err.name === 'AbortError'
-      const message = isAbort
-        ? 'Save took too long. Please check your connection and try again.'
-        : err instanceof Error
-          ? err.message
-          : 'Something went wrong saving your character.'
       console.error('Failed to save character:', err)
-      setSaveError(message)
+      setSaveError(
+        err instanceof Error ? err.message : 'Something went wrong saving your character.',
+      )
       setIsSaving(false)
     }
-  }, [selectedClass, config, supabase, router])
+  }, [selectedClass, config, router])
 
   const stepTitles = ['CHOOSE YOUR PATH', 'FORGE YOUR IDENTITY', 'YOUR LEGEND BEGINS']
 

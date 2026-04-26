@@ -56,6 +56,13 @@ function startProceduralBgm(track: BgmTrack): void {
   if (!audioCtx) return
   if (procBgmPlaying === track) return
 
+  // Resume context if suspended — browsers may still be in the suspended state
+  // even after initAudio() if the user gesture window has closed. The oscillators
+  // will start producing output as soon as resume() resolves.
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume().catch(() => { /* ignore */ })
+  }
+
   // Stop previous
   stopProceduralBgm()
 
@@ -123,6 +130,12 @@ export function initAudio(): void {
   // Create AudioContext for procedural fallback
   try {
     audioCtx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
+    // Browsers create AudioContext in a suspended state unless created inside a
+    // user-gesture handler. Attempt an immediate resume — it succeeds when
+    // called from a trusted gesture context (e.g. link click that triggered
+    // navigation). The promise rejection is safe to ignore; the context will
+    // be resumed again in startProceduralBgm if needed.
+    audioCtx.resume().catch(() => { /* ignore */ })
   } catch {
     // Web Audio API not available — no audio at all
   }
