@@ -1,142 +1,250 @@
-'use client'
-
-import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/client'
-import type { QuestRow } from '@/types/shop'
+import { createClient } from '@/lib/supabase/server'
+import { Chip, XPIcon, Coin } from '@/components/qf'
 
-const SPRITE_MAP: Record<string, string> = {
-  demon: '👹',
-  dragon: '🐉',
-  slime: '🟢',
+const DIFF_COLOR: Record<string, string> = {
+  easy:   'var(--qf-success)',
+  medium: 'var(--qf-gold-300)',
+  hard:   'var(--qf-ember-bright)',
+  epic:   'var(--qf-magic)',
 }
 
-const DIFF_COLORS: Record<string, string> = {
-  easy: '#2eb85c',
-  medium: '#4d8aff',
-  hard: '#b060e0',
+function difficultyLabel(d: string): string {
+  return d.charAt(0).toUpperCase() + d.slice(1)
 }
 
-export default function QuestListPage() {
-  const [quests, setQuests] = useState<QuestRow[]>([])
-  const [loading, setLoading] = useState(true)
-  const supabase = createClient()
+export default async function GMQuestsPage() {
+  const supabase = await createClient()
 
-  useEffect(() => {
-    async function load() {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) { setLoading(false); return }
+  // RLS scopes by household. Players are joined client-side via a Map for
+  // the assignee column rather than a Postgres join — the player set is
+  // tiny (~6 rows) and the join column varies.
+  const [
+    { data: quests },
+    { data: players },
+  ] = await Promise.all([
+    supabase
+      .from('quests')
+      .select('id, title, description, difficulty, xp_reward, gold_reward, assigned_to, is_active, is_boss, created_at')
+      .eq('is_active', true)
+      .order('created_at', { ascending: false }),
 
-      const { data: profile } = await supabase
-        .from('profiles').select('household_id').eq('id', user.id).single()
-      if (!profile) { setLoading(false); return }
+    supabase
+      .from('profiles')
+      .select('id, display_name')
+      .eq('role', 'player'),
+  ])
 
-      const { data } = await supabase
-        .from('quests')
-        .select('*')
-        .eq('household_id', profile.household_id)
-        .eq('is_active', true)
-        .order('created_at', { ascending: false })
+  const playerById = new Map((players ?? []).map(p => [p.id, p.display_name]))
+  const rows = quests ?? []
 
-      setQuests((data ?? []) as unknown as QuestRow[])
-      setLoading(false)
-    }
-    load()
-  }, [supabase])
+  const counts = {
+    all:    rows.length,
+    easy:   rows.filter(r => r.difficulty === 'easy').length,
+    medium: rows.filter(r => r.difficulty === 'medium').length,
+    hard:   rows.filter(r => r.difficulty === 'hard').length,
+    epic:   rows.filter(r => r.difficulty === 'epic').length,
+    boss:   rows.filter(r => r.is_boss).length,
+  }
 
   return (
-    <>
-      <div className="dash-topbar">
-        <span className="dash-page-title">⚔ Active Quests</span>
-        <Link
-          href="/dashboard/quests/new"
-          className="text-[0.65rem] font-heading tracking-wider text-[#c9a84c]/80 hover:text-[#c9a84c] uppercase transition-colors px-3 py-1.5 border border-[#c9a84c]/30 rounded-sm"
-        >
-          + New Quest
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'space-between',
+        }}
+      >
+        <div>
+          <div
+            className="font-pixel"
+            style={{
+              fontSize: 7,
+              color: 'var(--qf-gold-400)',
+              letterSpacing: '0.18em',
+            }}
+          >
+            THE QUEST BOARD
+          </div>
+          <h1
+            className="font-heading"
+            style={{
+              fontSize: 28,
+              margin: '4px 0 0',
+              color: 'var(--qf-parchment)',
+              fontWeight: 700,
+            }}
+          >
+            Active Quests
+          </h1>
+          <p
+            style={{
+              color: 'var(--qf-parchment-dim)',
+              fontStyle: 'italic',
+              margin: '2px 0 0',
+              fontSize: 13,
+            }}
+          >
+            Tasks the Emberbearers may take up. AI flavor text turns chores into deeds.
+          </p>
+        </div>
+        <Link href="/dashboard/quests/new" className="qf-btn" style={{ textDecoration: 'none' }}>
+          + Forge New Quest
         </Link>
       </div>
 
-      <div className="dash-content">
-        {loading ? (
-          <p className="text-center font-heading text-sm text-[#b09a6e]/40">Loading quests...</p>
-        ) : quests.length === 0 ? (
-          <div style={{
-            padding: '4rem 2rem', textAlign: 'center',
-            background: 'rgba(255,255,255,0.015)',
-            border: '1px dashed rgba(201,168,76,0.1)', borderRadius: 3,
-          }}>
-            <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem', opacity: 0.2 }}>⚔</div>
-            <p className="font-heading text-sm text-[#b09a6e]/60 mb-4">No active quests</p>
-            <Link
-              href="/dashboard/quests/new"
-              className="font-heading text-xs text-[#c9a84c]/70 hover:text-[#c9a84c] uppercase tracking-wider border border-[#c9a84c]/30 px-4 py-2 rounded-sm transition-colors"
+      {/* Quick filter chips — decorative in this iteration; client-side
+          filtering can be wired later when the volume warrants it. */}
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        {[
+          { key: 'all',    label: `All Quests · ${counts.all}` },
+          { key: 'easy',   label: `Easy · ${counts.easy}` },
+          { key: 'medium', label: `Medium · ${counts.medium}` },
+          { key: 'hard',   label: `Hard · ${counts.hard}` },
+          { key: 'epic',   label: `Epic · ${counts.epic}` },
+          { key: 'boss',   label: `Boss · ${counts.boss}` },
+        ].map((f, i) => (
+          <div
+            key={f.key}
+            style={{
+              padding: '6px 12px',
+              border: `1px solid ${i === 0 ? 'var(--qf-gold-400)' : 'var(--qf-rule)'}`,
+              background: i === 0 ? 'rgba(232,160,32,0.08)' : 'transparent',
+              fontFamily: 'var(--font-heading), Cinzel, serif',
+              fontSize: 11,
+              color: i === 0 ? 'var(--qf-gold-300)' : 'var(--qf-parchment-dim)',
+              letterSpacing: '0.06em',
+            }}
+          >
+            {f.label}
+          </div>
+        ))}
+      </div>
+
+      {/* Table */}
+      <div className="qf-ornate-panel" style={{ padding: 0, overflow: 'hidden' }}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '2.5fr 1fr 1fr 0.8fr',
+            padding: '10px 18px',
+            gap: 12,
+            borderBottom: '1px solid var(--qf-rule)',
+            background: 'rgba(0,0,0,0.2)',
+          }}
+        >
+          {['Quest', 'Difficulty', 'Assigned', 'Reward'].map((h) => (
+            <div
+              key={h}
+              className="font-pixel"
+              style={{
+                fontSize: 7,
+                color: 'var(--qf-parchment-muted)',
+                letterSpacing: '0.14em',
+              }}
             >
-              Forge a New Quest
-            </Link>
+              {h}
+            </div>
+          ))}
+        </div>
+
+        {rows.length === 0 ? (
+          <div
+            style={{
+              padding: '3.5rem 2rem',
+              textAlign: 'center',
+              color: 'var(--qf-parchment-muted)',
+              fontStyle: 'italic',
+              fontSize: 14,
+            }}
+          >
+            The quest board is empty. Forge a new decree to begin.
           </div>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            {quests.map(q => {
-              const diffColor = DIFF_COLORS[q.difficulty] ?? '#4d8aff'
-              const bossHpPct = q.is_boss && q.boss_health && q.boss_current_health != null
-                ? Math.round((q.boss_current_health / q.boss_health) * 100)
-                : null
-
-              return (
-                <div key={q.id} style={{
-                  background: 'rgba(255,255,255,0.022)',
-                  border: '1px solid rgba(201,168,76,0.1)',
-                  borderRadius: 3, padding: '0.85rem 1rem',
-                  display: 'flex', alignItems: 'center', gap: '1rem',
-                }}>
-                  {/* Boss emoji or difficulty dot */}
-                  <div className="text-2xl [image-rendering:pixelated]">
-                    {q.is_boss && q.boss_sprite ? SPRITE_MAP[q.boss_sprite] ?? '👹' : '✦'}
+          rows.map((q, i) => {
+            const accent = DIFF_COLOR[q.difficulty] ?? 'var(--qf-gold-300)'
+            return (
+              <div
+                key={q.id}
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '2.5fr 1fr 1fr 0.8fr',
+                  padding: '12px 18px',
+                  gap: 12,
+                  alignItems: 'center',
+                  borderBottom: i < rows.length - 1 ? '1px solid var(--qf-rule)' : 'none',
+                }}
+              >
+                <div>
+                  <div
+                    className="font-heading"
+                    style={{
+                      fontSize: 14,
+                      color: 'var(--qf-parchment)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 8,
+                    }}
+                  >
+                    {q.title}
+                    {q.is_boss && <Chip color="var(--qf-ember-bright)">Boss</Chip>}
                   </div>
-
-                  <div style={{ flex: 1 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
-                      <span className="font-heading text-sm font-semibold text-[#e8f0ff]">{q.title}</span>
-                      <span className="font-pixel text-[0.4rem] px-1.5 py-0.5 rounded-sm" style={{
-                        background: `${diffColor}18`, border: `1px solid ${diffColor}44`, color: diffColor,
-                      }}>
-                        {q.difficulty}
-                      </span>
-                      {q.is_boss && (
-                        <span className="font-pixel text-[0.4rem] px-1.5 py-0.5 rounded-sm" style={{
-                          background: 'rgba(200,60,60,0.12)', border: '1px solid rgba(200,60,60,0.3)', color: '#e06868',
-                        }}>
-                          BOSS
-                        </span>
-                      )}
+                  {q.description && (
+                    <div
+                      style={{
+                        fontSize: 12,
+                        color: 'var(--qf-parchment-muted)',
+                        fontStyle: 'italic',
+                        marginTop: 2,
+                      }}
+                    >
+                      &ldquo;{q.description}&rdquo;
                     </div>
-                    <div className="flex items-center gap-3 mt-1">
-                      <span className="font-pixel text-[0.4rem] text-[#c9a84c]/70">+{q.xp_reward} xp</span>
-                      {q.gold_reward > 0 && (
-                        <span className="font-pixel text-[0.4rem] text-[#f0c84c]/70">+{q.gold_reward} gp</span>
-                      )}
-                      {q.assigned_to && <span className="font-body text-xs text-[#b09a6e]/50">⚔ assigned</span>}
-                    </div>
-                    {bossHpPct != null && (
-                      <div className="mt-2">
-                        <div className="h-2 bg-[#0a0614] rounded-sm border border-[#5a3a1a]/40 overflow-hidden">
-                          <div className="h-full rounded-sm transition-all duration-500" style={{
-                            width: `${bossHpPct}%`,
-                            background: bossHpPct > 60 ? '#2eb85c' : bossHpPct > 30 ? '#e8a020' : '#e84040',
-                          }} />
-                        </div>
-                        <span className="font-pixel text-[0.35rem] text-[#b09a6e]/40 mt-0.5 block">
-                          {q.boss_current_health}/{q.boss_health} HP
-                        </span>
-                      </div>
-                    )}
-                  </div>
+                  )}
                 </div>
-              )
-            })}
-          </div>
+                <div>
+                  <Chip color={accent}>{difficultyLabel(q.difficulty)}</Chip>
+                </div>
+                <div
+                  className="font-heading"
+                  style={{ fontSize: 13, color: 'var(--qf-parchment)' }}
+                >
+                  {q.assigned_to ? (playerById.get(q.assigned_to) ?? 'Unknown') : 'Everyone'}
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  <span
+                    className="font-pixel"
+                    style={{
+                      fontSize: 8,
+                      color: 'var(--qf-gold-300)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 4,
+                    }}
+                  >
+                    <XPIcon size={11} /> +{q.xp_reward}
+                  </span>
+                  {q.gold_reward > 0 && (
+                    <span
+                      className="font-pixel"
+                      style={{
+                        fontSize: 8,
+                        color: 'var(--qf-gold-200)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 4,
+                      }}
+                    >
+                      <Coin size={11} /> +{q.gold_reward}
+                    </span>
+                  )}
+                </div>
+              </div>
+            )
+          })
         )}
       </div>
-    </>
+    </div>
   )
 }

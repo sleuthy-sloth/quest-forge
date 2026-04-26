@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { DashboardShell } from '@/components/dashboard/DashboardShell'
+import { GMShell } from '@/components/qf'
 
 export default async function DashboardLayout({
   children,
@@ -12,8 +12,8 @@ export default async function DashboardLayout({
 
   if (!user) redirect('/login')
 
-  // Fetch profile + household in a single PostgREST round-trip via the
-  // foreign-key relation rather than two sequential SELECTs.
+  // Profile + household name + active boss in one round-trip-ish chunk.
+  // The boss preview powers the sidebar widget; an empty result just hides it.
   const { data: profile } = await supabase
     .from('profiles')
     .select('role, display_name, household_id, households(name)')
@@ -31,12 +31,32 @@ export default async function DashboardLayout({
     ? profile.households[0]?.name ?? ''
     : profile.households?.name ?? ''
 
+  const { data: boss } = await supabase
+    .from('story_chapters')
+    .select('boss_name, boss_hp, boss_current_hp')
+    .eq('household_id', profile.household_id)
+    .eq('is_unlocked', true)
+    .gt('boss_current_hp', 0)
+    .order('week_number', { ascending: false })
+    .limit(1)
+    .maybeSingle()
+
+  const weeklyBoss = boss && boss.boss_name
+    ? {
+        name: boss.boss_name,
+        current: boss.boss_current_hp ?? boss.boss_hp ?? 0,
+        max: boss.boss_hp ?? 1,
+        hpPct: Math.round(((boss.boss_current_hp ?? boss.boss_hp) / (boss.boss_hp || 1)) * 100),
+      }
+    : null
+
   return (
-    <DashboardShell
+    <GMShell
       householdName={householdName}
       displayName={profile.display_name}
+      weeklyBoss={weeklyBoss}
     >
       {children}
-    </DashboardShell>
+    </GMShell>
   )
 }

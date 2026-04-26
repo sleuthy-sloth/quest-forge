@@ -440,3 +440,294 @@ canvas.pixel,
 .sidebar-signout:hover {
   color: #e05555 !important;
 }
+
+/* ════════════════════════════════════════════════════════════════════
+   QF (Quest Forge) Design System — primitives shared across GM
+   dashboard and player phone surfaces. Aesthetic: dark void lit by
+   gold, ember accents. Tokens namespaced with `--qf-*` and classes
+   with `qf-` so they don't collide with the legacy dashboard styles
+   above.
+   ════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Backgrounds */
+  --qf-bg-void:      #0a0b0f;
+  --qf-bg-deep:      #0f1118;
+  --qf-bg-surface:   #161822;
+  --qf-bg-card:      #1a1c2e;
+  --qf-bg-card-alt:  #12131f;
+  --qf-bg-card-hi:   #20223a;
+
+  /* Gold / Amber */
+  --qf-gold-100:     #fff8e7;
+  --qf-gold-200:     #fde9a2;
+  --qf-gold-300:     #f9c846;
+  --qf-gold-400:     #e8a020;
+  --qf-gold-500:     #c97d0a;
+  --qf-gold-600:     #9c5e04;
+
+  /* Ember */
+  --qf-ember-bright: #ff8c3a;
+  --qf-ember-glow:   #ff6010;
+  --qf-ember-deep:   #c43a00;
+
+  /* Text */
+  --qf-parchment:        #f0e6c8;
+  --qf-parchment-dim:    #b09a6e;
+  --qf-parchment-muted:  #6b5d44;
+  --qf-parchment-faint:  #3d3526;
+
+  /* Status */
+  --qf-error:    #e05555;
+  --qf-success:  #5aab6e;
+  --qf-info:     #6890d4;
+  --qf-magic:    #b070d4;
+
+  /* Borders */
+  --qf-rule:        rgba(201,168,76,0.18);
+  --qf-rule-strong: rgba(201,168,76,0.32);
+}
+
+/* ── Shells (full-viewport flex columns) ─────────────────────────── */
+.qf-shell {
+  background: var(--qf-bg-void);
+  color: var(--qf-parchment);
+  font-family: var(--font-body), 'Crimson Text', Georgia, serif;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.qf-phone-shell {
+  background: var(--qf-bg-void);
+  color: var(--qf-parchment);
+  font-family: var(--font-body), 'Crimson Text', Georgia, serif;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Atmosphere — radial ember glow at the bottom ────────────────── */
+.qf-ember-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 100%, rgba(255,96,16,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 50% at 50% 110%, rgba(201,125,10,0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Floating embers */
+@keyframes qf-ember-rise {
+  0%   { transform: translateY(0) translateX(0); opacity: 0; }
+  10%  { opacity: 0.8; }
+  50%  { opacity: 0.5; }
+  100% { transform: translateY(-120vh) translateX(var(--qf-drift, 30px)); opacity: 0; }
+}
+.qf-ember {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--qf-ember-bright);
+  box-shadow: 0 0 6px var(--qf-ember-glow), 0 0 12px rgba(255,96,16,0.5);
+  bottom: -10px;
+  animation: qf-ember-rise linear infinite;
+  pointer-events: none;
+}
+
+/* Flicker */
+@keyframes qf-flicker {
+  0%, 100% { opacity: 1; }
+  93% { opacity: 0.85; }
+  96% { opacity: 1; }
+}
+.qf-flicker { animation: qf-flicker 6s ease-in-out infinite; }
+
+/* Glow pulse */
+@keyframes qf-glow-pulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(232,160,32,0.3), inset 0 0 8px rgba(232,160,32,0.05); }
+  50%      { box-shadow: 0 0 18px rgba(232,160,32,0.5), inset 0 0 12px rgba(232,160,32,0.08); }
+}
+.qf-glow-pulse { animation: qf-glow-pulse 3s ease-in-out infinite; }
+
+/* Boss bobbing */
+@keyframes qf-boss-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+.qf-boss-bob { animation: qf-boss-bob 2.4s ease-in-out infinite; }
+
+/* Shimmer text (gold gradient sweep on headings) */
+@keyframes qf-shimmer-gold {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+.qf-shimmer {
+  background: linear-gradient(90deg, var(--qf-gold-400) 0%, var(--qf-gold-200) 40%, var(--qf-gold-300) 50%, var(--qf-gold-200) 60%, var(--qf-gold-400) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: qf-shimmer-gold 4s linear infinite;
+}
+
+/* ── Ornate panel — corner ornaments via ::before / ::after ──────── */
+.qf-ornate-panel {
+  position: relative;
+  background: linear-gradient(180deg, var(--qf-bg-card) 0%, var(--qf-bg-card-alt) 100%);
+  border: 1px solid var(--qf-rule);
+}
+.qf-ornate-panel::before,
+.qf-ornate-panel::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--qf-gold-500);
+  pointer-events: none;
+}
+.qf-ornate-panel::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+.qf-ornate-panel::after  { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
+
+/* Optional explicit corner brackets (for cards that need all four) */
+.qf-corner-tl, .qf-corner-tr, .qf-corner-bl, .qf-corner-br {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: var(--qf-gold-500);
+  border-style: solid;
+  pointer-events: none;
+}
+.qf-corner-tl { top:-1px;    left:-1px;  border-width: 2px 0 0 2px; }
+.qf-corner-tr { top:-1px;    right:-1px; border-width: 2px 2px 0 0; }
+.qf-corner-bl { bottom:-1px; left:-1px;  border-width: 0 0 2px 2px; }
+.qf-corner-br { bottom:-1px; right:-1px; border-width: 0 2px 2px 0; }
+
+/* ── HP / XP bars ────────────────────────────────────────────────── */
+.qf-hp-bar {
+  width: 100%;
+  height: 12px;
+  background: #0a0a12;
+  border: 2px solid var(--qf-gold-600);
+  position: relative;
+  overflow: hidden;
+}
+.qf-hp-fill {
+  height: 100%;
+  background: linear-gradient(180deg, #ff5050 0%, #c43a00 50%, #8a1f00 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+  transition: width 0.6s ease;
+}
+
+.qf-xp-bar {
+  width: 100%;
+  height: 8px;
+  background: #0a0a12;
+  border: 1px solid var(--qf-gold-600);
+  position: relative;
+  overflow: hidden;
+}
+.qf-xp-fill {
+  height: 100%;
+  background: linear-gradient(180deg, var(--qf-gold-300) 0%, var(--qf-gold-400) 50%, var(--qf-gold-500) 100%);
+  box-shadow: 0 0 6px rgba(232,160,32,0.6);
+  transition: width 0.6s ease;
+}
+
+/* ── Chip / Badge ────────────────────────────────────────────────── */
+.qf-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-pixel), 'Press Start 2P', monospace;
+  font-size: 7px;
+  padding: 4px 6px;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  border: 1px solid currentColor;
+  text-transform: uppercase;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────── */
+.qf-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--qf-gold-500) 0%, var(--qf-gold-400) 50%, var(--qf-gold-500) 100%);
+  background-size: 200% 100%;
+  border: 2px solid var(--qf-gold-300);
+  color: var(--qf-bg-void);
+  font-family: var(--font-heading), Cinzel, serif;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 10px 18px;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(232,160,32,0.3), inset 0 1px 0 rgba(255,255,255,0.2);
+  border-radius: 2px;
+  font-size: 12px;
+  transition: background-position 0.3s, transform 0.1s, box-shadow 0.2s;
+}
+.qf-btn:hover:not(:disabled) {
+  background-position: 100% 0;
+  box-shadow: 0 0 24px rgba(232,160,32,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+  transform: translateY(-1px);
+}
+.qf-btn:active:not(:disabled) { transform: translateY(0); }
+.qf-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.qf-btn-ghost {
+  background: transparent;
+  border: 1px solid var(--qf-gold-600);
+  color: var(--qf-gold-300);
+  font-family: var(--font-heading), Cinzel, serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.qf-btn-ghost:hover:not(:disabled) {
+  border-color: var(--qf-gold-400);
+  color: var(--qf-gold-200);
+  background: rgba(232,160,32,0.05);
+}
+.qf-btn-ghost:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ── Section title ───────────────────────────────────────────────── */
+.qf-scribed {
+  font-family: var(--font-heading), Cinzel, serif;
+  font-weight: 600;
+  color: var(--qf-gold-300);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* ── Rune divider ────────────────────────────────────────────────── */
+.qf-rune-div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-pixel), 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: var(--qf-gold-600);
+  letter-spacing: 0.2em;
+}
+.qf-rune-div::before,
+.qf-rune-div::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--qf-rule-strong), transparent);
+}

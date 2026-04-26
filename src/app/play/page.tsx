@@ -1,551 +1,431 @@
 import { redirect } from 'next/navigation'
-import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
-import { signOut } from '@/app/actions/auth'
-import { xpForLevel, xpProgressPercent, embershardState } from '@/lib/xp'
 import classesData from '@/lore/classes.json'
-import AvatarPreview from '@/components/avatar/AvatarPreview'
+import { signOut } from '@/app/actions/auth'
+import {
+  PixelAvatar,
+  XPBar,
+  HPBar,
+  XPIcon,
+  BossSprite,
+} from '@/components/qf'
+import { embershardState } from '@/lib/xp'
 
-// ── Nav grid config ──────────────────────────────────────────────────────
+// Mirrors src/lib/xp.ts. Inlined so this stays a pure server component.
+function xpForLevel(level: number) {
+  if (level <= 1) return 0
+  return (50 * (level - 1) * (level + 2)) / 2
+}
 
-const NAV_ITEMS = [
-  {
-    href:  '/play/quests',
-    label: 'Quest Board',
-    icon:  (
-      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true" className="w-10 h-10">
-        {/* Sword */}
-        <rect x="15" y="3" width="3" height="20" fill="currentColor" rx="1" />
-        <rect x="9"  y="11" width="15" height="3" fill="currentColor" rx="1" />
-        <rect x="13" y="23" width="7"  height="4" fill="currentColor" rx="1" />
-        <circle cx="16" cy="4" r="2" fill="currentColor" />
-      </svg>
-    ),
-  },
-  {
-    href:  '/play/academy',
-    label: 'Academy',
-    icon:  (
-      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true" className="w-10 h-10">
-        {/* Open book */}
-        <rect x="3"  y="7" width="12" height="18" fill="currentColor" rx="1" opacity="0.8" />
-        <rect x="17" y="7" width="12" height="18" fill="currentColor" rx="1" />
-        <rect x="14" y="5" width="4"  height="22" fill="currentColor" rx="1" />
-        <rect x="5"  y="11" width="8" height="1.5" fill="#040812" rx="0.5" opacity="0.6" />
-        <rect x="5"  y="15" width="8" height="1.5" fill="#040812" rx="0.5" opacity="0.6" />
-        <rect x="5"  y="19" width="5" height="1.5" fill="#040812" rx="0.5" opacity="0.6" />
-        <rect x="19" y="11" width="8" height="1.5" fill="#040812" rx="0.5" opacity="0.6" />
-        <rect x="19" y="15" width="8" height="1.5" fill="#040812" rx="0.5" opacity="0.6" />
-      </svg>
-    ),
-  },
-  {
-    href:  '/play/story',
-    label: 'Story',
-    icon:  (
-      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true" className="w-10 h-10">
-        {/* Scroll */}
-        <rect x="7" y="4" width="18" height="24" fill="currentColor" rx="2" />
-        <ellipse cx="7"  cy="9"  rx="4" ry="5" fill="currentColor" />
-        <ellipse cx="25" cy="9"  rx="4" ry="5" fill="currentColor" />
-        <ellipse cx="7"  cy="23" rx="4" ry="5" fill="currentColor" opacity="0.7" />
-        <ellipse cx="25" cy="23" rx="4" ry="5" fill="currentColor" opacity="0.7" />
-        <rect x="10" y="9"  width="12" height="1.5" fill="#040812" rx="0.5" opacity="0.5" />
-        <rect x="10" y="13" width="12" height="1.5" fill="#040812" rx="0.5" opacity="0.5" />
-        <rect x="10" y="17" width="8"  height="1.5" fill="#040812" rx="0.5" opacity="0.5" />
-      </svg>
-    ),
-  },
-  {
-    href:  '/play/boss',
-    label: 'Boss Battle',
-    icon:  (
-      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true" className="w-10 h-10">
-        {/* Skull */}
-        <ellipse cx="16" cy="13" rx="10" ry="11" fill="currentColor" />
-        <rect x="9" y="21" width="14" height="8" fill="currentColor" rx="1" />
-        <circle cx="12" cy="13" r="3" fill="#040812" />
-        <circle cx="20" cy="13" r="3" fill="#040812" />
-        <rect x="11" y="24" width="3" height="4" fill="#040812" rx="0.5" />
-        <rect x="15" y="24" width="3" height="4" fill="#040812" rx="0.5" />
-        <rect x="19" y="24" width="3" height="4" fill="#040812" rx="0.5" />
-        <rect x="13" y="18" width="6" height="2" fill="#040812" rx="0.5" />
-      </svg>
-    ),
-  },
-  {
-    href:  '/play/loot',
-    label: 'Loot Store',
-    icon:  (
-      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true" className="w-10 h-10">
-        {/* Treasure chest */}
-        <rect x="4" y="16" width="24" height="13" fill="currentColor" rx="1" />
-        <path d="M4 16 Q4 10 16 10 Q28 10 28 16Z" fill="currentColor" opacity="0.8" />
-        <rect x="4" y="14" width="24" height="4" fill="currentColor" />
-        <rect x="3" y="13" width="26" height="4" fill="currentColor" rx="1" opacity="0.6" />
-        <rect x="13" y="18" width="6" height="5" fill="#040812" rx="1" opacity="0.5" />
-        <circle cx="16" cy="20" r="2" fill="currentColor" opacity="0.8" />
-        <rect x="7" y="18" width="3" height="2" fill="#040812" rx="0.3" opacity="0.4" />
-        <rect x="22" y="18" width="3" height="2" fill="#040812" rx="0.3" opacity="0.4" />
-      </svg>
-    ),
-  },
-  {
-    href:  '/play/profile',
-    label: 'Character',
-    icon:  (
-      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true" className="w-10 h-10">
-        {/* Shield */}
-        <path d="M16 3 L28 8 L28 18 Q28 26 16 30 Q4 26 4 18 L4 8 Z" fill="currentColor" />
-        <path d="M16 7 L24 11 L24 18 Q24 24 16 27 Q8 24 8 18 L8 11 Z" fill="#040812" opacity="0.35" />
-        <path d="M16 11 L16 23 M11 17 L21 17" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" opacity="0.9" />
-      </svg>
-    ),
-  },
-] as const
+function classKey(avatarClass: string | null): string {
+  return (avatarClass ?? 'blazewarden').toLowerCase()
+}
 
-// ── Page ─────────────────────────────────────────────────────────────────
-
-export default async function PlayHomePage() {
+export default async function PlayerHomePage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('display_name, avatar_class, level, xp_total, xp_available, gold, household_id, avatar_config')
+    .select('display_name, avatar_class, level, xp_total, xp_available, gold, household_id')
     .eq('id', user.id)
     .single()
 
   if (!profile) {
     await signOut()
-    redirect('/login') // unreachable; satisfies TypeScript narrowing
+    redirect('/login')
   }
-
-  // First-login guard — no class chosen yet
   if (!profile.avatar_class) redirect('/play/create-character')
 
-  // Class metadata
-  const classInfo = classesData.classes.find(c => c.id === profile.avatar_class) ?? null
+  const classInfo = classesData.classes.find((c) => c.id === profile.avatar_class) ?? null
 
-  // XP math
-  const level       = profile.level     ?? 1
-  const xpTotal     = profile.xp_total  ?? 0
-  const xpAvailable = profile.xp_available ?? 0
-  const gold        = profile.gold      ?? 0
-  const progressPct = xpProgressPercent(xpTotal)
-  const shard       = embershardState(level)
-  const nextLevelXP = xpForLevel(level + 1)
+  // XP math — current level + progress + nextLevelXP
+  const level       = profile.level ?? 1
+  const xpTotal     = profile.xp_total ?? 0
   const curLevelXP  = xpForLevel(level)
+  const nextLevelXP = xpForLevel(level + 1)
   const xpIntoLevel = xpTotal - curLevelXP
   const xpNeeded    = nextLevelXP - curLevelXP
+  const xpPct       = xpNeeded > 0 ? Math.round((xpIntoLevel / xpNeeded) * 100) : 0
+  const shard       = embershardState(level)
 
-  // Active boss
+  // Active boss for this household — the unlocked chapter with HP > 0.
   const { data: boss } = await supabase
     .from('story_chapters')
-    .select('boss_name, boss_hp, boss_current_hp, title')
+    .select('boss_name, boss_description, boss_hp, boss_current_hp, week_number, boss_sprite_config')
     .eq('household_id', profile.household_id)
-    .eq('is_unlocked', false)
+    .eq('is_unlocked', true)
     .gt('boss_current_hp', 0)
-    .order('week_number', { ascending: true })
+    .order('week_number', { ascending: false })
     .limit(1)
     .maybeSingle()
 
-  const bossHpPct    = boss ? Math.round((boss.boss_current_hp / boss.boss_hp) * 100) : 0
-  const damageDealt  = boss ? boss.boss_hp - boss.boss_current_hp : 0
+  const bossHpPct = boss
+    ? Math.round((boss.boss_current_hp / (boss.boss_hp || 1)) * 100)
+    : 0
+  const bossSpriteName =
+    (boss?.boss_sprite_config as { base_sprite?: string } | null)?.base_sprite || 'eyeball'
 
-  // Class accent colour (safe fallback)
-  const accent  = classInfo?.color_primary  ?? '#c9a84c'
-  const accent2 = classInfo?.color_secondary ?? '#ff8c42'
+  // Today's quests — assigned to this player or unassigned ("Everyone").
+  const { data: quests } = await supabase
+    .from('quests')
+    .select('id, title, xp_reward, assigned_to')
+    .eq('household_id', profile.household_id)
+    .eq('is_active', true)
+    .or(`assigned_to.eq.${user.id},assigned_to.is.null`)
+    .order('created_at', { ascending: false })
+    .limit(5)
+
+  // Verified completions today — used to mark off finished quests.
+  const startOfDay = new Date()
+  startOfDay.setHours(0, 0, 0, 0)
+  const { data: doneToday } = await supabase
+    .from('chore_completions')
+    .select('chore_id')
+    .eq('player_id', user.id)
+    .gte('completed_at', startOfDay.toISOString())
+  const doneIds = new Set((doneToday ?? []).map((r) => r.chore_id))
+
+  const todaysQuests = (quests ?? []).map((q) => ({
+    id: q.id,
+    title: q.title,
+    xp: q.xp_reward,
+    done: doneIds.has(q.id),
+  }))
+  const doneCount = todaysQuests.filter((q) => q.done).length
 
   return (
-    <div className="flex flex-col gap-0 min-h-full">
-
-      {/* ── TOP SECTION ─────────────────────────────────────────────── */}
-      <section
-        className="relative px-5 pt-7 pb-6 overflow-hidden"
-        style={{
-          background: `
-            radial-gradient(ellipse 120% 80% at 50% 0%, ${accent}18 0%, transparent 70%),
-            linear-gradient(180deg, #0a0f1e 0%, #040812 100%)
-          `,
-          borderBottom: `1px solid ${accent}20`,
-        }}
-      >
-        {/* Subtle ember glow behind name */}
-        <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-32 pointer-events-none"
-          style={{
-            background: `radial-gradient(ellipse at 50% 0%, ${accent}25 0%, transparent 70%)`,
-          }}
-          aria-hidden="true"
-        />
-
-        {/* Player name */}
-        <h1
-          className="relative text-center text-[#f0e6c8] text-3xl font-bold leading-tight mb-1"
-          style={{ fontFamily: 'var(--font-heading), serif', textShadow: `0 0 24px ${accent}60` }}
-        >
-          {profile.display_name}
-        </h1>
-
-        {/* Avatar portrait */}
-        <div className="flex justify-center mb-3">
+    <div style={{ padding: '4px 18px 16px' }}>
+      {/* Hero card — character */}
+      <div className="qf-ornate-panel" style={{ padding: 18, marginBottom: 14, position: 'relative' }}>
+        <span className="qf-corner-tl" /><span className="qf-corner-tr" />
+        <span className="qf-corner-bl" /><span className="qf-corner-br" />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <div
-            className="relative"
             style={{
-              background: `radial-gradient(ellipse at 50% 80%, ${accent}20, transparent 70%)`,
+              width: 64,
+              height: 64,
+              padding: 6,
+              background: 'radial-gradient(circle, rgba(232,160,32,0.18), transparent 70%)',
+              border: '1px solid var(--qf-rule-strong)',
             }}
           >
-            <AvatarPreview
-              avatarConfig={profile.avatar_config as Record<string, unknown> | null}
-              size={192}
-              className="block"
-            />
-            {/* Pixel-art frame border */}
+            <PixelAvatar klass={classKey(profile.avatar_class)} size={52} />
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
             <div
-              className="absolute inset-0 pointer-events-none"
+              className="font-pixel"
               style={{
-                boxShadow: `inset 0 0 0 2px ${accent}40, inset 0 0 0 4px #0a0f1e`,
+                fontSize: 7,
+                color: 'var(--qf-ember-bright)',
+                letterSpacing: '0.16em',
               }}
-              aria-hidden="true"
-            />
+            >
+              {(classInfo?.name ?? profile.avatar_class).toUpperCase()}
+            </div>
+            <div
+              className="font-heading qf-shimmer"
+              style={{
+                fontSize: 22,
+                fontWeight: 700,
+                marginTop: 2,
+                letterSpacing: '0.02em',
+                lineHeight: 1.1,
+              }}
+            >
+              {profile.display_name}
+            </div>
+            <div
+              style={{
+                fontSize: 12,
+                color: 'var(--qf-parchment-dim)',
+                fontStyle: 'italic',
+              }}
+            >
+              Embershard · {shard}
+            </div>
           </div>
-        </div>
-
-        {/* Class + motto */}
-        {classInfo && (
-          <div className="text-center mb-4">
-            <p
-              className="text-[0.48rem] tracking-[0.2em] uppercase mb-1"
-              style={{ fontFamily: 'var(--font-pixel), monospace', color: accent2 }}
-            >
-              {classInfo.name}
-            </p>
-            <p
-              className="text-[#b09a6e]/50 text-xs italic leading-snug"
-              style={{ fontFamily: 'var(--font-body), serif' }}
-            >
-              &ldquo;{classInfo.motto}&rdquo;
-            </p>
-          </div>
-        )}
-
-        {/* Level badge + embershard */}
-        <div className="flex items-center justify-center gap-3 mb-5">
-          <div
-            className="flex items-center gap-2 px-3 py-1.5 rounded-sm"
-            style={{
-              background: `${accent}18`,
-              border: `1px solid ${accent}35`,
-            }}
-          >
-            <span
-              className="text-[0.42rem] tracking-widest uppercase"
-              style={{ fontFamily: 'var(--font-pixel), monospace', color: accent }}
-            >
-              Lv
-            </span>
-            <span
-              className="text-xl font-bold leading-none"
-              style={{ fontFamily: 'var(--font-pixel), monospace', color: accent, textShadow: `0 0 12px ${accent}80` }}
+          <div style={{ textAlign: 'right' }}>
+            <div
+              className="font-heading"
+              style={{ fontSize: 22, color: 'var(--qf-gold-300)', fontWeight: 700 }}
             >
               {level}
-            </span>
-            <span
-              className="text-[#b09a6e]/60 text-[0.42rem] tracking-wider"
-              style={{ fontFamily: 'var(--font-pixel), monospace' }}
+            </div>
+            <div
+              className="font-pixel"
+              style={{
+                fontSize: 6,
+                color: 'var(--qf-parchment-muted)',
+                letterSpacing: '0.12em',
+              }}
             >
-              ·
-            </span>
-            <span
-              className="text-[0.42rem] tracking-widest"
-              style={{ fontFamily: 'var(--font-pixel), monospace', color: `${accent}cc` }}
-            >
-              {shard.toUpperCase()}
-            </span>
+              LEVEL
+            </div>
           </div>
         </div>
-
-        {/* XP progress bar */}
-        <div className="mb-4">
-          {/* Bar labels */}
-          <div className="flex justify-between items-baseline mb-1.5 px-0.5">
+        <div style={{ marginTop: 14 }}>
+          <div
+            style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}
+          >
             <span
-              className="text-[0.4rem] tracking-widest text-[#b09a6e]/45 uppercase"
-              style={{ fontFamily: 'var(--font-pixel), monospace' }}
+              className="font-pixel"
+              style={{
+                fontSize: 6,
+                color: 'var(--qf-parchment-muted)',
+                letterSpacing: '0.12em',
+              }}
             >
-              XP
+              XP TO LV {level + 1}
             </span>
             <span
-              className="text-[0.4rem] tracking-wide"
-              style={{ fontFamily: 'var(--font-pixel), monospace', color: `${accent}90` }}
+              className="font-pixel"
+              style={{ fontSize: 6, color: 'var(--qf-gold-300)' }}
             >
-              {xpIntoLevel} / {xpNeeded}
+              {xpIntoLevel.toLocaleString()} / {xpNeeded.toLocaleString()}
             </span>
           </div>
+          <XPBar pct={xpPct} />
+        </div>
+      </div>
 
-          {/* Pixel-style bar track */}
+      {/* Boss banner */}
+      {boss && boss.boss_name ? (
+        <div
+          style={{
+            position: 'relative',
+            padding: 16,
+            marginBottom: 14,
+            background:
+              'linear-gradient(180deg, rgba(196,58,0,0.15) 0%, rgba(15,17,24,0.8) 100%), var(--qf-bg-card-alt)',
+            border: '1px solid var(--qf-ember-deep)',
+            overflow: 'hidden',
+          }}
+        >
+          <span className="qf-corner-tl" /><span className="qf-corner-tr" />
+          <span className="qf-corner-bl" /><span className="qf-corner-br" />
           <div
-            className="relative w-full overflow-hidden"
+            style={{ position: 'absolute', top: -8, right: -10, opacity: 0.9 }}
+            className="qf-boss-bob"
+            aria-hidden="true"
+          >
+            <BossSprite name={bossSpriteName} scale={1.5} />
+          </div>
+          <div
+            className="font-pixel"
             style={{
-              height: 14,
-              background: 'rgba(255,255,255,0.04)',
-              border: '1px solid rgba(255,255,255,0.07)',
-              boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.4)',
-              imageRendering: 'pixelated',
+              fontSize: 7,
+              color: 'var(--qf-ember-bright)',
+              letterSpacing: '0.18em',
             }}
           >
-            {/* Filled portion */}
+            WEEK {boss.week_number ?? 1} · BOSS
+          </div>
+          <div
+            className="font-heading qf-flicker"
+            style={{
+              fontSize: 20,
+              color: 'var(--qf-parchment)',
+              marginTop: 4,
+              fontWeight: 700,
+              letterSpacing: '0.04em',
+            }}
+          >
+            {boss.boss_name}
+          </div>
+          {boss.boss_description && (
             <div
               style={{
-                position: 'absolute',
-                inset: '2px',
-                width: `calc(${Math.min(progressPct, 100)}% - 4px)`,
-                background: `linear-gradient(90deg, #c95a00, #ff7c1f, #ffa040)`,
-                boxShadow: '0 0 8px rgba(255,120,0,0.5)',
-                transition: 'width 0.6s ease',
+                fontSize: 12,
+                color: 'var(--qf-parchment-dim)',
+                fontStyle: 'italic',
+                margin: '4px 0 12px',
+                maxWidth: '70%',
               }}
-            />
-            {/* Pixel tick marks every 25% */}
-            {[25, 50, 75].map(tick => (
-              <div
-                key={tick}
-                className="absolute top-0 bottom-0 w-px"
-                style={{ left: `${tick}%`, background: 'rgba(0,0,0,0.35)' }}
-                aria-hidden="true"
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Currency counters */}
-        <div className="flex justify-center gap-6">
-          {/* XP available */}
-          <div
-            className="flex items-center gap-2 px-3 py-2 rounded-sm"
-            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}
-          >
-            {/* Gem icon */}
-            <svg viewBox="0 0 16 16" className="w-4 h-4 flex-shrink-0" style={{ imageRendering: 'pixelated' }} aria-hidden="true">
-              <polygon points="8,1 14,6 14,10 8,15 2,10 2,6" fill="#6eb5ff" stroke="#3a7acc" strokeWidth="0.5" />
-              <polygon points="8,1 14,6 8,7 2,6" fill="#9fd0ff" opacity="0.8" />
-              <line x1="2" y1="6" x2="14" y2="6" stroke="#3a7acc" strokeWidth="0.5" />
-            </svg>
-            <div>
-              <p
-                className="text-[0.38rem] text-[#b09a6e]/45 tracking-widest uppercase leading-none mb-0.5"
-                style={{ fontFamily: 'var(--font-pixel), monospace' }}
-              >
-                XP
-              </p>
-              <p
-                className="text-sm font-bold text-[#9fd0ff] leading-none"
-                style={{ fontFamily: 'var(--font-pixel), monospace' }}
-              >
-                {xpAvailable.toLocaleString()}
-              </p>
+            >
+              &ldquo;{boss.boss_description}&rdquo;
             </div>
-          </div>
-
-          {/* Gold */}
-          <div
-            className="flex items-center gap-2 px-3 py-2 rounded-sm"
-            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}
-          >
-            {/* Coin icon */}
-            <svg viewBox="0 0 16 16" className="w-4 h-4 flex-shrink-0" style={{ imageRendering: 'pixelated' }} aria-hidden="true">
-              <circle cx="8" cy="8" r="6.5" fill="#c9a84c" stroke="#9c7b2e" strokeWidth="0.5" />
-              <circle cx="8" cy="8" r="4.5" fill="#e8c55a" opacity="0.7" />
-              <text x="8" y="11" textAnchor="middle" fontSize="6" fill="#9c7b2e" fontWeight="bold">G</text>
-            </svg>
-            <div>
-              <p
-                className="text-[0.38rem] text-[#b09a6e]/45 tracking-widest uppercase leading-none mb-0.5"
-                style={{ fontFamily: 'var(--font-pixel), monospace' }}
-              >
-                Gold
-              </p>
-              <p
-                className="text-sm font-bold text-[#c9a84c] leading-none"
-                style={{ fontFamily: 'var(--font-pixel), monospace' }}
-              >
-                {gold.toLocaleString()}
-              </p>
-            </div>
-          </div>
+          )}
+          <HPBar
+            pct={bossHpPct}
+            label="HP"
+            value={`${boss.boss_current_hp.toLocaleString()} / ${boss.boss_hp.toLocaleString()}`}
+          />
         </div>
-      </section>
-
-      {/* ── MIDDLE SECTION — Boss ────────────────────────────────────── */}
-      <section className="px-5 py-5">
-        {boss ? (
-          <div
-            className="rounded-sm overflow-hidden"
+      ) : (
+        <div
+          style={{
+            padding: '14px 16px',
+            marginBottom: 14,
+            background: 'rgba(255,255,255,0.02)',
+            border: '1px dashed rgba(255,255,255,0.08)',
+            textAlign: 'center',
+          }}
+        >
+          <span
+            className="font-pixel"
             style={{
-              background: 'rgba(255,255,255,0.025)',
-              border: '1px solid rgba(200,40,40,0.2)',
+              fontSize: 7,
+              color: 'var(--qf-parchment-muted)',
+              letterSpacing: '0.16em',
             }}
           >
-            <div className="px-4 py-3">
-              {/* Boss header */}
-              <div className="flex items-start justify-between mb-2">
-                <div>
-                  <p
-                    className="text-[0.38rem] text-red-400/50 tracking-[0.25em] uppercase leading-none mb-1"
-                    style={{ fontFamily: 'var(--font-pixel), monospace' }}
-                  >
-                    Current Threat
-                  </p>
-                  <p
-                    className="text-[#f0e6c8]/90 font-semibold leading-tight"
-                    style={{ fontFamily: 'var(--font-heading), serif', fontSize: '0.95rem' }}
-                  >
-                    {boss.boss_name ?? boss.title}
-                  </p>
-                </div>
-                <span
-                  className="text-[0.42rem] px-2 py-1 rounded-sm mt-0.5"
-                  style={{
-                    fontFamily: 'var(--font-pixel), monospace',
-                    color: 'rgba(255,100,80,0.8)',
-                    background: 'rgba(200,40,40,0.1)',
-                    border: '1px solid rgba(200,40,40,0.2)',
-                  }}
-                >
-                  {bossHpPct}% HP
-                </span>
-              </div>
+            NO ACTIVE THREAT — THE REALM IS AT PEACE
+          </span>
+        </div>
+      )}
 
-              {/* HP bar */}
-              <div className="mb-3">
-                <div
-                  className="relative w-full"
-                  style={{
-                    height: 16,
-                    background: 'rgba(255,255,255,0.04)',
-                    border: '1px solid rgba(255,255,255,0.07)',
-                    boxShadow: 'inset 0 1px 4px rgba(0,0,0,0.5)',
-                    imageRendering: 'pixelated',
-                  }}
-                >
-                  <div
-                    style={{
-                      position: 'absolute',
-                      inset: '2px',
-                      width: `calc(${bossHpPct}% - 4px)`,
-                      background: bossHpPct > 50
-                        ? 'linear-gradient(90deg, #8b1010, #d42020, #ff3b3b)'
-                        : bossHpPct > 25
-                          ? 'linear-gradient(90deg, #8b4500, #d47000, #ff9020)'
-                          : 'linear-gradient(90deg, #6b0000, #b00000, #ff2020)',
-                      boxShadow: '0 0 8px rgba(220,40,40,0.6)',
-                      transition: 'width 0.6s ease',
-                    }}
-                  />
-                  {/* Segment ticks */}
-                  {[25, 50, 75].map(tick => (
-                    <div
-                      key={tick}
-                      className="absolute top-0 bottom-0 w-px"
-                      style={{ left: `${tick}%`, background: 'rgba(0,0,0,0.4)' }}
-                      aria-hidden="true"
-                    />
-                  ))}
-                </div>
-                {/* HP numbers */}
-                <div className="flex justify-between mt-1 px-0.5">
-                  <span
-                    className="text-[0.38rem] text-red-400/45"
-                    style={{ fontFamily: 'var(--font-pixel), monospace' }}
-                  >
-                    {boss.boss_current_hp.toLocaleString()} HP remaining
-                  </span>
-                  <span
-                    className="text-[0.38rem] text-[#b09a6e]/35"
-                    style={{ fontFamily: 'var(--font-pixel), monospace' }}
-                  >
-                    {boss.boss_hp.toLocaleString()} max
-                  </span>
-                </div>
-              </div>
-
-              {/* Damage dealt */}
-              <p
-                className="text-center text-[0.42rem] tracking-wide"
-                style={{ fontFamily: 'var(--font-pixel), monospace', color: 'rgba(255,140,80,0.65)' }}
-              >
-                ⚔ Your household has dealt {damageDealt.toLocaleString()} damage!
-              </p>
-            </div>
+      {/* Today's quests preview */}
+      <div style={{ marginBottom: 14 }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'baseline',
+            justifyContent: 'space-between',
+            marginBottom: 8,
+          }}
+        >
+          <div className="qf-scribed" style={{ fontSize: 10 }}>
+            Today&rsquo;s Quests
+          </div>
+          {todaysQuests.length > 0 && (
+            <span
+              className="font-pixel"
+              style={{ fontSize: 6, color: 'var(--qf-gold-400)' }}
+            >
+              {doneCount} OF {todaysQuests.length}
+            </span>
+          )}
+        </div>
+        {todaysQuests.length === 0 ? (
+          <div
+            style={{
+              padding: '1.25rem 1rem',
+              textAlign: 'center',
+              background: 'rgba(255,255,255,0.015)',
+              border: '1px dashed rgba(201,168,76,0.10)',
+              fontSize: 12,
+              color: 'var(--qf-parchment-muted)',
+              fontStyle: 'italic',
+            }}
+          >
+            No quests today. The Game Master must post deeds.
           </div>
         ) : (
-          <div
-            className="rounded-sm px-4 py-4 text-center"
-            style={{
-              background: 'rgba(255,255,255,0.02)',
-              border: '1px dashed rgba(255,255,255,0.08)',
-            }}
-          >
-            <p
-              className="text-[0.42rem] text-[#b09a6e]/35 tracking-widest"
-              style={{ fontFamily: 'var(--font-pixel), monospace' }}
-            >
-              No active threat — the realm is at peace.
-            </p>
-          </div>
-        )}
-      </section>
-
-      {/* ── BOTTOM SECTION — Navigation grid ────────────────────────── */}
-      <section className="px-4 pb-6 flex-1">
-        <p
-          className="text-[0.38rem] tracking-[0.25em] text-[#b09a6e]/35 uppercase text-center mb-4"
-          style={{ fontFamily: 'var(--font-pixel), monospace' }}
-        >
-          Where to next?
-        </p>
-
-        <div className="grid grid-cols-3 gap-3">
-          {NAV_ITEMS.map(item => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="group relative flex flex-col items-center justify-center
-                rounded-sm gap-2 transition-all duration-150 active:scale-95"
+          todaysQuests.map((q) => (
+            <div
+              key={q.id}
               style={{
-                minHeight: 96,
-                background: 'rgba(255,255,255,0.028)',
-                border: '1px solid rgba(201,168,76,0.1)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 10,
+                padding: '10px 12px',
+                background: q.done ? 'rgba(90,171,110,0.06)' : 'var(--qf-bg-card)',
+                border: '1px solid ' + (q.done ? 'rgba(90,171,110,0.3)' : 'var(--qf-rule)'),
+                marginBottom: 6,
+                opacity: q.done ? 0.7 : 1,
               }}
             >
-              {/* Hover glow */}
-              <span
-                className="absolute inset-0 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none"
-                style={{ background: `radial-gradient(ellipse at 50% 40%, ${accent}14, transparent 70%)` }}
-                aria-hidden="true"
-              />
-
-              {/* Icon */}
-              <span
-                className="relative text-[#c9a84c]/70 group-hover:text-[#c9a84c] transition-colors duration-150"
-                style={{ imageRendering: 'pixelated' }}
+              <div
+                style={{
+                  width: 18,
+                  height: 18,
+                  border: '2px solid ' + (q.done ? 'var(--qf-success)' : 'var(--qf-gold-500)'),
+                  background: q.done ? 'var(--qf-success)' : 'transparent',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'var(--qf-bg-void)',
+                  fontSize: 12,
+                  fontWeight: 700,
+                  flexShrink: 0,
+                }}
               >
-                {item.icon}
-              </span>
-
-              {/* Label */}
+                {q.done && '✓'}
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div
+                  className="font-heading"
+                  style={{
+                    fontSize: 13,
+                    color: 'var(--qf-parchment)',
+                    textDecoration: q.done ? 'line-through' : 'none',
+                    textDecorationColor: 'var(--qf-parchment-muted)',
+                  }}
+                >
+                  {q.title}
+                </div>
+              </div>
               <span
-                className="relative text-[0.38rem] tracking-widest uppercase text-[#b09a6e]/55 group-hover:text-[#c9a84c]/80 transition-colors duration-150"
-                style={{ fontFamily: 'var(--font-pixel), monospace' }}
+                className="font-pixel"
+                style={{
+                  fontSize: 7,
+                  color: 'var(--qf-gold-300)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 3,
+                }}
               >
-                {item.label}
+                <XPIcon size={10} />+{q.xp}
               </span>
-            </Link>
-          ))}
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Inventory teaser — passes to wallet/profile when implemented */}
+      <div className="qf-ornate-panel" style={{ padding: 14 }}>
+        <div
+          className="font-pixel"
+          style={{
+            fontSize: 6,
+            color: 'var(--qf-ember-bright)',
+            letterSpacing: '0.18em',
+            marginBottom: 6,
+          }}
+        >
+          PURSE
         </div>
-      </section>
-
+        <div style={{ display: 'flex', gap: 18, alignItems: 'center' }}>
+          <div>
+            <div
+              className="font-heading"
+              style={{ fontSize: 18, color: 'var(--qf-gold-300)', fontWeight: 700 }}
+            >
+              {(profile.xp_available ?? 0).toLocaleString()}
+            </div>
+            <div
+              className="font-pixel"
+              style={{
+                fontSize: 6,
+                color: 'var(--qf-parchment-muted)',
+                letterSpacing: '0.1em',
+              }}
+            >
+              SPENDABLE XP
+            </div>
+          </div>
+          <div>
+            <div
+              className="font-heading"
+              style={{ fontSize: 18, color: 'var(--qf-gold-200)', fontWeight: 700 }}
+            >
+              {(profile.gold ?? 0).toLocaleString()}
+            </div>
+            <div
+              className="font-pixel"
+              style={{
+                fontSize: 6,
+                color: 'var(--qf-parchment-muted)',
+                letterSpacing: '0.1em',
+              }}
+            >
+              GOLD
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { PlayShell } from '@/components/play/PlayShell'
+import { PhoneShell } from '@/components/qf'
 import { signOut } from '@/app/actions/auth'
 
 export default async function PlayLayout({
@@ -15,25 +15,33 @@ export default async function PlayLayout({
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('role, display_name, level, avatar_class')
+    .select('role, gold, households(name)')
     .eq('id', user.id)
-    .single()
+    .single<{
+      role: 'gm' | 'player'
+      gold: number | null
+      households: { name: string } | { name: string }[] | null
+    }>()
 
-  // Do NOT redirect to /login directly — the middleware would loop an authenticated
-  // user straight back to /play. Call signOut() to clear the session first.
+  // Do NOT redirect to /login directly — the middleware would loop an
+  // authenticated user straight back to /play. Sign out first to clear
+  // the session.
   if (!profile) {
     await signOut()
     redirect('/login') // unreachable; satisfies TypeScript narrowing
   }
   if (profile.role !== 'player') redirect('/dashboard')
 
+  const householdName = Array.isArray(profile.households)
+    ? profile.households[0]?.name
+    : profile.households?.name
+
   return (
-    <PlayShell
-      displayName={profile.display_name}
-      level={profile.level ?? 1}
-      avatarClass={profile.avatar_class ?? null}
+    <PhoneShell
+      statusbarTitle={householdName || 'Hearthhold'}
+      goldDisplay={profile.gold ?? 0}
     >
       {children}
-    </PlayShell>
+    </PhoneShell>
   )
 }
