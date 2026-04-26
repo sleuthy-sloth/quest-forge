@@ -67,7 +67,8 @@ export async function seedStoryChaptersForHousehold(
       sequence_order: 0,
       title: prologue.title,
       content: prologue.scaffold,
-      narrative_text: null,
+      // narrative_text is NOT NULL — must always have a value
+      narrative_text: prologue.scaffold,
       boss_name: null,
       boss_description: null,
       boss_hp: 0,
@@ -95,7 +96,9 @@ export async function seedStoryChaptersForHousehold(
       sequence_order: boss.week,
       title,
       content: content.trim() || null,
-      narrative_text: null, // populated by /api/story/generate when boss is defeated
+      // narrative_text is NOT NULL — use defeat narrative (or fallback to description).
+      // /api/story/generate overwrites this with AI content when boss is defeated.
+      narrative_text: boss.defeat_narrative ?? boss.description,
       boss_name: boss.name,
       boss_description: boss.description,
       boss_hp: boss.hp,
