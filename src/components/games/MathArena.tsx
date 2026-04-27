@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import BattleArena, { type BattleArenaHandle } from '@/components/games/BattleArena'
 import { ENEMY_PRESETS, DEFAULT_AVATAR_CONFIG } from '@/lib/constants/enemies'
-import { SLUG_PRESET } from '@/lib/constants/academy'
+import { SLUG_PRESET, TEACHER_BY_SLUG } from '@/lib/constants/academy'
 import type { AnimationPreset } from '@/lib/constants/lpc-animations'
 import type { AvatarConfig } from '@/types/avatar'
 
@@ -107,6 +107,7 @@ export default function MathArena({
   // Playing state
   const [questionIndex, setQuestionIndex] = useState(0)
   const [score, setScore] = useState(0)
+  const [streak, setStreak] = useState(0)
   const [answers, setAnswers] = useState<string[]>([])
   const [feedback, setFeedback] = useState<Feedback>(null)
   const [screenFlash, setScreenFlash] = useState<ScreenFlash>(null)
@@ -277,6 +278,7 @@ export default function MathArena({
     if (correct) {
       const newScore = score + 1
       setScore(newScore)
+      setStreak(s => Math.min(s + 1, 10))
       setAnswers(newAnswers)
       setFeedback('correct')
       setScreenFlash('green')
@@ -293,6 +295,7 @@ export default function MathArena({
         }
       }, 800))
     } else {
+      setStreak(0)
       setAnswers(newAnswers)
       setFeedback('wrong')
       setChosenWrong(option)
@@ -506,6 +509,8 @@ export default function MathArena({
           screenFlash={screenFlash}
           playerSize={64}
           enemySize={64}
+          streak={streak}
+          enemyTitle={TEACHER_BY_SLUG['math-arena']?.title}
         />
 
         {/* ── Question card ──────────────────────────────────────────────── */}

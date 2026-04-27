@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useAcademy } from '@/hooks/useAcademy'
 import BattleArena, { type BattleArenaHandle } from '@/components/games/BattleArena'
 import { ENEMY_PRESETS, DEFAULT_AVATAR_CONFIG } from '@/lib/constants/enemies'
-import { SUBJECT_TO_SLUG, SLUG_PRESET } from '@/lib/constants/academy'
+import { SUBJECT_TO_SLUG, SLUG_PRESET, TEACHER_BY_SLUG } from '@/lib/constants/academy'
 import type { AvatarConfig } from '@/types/avatar'
 
 // ---------------------------------------------------------------------------
@@ -77,6 +77,7 @@ export default function QuizInterface({
   const [chosenWrong, setChosenWrong] = useState<string | null>(null)
   const [flash, setFlash] = useState<Flash>(null)
   const [submissionError, setSubmissionError] = useState(false)
+  const [streak, setStreak] = useState(0)
 
   // Battle arena ref for triggering attack animations
   const arenaRef = useRef<BattleArenaHandle>(null)
@@ -85,6 +86,7 @@ export default function QuizInterface({
   const enemySlug = subject ? SUBJECT_TO_SLUG[subject] ?? 'reading-tome' : 'reading-tome'
   const enemy = ENEMY_PRESETS[enemySlug] ?? ENEMY_PRESETS['reading-tome']
   const enemyPreset = SLUG_PRESET[enemySlug] ?? 'warrior'
+  const teacher = TEACHER_BY_SLUG[enemySlug]
 
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([])
   function addTimer(id: ReturnType<typeof setTimeout>) {
@@ -146,6 +148,7 @@ export default function QuizInterface({
     const isCorrect = option === current.content.correct_answer
 
     if (isCorrect) {
+      setStreak(s => Math.min(s + 1, 10))
       setFeedback('correct')
       setFlash('green')
       arenaRef.current?.triggerPlayerAttack()
@@ -167,6 +170,7 @@ export default function QuizInterface({
         }
       }, 1000))
     } else {
+      setStreak(0)
       setFeedback('wrong')
       setChosenWrong(option)
       setFlash('red')
@@ -444,6 +448,8 @@ export default function QuizInterface({
           screenFlash={flash}
           playerSize={64}
           enemySize={64}
+          streak={streak}
+          enemyTitle={teacher?.title}
         />
 
         {/* ── Question card ──────────────────────────────────────────────── */}

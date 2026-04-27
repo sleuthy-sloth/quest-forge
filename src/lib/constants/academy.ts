@@ -122,6 +122,97 @@ export const SUBJECT_TO_SLUG: Record<string, string> = {
   science:    'science-labyrinth',
 }
 
+// ── Teacher roster ────────────────────────────────────────────────────────────
+
+export type TeacherStatus = 'defeated' | 'current' | 'available' | 'locked'
+
+export interface TeacherDef {
+  slug:     string
+  subject:  string
+  name:     string
+  title:    string
+  tagline:  string
+  glow:     string
+  level:    number
+}
+
+export const TEACHERS: TeacherDef[] = [
+  {
+    slug:    'math-arena',
+    subject: 'Math Arena',
+    name:    'Master Numerus',
+    title:   'Headmaster of Reckoning',
+    tagline: 'The shapes will not deceive you twice.',
+    glow:    '#c43a00',
+    level:   7,
+  },
+  {
+    slug:    'word-forge',
+    subject: 'Word Forge',
+    name:    'Loremaster Vex',
+    title:   'Smith of Syllables',
+    tagline: 'Hammer the letters until they speak.',
+    glow:    '#1a5c9e',
+    level:   6,
+  },
+  {
+    slug:    'science-labyrinth',
+    subject: 'Science Labyrinth',
+    name:    'Doctor Mortia',
+    title:   'Keeper of the Reagents',
+    tagline: 'Curiosity without rigor is a vine that strangles.',
+    glow:    '#1e8a4a',
+    level:   8,
+  },
+  {
+    slug:    'reading-tome',
+    subject: 'Reading Tome',
+    name:    'Madam Whisper',
+    title:   'Steward of the Chronicle',
+    tagline: 'Words are doors. Open the next.',
+    glow:    '#c9a84c',
+    level:   9,
+  },
+  {
+    slug:    'history-scroll',
+    subject: 'History Scroll',
+    name:    'Chronologue Helix',
+    title:   'Mistress of the Ages',
+    tagline: 'The past is alive — and it remembers you.',
+    glow:    '#9e6a1a',
+    level:   9,
+  },
+  {
+    slug:    'vocab-duel',
+    subject: 'Vocab Duel',
+    name:    'Hexweaver Vyrm',
+    title:   'Crowned in Syllables',
+    tagline: 'Speak well — or your last word will be your last.',
+    glow:    '#7a1a9e',
+    level:   10,
+  },
+  {
+    slug:    'logic-gate',
+    subject: 'Logic Gate',
+    name:    'Sentinel Quorum',
+    title:   'The Gatekeeper of Reason',
+    tagline: 'Each step proves the one before it.',
+    glow:    '#1e8ab8',
+    level:   11,
+  },
+]
+
+export const TEACHER_BY_SLUG: Record<string, TeacherDef> = Object.fromEntries(
+  TEACHERS.map(t => [t.slug, t])
+)
+
+export const TEACHER_STATUS_STYLE: Record<TeacherStatus, { color: string; label: string; dim: number }> = {
+  defeated:  { color: '#5aab6e',  label: '✓ DEFEATED',    dim: 0.55 },
+  current:   { color: '#ff8c3a', label: '◆ NOW DUELING', dim: 1    },
+  available: { color: '#f9c846', label: '◇ ENTER DUEL',  dim: 0.95 },
+  locked:    { color: '#6b5d44', label: '✕ SEALED',      dim: 0.4  },
+}
+
 // ── Enemy animation preset mapping ────────────────────────────────────────────
 
 /**
