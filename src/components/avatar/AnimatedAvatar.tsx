@@ -171,7 +171,6 @@ export default function AnimatedAvatar({
   const lastAttackTimeRef  = useRef(0)
 
   // ── Safety & queue ───────────────────────────────────────────────────────
-  const cancelledRef            = useRef(false)
   const pendingAttackRef        = useRef(false)
   const isCompositingAttackRef  = useRef(false)
   /** Gates auto-attack until at least one idle frame has been rendered. */
@@ -183,9 +182,19 @@ export default function AnimatedAvatar({
    */
   const prevAttackTriggerRef = useRef(attackTrigger)
 
-  // ── Strict Mode + lifecycle safety ─────────────────────────────────────────
-  /** Incremented on each effect invocation to discard stale async completions. */
-  const instanceIdRef           = useRef(0)
+  // ── Lifecycle safety ───────────────────────────────────────────────────────
+  /**
+   * Incremented on each compositing effect invocation.  buildFrames checks
+   * this to discard stale async completions from unmounted / re-mounted
+   * instances.  SEPARATE from rAFIdRef so that the compositing effect's
+   * in-flight async work is NOT invalidated when the rAF effect mounts.
+   */
+  const compositeIdRef          = useRef(0)
+  /**
+   * Incremented on each rAF animation effect invocation.  animate() checks
+   * this to discard stale callbacks.  SEPARATE from compositeIdRef.
+   */
+  const rAFIdRef                = useRef(0)
   /** Tracks whether the browser tab is visible (pauses auto-attack when hidden). */
   const isTabActiveRef          = useRef(true)
   /** Set to true only after ALL 6 idle frames have been composited. */
@@ -213,7 +222,7 @@ export default function AnimatedAvatar({
     if (attackTrigger === prevAttackTriggerRef.current) return
 
     prevAttackTriggerRef.current = attackTrigger
-    triggerAttack(ATTACK_ACTION[animationPreset], instanceIdRef.current)
+    triggerAttack(ATTACK_ACTION[animationPreset], compositeIdRef.current)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [attackTrigger, loaded, animationPreset])
 
@@ -225,16 +234,16 @@ export default function AnimatedAvatar({
    * Returns true if this component instance is still the active generation,
    * AND all required async asset hydration is complete.
    *
-   * Unifies the three independent liveness systems into a single check:
-   * 1. instanceIdRef  — Strict Mode mount safety (discards stale invocations)
+   * Unifies the two independent liveness systems into a single check:
+   * 1. rAFIdRef  — rAF effect re-mount safety (discards stale rAF callbacks)
    * 2. idleFramesReadyRef — idle frames fully composited (not mid-flight)
    *
    * Visibility is NOT included — the rAF loop should still tick when the tab
    * is hidden so it can catch up on resume.  Auto-attack and safety timeout
    * apply their own visibility gating inline.
    */
-  const isAnimationActive = (instanceId: number) =>
-    instanceIdRef.current === instanceId && idleFramesReadyRef.current
+  const isAnimationActive = (rafInstanceId: number) =>
+    rAFIdRef.current === rafInstanceId && idleFramesReadyRef.current
 
   // ── Attack row resolution ─────────────────────────────────────────────────
   /**
@@ -269,7 +278,7 @@ export default function AnimatedAvatar({
    */
   async function compositeAttackFrames(
     action: 'slash' | 'thrust' | 'cast',
-    instanceId: number,
+    compositeInstanceId: number,
   ) {
     if (isCompositingAttackRef.current) return
     isCompositingAttackRef.current = true
@@ -278,7 +287,7 @@ export default function AnimatedAvatar({
       const frames: HTMLCanvasElement[] = []
 
       for (let col = 0; col < LPC_WALK_COLS; col++) {
-        if (cancelledRef.current || instanceId !== instanceIdRef.current) {
+        if (compositeInstanceId !== compositeIdRef.current) {
           pendingAttackRef.current = false
           return
         }
@@ -287,7 +296,7 @@ export default function AnimatedAvatar({
           frame: { col, row: resolveAttackRow(action) },
         })
 
-        if (cancelledRef.current || instanceId !== instanceIdRef.current) {
+        if (compositeInstanceId !== compositeIdRef.current) {
           pendingAttackRef.current = false
           return
         }
@@ -298,7 +307,7 @@ export default function AnimatedAvatar({
       attackFramesRef.current = frames
 
       // Guard: if component unmounted during async compositing, don't start.
-      if (cancelledRef.current || instanceId !== instanceIdRef.current) {
+      if (compositeInstanceId !== compositeIdRef.current) {
         pendingAttackRef.current = false
         return
       }
@@ -327,7 +336,7 @@ export default function AnimatedAvatar({
    */
   function triggerAttack(
     action: 'slash' | 'thrust' | 'cast',
-    instanceId: number,
+    compositeInstanceId: number,
   ) {
     if (animStateRef.current !== 'idle') return
     if (pendingAttackRef.current) return
@@ -336,7 +345,7 @@ export default function AnimatedAvatar({
       pendingAttackRef.current = true
       return
     }
-    if (instanceId !== instanceIdRef.current) return
+    if (compositeInstanceId !== compositeIdRef.current) return
 
     // Anchor the auto-attack timer to the trigger time (not completion time)
     // so that compositing delay doesn't shorten the idle gap between attacks.
@@ -344,7 +353,7 @@ export default function AnimatedAvatar({
 
     if (!attackFramesRef.current) {
       pendingAttackRef.current = true
-      compositeAttackFrames(action, instanceId)
+      compositeAttackFrames(action, compositeIdRef.current)
       return
     }
 
@@ -353,24 +362,29 @@ export default function AnimatedAvatar({
 
   // ── Phase 1: Pre-composite idle frames ──────────────────────────────────
   useEffect(() => {
-    const instanceId = ++instanceIdRef.current
-    cancelledRef.current = false
+    const compositeInstanceId = ++compositeIdRef.current
     idleFramesReadyRef.current = false
 
     async function buildFrames() {
-      console.log(`[AnimatedAvatar] buildFrames start, instanceId=${instanceId}`)
+      console.log(`[AnimatedAvatar] buildFrames start, compositeId=${compositeInstanceId}`)
       const frames: HTMLCanvasElement[] = []
       let frameFailures = 0
 
       for (let col = 0; col < LPC_WALK_COLS; col++) {
-        if (cancelledRef.current || instanceId !== instanceIdRef.current) return
+        if (compositeInstanceId !== compositeIdRef.current) {
+          console.warn(`[AnimatedAvatar] buildFrames aborted at col ${col}: compositeId mismatch (was ${compositeInstanceId}, now ${compositeIdRef.current})`)
+          return
+        }
 
         try {
           const frame = await compositeAvatar(config, {
             frame: { col },
           })
 
-          if (cancelledRef.current || instanceId !== instanceIdRef.current) return
+          if (compositeInstanceId !== compositeIdRef.current) {
+            console.warn(`[AnimatedAvatar] buildFrames aborted after compositeAvatar col ${col}: compositeId mismatch`)
+            return
+          }
           // Diagnostic: check if this frame has any content.
           const ctx = frame.getContext('2d')
           if (ctx) {
@@ -383,9 +397,6 @@ export default function AnimatedAvatar({
           }
           frames.push(frame)
         } catch (err) {
-          // Individual frame failure — push a blank fallback so the
-          // animation loop still functions (shows empty frames) rather
-          // than crashing the entire compositing pipeline.
           frameFailures++
           console.warn(`[AnimatedAvatar] Frame ${col} compositing failed, using blank fallback:`, err)
           const blank = document.createElement('canvas')
@@ -395,10 +406,13 @@ export default function AnimatedAvatar({
         }
       }
 
-      if (cancelledRef.current || instanceId !== instanceIdRef.current) return
+      // Check cancellation ONE MORE TIME after the loop.
+      if (compositeInstanceId !== compositeIdRef.current) {
+        console.warn(`[AnimatedAvatar] buildFrames aborted after full loop: compositeId mismatch`)
+        return
+      }
 
-      // If EVERY frame failed, let the parent know so it can show a
-      // fallback placeholder instead of an infinite loading skeleton.
+      // If EVERY frame failed, let the parent know.
       if (frameFailures >= LPC_WALK_COLS) {
         onFramesError?.()
       }
@@ -417,7 +431,8 @@ export default function AnimatedAvatar({
     buildFrames()
 
     return () => {
-      cancelledRef.current = true
+      // On cleanup, increment so in-flight buildFrames sees a mismatch and stops.
+      compositeIdRef.current++
     }
   }, [configKey]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -428,7 +443,7 @@ export default function AnimatedAvatar({
 
   // ── Phase 2: rAF animation loop (idle + attack) ──────────────────────────
   useEffect(() => {
-    const instanceId = ++instanceIdRef.current
+    const rafInstanceId = ++rAFIdRef.current
     const canvas = canvasRef.current
     if (!canvas || !loaded) return
 
@@ -438,7 +453,7 @@ export default function AnimatedAvatar({
     ctx.imageSmoothingEnabled = false
     if (!idleFramesReadyRef.current) return
 
-    console.log(`[AnimatedAvatar] rAF effect started, instanceId=${instanceId}, canvas=${canvas.width}x${canvas.height}, idleFrames=${idleFramesRef.current.length}`)
+    console.log(`[AnimatedAvatar] rAF effect started, rafId=${rafInstanceId}, canvas=${canvas.width}x${canvas.height}, idleFrames=${idleFramesRef.current.length}`)
 
     // ── Reduced motion check ────────────────────────────────────────────────
     const prefersReducedMotion =
@@ -511,7 +526,7 @@ export default function AnimatedAvatar({
 
     /** Single unified rAF loop — handles both idle and attacking states. */
     function animate(time: number) {
-      if (cancelledRef.current || !isAnimationActive(instanceId)) return
+      if (!isAnimationActive(rafInstanceId)) return
       const isVisible = isTabActiveRef.current
 
       // ── First call initialisation ─────────────────────────────────────────
@@ -532,7 +547,7 @@ export default function AnimatedAvatar({
         animationPreset &&
         time - lastAttackTimeRef.current >= autoAttackInterval
       ) {
-        triggerAttack(ATTACK_ACTION[animationPreset], instanceId)
+        triggerAttack(ATTACK_ACTION[animationPreset], compositeIdRef.current)
 
         if (animStateRef.current !== 'idle') {
           drawFrame('attacking', 0)
@@ -559,10 +574,10 @@ export default function AnimatedAvatar({
           drawFrame('idle', 0)
         } else if (elapsed >= LPC_ATTACK_INTERVAL_MS) {
           frameIndexRef.current++
-          if (frameIndexRef.current >= LPC_WALK_COLS) {
-            // Attack burst complete → return to idle.
-            if (instanceId !== instanceIdRef.current) return
-            animStateRef.current  = 'idle'
+            if (frameIndexRef.current >= LPC_WALK_COLS) {
+              // Attack burst complete → return to idle.
+              if (rafInstanceId !== rAFIdRef.current) return
+              animStateRef.current  = 'idle'
             frameIndexRef.current = 0
             lastFrameTimeRef.current  = time
             drawFrame('idle', 0)
@@ -587,7 +602,6 @@ export default function AnimatedAvatar({
     rafRef.current = requestAnimationFrame(animate)
 
     return () => {
-      cancelledRef.current = true
       document.removeEventListener('visibilitychange', handleVisibility)
       cancelAnimationFrame(rafRef.current)
       rafRef.current = 0
