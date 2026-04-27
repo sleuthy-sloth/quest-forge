@@ -156,7 +156,11 @@ export default async function AcademyPage() {
         </div>
 
         {/* ── Bookshelves ── */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div
+          role="list"
+          aria-label="Available academy disciplines"
+          style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}
+        >
           {[shelf1, shelf2].map((shelf, shelfIdx) => (
             <div key={shelfIdx} style={{ position: 'relative', paddingBottom: '12px' }}>
               {/* Cards row */}

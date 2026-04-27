@@ -1,6 +1,6 @@
 'use client'
 
-import { useId } from 'react'
+import { useState, useId } from 'react'
 import AnimatedAvatar from './AnimatedAvatar'
 import type { EncounterConfig } from '@/types/encounter'
 import type { AnimationPreset } from '@/lib/constants/lpc-animations'
@@ -37,7 +37,7 @@ interface EnemyRendererProps {
 
 /**
  * Reusable battle primitive that renders an enemy sprite with optional
- * ambient glow and nameplate.
+ * ambient glow, nameplate, and loading skeleton.
  *
  * This is the domain-specific wrapper around `AnimatedAvatar` that
  * understands the `EncounterConfig` type.  It can be embedded in
@@ -48,6 +48,12 @@ interface EnemyRendererProps {
  * - A radial-gradient circle pulses subtly behind the avatar.
  * - Paused under `prefers-reduced-motion: reduce`.
  * - No hover effects (those are the embedding context's concern).
+ *
+ * **Loading skeleton:**
+ * - While idle frames are being composited, a tinted pulse overlay
+ *   sits on top of the dark canvas to indicate activity.
+ * - Disappears automatically when `AnimatedAvatar` signals readiness
+ *   via the `onFramesReady` callback.
  *
  * **Nameplate:**
  * - Rendered below the avatar in pixel font when `showName` is true.
@@ -65,6 +71,10 @@ export default function EnemyRenderer({
   const uid = useId().replace(/:/g, '')
   const glowClass = `er-glow-${uid}`
   const keyframeName = `er-pulse-${uid}`
+  const skeletonClass = `er-sk-${uid}`
+  const skeletonKeyframe = `er-sk-pulse-${uid}`
+
+  const [loading, setLoading] = useState(true)
 
   return (
     <div
@@ -107,15 +117,45 @@ export default function EnemyRenderer({
         </>
       )}
 
-      {/* ── Animated sprite ── */}
-      <AnimatedAvatar
-        config={enemy.avatar}
-        size={size}
-        autoAttack={autoAttack}
-        autoAttackInterval={autoAttackInterval}
-        animationPreset={animationPreset}
-        className={className}
-      />
+      {/* ── Animated sprite with loading skeleton ── */}
+      <div style={{ position: 'relative', width: size, height: size }}>
+        <style>{`
+          @keyframes ${skeletonKeyframe} {
+            0%, 100% { opacity: 0.25; }
+            50%      { opacity: 0.55; }
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .${skeletonClass} {
+              animation: none !important;
+              opacity: 0.2 !important;
+            }
+          }
+        `}</style>
+
+        <AnimatedAvatar
+          config={enemy.avatar}
+          size={size}
+          autoAttack={autoAttack}
+          autoAttackInterval={autoAttackInterval}
+          animationPreset={animationPreset}
+          className={className}
+          onFramesReady={() => setLoading(false)}
+        />
+
+        {loading && (
+          <div
+            className={skeletonClass}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              borderRadius: '2px',
+              background: `linear-gradient(135deg, ${enemy.glowColor}20 0%, ${enemy.glowColor}10 50%, transparent 100%)`,
+              animation: `${skeletonKeyframe} 1.5s ease-in-out infinite`,
+              pointerEvents: 'none',
+            }}
+          />
+        )}
+      </div>
 
       {/* ── Nameplate ── */}
       {showName && (

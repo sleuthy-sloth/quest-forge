@@ -61,6 +61,13 @@ interface AnimatedAvatarProps {
    * (idle loop only).
    */
   animationPreset?: AnimationPreset
+
+  /**
+   * Called once all idle frames have been composited and the first
+   * frame is ready to render.  Useful for coordinating loading
+   * skeletons in wrapping components.
+   */
+  onFramesReady?: () => void
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
@@ -114,6 +121,7 @@ export default function AnimatedAvatar({
   autoAttack = false,
   autoAttackInterval = LPC_AUTO_ATTACK_MS,
   animationPreset,
+  onFramesReady,
 }: AnimatedAvatarProps) {
   const canvasRef          = useRef<HTMLCanvasElement>(null)
   const rafRef             = useRef<number>(0)
@@ -147,6 +155,11 @@ export default function AnimatedAvatar({
 
   // ── Stale load status — triggers the rAF effect ──────────────────────────
   const [loaded, setLoaded] = useState(false)
+
+  // ── Notify parent when frames are ready ───────────────────────────────────
+  useEffect(() => {
+    if (loaded && onFramesReady) onFramesReady()
+  }, [loaded, onFramesReady])
 
   // Stable key so pre-composition re-runs only when the config shape changes.
   const configKey = useMemo(() => JSON.stringify(config), [config])

@@ -74,14 +74,18 @@ export default function EncounterCard({ game, enemy, xpRange }: EncounterCardPro
               animation: none !important;
               opacity: 0.4 !important;
             }
+            .encounter-card .group-hover\\:-translate-y-0\\.5 {
+              transform: none !important;
+            }
           }
         `}
       </style>
 
       <Link
         href={`/play/academy/${game.slug}`}
-        className="encounter-card group flex-1"
+        className="encounter-card group flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(201,168,76,0.6)]"
         style={{ minWidth: 0, textDecoration: 'none' }}
+        aria-label={`${enemy.name} — ${game.name}: ${game.tagline}. Rewards ${xpRange}.`}
       >
         <div
           className="transition-transform duration-150 group-hover:-translate-y-0.5 group-hover:border-[rgba(201,168,76,0.5)]"
