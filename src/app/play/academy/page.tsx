@@ -3,78 +3,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import AvatarPreview from '@/components/avatar/AvatarPreview'
 import { PixelIcon } from '@/components/qf'
-
-// ── Game catalog ──────────────────────────────────────────────────────────────
-
-const GAMES = [
-  {
-    slug:    'math-arena',
-    name:    'Math Arena',
-    icon:    'sword' as const,
-    tagline: 'Test your numbers in battle',
-    accent:  '#c43a00',
-  },
-  {
-    slug:    'word-forge',
-    name:    'Word Forge',
-    icon:    'hammer' as const,
-    tagline: 'Forge words from molten letters',
-    accent:  '#1a5c9e',
-  },
-  {
-    slug:    'science-labyrinth',
-    name:    'Science Labyrinth',
-    icon:    'flask' as const,
-    tagline: 'Navigate the maze of knowledge',
-    accent:  '#1e8a4a',
-  },
-  {
-    slug:    'reading-tome',
-    name:    'Reading Tome',
-    icon:    'scroll' as const,
-    tagline: 'Journey through enchanted stories',
-    accent:  '#c9a84c',
-  },
-  {
-    slug:    'history-scroll',
-    name:    'History Scroll',
-    icon:    'scroll' as const,
-    tagline: 'Unravel the tales of ages past',
-    accent:  '#9e6a1a',
-  },
-  {
-    slug:    'vocab-duel',
-    name:    'Vocab Duel',
-    icon:    'book' as const,
-    tagline: 'Master the language of power',
-    accent:  '#7a1a9e',
-  },
-  {
-    slug:    'logic-gate',
-    name:    'Logic Gate',
-    icon:    'circuit' as const,
-    tagline: 'Unlock the puzzles of the mind',
-    accent:  '#1e8ab8',
-  },
-] as const
-
-// ── Tier helpers ──────────────────────────────────────────────────────────────
-
-type AgeTier = 'junior' | 'senior'
-
-function deriveTier(age: number | null): AgeTier {
-  return age != null && age >= 11 ? 'senior' : 'junior'
-}
-
-const XP_RANGE: Record<AgeTier, string> = {
-  junior: '20–30 XP',
-  senior: '30–50 XP',
-}
-
-const TIER_LABEL: Record<AgeTier, string> = {
-  junior: '✦ JUNIOR',
-  senior: '✦ SENIOR',
-}
+import { GAMES, deriveTier, XP_RANGE, TIER_LABEL } from '@/lib/constants/academy'
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
