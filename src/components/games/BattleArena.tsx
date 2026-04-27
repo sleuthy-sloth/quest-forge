@@ -50,6 +50,19 @@ interface BattleArenaProps {
 
   /** Additional class name for the outer container. */
   className?: string
+
+  /**
+   * Current answer streak (consecutive correct answers without a miss).
+   * Drives the combo meter display below the arena.
+   * Defaults to 0 (meter hidden).
+   */
+  streak?: number
+
+  /**
+   * Teacher/enemy subtitle shown above the arena (e.g. "Keeper of the Reagents").
+   * When omitted, nothing is shown.
+   */
+  enemyTitle?: string
 }
 
 // ── Ref handle ────────────────────────────────────────────────────────────────
@@ -123,6 +136,8 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
       playerSize = 96,
       enemySize = 96,
       className,
+      streak = 0,
+      enemyTitle,
     },
     ref,
   ) {
@@ -199,6 +214,23 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
           }
         `}</style>
 
+        {/* ── Enemy title strip ── */}
+        {enemyTitle && (
+          <div
+            style={{
+              fontFamily: 'var(--font-pixel)',
+              fontSize: '5px',
+              color: enemy.glowColor,
+              letterSpacing: '0.18em',
+              textAlign: 'center',
+              marginBottom: '4px',
+              textTransform: 'uppercase',
+            }}
+          >
+            {enemyTitle}
+          </div>
+        )}
+
         <div
           className={className}
           style={{
@@ -206,12 +238,12 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            background: 'linear-gradient(180deg,#0d0f1c,#070910)',
-            border: '1px solid rgba(196,58,0,0.2)',
-            borderLeft: '3px solid #c43a00',
+            background: `linear-gradient(180deg, ${enemy.glowColor}14 0%, #070910 60%)`,
+            border: `1px solid ${enemy.glowColor}33`,
+            borderLeft: `3px solid ${enemy.glowColor}`,
             borderRadius: '3px',
             padding: '10px',
-            marginBottom: '12px',
+            marginBottom: streak > 0 ? '0' : '12px',
             overflow: 'hidden',
           }}
         >
@@ -421,6 +453,65 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
             </div>
           </div>
         </div>
+
+        {/* ── Combo meter ── */}
+        {streak > 0 && (
+          <div
+            style={{
+              marginBottom: '12px',
+              padding: '6px 10px',
+              background: 'rgba(255,140,58,0.06)',
+              border: '1px solid rgba(255,140,58,0.2)',
+              borderTop: 'none',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                marginBottom: '4px',
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: 'var(--font-pixel)',
+                  fontSize: '6px',
+                  color: 'var(--ember-bright, #ff8c3a)',
+                  letterSpacing: '0.15em',
+                }}
+              >
+                COMBO ×{streak}
+              </span>
+              <span
+                style={{
+                  fontFamily: 'var(--font-pixel)',
+                  fontSize: '6px',
+                  color: 'rgba(201,168,76,0.6)',
+                  letterSpacing: '0.08em',
+                }}
+              >
+                {streak >= 5 ? 'MAX BONUS +100%' : `NEXT HIT +${streak * 10}%`}
+              </span>
+            </div>
+            <div style={{ display: 'flex', gap: '3px' }}>
+              {Array.from({ length: 10 }).map((_, i) => (
+                <div
+                  key={i}
+                  style={{
+                    flex: 1,
+                    height: '5px',
+                    background:
+                      i < streak
+                        ? 'linear-gradient(180deg, #f9c846, #ff6010)'
+                        : 'rgba(255,255,255,0.05)',
+                    border: `1px solid ${i < streak ? '#ff8c3a' : 'rgba(201,168,76,0.15)'}`,
+                    boxShadow: i < streak ? '0 0 4px rgba(255,96,16,0.5)' : 'none',
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
       </>
     )
   },

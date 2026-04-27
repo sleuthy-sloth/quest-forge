@@ -1,9 +1,10 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import AvatarPreview from '@/components/avatar/AvatarPreview'
-import EncounterCard from '@/components/avatar/EncounterCard'
-import { GAMES, deriveTier, XP_RANGE, TIER_LABEL } from '@/lib/constants/academy'
+import DuelCard from '@/components/avatar/DuelCard'
+import { GAMES, TEACHERS, deriveTier, XP_RANGE, TIER_LABEL } from '@/lib/constants/academy'
 import { ENEMY_PRESETS } from '@/lib/constants/enemies'
+import type { TeacherStatus } from '@/lib/constants/academy'
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
@@ -24,85 +25,129 @@ export default async function AcademyPage() {
   const xpRange   = XP_RANGE[tier]
   const tierLabel = TIER_LABEL[tier]
   const level     = profile.level ?? 1
-  const className = profile.avatar_class ?? 'Emberbearer'
 
-  // Split games: 3 on top shelf (room for 128px avatars), 4 on bottom
-  const mid = Math.floor(GAMES.length / 2)
-  const shelf1 = GAMES.slice(0, mid)
-  const shelf2 = GAMES.slice(mid)
+  // Determine which subjects this player has completed (≥1 passing score)
+  const { data: completions } = await supabase
+    .from('edu_completions')
+    .select('challenge_id, score')
+    .eq('player_id', user.id)
+    .gt('score', 0)
+
+  // Fetch edu_challenges to map challenge_id → subject
+  const { data: challenges } = await supabase
+    .from('edu_challenges')
+    .select('id, subject')
+
+  const subjectScores = new Map<string, number[]>()
+  if (completions && challenges) {
+    const challengeSubjectMap = new Map(challenges.map(c => [c.id, c.subject]))
+    for (const comp of completions) {
+      const subject = challengeSubjectMap.get(comp.challenge_id)
+      if (subject) {
+        const existing = subjectScores.get(subject) ?? []
+        existing.push(comp.score)
+        subjectScores.set(subject, existing)
+      }
+    }
+  }
+
+  // Map SUBJECT_TO_SLUG keys → completed subjects
+  const subjectToSlug: Record<string, string> = {
+    math:       'math-arena',
+    word:       'word-forge',
+    science:    'science-labyrinth',
+    reading:    'reading-tome',
+    history:    'history-scroll',
+    vocabulary: 'vocab-duel',
+    logic:      'logic-gate',
+  }
+  const completedSlugs = new Set<string>()
+  for (const [subject, slug] of Object.entries(subjectToSlug)) {
+    const scores = subjectScores.get(subject) ?? []
+    if (scores.length >= 3) completedSlugs.add(slug)
+  }
+
+  // Derive status for each teacher: defeated → current → available
+  let foundCurrent = false
+  const teacherStatuses = TEACHERS.map(t => {
+    if (completedSlugs.has(t.slug)) return 'defeated' as TeacherStatus
+    if (!foundCurrent) {
+      foundCurrent = true
+      return 'current' as TeacherStatus
+    }
+    return 'available' as TeacherStatus
+  })
 
   return (
     <div
       style={{
         minHeight: '100vh',
-        background: 'linear-gradient(180deg, #0a0f1e 0%, #040812 100%)',
-        paddingBottom: '32px',
+        background: 'var(--qf-bg-void)',
+        paddingBottom: 32,
       }}
     >
       {/* ── Page Header ── */}
       <div style={{ textAlign: 'center', padding: '28px 16px 20px' }}>
         <div
+          className="font-pixel"
           style={{
-            fontFamily: 'var(--font-pixel)',
-            fontSize: '11px',
-            color: '#c9a84c',
-            letterSpacing: '3px',
-            marginBottom: '8px',
-            textShadow: '0 0 20px rgba(201,168,76,0.4)',
+            fontSize: 7,
+            color: 'var(--qf-ember-bright)',
+            letterSpacing: '0.25em',
+            marginBottom: 6,
           }}
         >
-          THE ACADEMY
+          THE FACULTY DUEL
         </div>
-        <div
+        <h1
+          className="font-heading qf-shimmer"
           style={{
-            fontFamily: 'var(--font-heading)',
+            fontSize: 22,
+            margin: '4px 0 2px',
+            fontWeight: 700,
             fontStyle: 'italic',
-            fontSize: '14px',
-            color: '#7a6a44',
-            letterSpacing: '1px',
           }}
         >
-          ⟡ Wizard&rsquo;s Tower of Knowledge ⟡
-        </div>
-        {/* Decorative separator */}
-        <div
+          Seven Teachers, Seven Trials
+        </h1>
+        <p
           style={{
-            margin: '14px auto 0',
-            width: '180px',
-            height: '1px',
-            background: 'linear-gradient(90deg, transparent, rgba(201,168,76,0.4), transparent)',
+            color: 'var(--qf-parchment-dim)',
+            fontStyle: 'italic',
+            margin: '0 0 6px',
+            fontSize: 12,
+            lineHeight: 1.4,
           }}
-        />
+        >
+          Each instructor guards a discipline. Best them in single combat.
+        </p>
       </div>
 
-      <div className="px-4" style={{ maxWidth: '480px', margin: '0 auto' }}>
+      <div className="px-4" style={{ maxWidth: 480, margin: '0 auto' }}>
 
         {/* ── Hero Bar ── */}
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '12px',
+            gap: 12,
             background: 'linear-gradient(135deg, rgba(26,28,46,0.9), rgba(18,19,31,0.9))',
-            border: '1px solid rgba(201,168,76,0.18)',
-            borderRadius: '4px',
+            border: '1px solid var(--qf-rule)',
+            borderRadius: 4,
             padding: '10px 12px',
-            marginBottom: '20px',
+            marginBottom: 20,
           }}
         >
-          {/* Avatar */}
           <div style={{ flexShrink: 0 }}>
             <AvatarPreview avatarConfig={profile.avatar_config as Record<string, unknown> | null} size={48} />
           </div>
-
-          {/* Name + class */}
           <div style={{ flex: 1, minWidth: 0 }}>
             <div
+              className="font-pixel"
               style={{
-                fontFamily: 'var(--font-pixel)',
-                fontSize: '8px',
-                color: '#f0e6c8',
-                marginBottom: '4px',
+                fontSize: 8,
+                color: 'var(--qf-parchment)',
+                marginBottom: 4,
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -113,25 +158,23 @@ export default async function AcademyPage() {
             <div
               style={{
                 fontFamily: 'var(--font-heading)',
-                fontSize: '12px',
-                color: '#8a7a5a',
+                fontSize: 12,
+                color: 'var(--qf-parchment-muted)',
                 textTransform: 'capitalize',
               }}
             >
-              {className} · Lv {level}
+              {profile.avatar_class ?? 'Emberbearer'} · Lv {level}
             </div>
           </div>
-
-          {/* Tier badge */}
           <div
+            className="font-pixel"
             style={{
               flexShrink: 0,
-              fontFamily: 'var(--font-pixel)',
-              fontSize: '6px',
-              color: '#c9a0ff',
+              fontSize: 6,
+              color: 'var(--qf-magic)',
               background: 'rgba(60,20,120,0.4)',
               border: '1px solid rgba(138,90,200,0.4)',
-              borderRadius: '3px',
+              borderRadius: 3,
               padding: '5px 7px',
               whiteSpace: 'nowrap',
               letterSpacing: '1px',
@@ -141,59 +184,45 @@ export default async function AcademyPage() {
           </div>
         </div>
 
-        {/* ── Shelf label ── */}
+        {/* ── Faculty progress ── */}
         <div
           style={{
-            fontFamily: 'var(--font-pixel)',
-            fontSize: '6px',
-            color: '#7a6a44',
-            textAlign: 'center',
-            letterSpacing: '2px',
-            marginBottom: '14px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'baseline',
+            marginBottom: 16,
           }}
         >
-          CHOOSE YOUR DISCIPLINE
+          <div className="qf-scribed" style={{ fontSize: 10 }}>Faculty Roster</div>
+          <span className="font-pixel" style={{ fontSize: 6, color: 'var(--qf-gold-400)' }}>
+            {completedSlugs.size} OF {TEACHERS.length} DEFEATED
+          </span>
         </div>
 
-        {/* ── Bookshelves ── */}
-        <div
-          role="list"
-          aria-label="Available academy disciplines"
-          style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}
-        >
-          {[shelf1, shelf2].map((shelf, shelfIdx) => (
-            <div key={shelfIdx} style={{ position: 'relative', paddingBottom: '12px' }}>
-              {/* Cards row */}
-              <div style={{ display: 'flex', gap: '8px' }}>
-                {shelf.map((game) => (
-                  <EncounterCard
-                    key={game.slug}
-                    game={game}
-                    enemy={ENEMY_PRESETS[game.slug]}
-                    xpRange={xpRange}
-                  />
-                ))}
+        {/* ── Duel cards ── */}
+        <div role="list" aria-label="Academy faculty roster">
+          {TEACHERS.map((teacher, idx) => {
+            const enemy = ENEMY_PRESETS[teacher.slug]
+            if (!enemy) return null
+            const status = teacherStatuses[idx]
+            return (
+              <div key={teacher.slug} role="listitem">
+                <DuelCard
+                  teacher={teacher}
+                  enemy={enemy}
+                  status={status}
+                  playerAvatarConfig={profile.avatar_config as Record<string, unknown> | null}
+                  playerName={profile.display_name}
+                  playerLevel={level}
+                  playerClass={profile.avatar_class ?? 'blazewarden'}
+                  xpRange={xpRange}
+                />
               </div>
-              {/* Wooden plank */}
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: 0,
-                  left: '-8px',
-                  right: '-8px',
-                  height: '10px',
-                  background: 'linear-gradient(180deg, #4a2e0a 0%, #2e1a04 100%)',
-                  borderRadius: '2px',
-                  boxShadow: '0 3px 8px rgba(0,0,0,0.6), inset 0 1px 0 rgba(201,168,76,0.12)',
-                }}
-              />
-            </div>
-          ))}
+            )
+          })}
         </div>
 
       </div>
     </div>
   )
 }
-
-

@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import classesData from '@/lore/classes.json'
 import { signOut } from '@/app/actions/auth'
 import AvatarPreview from '@/components/avatar/AvatarPreview'
+import NowDuelingCallout from '@/components/avatar/NowDuelingCallout'
 import {
   XPBar,
   HPBar,
@@ -10,6 +11,8 @@ import {
   BossSprite,
 } from '@/components/qf'
 import { embershardState, xpForLevel } from '@/lib/xp'
+import { TEACHERS, SLUG_PRESET } from '@/lib/constants/academy'
+import { ENEMY_PRESETS } from '@/lib/constants/enemies'
 
 export default async function PlayerHomePage() {
   const supabase = await createClient()
@@ -39,6 +42,44 @@ export default async function PlayerHomePage() {
   const xpNeeded    = nextLevelXP - curLevelXP
   const xpPct       = xpNeeded > 0 ? Math.round((xpIntoLevel / xpNeeded) * 100) : 0
   const shard       = embershardState(level)
+
+  // Determine the current active academy teacher
+  const { data: eduCompletions } = await supabase
+    .from('edu_completions')
+    .select('challenge_id, score')
+    .eq('player_id', user.id)
+    .gt('score', 0)
+
+  const { data: eduChallenges } = await supabase
+    .from('edu_challenges')
+    .select('id, subject')
+
+  const subjectToSlug: Record<string, string> = {
+    math:       'math-arena',
+    word:       'word-forge',
+    science:    'science-labyrinth',
+    reading:    'reading-tome',
+    history:    'history-scroll',
+    vocabulary: 'vocab-duel',
+    logic:      'logic-gate',
+  }
+
+  const completedSlugs = new Set<string>()
+  if (eduCompletions && eduChallenges) {
+    const challengeSubjectMap = new Map(eduChallenges.map(c => [c.id, c.subject]))
+    const subjectScores = new Map<string, number>()
+    for (const comp of eduCompletions) {
+      const subject = challengeSubjectMap.get(comp.challenge_id)
+      if (subject) subjectScores.set(subject, (subjectScores.get(subject) ?? 0) + 1)
+    }
+    for (const [subject, slug] of Object.entries(subjectToSlug)) {
+      if ((subjectScores.get(subject) ?? 0) >= 3) completedSlugs.add(slug)
+    }
+  }
+
+  const currentTeacher = TEACHERS.find(t => !completedSlugs.has(t.slug)) ?? null
+  const currentEnemy = currentTeacher ? ENEMY_PRESETS[currentTeacher.slug] ?? null : null
+  const currentPreset = currentTeacher ? (SLUG_PRESET[currentTeacher.slug] ?? 'warrior') : 'warrior'
 
   // Active boss — is_unlocked=false means battle in progress;
   // the trigger sets is_unlocked=true only when boss_current_hp reaches 0.
@@ -265,6 +306,15 @@ export default async function PlayerHomePage() {
             NO ACTIVE THREAT — THE REALM IS AT PEACE
           </span>
         </div>
+      )}
+
+      {/* Now Dueling callout */}
+      {currentTeacher && currentEnemy && (
+        <NowDuelingCallout
+          teacher={currentTeacher}
+          enemy={currentEnemy}
+          animationPreset={currentPreset}
+        />
       )}
 
       {/* Today's quests preview */}

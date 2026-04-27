@@ -38,7 +38,9 @@
       "Bash(ls:*)",
       "Bash(wait:*)",
       "Bash(npm test:*)",
-      "Bash(gh pr:*)"
+      "Bash(gh pr:*)",
+      "Bash(cp \"/root/.claude/projects/-home-user-quest-forge/163954c2-d629-48be-9d74-362012f0a12d/tool-results/webfetch-1777331081863-be53je.bin\" /tmp/design.bin)",
+      "Bash(gunzip -c /tmp/design.bin)"
     ]
   }
 }
