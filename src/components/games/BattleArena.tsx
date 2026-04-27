@@ -61,6 +61,26 @@ export interface BattleArenaHandle {
   triggerEnemyAttack: () => void
 }
 
+// ── Responsive breakpoint hook ───────────────────────────────────────────────
+
+const MOBILE_BP = '(max-width: 480px)'
+
+/**
+ * Returns `true` when the viewport is at or below 480 px wide.
+ * Defaults to `false` (desktop) during SSR to avoid hydration mismatch.
+ */
+function useIsMobile(): boolean {
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const mql = window.matchMedia(MOBILE_BP)
+    setIsMobile(mql.matches)
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches)
+    mql.addEventListener('change', handler)
+    return () => mql.removeEventListener('change', handler)
+  }, [])
+  return isMobile
+}
+
 // ── Component ─────────────────────────────────────────────────────────────────
 
 /**
@@ -106,6 +126,11 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
     },
     ref,
   ) {
+    // ── Responsive sizing ────────────────────────────────────────────────────
+    const isMobile = useIsMobile()
+    const effectivePlayerSize = isMobile ? 64 : playerSize
+    const effectiveEnemySize = isMobile ? 64 : enemySize
+
     // ── Attack trigger state ─────────────────────────────────────────────────
     // Each tick is incremented by 1 to fire one attack burst via the
     // `attackTrigger` prop on `AnimatedAvatar` (added in Phase 1).
@@ -221,7 +246,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
           >
             <AnimatedAvatar
               config={playerConfig}
-              size={playerSize}
+              size={effectivePlayerSize}
               animationPreset={playerPreset}
               attackTrigger={playerAttackTick}
             />
@@ -230,7 +255,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
                 fontFamily: 'var(--font-pixel)',
                 fontSize: '5px',
                 color: '#c9a84c',
-                maxWidth: playerSize,
+                maxWidth: effectivePlayerSize,
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
@@ -241,7 +266,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
             {/* Player HP bar — always full (cosmetic) */}
             <div
               style={{
-                width: playerSize,
+                width: effectivePlayerSize,
                 height: '5px',
                 background: 'rgba(255,255,255,0.1)',
                 borderRadius: '2px',
@@ -357,7 +382,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
           >
             <AnimatedAvatar
               config={enemy.avatar}
-              size={enemySize}
+              size={effectiveEnemySize}
               animationPreset={enemyPreset}
               attackTrigger={enemyAttackTick}
             />
@@ -366,7 +391,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
                 fontFamily: 'var(--font-pixel)',
                 fontSize: '5px',
                 color: enemy.glowColor,
-                maxWidth: enemySize,
+                maxWidth: effectiveEnemySize,
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
@@ -377,7 +402,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
             {/* Enemy HP bar — depletes with correct answers */}
             <div
               style={{
-                width: enemySize,
+                width: effectiveEnemySize,
                 height: '5px',
                 background: 'rgba(255,255,255,0.1)',
                 borderRadius: '2px',
