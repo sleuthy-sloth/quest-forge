@@ -284,8 +284,23 @@ function loadImg(src: string): Promise<HTMLImageElement | null> {
     img.crossOrigin = 'anonymous'
     _imgCache.set(src, img)
 
-    img.onload = () => resolve(img)
+    // 10-second timeout — prevents stalled requests from blocking the
+    // compositing pipeline indefinitely when 7+ cards mount simultaneously
+    // and some Supabase Storage requests hang without firing onload/onerror.
+    const timeoutId = setTimeout(() => {
+      _imgCache.delete(src)
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn(`[sprite-compositor] Image load timed out (10s): "${src}"`)
+      }
+      resolve(null)
+    }, 10_000)
+
+    img.onload = () => {
+      clearTimeout(timeoutId)
+      resolve(img)
+    }
     img.onerror = () => {
+      clearTimeout(timeoutId)
       // Remove from cache so future attempts can retry (e.g. after fixing a path).
       _imgCache.delete(src)
       if (process.env.NODE_ENV !== 'production') {
@@ -426,9 +441,24 @@ export function compositeLayer(
     // Step b: per-pixel HSL recolor — replaces hue while preserving saturation
     // and lightness from the original sprite, producing correct color results
     // regardless of the source sprite's base palette.
-    const imageData = ctx.getImageData(0, 0, CELL, CELL)
-    recolorToHue(imageData.data, hexTint)
-    ctx.putImageData(imageData, 0, 0)
+    //
+    // try/catch guards against SecurityError on getImageData() when the
+    // canvas becomes tainted (e.g. cross-origin images served without
+    // permissive CORS headers despite our crossorigin="anonymous" attribute).
+    // In that case we draw the layer untinted — degraded appearance is
+    // preferable to a frozen card skeleton.
+    try {
+      const imageData = ctx.getImageData(0, 0, CELL, CELL)
+      recolorToHue(imageData.data, hexTint)
+      ctx.putImageData(imageData, 0, 0)
+    } catch (err) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn(
+          `[sprite-compositor] Tinting failed for layer, drawing untinted:`,
+          err,
+        )
+      }
+    }
   }
 
   return off

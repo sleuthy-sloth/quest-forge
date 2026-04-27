@@ -68,6 +68,15 @@ interface AnimatedAvatarProps {
    * skeletons in wrapping components.
    */
   onFramesReady?: () => void
+
+  /**
+   * Called when ALL idle frames failed to composite (every
+   * `compositeAvatar` call threw or returned unusable results).
+   * The component will continue rendering (blank canvases), but
+   * wrapping components like EnemyRenderer can use this to swap
+   * in a fallback silhouette instead of an infinite skeleton.
+   */
+  onFramesError?: () => void
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
@@ -122,6 +131,7 @@ export default function AnimatedAvatar({
   autoAttackInterval = LPC_AUTO_ATTACK_MS,
   animationPreset,
   onFramesReady,
+  onFramesError,
 }: AnimatedAvatarProps) {
   const canvasRef          = useRef<HTMLCanvasElement>(null)
   const rafRef             = useRef<number>(0)
@@ -303,19 +313,44 @@ export default function AnimatedAvatar({
 
     async function buildFrames() {
       const frames: HTMLCanvasElement[] = []
+      let frameFailures = 0
 
       for (let col = 0; col < LPC_WALK_COLS; col++) {
         if (cancelledRef.current || instanceId !== instanceIdRef.current) return
 
-        const frame = await compositeAvatar(config, {
-          frame: { col, row: LPC_WALK_DOWN_ROW },
-        })
+        try {
+          const frame = await compositeAvatar(config, {
+            frame: { col, row: LPC_WALK_DOWN_ROW },
+          })
 
-        if (cancelledRef.current || instanceId !== instanceIdRef.current) return
-        frames.push(frame)
+          if (cancelledRef.current || instanceId !== instanceIdRef.current) return
+          frames.push(frame)
+        } catch (err) {
+          // Individual frame failure — push a blank fallback so the
+          // animation loop still functions (shows empty frames) rather
+          // than crashing the entire compositing pipeline.
+          frameFailures++
+          if (process.env.NODE_ENV !== 'production') {
+            console.warn(
+              `[AnimatedAvatar] Frame ${col} compositing failed, using blank fallback:`,
+              err,
+            )
+          }
+          const blank = document.createElement('canvas')
+          blank.width = CELL
+          blank.height = CELL
+          frames.push(blank)
+        }
       }
 
       if (cancelledRef.current || instanceId !== instanceIdRef.current) return
+
+      // If EVERY frame failed, let the parent know so it can show a
+      // fallback placeholder instead of an infinite loading skeleton.
+      if (frameFailures >= LPC_WALK_COLS) {
+        onFramesError?.()
+      }
+
       idleFramesRef.current = frames
       idleFramesReadyRef.current = true
       setLoaded(true)

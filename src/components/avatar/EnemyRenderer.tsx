@@ -75,6 +75,67 @@ export default function EnemyRenderer({
   const skeletonKeyframe = `er-sk-pulse-${uid}`
 
   const [loading, setLoading] = useState(true)
+  const [errored, setErrored] = useState(false)
+
+  // ── Fallback: colored silhouette ──────────────────────────────────────────
+  if (errored) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <div
+          style={{
+            width: size,
+            height: size,
+            background: `linear-gradient(135deg, ${enemy.glowColor}25, ${enemy.glowColor}08)`,
+            border: `2px solid ${enemy.glowColor}50`,
+            borderRadius: '6px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative',
+          }}
+          aria-label={`${enemy.name} — sprite unavailable`}
+        >
+          {/* Stylized figure silhouette */}
+          <svg
+            width={Math.round(size * 0.55)}
+            height={Math.round(size * 0.65)}
+            viewBox="0 0 40 50"
+            fill="none"
+            aria-hidden="true"
+          >
+            {/* Head */}
+            <ellipse cx="20" cy="10" rx="8" ry="9" fill={enemy.glowColor} opacity={0.35} />
+            {/* Body */}
+            <path
+              d="M12 24 C12 18, 16 22, 20 22 C24 22, 28 18, 28 24 L30 44 C30 48, 10 48, 10 44 Z"
+              fill={enemy.glowColor}
+              opacity={0.3}
+            />
+          </svg>
+        </div>
+        {showName && (
+          <div
+            style={{
+              fontFamily: 'var(--font-pixel)',
+              fontSize: '6px',
+              color: '#f0e6c8',
+              textAlign: 'center',
+              lineHeight: 1.4,
+              marginTop: '4px',
+            }}
+          >
+            {enemy.name}
+          </div>
+        )}
+      </div>
+    )
+  }
 
   return (
     <div
@@ -140,6 +201,10 @@ export default function EnemyRenderer({
           animationPreset={animationPreset}
           className={className}
           onFramesReady={() => setLoading(false)}
+          onFramesError={() => {
+            setLoading(false)
+            setErrored(true)
+          }}
         />
 
         {loading && (
