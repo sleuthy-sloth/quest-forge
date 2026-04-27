@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import AnimatedAvatar from './AnimatedAvatar'
+import EnemyRenderer from './EnemyRenderer'
 import type { AnimationPreset } from '@/lib/constants/lpc-animations'
 import type { GameEntry } from '@/lib/constants/academy'
 import type { EncounterConfig } from '@/types/encounter'
@@ -118,12 +118,12 @@ export default function EncounterCard({ game, enemy, xpRange }: EncounterCardPro
           />
 
           {/* ── Enemy avatar with auto-attack ── */}
-          <AnimatedAvatar
-            config={enemy.avatar}
+          <EnemyRenderer
+            enemy={enemy}
+            animationPreset={preset}
             size={128}
             autoAttack
             autoAttackInterval={8000}
-            animationPreset={preset}
           />
 
           {/* ── Enemy name ── */}

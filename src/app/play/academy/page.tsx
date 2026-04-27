@@ -1,9 +1,9 @@
 import { redirect } from 'next/navigation'
-import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import AvatarPreview from '@/components/avatar/AvatarPreview'
-import { PixelIcon } from '@/components/qf'
+import EncounterCard from '@/components/avatar/EncounterCard'
 import { GAMES, deriveTier, XP_RANGE, TIER_LABEL } from '@/lib/constants/academy'
+import { ENEMY_PRESETS } from '@/lib/constants/enemies'
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
@@ -26,8 +26,8 @@ export default async function AcademyPage() {
   const level     = profile.level ?? 1
   const className = profile.avatar_class ?? 'Emberbearer'
 
-  // Split games into two shelves of 3
-  const mid = Math.ceil(GAMES.length / 2)
+  // Split games: 3 on top shelf (room for 128px avatars), 4 on bottom
+  const mid = Math.floor(GAMES.length / 2)
   const shelf1 = GAMES.slice(0, mid)
   const shelf2 = GAMES.slice(mid)
 
@@ -162,7 +162,12 @@ export default async function AcademyPage() {
               {/* Cards row */}
               <div style={{ display: 'flex', gap: '8px' }}>
                 {shelf.map((game) => (
-                  <GameCard key={game.slug} game={game} xpRange={xpRange} />
+                  <EncounterCard
+                    key={game.slug}
+                    game={game}
+                    enemy={ENEMY_PRESETS[game.slug]}
+                    xpRange={xpRange}
+                  />
                 ))}
               </div>
               {/* Wooden plank */}
@@ -187,79 +192,4 @@ export default async function AcademyPage() {
   )
 }
 
-// ── GameCard sub-component ────────────────────────────────────────────────────
 
-function GameCard({
-  game,
-  xpRange,
-}: {
-  game: (typeof GAMES)[number]
-  xpRange: string
-}) {
-  return (
-    <Link
-      href={`/play/academy/${game.slug}`}
-      className="group flex-1"
-      style={{ minWidth: 0, textDecoration: 'none' }}
-    >
-      <div
-        className="transition-transform duration-150 group-hover:-translate-y-0.5 group-hover:border-[rgba(201,168,76,0.5)]"
-        style={{
-          background: 'linear-gradient(135deg, #1a1c2e 0%, #12131f 100%)',
-          border: '1px solid rgba(201,168,76,0.18)',
-          borderRadius: '3px',
-          padding: '10px 6px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '5px',
-          borderTopColor: game.accent,
-          borderTopWidth: '2px',
-        }}
-      >
-        {/* Icon */}
-        <PixelIcon id={game.icon} size={28} color={game.accent} />
-
-
-        {/* Name */}
-        <div
-          style={{
-            fontFamily: 'var(--font-pixel)',
-            fontSize: '6px',
-            color: '#f0e6c8',
-            textAlign: 'center',
-            lineHeight: 1.6,
-          }}
-        >
-          {game.name}
-        </div>
-
-        {/* Tagline */}
-        <div
-          style={{
-            fontFamily: 'var(--font-body)',
-            fontStyle: 'italic',
-            fontSize: '10px',
-            color: '#7a6a44',
-            textAlign: 'center',
-            lineHeight: 1.3,
-          }}
-        >
-          {game.tagline}
-        </div>
-
-        {/* XP badge */}
-        <div
-          style={{
-            fontFamily: 'var(--font-pixel)',
-            fontSize: '5px',
-            color: '#c9a84c',
-            marginTop: '2px',
-          }}
-        >
-          {xpRange}
-        </div>
-      </div>
-    </Link>
-  )
-}
