@@ -1,6 +1,7 @@
 #!/usr/bin/env npx tsx
 /**
- * Uploads all PNG sprite files from public/sprites/ to Supabase Storage.
+ * Uploads all sprite (PNG) and audio (MP3, OGG, WAV) assets from
+ * public/sprites/ to Supabase Storage.
  *
  * - Creates the "sprites" bucket if it doesn't exist (public access).
  * - Preserves the full directory structure as storage object keys.
@@ -75,17 +76,35 @@ async function ensureBucket(): Promise<void> {
   console.log(`  ✅ Created public bucket "${BUCKET}".`)
 }
 
-/** Recursively collects absolute paths for every .png file under dir. */
-function walkPngs(dir: string, result: string[] = []): string[] {
+const ASSET_EXTENSIONS = new Set(['.png', '.mp3', '.ogg', '.wav', '.jpg', '.jpeg', '.gif', '.webp'])
+
+const EXT_MIME: Record<string, string> = {
+  '.png':  'image/png',
+  '.jpg':  'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.gif':  'image/gif',
+  '.webp': 'image/webp',
+  '.mp3':  'audio/mpeg',
+  '.ogg':  'audio/ogg',
+  '.wav':  'audio/wav',
+}
+
+/** Recursively collects asset files under dir (PNG sprites + audio). */
+function walkAssets(dir: string, result: string[] = []): string[] {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name)
     if (entry.isDirectory()) {
-      walkPngs(full, result)
-    } else if (entry.isFile() && entry.name.toLowerCase().endsWith('.png')) {
-      result.push(full)
+      walkAssets(full, result)
+    } else if (entry.isFile()) {
+      const ext = path.extname(entry.name).toLowerCase()
+      if (ASSET_EXTENSIONS.has(ext)) result.push(full)
     }
   }
   return result
+}
+
+function contentTypeFor(absPath: string): string {
+  return EXT_MIME[path.extname(absPath).toLowerCase()] ?? 'application/octet-stream'
 }
 
 /** Storage key for an absolute local path: relative to public/sprites/, forward slashes. */
@@ -100,7 +119,7 @@ async function uploadFile(absPath: string): Promise<UploadResult> {
   const fileBuffer = fs.readFileSync(absPath)
 
   const { error } = await supabase.storage.from(BUCKET).upload(storageKey, fileBuffer, {
-    contentType: 'image/png',
+    contentType: contentTypeFor(absPath),
     upsert: false, // error (not overwrite) if the object already exists
   })
 
@@ -132,17 +151,17 @@ async function main() {
   console.log('📦  Checking storage bucket…')
   await ensureBucket()
 
-  const pngs = walkPngs(SPRITES_LOCAL_DIR)
-  console.log(`\n📂  Found ${pngs.length} PNG file(s) to process.\n`)
+  const assets = walkAssets(SPRITES_LOCAL_DIR)
+  console.log(`\n📂  Found ${assets.length} asset file(s) to process.\n`)
 
   let uploaded = 0
   let skipped = 0
   let errors = 0
-  const total = pngs.length
+  const total = assets.length
   const width = String(total).length
 
-  for (let i = 0; i < pngs.length; i++) {
-    const absPath = pngs[i]
+  for (let i = 0; i < assets.length; i++) {
+    const absPath = assets[i]
     const label = toStorageKey(absPath)
     process.stdout.write(`  [${String(i + 1).padStart(width)}/${total}] ${label} … `)
 

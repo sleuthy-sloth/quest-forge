@@ -1,11 +1,12 @@
 // src/components/ui/PixelButton.tsx
 import React from 'react'
+import { spriteUrl } from '@/lib/sprites/manifest'
 
 const SPRITE_MAP = {
-  primary:   { n: '/sprites/ui/9-Slice/Colored/yellow.png',  p: '/sprites/ui/9-Slice/Colored/yellow_pressed.png'  },
-  secondary: { n: '/sprites/ui/9-Slice/Colored/grey.png',    p: '/sprites/ui/9-Slice/Colored/grey_pressed.png'    },
-  danger:    { n: '/sprites/ui/9-Slice/Colored/red.png',     p: '/sprites/ui/9-Slice/Colored/red_pressed.png'     },
-  success:   { n: '/sprites/ui/9-Slice/Colored/green.png',   p: '/sprites/ui/9-Slice/Colored/green_pressed.png'   },
+  primary:   { n: spriteUrl('ui/9-Slice/Colored/yellow.png'),  p: spriteUrl('ui/9-Slice/Colored/yellow_pressed.png')  },
+  secondary: { n: spriteUrl('ui/9-Slice/Colored/grey.png'),    p: spriteUrl('ui/9-Slice/Colored/grey_pressed.png')    },
+  danger:    { n: spriteUrl('ui/9-Slice/Colored/red.png'),     p: spriteUrl('ui/9-Slice/Colored/red_pressed.png')     },
+  success:   { n: spriteUrl('ui/9-Slice/Colored/green.png'),   p: spriteUrl('ui/9-Slice/Colored/green_pressed.png')   },
 } as const
 
 // borderSlice: unitless integer for CSS border-image-slice (e.g. "14")

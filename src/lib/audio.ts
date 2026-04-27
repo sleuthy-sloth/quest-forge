@@ -5,10 +5,14 @@ export type BgmTrack = 'hub' | 'academy' | 'boss'
 export type SfxName  = 'victory' | 'coin' | 'attack' | 'click' | 'purchase'
 
 // ── URL resolver ──────────────────────────────────────────────
-const BASE = (process.env.NEXT_PUBLIC_SPRITE_BASE_URL ?? '').replace(/\/$/, '')
+// Uses the same base URL as sprite assets — audio files now live under
+// /sprites/audio/ alongside sprite subdirectories.  In production this
+// resolves to Supabase Storage; locally it falls back to /sprites served
+// from public/sprites/ via Next.js.
+const BASE = (process.env.NEXT_PUBLIC_SPRITE_BASE_URL ?? '/sprites').replace(/\/$/, '')
 
 function audioUrl(filename: string): string {
-  return `${BASE}/audio/${filename}`
+  return `${BASE}/audio/${filename.replace(/^\//, '')}`
 }
 
 // ── Track configs ─────────────────────────────────────────────
@@ -159,13 +163,20 @@ export function initAudio(): void {
     })
   }
 
-  // Pre-create all Howl instances
+  // Pre-create all Howl instances — unload any previous instances first
+  // to avoid accumulating <audio> elements (which triggers the "pool
+  // exhausted" warning in Howler).
   for (const track of Object.keys(BGM_FILES) as BgmTrack[]) {
+    const prev = bgmInstances[track]
+    if (prev) {
+      try { prev.unload() } catch { /* already gone */ }
+    }
     bgmInstances[track] = new Howl({
       src: [audioUrl(BGM_FILES[track])],
       loop: true,
       volume: 0,
       html5: true,
+      pool: 1,
       preload: true,
       onloaderror: (_id: number, err: unknown) => {
         console.warn(`[audio] MP3 unavailable for "${track}":`, err)
@@ -207,9 +218,17 @@ export function initAudio(): void {
 const CROSSFADE_DURATION = 1500 // ms
 
 export function playBgm(track: BgmTrack): void {
-  // Auto-initialize if first call happens before any user interaction
+  // If the user hasn't interacted yet, use the procedural oscillator
+  // fallback — no Howl instances exist until initAudio() is called from
+  // a user gesture, and we don't want to force-init here (browsers would
+  // suspend the AudioContext anyway).
   if (!unlocked) {
-    initAudio()
+    // Stop any previous procedural track silently.
+    stopProceduralBgm()
+    startProceduralBgm(track)
+    currentBgm = track
+    currentBgmId = null
+    return
   }
 
   const howl = bgmInstances[track]

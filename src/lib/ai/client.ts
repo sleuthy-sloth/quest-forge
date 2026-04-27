@@ -20,7 +20,7 @@ export const geminiModel = geminiClient
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
-export const PRIMARY_MODEL = 'meta-llama/llama-3.1-8b-instruct:free'
+export const OPENROUTER_MODEL = 'nvidia/nemotron-3-super-120b-a12b:free'
 
 // ── Core generation function ────────────────────────────────────────────────
 
@@ -32,8 +32,15 @@ export interface GenerationPrompt {
 }
 
 /**
- * Generates text using Gemini Flash (primary) with OpenRouter fallback.
- * Returns null if both providers fail or are unavailable.
+ * Generates text using OpenRouter Nemotron (primary) with Gemini Flash
+ * fallback.  Returns null if both providers fail or are unavailable.
+ *
+ * **Provider rationale:**
+ * - OpenRouter Nemotron (`nvidia/nemotron-3-super-120b-a12b:free`) is the
+ *   primary because its free tier has higher rate limits than Gemini's.
+ * - Gemini 2.0 Flash (free tier: 1,500 req/day) acts as the secondary.
+ * - The app-level daily rate limiter (`canMakeRequest` / `incrementUsage`)
+ *   guards the combined budget.
  */
 export async function generateWithFallback(
   prompt: GenerationPrompt
@@ -41,7 +48,40 @@ export async function generateWithFallback(
   const maxTokens = prompt.maxTokens ?? 200
   const temperature = prompt.temperature ?? 0.85
 
-  // Primary: Gemini Flash
+  // ── Primary: OpenRouter (Nemotron) ─────────────────────────────────────────
+  if (openRouterClient) {
+    try {
+      const response = await openRouterClient.chat.completions.create({
+        model: OPENROUTER_MODEL,
+        messages: [
+          { role: 'system', content: prompt.system },
+          { role: 'user', content: prompt.user },
+        ],
+        max_tokens: maxTokens,
+        temperature,
+      })
+      const text = response.choices[0]?.message?.content?.trim()
+      if (text) {
+        console.log(`[ai] OpenRouter (${OPENROUTER_MODEL}) served the request`)
+        return text
+      }
+      console.warn('[ai] OpenRouter returned empty response, trying Gemini')
+    } catch (err: unknown) {
+      const status = (err as { status?: number }).status
+      if (status === 404) {
+        console.warn(
+          `[ai] OpenRouter model "${OPENROUTER_MODEL}" not found (404). ` +
+          `Check the model slug at https://openrouter.ai/models`,
+        )
+      } else {
+        console.warn('[ai] OpenRouter failed:', err)
+      }
+    }
+  } else {
+    console.warn('[ai] OPENROUTER_API_KEY not set — skipping OpenRouter')
+  }
+
+  // ── Fallback: Gemini Flash ─────────────────────────────────────────────────
   if (geminiModel) {
     try {
       const result = await geminiModel.generateContent({
@@ -55,40 +95,15 @@ export async function generateWithFallback(
       })
       const text = result.response.text().trim()
       if (text) {
-        console.log('[ai] gemini-2.0-flash served the request')
+        console.log('[ai] gemini-2.0-flash served the request (fallback)')
         return text
       }
-      console.warn('[ai] Gemini returned empty response, trying OpenRouter')
+      console.warn('[ai] Gemini returned empty response')
     } catch (err) {
-      console.warn('[ai] Gemini failed:', err)
+      console.warn('[ai] Gemini fallback failed:', err)
     }
   } else {
-    console.warn('[ai] GEMINI_API_KEY not set — skipping Gemini')
-  }
-
-  // Fallback: OpenRouter
-  if (openRouterClient) {
-    try {
-      const response = await openRouterClient.chat.completions.create({
-        model: PRIMARY_MODEL,
-        messages: [
-          { role: 'system', content: prompt.system },
-          { role: 'user', content: prompt.user },
-        ],
-        max_tokens: maxTokens,
-        temperature,
-      })
-      const text = response.choices[0]?.message?.content?.trim()
-      if (text) {
-        console.log(`[ai] OpenRouter (${PRIMARY_MODEL}) served the request`)
-        return text
-      }
-      console.warn('[ai] OpenRouter returned empty response')
-    } catch (err) {
-      console.warn('[ai] OpenRouter fallback failed:', err)
-    }
-  } else {
-    console.warn('[ai] OPENROUTER_API_KEY not set — no fallback available')
+    console.warn('[ai] GEMINI_API_KEY not set — no fallback')
   }
 
   return null

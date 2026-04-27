@@ -163,41 +163,23 @@ function resolveUrl(
   let path = (male && entry.pathMale) ? entry.pathMale : entry.path
 
   if (path.includes('{color}')) {
-    const namedVariant =
-      color && !color.startsWith('#') ? color : null
-
-    if (namedVariant && entry.colorVariants?.includes(namedVariant)) {
-      // Direct hit — variant file is guaranteed to exist.
-      path = path.replace('{color}', namedVariant)
-    } else {
-      // Named variant not in the manifest list, OR color is a hex string.
-      // Try the literal `{color}` replacement first in case the artist
-      // shipped a hex-style filename (e.g. `#8B4513.png`).
-      let candidate = path.replace('{color}', namedVariant ?? '')
-
-      if (!namedVariant || !entry.colorVariants?.includes(namedVariant)) {
-        // Fall back to 'base' for this color slot.
-        const basePath = path.replace('{color}', 'base')
-        if (typeof window !== 'undefined') {
-          // We can't synchronously check the filesystem, but we can record
-          // the candidate so loadImg treats a 404 as "try next fallback".
-          candidate = basePath
-        }
-      }
-
-      path = candidate
-    }
-
-    // If path is still a template literal (replacement failed), use first variant.
-    if (path.includes('{color}')) {
+    if (color && color.startsWith('#')) {
+      // Hex color — the render-time hexTint pipeline will recolor the
+      // sprite via recolorToHue().  Use the first named variant as the
+      // source image so we don't need a non-existent "base.png".
       const fallback = entry.colorVariants?.[0] ?? null
       if (!fallback) return null
       path = path.replace('{color}', fallback)
-      if (process.env.NODE_ENV !== 'production') {
-        console.warn(
-          `[sprite-compositor] Color variant lookup failed for "${layerId}" ` +
-          `with color "${color}". Falling back to "${fallback}".`,
-        )
+    } else {
+      // Named variant (or no color at all) — resolve to the actual file.
+      const namedVariant = color ?? null
+      if (namedVariant && entry.colorVariants?.includes(namedVariant)) {
+        path = path.replace('{color}', namedVariant)
+      } else {
+        // Unknown named variant, or no color set → use the first variant.
+        const fallback = entry.colorVariants?.[0] ?? null
+        if (!fallback) return null
+        path = path.replace('{color}', fallback)
       }
     }
   }
