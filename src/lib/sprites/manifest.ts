@@ -662,8 +662,8 @@ export const SPRITE_MANIFEST = {
       id: 'plate_boots',
       displayName: 'Plate Sabatons',
       category: 'boots',
-      path: 'clothing/feet/armour/plate/female/{color}.png',
-      pathMale: 'clothing/feet/armour/plate/male/{color}.png',
+      path: 'clothing/feet/plate_boots/female/{color}.png',
+      pathMale: 'clothing/feet/plate_boots/male/{color}.png',
       colorVariants: METAL_COLORS,
       bodyType: 'universal',
     },
@@ -790,14 +790,6 @@ export const SPRITE_MANIFEST = {
       pathMale: 'weapons/male/shield/1.png',
       bodyType: 'universal',
     },
-    shield_kite: {
-      id: 'shield_kite',
-      displayName: 'Kite Shield',
-      category: 'shield',
-      path: 'weapons/female/shield/2.png',
-      pathMale: 'weapons/male/shield/2.png',
-      bodyType: 'universal',
-    },
   } satisfies Record<string, SpriteEntry>,
 
 } satisfies SpriteManifest
@@ -875,38 +867,6 @@ export function hairUrl(style: HairStyle, variant: HairVariant): string {
   return spriteUrl(`hair/hair/${style}/${variant}.png`)
 }
 
-export const CLOTHING = {
-  torso: {
-    plate_male:       spriteUrl('clothing/torso/armour/plate/male.png'),
-    plate_female:     spriteUrl('clothing/torso/armour/plate/female.png'),
-    leather_male:     spriteUrl('clothing/torso/armour/leather/male.png'),
-    leather_female:   spriteUrl('clothing/torso/armour/leather/female.png'),
-    legion_male:      spriteUrl('clothing/torso/armour/legion/male.png'),
-    legion_female:    spriteUrl('clothing/torso/armour/legion/female.png'),
-    chainmail_male:   spriteUrl('clothing/torso/chainmail/male.png'),
-    chainmail_female: spriteUrl('clothing/torso/chainmail/female.png'),
-  },
-  legs: {
-    plate_male:   spriteUrl('clothing/legs/armour/plate/male.png'),
-    plate_female: spriteUrl('clothing/legs/armour/plate/female.png'),
-  },
-  feet: {
-    boots_male:     spriteUrl('clothing/feet/boots/male.png'),
-    boots_female:   spriteUrl('clothing/feet/boots/female.png'),
-    shoes_male:     spriteUrl('clothing/feet/shoes/male.png'),
-    shoes_female:   spriteUrl('clothing/feet/shoes/female.png'),
-    sandals_male:   spriteUrl('clothing/feet/sandals/male.png'),
-    sandals_female: spriteUrl('clothing/feet/sandals/female.png'),
-  },
-} as const
-
-export const WEAPONS = {
-  slash_male:      spriteUrl('weapons/male/slash.png'),
-  thrust_male:     spriteUrl('weapons/male/thrust.png'),
-  bigslash_male:   spriteUrl('weapons/male/bigslash.png'),
-  shield_male:     spriteUrl('weapons/male/shield.png'),
-  slash_female:    spriteUrl('weapons/female/slash.png'),
-  thrust_female:   spriteUrl('weapons/female/thrust.png'),
-  bigslash_female: spriteUrl('weapons/female/bigslash.png'),
-  shield_female:   spriteUrl('weapons/female/shield.png'),
-} as const
+// CLOTHING and WEAPONS legacy exports were removed because every path was
+// wrong (mismatched directory structure) and nothing imported them.
+// Use the SPRITE_MANIFEST or direct spriteUrl() calls instead.
