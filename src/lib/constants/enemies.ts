@@ -25,8 +25,9 @@ import type { AvatarConfig } from '@/types/avatar'
 
 /**
  * Default avatar config shown when a player has no avatar_config saved yet.
- * Uses an anonymous hooded figure so the placeholder is still recognisable
- * as a character silhouette. Matches the fallback in AvatarPreview.
+ * Renders a generic character silhouette with basic clothing and hair
+ * so the placeholder is still recognisable. Matches the fallback in
+ * AvatarPreview.
  */
 export const DEFAULT_AVATAR_CONFIG: AvatarConfig = {
   body:   { id: 'body_female', color: null },

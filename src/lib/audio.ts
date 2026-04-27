@@ -2,7 +2,7 @@ import { Howl, Howler } from 'howler'
 
 // ── Types ─────────────────────────────────────────────────────
 export type BgmTrack = 'hub' | 'academy' | 'boss'
-export type SfxName  = 'victory' | 'coin' | 'attack' | 'click' | 'purchase'
+export type SfxName  = 'victory' | 'coin' | 'attack' | 'click'
 
 // ── URL resolver ──────────────────────────────────────────────
 // Uses the same base URL as sprite assets — audio files now live under
@@ -27,7 +27,6 @@ const SFX_FILES: Record<SfxName, string> = {
   coin:     'sfx_coin.mp3',
   attack:   'sfx_attack.mp3',
   click:    'sfx_click.mp3',
-  purchase: 'sfx_purchase.mp3',
 }
 
 // ── Singleton state ───────────────────────────────────────────
@@ -35,7 +34,7 @@ let unlocked = false
 let currentBgm: BgmTrack | null = null
 let currentBgmId: number | null = null
 let bgmInstances: Record<BgmTrack, Howl | null> = { hub: null, academy: null, boss: null }
-let sfxInstances: Record<SfxName, Howl | null> = { victory: null, coin: null, attack: null, click: null, purchase: null }
+let sfxInstances: Record<SfxName, Howl | null> = { victory: null, coin: null, attack: null, click: null }
 let globalMuted = false
 
 // ── Procedural audio fallback ─────────────────────────────────
@@ -344,7 +343,7 @@ export function _reset(): void {
   currentBgm = null
   currentBgmId = null
   bgmInstances = { hub: null, academy: null, boss: null }
-  sfxInstances = { victory: null, coin: null, attack: null, click: null, purchase: null }
+  sfxInstances = { victory: null, coin: null, attack: null, click: null }
   globalMuted = false
   if (audioCtx) {
     audioCtx.close().catch(() => {})

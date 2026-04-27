@@ -164,10 +164,7 @@ export async function generateEduChallenges(
   ageTier: AgeTier,
   count = 10,
 ): Promise<GeneratedQuestion[] | null> {
-  if (process.env.AI_RATE_LIMIT_BYPASS === 'true') {
-    console.log('[edu] AI rate limiter bypassed via AI_RATE_LIMIT_BYPASS')
-  } else if (!(await canMakeRequest())) {
-    console.warn('[edu] AI request denied by rate limiter')
+  if (!(await canMakeRequest())) {
     return null
   }
 
@@ -182,7 +179,6 @@ export async function generateEduChallenges(
     console.warn(`[edu] AI providers returned no text for ${subject}/${ageTier}`)
     return null
   }
-  console.log(`[edu] AI response received (${raw.length} chars) for ${subject}/${ageTier}`)
 
   const parsed = tryParseJson(raw)
   if (!parsed || !Array.isArray((parsed as { questions: unknown }).questions)) {

@@ -65,7 +65,6 @@ export async function generateWithFallback(
       } else {
         const text = response.choices[0]?.message?.content?.trim()
         if (text) {
-          console.log(`[ai] OpenRouter (${OPENROUTER_MODEL}) served the request`)
           return text
         }
         console.warn('[ai] OpenRouter returned empty response, trying Gemini')
@@ -99,7 +98,6 @@ export async function generateWithFallback(
       })
       const text = result.response.text().trim()
       if (text) {
-        console.log('[ai] gemini-2.0-flash served the request (fallback)')
         return text
       }
       console.warn('[ai] Gemini returned empty response')

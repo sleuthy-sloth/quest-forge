@@ -269,7 +269,7 @@ export const useQuestStore = create<QuestState>((set, get) => ({
       return false
     }
 
-    playSfx('purchase')
+    playSfx('coin')
     return true
   },
 
@@ -317,7 +317,7 @@ export const useQuestStore = create<QuestState>((set, get) => ({
       return false
     }
 
-    playSfx('purchase')
+    playSfx('coin')
     return true
   },
 
