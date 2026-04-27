@@ -210,13 +210,10 @@ export function resolveLayerUrls(
     if (entry?.bodyType && entry.bodyType !== 'universal') {
       const isMaleEntry = entry.bodyType === 'male'
       if (isMaleEntry !== male) {
-        if (process.env.NODE_ENV !== 'production') {
-          console.warn(
-            `[sprite-compositor] Skipping layer "${layer.id}" ` +
-            `(bodyType: ${entry.bodyType}) — does not match body type ` +
-            `"${male ? 'male' : 'female'}".`,
-          )
-        }
+        console.warn(
+        `[sprite] Skipping layer "${layer.id}" (bodyType: ${entry.bodyType}) — ` +
+        `does not match body type "${male ? 'male' : 'female'}".`,
+      )
         continue
       }
     }
@@ -432,12 +429,7 @@ export function compositeLayer(
       recolorToHue(imageData.data, hexTint)
       ctx.putImageData(imageData, 0, 0)
     } catch (err) {
-      if (process.env.NODE_ENV !== 'production') {
-        console.warn(
-          `[sprite-compositor] Tinting failed for layer, drawing untinted:`,
-          err,
-        )
-      }
+      console.warn(`[sprite] Tinting failed for layer, drawing untinted:`, err)
     }
   }
 

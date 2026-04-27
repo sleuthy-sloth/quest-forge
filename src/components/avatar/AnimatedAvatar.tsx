@@ -358,6 +358,7 @@ export default function AnimatedAvatar({
     idleFramesReadyRef.current = false
 
     async function buildFrames() {
+      console.log(`[AnimatedAvatar] buildFrames start, instanceId=${instanceId}`)
       const frames: HTMLCanvasElement[] = []
       let frameFailures = 0
 
@@ -404,6 +405,7 @@ export default function AnimatedAvatar({
 
       idleFramesRef.current = frames
       idleFramesReadyRef.current = true
+      console.log(`[AnimatedAvatar] buildFrames done: ${frames.length} frames, idleReady=${idleFramesReadyRef.current}`)
       setLoaded(true)
     }
 
@@ -419,6 +421,11 @@ export default function AnimatedAvatar({
     }
   }, [configKey]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // ── Canvas mount diagnostic ─────────────────────────────────────────────
+  useEffect(() => {
+    console.log(`[AnimatedAvatar] canvas mounted: ${canvasRef.current ? `${canvasRef.current.width}x${canvasRef.current.height}` : 'null'}`)
+  }, [])
+
   // ── Phase 2: rAF animation loop (idle + attack) ──────────────────────────
   useEffect(() => {
     const instanceId = ++instanceIdRef.current
@@ -430,6 +437,8 @@ export default function AnimatedAvatar({
 
     ctx.imageSmoothingEnabled = false
     if (!idleFramesReadyRef.current) return
+
+    console.log(`[AnimatedAvatar] rAF effect started, instanceId=${instanceId}, canvas=${canvas.width}x${canvas.height}, idleFrames=${idleFramesRef.current.length}`)
 
     // ── Reduced motion check ────────────────────────────────────────────────
     const prefersReducedMotion =
@@ -470,6 +479,10 @@ export default function AnimatedAvatar({
 
     /** Advance one frame on the display canvas. */
     function drawFrame(state: 'idle' | 'attacking', idx: number) {
+      if (!hasInitializedRef.current) {
+        console.log(`[AnimatedAvatar] drawFrame first call: state=${state}, idx=${idx}`)
+      }
+
       const src = state === 'attacking' && attackFramesRef.current
         ? attackFramesRef.current
         : idleFramesRef.current
@@ -477,6 +490,10 @@ export default function AnimatedAvatar({
       if (!src || idx >= src.length) return
       ctx!.clearRect(0, 0, CELL, CELL)
       ctx!.drawImage(src[idx], 0, 0)
+
+      // Diagnostic bright pink block at top-right corner — visible if canvas draws at all.
+      ctx!.fillStyle = '#ff00ff'
+      ctx!.fillRect(56, 0, 8, 8)
       // Diagnostic: verify pixels were actually drawn.
       try {
         const id = ctx!.getImageData(0, 0, CELL, CELL)
