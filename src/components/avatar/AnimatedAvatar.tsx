@@ -8,7 +8,6 @@ import {
   ATTACK_ACTION,
   LPC_ACTION_DEFAULT_ROWS,
   LPC_WALK_COLS,
-  LPC_WALK_DOWN_ROW,
   LPC_IDLE_INTERVAL_MS,
   LPC_ATTACK_INTERVAL_MS,
   LPC_AUTO_ATTACK_MS,
@@ -367,7 +366,7 @@ export default function AnimatedAvatar({
 
         try {
           const frame = await compositeAvatar(config, {
-            frame: { col, row: LPC_WALK_DOWN_ROW },
+            frame: { col },
           })
 
           if (cancelledRef.current || instanceId !== instanceIdRef.current) return

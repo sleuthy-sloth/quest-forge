@@ -101,7 +101,7 @@ export interface LoadedLayer {
 
 export interface FramePosition {
   col: number
-  row: number
+  row?: number
 }
 
 export interface CompositeOptions {

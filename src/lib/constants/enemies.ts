@@ -60,7 +60,7 @@ export const ENEMY_PRESETS: Record<string, EncounterConfig> = {
       cape:   NO_LAYER,
       helmet: NO_LAYER,
       weapon: L('longsword'),
-      shield: L('shield_kite'),
+      shield: L('shield_round'),
     } satisfies AvatarConfig,
   },
 
