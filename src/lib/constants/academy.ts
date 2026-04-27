@@ -5,6 +5,8 @@
  * This is the single source of truth for the game catalog and age-tier logic.
  */
 
+import type { AnimationPreset } from '@/lib/constants/lpc-animations'
+
 // ── Game catalog ──────────────────────────────────────────────────────────────
 
 export const GAMES = [
@@ -78,4 +80,74 @@ export const XP_RANGE: Record<AgeTier, string> = {
 export const TIER_LABEL: Record<AgeTier, string> = {
   junior: '✦ JUNIOR',
   senior: '✦ SENIOR',
+}
+
+// ── Animation preset mapping ──────────────────────────────────────────────────
+
+/**
+ * Maps a player's narrative class (avatar_class) to the LPC animation preset
+ * that determines the attack animation (slash / thrust / cast).
+ *
+ * Used by BattleArena to decide which attack animation to play when the
+ * player answers a question correctly.
+ */
+export const CLASS_TO_PRESET: Record<string, AnimationPreset> = {
+  blazewarden: 'warrior',
+  lorescribe:  'mage',
+  shadowstep:  'rogue',
+  hearthkeeper:'scholar',
+  stormcaller: 'mage',
+  ironvow:     'warrior',
+}
+
+/**
+ * Derive the LPC animation preset from a player's avatar_class.
+ * Falls back to `'warrior'` for unknown or null classes.
+ */
+export function derivePlayerPreset(avatarClass: string | null | undefined): AnimationPreset {
+  return CLASS_TO_PRESET[avatarClass ?? ''] ?? 'warrior'
+}
+
+/**
+ * Maps an academy subject name to the corresponding enemy preset slug.
+ * Used by QuizInterface to select the correct EncounterConfig.
+ */
+export const SUBJECT_TO_SLUG: Record<string, string> = {
+  reading:    'reading-tome',
+  vocabulary: 'vocab-duel',
+  history:    'history-scroll',
+  logic:      'logic-gate',
+  math:       'math-arena',
+  word:       'word-forge',
+  science:    'science-labyrinth',
+}
+
+// ── Enemy animation preset mapping ────────────────────────────────────────────
+
+/**
+ * Maps each game slug to the animation preset for its enemy.
+ * Determines the attack action (slash / thrust / cast) used by the
+ * enemy's AnimatedAvatar during battle.
+ *
+ * Previously defined inline in EncounterCard; extracted here as the
+ * single source of truth so game components can reference it too.
+ *
+ * | Slug                | Preset    | Attack  | Enemy theme                 |
+ * |---------------------|-----------|---------|-----------------------------|
+ * | math-arena          | warrior   | slash   | Armored, longsword          |
+ * | word-forge          | warrior   | slash   | Leather, sword              |
+ * | science-labyrinth   | scholar   | slash   | Hood, spear                 |
+ * | reading-tome        | mage      | cast    | Robes, spellcaster          |
+ * | history-scroll      | warrior   | slash   | Sword, tattered cape        |
+ * | vocab-duel          | mage      | cast    | Robes, crown, spellcaster   |
+ * | logic-gate          | warrior   | slash   | Plate, sword + shield       |
+ */
+export const SLUG_PRESET: Record<string, AnimationPreset> = {
+  'math-arena':        'warrior',
+  'word-forge':        'warrior',
+  'science-labyrinth': 'scholar',
+  'reading-tome':      'mage',
+  'history-scroll':    'warrior',
+  'vocab-duel':        'mage',
+  'logic-gate':        'warrior',
 }

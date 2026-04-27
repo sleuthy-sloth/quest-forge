@@ -3,7 +3,10 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAcademy } from '@/hooks/useAcademy'
-import AvatarPreview from '@/components/avatar/AvatarPreview'
+import BattleArena, { type BattleArenaHandle } from '@/components/games/BattleArena'
+import { ENEMY_PRESETS } from '@/lib/constants/enemies'
+import { SUBJECT_TO_SLUG, SLUG_PRESET } from '@/lib/constants/academy'
+import type { AvatarConfig } from '@/types/avatar'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -23,6 +26,8 @@ interface Props {
   /** Player display info for the arena bar. */
   avatarConfig?: Record<string, unknown> | null
   displayName?: string
+  /** Animation preset derived from the player's avatar_class. */
+  playerPreset?: import('@/lib/constants/lpc-animations').AnimationPreset
   /** Called after the results screen renders. */
   onComplete?: () => void
 }
@@ -48,6 +53,7 @@ export default function QuizInterface({
   avatarConfig,
   displayName,
   onComplete,
+  playerPreset = 'warrior',
 }: Props) {
   const router = useRouter()
   const {
@@ -71,6 +77,14 @@ export default function QuizInterface({
   const [chosenWrong, setChosenWrong] = useState<string | null>(null)
   const [flash, setFlash] = useState<Flash>(null)
   const [submissionError, setSubmissionError] = useState(false)
+
+  // Battle arena ref for triggering attack animations
+  const arenaRef = useRef<BattleArenaHandle>(null)
+
+  // Resolve enemy config from the subject prop
+  const enemySlug = subject ? SUBJECT_TO_SLUG[subject] ?? 'reading-tome' : 'reading-tome'
+  const enemy = ENEMY_PRESETS[enemySlug] ?? ENEMY_PRESETS['reading-tome']
+  const enemyPreset = SLUG_PRESET[enemySlug] ?? 'warrior'
 
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([])
   function addTimer(id: ReturnType<typeof setTimeout>) {
@@ -134,6 +148,7 @@ export default function QuizInterface({
     if (isCorrect) {
       setFeedback('correct')
       setFlash('green')
+      arenaRef.current?.triggerPlayerAttack()
 
       addTimer(setTimeout(() => setFlash(null), 350))
 
@@ -155,6 +170,7 @@ export default function QuizInterface({
       setFeedback('wrong')
       setChosenWrong(option)
       setFlash('red')
+      arenaRef.current?.triggerEnemyAttack()
 
       addTimer(setTimeout(() => setFlash(null), 350))
 
@@ -413,154 +429,22 @@ export default function QuizInterface({
       `}</style>
 
       <div className="px-4 pt-4 pb-8" style={{ maxWidth: '480px', margin: '0 auto' }}>
-        {/* ── Arena bar ──────────────────────────────────────────────────── */}
-        <div
-          style={{
-            position: 'relative',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            background: 'linear-gradient(180deg,#0d0f1c,#070910)',
-            border: '1px solid rgba(196,58,0,0.2)',
-            borderLeft: '3px solid #c43a00',
-            borderRadius: '3px',
-            padding: '10px',
-            marginBottom: '12px',
-            overflow: 'hidden',
-          }}
-        >
-          {/* Flash overlay */}
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              pointerEvents: 'none',
-              background:
-                flash === 'green'
-                  ? 'rgba(46,184,92,0.25)'
-                  : flash === 'red'
-                  ? 'rgba(224,85,85,0.25)'
-                  : 'transparent',
-              transition: 'background 0.1s',
-              zIndex: 10,
-            }}
-          />
-
-          {/* Left: Player */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px', flexShrink: 0 }}>
-            <AvatarPreview avatarConfig={avatarConfig} size={64} />
-            <div
-              style={{
-                fontFamily: 'var(--font-pixel)',
-                fontSize: '5px',
-                color: '#c9a84c',
-                maxWidth: '64px',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {displayName ?? 'Hero'}
-            </div>
-            {/* Player HP bar (cosmetic) */}
-            <div style={{ width: '64px', height: '5px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px', overflow: 'hidden' }}>
-              <div style={{ height: '100%', width: '100%', background: 'linear-gradient(90deg,#2eb85c,#5aab6e)', borderRadius: '2px' }} />
-            </div>
-          </div>
-
-          {/* Center: VS + pips + counter */}
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <div
-                style={{
-                  fontFamily: 'var(--font-pixel)',
-                  fontSize: '7px',
-                  color: '#c43a00',
-                  background: 'rgba(196,58,0,0.12)',
-                  border: '1px solid rgba(196,58,0,0.3)',
-                  borderRadius: '2px',
-                  padding: '3px 6px',
-                }}
-              >
-                VS
-              </div>
-              {source && (
-                <div
-                  title={
-                    source === 'ai'
-                      ? 'Questions generated by AI'
-                      : source === 'db'
-                      ? 'Questions from the seeded library'
-                      : 'Offline fallback questions'
-                  }
-                  style={{
-                    fontFamily: 'var(--font-pixel)', fontSize: '5px',
-                    color:
-                      source === 'ai' ? '#7c4dff' :
-                      source === 'db' ? '#2eb85c' : '#7a6a44',
-                    background: 'rgba(255,255,255,0.04)',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    borderRadius: '2px', padding: '2px 4px',
-                    letterSpacing: '1px',
-                  }}
-                >
-                  {source.toUpperCase()}
-                </div>
-              )}
-            </div>
-            {/* Score pips */}
-            <div style={{ display: 'flex', gap: '3px' }}>
-              {Array.from({ length: 10 }, (_, i) => (
-                <div
-                  key={i}
-                  style={{
-                    width: '7px',
-                    height: '7px',
-                    borderRadius: '1px',
-                    background: i < correctCount ? '#c9a84c' : 'transparent',
-                    border: `1px solid ${i < correctCount ? '#c9a84c' : 'rgba(201,168,76,0.3)'}`,
-                  }}
-                />
-              ))}
-            </div>
-            <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '5px', color: '#7a6a44' }}>
-              Q{questionIndex + 1} / 10
-            </div>
-          </div>
-
-          {/* Right: Scroll target */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px', flexShrink: 0 }}>
-            <div
-              style={{
-                width: '64px',
-                height: '64px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                background: 'linear-gradient(135deg,#1a1208,#2e1c0a)',
-                border: '2px solid rgba(196,58,0,0.4)',
-                borderRadius: '2px',
-              }}
-            >
-              <span style={{ fontSize: '28px', opacity: 0.6 }}>📜</span>
-            </div>
-            <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '5px', color: '#c43a00' }}>
-              QUIZ
-            </div>
-            {/* Opponent HP bar — depletes with correct answers */}
-            <div style={{ width: '64px', height: '5px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px', overflow: 'hidden' }}>
-              <div
-                style={{
-                  height: '100%',
-                  borderRadius: '2px',
-                  width: `${Math.max(0, (10 - correctCount) / 10 * 100)}%`,
-                  background: 'linear-gradient(90deg,#e05555,#ff7070)',
-                  transition: 'width 0.3s ease',
-                }}
-              />
-            </div>
-          </div>
-        </div>
+        {/* ── Battle arena ── */}
+        <BattleArena
+          ref={arenaRef}
+          playerConfig={(avatarConfig ?? {}) as unknown as AvatarConfig}
+          playerPreset={playerPreset}
+          playerDisplayName={displayName ?? 'Hero'}
+          enemy={enemy}
+          enemyPreset={enemyPreset}
+          correctCount={correctCount}
+          questionIndex={questionIndex}
+          totalQuestions={10}
+          questionSource={source}
+          screenFlash={flash}
+          playerSize={64}
+          enemySize={64}
+        />
 
         {/* ── Question card ──────────────────────────────────────────────── */}
         <div

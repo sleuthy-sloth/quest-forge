@@ -77,6 +77,28 @@ interface AnimatedAvatarProps {
    * in a fallback silhouette instead of an infinite skeleton.
    */
   onFramesError?: () => void
+
+  /**
+   * On-demand attack trigger.  Increment this number to fire one
+   * attack burst immediately (uses `animationPreset` to determine
+   * the attack action).  Ignored while already attacking or when
+   * `animationPreset` is not set.
+   *
+   * Used by BattleArena to synchronise attacks with quiz answers:
+   *   - Correct answer → increment to trigger player's attack
+   *   - Wrong answer   → increment to trigger enemy's attack
+   *
+   * Compatible with `autoAttack` — both can be active at once;
+   * external triggers and the periodic timer are independent.
+   *
+   * @example
+   * const [attackTick, setAttackTick] = useState(0)
+   * // On correct answer:
+   * setAttackTick(t => t + 1)
+   * // Pass to AnimatedAvatar:
+   * <AnimatedAvatar attackTrigger={attackTick} ... />
+   */
+  attackTrigger?: number
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
@@ -132,6 +154,7 @@ export default function AnimatedAvatar({
   animationPreset,
   onFramesReady,
   onFramesError,
+  attackTrigger,
 }: AnimatedAvatarProps) {
   const canvasRef          = useRef<HTMLCanvasElement>(null)
   const rafRef             = useRef<number>(0)
@@ -155,6 +178,12 @@ export default function AnimatedAvatar({
   /** Gates auto-attack until at least one idle frame has been rendered. */
   const hasInitializedRef       = useRef(false)
 
+  /**
+   * Tracks the previous `attackTrigger` prop value so the on-demand
+   * attack effect can detect increments and fire one attack burst.
+   */
+  const prevAttackTriggerRef = useRef(attackTrigger)
+
   // ── Strict Mode + lifecycle safety ─────────────────────────────────────────
   /** Incremented on each effect invocation to discard stale async completions. */
   const instanceIdRef           = useRef(0)
@@ -170,6 +199,24 @@ export default function AnimatedAvatar({
   useEffect(() => {
     if (loaded && onFramesReady) onFramesReady()
   }, [loaded, onFramesReady])
+
+  // ── On-demand attack trigger ─────────────────────────────────────────────
+  /**
+   * Watches the `attackTrigger` prop for increments and fires one attack
+   * burst per increment via `triggerAttack()`.
+   *
+   * Guarded by `loaded` (idle frames must be ready) and `animationPreset`
+   * (must know the attack action).  If the avatar is already attacking,
+   * `triggerAttack()` silently ignores the call.
+   */
+  useEffect(() => {
+    if (!loaded || !animationPreset) return
+    if (attackTrigger === prevAttackTriggerRef.current) return
+
+    prevAttackTriggerRef.current = attackTrigger
+    triggerAttack(ATTACK_ACTION[animationPreset], instanceIdRef.current)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [attackTrigger, loaded, animationPreset])
 
   // Stable key so pre-composition re-runs only when the config shape changes.
   const configKey = useMemo(() => JSON.stringify(config), [config])

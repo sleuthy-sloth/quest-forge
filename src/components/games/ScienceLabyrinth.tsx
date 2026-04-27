@@ -3,7 +3,11 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import AvatarPreview from '@/components/avatar/AvatarPreview'
+import BattleArena, { type BattleArenaHandle } from '@/components/games/BattleArena'
+import { ENEMY_PRESETS } from '@/lib/constants/enemies'
+import { SLUG_PRESET } from '@/lib/constants/academy'
+import type { AnimationPreset } from '@/lib/constants/lpc-animations'
+import type { AvatarConfig } from '@/types/avatar'
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -33,6 +37,8 @@ interface Props {
   playerId: string
   avatarConfig: Record<string, unknown> | null
   displayName: string
+  /** Animation preset derived from the player's avatar_class. */
+  playerPreset?: AnimationPreset
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
@@ -91,6 +97,7 @@ export default function ScienceLabyrinth({
   playerId,
   avatarConfig,
   displayName,
+  playerPreset = 'warrior',
 }: Props) {
   const router = useRouter()
   const supabase = useMemo(() => createClient(), [])
@@ -117,6 +124,13 @@ export default function ScienceLabyrinth({
   // Results state
   const [xpEarned, setXpEarned] = useState(0)
   const [saveError, setSaveError] = useState(false)
+
+  // Battle arena ref for triggering attack animations
+  const arenaRef = useRef<BattleArenaHandle>(null)
+
+  // Enemy config for this game
+  const enemy = ENEMY_PRESETS['science-labyrinth']
+  const enemyPreset = SLUG_PRESET['science-labyrinth'] ?? 'warrior'
 
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([])
   function addTimer(id: ReturnType<typeof setTimeout>) {
@@ -431,6 +445,7 @@ export default function ScienceLabyrinth({
       setFeedback('correct')
       setCorridorAdvancing(true)
       setScreenFlash('green')
+      arenaRef.current?.triggerPlayerAttack()
 
       addTimer(setTimeout(() => setScreenFlash(null), 300))
       addTimer(setTimeout(() => setCorridorAdvancing(false), 600))
@@ -450,6 +465,7 @@ export default function ScienceLabyrinth({
       setScreenFlash('red')
       setWallMounted(true)
       setWallVisible(true)
+      arenaRef.current?.triggerEnemyAttack()
 
       addTimer(setTimeout(() => setScreenFlash(null), 300))
       addTimer(setTimeout(() => {
@@ -480,205 +496,28 @@ export default function ScienceLabyrinth({
   return (
     <>
       <style>{`
-        @keyframes corridor-advance {
-          0%   { transform: scale(1);    opacity: 1; }
-          40%  { transform: scale(1.18); opacity: 0.7; }
-          100% { transform: scale(1);    opacity: 1; }
-        }
-        @keyframes dead-end-drop {
-          0%   { transform: translateY(-100%); }
-          100% { transform: translateY(0%); }
-        }
-        @keyframes dead-end-lift {
-          0%   { transform: translateY(0%); }
-          100% { transform: translateY(-100%); }
-        }
         @keyframes card-rise {
           from { opacity: 0; transform: translateY(6px); }
           to   { opacity: 1; transform: translateY(0); }
         }
       `}</style>
 
-      <div className="px-4 pt-4 pb-8" style={{ maxWidth: '480px', margin: '0 auto' }}>
-
-        {/* ── Arena bar ──────────────────────────────────────────────── */}
-        <div style={{
-          position: 'relative',
-          display: 'flex', alignItems: 'center', gap: '8px',
-          background: 'linear-gradient(180deg,#0d0f1c,#070910)',
-          border: '1px solid rgba(30,138,74,0.2)',
-          borderLeft: '3px solid #1e8a4a',
-          borderRadius: '3px', padding: '10px',
-          marginBottom: '12px', overflow: 'hidden',
-        }}>
-
-          {/* Screen flash overlay */}
-          <div style={{
-            position: 'absolute', inset: 0, pointerEvents: 'none',
-            background: screenFlash === 'green'
-              ? 'rgba(30,138,74,0.25)'
-              : screenFlash === 'red'
-              ? 'rgba(224,85,85,0.25)'
-              : 'transparent',
-            transition: 'background 0.1s',
-            zIndex: 10,
-          }} />
-
-          {/* Left: Player */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px', flexShrink: 0 }}>
-            <AvatarPreview avatarConfig={avatarConfig} size={64} />
-            <div style={{
-              fontFamily: 'var(--font-pixel)', fontSize: '5px', color: '#c9a84c',
-              maxWidth: '64px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-            }}>
-              {displayName}
-            </div>
-            <div style={{ width: '64px', height: '5px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px', overflow: 'hidden' }}>
-              <div style={{ height: '100%', width: '100%', background: 'linear-gradient(90deg,#2eb85c,#5aab6e)', borderRadius: '2px' }} />
-            </div>
-          </div>
-
-          {/* Center: VS + pips + counter */}
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <div style={{
-                fontFamily: 'var(--font-pixel)', fontSize: '7px', color: '#1e8a4a',
-                background: 'rgba(30,138,74,0.12)', border: '1px solid rgba(30,138,74,0.3)',
-                borderRadius: '2px', padding: '3px 6px',
-              }}>
-                VS
-              </div>
-              {questionSource && (
-                <div
-                  title={
-                    questionSource === 'ai'
-                      ? 'Questions generated by AI'
-                      : questionSource === 'db'
-                      ? 'Questions from the seeded library'
-                      : 'Offline fallback questions'
-                  }
-                  style={{
-                    fontFamily: 'var(--font-pixel)', fontSize: '5px',
-                    color:
-                      questionSource === 'ai' ? '#7c4dff' :
-                      questionSource === 'db' ? '#2eb85c' : '#7a6a44',
-                    background: 'rgba(255,255,255,0.04)',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    borderRadius: '2px', padding: '2px 4px',
-                    letterSpacing: '1px',
-                  }}
-                >
-                  {questionSource.toUpperCase()}
-                </div>
-              )}
-            </div>
-            <div style={{ display: 'flex', gap: '3px' }}>
-              {Array.from({ length: 10 }, (_, i) => (
-                <div key={i} style={{
-                  width: '7px', height: '7px', borderRadius: '1px',
-                  background: i < correctCount ? '#1e8a4a' : 'transparent',
-                  border: `1px solid ${i < correctCount ? '#1e8a4a' : 'rgba(30,138,74,0.3)'}`,
-                }} />
-              ))}
-            </div>
-            <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '5px', color: '#7a6a44' }}>
-              Q{questionIndex + 1} / 10
-            </div>
-          </div>
-
-          {/* Right: First-person corridor */}
-          <div style={{ flexShrink: 0, position: 'relative', width: 64, height: 64, background: '#0a0c14', borderRadius: '2px', overflow: 'hidden' }}>
-
-            {/* Corridor inner group — target of corridor-advance animation */}
-            <div style={{
-              position: 'absolute', inset: 0,
-              animation: corridorAdvancing ? 'corridor-advance 0.4s ease-in-out forwards' : 'none',
-            }}>
-              {/* Floor */}
-              <div style={{
-                position: 'absolute',
-                bottom: 0, left: 0, right: 0, height: '50%',
-                clipPath: 'polygon(0% 100%, 100% 100%, 75% 0%, 25% 0%)',
-                background: 'linear-gradient(180deg, #1a1a2e 0%, #0d0d1a 100%)',
-                borderTop: '1px solid rgba(30,138,74,0.15)',
-              }} />
-              {/* Ceiling */}
-              <div style={{
-                position: 'absolute',
-                top: 0, left: 0, right: 0, height: '50%',
-                clipPath: 'polygon(0% 0%, 100% 0%, 75% 100%, 25% 100%)',
-                background: 'linear-gradient(180deg, #0a0a14 0%, #0d0d1a 100%)',
-                borderBottom: '1px solid rgba(30,138,74,0.1)',
-              }} />
-              {/* Left wall */}
-              <div style={{
-                position: 'absolute',
-                top: 0, left: 0, width: '25%', height: '100%',
-                clipPath: 'polygon(0% 0%, 100% 25%, 100% 75%, 0% 100%)',
-                background: 'linear-gradient(90deg, #0d1a0d 0%, #142814 100%)',
-                borderRight: '1px solid rgba(30,138,74,0.12)',
-              }} />
-              {/* Right wall */}
-              <div style={{
-                position: 'absolute',
-                top: 0, right: 0, width: '25%', height: '100%',
-                clipPath: 'polygon(0% 25%, 100% 0%, 100% 100%, 0% 75%)',
-                background: 'linear-gradient(270deg, #0d1a0d 0%, #142814 100%)',
-                borderLeft: '1px solid rgba(30,138,74,0.12)',
-              }} />
-              {/* Inner corridor frame lines */}
-              <div style={{
-                position: 'absolute',
-                top: '25%', left: '25%', right: '25%', bottom: '25%',
-                border: '1px solid rgba(30,138,74,0.2)',
-              }} />
-              {/* Vanishing-point glow */}
-              <div style={{
-                position: 'absolute',
-                top: '50%', left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: 20, height: 20,
-                borderRadius: '50%',
-                background: 'radial-gradient(circle, rgba(30,138,74,0.6) 0%, transparent 100%)',
-              }} />
-            </div>
-
-            {/* Dead-end wall overlay — mounted when wallMounted, animates on wallVisible */}
-            {wallMounted && (
-              <div style={{
-                position: 'absolute', top: 0, left: 0,
-                width: 64, height: 64,
-                zIndex: 5,
-                background: '#3a3530',
-                backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 6px, rgba(0,0,0,0.15) 6px, rgba(0,0,0,0.15) 7px)',
-                animation: wallVisible
-                  ? 'dead-end-drop 0.3s ease-in forwards'
-                  : 'dead-end-lift 0.3s ease-out forwards',
-              }}>
-                {/* Stone crack SVG */}
-                <svg
-                  viewBox="0 0 64 64"
-                  width={64} height={64}
-                  style={{ position: 'absolute', inset: 0, opacity: 0.3 }}
-                  aria-hidden="true"
-                >
-                  <polyline points="32,4 28,20 34,28 26,44 30,60" fill="none" stroke="#1a0e08" strokeWidth="1.5" strokeLinejoin="round" />
-                  <polyline points="36,8 40,22 35,30" fill="none" stroke="#1a0e08" strokeWidth="1" strokeLinejoin="round" />
-                </svg>
-              </div>
-            )}
-
-            {/* Label */}
-            <div style={{
-              position: 'absolute', bottom: 2, left: 0, right: 0,
-              fontFamily: 'var(--font-pixel)', fontSize: '5px',
-              color: '#1e8a4a', textAlign: 'center', letterSpacing: '1px',
-              pointerEvents: 'none',
-            }}>
-              LABYRINTH
-            </div>
-          </div>
-        </div>
+      {/* ── Battle arena ── */}
+        <BattleArena
+          ref={arenaRef}
+          playerConfig={(avatarConfig ?? {}) as unknown as AvatarConfig}
+          playerPreset={playerPreset}
+          playerDisplayName={displayName}
+          enemy={enemy}
+          enemyPreset={enemyPreset}
+          correctCount={correctCount}
+          questionIndex={questionIndex}
+          totalQuestions={10}
+          questionSource={questionSource}
+          screenFlash={screenFlash}
+          playerSize={64}
+          enemySize={64}
+        />
 
         {/* ── Question card ────────────────────────────────────────── */}
         <div
@@ -760,8 +599,6 @@ export default function ScienceLabyrinth({
             </div>
           )}
         </div>
-
-      </div>
     </>
   )
 }

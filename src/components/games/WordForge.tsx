@@ -3,7 +3,11 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import AvatarPreview from '@/components/avatar/AvatarPreview'
+import BattleArena, { type BattleArenaHandle } from '@/components/games/BattleArena'
+import { ENEMY_PRESETS } from '@/lib/constants/enemies'
+import { SLUG_PRESET } from '@/lib/constants/academy'
+import type { AnimationPreset } from '@/lib/constants/lpc-animations'
+import type { AvatarConfig } from '@/types/avatar'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -33,6 +37,8 @@ interface Props {
   playerId: string
   avatarConfig: Record<string, unknown> | null
   displayName: string
+  /** Animation preset derived from the player's avatar_class. */
+  playerPreset?: AnimationPreset
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -107,9 +113,17 @@ export default function WordForge({
   playerId,
   avatarConfig,
   displayName,
+  playerPreset = 'warrior',
 }: Props) {
   const router = useRouter()
   const supabase = useMemo(() => createClient(), [])
+
+  // Battle arena ref for triggering attack animations
+  const arenaRef = useRef<BattleArenaHandle>(null)
+
+  // Enemy config for this game
+  const enemy = ENEMY_PRESETS['word-forge']
+  const enemyPreset = SLUG_PRESET['word-forge'] ?? 'warrior'
 
   const [phase, setPhase] = useState<Phase>('loading')
   const [questions, setQuestions] = useState<Question[]>([])
@@ -276,6 +290,7 @@ export default function WordForge({
       setFeedback('correct')
       setIronHit(true)
       setScreenFlash('blue')
+      arenaRef.current?.triggerPlayerAttack()
 
       addTimer(setTimeout(() => setScreenFlash(null), 300))
       addTimer(setTimeout(() => setIronHit(false), 600))
@@ -293,6 +308,7 @@ export default function WordForge({
       setFeedback('wrong')
       setChosenWrong(option)
       setScreenFlash('red')
+      arenaRef.current?.triggerEnemyAttack()
 
       addTimer(setTimeout(() => setScreenFlash(null), 300))
       addTimer(setTimeout(() => {
@@ -473,154 +489,22 @@ export default function WordForge({
 
   return (
     <>
-      <style>{`
-        @keyframes iron-heat {
-          0%   { background: #555; box-shadow: none; }
-          30%  { background: #ff8c00; box-shadow: 0 0 10px #ff4400; }
-          60%  { background: #fff0c0; box-shadow: 0 0 18px #ffaa00, 0 0 6px #fff; }
-          100% { background: #cc5500; box-shadow: 0 0 6px rgba(204,85,0,0.4); }
-        }
-        @keyframes letter-forge {
-          0%   { color: #fff8e0; text-shadow: 0 0 20px #fff, 0 0 40px #ffcc00, 0 0 60px #ff6600; }
-          40%  { color: #ffaa00; text-shadow: 0 0 14px #ffcc00, 0 0 28px #ff6600; }
-          80%  { color: #c9a84c; text-shadow: 0 0 8px rgba(201,168,76,0.6); }
-          100% { color: #c9a84c; text-shadow: 0 0 4px rgba(201,168,76,0.3); }
-        }
-      `}</style>
-
-      <div className="px-4 pt-4 pb-8" style={{ maxWidth: '480px', margin: '0 auto' }}>
-
-        {/* ── Arena bar ──────────────────────────────────────────────────── */}
-        <div style={{
-          position: 'relative',
-          display: 'flex', alignItems: 'center', gap: '8px',
-          background: 'linear-gradient(180deg,#0d0f1c,#070910)',
-          borderLeft: '3px solid #1a5c9e',
-          border: '1px solid rgba(26,92,158,0.2)',
-          borderRadius: '3px', padding: '10px 10px',
-          marginBottom: '12px', overflow: 'hidden',
-        }}>
-
-          {/* Screen flash overlay */}
-          <div style={{
-            position: 'absolute', inset: 0, pointerEvents: 'none',
-            background: screenFlash === 'blue'
-              ? 'rgba(26,92,158,0.25)'
-              : screenFlash === 'red'
-              ? 'rgba(224,85,85,0.25)'
-              : 'transparent',
-            transition: 'background 0.1s',
-            zIndex: 10,
-          }} />
-
-          {/* Left: Player */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px', flexShrink: 0 }}>
-            <AvatarPreview avatarConfig={avatarConfig} size={64} />
-            <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '5px', color: '#c9a84c', maxWidth: '64px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {displayName}
-            </div>
-            <div style={{ width: '64px', height: '5px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px', overflow: 'hidden' }}>
-              <div style={{ height: '100%', width: '100%', background: 'linear-gradient(90deg,#2eb85c,#5aab6e)', borderRadius: '2px' }} />
-            </div>
-          </div>
-
-          {/* Center: VS + pips + counter */}
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <div style={{
-                fontFamily: 'var(--font-pixel)', fontSize: '7px', color: '#1a5c9e',
-                background: 'rgba(26,92,158,0.12)', border: '1px solid rgba(26,92,158,0.3)',
-                borderRadius: '2px', padding: '3px 6px',
-              }}>
-                VS
-              </div>
-              {questionSource && (
-                <div
-                  title={
-                    questionSource === 'ai'
-                      ? 'Questions generated by AI'
-                      : questionSource === 'db'
-                      ? 'Questions from the seeded library'
-                      : 'Offline fallback questions'
-                  }
-                  style={{
-                    fontFamily: 'var(--font-pixel)', fontSize: '5px',
-                    color:
-                      questionSource === 'ai' ? '#7c4dff' :
-                      questionSource === 'db' ? '#2eb85c' : '#7a6a44',
-                    background: 'rgba(255,255,255,0.04)',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    borderRadius: '2px', padding: '2px 4px',
-                    letterSpacing: '1px',
-                  }}
-                >
-                  {questionSource.toUpperCase()}
-                </div>
-              )}
-            </div>
-            <div style={{ display: 'flex', gap: '3px' }}>
-              {Array.from({ length: 10 }, (_, i) => (
-                <div key={i} style={{
-                  width: '7px', height: '7px', borderRadius: '1px',
-                  background: i < correctCount ? '#c9a84c' : 'transparent',
-                  border: `1px solid ${i < correctCount ? '#c9a84c' : 'rgba(201,168,76,0.3)'}`,
-                }} />
-              ))}
-            </div>
-            <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '5px', color: '#7a6a44' }}>
-              Q{questionIndex + 1} / 10
-            </div>
-          </div>
-
-          {/* Right: Anvil */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px', flexShrink: 0 }}>
-            {/* Iron bar */}
-            <div style={{
-              width: '56px', height: '9px',
-              background: ironHit ? undefined : ironBarColor(heatLevel),
-              borderRadius: '1px', border: '1px solid #666',
-              animation: ironHit ? 'iron-heat 0.6s ease forwards' : 'none',
-            }} />
-            {/* Anvil body (CSS pixel art) */}
-            <div style={{ width: '64px', height: '48px', position: 'relative' }}>
-              {/* Anvil horn (top-left protrusion) */}
-              <div style={{
-                position: 'absolute', top: 0, left: 4, width: '18px', height: '12px',
-                background: 'linear-gradient(180deg,#4a3520,#2a1a08)',
-                border: '1px solid rgba(201,168,76,0.4)', borderRadius: '1px 4px 0 0',
-              }} />
-              {/* Anvil face (top flat surface) */}
-              <div style={{
-                position: 'absolute', top: 0, left: 18, right: 4, height: '14px',
-                background: 'linear-gradient(180deg,#5a4020,#3a2810)',
-                border: '1px solid rgba(201,168,76,0.4)', borderRadius: '1px',
-              }} />
-              {/* Anvil waist */}
-              <div style={{
-                position: 'absolute', top: 14, left: 14, right: 14, height: '10px',
-                background: '#3a2810',
-              }} />
-              {/* Anvil base */}
-              <div style={{
-                position: 'absolute', bottom: 0, left: 2, right: 2, height: '20px',
-                background: 'linear-gradient(180deg,#4a3018,#2a1a08)',
-                border: '1px solid rgba(201,168,76,0.35)', borderRadius: '0 0 3px 3px',
-              }} />
-            </div>
-            <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '5px', color: '#1a5c9e' }}>
-              FORGE
-            </div>
-            {/* Heat bar — fills as correct answers accumulate */}
-            <div style={{ width: '64px', height: '5px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px', overflow: 'hidden' }}>
-              <div style={{
-                height: '100%', borderRadius: '2px',
-                width: `${(correctCount / 10) * 100}%`,
-                background: 'linear-gradient(90deg,#ff4400,#ffaa00)',
-                transition: 'width 0.3s ease',
-              }} />
-            </div>
-          </div>
-        </div>
+      {/* ── Battle arena ── */}
+        <BattleArena
+          ref={arenaRef}
+          playerConfig={(avatarConfig ?? {}) as unknown as AvatarConfig}
+          playerPreset={playerPreset}
+          playerDisplayName={displayName}
+          enemy={enemy}
+          enemyPreset={enemyPreset}
+          correctCount={correctCount}
+          questionIndex={questionIndex}
+          totalQuestions={10}
+          questionSource={questionSource}
+          screenFlash={screenFlash === 'blue' ? 'green' : screenFlash}
+          playerSize={64}
+          enemySize={64}
+        />
 
         {/* ── Question card ───────────────────────────────────────────────── */}
         <div
@@ -713,7 +597,6 @@ export default function WordForge({
           )}
         </div>
 
-      </div>
     </>
   )
 }

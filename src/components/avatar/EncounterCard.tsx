@@ -3,25 +3,8 @@
 import Link from 'next/link'
 import EnemyRenderer from './EnemyRenderer'
 import type { AnimationPreset } from '@/lib/constants/lpc-animations'
-import type { GameEntry } from '@/lib/constants/academy'
+import { SLUG_PRESET, type GameEntry } from '@/lib/constants/academy'
 import type { EncounterConfig } from '@/types/encounter'
-
-// ── Animation preset map ─────────────────────────────────────────────────────
-// Maps each game slug to an animation preset that determines the attack action
-// (slash / thrust / cast) used by AnimatedAvatar during auto-attack bursts.
-//
-// Warrior → slash row, Mage → cast row, Rogue → thrust row, Scholar → slash row.
-// Presets are chosen to match each enemy's visual theme and equipment.
-
-const SLUG_PRESET: Record<string, AnimationPreset> = {
-  'math-arena':        'warrior',  // Abyssal Calculator — armored, longsword
-  'word-forge':        'warrior',  // Rune Smith — leather, sword
-  'science-labyrinth': 'scholar',  // Alchemical Horror — hood, spear
-  'reading-tome':      'mage',     // Eldritch Scribe — robes, no weapon (caster)
-  'history-scroll':    'warrior',  // Time Shade — sword, tattered cape
-  'vocab-duel':        'mage',     // Hexweaver — robes, crown (caster)
-  'logic-gate':        'warrior',  // Construct Sentinel — plate, sword + shield
-}
 
 // ── Props ─────────────────────────────────────────────────────────────────────
 

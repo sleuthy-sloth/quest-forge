@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import QuizInterface from '@/components/games/QuizInterface'
+import { derivePlayerPreset } from '@/lib/constants/academy'
 
 export default async function LogicGatePage() {
   const supabase = await createClient()
@@ -16,6 +17,8 @@ export default async function LogicGatePage() {
   if (!profile) redirect('/login')
   if (!profile.avatar_class) redirect('/play/create-character')
 
+  const playerPreset = derivePlayerPreset(profile.avatar_class)
+
   return (
     <div
       style={{
@@ -30,6 +33,7 @@ export default async function LogicGatePage() {
         subject="logic"
         avatarConfig={profile.avatar_config as Record<string, unknown> | null}
         displayName={profile.display_name}
+        playerPreset={playerPreset}
       />
     </div>
   )

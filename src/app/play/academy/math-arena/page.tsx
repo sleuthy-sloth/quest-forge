@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import MathArena from '@/components/games/MathArena'
+import { derivePlayerPreset } from '@/lib/constants/academy'
 
 export default async function MathArenaPage() {
   const supabase = await createClient()
@@ -18,6 +19,7 @@ export default async function MathArenaPage() {
 
   const ageTier: 'junior' | 'senior' =
     profile.age != null && profile.age >= 11 ? 'senior' : 'junior'
+  const playerPreset = derivePlayerPreset(profile.avatar_class)
 
   return (
     <div
@@ -33,6 +35,7 @@ export default async function MathArenaPage() {
         playerId={user.id}
         avatarConfig={profile.avatar_config as Record<string, unknown> | null}
         displayName={profile.display_name}
+        playerPreset={playerPreset}
       />
     </div>
   )
