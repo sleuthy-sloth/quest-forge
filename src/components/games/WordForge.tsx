@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import BattleArena, { type BattleArenaHandle } from '@/components/games/BattleArena'
-import { ENEMY_PRESETS } from '@/lib/constants/enemies'
+import { ENEMY_PRESETS, DEFAULT_AVATAR_CONFIG } from '@/lib/constants/enemies'
 import { SLUG_PRESET } from '@/lib/constants/academy'
 import type { AnimationPreset } from '@/lib/constants/lpc-animations'
 import type { AvatarConfig } from '@/types/avatar'
@@ -173,7 +173,7 @@ export default function WordForge({
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ subject: 'vocabulary', age_tier: ageTier, count: 10 }),
-      signal: AbortSignal.timeout(9000),
+      signal: AbortSignal.timeout(15000),
     })
       .then(async (res) => {
         if (!res.ok) return null
@@ -492,7 +492,7 @@ export default function WordForge({
       {/* ── Battle arena ── */}
         <BattleArena
           ref={arenaRef}
-          playerConfig={(avatarConfig ?? {}) as unknown as AvatarConfig}
+          playerConfig={(avatarConfig as AvatarConfig | null) ?? DEFAULT_AVATAR_CONFIG}
           playerPreset={playerPreset}
           playerDisplayName={displayName}
           enemy={enemy}

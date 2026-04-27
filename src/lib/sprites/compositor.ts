@@ -266,28 +266,21 @@ function loadImg(src: string): Promise<HTMLImageElement | null> {
     img.crossOrigin = 'anonymous'
     _imgCache.set(src, img)
 
-    // 10-second timeout — prevents stalled requests from blocking the
-    // compositing pipeline indefinitely when 7+ cards mount simultaneously
-    // and some Supabase Storage requests hang without firing onload/onerror.
     const timeoutId = setTimeout(() => {
       _imgCache.delete(src)
-      if (process.env.NODE_ENV !== 'production') {
-        console.warn(`[sprite-compositor] Image load timed out (10s): "${src}"`)
-      }
+      console.warn(`[sprite] TIMEOUT (10s): "${src.split('/').pop()}"`)
       resolve(null)
     }, 10_000)
 
     img.onload = () => {
       clearTimeout(timeoutId)
+      console.log(`[sprite] LOADED: ${src.split('/').pop()} (${img.naturalWidth}x${img.naturalHeight})`)
       resolve(img)
     }
     img.onerror = () => {
       clearTimeout(timeoutId)
-      // Remove from cache so future attempts can retry (e.g. after fixing a path).
       _imgCache.delete(src)
-      if (process.env.NODE_ENV !== 'production') {
-        console.warn(`[sprite-compositor] Failed to load image: "${src}"`)
-      }
+      console.warn(`[sprite] FAILED: "${src}"`)
       resolve(null)
     }
 
@@ -321,9 +314,9 @@ export async function loadSpriteImages(
  */
 export function detectWalkRow(img: HTMLImageElement): number {
   const rowCount = Math.floor(img.naturalHeight / CELL)
-  return rowCount >= WALK_DOWN_ROW_FULL + 1
-    ? WALK_DOWN_ROW_FULL
-    : WALK_DOWN_ROW_WALK
+  if (rowCount === 1) return 0                            // single-frame sprite (weapons, shields)
+  if (rowCount >= WALK_DOWN_ROW_FULL + 1) return WALK_DOWN_ROW_FULL  // full multi-row sheet
+  return WALK_DOWN_ROW_WALK                                // walk-only sheet (4 rows)
 }
 
 // ── Per-layer compositing ───────────────────────────────────────────────────

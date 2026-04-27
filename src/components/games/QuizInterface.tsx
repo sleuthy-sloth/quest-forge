@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAcademy } from '@/hooks/useAcademy'
 import BattleArena, { type BattleArenaHandle } from '@/components/games/BattleArena'
-import { ENEMY_PRESETS } from '@/lib/constants/enemies'
+import { ENEMY_PRESETS, DEFAULT_AVATAR_CONFIG } from '@/lib/constants/enemies'
 import { SUBJECT_TO_SLUG, SLUG_PRESET } from '@/lib/constants/academy'
 import type { AvatarConfig } from '@/types/avatar'
 
@@ -432,7 +432,7 @@ export default function QuizInterface({
         {/* ── Battle arena ── */}
         <BattleArena
           ref={arenaRef}
-          playerConfig={(avatarConfig ?? {}) as unknown as AvatarConfig}
+          playerConfig={(avatarConfig as AvatarConfig | null) ?? DEFAULT_AVATAR_CONFIG}
           playerPreset={playerPreset}
           playerDisplayName={displayName ?? 'Hero'}
           enemy={enemy}

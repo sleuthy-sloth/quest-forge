@@ -23,6 +23,27 @@
 import type { EncounterConfig } from '@/types/encounter'
 import type { AvatarConfig } from '@/types/avatar'
 
+/**
+ * Default avatar config shown when a player has no avatar_config saved yet.
+ * Uses an anonymous hooded figure so the placeholder is still recognisable
+ * as a character silhouette. Matches the fallback in AvatarPreview.
+ */
+export const DEFAULT_AVATAR_CONFIG: AvatarConfig = {
+  body:   { id: 'body_female', color: null },
+  head:   { id: 'human_female', color: null },
+  eyes:   { id: 'eyes_blue', color: '#3a6a9a' },
+  hair:   { id: 'bob', color: '#3d2200' },
+  pants:  { id: 'pants', color: 'brown' },
+  shirt:  { id: 'longsleeve', color: 'navy' },
+  boots:  { id: 'boots', color: 'brown' },
+  hands:  { id: null },
+  belt:   { id: null },
+  cape:   { id: null },
+  helmet: { id: null },
+  weapon: { id: null },
+  shield: { id: null },
+}
+
 // ── Layer shorthand helpers ───────────────────────────────────────────────────
 
 const NO_LAYER = { id: null } as const
