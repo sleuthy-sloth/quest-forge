@@ -409,6 +409,11 @@ export function compositeLayer(
   const sx = col * CELL
   const sy = row * CELL
 
+  // Diagnostic: warn when source rect exceeds image bounds (will clip to transparent).
+  if (sx + CELL > img.naturalWidth || sy + CELL > img.naturalHeight) {
+    console.warn(`[sprite] compositeLayer: source rect (${sx},${sy},${CELL},${CELL}) exceeds image (${img.naturalWidth}x${img.naturalHeight}) for "${img.src.split('/').pop()}"`)
+  }
+
   // Step a: draw the sprite.
   ctx.drawImage(img, sx, sy, CELL, CELL, 0, 0, CELL, CELL)
 
@@ -470,12 +475,26 @@ export async function compositeAvatar(
   const ctx = canvas.getContext('2d')!
   ctx.imageSmoothingEnabled = false
 
+  let loadedCount = 0
   for (const { img, hexTint } of loaded) {
     if (!img) continue
+    loadedCount++
 
     const frame = options?.frame ?? undefined
     const layerCanvas = compositeLayer(img, hexTint, frame)
     ctx.drawImage(layerCanvas, 0, 0)
+  }
+
+  // Diagnostic: check if the composited result has any non-transparent pixels.
+  try {
+    const id = ctx.getImageData(0, 0, CELL, CELL)
+    let opaquePx = 0
+    for (let i = 3; i < id.data.length; i += 4) {
+      if (id.data[i] > 0) opaquePx++
+    }
+    console.log(`[sprite] compositeAvatar: ${loadedCount}/${loaded.length} layers, ${opaquePx}/${CELL * CELL} opaque px, frame=(${options?.frame?.col ?? 0}, ${options?.frame?.row ?? 'auto'})`)
+  } catch (e) {
+    console.warn('[sprite] compositeAvatar: could not read pixels:', e)
   }
 
   // Scale up if requested — round to nearest multiple of CELL.

@@ -370,18 +370,23 @@ export default function AnimatedAvatar({
           })
 
           if (cancelledRef.current || instanceId !== instanceIdRef.current) return
+          // Diagnostic: check if this frame has any content.
+          const ctx = frame.getContext('2d')
+          if (ctx) {
+            const id = ctx.getImageData(0, 0, CELL, CELL)
+            let opaquePx = 0
+            for (let i = 3; i < id.data.length; i += 4) {
+              if (id.data[i] > 0) opaquePx++
+            }
+            console.log(`[AnimatedAvatar] frame ${col}: ${opaquePx}/${CELL * CELL} opaque px`)
+          }
           frames.push(frame)
         } catch (err) {
           // Individual frame failure — push a blank fallback so the
           // animation loop still functions (shows empty frames) rather
           // than crashing the entire compositing pipeline.
           frameFailures++
-          if (process.env.NODE_ENV !== 'production') {
-            console.warn(
-              `[AnimatedAvatar] Frame ${col} compositing failed, using blank fallback:`,
-              err,
-            )
-          }
+          console.warn(`[AnimatedAvatar] Frame ${col} compositing failed, using blank fallback:`, err)
           const blank = document.createElement('canvas')
           blank.width = CELL
           blank.height = CELL
@@ -472,6 +477,19 @@ export default function AnimatedAvatar({
       if (!src || idx >= src.length) return
       ctx!.clearRect(0, 0, CELL, CELL)
       ctx!.drawImage(src[idx], 0, 0)
+      // Diagnostic: verify pixels were actually drawn.
+      try {
+        const id = ctx!.getImageData(0, 0, CELL, CELL)
+        let opaquePx = 0
+        for (let i = 3; i < id.data.length; i += 4) {
+          if (id.data[i] > 0) opaquePx++
+        }
+        if (opaquePx === 0) {
+          console.warn(`[AnimatedAvatar] drawFrame(${state}, ${idx}): canvas is still transparent after drawImage!`)
+        }
+      } catch (e) {
+        /* canvas tainted — can't read pixels */
+      }
     }
 
     /** Single unified rAF loop — handles both idle and attacking states. */

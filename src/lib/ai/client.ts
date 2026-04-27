@@ -60,12 +60,16 @@ export async function generateWithFallback(
         max_tokens: maxTokens,
         temperature,
       })
-      const text = response.choices[0]?.message?.content?.trim()
-      if (text) {
-        console.log(`[ai] OpenRouter (${OPENROUTER_MODEL}) served the request`)
-        return text
+      if (!response.choices?.length) {
+        console.warn('[ai] OpenRouter returned response without choices:', JSON.stringify(response).slice(0, 500))
+      } else {
+        const text = response.choices[0]?.message?.content?.trim()
+        if (text) {
+          console.log(`[ai] OpenRouter (${OPENROUTER_MODEL}) served the request`)
+          return text
+        }
+        console.warn('[ai] OpenRouter returned empty response, trying Gemini')
       }
-      console.warn('[ai] OpenRouter returned empty response, trying Gemini')
     } catch (err: unknown) {
       const status = (err as { status?: number }).status
       if (status === 404) {
