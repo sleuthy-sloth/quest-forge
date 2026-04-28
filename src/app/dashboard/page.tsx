@@ -4,11 +4,11 @@ import { createClient } from '@/lib/supabase/server'
 import { xpForLevel } from '@/lib/xp'
 import {
   StatCard,
-  PixelAvatar,
   XPBar,
   XPIcon,
   Coin,
 } from '@/components/qf'
+import AvatarPreview from '@/components/avatar/AvatarPreview'
 
 function classKey(avatarClass: string | null): string {
   return (avatarClass ?? 'blazewarden').toLowerCase()
@@ -40,7 +40,7 @@ export default async function GMHomePage() {
   ] = await Promise.all([
     supabase
       .from('profiles')
-      .select('id, display_name, username, level, xp_total, xp_available, gold, avatar_class')
+      .select('id, display_name, username, level, xp_total, xp_available, gold, avatar_class, avatar_config')
       .eq('household_id', householdId)
       .eq('role', 'player')
       .order('created_at', { ascending: true }),
@@ -252,7 +252,7 @@ export default async function GMHomePage() {
                       alignItems: 'center',
                     }}
                   >
-                    <PixelAvatar klass={classKey(p.avatar_class)} size={48} />
+                    <AvatarPreview avatarConfig={p.avatar_config as Record<string, unknown>} size={48} />
                     <div style={{ minWidth: 0 }}>
                       <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
                         <div

@@ -211,6 +211,9 @@ export default function PlayersPage() {
   const [submitSuccess, setSubmitSuccess] = useState<string | null>(null)
 
   const [resetTarget, setResetTarget] = useState<string | null>(null)
+  const [renameTarget, setRenameTarget] = useState<string | null>(null)
+  const [renameValue, setRenameValue] = useState('')
+  const [renaming, setRenaming] = useState(false)
 
   const fetchPlayers = useCallback(async () => {
     if (!householdId) {
@@ -241,6 +244,27 @@ export default function PlayersPage() {
       setLoading(false)
     }
   }, [supabase, householdId])
+
+  const handleRename = async (playerId: string) => {
+    if (!renameValue.trim()) return
+    setRenaming(true)
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update({ display_name: renameValue.trim() })
+        .eq('id', playerId)
+      
+      if (error) throw error
+      
+      setPlayers(prev => prev.map(p => p.id === playerId ? { ...p, display_name: renameValue.trim() } : p))
+      setRenameTarget(null)
+    } catch (err) {
+      console.error('Failed to rename player:', err)
+      alert('Failed to rename player. Please try again.')
+    } finally {
+      setRenaming(false)
+    }
+  }
 
   useEffect(() => {
     if (!authLoading) {
@@ -476,10 +500,73 @@ export default function PlayersPage() {
 
                     {/* Identity */}
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
-                        <span style={{ fontFamily: "'Cinzel', serif", fontSize: '0.88rem', fontWeight: 600, color: '#e8f0ff', letterSpacing: '0.02em' }}>
-                          {player.display_name}
-                        </span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                        {renameTarget === player.id ? (
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                            <input
+                              autoFocus
+                              value={renameValue}
+                              onChange={e => setRenameValue(e.target.value)}
+                              onKeyDown={e => {
+                                if (e.key === 'Enter') handleRename(player.id)
+                                if (e.key === 'Escape') setRenameTarget(null)
+                              }}
+                              disabled={renaming}
+                              style={{
+                                background: 'rgba(0,0,0,0.3)',
+                                border: '1px solid rgba(201,168,76,0.3)',
+                                borderRadius: 2,
+                                color: '#fff',
+                                padding: '2px 6px',
+                                fontSize: '0.88rem',
+                                width: '120px',
+                                outline: 'none',
+                              }}
+                            />
+                            <button
+                              onClick={() => handleRename(player.id)}
+                              disabled={renaming || !renameValue.trim()}
+                              style={{
+                                background: 'none', border: 'none', color: '#c9a84c', cursor: 'pointer', fontSize: '0.7rem', padding: 0,
+                                opacity: renaming || !renameValue.trim() ? 0.5 : 1
+                              }}
+                            >
+                              {renaming ? '...' : '✓'}
+                            </button>
+                            <button
+                              onClick={() => setRenameTarget(null)}
+                              disabled={renaming}
+                              style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', cursor: 'pointer', fontSize: '0.7rem', padding: 0 }}
+                            >
+                              ✕
+                            </button>
+                          </div>
+                        ) : (
+                          <div
+                            onClick={() => {
+                              setRenameTarget(player.id)
+                              setRenameValue(player.display_name)
+                            }}
+                            title="Click to rename"
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '0.4rem',
+                              cursor: 'pointer',
+                              padding: '2px 4px',
+                              marginLeft: '-4px',
+                              borderRadius: 2,
+                              transition: 'background 0.2s',
+                            }}
+                            onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.05)')}
+                            onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                          >
+                            <span style={{ fontFamily: "'Cinzel', serif", fontSize: '0.88rem', fontWeight: 600, color: '#e8f0ff', letterSpacing: '0.02em' }}>
+                              {player.display_name}
+                            </span>
+                            <span style={{ fontSize: '0.7rem', opacity: 0.3, color: '#c9a84c' }}>✎</span>
+                          </div>
+                        )}
                         <span style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 300, fontSize: '0.75rem', color: 'rgba(200,215,255,0.35)' }}>
                           @{player.username}
                         </span>
