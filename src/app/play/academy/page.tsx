@@ -79,150 +79,176 @@ export default async function AcademyPage() {
   })
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: 'var(--qf-bg-void)',
-        paddingBottom: 32,
-      }}
-    >
-      {/* ── Page Header ── */}
-      <div style={{ textAlign: 'center', padding: '28px 16px 20px' }}>
-        <div
-          className="font-pixel"
-          style={{
-            fontSize: 7,
-            color: 'var(--qf-ember-bright)',
-            letterSpacing: '0.25em',
-            marginBottom: 6,
-          }}
-        >
-          THE FACULTY DUEL
-        </div>
-        <h1
-          className="font-heading qf-shimmer"
-          style={{
-            fontSize: 22,
-            margin: '4px 0 2px',
-            fontWeight: 700,
-            fontStyle: 'italic',
-          }}
-        >
-          Seven Teachers, Seven Trials
-        </h1>
-        <p
-          style={{
-            color: 'var(--qf-parchment-dim)',
-            fontStyle: 'italic',
-            margin: '0 0 6px',
-            fontSize: 12,
-            lineHeight: 1.4,
-          }}
-        >
-          Each instructor guards a discipline. Best them in single combat.
-        </p>
-      </div>
-
-      <div className="px-4" style={{ maxWidth: 480, margin: '0 auto' }}>
-
-        {/* ── Hero Bar ── */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 12,
-            background: 'linear-gradient(135deg, rgba(26,28,46,0.9), rgba(18,19,31,0.9))',
-            border: '1px solid var(--qf-rule)',
-            borderRadius: 4,
-            padding: '10px 12px',
-            marginBottom: 20,
-          }}
-        >
-          <div style={{ flexShrink: 0 }}>
-            <AvatarPreview avatarConfig={profile.avatar_config as Record<string, unknown> | null} size={48} />
-          </div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div
-              className="font-pixel"
-              style={{
-                fontSize: 8,
-                color: 'var(--qf-parchment)',
-                marginBottom: 4,
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}
-            >
-              {profile.display_name}
-            </div>
-            <div
-              style={{
-                fontFamily: 'var(--font-heading)',
-                fontSize: 12,
-                color: 'var(--qf-parchment-muted)',
-                textTransform: 'capitalize',
-              }}
-            >
-              {profile.avatar_class ?? 'Emberbearer'} · Lv {level}
-            </div>
-          </div>
+    <>
+      <style>{`
+        @media (min-width: 768px) {
+          .academy-grid {
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 16px !important;
+          }
+          .academy-hero-card {
+            grid-column: 1 / -1 !important;
+          }
+        }
+        @media (min-width: 1024px) {
+          .academy-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+          }
+          .academy-hero-card {
+            grid-column: 1 / -1 !important;
+          }
+        }
+      `}</style>
+      <div
+        style={{
+          minHeight: '100vh',
+          background: 'var(--qf-bg-void)',
+          paddingBottom: 40,
+        }}
+      >
+        {/* ── Page Header ── */}
+        <div style={{ textAlign: 'center', padding: 'clamp(24px, 5vw, 48px) 20px 24px' }}>
           <div
             className="font-pixel"
             style={{
-              flexShrink: 0,
-              fontSize: 6,
-              color: 'var(--qf-magic)',
-              background: 'rgba(60,20,120,0.4)',
-              border: '1px solid rgba(138,90,200,0.4)',
-              borderRadius: 3,
-              padding: '5px 7px',
-              whiteSpace: 'nowrap',
-              letterSpacing: '1px',
+              fontSize: 'clamp(9px, 1.5vw, 13px)',
+              color: 'var(--qf-ember-bright)',
+              letterSpacing: '0.25em',
+              marginBottom: 8,
             }}
           >
-            {tierLabel}
+            THE FACULTY DUEL
           </div>
+          <h1
+            className="font-heading qf-shimmer"
+            style={{
+              fontSize: 'clamp(24px, 4vw, 40px)',
+              margin: '6px 0 4px',
+              fontWeight: 700,
+              fontStyle: 'italic',
+            }}
+          >
+            Seven Teachers, Seven Trials
+          </h1>
+          <p
+            style={{
+              color: 'var(--qf-parchment-dim)',
+              fontStyle: 'italic',
+              margin: '0 0 8px',
+              fontSize: 'clamp(13px, 1.8vw, 16px)',
+              lineHeight: 1.5,
+            }}
+          >
+            Each instructor guards a discipline. Best them in single combat.
+          </p>
         </div>
 
-        {/* ── Faculty progress ── */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'baseline',
-            marginBottom: 16,
-          }}
-        >
-          <div className="qf-scribed" style={{ fontSize: 10 }}>Faculty Roster</div>
-          <span className="font-pixel" style={{ fontSize: 6, color: 'var(--qf-gold-400)' }}>
-            {completedSlugs.size} OF {TEACHERS.length} DEFEATED
-          </span>
-        </div>
+        <div className="px-4" style={{ maxWidth: 1100, margin: '0 auto' }}>
 
-        {/* ── Duel cards ── */}
-        <div role="list" aria-label="Academy faculty roster">
-          {TEACHERS.map((teacher, idx) => {
-            const enemy = ENEMY_PRESETS[teacher.slug]
-            if (!enemy) return null
-            const status = teacherStatuses[idx]
-            return (
-              <div key={teacher.slug} role="listitem">
-                <DuelCard
-                  teacher={teacher}
-                  enemy={enemy}
-                  status={status}
-                  playerAvatarConfig={profile.avatar_config as Record<string, unknown> | null}
-                  playerName={profile.display_name}
-                  playerLevel={level}
-                  playerClass={profile.avatar_class ?? 'blazewarden'}
-                  xpRange={xpRange}
-                />
+          {/* ── Hero Bar ── */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 16,
+              background: 'linear-gradient(135deg, rgba(26,28,46,0.9), rgba(18,19,31,0.9))',
+              border: '1px solid var(--qf-rule)',
+              borderRadius: 6,
+              padding: '14px 18px',
+              marginBottom: 24,
+            }}
+          >
+            <div style={{ flexShrink: 0 }}>
+              <AvatarPreview avatarConfig={profile.avatar_config as Record<string, unknown> | null} size={56} />
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div
+                className="font-pixel"
+                style={{
+                  fontSize: 10,
+                  color: 'var(--qf-parchment)',
+                  marginBottom: 4,
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+              >
+                {profile.display_name}
               </div>
-            )
-          })}
-        </div>
+              <div
+                style={{
+                  fontFamily: 'var(--font-heading)',
+                  fontSize: 14,
+                  color: 'var(--qf-parchment-muted)',
+                  textTransform: 'capitalize',
+                }}
+              >
+                {profile.avatar_class ?? 'Emberbearer'} · Lv {level}
+              </div>
+            </div>
+            <div
+              className="font-pixel"
+              style={{
+                flexShrink: 0,
+                fontSize: 9,
+                color: 'var(--qf-magic)',
+                background: 'rgba(60,20,120,0.4)',
+                border: '1px solid rgba(138,90,200,0.4)',
+                borderRadius: 4,
+                padding: '7px 10px',
+                whiteSpace: 'nowrap',
+                letterSpacing: '1px',
+              }}
+            >
+              {tierLabel}
+            </div>
+          </div>
 
+          {/* ── Faculty progress ── */}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'baseline',
+              marginBottom: 20,
+            }}
+          >
+            <div className="qf-scribed" style={{ fontSize: 13 }}>Faculty Roster</div>
+            <span className="font-pixel" style={{ fontSize: 9, color: 'var(--qf-gold-400)' }}>
+              {completedSlugs.size} OF {TEACHERS.length} DEFEATED
+            </span>
+          </div>
+
+          {/* ── Duel cards — responsive grid ── */}
+          <div className="academy-grid" role="list" aria-label="Academy faculty roster">
+            {TEACHERS.map((teacher, idx) => {
+              const enemy = ENEMY_PRESETS[teacher.slug]
+              if (!enemy) return null
+              const status = teacherStatuses[idx]
+              return (
+                <div
+                  key={teacher.slug}
+                  role="listitem"
+                  className={status === 'current' ? 'academy-hero-card' : ''}
+                >
+                  <DuelCard
+                    teacher={teacher}
+                    enemy={enemy}
+                    status={status}
+                    playerAvatarConfig={profile.avatar_config as Record<string, unknown> | null}
+                    playerName={profile.display_name}
+                    playerLevel={level}
+                    playerClass={profile.avatar_class ?? 'blazewarden'}
+                    xpRange={xpRange}
+                  />
+                </div>
+              )
+            })}
+          </div>
+
+        </div>
       </div>
-    </div>
+    </>
   )
 }

@@ -81,8 +81,7 @@ export default async function PlayerHomePage() {
   const currentEnemy = currentTeacher ? ENEMY_PRESETS[currentTeacher.slug] ?? null : null
   const currentPreset = currentTeacher ? (SLUG_PRESET[currentTeacher.slug] ?? 'warrior') : 'warrior'
 
-  // Active boss — is_unlocked=false means battle in progress;
-  // the trigger sets is_unlocked=true only when boss_current_hp reaches 0.
+  // Active boss
   const { data: boss } = await supabase
     .from('story_chapters')
     .select('boss_name, boss_description, boss_hp, boss_current_hp, week_number, boss_sprite_config')
@@ -99,7 +98,7 @@ export default async function PlayerHomePage() {
   const bossSpriteName =
     (boss?.boss_sprite_config as { base_sprite?: string } | null)?.base_sprite || 'eyeball'
 
-  // Today's chores (presented as Quests) — assigned to this player or unassigned.
+  // Today's chores
   const { data: chores } = await supabase
     .from('chores')
     .select('id, title, xp_reward, assigned_to')
@@ -109,7 +108,6 @@ export default async function PlayerHomePage() {
     .order('created_at', { ascending: false })
     .limit(5)
 
-  // Verified completions today — used to mark off finished quests.
   const startOfDay = new Date()
   startOfDay.setHours(0, 0, 0, 0)
   const { data: doneToday } = await supabase
@@ -128,345 +126,343 @@ export default async function PlayerHomePage() {
   const doneCount = todaysQuests.filter((q) => q.done).length
 
   return (
-    <div style={{ padding: '4px 18px 16px' }}>
-      {/* Hero card — character */}
-      <div className="qf-ornate-panel" style={{ padding: 18, marginBottom: 14, position: 'relative' }}>
-        <span className="qf-corner-tl" /><span className="qf-corner-tr" />
-        <span className="qf-corner-bl" /><span className="qf-corner-br" />
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <div
-            style={{
-              width: 64,
-              height: 64,
-              padding: 6,
-              background: 'radial-gradient(circle, rgba(232,160,32,0.18), transparent 70%)',
-              border: '1px solid var(--qf-rule-strong)',
-            }}
-          >
-            <AvatarPreview avatarConfig={profile.avatar_config as Record<string, unknown> | null} size={52} />
-          </div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div
-              className="font-pixel"
-              style={{
-                fontSize: 7,
-                color: 'var(--qf-ember-bright)',
-                letterSpacing: '0.16em',
-              }}
-            >
-              {(classInfo?.name ?? profile.avatar_class).toUpperCase()}
-            </div>
-            <div
-              className="font-heading qf-shimmer"
-              style={{
-                fontSize: 22,
-                fontWeight: 700,
-                marginTop: 2,
-                letterSpacing: '0.02em',
-                lineHeight: 1.1,
-              }}
-            >
-              {profile.display_name}
-            </div>
-            <div
-              style={{
-                fontSize: 12,
-                color: 'var(--qf-parchment-dim)',
-                fontStyle: 'italic',
-              }}
-            >
-              Embershard · {shard}
-            </div>
-          </div>
-          <div style={{ textAlign: 'right' }}>
-            <div
-              className="font-heading"
-              style={{ fontSize: 22, color: 'var(--qf-gold-300)', fontWeight: 700 }}
-            >
-              {level}
-            </div>
-            <div
-              className="font-pixel"
-              style={{
-                fontSize: 6,
-                color: 'var(--qf-parchment-muted)',
-                letterSpacing: '0.12em',
-              }}
-            >
-              LEVEL
-            </div>
-          </div>
-        </div>
-        <div style={{ marginTop: 14 }}>
-          <div
-            style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}
-          >
-            <span
-              className="font-pixel"
-              style={{
-                fontSize: 6,
-                color: 'var(--qf-parchment-muted)',
-                letterSpacing: '0.12em',
-              }}
-            >
-              XP TO LV {level + 1}
-            </span>
-            <span
-              className="font-pixel"
-              style={{ fontSize: 6, color: 'var(--qf-gold-300)' }}
-            >
-              {xpIntoLevel.toLocaleString()} / {xpNeeded.toLocaleString()}
-            </span>
-          </div>
-          <XPBar pct={xpPct} />
-        </div>
-      </div>
+    <>
+      <style>{`
+        @media (min-width: 900px) {
+          .dashboard-grid {
+            display: grid !important;
+            grid-template-columns: 340px 1fr !important;
+            gap: 20px !important;
+            align-items: start !important;
+          }
+          .dashboard-left { display: flex; flex-direction: column; gap: 16px; }
+          .dashboard-right { display: flex; flex-direction: column; gap: 16px; }
+          .hero-avatar-wrap { width: 96px !important; height: 96px !important; }
+        }
+      `}</style>
+      <div style={{ padding: '12px 18px 24px' }}>
+        <div className="dashboard-grid">
 
-      {/* Boss banner */}
-      {boss && boss.boss_name ? (
-        <div
-          style={{
-            position: 'relative',
-            padding: 16,
-            marginBottom: 14,
-            background:
-              'linear-gradient(180deg, rgba(196,58,0,0.15) 0%, rgba(15,17,24,0.8) 100%), var(--qf-bg-card-alt)',
-            border: '1px solid var(--qf-ember-deep)',
-            overflow: 'hidden',
-          }}
-        >
-          <span className="qf-corner-tl" /><span className="qf-corner-tr" />
-          <span className="qf-corner-bl" /><span className="qf-corner-br" />
-          <div
-            style={{ position: 'absolute', top: -8, right: -10, opacity: 0.9 }}
-            className="qf-boss-bob"
-            aria-hidden="true"
-          >
-            <BossSprite name={bossSpriteName} scale={1.5} />
-          </div>
-          <div
-            className="font-pixel"
-            style={{
-              fontSize: 7,
-              color: 'var(--qf-ember-bright)',
-              letterSpacing: '0.18em',
-            }}
-          >
-            WEEK {boss.week_number ?? 1} · BOSS
-          </div>
-          <div
-            className="font-heading qf-flicker"
-            style={{
-              fontSize: 20,
-              color: 'var(--qf-parchment)',
-              marginTop: 4,
-              fontWeight: 700,
-              letterSpacing: '0.04em',
-            }}
-          >
-            {boss.boss_name}
-          </div>
-          {boss.boss_description && (
-            <div
-              style={{
-                fontSize: 12,
-                color: 'var(--qf-parchment-dim)',
-                fontStyle: 'italic',
-                margin: '4px 0 12px',
-                maxWidth: '70%',
-              }}
-            >
-              &ldquo;{boss.boss_description}&rdquo;
-            </div>
-          )}
-          <HPBar
-            pct={bossHpPct}
-            label="HP"
-            value={`${boss.boss_current_hp.toLocaleString()} / ${boss.boss_hp.toLocaleString()}`}
-          />
-        </div>
-      ) : (
-        <div
-          style={{
-            padding: '14px 16px',
-            marginBottom: 14,
-            background: 'rgba(255,255,255,0.02)',
-            border: '1px dashed rgba(255,255,255,0.08)',
-            textAlign: 'center',
-          }}
-        >
-          <span
-            className="font-pixel"
-            style={{
-              fontSize: 7,
-              color: 'var(--qf-parchment-muted)',
-              letterSpacing: '0.16em',
-            }}
-          >
-            NO ACTIVE THREAT — THE REALM IS AT PEACE
-          </span>
-        </div>
-      )}
+          {/* ── Left column (hero + boss + purse) ── */}
+          <div className="dashboard-left">
 
-      {/* Now Dueling callout */}
-      {currentTeacher && currentEnemy && (
-        <NowDuelingCallout
-          teacher={currentTeacher}
-          enemy={currentEnemy}
-          animationPreset={currentPreset}
-        />
-      )}
-
-      {/* Today's chores preview */}
-      <div style={{ marginBottom: 14 }}>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'baseline',
-            justifyContent: 'space-between',
-            marginBottom: 8,
-          }}
-        >
-          <div className="qf-scribed" style={{ fontSize: 10 }}>
-            Today&rsquo;s Chores
-          </div>
-          {todaysQuests.length > 0 && (
-            <span
-              className="font-pixel"
-              style={{ fontSize: 6, color: 'var(--qf-gold-400)' }}
-            >
-              {doneCount} OF {todaysQuests.length}
-            </span>
-          )}
-        </div>
-        {todaysQuests.length === 0 ? (
-          <div
-            style={{
-              padding: '1.25rem 1rem',
-              textAlign: 'center',
-              background: 'rgba(255,255,255,0.015)',
-              border: '1px dashed rgba(201,168,76,0.10)',
-              fontSize: 12,
-              color: 'var(--qf-parchment-muted)',
-              fontStyle: 'italic',
-            }}
-          >
-            No quests today. The Game Master must post deeds.
-          </div>
-        ) : (
-          todaysQuests.map((q) => (
-            <div
-              key={q.id}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 10,
-                padding: '10px 12px',
-                background: q.done ? 'rgba(90,171,110,0.06)' : 'var(--qf-bg-card)',
-                border: '1px solid ' + (q.done ? 'rgba(90,171,110,0.3)' : 'var(--qf-rule)'),
-                marginBottom: 6,
-                opacity: q.done ? 0.7 : 1,
-              }}
-            >
-              <div
-                style={{
-                  width: 18,
-                  height: 18,
-                  border: '2px solid ' + (q.done ? 'var(--qf-success)' : 'var(--qf-gold-500)'),
-                  background: q.done ? 'var(--qf-success)' : 'transparent',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'var(--qf-bg-void)',
-                  fontSize: 12,
-                  fontWeight: 700,
-                  flexShrink: 0,
-                }}
-              >
-                {q.done && '✓'}
-              </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
+            {/* Hero card */}
+            <div className="qf-ornate-panel" style={{ padding: 20, position: 'relative' }}>
+              <span className="qf-corner-tl" /><span className="qf-corner-tr" />
+              <span className="qf-corner-bl" /><span className="qf-corner-br" />
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                 <div
-                  className="font-heading"
+                  className="hero-avatar-wrap"
                   style={{
-                    fontSize: 13,
-                    color: 'var(--qf-parchment)',
-                    textDecoration: q.done ? 'line-through' : 'none',
-                    textDecorationColor: 'var(--qf-parchment-muted)',
+                    width: 72,
+                    height: 72,
+                    padding: 6,
+                    flexShrink: 0,
+                    background: 'radial-gradient(circle, rgba(232,160,32,0.18), transparent 70%)',
+                    border: '1px solid var(--qf-rule-strong)',
                   }}
                 >
-                  {q.title}
+                  <AvatarPreview avatarConfig={profile.avatar_config as Record<string, unknown> | null} size={60} />
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div
+                    className="font-pixel"
+                    style={{
+                      fontSize: 9,
+                      color: 'var(--qf-ember-bright)',
+                      letterSpacing: '0.16em',
+                    }}
+                  >
+                    {(classInfo?.name ?? profile.avatar_class).toUpperCase()}
+                  </div>
+                  <div
+                    className="font-heading qf-shimmer"
+                    style={{
+                      fontSize: 24,
+                      fontWeight: 700,
+                      marginTop: 2,
+                      letterSpacing: '0.02em',
+                      lineHeight: 1.1,
+                    }}
+                  >
+                    {profile.display_name}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      color: 'var(--qf-parchment-dim)',
+                      fontStyle: 'italic',
+                      marginTop: 2,
+                    }}
+                  >
+                    Embershard · {shard}
+                  </div>
+                </div>
+                <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                  <div
+                    className="font-heading"
+                    style={{ fontSize: 26, color: 'var(--qf-gold-300)', fontWeight: 700 }}
+                  >
+                    {level}
+                  </div>
+                  <div
+                    className="font-pixel"
+                    style={{
+                      fontSize: 8,
+                      color: 'var(--qf-parchment-muted)',
+                      letterSpacing: '0.12em',
+                    }}
+                  >
+                    LEVEL
+                  </div>
                 </div>
               </div>
-              <span
-                className="font-pixel"
+              <div style={{ marginTop: 16 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5 }}>
+                  <span
+                    className="font-pixel"
+                    style={{ fontSize: 8, color: 'var(--qf-parchment-muted)', letterSpacing: '0.12em' }}
+                  >
+                    XP TO LV {level + 1}
+                  </span>
+                  <span
+                    className="font-pixel"
+                    style={{ fontSize: 8, color: 'var(--qf-gold-300)' }}
+                  >
+                    {xpIntoLevel.toLocaleString()} / {xpNeeded.toLocaleString()}
+                  </span>
+                </div>
+                <XPBar pct={xpPct} />
+              </div>
+            </div>
+
+            {/* Boss banner */}
+            {boss && boss.boss_name ? (
+              <div
                 style={{
-                  fontSize: 7,
-                  color: 'var(--qf-gold-300)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 3,
+                  position: 'relative',
+                  padding: 18,
+                  background:
+                    'linear-gradient(180deg, rgba(196,58,0,0.15) 0%, rgba(15,17,24,0.8) 100%), var(--qf-bg-card-alt)',
+                  border: '1px solid var(--qf-ember-deep)',
+                  overflow: 'hidden',
                 }}
               >
-                <XPIcon size={10} />+{q.xp}
-              </span>
-            </div>
-          ))
-        )}
-      </div>
+                <span className="qf-corner-tl" /><span className="qf-corner-tr" />
+                <span className="qf-corner-bl" /><span className="qf-corner-br" />
+                <div
+                  style={{ position: 'absolute', top: -8, right: -10, opacity: 0.9 }}
+                  className="qf-boss-bob"
+                  aria-hidden="true"
+                >
+                  <BossSprite name={bossSpriteName} scale={1.5} />
+                </div>
+                <div
+                  className="font-pixel"
+                  style={{ fontSize: 9, color: 'var(--qf-ember-bright)', letterSpacing: '0.18em' }}
+                >
+                  WEEK {boss.week_number ?? 1} · BOSS
+                </div>
+                <div
+                  className="font-heading qf-flicker"
+                  style={{ fontSize: 22, color: 'var(--qf-parchment)', marginTop: 4, fontWeight: 700 }}
+                >
+                  {boss.boss_name}
+                </div>
+                {boss.boss_description && (
+                  <div
+                    style={{
+                      fontSize: 13,
+                      color: 'var(--qf-parchment-dim)',
+                      fontStyle: 'italic',
+                      margin: '6px 0 14px',
+                      maxWidth: '70%',
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    &ldquo;{boss.boss_description}&rdquo;
+                  </div>
+                )}
+                <HPBar
+                  pct={bossHpPct}
+                  label="HP"
+                  value={`${boss.boss_current_hp.toLocaleString()} / ${boss.boss_hp.toLocaleString()}`}
+                />
+              </div>
+            ) : (
+              <div
+                style={{
+                  padding: '16px 18px',
+                  background: 'rgba(255,255,255,0.02)',
+                  border: '1px dashed rgba(255,255,255,0.08)',
+                  textAlign: 'center',
+                }}
+              >
+                <span
+                  className="font-pixel"
+                  style={{ fontSize: 8, color: 'var(--qf-parchment-muted)', letterSpacing: '0.16em' }}
+                >
+                  NO ACTIVE THREAT — THE REALM IS AT PEACE
+                </span>
+              </div>
+            )}
 
-      {/* Inventory teaser — passes to wallet/profile when implemented */}
-      <div className="qf-ornate-panel" style={{ padding: 14 }}>
-        <div
-          className="font-pixel"
-          style={{
-            fontSize: 6,
-            color: 'var(--qf-ember-bright)',
-            letterSpacing: '0.18em',
-            marginBottom: 6,
-          }}
-        >
-          PURSE
-        </div>
-        <div style={{ display: 'flex', gap: 18, alignItems: 'center' }}>
-          <div>
-            <div
-              className="font-heading"
-              style={{ fontSize: 18, color: 'var(--qf-gold-300)', fontWeight: 700 }}
-            >
-              {(profile.xp_available ?? 0).toLocaleString()}
+            {/* Purse */}
+            <div className="qf-ornate-panel" style={{ padding: 16 }}>
+              <div
+                className="font-pixel"
+                style={{ fontSize: 9, color: 'var(--qf-ember-bright)', letterSpacing: '0.18em', marginBottom: 10 }}
+              >
+                PURSE
+              </div>
+              <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
+                <div>
+                  <div
+                    className="font-heading"
+                    style={{ fontSize: 22, color: 'var(--qf-gold-300)', fontWeight: 700 }}
+                  >
+                    {(profile.xp_available ?? 0).toLocaleString()}
+                  </div>
+                  <div
+                    className="font-pixel"
+                    style={{ fontSize: 8, color: 'var(--qf-parchment-muted)', letterSpacing: '0.1em' }}
+                  >
+                    SPENDABLE XP
+                  </div>
+                </div>
+                <div>
+                  <div
+                    className="font-heading"
+                    style={{ fontSize: 22, color: 'var(--qf-gold-200)', fontWeight: 700 }}
+                  >
+                    {(profile.gold ?? 0).toLocaleString()}
+                  </div>
+                  <div
+                    className="font-pixel"
+                    style={{ fontSize: 8, color: 'var(--qf-parchment-muted)', letterSpacing: '0.1em' }}
+                  >
+                    GOLD
+                  </div>
+                </div>
+              </div>
             </div>
-            <div
-              className="font-pixel"
-              style={{
-                fontSize: 6,
-                color: 'var(--qf-parchment-muted)',
-                letterSpacing: '0.1em',
-              }}
-            >
-              SPENDABLE XP
-            </div>
+
           </div>
-          <div>
-            <div
-              className="font-heading"
-              style={{ fontSize: 18, color: 'var(--qf-gold-200)', fontWeight: 700 }}
-            >
-              {(profile.gold ?? 0).toLocaleString()}
+
+          {/* ── Right column (dueling callout + quests) ── */}
+          <div className="dashboard-right">
+
+            {/* Now Dueling callout */}
+            {currentTeacher && currentEnemy && (
+              <NowDuelingCallout
+                teacher={currentTeacher}
+                enemy={currentEnemy}
+                animationPreset={currentPreset}
+              />
+            )}
+
+            {/* Today's chores */}
+            <div>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'baseline',
+                  justifyContent: 'space-between',
+                  marginBottom: 10,
+                }}
+              >
+                <div className="qf-scribed" style={{ fontSize: 13 }}>
+                  Today&rsquo;s Chores
+                </div>
+                {todaysQuests.length > 0 && (
+                  <span
+                    className="font-pixel"
+                    style={{ fontSize: 9, color: 'var(--qf-gold-400)' }}
+                  >
+                    {doneCount} OF {todaysQuests.length}
+                  </span>
+                )}
+              </div>
+              {todaysQuests.length === 0 ? (
+                <div
+                  style={{
+                    padding: '20px 16px',
+                    textAlign: 'center',
+                    background: 'rgba(255,255,255,0.015)',
+                    border: '1px dashed rgba(201,168,76,0.10)',
+                    fontSize: 14,
+                    color: 'var(--qf-parchment-muted)',
+                    fontStyle: 'italic',
+                  }}
+                >
+                  No quests today. The Game Master must post deeds.
+                </div>
+              ) : (
+                todaysQuests.map((q) => (
+                  <div
+                    key={q.id}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 12,
+                      padding: '12px 14px',
+                      background: q.done ? 'rgba(90,171,110,0.06)' : 'var(--qf-bg-card)',
+                      border: '1px solid ' + (q.done ? 'rgba(90,171,110,0.3)' : 'var(--qf-rule)'),
+                      marginBottom: 8,
+                      opacity: q.done ? 0.7 : 1,
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: 22,
+                        height: 22,
+                        border: '2px solid ' + (q.done ? 'var(--qf-success)' : 'var(--qf-gold-500)'),
+                        background: q.done ? 'var(--qf-success)' : 'transparent',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'var(--qf-bg-void)',
+                        fontSize: 13,
+                        fontWeight: 700,
+                        flexShrink: 0,
+                      }}
+                    >
+                      {q.done && '✓'}
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div
+                        className="font-heading"
+                        style={{
+                          fontSize: 15,
+                          color: 'var(--qf-parchment)',
+                          textDecoration: q.done ? 'line-through' : 'none',
+                          textDecorationColor: 'var(--qf-parchment-muted)',
+                        }}
+                      >
+                        {q.title}
+                      </div>
+                    </div>
+                    <span
+                      className="font-pixel"
+                      style={{
+                        fontSize: 9,
+                        color: 'var(--qf-gold-300)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 4,
+                        flexShrink: 0,
+                      }}
+                    >
+                      <XPIcon size={11} />+{q.xp}
+                    </span>
+                  </div>
+                ))
+              )}
             </div>
-            <div
-              className="font-pixel"
-              style={{
-                fontSize: 6,
-                color: 'var(--qf-parchment-muted)',
-                letterSpacing: '0.1em',
-              }}
-            >
-              GOLD
-            </div>
+
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }

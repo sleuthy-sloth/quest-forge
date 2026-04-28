@@ -297,9 +297,9 @@ export default function LootPage() {
 
         .shop-tab {
           flex: 1;
-          padding: 0.7rem 0;
+          padding: 0.85rem 0;
           font-family: var(--font-pixel, 'Press Start 2P', monospace);
-          font-size: 0.42rem;
+          font-size: 0.58rem;
           letter-spacing: 0.12em;
           text-transform: uppercase;
           image-rendering: pixelated;
@@ -312,16 +312,16 @@ export default function LootPage() {
 
         .buy-btn {
           width: 100%;
-          padding: 0.8rem 1rem;
-          border-radius: 2px;
+          padding: 0.9rem 1rem;
+          border-radius: 3px;
           font-family: var(--font-pixel, 'Press Start 2P', monospace);
-          font-size: 0.44rem;
+          font-size: 0.58rem;
           letter-spacing: 0.12em;
           text-transform: uppercase;
           image-rendering: pixelated;
           cursor: pointer;
           transition: all 0.15s;
-          min-height: 48px;
+          min-height: 52px;
         }
         .buy-btn:hover:not(:disabled) { filter: brightness(1.18); }
         .buy-btn:active:not(:disabled) { transform: scale(0.98); }
@@ -332,7 +332,7 @@ export default function LootPage() {
           padding: 1rem;
           border-radius: 3px;
           font-family: var(--font-pixel, 'Press Start 2P', monospace);
-          font-size: 0.44rem;
+          font-size: 0.58rem;
           letter-spacing: 0.1em;
           text-transform: uppercase;
           image-rendering: pixelated;
@@ -344,6 +344,18 @@ export default function LootPage() {
         .modal-btn:hover:not(:disabled) { filter: brightness(1.12); }
         .modal-btn:active:not(:disabled) { transform: scale(0.97); }
         .modal-btn:disabled { cursor: wait; opacity: 0.6; }
+
+        .loot-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 0.9rem;
+        }
+        @media (min-width: 640px) {
+          .loot-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+        @media (min-width: 1024px) {
+          .loot-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        }
       `}</style>
 
       {/* ── Shop sign ───────────────────────────────────────────────────── */}
@@ -383,12 +395,12 @@ export default function LootPage() {
           className="text-center"
           style={{
             fontFamily:    'var(--font-pixel), monospace',
-            fontSize:      '0.65rem',
+            fontSize:      '0.85rem',
             letterSpacing: '0.2em',
             color:         'rgba(201,168,76,0.95)',
             imageRendering: 'pixelated',
             textShadow:    '0 0 20px rgba(201,168,76,0.5), 0 0 40px rgba(201,168,76,0.2)',
-            marginBottom:  '0.3rem',
+            marginBottom:  '0.4rem',
           }}
         >
           ROOK&apos;S EMPORIUM
@@ -399,9 +411,9 @@ export default function LootPage() {
           className="text-center"
           style={{
             fontFamily: 'var(--font-body), serif',
-            fontSize:   '0.75rem',
+            fontSize:   '0.9rem',
             fontStyle:  'italic',
-            color:      'rgba(176,155,110,0.45)',
+            color:      'rgba(176,155,110,0.55)',
             marginBottom: '0.85rem',
           }}
         >
@@ -425,7 +437,7 @@ export default function LootPage() {
             <span
               style={{
                 fontFamily:     'var(--font-pixel), monospace',
-                fontSize:       '0.48rem',
+                fontSize:       '0.62rem',
                 imageRendering: 'pixelated',
                 color:          'rgba(110,181,255,0.9)',
                 fontVariantNumeric: 'tabular-nums',
@@ -439,7 +451,7 @@ export default function LootPage() {
             <span
               style={{
                 fontFamily:     'var(--font-pixel), monospace',
-                fontSize:       '0.48rem',
+                fontSize:       '0.62rem',
                 imageRendering: 'pixelated',
                 color:          'rgba(201,168,76,0.9)',
                 fontVariantNumeric: 'tabular-nums',
@@ -510,13 +522,7 @@ export default function LootPage() {
               </p>
             </div>
           ) : (
-            <div
-              style={{
-                display:             'grid',
-                gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-                gap:                  '0.75rem',
-              }}
-            >
+            <div className="loot-grid">
               {sortedItems.map((item, idx) => {
                 const cat       = CAT_META[item.category]
                 const afford    = canAfford(item)
@@ -546,17 +552,17 @@ export default function LootPage() {
                       style={{ height: 2, background: cat.color, opacity: afford ? 0.8 : 0.4 }}
                     />
 
-                    <div style={{ padding: '0.85rem 0.75rem', flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    <div style={{ padding: '1.1rem 1rem', flex: 1, display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
                       {/* Icon + category pill */}
                       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
                         <CategoryIcon category={item.category} size={44} />
                         <span
                           style={{
                             fontFamily:     'var(--font-pixel), monospace',
-                            fontSize:       '0.34rem',
+                            fontSize:       '0.46rem',
                             imageRendering: 'pixelated',
-                            padding:        '2px 4px',
-                            borderRadius:    2,
+                            padding:        '3px 6px',
+                            borderRadius:    3,
                             background:      cat.bg,
                             border:         `1px solid ${cat.border}`,
                             color:           cat.color,
@@ -572,7 +578,7 @@ export default function LootPage() {
                         style={{
                           fontFamily: 'var(--font-heading), serif',
                           fontWeight: 700,
-                          fontSize:   '0.82rem',
+                          fontSize:   '1rem',
                           color:      afford ? '#f0e6c8' : 'rgba(240,230,200,0.45)',
                           lineHeight:  1.25,
                         }}
@@ -585,9 +591,9 @@ export default function LootPage() {
                         <p
                           style={{
                             fontFamily: 'var(--font-body), serif',
-                            fontSize:   '0.73rem',
+                            fontSize:   '0.88rem',
                             fontStyle:  'italic',
-                            color:      'rgba(200,215,255,0.3)',
+                            color:      'rgba(200,215,255,0.38)',
                             lineHeight:  1.5,
                             flex:        1,
                           }}
@@ -601,29 +607,29 @@ export default function LootPage() {
                         style={{
                           display:       'flex',
                           flexDirection: 'column',
-                          gap:           '0.2rem',
-                          paddingTop:    '0.5rem',
-                          borderTop:     '1px solid rgba(255,255,255,0.06)',
+                          gap:           '0.25rem',
+                          paddingTop:    '0.6rem',
+                          borderTop:     '1px solid rgba(255,255,255,0.07)',
                         }}
                       >
                         {item.cost_xp > 0 && (
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                            <XpIcon size={12} />
-                            <span style={{ fontFamily: 'var(--font-pixel), monospace', fontSize: '0.38rem', imageRendering: 'pixelated', color: xpAvailable >= item.cost_xp ? 'rgba(110,181,255,0.9)' : 'rgba(220,80,80,0.7)' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                            <XpIcon size={14} />
+                            <span style={{ fontFamily: 'var(--font-pixel), monospace', fontSize: '0.52rem', imageRendering: 'pixelated', color: xpAvailable >= item.cost_xp ? 'rgba(110,181,255,0.9)' : 'rgba(220,80,80,0.7)' }}>
                               {item.cost_xp.toLocaleString()} XP
                             </span>
                           </div>
                         )}
                         {item.cost_gold > 0 && (
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                            <GoldIcon size={12} />
-                            <span style={{ fontFamily: 'var(--font-pixel), monospace', fontSize: '0.38rem', imageRendering: 'pixelated', color: gold >= item.cost_gold ? 'rgba(201,168,76,0.9)' : 'rgba(220,80,80,0.7)' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                            <GoldIcon size={14} />
+                            <span style={{ fontFamily: 'var(--font-pixel), monospace', fontSize: '0.52rem', imageRendering: 'pixelated', color: gold >= item.cost_gold ? 'rgba(201,168,76,0.9)' : 'rgba(220,80,80,0.7)' }}>
                               {item.cost_gold.toLocaleString()} GP
                             </span>
                           </div>
                         )}
                         {item.cost_xp === 0 && item.cost_gold === 0 && (
-                          <span style={{ fontFamily: 'var(--font-pixel), monospace', fontSize: '0.38rem', imageRendering: 'pixelated', color: 'rgba(46,184,92,0.7)' }}>
+                          <span style={{ fontFamily: 'var(--font-pixel), monospace', fontSize: '0.52rem', imageRendering: 'pixelated', color: 'rgba(46,184,92,0.7)' }}>
                             FREE
                           </span>
                         )}
@@ -857,7 +863,7 @@ export default function LootPage() {
                 id="modal-title"
                 style={{
                   fontFamily:     'var(--font-pixel), monospace',
-                  fontSize:       '0.48rem',
+                  fontSize:       '0.62rem',
                   letterSpacing:  '0.18em',
                   color:          'rgba(201,168,76,0.8)',
                   imageRendering: 'pixelated',
@@ -913,9 +919,9 @@ export default function LootPage() {
               <p
                 style={{
                   fontFamily:     'var(--font-pixel), monospace',
-                  fontSize:       '0.38rem',
+                  fontSize:       '0.52rem',
                   imageRendering: 'pixelated',
-                  color:          'rgba(200,215,255,0.35)',
+                  color:          'rgba(200,215,255,0.45)',
                   letterSpacing:  '0.12em',
                   marginBottom:   '0.6rem',
                 }}
@@ -947,9 +953,9 @@ export default function LootPage() {
               <p
                 style={{
                   fontFamily:     'var(--font-pixel), monospace',
-                  fontSize:       '0.34rem',
+                  fontSize:       '0.48rem',
                   imageRendering: 'pixelated',
-                  color:          'rgba(200,215,255,0.3)',
+                  color:          'rgba(200,215,255,0.4)',
                   letterSpacing:  '0.1em',
                   marginBottom:   '0.45rem',
                 }}

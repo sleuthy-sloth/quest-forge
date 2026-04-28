@@ -103,10 +103,6 @@ export default function QuizInterface({
   }
 
   // ── Load challenges when age tier is known ──────────────────────────────
-  // fetchChallenges() returns early if ageTier is null, so we only fire it
-  // once the hook finishes loading the player's age from the profile.
-  // This avoids the race-condition double-fetch that happened when the hook
-  // defaulted to 'junior' before the profile age arrived.
   const startedRef = useRef(false)
   useEffect(() => {
     if (!ageTier || startedRef.current) return
@@ -170,7 +166,6 @@ export default function QuizInterface({
   // ── Answer handler ───────────────────────────────────────────────────────
 
   async function handleAnswer(option: string) {
-    // Guard: prevent double-submission via feedback state + ref in hook
     if (feedback !== null || submitting) return
 
     const current = challenges[questionIndex]
@@ -223,7 +218,7 @@ export default function QuizInterface({
           setFeedback(null)
           setChosenWrong(null)
         }
-      }, 3500)) // longer delay so player can read explanation
+      }, 3500))
     }
   }
 
@@ -251,15 +246,15 @@ export default function QuizInterface({
 
   if (phase === 'loading') {
     return (
-      <div style={{ padding: '48px 16px', textAlign: 'center' }}>
+      <div style={{ padding: '64px 20px', textAlign: 'center' }}>
         {fetchError ? (
           <>
             <div
               style={{
                 fontFamily: 'var(--font-heading)',
-                fontSize: '14px',
+                fontSize: 16,
                 color: '#c9a84c',
-                marginBottom: '16px',
+                marginBottom: 20,
               }}
             >
               {fetchError}
@@ -268,12 +263,12 @@ export default function QuizInterface({
               onClick={handleRetry}
               style={{
                 fontFamily: 'var(--font-pixel)',
-                fontSize: '7px',
+                fontSize: 9,
                 color: '#f0e6c8',
                 background: 'linear-gradient(135deg,#c43a00,#8b1e00)',
                 border: '1px solid rgba(196,58,0,0.5)',
-                borderRadius: '3px',
-                padding: '10px 16px',
+                borderRadius: 4,
+                padding: '12px 20px',
                 cursor: 'pointer',
               }}
             >
@@ -284,7 +279,7 @@ export default function QuizInterface({
           <div
             style={{
               fontFamily: 'var(--font-pixel)',
-              fontSize: '7px',
+              fontSize: 9,
               color: '#c9a84c',
               letterSpacing: '2px',
             }}
@@ -300,160 +295,189 @@ export default function QuizInterface({
 
   if (phase === 'results') {
     const correctCount = sessionCorrect
+    const accuracy = challenges.length ? correctCount / challenges.length : 0
 
     return (
-      <div className="px-4 py-6" style={{ maxWidth: '480px', margin: '0 auto', position: 'relative' }}>
-        <CelebrationEffect trigger={celebrationTick} />
+      <>
+        <style>{`
+          @keyframes score-pop {
+            0%   { transform: scale(0.7); opacity: 0; }
+            70%  { transform: scale(1.08); }
+            100% { transform: scale(1); opacity: 1; }
+          }
+        `}</style>
+        <div className="px-4 py-6" style={{ maxWidth: 640, margin: '0 auto', position: 'relative' }}>
+          <CelebrationEffect trigger={celebrationTick} />
 
-        {/* Submission error toast */}
-        {submissionError && (
+          {/* Submission error toast */}
+          {submissionError && (
+            <div
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: 13,
+                color: '#e05555',
+                background: 'rgba(224,85,85,0.1)',
+                border: '1px solid rgba(224,85,85,0.3)',
+                borderRadius: 4,
+                padding: '10px 14px',
+                marginBottom: 14,
+                textAlign: 'center',
+              }}
+            >
+              Some results may not have saved — check your connection.
+            </div>
+          )}
+
           <div
             style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '12px',
-              color: '#e05555',
-              background: 'rgba(224,85,85,0.1)',
-              border: '1px solid rgba(224,85,85,0.3)',
-              borderRadius: '3px',
-              padding: '8px 12px',
-              marginBottom: '12px',
-              textAlign: 'center',
+              background: 'linear-gradient(180deg,#0d0f1c,#070910)',
+              border: '1px solid rgba(201,168,76,0.25)',
+              borderRadius: 6,
+              overflow: 'hidden',
+              marginBottom: 14,
             }}
           >
-            Some results may not have saved — check your connection.
-          </div>
-        )}
-
-        <div
-          style={{
-            background: 'linear-gradient(180deg,#0d0f1c,#070910)',
-            border: '1px solid rgba(201,168,76,0.2)',
-            borderRadius: '4px',
-            padding: '16px 14px',
-            marginBottom: '12px',
-          }}
-        >
-          {/* Header */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
-            <div style={{ flex: 1 }}>
+            {/* Score hero */}
+            <div style={{
+              padding: '28px 20px 24px',
+              textAlign: 'center',
+              borderBottom: '1px solid rgba(201,168,76,0.1)',
+              background: `linear-gradient(180deg, rgba(${accuracy >= 0.8 ? '46,184,92' : accuracy >= 0.6 ? '232,160,32' : '224,85,85'},0.08), transparent)`,
+            }}>
               <div
                 style={{
                   fontFamily: 'var(--font-pixel)',
-                  fontSize: '6px',
+                  fontSize: 9,
                   color: '#7a6a44',
-                  marginBottom: '4px',
-                  letterSpacing: '1px',
+                  letterSpacing: '2px',
+                  marginBottom: 14,
                 }}
               >
                 QUIZ COMPLETE
               </div>
               <div
-                style={{ fontFamily: 'var(--font-pixel)', fontSize: '14px', color: '#f0e6c8' }}
+                style={{
+                  fontFamily: 'var(--font-pixel)',
+                  fontSize: 'clamp(28px, 6vw, 48px)',
+                  color: accuracyColor(accuracy),
+                  animation: 'score-pop 0.5s ease both',
+                  lineHeight: 1,
+                  marginBottom: 10,
+                  textShadow: `0 0 20px ${accuracyColor(accuracy)}66`,
+                }}
               >
                 {correctCount} / {challenges.length}
               </div>
               <div
                 style={{
+                  display: 'inline-block',
+                  background: `rgba(${accuracy >= 0.8 ? '46,184,92' : accuracy >= 0.6 ? '232,160,32' : '224,85,85'},0.15)`,
+                  border: `1px solid ${accuracyColor(accuracy)}66`,
+                  borderRadius: 4,
+                  padding: '4px 14px',
+                  fontFamily: 'var(--font-pixel)',
+                  fontSize: 11,
+                  color: accuracyColor(accuracy),
+                  marginBottom: 12,
+                }}
+              >
+                {Math.round(accuracy * 100)}%
+              </div>
+              <div
+                style={{
                   fontFamily: 'var(--font-heading)',
-                  fontSize: '11px',
-                  color: '#7a6a44',
-                  marginTop: '2px',
+                  fontSize: 18,
+                  color: '#c9a84c',
                 }}
               >
                 +{sessionXp} XP earned
               </div>
               {freshProfile && (
-                <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '5px', color: '#c9a84c', marginTop: '4px', letterSpacing: '0.1em' }}>
+                <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 8, color: '#7a6a44', marginTop: 6, letterSpacing: '0.1em' }}>
                   LV {freshProfile.level} · {freshProfile.xp_available.toLocaleString()} XP available
                 </div>
               )}
             </div>
-            <div
-              style={{
-                background: `rgba(${correctCount >= 8 ? '46,184,92' : correctCount >= 6 ? '232,160,32' : '224,85,85'},0.12)`,
-                border: `1px solid rgba(${correctCount >= 8 ? '46,184,92' : correctCount >= 6 ? '232,160,32' : '224,85,85'},0.4)`,
-                borderRadius: '3px',
-                padding: '8px 12px',
-                fontFamily: 'var(--font-pixel)',
-                fontSize: '8px',
-                color: accuracyColor(challenges.length ? correctCount / challenges.length : 0),
-              }}
-            >
-              {Math.round((challenges.length ? correctCount / challenges.length : 0) * 100)}%
-            </div>
-          </div>
 
-          {/* Answers log */}
-          <div
-            style={{
-              display: 'flex', flexDirection: 'column', gap: '4px',
-              marginBottom: '12px', maxHeight: '280px', overflowY: 'auto',
-            }}
-          >
-            {challenges.map((q, i) => (
+            {/* Answers log */}
+            <div style={{ padding: '16px 16px 0' }}>
+              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 8, color: '#7a6a44', letterSpacing: '0.1em', marginBottom: 10 }}>
+                ANSWER LOG
+              </div>
               <div
-                key={q.id}
                 style={{
-                  display: 'flex', flexDirection: 'column', gap: '2px',
-                  background: 'rgba(26,28,46,0.8)',
-                  borderLeft: '2px solid rgba(201,168,76,0.3)',
-                  borderRadius: '0 2px 2px 0',
-                  padding: '5px 8px',
+                  display: 'flex', flexDirection: 'column', gap: 6,
+                  marginBottom: 16, maxHeight: 260, overflowY: 'auto',
                 }}
               >
-                <div style={{ fontFamily: 'var(--font-body)', fontSize: '11px', color: '#b09a6e' }}>
-                  {i + 1}. {q.content.question}
-                </div>
-                <div
-                  style={{
-                    fontFamily: 'var(--font-pixel)',
-                    fontSize: '5px',
-                    color: '#7a6a44',
-                  }}
-                >
-                  Answer: {q.content.correct_answer}
-                </div>
+                {challenges.map((q, i) => (
+                  <div
+                    key={q.id}
+                    style={{
+                      display: 'flex', flexDirection: 'column', gap: 4,
+                      background: 'rgba(26,28,46,0.8)',
+                      borderLeft: '3px solid rgba(201,168,76,0.3)',
+                      borderRadius: '0 3px 3px 0',
+                      padding: '8px 12px',
+                    }}
+                  >
+                    <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: '#b09a6e' }}>
+                      {i + 1}. {q.content.question}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: 'var(--font-pixel)',
+                        fontSize: 7,
+                        color: '#7a6a44',
+                      }}
+                    >
+                      Answer: {q.content.correct_answer}
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
 
-          {/* Buttons */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <button
-              onClick={handleRetry}
-              style={{
-                width: '100%',
-                padding: '11px',
-                background: 'linear-gradient(135deg,#c43a00,#8b1e00)',
-                border: '1px solid rgba(196,58,0,0.5)',
-                borderRadius: '3px',
-                fontFamily: 'var(--font-pixel)',
-                fontSize: '7px',
-                color: '#f0e6c8',
-                cursor: 'pointer',
-              }}
-            >
-              📜 PLAY AGAIN
-            </button>
-            <button
-              onClick={handleBack}
-              style={{
-                width: '100%',
-                padding: '9px',
-                background: 'transparent',
-                border: '1px solid rgba(201,168,76,0.3)',
-                borderRadius: '3px',
-                fontFamily: 'var(--font-pixel)',
-                fontSize: '6px',
-                color: '#c9a84c',
-                cursor: 'pointer',
-              }}
-            >
-              ← BACK TO ACADEMY
-            </button>
+            {/* Buttons */}
+            <div style={{ padding: '0 16px 20px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <button
+                onClick={handleRetry}
+                style={{
+                  width: '100%',
+                  padding: '14px',
+                  background: 'linear-gradient(135deg,#c43a00,#8b1e00)',
+                  border: '1px solid rgba(196,58,0,0.5)',
+                  borderRadius: 4,
+                  fontFamily: 'var(--font-pixel)',
+                  fontSize: 10,
+                  color: '#f0e6c8',
+                  cursor: 'pointer',
+                  minHeight: 52,
+                }}
+              >
+                📜 PLAY AGAIN
+              </button>
+              <button
+                onClick={handleBack}
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  background: 'transparent',
+                  border: '1px solid rgba(201,168,76,0.35)',
+                  borderRadius: 4,
+                  fontFamily: 'var(--font-pixel)',
+                  fontSize: 9,
+                  color: '#c9a84c',
+                  cursor: 'pointer',
+                  minHeight: 48,
+                }}
+              >
+                ← BACK TO ACADEMY
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      </>
     )
   }
 
@@ -466,144 +490,163 @@ export default function QuizInterface({
     <>
       <style>{`
         @keyframes card-rise {
-          from { opacity: 0; transform: translateY(6px); }
+          from { opacity: 0; transform: translateY(8px); }
           to   { opacity: 1; transform: translateY(0); }
+        }
+        @media (min-width: 768px) {
+          .quiz-layout {
+            display: grid !important;
+            grid-template-columns: 2fr 3fr !important;
+            gap: 24px !important;
+            align-items: start !important;
+          }
+          .quiz-arena-sticky {
+            position: sticky !important;
+            top: 16px !important;
+          }
         }
       `}</style>
 
-      <div className="px-4 pt-4 pb-8" style={{ maxWidth: '480px', margin: '0 auto' }}>
-        {/* ── Battle arena ── */}
-        <BattleArena
-          ref={arenaRef}
-          playerConfig={(avatarConfig as AvatarConfig | null) ?? DEFAULT_AVATAR_CONFIG}
-          playerPreset={playerPreset}
-          playerDisplayName={displayName ?? 'Hero'}
-          enemy={enemy}
-          enemyPreset={enemyPreset}
-          correctCount={correctCount}
-          questionIndex={questionIndex}
-          totalQuestions={challenges.length}
-          questionSource={source}
-          screenFlash={flash}
-          playerSize={64}
-          enemySize={64}
-          streak={streak}
-          enemyTitle={teacher?.title}
-        />
-
-        {/* ── Question card ──────────────────────────────────────────────── */}
-        <div
-          key={questionIndex}
-          style={{
-            background: 'rgba(26,28,46,0.8)',
-            border: '1px solid rgba(201,168,76,0.18)',
-            borderRadius: '3px',
-            padding: '14px 12px',
-            animation: 'card-rise 0.25s ease',
-          }}
-        >
-          {/* Header */}
-          <div
-            style={{
-              fontFamily: 'var(--font-pixel)',
-              fontSize: '5px',
-              color: '#7a6a44',
-              textAlign: 'center',
-              marginBottom: '10px',
-              letterSpacing: '1px',
-            }}
-          >
-            QUESTION {questionIndex + 1} OF {challenges.length}
+      <div className="px-4 pt-4 pb-10" style={{ maxWidth: 860, margin: '0 auto' }}>
+        <div className="quiz-layout">
+          {/* ── Battle arena (sticky sidebar on desktop) ── */}
+          <div className="quiz-arena-sticky">
+            <BattleArena
+              ref={arenaRef}
+              playerConfig={(avatarConfig as AvatarConfig | null) ?? DEFAULT_AVATAR_CONFIG}
+              playerPreset={playerPreset}
+              playerDisplayName={displayName ?? 'Hero'}
+              enemy={enemy}
+              enemyPreset={enemyPreset}
+              correctCount={correctCount}
+              questionIndex={questionIndex}
+              totalQuestions={challenges.length}
+              questionSource={source}
+              screenFlash={flash}
+              playerSize={72}
+              enemySize={72}
+              streak={streak}
+              enemyTitle={teacher?.title}
+            />
           </div>
 
-          {/* Question text */}
-          {(() => {
-            // Detect pattern questions (contain Unicode shape symbols) and render them larger
-            const hasPattern = /[◯■△★◆▲●○□▽☆◇▽]/.test(current.content.question)
-            return (
-              <div
-                style={{
-                  fontFamily: hasPattern ? 'var(--font-body)' : 'var(--font-pixel)',
-                  fontSize: hasPattern ? '18px' : '10px',
-                  letterSpacing: hasPattern ? '0.15em' : undefined,
-                  color: '#f0e6c8',
-                  textAlign: 'center',
-                  lineHeight: 1.8,
-                  marginBottom: '16px',
-                  minHeight: '48px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                {current.content.question}
-              </div>
-            )
-          })()}
-
-          {/* Answer grid — 2×2 */}
+          {/* ── Question card ── */}
           <div
+            key={questionIndex}
             style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '8px',
-              marginBottom: '10px',
+              background: 'rgba(26,28,46,0.85)',
+              border: '1px solid rgba(201,168,76,0.2)',
+              borderRadius: 6,
+              padding: '20px 18px',
+              animation: 'card-rise 0.25s ease',
             }}
           >
-            {current.content.options.map(option => {
-              const isCorrect = option === current.content.correct_answer
-              const isChosen = option === chosenWrong
-
-              let borderColor = 'rgba(201,168,76,0.22)'
-              if (feedback === 'wrong') {
-                borderColor = isCorrect ? '#2eb85c' : isChosen ? '#e05555' : 'rgba(201,168,76,0.15)'
-              } else if (feedback === 'correct' && isCorrect) {
-                borderColor = '#2eb85c'
-              }
-
-              return (
-                <button
-                  key={option}
-                  onClick={() => handleAnswer(option)}
-                  disabled={feedback !== null}
-                  style={{
-                    background: 'linear-gradient(135deg,#1a1c2e,#12131f)',
-                    border: `1px solid ${borderColor}`,
-                    borderRadius: '3px',
-                    padding: '12px 8px',
-                    fontFamily: 'var(--font-pixel)',
-                    fontSize: '7px',
-                    color: '#f0e6c8',
-                    textAlign: 'center',
-                    cursor: feedback !== null ? 'not-allowed' : 'pointer',
-                    pointerEvents: feedback !== null ? 'none' : 'auto',
-                    minHeight: '48px',
-                    lineHeight: 1.6,
-                    transition: 'border-color 0.15s',
-                  }}
-                >
-                  {option}
-                </button>
-              )
-            })}
-          </div>
-
-          {/* Explanation — only shown after a wrong answer */}
-          {feedback === 'wrong' && current.content.explanation && (
+            {/* Progress header */}
             <div
               style={{
-                fontFamily: 'var(--font-body)',
-                fontStyle: 'italic',
-                fontSize: '12px',
+                fontFamily: 'var(--font-pixel)',
+                fontSize: 8,
                 color: '#7a6a44',
                 textAlign: 'center',
-                padding: '6px 8px',
-                borderTop: '1px solid rgba(201,168,76,0.1)',
+                marginBottom: 16,
+                letterSpacing: '1.5px',
               }}
             >
-              {current.content.explanation}
+              QUESTION {questionIndex + 1} OF {challenges.length}
             </div>
-          )}
+
+            {/* Question text */}
+            {(() => {
+              const hasPattern = /[◯■△★◆▲●○□▽☆◇▽]/.test(current.content.question)
+              return (
+                <div
+                  style={{
+                    fontFamily: hasPattern ? 'var(--font-body)' : 'var(--font-heading)',
+                    fontSize: hasPattern ? '22px' : 'clamp(16px, 2.5vw, 22px)',
+                    letterSpacing: hasPattern ? '0.15em' : '0.02em',
+                    color: '#f0e6c8',
+                    textAlign: 'center',
+                    lineHeight: 1.6,
+                    marginBottom: 22,
+                    minHeight: 56,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {current.content.question}
+                </div>
+              )
+            })()}
+
+            {/* Answer grid — 2×2 */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: 10,
+                marginBottom: 14,
+              }}
+            >
+              {current.content.options.map(option => {
+                const isCorrect = option === current.content.correct_answer
+                const isChosen = option === chosenWrong
+
+                let borderColor = 'rgba(201,168,76,0.25)'
+                let bg = 'linear-gradient(135deg,#1a1c2e,#12131f)'
+                if (feedback === 'wrong') {
+                  if (isCorrect) { borderColor = '#2eb85c'; bg = 'rgba(46,184,92,0.08)' }
+                  else if (isChosen) { borderColor = '#e05555'; bg = 'rgba(224,85,85,0.08)' }
+                  else borderColor = 'rgba(201,168,76,0.12)'
+                } else if (feedback === 'correct' && isCorrect) {
+                  borderColor = '#2eb85c'; bg = 'rgba(46,184,92,0.1)'
+                }
+
+                return (
+                  <button
+                    key={option}
+                    onClick={() => handleAnswer(option)}
+                    disabled={feedback !== null}
+                    style={{
+                      background: bg,
+                      border: `2px solid ${borderColor}`,
+                      borderRadius: 4,
+                      padding: '14px 10px',
+                      fontFamily: 'var(--font-pixel)',
+                      fontSize: 10,
+                      color: '#f0e6c8',
+                      textAlign: 'center',
+                      cursor: feedback !== null ? 'not-allowed' : 'pointer',
+                      pointerEvents: feedback !== null ? 'none' : 'auto',
+                      minHeight: 60,
+                      lineHeight: 1.6,
+                      transition: 'border-color 0.15s, background 0.15s',
+                    }}
+                  >
+                    {option}
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* Explanation — only shown after a wrong answer */}
+            {feedback === 'wrong' && current.content.explanation && (
+              <div
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  fontStyle: 'italic',
+                  fontSize: 14,
+                  color: '#9a8a64',
+                  textAlign: 'center',
+                  padding: '10px 12px',
+                  borderTop: '1px solid rgba(201,168,76,0.12)',
+                  lineHeight: 1.6,
+                }}
+              >
+                {current.content.explanation}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </>
