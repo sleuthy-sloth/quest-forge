@@ -2,12 +2,14 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { useAuth } from '@/lib/auth-context'
 import type { Tables } from '@/types/database'
 import { PageHeader, PageDivider } from '@/components/qf'
+import AvatarPreview from '@/components/avatar/AvatarPreview'
 
 type PlayerProfile = Pick<
   Tables<'profiles'>,
-  'id' | 'display_name' | 'username' | 'age' | 'level' | 'xp_total' | 'xp_available' | 'gold' | 'created_at'
+  'id' | 'display_name' | 'username' | 'age' | 'level' | 'xp_total' | 'xp_available' | 'gold' | 'created_at' | 'avatar_config'
 >
 
 // ── XP maths (from CLAUDE.md: level N costs 50 × N × (N+1) / 2 total XP) ──
@@ -195,6 +197,8 @@ export default function PlayersPage() {
   // useMemo stabilises the client reference so the fetchPlayers useCallback
   // doesn't regenerate on every render, which would trigger an infinite loop.
   const supabase = useMemo(() => createClient(), [])
+  const { profile: authProfile } = useAuth()
+  const householdId = authProfile?.household_id ?? null
 
   const [players, setPlayers] = useState<PlayerProfile[]>([])
   const [loading, setLoading] = useState(true)
@@ -209,19 +213,30 @@ export default function PlayersPage() {
   const [resetTarget, setResetTarget] = useState<string | null>(null)
 
   const fetchPlayers = useCallback(async () => {
-    setLoading(true); setFetchError(null)
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('id, display_name, username, age, level, xp_total, xp_available, gold, created_at')
-      .eq('role', 'player')
-      .order('created_at', { ascending: true })
-    if (error) {
-      setFetchError('Could not load players.')
-    } else {
-      setPlayers(data ?? [])
+    if (!householdId) {
+      setLoading(false)
+      setFetchError('Household not found. Try refreshing the page.')
+      return
     }
-    setLoading(false)
-  }, [supabase])
+    setLoading(true); setFetchError(null)
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id, display_name, username, age, level, xp_total, xp_available, gold, created_at, avatar_config')
+        .eq('household_id', householdId)
+        .eq('role', 'player')
+        .order('created_at', { ascending: true })
+      if (error) {
+        setFetchError('Could not load players.')
+      } else {
+        setPlayers(data ?? [])
+      }
+    } catch {
+      setFetchError('Network error while loading players. Please retry.')
+    } finally {
+      setLoading(false)
+    }
+  }, [supabase, householdId])
 
   useEffect(() => { fetchPlayers() }, [fetchPlayers])
 
@@ -444,8 +459,12 @@ export default function PlayersPage() {
                   {/* Main row */}
                   <div className="player-card-inner" style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.9rem 1rem' }}>
 
-                    {/* Avatar */}
-                    <AvatarCircle name={player.display_name} username={player.username} size={48} />
+                    {/* Avatar — real sprite if available, deterministic placeholder if not */}
+                    {player.avatar_config ? (
+                      <AvatarPreview avatarConfig={player.avatar_config as Record<string, unknown>} size={48} />
+                    ) : (
+                      <AvatarCircle name={player.display_name} username={player.username} size={48} />
+                    )}
 
                     {/* Identity */}
                     <div style={{ flex: 1, minWidth: 0 }}>

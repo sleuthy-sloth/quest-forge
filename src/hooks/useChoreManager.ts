@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useRef, useEffect } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import type { Database } from '@/types/database'
 
@@ -68,7 +68,6 @@ export function useChoreManager(
   userId: string | null,
 ): UseChoreManagerResult {
   const supabase = createClient()
-  const mountedRef = useRef(true)
 
   const [players, setPlayers] = useState<PlayerInfo[]>([])
   const [loadingPlayers, setLoadingPlayers] = useState(true)
@@ -84,15 +83,17 @@ export function useChoreManager(
       return
     }
 
+    let cancelled = false
     setLoadingPlayers(true)
-    supabase
-      .from('profiles')
-      .select('id, display_name, username')
-      .eq('household_id', householdId)
-      .eq('role', 'player')
-      .order('display_name', { ascending: true })
-      .then(({ data, error }) => {
-        if (!mountedRef.current) return
+    ;(async () => {
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('id, display_name, username')
+          .eq('household_id', householdId)
+          .eq('role', 'player')
+          .order('display_name', { ascending: true })
+        if (cancelled) return
         if (error) {
           console.error('[useChoreManager] Failed to fetch players:', error.message)
           setPlayers([])
@@ -105,11 +106,17 @@ export function useChoreManager(
             })),
           )
         }
-        setLoadingPlayers(false)
-      })
+      } catch (err: unknown) {
+        if (cancelled) return
+        console.error('[useChoreManager] Unexpected error fetching players:', err)
+        setPlayers([])
+      } finally {
+        if (!cancelled) setLoadingPlayers(false)
+      }
+    })()
 
     return () => {
-      mountedRef.current = false
+      cancelled = true
     }
   }, [householdId, supabase])
 

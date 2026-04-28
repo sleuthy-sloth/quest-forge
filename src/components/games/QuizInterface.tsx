@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { useAcademy } from '@/hooks/useAcademy'
 import BattleArena, { type BattleArenaHandle } from '@/components/games/BattleArena'
+import CelebrationEffect from '@/components/games/CelebrationEffect'
 import { ENEMY_PRESETS, DEFAULT_AVATAR_CONFIG } from '@/lib/constants/enemies'
 import { SUBJECT_TO_SLUG, SLUG_PRESET, TEACHER_BY_SLUG } from '@/lib/constants/academy'
 import type { AvatarConfig } from '@/types/avatar'
@@ -82,6 +83,9 @@ export default function QuizInterface({
   const [freshProfile, setFreshProfile] = useState<{ xp_total: number; xp_available: number; level: number } | null>(null)
 
   const supabase = useMemo(() => createClient(), [])
+
+  // Celebration effect trigger (incremented when the quiz finishes)
+  const [celebrationTick, setCelebrationTick] = useState(0)
 
   // Battle arena ref for triggering attack animations
   const arenaRef = useRef<BattleArenaHandle>(null)
@@ -181,6 +185,7 @@ export default function QuizInterface({
 
       addTimer(setTimeout(() => {
         if (questionIndex >= 9) {
+          setCelebrationTick(t => t + 1)
           setPhase('results')
         } else {
           setQuestionIndex(qi => qi + 1)
@@ -204,6 +209,7 @@ export default function QuizInterface({
 
       addTimer(setTimeout(() => {
         if (questionIndex >= 9) {
+          setCelebrationTick(t => t + 1)
           setPhase('results')
         } else {
           setQuestionIndex(qi => qi + 1)
@@ -289,7 +295,9 @@ export default function QuizInterface({
     const correctCount = sessionCorrect
 
     return (
-      <div className="px-4 py-6" style={{ maxWidth: '480px', margin: '0 auto' }}>
+      <div className="px-4 py-6" style={{ maxWidth: '480px', margin: '0 auto', position: 'relative' }}>
+        <CelebrationEffect trigger={celebrationTick} />
+
         {/* Submission error toast */}
         {submissionError && (
           <div

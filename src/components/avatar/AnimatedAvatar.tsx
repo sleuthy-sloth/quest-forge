@@ -363,6 +363,10 @@ export default function AnimatedAvatar({
   // ── Phase 1: Pre-composite idle frames ──────────────────────────────────
   useEffect(() => {
     const compositeInstanceId = ++compositeIdRef.current
+    // Capture the current compositeId so the cleanup function can atomically
+    // invalidate in-flight async operations without relying on the mutable ref
+    // at cleanup time (which may have changed if we re-ran).
+    const compositeIdOnEnter = compositeInstanceId
     idleFramesReadyRef.current = false
 
     async function buildFrames() {
@@ -416,8 +420,16 @@ export default function AnimatedAvatar({
     buildFrames()
 
     return () => {
-      // On cleanup, increment so in-flight buildFrames sees a mismatch and stops.
-      compositeIdRef.current++
+      // On cleanup, increment the captured value so in-flight buildFrames
+      // sees a mismatch and stops — even if compositeIdRef has already
+      // been advanced by a subsequent effect run.
+      if (compositeIdRef.current === compositeIdOnEnter) {
+        compositeIdRef.current++
+      } else {
+        // The ref was already advanced by a re-run of this effect,
+        // meaning in-flight work is already invalidated.
+        compositeIdRef.current = Math.max(compositeIdRef.current, compositeIdOnEnter + 1)
+      }
     }
   }, [configKey]) // eslint-disable-line react-hooks/exhaustive-deps
 

@@ -17,8 +17,16 @@ export default function AudioInit() {
 
     function onInteraction() {
       if (initialized.current) return
-      initialized.current = true
-      initAudio()
+      try {
+        initAudio()
+        // Only mark as initialized AFTER the engine successfully sets up.
+        // This way, if initAudio() throws (e.g. AudioContext creation failure),
+        // the guard doesn't permanently block retry on the next interaction.
+        initialized.current = true
+      } catch (err) {
+        console.warn('[AudioInit] initAudio failed, will retry on next interaction:', err)
+        return
+      }
       document.removeEventListener('click', onInteraction)
       document.removeEventListener('touchstart', onInteraction)
       document.removeEventListener('keydown', onInteraction)

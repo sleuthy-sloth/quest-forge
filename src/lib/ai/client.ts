@@ -22,6 +22,43 @@ export const geminiModel = geminiClient
 
 export const OPENROUTER_MODEL = 'nvidia/nemotron-3-super-120b-a12b:free'
 
+// ── Chain-of-thought filtering ──────────────────────────────────────────
+
+/**
+ * Strips reasoning / thinking blocks that some models emit alongside their
+ * final answer.  Handles common formats:
+ *   - <reasoning>...</reasoning> / <think>...</think> / <thought>...</thought>
+ *   - ```thinking ... ```
+ *   - When the output is supposed to be JSON but the model prepends natural-
+ *     language reasoning before the first `{...}` block, extracts the block.
+ */
+export function stripThinking(text: string): string {
+  // Remove XML-style reasoning/thinking tags (including content between them).
+  let cleaned = text
+    .replace(/<reasoning[\s\S]*?<\/reasonings*>/gi, '')
+    .replace(/<think[\s\S]*?<\/thinks*>/gi, '')
+    .replace(/<thought[\s\S]*?<\/thoughts*>/gi, '')
+    // Remove backtick-fenced thinking blocks.
+    .replace(/```thinking[\s\S]*?```/gi, '')
+    // Also strip any trailing  tags that sometimes appear after JSON.
+    .replace(/<\/?think>|<\/?reasoning>/gi, '')
+    .trim()
+
+  // If the result looks like prose followed by a JSON block (edu challenges),
+  // extract only the JSON.  This handles models that say "Let me generate…"
+  // before outputting the requested JSON.
+  const jsonMatch = cleaned.match(/\{[\s\S]*\}/)
+  const matchIndex = jsonMatch?.index ?? -1
+  if (jsonMatch && matchIndex > 50) {
+    const before = cleaned.slice(0, matchIndex).trim()
+    if (before.length > 0 && !before.startsWith('{') && /[a-zA-Z]{4,}/.test(before)) {
+      cleaned = jsonMatch[0]
+    }
+  }
+
+  return cleaned.trim()
+}
+
 // ── Core generation function ────────────────────────────────────────────────
 
 export interface GenerationPrompt {
@@ -63,7 +100,7 @@ export async function generateWithFallback(
       if (!response.choices?.length) {
         console.warn('[ai] OpenRouter returned response without choices:', JSON.stringify(response).slice(0, 500))
       } else {
-        const text = response.choices[0]?.message?.content?.trim()
+        const text = stripThinking(response.choices[0]?.message?.content?.trim() ?? '')
         if (text) {
           return text
         }
@@ -96,7 +133,7 @@ export async function generateWithFallback(
           topP: 0.95,
         },
       })
-      const text = result.response.text().trim()
+      const text = stripThinking(result.response.text().trim())
       if (text) {
         return text
       }

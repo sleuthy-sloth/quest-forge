@@ -12,6 +12,7 @@ import {
   BOSS_PALETTES,
   BOSS_SPRITE_MANIFEST,
   swapPalette,
+  fetchBitmap,
 } from '@/lib/sprites/palette'
 import {
   PARTICLE_CSS_KEYFRAMES,
@@ -85,14 +86,13 @@ const BossSprite = forwardRef<BossSpriteHandle, { config: BossSpriteConfig }>(
           const urls = (spriteInfo.idleFrames ?? ['Idle1.png']).map(
             (f) => spriteUrl(`${spriteInfo.basePath}/${f}`)
           )
-          rawFrames = await Promise.all(
-            urls.map((url) =>
-              fetch(url).then((r) => r.blob()).then((b) => createImageBitmap(b))
-            )
-          )
+          rawFrames = (
+            await Promise.all(urls.map((url) => fetchBitmap(url)))
+          ).filter((b): b is ImageBitmap => b !== null)
         } else {
           const url = spriteUrl(spriteInfo.basePath)
-          const sheet = await fetch(url).then((r) => r.blob()).then((b) => createImageBitmap(b))
+          const sheet = await fetchBitmap(url)
+          if (!sheet) { setLoadError(true); return }
           const w = spriteInfo.cellW ?? 64
           const h = spriteInfo.cellH ?? 64
           const cols = spriteInfo.cols ?? 1
@@ -138,6 +138,11 @@ const BossSprite = forwardRef<BossSpriteHandle, { config: BossSpriteConfig }>(
     useEffect(() => {
       if (!loaded) return
 
+      // Respect user's motion preference.
+      const prefersReducedMotion =
+        typeof window !== 'undefined' &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
       function draw() {
         const canvas = canvasRef.current
         if (!canvas) return
@@ -153,12 +158,14 @@ const BossSprite = forwardRef<BossSpriteHandle, { config: BossSpriteConfig }>(
 
       draw()
 
-      intervalHandle.current = setInterval(() => {
-        const frames = framesRef.current
-        if (!frames.length) return
-        frameIdx.current = (frameIdx.current + 1) % frames.length
-        rafHandle.current = requestAnimationFrame(draw)
-      }, FRAME_INTERVAL_MS)
+      if (!prefersReducedMotion) {
+        intervalHandle.current = setInterval(() => {
+          const frames = framesRef.current
+          if (!frames.length) return
+          frameIdx.current = (frameIdx.current + 1) % frames.length
+          rafHandle.current = requestAnimationFrame(draw)
+        }, FRAME_INTERVAL_MS)
+      }
 
       return () => {
         if (intervalHandle.current) clearInterval(intervalHandle.current)

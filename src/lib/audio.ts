@@ -1,4 +1,5 @@
 import { Howl, Howler } from 'howler'
+import { useAudioStore } from '@/store/useAudioStore'
 
 // ── Types ─────────────────────────────────────────────────────
 export type BgmTrack = 'hub' | 'academy' | 'boss'
@@ -43,7 +44,16 @@ let globalMuted = false
 // for a pleasant background hum.
 
 let audioCtx: AudioContext | null = null
-let procBgmNodes: Record<BgmTrack, { gain: GainNode; osc: OscillatorNode } | null> = {
+
+interface ProcBgmNodes {
+  gain: GainNode
+  osc: OscillatorNode
+  lfo: OscillatorNode
+  lfoGain: GainNode
+  harm: OscillatorNode
+  harmGain: GainNode
+}
+let procBgmNodes: Record<BgmTrack, ProcBgmNodes | null> = {
   hub: null, academy: null, boss: null,
 }
 let procBgmPlaying: BgmTrack | null = null
@@ -105,20 +115,53 @@ function startProceduralBgm(track: BgmTrack): void {
   osc.start()
   harm.start()
 
-  procBgmNodes[track] = { gain: masterGain, osc }
+  procBgmNodes[track] = { gain: masterGain, osc, lfo, lfoGain, harm, harmGain }
   procBgmPlaying = track
 }
 
 function stopProceduralBgm(): void {
   if (procBgmPlaying && procBgmNodes[procBgmPlaying]) {
-    const node = procBgmNodes[procBgmPlaying]
-    if (node) {
-      try { node.osc.stop() } catch { /* already stopped */ }
-      try { node.gain.disconnect() } catch { /* already disconnected */ }
-    }
+    const node = procBgmNodes[procBgmPlaying]!
+    // Stop all oscillators.
+    try { node.osc.stop() } catch { /* already stopped */ }
+    try { node.lfo.stop() } catch { /* already stopped */ }
+    try { node.harm.stop() } catch { /* already stopped */ }
+    // Disconnect all nodes.
+    try { node.osc.disconnect() } catch { /* already disconnected */ }
+    try { node.lfo.disconnect() } catch { /* already disconnected */ }
+    try { node.lfoGain.disconnect() } catch { /* already disconnected */ }
+    try { node.harm.disconnect() } catch { /* already disconnected */ }
+    try { node.harmGain.disconnect() } catch { /* already disconnected */ }
+    try { node.gain.disconnect() } catch { /* already disconnected */ }
     procBgmNodes[procBgmPlaying] = null
   }
   procBgmPlaying = null
+}
+
+// ── Procedural SFX fallback ───────────────────────────────────
+// Web Audio oscillator tones for when MP3 files fail to load.
+const PROC_SFX_PARAMS: Record<SfxName, { freq: number; type: OscillatorType; duration: number; gain: number }> = {
+  victory: { freq: 880, type: 'sine',     duration: 0.4, gain: 0.15 },
+  coin:    { freq: 1320, type: 'triangle', duration: 0.12, gain: 0.1 },
+  attack:  { freq: 220, type: 'sawtooth', duration: 0.1,  gain: 0.08 },
+  click:   { freq: 660, type: 'square',   duration: 0.05, gain: 0.06 },
+}
+
+function playProceduralSfx(name: SfxName): void {
+  if (!audioCtx || audioCtx.state === 'suspended') return
+  const params = PROC_SFX_PARAMS[name]
+  const now = audioCtx.currentTime
+  const osc = audioCtx.createOscillator()
+  const gain = audioCtx.createGain()
+  osc.type = params.type
+  osc.frequency.value = params.freq
+  gain.gain.setValueAtTime(params.gain, now)
+  gain.gain.exponentialRampToValueAtTime(0.001, now + params.duration)
+  osc.connect(gain).connect(audioCtx.destination)
+  osc.start(now)
+  osc.stop(now + params.duration)
+  // Clean up on completion.
+  osc.onended = () => { osc.disconnect(); gain.disconnect() }
 }
 
 // ── SFX throttle ──────────────────────────────────────────────
@@ -129,6 +172,9 @@ const sfxLastPlayed = new Map<SfxName, number>()
 export function initAudio(): void {
   if (unlocked) return
   unlocked = true
+
+  // Wire the Zustand store to the imperative engine.
+  subscribeToStore()
 
   // Create AudioContext for procedural fallback
   try {
@@ -209,6 +255,10 @@ export function initAudio(): void {
       volume: 0.8,
       html5: false,
       preload: true,
+      onloaderror: (_id: number, err: unknown) => {
+        console.warn(`[audio] SFX MP3 unavailable for "${name}":`, err)
+        sfxInstances[name] = null
+      },
     })
   }
 }
@@ -298,8 +348,6 @@ export function stopBgm(): void {
 
 // ── SFX control ────────────────────────────────────────────────
 export function playSfx(name: SfxName): void {
-  const inst = sfxInstances[name]
-  if (!inst) return
   if (globalMuted) return
 
   const now = performance.now()
@@ -307,7 +355,13 @@ export function playSfx(name: SfxName): void {
   if (now - last < SFX_THROTTLE_MS) return
   sfxLastPlayed.set(name, now)
 
-  inst.play()
+  const inst = sfxInstances[name]
+  if (inst) {
+    inst.play()
+  } else {
+    // No Howl instance (MP3 failed to load) → use procedural fallback.
+    playProceduralSfx(name)
+  }
 }
 
 // ── Global mute ────────────────────────────────────────────────
@@ -336,10 +390,29 @@ export function isAudioMuted(): boolean {
   return globalMuted
 }
 
+// ── Zustand store bridge ───────────────────────────────────────
+// Keeps the imperative audio engine in sync with the UI-facing Zustand store.
+let didSubscribe = false
+
+function subscribeToStore(): void {
+  if (didSubscribe) return
+  didSubscribe = true
+  useAudioStore.subscribe((state, prev) => {
+    if (state.isMuted !== prev.isMuted) {
+      setAudioMuted(state.isMuted)
+    }
+    if (state.currentBgm !== prev.currentBgm) {
+      if (state.currentBgm) playBgm(state.currentBgm)
+      else stopBgm()
+    }
+  })
+}
+
 // ── Singleton reset (for testing) ──────────────────────────────
 export function _reset(): void {
   stopProceduralBgm()
   unlocked = false
+  didSubscribe = false
   currentBgm = null
   currentBgmId = null
   bgmInstances = { hub: null, academy: null, boss: null }

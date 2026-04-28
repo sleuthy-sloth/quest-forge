@@ -180,6 +180,37 @@ export function swapPalette(imageData: PixelBuffer, palette: BossPalette): Pixel
   return { data: dst, width: imageData.width, height: imageData.height }
 }
 
+// ── Shared ImageBitmap cache (for BossSprite) ──────────────────
+// Module-level cache keyed by URL so that boss sprites don't re-fetch
+// the same PNG on every mount.
+const _bitmapCache = new Map<string, ImageBitmap>()
+
+/**
+ * Fetches an image from `url` and converts it to an ImageBitmap,
+ * caching the result so subsequent calls for the same URL share the
+ * same bitmap.  Returns null on failure.
+ */
+export async function fetchBitmap(url: string): Promise<ImageBitmap | null> {
+  const cached = _bitmapCache.get(url)
+  if (cached) return cached
+  try {
+    const res = await fetch(url)
+    if (!res.ok) return null
+    const blob = await res.blob()
+    const bmp = await createImageBitmap(blob)
+    _bitmapCache.set(url, bmp)
+    return bmp
+  } catch {
+    return null
+  }
+}
+
+/** Clears the bitmap cache (for testing or memory management). */
+export function clearBitmapCache(): void {
+  _bitmapCache.forEach((b) => b.close())
+  _bitmapCache.clear()
+}
+
 function hexToRgb(hex: string): { r: number; g: number; b: number } {
   const n = parseInt(hex.replace('#', ''), 16)
   return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 }

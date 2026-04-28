@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import BattleArena, { type BattleArenaHandle } from '@/components/games/BattleArena'
+import CelebrationEffect from '@/components/games/CelebrationEffect'
 import { ENEMY_PRESETS, DEFAULT_AVATAR_CONFIG } from '@/lib/constants/enemies'
 import { SLUG_PRESET, TEACHER_BY_SLUG } from '@/lib/constants/academy'
 import type { AnimationPreset } from '@/lib/constants/lpc-animations'
@@ -112,6 +113,9 @@ export default function MathArena({
   const [feedback, setFeedback] = useState<Feedback>(null)
   const [screenFlash, setScreenFlash] = useState<ScreenFlash>(null)
   const [chosenWrong, setChosenWrong] = useState<string | null>(null)
+
+  // Celebration effect trigger (incremented when the quiz finishes)
+  const [celebrationTick, setCelebrationTick] = useState(0)
 
   // Battle arena ref for triggering attack animations
   const arenaRef = useRef<BattleArenaHandle>(null)
@@ -302,6 +306,7 @@ export default function MathArena({
       addTimer(setTimeout(() => setScreenFlash(null), 300))
       addTimer(setTimeout(() => {
         if (questionIndex === 9) {
+          setCelebrationTick(t => t + 1)
           setAnswers(newAnswers)
           setPhase('results')
         } else {
@@ -320,6 +325,7 @@ export default function MathArena({
       addTimer(setTimeout(() => setScreenFlash(null), 300))
       addTimer(setTimeout(() => {
         if (questionIndex === 9) {
+          setCelebrationTick(t => t + 1)
           setAnswers(newAnswers)
           setPhase('results')
         } else {
@@ -396,7 +402,14 @@ export default function MathArena({
 
   if (phase === 'results') {
     return (
-      <div className="px-4 py-6" style={{ maxWidth: '480px', margin: '0 auto' }}>
+      <div className="px-4 py-6" style={{ maxWidth: '480px', margin: '0 auto', position: 'relative' }}>
+        {/*
+          Celebration burst — plays once when the results screen first mounts.
+          The trigger is incremented whenever the quiz transitions to results,
+          so it fires again if the player retakes and finishes.
+        */}
+        <CelebrationEffect trigger={celebrationTick} />
+
         {/* Save error toast */}
         {saveError && (
           <div style={{
