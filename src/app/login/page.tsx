@@ -3,6 +3,7 @@
 export const dynamic = 'force-dynamic'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/client'
@@ -89,6 +90,7 @@ function AstrolabeRing({ size }: { size: number }) {
 // ── Main page ─────────────────────────────────────────────────
 export default function LoginPage() {
   const supabase = createClient()
+  const router = useRouter()
 
   const [tab, setTab] = useState<Tab>('gm')
   const [gm, setGm]         = useState<GmFields>({ email: '', password: '' })
@@ -181,7 +183,10 @@ export default function LoginPage() {
       const params = new URLSearchParams(window.location.search)
       const to = params.get('redirectTo')
       const safeRedirect = to && to.startsWith('/') && !to.startsWith('//') ? to : '/dashboard'
-      window.location.href = safeRedirect
+      // router.push lets React flush setIsLoading(false) before navigating,
+      // so the spinner clears rather than freezing on the old page.
+      setIsLoading(false)
+      router.push(safeRedirect)
     } catch {
       setServerError('An unexpected error occurred. Please try again.')
     } finally {
@@ -233,7 +238,8 @@ export default function LoginPage() {
       const params = new URLSearchParams(window.location.search)
       const to = params.get('redirectTo')
       const safeRedirect = to && to.startsWith('/') && !to.startsWith('//') ? to : '/play'
-      window.location.href = safeRedirect
+      setIsLoading(false)
+      router.push(safeRedirect)
     } catch {
       setServerError('An unexpected error occurred. Please try again.')
     } finally {

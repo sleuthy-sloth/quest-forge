@@ -26,37 +26,87 @@ export const OPENROUTER_MODEL = 'nvidia/nemotron-3-super-120b-a12b:free'
 
 /**
  * Strips reasoning / thinking blocks that some models emit alongside their
- * final answer.  Handles common formats:
- *   - <reasoning>...</reasoning> / <think>...</think> / <thought>...</thought>
- *   - ```thinking ... ```
- *   - When the output is supposed to be JSON but the model prepends natural-
- *     language reasoning before the first `{...}` block, extracts the block.
+ * final answer.  Handles:
+ *   - <reasoning>…</reasoning> / <think>…</think> / <thought>…</thought> XML tags
+ *   - ```thinking … ``` fenced blocks
+ *   - Raw untagged prose thinking followed by a JSON object (edu challenges)
+ *   - Raw untagged prose thinking followed by a quoted prose answer (flavor text)
+ *     — Nemotron emits chain-of-thought as free-form prose without XML tags;
+ *       we detect it by looking for the last substantial double-quoted block.
  */
 export function stripThinking(text: string): string {
-  // Remove XML-style reasoning/thinking tags (including content between them).
   let cleaned = text
-    .replace(/<reasoning[\s\S]*?<\/reasonings*>/gi, '')
-    .replace(/<think[\s\S]*?<\/thinks*>/gi, '')
-    .replace(/<thought[\s\S]*?<\/thoughts*>/gi, '')
-    // Remove backtick-fenced thinking blocks.
+    .replace(/<reasoning[\s\S]*?<\/reasoning>/gi, '')
+    .replace(/<think[\s\S]*?<\/think>/gi, '')
+    .replace(/<thought[\s\S]*?<\/thought>/gi, '')
     .replace(/```thinking[\s\S]*?```/gi, '')
-    // Also strip any trailing  tags that sometimes appear after JSON.
     .replace(/<\/?think>|<\/?reasoning>/gi, '')
     .trim()
 
-  // If the result looks like prose followed by a JSON block (edu challenges),
-  // extract only the JSON.  This handles models that say "Let me generate…"
-  // before outputting the requested JSON.
-  const jsonMatch = cleaned.match(/\{[\s\S]*\}/)
-  const matchIndex = jsonMatch?.index ?? -1
-  if (jsonMatch && matchIndex > 50) {
-    const before = cleaned.slice(0, matchIndex).trim()
-    if (before.length > 0 && !before.startsWith('{') && /[a-zA-Z]{4,}/.test(before)) {
-      cleaned = jsonMatch[0]
+  // ── JSON extraction ──────────────────────────────────────────────────────────
+  // Walk forward from each '{' and find the first balanced, parse-able JSON
+  // block. A greedy /\{[\s\S]*\}/ would anchor to the first '{' which could be
+  // inside thinking prose (e.g. "here's how {this} works").
+  if (cleaned.includes('{')) {
+    const jsonBlock = extractFirstValidJson(cleaned)
+    if (jsonBlock !== null) {
+      const idx = cleaned.indexOf(jsonBlock)
+      if (idx > 50) {
+        const before = cleaned.slice(0, idx).trim()
+        if (before.length > 0 && /[a-zA-Z]{4,}/.test(before)) {
+          cleaned = jsonBlock
+        }
+      }
     }
   }
 
+  // ── Prose answer extraction ──────────────────────────────────────────────────
+  // For non-JSON responses the model may emit thinking as untagged prose and
+  // put the actual answer in a double-quoted block.  Take the last quoted block
+  // that looks like a complete prose sentence (≥40 chars, contains punctuation).
+  if (!cleaned.trimStart().startsWith('{')) {
+    const prose = extractQuotedAnswer(cleaned)
+    if (prose) cleaned = prose
+  }
+
   return cleaned.trim()
+}
+
+/**
+ * Walk through `text` and return the first balanced `{…}` substring that is
+ * valid JSON.  Returns null if none is found.
+ */
+function extractFirstValidJson(text: string): string | null {
+  for (let i = 0; i < text.length; i++) {
+    if (text[i] !== '{') continue
+    let depth = 0
+    let j = i
+    for (; j < text.length; j++) {
+      if (text[j] === '{') depth++
+      else if (text[j] === '}') { depth--; if (depth === 0) break }
+    }
+    if (depth === 0) {
+      const candidate = text.slice(i, j + 1)
+      try { JSON.parse(candidate); return candidate } catch { /* not valid JSON, keep walking */ }
+    }
+  }
+  return null
+}
+
+/**
+ * Find the last double-quoted block in `text` that looks like a complete prose
+ * answer (≥40 chars, contains a sentence-ending character).  Used to extract
+ * the flavor-text answer when the model emits raw untagged thinking before it.
+ */
+function extractQuotedAnswer(text: string): string | null {
+  const matches = [...text.matchAll(/"([^"]{40,})"/g)]
+  for (let i = matches.length - 1; i >= 0; i--) {
+    const candidate = matches[i][1].trim()
+    if (candidate.includes(' ') && /[.!?]/.test(candidate)) {
+      return candidate
+    }
+  }
+  return null
 }
 
 // ── Core generation function ────────────────────────────────────────────────
