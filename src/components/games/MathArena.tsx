@@ -130,6 +130,7 @@ export default function MathArena({
   // Results — XP accumulates per correct answer (DB trigger awards it on insert)
   const [xpEarned, setXpEarned] = useState(0)
   const [saveError, setSaveError] = useState(false)
+  const [freshProfile, setFreshProfile] = useState<{ xp_total: number; xp_available: number; level: number } | null>(null)
 
   // ── Fetch questions ──────────────────────────────────────────────────────
   // Runs AI generation and DB fallback IN PARALLEL. Prefers AI results when
@@ -230,6 +231,20 @@ export default function MathArena({
     const timers = timersRef.current
     return () => { timers.forEach(clearTimeout) }
   }, [])
+
+  // Fetch fresh profile data when results phase starts so XP reflects DB
+  useEffect(() => {
+    if (phase !== 'results') return
+    const timer = setTimeout(async () => {
+      const { data } = await supabase
+        .from('profiles')
+        .select('xp_total, xp_available, level')
+        .eq('id', playerId)
+        .single()
+      if (data) setFreshProfile(data as { xp_total: number; xp_available: number; level: number })
+    }, 700)
+    return () => clearTimeout(timer)
+  }, [phase, supabase, playerId])
 
   // ── Answer handler ───────────────────────────────────────────────────────
   // Inserts one row in edu_completions per answered question. The DB trigger
@@ -413,6 +428,11 @@ export default function MathArena({
                   ? 'Practice round — XP not awarded (offline questions)'
                   : `+${xpEarned} XP awarded`}
               </div>
+              {freshProfile && (
+                <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '5px', color: '#c9a84c', marginTop: '4px', letterSpacing: '0.1em' }}>
+                  LV {freshProfile.level} · {freshProfile.xp_available.toLocaleString()} XP available
+                </div>
+              )}
             </div>
             <div style={{
               background: `rgba(${correctCount >= 8 ? '46,184,92' : correctCount >= 6 ? '232,160,32' : '224,85,85'},0.12)`,
@@ -472,7 +492,7 @@ export default function MathArena({
               ⚔️ PLAY AGAIN
             </button>
             <button
-              onClick={() => router.push('/play/academy')}
+              onClick={() => { router.refresh(); router.push('/play/academy') }}
               style={{
                 width: '100%', padding: '9px',
                 background: 'transparent',

@@ -165,6 +165,7 @@ export async function generateEduChallenges(
   count = 10,
 ): Promise<GeneratedQuestion[] | null> {
   if (!(await canMakeRequest())) {
+    console.warn(`[edu] AI rate limit reached — falling back to DB questions for ${subject}/${ageTier}`)
     return null
   }
 
