@@ -199,7 +199,7 @@ export function GMShell({ children, householdName, displayName, weeklyBoss, user
           <div
             className="font-heading"
             style={{
-              fontSize: 18,
+              fontSize: isMobile ? 15 : 18,
               color: 'var(--qf-gold-300)',
               letterSpacing: '0.18em',
               fontWeight: 700,
@@ -207,27 +207,47 @@ export function GMShell({ children, householdName, displayName, weeklyBoss, user
           >
             QUEST FORGE
           </div>
-          <div style={{ width: 1, height: 18, background: 'var(--qf-rule-strong)', margin: '0 8px' }} />
-          <div
-            className="font-heading"
-            style={{
-              fontSize: 13,
-              color: 'var(--qf-parchment-dim)',
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-            }}
-          >
-            Game Master
-          </div>
+          {!isMobile && (
+            <>
+              <div style={{ width: 1, height: 18, background: 'var(--qf-rule-strong)', margin: '0 8px' }} />
+              <div
+                className="font-heading"
+                style={{
+                  fontSize: 13,
+                  color: 'var(--qf-parchment-dim)',
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                Game Master
+              </div>
+            </>
+          )}
         </div>
         <div style={{ flex: 1 }} />
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          {householdName && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 8 : 16 }}>
+          {!isMobile && householdName && (
             <div
               className="font-heading"
               style={{ fontSize: 13, color: 'var(--qf-parchment)' }}
             >
               {householdName}
+            </div>
+          )}
+          {isMobile && (
+            <div
+              className="font-heading"
+              style={{
+                fontSize: 11,
+                color: 'var(--qf-parchment)',
+                letterSpacing: '0.04em',
+                maxWidth: 90,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {displayName}
             </div>
           )}
           <div
@@ -284,12 +304,11 @@ export function GMShell({ children, householdName, displayName, weeklyBoss, user
           aria-label={isMobile ? 'Navigation' : undefined}
           style={{
             width: 232,
-            padding: '24px 14px',
             background: isMobile ? 'var(--qf-bg-deep)' : 'rgba(10,11,15,0.55)',
             display: 'flex',
             flexDirection: 'column',
-            gap: 4,
             flexShrink: 0,
+            overflowY: 'auto',
             ...(isMobile
               ? {
                   position: 'fixed' as const,
@@ -301,7 +320,6 @@ export function GMShell({ children, householdName, displayName, weeklyBoss, user
                   transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)',
                   transition: 'transform 0.2s ease',
                   boxShadow: sidebarOpen ? '4px 0 24px rgba(0,0,0,0.4)' : 'none',
-                  // Hidden from AT when collapsed so screen readers don't traverse it
                   visibility: sidebarOpen ? 'visible' : 'hidden',
                 }
               : {
@@ -310,110 +328,141 @@ export function GMShell({ children, householdName, displayName, weeklyBoss, user
                 }),
           }}
         >
-          <div
-            className="font-pixel"
-            style={{
-              fontSize: 7,
-              color: 'var(--qf-parchment-muted)',
-              letterSpacing: '0.18em',
-              padding: '0 10px 12px',
-            }}
-          >
-            HEARTHHOLD
+          <div style={{ padding: '24px 14px 14px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <div
+              className="font-pixel"
+              style={{
+                fontSize: 7,
+                color: 'var(--qf-parchment-muted)',
+                letterSpacing: '0.18em',
+                padding: '0 10px 12px',
+              }}
+            >
+              HEARTHHOLD
+            </div>
+            {NAV.map((n) => {
+              const active = isActive(n.href)
+              return (
+                <Link
+                  key={n.href}
+                  href={n.href}
+                  onClick={closeNav}
+                  aria-current={active ? 'page' : undefined}
+                  style={{
+                    padding: '10px 12px',
+                    borderLeft: active
+                      ? '2px solid var(--qf-gold-400)'
+                      : '2px solid transparent',
+                    background: active
+                      ? 'linear-gradient(90deg, rgba(232,160,32,0.10), transparent)'
+                      : 'transparent',
+                    textDecoration: 'none',
+                    display: 'block',
+                  }}
+                >
+                  <div
+                    className="font-heading"
+                    style={{
+                      fontSize: 13,
+                      color: active ? 'var(--qf-gold-300)' : 'var(--qf-parchment)',
+                      letterSpacing: '0.06em',
+                      fontWeight: active ? 600 : 400,
+                    }}
+                  >
+                    {n.label}
+                  </div>
+                  {n.sub && (
+                    <div
+                      style={{
+                        fontSize: 11,
+                        color: 'var(--qf-parchment-muted)',
+                        fontStyle: 'italic',
+                        marginTop: 2,
+                      }}
+                    >
+                      {n.sub}
+                    </div>
+                  )}
+                </Link>
+              )
+            })}
           </div>
-          {NAV.map((n) => {
-            const active = isActive(n.href)
-            return (
-              <Link
-                key={n.href}
-                href={n.href}
-                onClick={closeNav}
-                aria-current={active ? 'page' : undefined}
+
+          {/* Spacer — shrinks on mobile so boss widget stays reachable */}
+          <div style={{ flex: 1, minHeight: isMobile ? 8 : undefined }} />
+
+          {/* Bottom section: boss + identity + sign out */}
+          <div style={{ padding: '0 14px 18px', flexShrink: 0 }}>
+            {weeklyBoss && (
+              <div
                 style={{
-                  padding: '10px 12px',
-                  borderLeft: active
-                    ? '2px solid var(--qf-gold-400)'
-                    : '2px solid transparent',
-                  background: active
-                    ? 'linear-gradient(90deg, rgba(232,160,32,0.10), transparent)'
-                    : 'transparent',
-                  textDecoration: 'none',
-                  display: 'block',
+                  padding: 12,
+                  border: '1px solid var(--qf-rule)',
+                  background: 'var(--qf-bg-card-alt)',
+                  marginBottom: 10,
                 }}
               >
                 <div
-                  className="font-heading"
+                  className="font-pixel"
                   style={{
-                    fontSize: 13,
-                    color: active ? 'var(--qf-gold-300)' : 'var(--qf-parchment)',
-                    letterSpacing: '0.06em',
-                    fontWeight: active ? 600 : 400,
+                    fontSize: 7,
+                    color: 'var(--qf-parchment-muted)',
+                    letterSpacing: '0.1em',
+                    marginBottom: 6,
                   }}
                 >
-                  {n.label}
+                  WEEKLY BOSS
                 </div>
-                {n.sub && (
-                  <div
-                    style={{
-                      fontSize: 11,
-                      color: 'var(--qf-parchment-muted)',
-                      fontStyle: 'italic',
-                      marginTop: 2,
-                    }}
-                  >
-                    {n.sub}
+                <div
+                  className="font-heading"
+                  style={{
+                    fontSize: 12,
+                    color: 'var(--qf-gold-300)',
+                    marginBottom: 8,
+                  }}
+                >
+                  {weeklyBoss.name}
+                </div>
+                <HPBar
+                  pct={weeklyBoss.hpPct}
+                  label="HP"
+                  value={`${weeklyBoss.current.toLocaleString()} / ${weeklyBoss.max.toLocaleString()}`}
+                />
+              </div>
+            )}
+
+            {/* Signed-in identity — visible in sidebar on mobile */}
+            {isMobile && (
+              <div
+                style={{
+                  padding: '8px 0',
+                  marginBottom: 8,
+                  borderTop: '1px solid var(--qf-rule)',
+                  fontSize: 11,
+                  color: 'var(--qf-parchment-muted)',
+                  fontFamily: 'var(--font-heading), Cinzel, serif',
+                }}
+              >
+                Signed in as{' '}
+                <span style={{ color: 'var(--qf-gold-300)' }}>{displayName}</span>
+                {householdName && (
+                  <div style={{ fontSize: 10, marginTop: 2, color: 'var(--qf-parchment-muted)', opacity: 0.7 }}>
+                    {householdName}
                   </div>
                 )}
-              </Link>
-            )
-          })}
-          <div style={{ flex: 1 }} />
-          {weeklyBoss && (
-            <div
-              style={{
-                padding: 12,
-                border: '1px solid var(--qf-rule)',
-                background: 'var(--qf-bg-card-alt)',
-                marginTop: 8,
-              }}
-            >
-              <div
-                className="font-pixel"
-                style={{
-                  fontSize: 7,
-                  color: 'var(--qf-parchment-muted)',
-                  letterSpacing: '0.1em',
-                  marginBottom: 6,
-                }}
-              >
-                WEEKLY BOSS
               </div>
-              <div
-                className="font-heading"
-                style={{
-                  fontSize: 12,
-                  color: 'var(--qf-gold-300)',
-                  marginBottom: 8,
-                }}
+            )}
+
+            <form action={signOut}>
+              <button
+                type="submit"
+                className="qf-btn-ghost"
+                style={{ width: '100%', fontSize: 10, padding: '8px 10px' }}
               >
-                {weeklyBoss.name}
-              </div>
-              <HPBar
-                pct={weeklyBoss.hpPct}
-                label="HP"
-                value={`${weeklyBoss.current.toLocaleString()} / ${weeklyBoss.max.toLocaleString()}`}
-              />
-            </div>
-          )}
-          <form action={signOut} style={{ marginTop: 12 }}>
-            <button
-              type="submit"
-              className="qf-btn-ghost"
-              style={{ width: '100%', fontSize: 10, padding: '8px 10px' }}
-            >
-              ⬡ Sign Out
-            </button>
-          </form>
+                ⬡ Sign Out
+              </button>
+            </form>
+          </div>
         </aside>
 
         {/* Content */}
