@@ -1,12 +1,12 @@
 'use client'
 
 import ZoneManager from '@/components/player/ZoneManager'
-import StoryPlayer from '@/components/story/StoryPlayer'
+import ChronicleHall from '@/components/story/ChronicleHall'
 
 export default function StoryPage() {
   return (
-    <ZoneManager zone="academy">
-      <StoryPlayer />
+    <ZoneManager zone="hub">
+      <ChronicleHall />
     </ZoneManager>
   )
 }
