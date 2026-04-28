@@ -31,13 +31,13 @@ const SUBJECT_GUIDANCE: Record<EduSubject, string> = {
   science:     'biology, chemistry, physics, earth science — use precise scientific definitions (e.g., "dog" is an "animal", not just a "pet")',
   history:     'world and US history — focus on significant events and cause-effect relationships',
   vocabulary:  'definitions, synonyms, antonyms — use high-quality, unambiguous choices. Synonyms must be true synonyms (e.g., "cat" and "feline", not "cat" and "kitten"). Antonyms must be direct opposites (e.g., "hot" and "cold").',
-  logic:       'pattern completion, deduction, sequences — ensure there is only one logically sound answer.',
+  logic:       'a DIVERSE MIX of question types. Each set of 5 questions MUST include at least 4 different types from this list — do NOT repeat the same type more than once:\n  1. NUMBER SEQUENCE: "2, 5, 8, 11, ___?" (arithmetic or geometric progressions)\n  2. SYMBOL PATTERN: Use Unicode symbols inline — "◯ ■ △ ◯ ■ ___" (put symbol answers in options too)\n  3. WORD ANALOGY: "Hot is to cold as day is to ___?"\n  4. SYLLOGISM: "All birds have feathers. A sparrow is a bird. Does a sparrow have feathers?"\n  5. ODD ONE OUT: "Apple, banana, carrot, grape — which does not belong and why?"\n  6. ORDERING PUZZLE: "Sarah is older than Tom. Tom is older than Ben. Who is youngest?"\n  7. IF/THEN DEDUCTION: "If all knights are brave, and Alric is a knight, is Alric brave?"\n  8. RIDDLE/LATERAL: A short, age-appropriate riddle with a clear logical answer (e.g. "I have hands but cannot clap. What am I?")',
 }
 
 // Lower temperature for fact-based subjects, higher for creative passages.
 const SUBJECT_TEMPERATURE: Record<EduSubject, number> = {
   math:       0.55,
-  logic:      0.55,
+  logic:      0.60,
   science:    0.65,
   history:    0.7,
   vocabulary: 0.7,
@@ -51,19 +51,23 @@ function buildPrompt(subject: EduSubject, ageTier: AgeTier, count: number): { sy
     ? '\n- The "question" field MUST start with a 2–4 sentence reading passage, followed by the comprehension question. Do NOT put the passage in "title".'
     : ''
 
+  const logicExtra = subject === 'logic'
+    ? '\n- LOGIC VARIETY RULE: Distribute the questions across DIFFERENT types (number sequence, symbol pattern, word analogy, syllogism, odd one out, ordering, deduction, riddle). Do NOT use the same type more than once in a 5-question set.\n- For SYMBOL PATTERN questions: embed Unicode symbols directly in the question text (e.g. "◯ ■ △ ◯ ■ ___") and use the raw symbols as answer options. Do NOT write "circle" or "square".\n- For RIDDLE questions: keep them short, concrete, and appropriate for the age tier. Always ensure only one answer is correct.'
+    : ''
+
   const user = `Generate ${count} ${subject} questions for ${TIER_DESCRIPTION[ageTier]}.
 
 Subject focus: ${SUBJECT_GUIDANCE[subject]}.
 
 For each question, return:
 - "title": short 1-5 word label (e.g. "6 × 7", "Passage: The Brave Seed", "Define: ancient")
-- "question": full question text the kid sees${readingExtra}
+- "question": full question text the kid sees${readingExtra}${logicExtra}
 - "options": array of exactly 4 DISTINCT answer choices (strings); ONE must be correct
 - "correct_answer": EXACTLY one of the four option strings (case- and punctuation-identical, no extra whitespace)
 - "explanation": one or two sentences explaining why the answer is correct
 - "xp_reward": integer 15–40 reflecting difficulty
 
-Vary difficulty across the set. No duplicate questions. No duplicate options within a question. Avoid topics that require visuals. 
+Vary difficulty across the set. No duplicate questions. No duplicate options within a question.
 
 CRITICAL: Ensure logical rigor. 
 - Definitions must be accurate (e.g., a "dog" is an "animal"). 
@@ -71,6 +75,7 @@ CRITICAL: Ensure logical rigor.
 - Antonyms must be clear opposites (avoid "sun/night", use "day/night" or "hot/cold").
 - Distractors (wrong options) should be plausible but clearly incorrect to someone who knows the subject.
 - Avoid vague phrasing like "Which word replaces X?".
+- NEVER create questions that depend on visuals EXCEPT for logic pattern questions — those MUST use actual Unicode symbols (◯ ■ △ ★ ◆ ▲ ●) in both the question and answer options, not spelled-out words like "circle" or "square".
 
 Return JSON shaped EXACTLY:
 {"questions":[{"title":"...","question":"...","options":["a","b","c","d"],"correct_answer":"...","explanation":"...","xp_reward":25}, ...]}`

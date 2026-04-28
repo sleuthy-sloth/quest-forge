@@ -12,6 +12,7 @@ const TABS = [
   { href: '/play/quests',  label: 'Quests',  icon: '📜' },
   { href: '/play/academy', label: 'Academy', icon: '⚗' },
   { href: '/play/story',   label: 'Story',   icon: '📖' },
+  { href: '/play/world',   label: 'World',   icon: '🌍' },
   { href: '/play/loot',    label: 'Loot',    icon: '💎' },
   { href: '/play/profile', label: 'Profile', icon: '👤' },
 ]

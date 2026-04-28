@@ -517,22 +517,29 @@ export default function QuizInterface({
           </div>
 
           {/* Question text */}
-          <div
-            style={{
-              fontFamily: 'var(--font-pixel)',
-              fontSize: '10px',
-              color: '#f0e6c8',
-              textAlign: 'center',
-              lineHeight: 1.8,
-              marginBottom: '16px',
-              minHeight: '48px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            {current.content.question}
-          </div>
+          {(() => {
+            // Detect pattern questions (contain Unicode shape symbols) and render them larger
+            const hasPattern = /[◯■△★◆▲●○□▽☆◇▽]/.test(current.content.question)
+            return (
+              <div
+                style={{
+                  fontFamily: hasPattern ? 'var(--font-body)' : 'var(--font-pixel)',
+                  fontSize: hasPattern ? '18px' : '10px',
+                  letterSpacing: hasPattern ? '0.15em' : undefined,
+                  color: '#f0e6c8',
+                  textAlign: 'center',
+                  lineHeight: 1.8,
+                  marginBottom: '16px',
+                  minHeight: '48px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                {current.content.question}
+              </div>
+            )
+          })()}
 
           {/* Answer grid — 2×2 */}
           <div
