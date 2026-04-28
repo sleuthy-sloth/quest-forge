@@ -16,9 +16,10 @@ export default async function DashboardLayout({
   // The boss preview powers the sidebar widget; an empty result just hides it.
   const { data: profile } = await supabase
     .from('profiles')
-    .select('role, display_name, household_id, households(name)')
+    .select('id, role, display_name, household_id, households(name)')
     .eq('id', user.id)
     .single<{
+      id: string
       role: 'gm' | 'player'
       display_name: string
       household_id: string
@@ -56,6 +57,9 @@ export default async function DashboardLayout({
       householdName={householdName}
       displayName={profile.display_name}
       weeklyBoss={weeklyBoss}
+      userId={profile.id}
+      householdId={profile.household_id}
+      role={profile.role}
     >
       {children}
     </GMShell>

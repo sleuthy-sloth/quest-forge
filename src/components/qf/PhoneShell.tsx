@@ -9,12 +9,16 @@ import WalkthroughOverlay from '@/components/play/WalkthroughOverlay'
 import { Embershard } from './Embershard'
 import { Embers } from './Embers'
 import { Coin } from './Coin'
+import { useNotifications } from '@/hooks/useNotifications'
 
 interface PhoneShellProps {
   children: ReactNode
   statusbarTitle?: string
   goldDisplay?: number | null
   avatarClass?: string | null
+  userId: string
+  householdId: string
+  role: 'gm' | 'player'
 }
 
 const TABS = [
@@ -82,8 +86,14 @@ export function PhoneShell({
   statusbarTitle = 'Hearthhold',
   goldDisplay,
   avatarClass = null,
+  userId,
+  householdId,
+  role,
 }: PhoneShellProps) {
   const pathname = usePathname()
+
+  // Realtime notification listener
+  useNotifications(userId, householdId, role)
 
   // Start hub BGM on mount. Stays playing across all /play/* pages.
   // ZoneManager on academy/boss pages will crossfade to other tracks.

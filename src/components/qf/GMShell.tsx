@@ -7,12 +7,16 @@ import { signOut } from '@/app/actions/auth'
 import { Embershard } from './Embershard'
 import { Embers } from './Embers'
 import { HPBar } from './HPBar'
+import { useNotifications } from '@/hooks/useNotifications'
 
 interface GMShellProps {
   children: ReactNode
   householdName: string
   displayName: string
   weeklyBoss?: { name: string; hpPct: number; current: number; max: number } | null
+  userId: string
+  householdId: string
+  role: 'gm' | 'player'
 }
 
 const NAV = [
@@ -26,9 +30,13 @@ const NAV = [
   { href: '/dashboard/settings',     label: 'Settings',      sub: '' },
 ] as const
 
-export function GMShell({ children, householdName, displayName, weeklyBoss }: GMShellProps) {
+export function GMShell({ children, householdName, displayName, weeklyBoss, userId, householdId, role }: GMShellProps) {
   const pathname = usePathname()
   const initial = (displayName || '').trim().charAt(0).toUpperCase() || 'G'
+  
+  // Realtime notification listener
+  useNotifications(userId, householdId, role)
+
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
