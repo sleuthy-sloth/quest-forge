@@ -23,6 +23,18 @@ interface DuelCardProps {
   xpRange: string
 }
 
+// ── Subject icons ─────────────────────────────────────────────────────────────
+
+const SUBJECT_ICONS: Record<string, string> = {
+  math:       '⚡',
+  reading:    '📖',
+  science:    '🔬',
+  history:    '📜',
+  vocabulary: '💬',
+  logic:      '🧩',
+  word:       '✍️',
+}
+
 // ── Corners helper ────────────────────────────────────────────────────────────
 
 function Corners() {
@@ -41,20 +53,21 @@ function Corners() {
 function HpStrip({ pct, label, color = '#e05555' }: { pct: number; label: string; color?: string }) {
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
-        <span className="font-pixel" style={{ fontSize: 5, color: 'var(--qf-parchment-muted)', letterSpacing: '0.1em' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+        <span className="font-pixel" style={{ fontSize: 8, color: 'var(--qf-parchment-muted)', letterSpacing: '0.1em' }}>
           {label}
         </span>
-        <span className="font-pixel" style={{ fontSize: 5, color: 'var(--qf-parchment-muted)' }}>
+        <span className="font-pixel" style={{ fontSize: 8, color: 'var(--qf-parchment-muted)' }}>
           {pct}/100
         </span>
       </div>
       <div
         style={{
           width: '100%',
-          height: 5,
+          height: 10,
           background: '#0a0a12',
           border: '1px solid var(--qf-gold-600)',
+          borderRadius: 3,
           overflow: 'hidden',
         }}
       >
@@ -63,6 +76,7 @@ function HpStrip({ pct, label, color = '#e05555' }: { pct: number; label: string
             height: '100%',
             width: `${pct}%`,
             background: color,
+            borderRadius: 3,
             transition: 'width 0.6s ease',
           }}
         />
@@ -94,10 +108,13 @@ export default function DuelCard({
 
   const isClickable = status === 'current' || status === 'available'
   const actionLabel =
-    status === 'current'   ? 'RESUME →'
+    status === 'current'   ? 'ENTER THE DUEL →'
     : status === 'available' ? 'BEGIN →'
     : status === 'defeated'  ? `+ XP CLAIMED`
     : 'DEFEAT PRIOR FOE'
+
+  const subjectIcon = SUBJECT_ICONS[teacher.subject] ?? '⚔'
+  const spriteSize = status === 'current' ? 96 : 80
 
   const inner = (
     <div
@@ -105,102 +122,115 @@ export default function DuelCard({
       style={{
         position: 'relative',
         marginBottom: 12,
-        padding: 14,
+        padding: 0,
         opacity: s.dim,
-        border: status === 'current' ? `1px solid ${teacher.glow}` : undefined,
+        border: status === 'current' ? `2px solid ${teacher.glow}` : undefined,
         background:
           status === 'current'
             ? `linear-gradient(135deg, ${teacher.glow}18, var(--qf-bg-card-alt) 70%)`
             : undefined,
         cursor: isClickable ? 'pointer' : 'default',
         textDecoration: 'none',
+        overflow: 'hidden',
       }}
     >
       <Corners />
 
-      {/* Status pip */}
-      <div
-        className="font-pixel"
-        style={{
-          position: 'absolute',
-          top: 10,
-          right: 14,
-          fontSize: 6,
-          color: s.color,
-          letterSpacing: '0.15em',
-        }}
-      >
-        {s.label}
-      </div>
+      {/* Subject colour stripe at top */}
+      <div style={{
+        height: 4,
+        background: `linear-gradient(90deg, ${teacher.glow}, ${teacher.glow}44)`,
+        opacity: status === 'defeated' ? 0.4 : 1,
+      }} />
 
-      {/* Subject + level */}
-      <div
-        className="font-pixel"
-        style={{ fontSize: 6, color: 'var(--qf-parchment-muted)', letterSpacing: '0.18em' }}
-      >
-        {teacher.subject.toUpperCase()} · LV {teacher.level}
-      </div>
+      <div style={{ padding: status === 'current' ? '18px 16px 16px' : '14px 14px 12px' }}>
 
-      {/* Duel stage: player vs teacher */}
-      <div
-        style={{
-          marginTop: 10,
-          display: 'grid',
-          gridTemplateColumns: '1fr auto 1fr',
-          alignItems: 'center',
-          gap: 8,
-        }}
-      >
-        {/* Player side */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+        {/* Subject icon + label row */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontSize: status === 'current' ? 22 : 18 }}>{subjectIcon}</span>
+            <span
+              className="font-pixel"
+              style={{ fontSize: status === 'current' ? 9 : 8, color: teacher.glow, letterSpacing: '0.15em' }}
+            >
+              {teacher.subject.toUpperCase()} · LV {teacher.level}
+            </span>
+          </div>
+          {/* Status pip */}
           <div
+            className="font-pixel"
             style={{
-              width: 64,
-              height: 64,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: 'radial-gradient(circle, rgba(232,160,32,0.15), transparent 70%)',
-              border: '1px solid var(--qf-rule)',
-              filter:
-                status === 'current'
-                  ? 'drop-shadow(0 0 8px rgba(255,140,58,0.4))'
-                  : 'none',
+              fontSize: 8,
+              color: s.color,
+              letterSpacing: '0.12em',
             }}
           >
-            <AvatarPreview avatarConfig={playerAvatarConfig} size={52} />
-          </div>
-          <div className="font-pixel" style={{ fontSize: 5, color: 'var(--qf-gold-300)', letterSpacing: '0.1em', textAlign: 'center' }}>
-            {playerName} · LV {playerLevel}
+            {s.label}
           </div>
         </div>
 
-        {/* VS */}
+        {/* Duel stage: player vs teacher */}
         <div
-          className="font-pixel"
           style={{
-            fontSize: 14,
-            color: 'var(--qf-ember-deep)',
-            textShadow: `0 0 8px ${teacher.glow}, 0 0 4px var(--qf-ember-glow)`,
-            letterSpacing: '0.1em',
+            display: 'grid',
+            gridTemplateColumns: '1fr auto 1fr',
+            alignItems: 'center',
+            gap: 10,
+            marginBottom: 14,
           }}
         >
-          VS
-        </div>
-
-        {/* Teacher side */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+          {/* Player side */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
             <div
               style={{
-                width: 64,
-                height: 64,
+                width: spriteSize,
+                height: spriteSize,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                background: teacher.portrait 
+                background: 'radial-gradient(circle, rgba(232,160,32,0.15), transparent 70%)',
+                border: '1px solid var(--qf-rule)',
+                borderRadius: 4,
+                filter:
+                  status === 'current'
+                    ? 'drop-shadow(0 0 10px rgba(255,140,58,0.45))'
+                    : 'none',
+              }}
+            >
+              <AvatarPreview avatarConfig={playerAvatarConfig} size={spriteSize - 16} />
+            </div>
+            <div className="font-pixel" style={{ fontSize: 7, color: 'var(--qf-gold-300)', letterSpacing: '0.08em', textAlign: 'center', lineHeight: 1.4 }}>
+              {playerName}<br />LV {playerLevel}
+            </div>
+          </div>
+
+          {/* VS */}
+          <div
+            className="font-pixel"
+            style={{
+              fontSize: status === 'current' ? 18 : 14,
+              color: 'var(--qf-ember-deep)',
+              textShadow: `0 0 10px ${teacher.glow}, 0 0 4px var(--qf-ember-glow)`,
+              letterSpacing: '0.1em',
+            }}
+          >
+            VS
+          </div>
+
+          {/* Teacher side */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+            <div
+              style={{
+                width: spriteSize,
+                height: spriteSize,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: teacher.portrait
                   ? 'none'
                   : `radial-gradient(circle, ${teacher.glow}33, transparent 70%)`,
-                border: `1px solid ${teacher.glow}66`,
+                border: `2px solid ${teacher.glow}66`,
+                borderRadius: 4,
                 filter: status === 'defeated' ? 'grayscale(0.7) brightness(0.55)' : 'none',
                 position: 'relative',
                 overflow: 'hidden',
@@ -217,120 +247,144 @@ export default function DuelCard({
                 <EnemyRenderer
                   enemy={enemy}
                   animationPreset={preset}
-                  size={52}
+                  size={spriteSize - 12}
                   autoAttack={status === 'current'}
                   autoAttackInterval={8000}
                 />
               )}
             </div>
-          <div
-            className="font-pixel"
-            style={{
-              fontSize: 5,
-              color: teacher.glow,
-              letterSpacing: '0.1em',
-              textAlign: 'center',
-              maxWidth: 80,
-              lineHeight: 1.3,
-            }}
-          >
-            {teacher.name.toUpperCase()}
+            <div
+              className="font-pixel"
+              style={{
+                fontSize: 7,
+                color: teacher.glow,
+                letterSpacing: '0.08em',
+                textAlign: 'center',
+                maxWidth: spriteSize + 16,
+                lineHeight: 1.4,
+              }}
+            >
+              {teacher.name.toUpperCase()}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* HP bars */}
-      <div style={{ marginTop: 10, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-        <HpStrip
-          pct={playerHp}
-          label="HERO"
-          color="linear-gradient(180deg, #5aab6e 0%, #2eb85c 50%, #207040 100%)"
-        />
-        <HpStrip
-          pct={computedEnemyHp}
-          label="FOE"
-          color="linear-gradient(180deg, #ff5050 0%, #c43a00 50%, #8a1f00 100%)"
-        />
-      </div>
-
-      {/* Teacher tagline */}
-      <div
-        style={{
-          marginTop: 10,
-          padding: '8px 10px',
-          background: 'rgba(0,0,0,0.3)',
-          border: '1px solid var(--qf-rule)',
-          fontFamily: 'var(--font-body)',
-          fontSize: 11,
-          color: 'var(--qf-parchment-dim)',
-          fontStyle: 'italic',
-          lineHeight: 1.4,
-          textAlign: 'center',
-        }}
-      >
-        &ldquo;{teacher.tagline}&rdquo;
-      </div>
-
-      {/* Action row */}
-      <div
-        style={{
-          marginTop: 10,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: 8,
-          flexWrap: 'wrap',
-        }}
-      >
-        <div
-          className="font-pixel"
-          style={{
-            fontSize: 5,
-            color: teacher.glow,
-            border: `1px solid ${teacher.glow}`,
-            padding: '3px 6px',
-            letterSpacing: '0.05em',
-            maxWidth: 180,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {teacher.title.toUpperCase()}
+        {/* HP bars */}
+        <div style={{ marginBottom: 12, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+          <HpStrip
+            pct={playerHp}
+            label="HERO"
+            color="linear-gradient(180deg, #5aab6e 0%, #2eb85c 50%, #207040 100%)"
+          />
+          <HpStrip
+            pct={computedEnemyHp}
+            label="FOE"
+            color="linear-gradient(180deg, #ff5050 0%, #c43a00 50%, #8a1f00 100%)"
+          />
         </div>
 
+        {/* Teacher tagline */}
+        <div
+          style={{
+            marginBottom: 12,
+            padding: '10px 12px',
+            background: 'rgba(0,0,0,0.3)',
+            border: '1px solid var(--qf-rule)',
+            fontFamily: 'var(--font-body)',
+            fontSize: 13,
+            color: 'var(--qf-parchment-dim)',
+            fontStyle: 'italic',
+            lineHeight: 1.5,
+            textAlign: 'center',
+          }}
+        >
+          &ldquo;{teacher.tagline}&rdquo;
+        </div>
+
+        {/* Action row */}
         {isClickable ? (
-          <span
-            className="font-pixel"
-            style={{
-              fontSize: 7,
-              color:
-                status === 'current'
-                  ? 'var(--qf-bg-void)'
-                  : 'var(--qf-gold-300)',
-              background:
-                status === 'current'
-                  ? 'linear-gradient(135deg, var(--qf-gold-500), var(--qf-gold-400))'
-                  : 'transparent',
-              border: `1px solid ${status === 'current' ? 'var(--qf-gold-300)' : 'var(--qf-gold-600)'}`,
-              padding: '5px 10px',
-              letterSpacing: '0.08em',
-              flexShrink: 0,
-            }}
-          >
-            {actionLabel}
-          </span>
+          status === 'current' ? (
+            /* Full-width CTA for the active teacher */
+            <div
+              className="font-pixel"
+              style={{
+                width: '100%',
+                display: 'block',
+                textAlign: 'center',
+                fontSize: 10,
+                color: 'var(--qf-bg-void)',
+                background: `linear-gradient(135deg, ${teacher.glow}, ${teacher.glow}cc)`,
+                border: `1px solid ${teacher.glow}`,
+                padding: '12px 16px',
+                letterSpacing: '0.1em',
+                borderRadius: 3,
+                boxSizing: 'border-box',
+              }}
+            >
+              {actionLabel}
+            </div>
+          ) : (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' }}>
+              <div
+                className="font-pixel"
+                style={{
+                  fontSize: 7,
+                  color: teacher.glow,
+                  border: `1px solid ${teacher.glow}`,
+                  padding: '4px 8px',
+                  letterSpacing: '0.05em',
+                  maxWidth: 200,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {teacher.title.toUpperCase()}
+              </div>
+              <span
+                className="font-pixel"
+                style={{
+                  fontSize: 9,
+                  color: 'var(--qf-gold-300)',
+                  border: `1px solid var(--qf-gold-600)`,
+                  padding: '6px 12px',
+                  letterSpacing: '0.08em',
+                  flexShrink: 0,
+                }}
+              >
+                {actionLabel}
+              </span>
+            </div>
+          )
         ) : status === 'defeated' ? (
-          <span
-            className="font-pixel"
-            style={{ fontSize: 6, color: '#5aab6e', letterSpacing: '0.1em' }}
-          >
-            {xpRange} CLAIMED
-          </span>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' }}>
+            <div
+              className="font-pixel"
+              style={{
+                fontSize: 7,
+                color: teacher.glow,
+                border: `1px solid ${teacher.glow}`,
+                padding: '4px 8px',
+                letterSpacing: '0.05em',
+                maxWidth: 200,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {teacher.title.toUpperCase()}
+            </div>
+            <span
+              className="font-pixel"
+              style={{ fontSize: 8, color: '#5aab6e', letterSpacing: '0.1em' }}
+            >
+              {xpRange} CLAIMED
+            </span>
+          </div>
         ) : (
           <span
             className="font-pixel"
-            style={{ fontSize: 6, color: 'var(--qf-parchment-muted)', letterSpacing: '0.15em' }}
+            style={{ fontSize: 8, color: 'var(--qf-parchment-muted)', letterSpacing: '0.12em' }}
           >
             {actionLabel}
           </span>
