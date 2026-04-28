@@ -332,7 +332,7 @@ export function GMShell({ children, householdName, displayName, weeklyBoss, user
             <div
               className="font-pixel"
               style={{
-                fontSize: 7,
+                fontSize: 10,
                 color: 'var(--qf-parchment-muted)',
                 letterSpacing: '0.18em',
                 padding: '0 10px 12px',
@@ -405,7 +405,7 @@ export function GMShell({ children, householdName, displayName, weeklyBoss, user
                 <div
                   className="font-pixel"
                   style={{
-                    fontSize: 7,
+                    fontSize: 10,
                     color: 'var(--qf-parchment-muted)',
                     letterSpacing: '0.1em',
                     marginBottom: 6,
@@ -457,7 +457,7 @@ export function GMShell({ children, householdName, displayName, weeklyBoss, user
               <button
                 type="submit"
                 className="qf-btn-ghost"
-                style={{ width: '100%', fontSize: 10, padding: '8px 10px' }}
+                style={{ width: '100%', fontSize: 10, padding: '12px 10px' }}
               >
                 ⬡ Sign Out
               </button>

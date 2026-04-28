@@ -276,10 +276,10 @@ export default function LootPage() {
         /* ── availability toggle ── */
         .avail-toggle {
           font-family: var(--font-pixel, 'Press Start 2P', monospace);
-          font-size: 0.38rem;
+          font-size: 0.58rem;
           letter-spacing: 0.05em;
           image-rendering: pixelated;
-          padding: 4px 8px;
+          padding: 7px 10px;
           border-radius: 2px;
           cursor: pointer;
           transition: all 0.15s;
@@ -301,13 +301,13 @@ export default function LootPage() {
 
         /* ── filter pills ── */
         .f-pill {
-          padding: 3px 10px;
+          padding: 6px 12px;
           border-radius: 2px;
           border: 1px solid rgba(201,168,76,0.14);
           background: transparent;
           color: rgba(200,215,255,0.28);
           font-family: var(--font-pixel, 'Press Start 2P', monospace);
-          font-size: 0.4rem;
+          font-size: 0.58rem;
           image-rendering: pixelated;
           cursor: pointer;
           transition: all 0.15s;
@@ -356,7 +356,7 @@ export default function LootPage() {
         .ledger-header-cell {
           padding: 0.5rem 0.6rem;
           font-family: var(--font-pixel, 'Press Start 2P', monospace);
-          font-size: 0.38rem;
+          font-size: 0.58rem;
           letter-spacing: 0.1em;
           image-rendering: pixelated;
           color: rgba(201,168,76,0.4);

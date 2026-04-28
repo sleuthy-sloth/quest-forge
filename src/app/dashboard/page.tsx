@@ -97,7 +97,7 @@ export default async function GMHomePage() {
         <div
           className="font-pixel"
           style={{
-            fontSize: 7,
+            fontSize: 10,
             color: 'var(--qf-gold-400)',
             letterSpacing: '0.2em',
           }}
@@ -177,7 +177,7 @@ export default async function GMHomePage() {
             </div>
             <div
               className="font-pixel"
-              style={{ fontSize: 7, color: 'var(--qf-parchment-muted)' }}
+              style={{ fontSize: 10, color: 'var(--qf-parchment-muted)' }}
             >
               {totalPending} ITEMS · {xpInQueue.toLocaleString()} XP
             </div>
@@ -263,7 +263,7 @@ export default async function GMHomePage() {
                         </div>
                         <div
                           className="font-pixel"
-                          style={{ fontSize: 7, color: 'var(--qf-gold-400)' }}
+                          style={{ fontSize: 10, color: 'var(--qf-gold-400)' }}
                         >
                           LV {level}
                         </div>
@@ -289,7 +289,7 @@ export default async function GMHomePage() {
                         <span
                           className="font-pixel"
                           style={{
-                            fontSize: 6,
+                            fontSize: 9,
                             color: 'var(--qf-parchment-muted)',
                             display: 'flex',
                             alignItems: 'center',
@@ -302,7 +302,7 @@ export default async function GMHomePage() {
                         <span
                           className="font-pixel"
                           style={{
-                            fontSize: 6,
+                            fontSize: 9,
                             color: 'var(--qf-gold-200)',
                             display: 'flex',
                             alignItems: 'center',

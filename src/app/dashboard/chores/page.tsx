@@ -303,7 +303,7 @@ export default function ChoresPage() {
         /* ── difficulty buttons ── */
         .diff-btn {
           flex: 1;
-          padding: 0.45rem 0;
+          padding: 0.6rem 0;
           border-radius: 2px;
           border: 1px solid rgba(255,255,255,0.08);
           background: transparent;
@@ -321,7 +321,7 @@ export default function ChoresPage() {
         /* ── recurrence buttons ── */
         .rec-btn {
           flex: 1;
-          padding: 0.45rem 0;
+          padding: 0.6rem 0;
           border-radius: 2px;
           border: 1px solid rgba(201,168,76,0.15);
           background: transparent;
@@ -346,13 +346,13 @@ export default function ChoresPage() {
 
         /* ── filter pills ── */
         .filter-pill {
-          padding: 0.3rem 0.7rem;
+          padding: 0.45rem 0.85rem;
           border-radius: 2px;
           border: 1px solid rgba(201,168,76,0.15);
           background: transparent;
           color: rgba(200,215,255,0.3);
           font-family: var(--font-pixel, 'Press Start 2P', monospace);
-          font-size: 0.42rem;
+          font-size: 0.60rem;
           image-rendering: pixelated;
           cursor: pointer;
           transition: all 0.15s;
