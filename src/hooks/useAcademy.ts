@@ -193,14 +193,20 @@ export function useAcademy(
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ subject, age_tier: ageTier, count: 10 }),
-          signal: AbortSignal.timeout(9000),
+          signal: AbortSignal.timeout(15000),
         })
           .then(async (res) => {
-            if (!res.ok) return null
+            if (!res.ok) {
+              console.warn('[useAcademy] AI generate returned', res.status, '— falling back to DB')
+              return null
+            }
             const json = (await res.json()) as { questions?: EduChallenge[] }
             return json.questions && json.questions.length >= 5 ? json.questions : null
           })
-          .catch(() => null)
+          .catch((err) => {
+            console.warn('[useAcademy] AI generate fetch failed:', err)
+            return null
+          })
       : Promise.resolve(null)
 
     const dbPromise: Promise<EduChallenge[] | null> = (async () => {

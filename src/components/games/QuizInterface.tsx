@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
+import { createClient } from '@/lib/supabase/client'
 import { useAcademy } from '@/hooks/useAcademy'
 import BattleArena, { type BattleArenaHandle } from '@/components/games/BattleArena'
 import { ENEMY_PRESETS, DEFAULT_AVATAR_CONFIG } from '@/lib/constants/enemies'
@@ -78,6 +79,9 @@ export default function QuizInterface({
   const [flash, setFlash] = useState<Flash>(null)
   const [submissionError, setSubmissionError] = useState(false)
   const [streak, setStreak] = useState(0)
+  const [freshProfile, setFreshProfile] = useState<{ xp_total: number; xp_available: number; level: number } | null>(null)
+
+  const supabase = useMemo(() => createClient(), [])
 
   // Battle arena ref for triggering attack animations
   const arenaRef = useRef<BattleArenaHandle>(null)
@@ -137,6 +141,20 @@ export default function QuizInterface({
     const timers = timersRef.current
     return () => { timers.forEach(clearTimeout) }
   }, [])
+
+  // Fetch fresh profile data once results are shown so XP reflects the DB
+  useEffect(() => {
+    if (phase !== 'results') return
+    const timer = setTimeout(async () => {
+      const { data } = await supabase
+        .from('profiles')
+        .select('xp_total, xp_available, level')
+        .eq('id', userId)
+        .single()
+      if (data) setFreshProfile(data as { xp_total: number; xp_available: number; level: number })
+    }, 700)
+    return () => clearTimeout(timer)
+  }, [phase, supabase, userId])
 
   // ── Answer handler ───────────────────────────────────────────────────────
 
@@ -211,6 +229,7 @@ export default function QuizInterface({
   }, [fetchChallenges, subject])
 
   const handleBack = useCallback(() => {
+    router.refresh()
     if (onComplete) onComplete()
     else router.push('/play/academy')
   }, [onComplete, router])
@@ -328,6 +347,11 @@ export default function QuizInterface({
               >
                 +{sessionXp} XP earned
               </div>
+              {freshProfile && (
+                <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '5px', color: '#c9a84c', marginTop: '4px', letterSpacing: '0.1em' }}>
+                  LV {freshProfile.level} · {freshProfile.xp_available.toLocaleString()} XP available
+                </div>
+              )}
             </div>
             <div
               style={{

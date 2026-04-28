@@ -57,7 +57,16 @@ export async function POST(request: Request) {
 
   const { subject, age_tier, count } = result.data
 
-  // 12s timeout — Gemini (primary) + OpenRouter (fallback) both get a chance
+  // Log which AI providers are configured on each request for debuggability
+  const hasOpenRouter = !!process.env.OPENROUTER_API_KEY
+  const hasGemini     = !!process.env.GEMINI_API_KEY
+  if (!hasOpenRouter && !hasGemini) {
+    console.warn('[edu/generate] No AI provider configured (OPENROUTER_API_KEY and GEMINI_API_KEY both missing) — returning empty for DB fallback')
+    return NextResponse.json({ questions: [] })
+  }
+  console.log(`[edu/generate] providers: openrouter=${hasOpenRouter} gemini=${hasGemini} subject=${subject} tier=${age_tier}`)
+
+  // 12s timeout — OpenRouter (primary) + Gemini (fallback) both get a chance
   const timeoutPromise = new Promise<null>((resolve) =>
     setTimeout(() => resolve(null), 12_000),
   )

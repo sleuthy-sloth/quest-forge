@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState, useImperativeHandle, forwardRef } from 'react'
 import AnimatedAvatar from '@/components/avatar/AnimatedAvatar'
+import BattleEffectsLayer from '@/components/games/BattleEffectsLayer'
 import type { EncounterConfig } from '@/types/encounter'
 import type { AvatarConfig } from '@/types/avatar'
 import type { AnimationPreset } from '@/lib/constants/lpc-animations'
@@ -247,6 +248,13 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
             overflow: 'hidden',
           }}
         >
+          {/* ── Combat effects layer ── */}
+          <BattleEffectsLayer
+            playerAttackTick={playerAttackTick}
+            enemyAttackTick={enemyAttackTick}
+            glowColor={enemy.glowColor}
+          />
+
           {/* ── Flash overlay ── */}
           <div
             className="ba-flash"
