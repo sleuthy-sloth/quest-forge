@@ -197,7 +197,7 @@ export default function PlayersPage() {
   // useMemo stabilises the client reference so the fetchPlayers useCallback
   // doesn't regenerate on every render, which would trigger an infinite loop.
   const supabase = useMemo(() => createClient(), [])
-  const { profile: authProfile } = useAuth()
+  const { profile: authProfile, loading: authLoading } = useAuth()
   const householdId = authProfile?.household_id ?? null
 
   const [players, setPlayers] = useState<PlayerProfile[]>([])
@@ -215,7 +215,11 @@ export default function PlayersPage() {
   const fetchPlayers = useCallback(async () => {
     if (!householdId) {
       setLoading(false)
-      setFetchError('Household not found. Try refreshing the page.')
+      if (!authLoading && !authProfile) {
+        setFetchError('Your profile could not be loaded. Please ensure you are logged in correctly.')
+      } else {
+        setFetchError('Household not found. Try refreshing the page.')
+      }
       return
     }
     setLoading(true); setFetchError(null)
@@ -238,7 +242,11 @@ export default function PlayersPage() {
     }
   }, [supabase, householdId])
 
-  useEffect(() => { fetchPlayers() }, [fetchPlayers])
+  useEffect(() => {
+    if (!authLoading) {
+      fetchPlayers()
+    }
+  }, [fetchPlayers, authLoading])
 
   function setField(key: keyof CreateForm) {
     return (v: string) => {
@@ -423,13 +431,13 @@ export default function PlayersPage() {
           <section>
             <PageDivider>Adventurer Roster</PageDivider>
 
-            {loading && (
+            {(loading || authLoading) && (
               <div style={{ textAlign: 'center', padding: '3rem', color: 'rgba(200,215,255,0.3)', fontFamily: "'Raleway', sans-serif", fontWeight: 300, fontSize: '0.88rem' }}>
                 <span className="spinner" /> Consulting the stars...
               </div>
             )}
 
-            {fetchError && (
+            {fetchError && !authLoading && (
               <div style={{ padding: '1rem', background: 'rgba(220,60,60,0.08)', border: '1px solid rgba(220,60,60,0.25)', borderRadius: 3, color: 'rgba(220,100,100,0.85)', fontFamily: "'Raleway', sans-serif", fontSize: '0.88rem' }}>
                 ⚠ {fetchError}
               </div>

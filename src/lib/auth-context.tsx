@@ -37,12 +37,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const fetchProfile = useCallback(async (userId: string) => {
     const supabase = createClient()
-    const { data } = await supabase
-      .from('profiles')
-      .select('id, household_id, display_name, username, role, level, xp_total, xp_available, gold')
-      .eq('id', userId)
-      .single()
-    setProfile(data)
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id, household_id, display_name, username, role, level, xp_total, xp_available, gold')
+        .eq('id', userId)
+        .single()
+      
+      if (error) {
+        console.error('[AuthContext] Profile fetch error:', error)
+        setProfile(null)
+      } else {
+        setProfile(data)
+      }
+    } catch (err) {
+      console.error('[AuthContext] Profile fetch exception:', err)
+      setProfile(null)
+    }
   }, [])
 
   useEffect(() => {
