@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useSearchParams } from 'next/navigation'
+import Image from 'next/image'
 import classesData from '@/lore/classes.json'
 
 const LS_KEY = 'questforge_walkthrough_dismissed'
@@ -201,12 +202,14 @@ export default function WalkthroughOverlay({
             overflow: 'hidden',
             marginBottom: '1.25rem',
             border: '1px solid rgba(201,168,76,0.2)',
+            position: 'relative',
           }}
         >
-          <img
+          <Image
             src={slide.image}
             alt=""
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            fill
+            style={{ objectFit: 'cover' }}
           />
         </div>
 

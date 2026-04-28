@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useSearchParams } from 'next/navigation'
+import Image from 'next/image'
 
 const LS_KEY = 'questforge_gm_walkthrough_v1'
 
@@ -156,12 +157,14 @@ export default function GmWalkthroughOverlay() {
             overflow: 'hidden',
             marginBottom: '1.25rem',
             border: '1px solid rgba(201,168,76,0.2)',
+            position: 'relative',
           }}
         >
-          <img
+          <Image
             src={slide.image}
             alt=""
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            fill
+            style={{ objectFit: 'cover' }}
           />
         </div>
 

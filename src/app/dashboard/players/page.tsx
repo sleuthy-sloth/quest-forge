@@ -243,7 +243,7 @@ export default function PlayersPage() {
     } finally {
       setLoading(false)
     }
-  }, [supabase, householdId])
+  }, [supabase, householdId, authLoading, authProfile])
 
   const handleRename = async (playerId: string) => {
     if (!renameValue.trim()) return
