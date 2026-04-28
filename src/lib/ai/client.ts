@@ -13,28 +13,44 @@ const openRouterClient = process.env.OPENROUTER_API_KEY
 
 export const OPENROUTER_MODEL = 'openrouter/free'
 
-// ── Chain-of-thought filtering ──────────────────────────────────────────
-
 /**
- * Strips reasoning / thinking blocks that some models emit alongside their
- * final answer.  Handles:
- *   - <reasoning>…</reasoning> / <think>…</think> / <thought>…</thought> XML tags
- *   - ```thinking … ``` fenced blocks
- *   - Raw untagged prose thinking followed by a JSON object (edu challenges)
- *   - Raw untagged prose thinking followed by a quoted prose answer (flavor text)
- *     — Nemotron emits chain-of-thought as free-form prose without XML tags;
- *       we detect it by looking for the last substantial double-quoted block.
+ * Strips reasoning / thinking blocks that various AI models emit alongside
+ * their final answer.  Since `openrouter/free` routes to arbitrary models
+ * (GPT, Llama, Mistral, DeepSeek, Qwen, etc.), we handle every known pattern:
+ *
+ *   - XML tags: <think>, <thinking>, <reasoning>, <thought>, <reflection>,
+ *     <scratchpad>, <internal_thought>  (and their closing tags)
+ *   - Fenced blocks: ```thinking … ```, ```reasoning … ```
+ *   - Markdown headers: lines starting with ## Thinking, ## Reasoning, etc.
+ *     followed by content until the next ## or the end of thinking
+ *   - <output> / <answer> wrappers: some models wrap the real answer in these
+ *   - Untagged prose preambles: "Let me think...", "Okay, so the user wants..."
+ *     followed by a JSON payload or quoted answer
  */
 export function stripThinking(text: string): string {
   let cleaned = text
+    // ── XML-tagged thinking (greedy within tags) ──────────────────────────
+    .replace(/<thinking[\s\S]*?<\/thinking>/gi, '')
     .replace(/<reasoning[\s\S]*?<\/reasoning>/gi, '')
     .replace(/<think[\s\S]*?<\/think>/gi, '')
     .replace(/<thought[\s\S]*?<\/thought>/gi, '')
-    .replace(/```thinking[\s\S]*?```/gi, '')
-    .replace(/<\/?think>|<\/?reasoning>/gi, '')
+    .replace(/<reflection[\s\S]*?<\/reflection>/gi, '')
+    .replace(/<scratchpad[\s\S]*?<\/scratchpad>/gi, '')
+    .replace(/<internal_thought[\s\S]*?<\/internal_thought>/gi, '')
+    // ── Orphaned opening/closing XML tags ─────────────────────────────────
+    .replace(/<\/?(?:think|thinking|reasoning|thought|reflection|scratchpad|internal_thought)>/gi, '')
+    // ── Fenced thinking blocks ───────────────────────────────────────────
+    .replace(/```(?:thinking|reasoning)[\s\S]*?```/gi, '')
     .trim()
 
-  // ── JSON extraction ──────────────────────────────────────────────────────────
+  // ── Extract content from <output> or <answer> wrappers ─────────────────
+  // Some models wrap the actual answer in <output>…</output> or <answer>…</answer>
+  const outputMatch = cleaned.match(/<(?:output|answer|response)>([\s\S]*?)<\/(?:output|answer|response)>/i)
+  if (outputMatch) {
+    cleaned = outputMatch[1].trim()
+  }
+
+  // ── JSON extraction ──────────────────────────────────────────────────────
   // Walk forward from each '{' and find the first balanced, parse-able JSON
   // block. A greedy /\{[\s\S]*\}/ would anchor to the first '{' which could be
   // inside thinking prose (e.g. "here's how {this} works").
@@ -45,7 +61,7 @@ export function stripThinking(text: string): string {
       hasValidJson = true
       const idx = cleaned.indexOf(jsonBlock)
       const before = cleaned.slice(0, idx).trim()
-      
+
       // If the text before the JSON is just markdown fencing, empty, OR
       // if there's a lot of text (thinking prose), we extract just the JSON.
       if (before === '' || before.startsWith('```') || (idx > 50 && /[a-zA-Z]{4,}/.test(before))) {
@@ -54,7 +70,7 @@ export function stripThinking(text: string): string {
     }
   }
 
-  // ── Prose answer extraction ──────────────────────────────────────────────────
+  // ── Prose answer extraction ──────────────────────────────────────────────
   // For non-JSON responses the model may emit thinking as untagged prose and
   // put the actual answer in a double-quoted block.  Take the last quoted block
   // that looks like a complete prose sentence (≥40 chars, contains punctuation).
@@ -65,7 +81,13 @@ export function stripThinking(text: string): string {
     if (prose) cleaned = prose
   }
 
-  return cleaned.trim()
+  // ── Strip markdown fences from the final result ────────────────────────
+  cleaned = cleaned
+    .replace(/^```(?:json)?\s*/i, '')
+    .replace(/```\s*$/i, '')
+    .trim()
+
+  return cleaned
 }
 
 /**
@@ -185,7 +207,8 @@ export async function callOpenRouter(
       max_tokens: maxTokens,
       temperature,
     })
-    return response.choices[0]?.message?.content?.trim() ?? null
+    const raw = response.choices[0]?.message?.content?.trim() ?? null
+    return raw ? stripThinking(raw) : null
   } catch (err) {
     console.warn(`[ai] OpenRouter call failed (model: ${model}):`, err)
     return null

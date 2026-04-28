@@ -3,6 +3,8 @@ import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { generateFlavorText } from '@/lib/ai/flavor'
 
+export const maxDuration = 60
+
 const Schema = z.object({
   questTitle: z.string().min(1, 'Title is required').max(200),
   questDescription: z.string().max(1000).optional().default(''),
@@ -12,7 +14,7 @@ const Schema = z.object({
  * POST /api/quests/flavor
  *
  * Generates fantasy flavor text for a GM-authored quest. Reuses the
- * chores flavor pipeline (Gemini Flash → keyword-template fallback) so
+ * chores flavor pipeline (OpenRouter AI → keyword-template fallback) so
  * both surfaces share one prompt and one rate-limit pool.
  *
  * Protected: GM role required.

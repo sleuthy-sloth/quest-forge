@@ -3,6 +3,8 @@ import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { generateVictoryNarrative } from '@/lib/ai/story'
 
+export const maxDuration = 60
+
 // ---------------------------------------------------------------------------
 // Schema
 // ---------------------------------------------------------------------------

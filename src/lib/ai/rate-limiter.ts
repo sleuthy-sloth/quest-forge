@@ -20,7 +20,7 @@ export async function canMakeRequest(): Promise<boolean> {
     if (error) {
       // If the RPC function doesn't exist (migration 015 not yet applied to
       // this Supabase instance), allow requests rather than blocking all AI
-      // generation. The Gemini API enforces its own hard quota; this limiter
+      // generation. The AI provider enforces its own hard quota; this limiter
       // only adds a safety margin on top.
       const msg = (error.message ?? '').toLowerCase()
       const isMissingFn =

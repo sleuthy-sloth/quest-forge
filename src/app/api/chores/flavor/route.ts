@@ -3,6 +3,8 @@ import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { generateFlavorText } from '@/lib/ai/flavor'
 
+export const maxDuration = 60
+
 const Schema = z.object({
   choreTitle: z.string().min(1, 'Title is required').max(200),
   choreDescription: z.string().max(500).optional().default(''),
@@ -11,7 +13,7 @@ const Schema = z.object({
 /**
  * POST /api/chores/flavor
  *
- * Generates fantasy quest flavor text for a chore via Gemini Flash.
+ * Generates fantasy quest flavor text for a chore via OpenRouter AI.
  * Falls back to the keyword-matched template bank if rate-limited or on error.
  * Protected: GM role required.
  */

@@ -99,7 +99,7 @@ function ironBarColor(heat: number): string {
 }
 
 function accuracyColor(n: number): string {
-  const pct = n / 10
+  const pct = questions.length ? n / questions.length : 0
   if (pct >= 0.8) return '#2eb85c'
   if (pct >= 0.6) return '#e8a020'
   return '#e05555'
@@ -399,7 +399,7 @@ export default function WordForge({
                 FORGE COMPLETE
               </div>
               <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '14px', color: '#f0e6c8' }}>
-                {correctCount} / 10
+                {correctCount} / {questions.length}
               </div>
               <div style={{ fontFamily: 'var(--font-heading)', fontSize: '11px', color: '#7a6a44', marginTop: '2px' }}>
                 {questionSource === 'fallback'
@@ -414,7 +414,7 @@ export default function WordForge({
               fontFamily: 'var(--font-pixel)', fontSize: '8px',
               color: accuracyColor(correctCount),
             }}>
-              {Math.round(correctCount / 10 * 100)}%
+              {Math.round((questions.length ? correctCount / questions.length : 0) * 100)}%
             </div>
           </div>
 
@@ -485,7 +485,7 @@ export default function WordForge({
   const current = questions[questionIndex]
   const correctCount = score
   const vocabWord = extractWord(current.title)
-  const heatLevel = correctCount / 10
+  const heatLevel = questions.length ? correctCount / questions.length : 0
 
   return (
     <>
@@ -499,7 +499,7 @@ export default function WordForge({
           enemyPreset={enemyPreset}
           correctCount={correctCount}
           questionIndex={questionIndex}
-          totalQuestions={10}
+          totalQuestions={questions.length}
           questionSource={questionSource}
           screenFlash={screenFlash === 'blue' ? 'green' : screenFlash}
           playerSize={64}

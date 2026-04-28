@@ -83,7 +83,7 @@ function fallbackQuestions(ageTier: 'junior' | 'senior'): Question[] {
 }
 
 function accuracyColor(n: number): string {
-  const pct = n / 10
+  const pct = questions.length ? n / questions.length : 0
   if (pct >= 0.8) return '#2eb85c'
   if (pct >= 0.6) return '#e8a020'
   return '#e05555'
@@ -343,7 +343,7 @@ export default function ScienceLabyrinth({
                 {cleared ? 'LABYRINTH CLEARED' : 'LABYRINTH ATTEMPTED'}
               </div>
               <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '14px', color: '#f0e6c8' }}>
-                {correctCount} / 10
+                {correctCount} / {questions.length}
               </div>
               <div style={{ fontFamily: 'var(--font-heading)', fontSize: '11px', color: '#7a6a44', marginTop: '2px' }}>
                 {questionSource === 'fallback'
@@ -358,7 +358,7 @@ export default function ScienceLabyrinth({
               fontFamily: 'var(--font-pixel)', fontSize: '8px',
               color: accuracyColor(correctCount),
             }}>
-              {Math.round(correctCount / 10 * 100)}%
+              {Math.round((questions.length ? correctCount / questions.length : 0) * 100)}%
             </div>
           </div>
 
@@ -512,7 +512,7 @@ export default function ScienceLabyrinth({
           enemyPreset={enemyPreset}
           correctCount={correctCount}
           questionIndex={questionIndex}
-          totalQuestions={10}
+          totalQuestions={questions.length}
           questionSource={questionSource}
           screenFlash={screenFlash}
           playerSize={64}

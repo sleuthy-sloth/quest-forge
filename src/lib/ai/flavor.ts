@@ -238,7 +238,7 @@ export async function generateFlavorText(
   const text = await generateWithFallback({
     system: SYSTEM_PROMPT,
     user: userPrompt,
-    maxTokens: 400,  // Nemotron thinks before answering; 200 left no budget for the actual output
+    maxTokens: 400,  // Some models include thinking before the answer; extra budget prevents truncation
     temperature: 0.85,
   })
 

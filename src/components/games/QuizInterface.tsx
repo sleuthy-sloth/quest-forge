@@ -343,7 +343,7 @@ export default function QuizInterface({
               <div
                 style={{ fontFamily: 'var(--font-pixel)', fontSize: '14px', color: '#f0e6c8' }}
               >
-                {correctCount} / 10
+                {correctCount} / {questions.length}
               </div>
               <div
                 style={{
@@ -369,10 +369,10 @@ export default function QuizInterface({
                 padding: '8px 12px',
                 fontFamily: 'var(--font-pixel)',
                 fontSize: '8px',
-                color: accuracyColor(correctCount / 10),
+                color: accuracyColor(questions.length ? correctCount / questions.length : 0),
               }}
             >
-              {Math.round((correctCount / 10) * 100)}%
+              {Math.round((questions.length ? correctCount / questions.length : 0) * 100)}%
             </div>
           </div>
 
@@ -475,7 +475,7 @@ export default function QuizInterface({
           enemyPreset={enemyPreset}
           correctCount={correctCount}
           questionIndex={questionIndex}
-          totalQuestions={10}
+          totalQuestions={questions.length}
           questionSource={source}
           screenFlash={flash}
           playerSize={64}
@@ -506,7 +506,7 @@ export default function QuizInterface({
               letterSpacing: '1px',
             }}
           >
-            QUESTION {questionIndex + 1} OF 10
+            QUESTION {questionIndex + 1} OF {questions.length}
           </div>
 
           {/* Question text */}
