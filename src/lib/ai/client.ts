@@ -20,7 +20,7 @@ export const geminiModel = geminiClient
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
-export const OPENROUTER_MODEL = 'nvidia/nemotron-3-super-120b-a12b:free'
+export const OPENROUTER_MODEL = 'google/gemini-2.0-flash-lite-preview-02-05:free'
 
 // ── Chain-of-thought filtering ──────────────────────────────────────────
 
@@ -130,8 +130,9 @@ export interface GenerationPrompt {
  * **Provider rationale:**
  * - Gemini 2.0 Flash is the primary because it's much faster (2–4s vs 10+s)
  *   and avoids Vercel serverless function timeouts on the Hobby plan.
- * - OpenRouter Nemotron (`nvidia/nemotron-3-super-120b-a12b:free`) is the
- *   fallback when Gemini is unavailable or fails.
+ * - OpenRouter Gemini Flash Lite (`google/gemini-2.0-flash-lite-preview-02-05:free`) is the
+ *   fallback when the direct Gemini API is unavailable, fails, or has quota issues. This model
+ *   is much faster than Nemotron 120B and reliably finishes under Vercel's 10s Hobby limit.
  * - The app-level daily rate limiter (`canMakeRequest` / `incrementUsage`)
  *   guards the combined budget.
  */
