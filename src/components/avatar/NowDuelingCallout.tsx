@@ -22,13 +22,13 @@ export default function NowDuelingCallout({ teacher, enemy, animationPreset }: N
       <div
         style={{
           position: 'relative',
-          padding: '10px 12px',
+          padding: '14px 14px 12px',
           background: `linear-gradient(135deg, ${teacher.glow}18, rgba(15,17,24,0.85))`,
           border: `1px solid ${teacher.glow}44`,
           borderLeft: `3px solid ${teacher.glow}`,
           display: 'flex',
           alignItems: 'center',
-          gap: 10,
+          gap: 12,
           cursor: 'pointer',
         }}
       >
@@ -36,12 +36,12 @@ export default function NowDuelingCallout({ teacher, enemy, animationPreset }: N
         <div
           style={{
             position: 'absolute',
-            top: 6,
-            left: 12,
+            top: 8,
+            left: 14,
             fontFamily: 'var(--font-pixel)',
-            fontSize: 5,
+            fontSize: 9,
             color: teacher.glow,
-            letterSpacing: '0.22em',
+            letterSpacing: '0.18em',
           }}
         >
           NOW DUELING
@@ -50,10 +50,10 @@ export default function NowDuelingCallout({ teacher, enemy, animationPreset }: N
         {/* Enemy avatar */}
         <div
           style={{
-            marginTop: 12,
+            marginTop: 14,
             flexShrink: 0,
-            width: 48,
-            height: 48,
+            width: 56,
+            height: 56,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -64,21 +64,21 @@ export default function NowDuelingCallout({ teacher, enemy, animationPreset }: N
           <EnemyRenderer
             enemy={enemy}
             animationPreset={animationPreset}
-            size={40}
+            size={44}
             autoAttack
             autoAttackInterval={9000}
           />
         </div>
 
         {/* Info */}
-        <div style={{ flex: 1, minWidth: 0, marginTop: 10 }}>
+        <div style={{ flex: 1, minWidth: 0, marginTop: 12 }}>
           <div
             style={{
               fontFamily: 'var(--font-pixel)',
-              fontSize: 7,
+              fontSize: 10,
               color: teacher.glow,
               letterSpacing: '0.1em',
-              marginBottom: 3,
+              marginBottom: 4,
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
@@ -88,10 +88,10 @@ export default function NowDuelingCallout({ teacher, enemy, animationPreset }: N
           </div>
           <div
             style={{
-              fontSize: 11,
+              fontSize: 13,
               color: 'var(--qf-parchment-dim)',
               fontStyle: 'italic',
-              lineHeight: 1.3,
+              lineHeight: 1.4,
               overflow: 'hidden',
               display: '-webkit-box',
               WebkitLineClamp: 2,
@@ -107,12 +107,15 @@ export default function NowDuelingCallout({ teacher, enemy, animationPreset }: N
           style={{
             flexShrink: 0,
             fontFamily: 'var(--font-pixel)',
-            fontSize: 7,
+            fontSize: 9,
             color: 'var(--qf-bg-void)',
             background: `linear-gradient(135deg, ${teacher.glow}, ${teacher.glow}cc)`,
-            padding: '6px 10px',
+            padding: '10px 14px',
             letterSpacing: '0.08em',
             whiteSpace: 'nowrap',
+            minHeight: 44,
+            display: 'flex',
+            alignItems: 'center',
           }}
         >
           FIGHT →

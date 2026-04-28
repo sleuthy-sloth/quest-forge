@@ -112,7 +112,7 @@ export function PlayShell({
           <div className="flex items-center gap-2">
             <Embershard size={16} />
             <span
-              className="text-[#c9a84c] text-[0.45rem] tracking-[0.2em] uppercase hidden sm:block"
+              className="text-[#c9a84c] text-[0.68rem] tracking-[0.2em] uppercase hidden sm:block"
               style={{
                 fontFamily: 'var(--font-pixel), monospace',
                 textShadow: '0 0 12px rgba(201,168,76,0.4)',
@@ -127,7 +127,7 @@ export function PlayShell({
           {/* Gold Display */}
           <div className="flex items-center gap-2 px-3 py-1 bg-[#c9a84c]/5 border border-[#c9a84c]/10 rounded-full">
             <Coin size={12} />
-            <span className="font-pixel text-[0.5rem] text-[#c9a84c] tracking-widest">
+            <span className="font-pixel text-[0.68rem] text-[#c9a84c] tracking-widest">
               {gold.toLocaleString()}
             </span>
           </div>
@@ -139,7 +139,7 @@ export function PlayShell({
               {displayName}
             </p>
             <p
-              className="text-[#c9a84c]/65 text-[0.42rem] leading-tight mt-0.5"
+              className="text-[#c9a84c]/65 text-[0.65rem] leading-tight mt-0.5"
               style={{ fontFamily: 'var(--font-pixel), monospace' }}
             >
               Lv. {level}
@@ -179,7 +179,7 @@ export function PlayShell({
                 Menu
               </div>
             </div>
-            <p className="text-[0.45rem] font-pixel text-[#b09a6e]/40 uppercase tracking-widest">
+            <p className="text-[0.65rem] font-pixel text-[#b09a6e]/50 uppercase tracking-widest">
               Journey of {displayName}
             </p>
           </div>
@@ -204,7 +204,7 @@ export function PlayShell({
                       ${active ? 'text-[#c9a84c]' : 'text-[#f0e6c8]'}`}>
                       {item.label}
                     </div>
-                    <div className="text-[0.6rem] text-[#b09a6e]/40 italic">
+                    <div className="text-[0.75rem] text-[#b09a6e]/50 italic">
                       {item.sub}
                     </div>
                   </div>
@@ -219,15 +219,15 @@ export function PlayShell({
           {/* Drawer Footer */}
           <div className="p-4 border-t border-[#c9a84c]/10 space-y-3">
             <div className="px-4 py-2 bg-[#1a0e04] border border-[#5a3a1a]/30 rounded text-center">
-              <span className="text-[0.45rem] font-pixel text-[#c9a84c]/60 uppercase tracking-widest">
+              <span className="text-[0.65rem] font-pixel text-[#c9a84c]/60 uppercase tracking-widest">
                 Emberbearer Lv. {level}
               </span>
             </div>
             <form action={signOut}>
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-2 px-4 py-2 
-                  text-[0.5rem] font-pixel text-[#b09a6e]/40 hover:text-[#e05555] 
+                className="w-full flex items-center justify-center gap-2 px-4 py-3
+                  text-[0.65rem] font-pixel text-[#b09a6e]/50 hover:text-[#e05555]
                   transition-colors uppercase tracking-widest"
               >
                 <span>⬡</span> Sign Out

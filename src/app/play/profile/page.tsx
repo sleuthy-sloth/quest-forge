@@ -106,7 +106,7 @@ function SectionHeading({ label, accent }: { label: string; accent: string }) {
       <p
         style={{
           fontFamily:     'var(--font-pixel), monospace',
-          fontSize:       '0.42rem',
+          fontSize:       '0.60rem',
           letterSpacing:  '0.18em',
           color:          `${accent}99`,
           imageRendering: 'pixelated',
@@ -275,7 +275,7 @@ export default async function ProfilePage() {
               background:     `${accent}0a`,
               color:          `${accent}cc`,
               fontFamily:     'var(--font-pixel), monospace',
-              fontSize:       '0.42rem',
+              fontSize:       '0.60rem',
               letterSpacing:  '0.12em',
               imageRendering: 'pixelated',
               textDecoration: 'none',
@@ -324,7 +324,7 @@ export default async function ProfilePage() {
               <p
                 style={{
                   fontFamily:     'var(--font-pixel), monospace',
-                  fontSize:       '0.4rem',
+                  fontSize:       '0.58rem',
                   letterSpacing:  '0.18em',
                   imageRendering: 'pixelated',
                   color:           accent2,
@@ -363,7 +363,7 @@ export default async function ProfilePage() {
             <span
               style={{
                 fontFamily:     'var(--font-pixel), monospace',
-                fontSize:       '0.38rem',
+                fontSize:       '0.56rem',
                 imageRendering: 'pixelated',
                 color:          `${accent}aa`,
                 letterSpacing:  '0.1em',
@@ -387,7 +387,7 @@ export default async function ProfilePage() {
             <span
               style={{
                 fontFamily:     'var(--font-pixel), monospace',
-                fontSize:       '0.38rem',
+                fontSize:       '0.56rem',
                 imageRendering: 'pixelated',
                 color:          `${accent}cc`,
                 letterSpacing:  '0.1em',
@@ -405,7 +405,7 @@ export default async function ProfilePage() {
                 <p
                   style={{
                     fontFamily:     'var(--font-pixel), monospace',
-                    fontSize:       '0.38rem',
+                    fontSize:       '0.56rem',
                     imageRendering: 'pixelated',
                     color:          'rgba(200,215,255,0.3)',
                     lineHeight:      1,
@@ -428,7 +428,7 @@ export default async function ProfilePage() {
                 <p
                   style={{
                     fontFamily:     'var(--font-pixel), monospace',
-                    fontSize:       '0.36rem',
+                    fontSize:       '0.54rem',
                     imageRendering: 'pixelated',
                     color:          'rgba(110,181,255,0.45)',
                     lineHeight:      1,
@@ -445,7 +445,7 @@ export default async function ProfilePage() {
                 <p
                   style={{
                     fontFamily:     'var(--font-pixel), monospace',
-                    fontSize:       '0.38rem',
+                    fontSize:       '0.56rem',
                     imageRendering: 'pixelated',
                     color:          'rgba(200,215,255,0.3)',
                     lineHeight:      1,
@@ -475,7 +475,7 @@ export default async function ProfilePage() {
               <span
                 style={{
                   fontFamily:     'var(--font-pixel), monospace',
-                  fontSize:       '0.36rem',
+                  fontSize:       '0.54rem',
                   imageRendering: 'pixelated',
                   color:          'rgba(200,215,255,0.28)',
                   letterSpacing:  '0.1em',
@@ -486,7 +486,7 @@ export default async function ProfilePage() {
               <span
                 style={{
                   fontFamily:     'var(--font-pixel), monospace',
-                  fontSize:       '0.36rem',
+                  fontSize:       '0.54rem',
                   imageRendering: 'pixelated',
                   color:          `${accent}90`,
                 }}
@@ -584,7 +584,7 @@ export default async function ProfilePage() {
                     <span
                       style={{
                         fontFamily:     'var(--font-pixel), monospace',
-                        fontSize:       '0.38rem',
+                        fontSize:       '0.56rem',
                         imageRendering: 'pixelated',
                         color:           isPrimary ? `${accent}cc` : 'rgba(200,215,255,0.4)',
                         letterSpacing:  '0.1em',
@@ -609,7 +609,7 @@ export default async function ProfilePage() {
                 {/* Stat bar */}
                 <div
                   style={{
-                    height:     6,
+                    height:     8,
                     background: 'rgba(255,255,255,0.05)',
                     borderRadius: 1,
                     overflow:   'hidden',
@@ -728,7 +728,7 @@ export default async function ProfilePage() {
                     <span
                       style={{
                         fontFamily:     'var(--font-pixel), monospace',
-                        fontSize:       '0.38rem',
+                        fontSize:       '0.56rem',
                         imageRendering: 'pixelated',
                         color:          'rgba(110,181,255,0.8)',
                       }}
@@ -826,7 +826,7 @@ export default async function ProfilePage() {
                       <span
                         style={{
                           fontFamily:     'var(--font-pixel), monospace',
-                          fontSize:       '0.34rem',
+                          fontSize:       '0.52rem',
                           imageRendering: 'pixelated',
                           padding:        '1px 4px',
                           borderRadius:    2,
@@ -856,7 +856,7 @@ export default async function ProfilePage() {
                   <span
                     style={{
                       fontFamily:     'var(--font-pixel), monospace',
-                      fontSize:       '0.34rem',
+                      fontSize:       '0.52rem',
                       imageRendering: 'pixelated',
                       padding:        '2px 5px',
                       borderRadius:    2,
@@ -896,7 +896,7 @@ export default async function ProfilePage() {
               background: `${accent}0a`,
               color: `${accent}cc`,
               fontFamily: 'var(--font-pixel), monospace',
-              fontSize: '0.4rem',
+              fontSize: '0.58rem',
               letterSpacing: '0.12em',
               imageRendering: 'pixelated',
               textDecoration: 'none',
