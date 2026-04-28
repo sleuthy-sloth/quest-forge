@@ -2,21 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useSearchParams } from 'next/navigation'
-import classesData from '@/lore/classes.json'
 
-const LS_KEY = 'questforge_walkthrough_dismissed'
-
-interface ClassDef {
-  id: string
-  name: string
-  archetype: string
-  embershard_form: string
-  color_primary: string
-  color_secondary: string
-  icon: string
-}
-
-const CLASSES: ClassDef[] = (classesData as { classes: ClassDef[] }).classes
+const LS_KEY = 'questforge_gm_walkthrough_v1'
 
 interface Slide {
   title: string
@@ -25,98 +12,64 @@ interface Slide {
   icon: string
 }
 
-function buildSlides(avatarClass: string | null): Slide[] {
-  const cls = CLASSES.find(c => c.id === avatarClass)
-  const arch = cls?.archetype ?? 'Champion'
-  const shard = cls?.embershard_form ?? 'a spark of Emberlight'
-  const color = cls?.color_primary ?? '#c9a84c'
+const SLIDES: Slide[] = [
+  {
+    title: "You're the Game Master",
+    subtitle: "Lead your family's legend",
+    icon: '👑',
+    body: [
+      "Quest Forge turns everyday tasks into a fantasy RPG for your family. You build the world; your kids live in it.",
+      "As the GM, you manage the story, approve quests, and set the rewards that keep the Emberlight burning.",
+    ],
+  },
+  {
+    title: "Your Roster",
+    subtitle: "Manage your heroes",
+    icon: '👥',
+    body: [
+      "Create child accounts from the Players tab. Each kid gets a hero with a class, an avatar, and an Embershard that grows as they work.",
+      "You can view their progress, adjust their XP/Gold, and see their current loadout at any time.",
+    ],
+  },
+  {
+    title: "The Quest Board",
+    subtitle: "Assign the path",
+    icon: '📜',
+    body: [
+      "Create chores with difficulty, XP, and gold rewards. Assign to one kid or the whole household.",
+      "When a kid completes a task, it appears in your Approvals queue. You verify completions before rewards are awarded.",
+    ],
+  },
+  {
+    title: "Rook's Emporium",
+    subtitle: "Loot and legacy",
+    icon: '💎',
+    body: [
+      "Stock the loot store with real-world rewards (screen time, choosing dinner, small cash).",
+      "Kids spend their hard-earned XP and gold to claim them. You fulfill the redemptions when they're ready.",
+    ],
+  },
+  {
+    title: "The Weekly Boss",
+    subtitle: "A shared challenge",
+    icon: '⚔️',
+    body: [
+      "Each week, a boss appears. Every approved chore and completed challenge deals damage equal to its XP value.",
+      "All household members attack the same boss together. Boss HP scales to your number of players.",
+    ],
+  },
+  {
+    title: "Story & The Road Ahead",
+    subtitle: "The Chronicles of Embervale",
+    icon: '📖',
+    body: [
+      "As your kids earn XP, the story of Embervale unfolds. New chapters unlock automatically.",
+      "13 arcs, 52 bosses, and a narrative personalized to your family's heroes. You can replay this tour anytime from Settings.",
+    ],
+  },
+]
 
-  return [
-    {
-      title: 'Welcome to Embervale',
-      subtitle: 'A world sustained by light',
-      icon: '⟡',
-      body: [
-        'Long ago, the Emberlight was kindled — a primordial force that flows through all living things, warming the land and holding back the darkness.',
-        'But the Emberlight has been dimming. The Hollow creeps in at the edges, and without heroes to tend the flame, it will go out entirely.',
-        'You have been chosen as an Emberbearer — one who can channel the Emberlight through deeds, knowledge, and courage.',
-      ],
-    },
-    {
-      title: `The ${arch}`,
-      subtitle: 'Your Embershard awaits',
-      icon: cls?.icon ?? '⟡',
-      body: [
-        `Your Embershard takes the form of ${shard}. It grows stronger as you do.`,
-        `As a ${cls?.name ?? 'hero'} of Hearthhold, your calling is to venture out, complete quests, and prove your worth.`,
-        'Every challenge you overcome feeds the Emberlight — and pushes the Hollow back a little further.',
-      ],
-    },
-    {
-      title: 'The Hollow Grows',
-      subtitle: 'The world at stake',
-      icon: '🌑',
-      body: [
-        'Embervale is kept alive by the Emberlight — the warmth that flows through every living thing. But the Hollow is spreading: an entropy that feeds on laziness and ignorance.',
-        'Hearthhold, your home base, is the last village with a working Hearthstone. Your job is to keep it burning.',
-      ],
-    },
-    {
-      title: 'The Quest Board',
-      subtitle: 'Real efforts, real rewards',
-      icon: '📜',
-      body: [
-        'The village square board in Hearthhold bears decrees from Elder Maren and the folk of the village. These are your daily quests.',
-        'Complete chores and tasks in the real world to earn XP and gold. Your Game Master will assign these and verify your victories.',
-        'Every completed quest deals damage to the week\'s boss and brings you closer to the next level.',
-      ],
-    },
-    {
-      title: 'Two Kinds of Power',
-      subtitle: 'XP & Gold',
-      icon: '⬡',
-      body: [
-        'XP (⬡) is your life force. It grows forever, never goes away, and powers the story — when your household earns enough, the next chapter unlocks.',
-        'Gold (◈) is spendable currency. You earn it on certain chores and spend it at Rook\'s Emporium for real-world rewards. Think of XP as your legend, and gold as your pocket money.',
-      ],
-    },
-    {
-      title: 'The Academy',
-      subtitle: 'Sharpen your mind',
-      icon: '⚗',
-      body: [
-        'In the Wizard\'s Tower of Knowledge, Professor Ignis awaits with challenges of the mind.',
-        'Math, vocabulary, history, science, logic — each discipline you master earns XP and reveals more of Embervale\'s ancient lore.',
-        'Return daily for new exercises. Knowledge is the truest light against the Hollow.',
-      ],
-    },
-    {
-      title: 'Fight Together',
-      subtitle: 'The Weekly Boss',
-      icon: '⚔️',
-      body: [
-        'Every week a boss threatens Embervale. The harder you work, the more damage you deal — each XP you earn hits the boss for the same amount.',
-        'It\'s not one hero\'s fight: everyone in your household attacks the same enemy. Defeat them before the week ends to unlock the next chapter and claim bonus rewards.',
-      ],
-    },
-    {
-      title: 'Loot Store & Beyond',
-      subtitle: 'Gear up and stand together',
-      icon: '💎',
-      body: [
-        'Rook the merchant runs the Loot Emporium. Spend your gold on items, cosmetics, and real-world rewards.',
-        'Defeat the boss to unlock the next chapter of the story. The fate of Embervale rests in your hands.',
-        'The story of Embervale unfolds across 13 arcs and 52 bosses. Your journey is just beginning.',
-      ],
-    },
-  ]
-}
-
-export default function WalkthroughOverlay({
-  avatarClass,
-}: {
-  avatarClass: string | null
-}) {
+export default function GmWalkthroughOverlay() {
   const searchParams = useSearchParams()
   const [open, setOpen] = useState(false)
   const [slideIdx, setSlideIdx] = useState(0)
@@ -137,8 +90,7 @@ export default function WalkthroughOverlay({
     setOpen(false)
   }
 
-  const slides = buildSlides(avatarClass)
-  const slide = slides[slideIdx]
+  const slide = SLIDES[slideIdx]
 
   if (!open) return null
 
@@ -177,7 +129,7 @@ export default function WalkthroughOverlay({
             marginBottom: '1.25rem',
           }}
         >
-          {slides.map((_, i) => (
+          {SLIDES.map((_, i) => (
             <div
               key={i}
               style={{
@@ -257,7 +209,7 @@ export default function WalkthroughOverlay({
 
         {/* Navigation */}
         <div style={{ display: 'flex', gap: '0.5rem' }}>
-          {slideIdx < slides.length - 1 ? (
+          {slideIdx < SLIDES.length - 1 ? (
             <>
               <button
                 onClick={dismiss}
@@ -316,7 +268,7 @@ export default function WalkthroughOverlay({
                 transition: 'all 0.15s',
               }}
             >
-              Begin Your Quest!
+              Master the Ember!
             </button>
           )}
         </div>

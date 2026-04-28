@@ -1,7 +1,9 @@
+import { Suspense } from 'react'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { PhoneShell } from '@/components/qf'
 import { signOut } from '@/app/actions/auth'
+import LevelUpCelebration from '@/components/player/LevelUpCelebration'
 
 export default async function PlayLayout({
   children,
@@ -49,6 +51,9 @@ export default async function PlayLayout({
       role={profile.role}
     >
       {children}
+      <Suspense fallback={null}>
+        <LevelUpCelebration avatarClass={profile.avatar_class} />
+      </Suspense>
     </PhoneShell>
   )
 }

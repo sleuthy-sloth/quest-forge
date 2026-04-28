@@ -13,7 +13,7 @@ export type SfxName  = 'victory' | 'coin' | 'attack' | 'click'
 const BASE = (process.env.NEXT_PUBLIC_SPRITE_BASE_URL ?? '/sprites').replace(/\/$/, '')
 
 function audioUrl(filename: string): string {
-  return `${BASE}/audio/${filename.replace(/^\//, '')}`
+  return `/audio/${filename.replace(/^\//, '')}`
 }
 
 // ── Track configs ─────────────────────────────────────────────

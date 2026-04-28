@@ -1,6 +1,8 @@
+import { Suspense } from 'react'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { GMShell } from '@/components/qf'
+import GmWalkthroughOverlay from '@/components/dashboard/GmWalkthroughOverlay'
 
 export default async function DashboardLayout({
   children,
@@ -62,6 +64,9 @@ export default async function DashboardLayout({
       role={profile.role}
     >
       {children}
+      <Suspense fallback={null}>
+        <GmWalkthroughOverlay />
+      </Suspense>
     </GMShell>
   )
 }

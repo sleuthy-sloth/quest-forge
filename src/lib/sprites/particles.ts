@@ -36,6 +36,21 @@ export const PARTICLE_CSS_KEYFRAMES = `
   66%  { transform: rotate(240deg) scale(0.9); opacity: 0.6; }
   100% { transform: rotate(360deg) scale(1); opacity: 0.5; }
 }
+@keyframes spark-burst {
+  0%   { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+}
+@keyframes lightning-arc {
+  0%, 100% { opacity: 0; transform: scaleX(0); }
+  10%, 90% { opacity: 1; transform: scaleX(1); }
+  20%, 40%, 60%, 80% { opacity: 0.4; }
+  30%, 50%, 70%       { opacity: 1; }
+}
+@keyframes ash-fall {
+  0%   { transform: translateY(-20px) translateX(0) rotate(0deg); opacity: 0; }
+  20%  { opacity: 0.6; }
+  100% { transform: translateY(120px) translateX(15px) rotate(360deg); opacity: 0; }
+}
 `
 
 export const PARTICLE_DEFS: Record<string, ParticleDef> = {
@@ -96,6 +111,64 @@ export const PARTICLE_DEFS: Record<string, ParticleDef> = {
       border: `1px solid rgba(74,0,128,${(0.3 - i * 0.08).toFixed(2)})`,
       animation: `dark-aura ${(3 + i * 0.7).toFixed(1)}s linear infinite`,
       animationDelay: `${(i * 0.4).toFixed(1)}s`,
+      pointerEvents: 'none',
+    }),
+  },
+
+  spark_burst: {
+    count: 6,
+    keyframes: 'spark-burst',
+    style: (i) => {
+      const angle = (i / 6) * Math.PI * 2
+      const dist = 40 + (i % 3) * 20
+      return {
+        position: 'absolute',
+        width: '4px',
+        height: '4px',
+        backgroundColor: '#ffd700',
+        borderRadius: '50%',
+        boxShadow: '0 0 8px #ff4500',
+        left: '50%',
+        top: '50%',
+        '--tx': `${Math.cos(angle) * dist}px`,
+        '--ty': `${Math.sin(angle) * dist}px`,
+        animation: 'spark-burst 0.6s ease-out forwards',
+        pointerEvents: 'none',
+      } as any
+    },
+  },
+
+  lightning_arc: {
+    count: 2,
+    keyframes: 'lightning-arc',
+    style: (i) => ({
+      position: 'absolute',
+      width: '100%',
+      height: '2px',
+      background: 'linear-gradient(90deg, transparent, #fff 50%, transparent)',
+      boxShadow: '0 0 10px #ffcc00',
+      left: 0,
+      top: `${30 + i * 40}%`,
+      transformOrigin: 'center',
+      animation: 'lightning-arc 2s linear infinite',
+      animationDelay: `${i * 0.5}s`,
+      pointerEvents: 'none',
+    }),
+  },
+
+  ash_fall: {
+    count: 4,
+    keyframes: 'ash-fall',
+    style: (i) => ({
+      position: 'absolute',
+      width: '6px',
+      height: '6px',
+      backgroundColor: '#333',
+      borderRadius: '1px',
+      left: `${10 + i * 25}%`,
+      top: '-20px',
+      animation: `ash-fall ${(2.5 + (i % 2)).toFixed(1)}s linear infinite`,
+      animationDelay: `${i * 0.7}s`,
       pointerEvents: 'none',
     }),
   },

@@ -16,25 +16,6 @@ import type { LevelUpEvent } from '@/hooks/usePlayer'
  */
 export default function ToastListener() {
   useEffect(() => {
-    function onLevelUp(e: CustomEvent<LevelUpEvent>) {
-      const { newLevel, previousLevel } = e.detail
-      toast.success(
-        `Level Up! You reached Level ${newLevel}`,
-        {
-          description: `From Lv. ${previousLevel} → Lv. ${newLevel}`,
-          duration: 5000,
-          position: 'top-center',
-          style: {
-            fontFamily: 'var(--font-heading, Cinzel, serif)',
-            fontSize: '0.85rem',
-            background: 'linear-gradient(135deg, #1a0a2e, #0f0620)',
-            border: '1px solid rgba(155,48,255,0.5)',
-            color: '#d4b0ff',
-          },
-        },
-      )
-    }
-
     function onQFNotification(e: CustomEvent<any>) {
       const { type, title, description } = e.detail
       
@@ -64,11 +45,9 @@ export default function ToastListener() {
       })
     }
 
-    window.addEventListener('player:level-up', onLevelUp as EventListener)
     window.addEventListener('qf:notification', onQFNotification as EventListener)
     
     return () => {
-      window.removeEventListener('player:level-up', onLevelUp as EventListener)
       window.removeEventListener('qf:notification', onQFNotification as EventListener)
     }
   }, [])

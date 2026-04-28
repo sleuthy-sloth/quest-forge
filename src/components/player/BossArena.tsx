@@ -5,6 +5,9 @@ import BossSprite, { type BossSpriteHandle } from '@/components/boss/BossSprite'
 import BossHPBar from '@/components/boss/BossHPBar'
 import { useBoss } from '@/hooks/useBoss'
 import bossesRaw from '@/lore/bosses.json'
+import { motion, AnimatePresence } from 'framer-motion'
+import { PARTICLE_DEFS, PARTICLE_CSS_KEYFRAMES } from '@/lib/sprites/particles'
+import CelebrationEffect from '@/components/games/CelebrationEffect'
 
 interface LoreBoss {
   week: number
@@ -38,6 +41,22 @@ interface BossArenaProps {
 }
 
 // ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+function ParticleLayer({ type }: { type: string }) {
+  const def = PARTICLE_DEFS[type]
+  if (!def) return null
+  return (
+    <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
+      {Array.from({ length: def.count }).map((_, i) => (
+        <div key={i} style={def.style(i, def.count)} />
+      ))}
+    </div>
+  )
+}
+
+// ---------------------------------------------------------------------------
 // Component
 // ---------------------------------------------------------------------------
 
@@ -49,6 +68,7 @@ export default function BossArena({ householdId }: BossArenaProps) {
   // loading skeleton, etc.)
   const Keyframes = (
     <style>{`
+      ${PARTICLE_CSS_KEYFRAMES}
       @keyframes spin  { to { transform: rotate(360deg); } }
       @keyframes shimmer { 0%,100%{opacity:1} 50%{opacity:0.3} }
       @keyframes slide-in {
@@ -73,6 +93,7 @@ export default function BossArena({ householdId }: BossArenaProps) {
 
   const [victoryNarrative, setVictoryNarrative] = useState<string | null>(null)
   const [generatingNarrative, setGeneratingNarrative] = useState(false)
+  const [sparkBursts, setSparkBursts] = useState<{ id: number }[]>([])
 
   // ── Narrative generation (called once when HP drops to 0) ─────────────
 
@@ -117,6 +138,13 @@ export default function BossArena({ householdId }: BossArenaProps) {
     if (currentHp < prevHpRef.current) {
       if (currentHp > 0) {
         spriteRef.current?.takeDamage()
+        
+        // Fire spark burst
+        const id = Date.now()
+        setSparkBursts(prev => [...prev, { id }])
+        setTimeout(() => {
+          setSparkBursts(prev => prev.filter(b => b.id !== id))
+        }, 600)
       } else if (!defeatTriggeredRef.current) {
         defeatTriggeredRef.current = true
         // Brief delay so the last damage flash renders before disintegration
@@ -233,56 +261,83 @@ export default function BossArena({ householdId }: BossArenaProps) {
       <div style={{
         minHeight: '100vh', background: '#0a0a12', display: 'flex', flexDirection: 'column',
         alignItems: 'center', justifyContent: 'center', gap: '1.5rem', padding: '2rem',
-        fontFamily: 'var(--font-body)', textAlign: 'center',
+        fontFamily: 'var(--font-body)', textAlign: 'center', position: 'relative',
+        overflow: 'hidden',
       }}>
+        <CelebrationEffect />
+        
         <BossSprite key={bossState.chapterId} ref={spriteRef} config={bossState.boss.spriteConfig} />
 
-        <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.2rem', color: '#c9a84c' }}>
-          ✦ {bossState.boss.name} is no more ✦
-        </div>
-
-        {bossState.boss.description && (
-          <div style={{ color: '#7a6a44', fontSize: '0.85rem', maxWidth: 400 }}>
-            {bossState.boss.description}
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', zIndex: 10 }}
+        >
+          <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.2rem', color: '#c9a84c' }}>
+            ✦ {bossState.boss.name} is no more ✦
           </div>
-        )}
 
-        {bossState.narrativeText && (
-          <div style={{ color: '#5a5a3a', fontStyle: 'italic', fontSize: '0.8rem', maxWidth: 440, lineHeight: 1.5 }}>
-            &ldquo;{bossState.narrativeText}&rdquo;
-          </div>
-        )}
-
-        {/* ═══ AI-generated victory narrative ═══ */}
-        {generatingNarrative && (
-          <div style={{ marginTop: '0.5rem', fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: '#7a6a44', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span style={{ display: 'inline-block', width: '14px', height: '14px', borderRadius: '50%', border: '2px solid rgba(201,168,76,0.2)', borderTopColor: 'rgba(201,168,76,0.8)', animation: 'spin 0.7s linear infinite' }} />
-            The scribes are recording this victory…
-          </div>
-        )}
-
-        {victoryNarrative && (
-          <div style={{ marginTop: '1rem', fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: '#c9a84c', maxWidth: 520, lineHeight: 1.7, textAlign: 'center', background: 'rgba(201,168,76,0.04)', border: '1px solid rgba(201,168,76,0.12)', borderRadius: '4px', padding: '1.25rem 1.5rem', animation: 'slide-in 0.6s ease both' }}>
-            {victoryNarrative}
-            <div style={{ marginTop: '0.75rem', fontFamily: 'var(--font-pixel)', fontSize: '0.5rem', color: 'rgba(201,168,76,0.3)', letterSpacing: '0.5px' }}>
-              — RECORDED IN THE EMBERLIGHT CHRONICLES —
+          {bossState.boss.description && (
+            <div style={{ color: '#7a6a44', fontSize: '0.85rem', maxWidth: 400 }}>
+              {bossState.boss.description}
             </div>
-          </div>
-        )}
+          )}
+
+          {bossState.narrativeText && (
+            <div style={{ color: '#5a5a3a', fontStyle: 'italic', fontSize: '0.8rem', maxWidth: 440, lineHeight: 1.5 }}>
+              &ldquo;{bossState.narrativeText}&rdquo;
+            </div>
+          )}
+
+          {/* ═══ AI-generated victory narrative ═══ */}
+          {generatingNarrative && (
+            <div style={{ marginTop: '0.5rem', fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: '#7a6a44', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span style={{ display: 'inline-block', width: '14px', height: '14px', borderRadius: '50%', border: '2px solid rgba(201,168,76,0.2)', borderTopColor: 'rgba(201,168,76,0.8)', animation: 'spin 0.7s linear infinite' }} />
+              The scribes are recording this victory…
+            </div>
+          )}
+
+          {victoryNarrative && (
+            <div style={{ marginTop: '1rem', fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: '#c9a84c', maxWidth: 520, lineHeight: 1.7, textAlign: 'center', background: 'rgba(201,168,76,0.04)', border: '1px solid rgba(201,168,76,0.12)', borderRadius: '4px', padding: '1.25rem 1.5rem', animation: 'slide-in 0.6s ease both' }}>
+              {victoryNarrative}
+              <div style={{ marginTop: '0.75rem', fontFamily: 'var(--font-pixel)', fontSize: '0.5rem', color: 'rgba(201,168,76,0.3)', letterSpacing: '0.5px' }}>
+                — RECORDED IN THE EMBERLIGHT CHRONICLES —
+              </div>
+            </div>
+          )}
+        </motion.div>
       </div>
     )
   } else {
     // ── Active boss ──
+    const hpPct = (bossState.boss.currentHp / bossState.boss.maxHp) * 100
+    
     content = (
       <div style={{
         minHeight: '100vh', background: '#0a0a12', display: 'flex', flexDirection: 'column',
         alignItems: 'center', justifyContent: 'center', gap: '2rem', padding: '2rem',
+        position: 'relative', overflow: 'hidden',
       }}>
+        {/* Ambient Particles */}
+        <ParticleLayer type="ember_float" />
+        {hpPct < 50 && <ParticleLayer type="ash_fall" />}
+        {hpPct < 25 && <ParticleLayer type="lightning_arc" />}
+        
+        {/* HP-reactive background tint */}
+        {hpPct < 25 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.05 }}
+            style={{ position: 'absolute', inset: 0, backgroundColor: '#ff0000', pointerEvents: 'none' }}
+          />
+        )}
+
         {(() => {
           const { boss: loreBoss, arc: loreArc } = getLoreForWeek(bossState.weekNumber)
           return (
             <>
-              <div style={{ textAlign: 'center' }}>
+              <div style={{ textAlign: 'center', zIndex: 10 }}>
                 <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.3rem', color: '#f0e6c8', marginBottom: '0.2rem' }}>
                   ⚔ {bossState.title}
                 </div>
@@ -293,18 +348,36 @@ export default function BossArena({ householdId }: BossArenaProps) {
                 </div>
               </div>
 
-              <BossHPBar currentHp={bossState.boss.currentHp} maxHp={bossState.boss.maxHp} bossName={bossState.boss.name} />
+              <div style={{ width: '100%', zIndex: 10 }}>
+                <BossHPBar currentHp={bossState.boss.currentHp} maxHp={bossState.boss.maxHp} bossName={bossState.boss.name} />
+              </div>
 
-              <BossSprite key={bossState.chapterId} ref={spriteRef} config={bossState.boss.spriteConfig} />
+              <div style={{ position: 'relative', zIndex: 10 }}>
+                <BossSprite key={bossState.chapterId} ref={spriteRef} config={bossState.boss.spriteConfig} />
+                
+                {/* Damage bursts */}
+                <AnimatePresence>
+                  {sparkBursts.map(burst => (
+                    <motion.div
+                      key={burst.id}
+                      initial={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      style={{ position: 'absolute', inset: 0 }}
+                    >
+                      <ParticleLayer type="spark_burst" />
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
 
               {bossState.boss.description && (
-                <div style={{ fontFamily: 'var(--font-body)', fontStyle: 'italic', fontSize: '0.8rem', color: '#7a6a44', maxWidth: 440, textAlign: 'center', lineHeight: 1.6 }}>
+                <div style={{ fontFamily: 'var(--font-body)', fontStyle: 'italic', fontSize: '0.8rem', color: '#7a6a44', maxWidth: 440, textAlign: 'center', lineHeight: 1.6, zIndex: 10 }}>
                   {bossState.boss.description}
                 </div>
               )}
 
               {bossState.narrativeText && (
-                <div style={{ fontFamily: 'var(--font-body)', fontStyle: 'italic', fontSize: '0.75rem', color: '#5a5a3a', maxWidth: 440, textAlign: 'center', lineHeight: 1.5 }}>
+                <div style={{ fontFamily: 'var(--font-body)', fontStyle: 'italic', fontSize: '0.75rem', color: '#5a5a3a', maxWidth: 440, textAlign: 'center', lineHeight: 1.5, zIndex: 10 }}>
                   &ldquo;{bossState.narrativeText}&rdquo;
                 </div>
               )}
@@ -321,6 +394,7 @@ export default function BossArena({ householdId }: BossArenaProps) {
                 border: '1px solid rgba(201,168,76,0.1)',
                 borderRadius: '3px',
                 padding: '0.65rem 1rem',
+                zIndex: 10,
               }}>
                 <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.5rem', color: 'rgba(201,168,76,0.4)', letterSpacing: '0.8px', display: 'block', marginBottom: '0.35rem' }}>
                   ⚡ WEAKNESS
