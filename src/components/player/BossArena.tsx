@@ -4,6 +4,30 @@ import { useRef, useEffect, useState, useCallback } from 'react'
 import BossSprite, { type BossSpriteHandle } from '@/components/boss/BossSprite'
 import BossHPBar from '@/components/boss/BossHPBar'
 import { useBoss } from '@/hooks/useBoss'
+import bossesRaw from '@/lore/bosses.json'
+
+interface LoreBoss {
+  week: number
+  arc: number
+  name: string
+  weakness_flavor: string
+}
+
+interface LoreArc {
+  arc_number: number
+  name: string
+  region: string
+  weeks: number[]
+}
+
+const LORE_BOSSES = bossesRaw.bosses as LoreBoss[]
+const LORE_ARCS = bossesRaw.arcs as LoreArc[]
+
+function getLoreForWeek(weekNumber: number) {
+  const boss = LORE_BOSSES.find((b) => b.week === weekNumber)
+  const arc = boss ? LORE_ARCS.find((a) => a.arc_number === boss.arc) : null
+  return { boss, arc }
+}
 
 // ---------------------------------------------------------------------------
 // Props
@@ -254,34 +278,58 @@ export default function BossArena({ householdId }: BossArenaProps) {
         minHeight: '100vh', background: '#0a0a12', display: 'flex', flexDirection: 'column',
         alignItems: 'center', justifyContent: 'center', gap: '2rem', padding: '2rem',
       }}>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.3rem', color: '#f0e6c8', marginBottom: '0.2rem' }}>
-            ⚔ {bossState.title}
-          </div>
-          <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: '#7a6a44' }}>
-            Week {bossState.weekNumber} — Chapter {bossState.chapterNumber}
-          </div>
-        </div>
+        {(() => {
+          const { boss: loreBoss, arc: loreArc } = getLoreForWeek(bossState.weekNumber)
+          return (
+            <>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.3rem', color: '#f0e6c8', marginBottom: '0.2rem' }}>
+                  ⚔ {bossState.title}
+                </div>
+                <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem', color: '#7a6a44' }}>
+                  {loreArc
+                    ? `${loreArc.name} · ${loreArc.region} · Week ${bossState.weekNumber}`
+                    : `Week ${bossState.weekNumber} — Chapter ${bossState.chapterNumber}`}
+                </div>
+              </div>
 
-        <BossHPBar currentHp={bossState.boss.currentHp} maxHp={bossState.boss.maxHp} bossName={bossState.boss.name} />
+              <BossHPBar currentHp={bossState.boss.currentHp} maxHp={bossState.boss.maxHp} bossName={bossState.boss.name} />
 
-        <BossSprite key={bossState.chapterId} ref={spriteRef} config={bossState.boss.spriteConfig} />
+              <BossSprite key={bossState.chapterId} ref={spriteRef} config={bossState.boss.spriteConfig} />
 
-        {bossState.boss.description && (
-          <div style={{ fontFamily: 'var(--font-body)', fontStyle: 'italic', fontSize: '0.8rem', color: '#7a6a44', maxWidth: 440, textAlign: 'center', lineHeight: 1.6 }}>
-            {bossState.boss.description}
-          </div>
-        )}
+              {bossState.boss.description && (
+                <div style={{ fontFamily: 'var(--font-body)', fontStyle: 'italic', fontSize: '0.8rem', color: '#7a6a44', maxWidth: 440, textAlign: 'center', lineHeight: 1.6 }}>
+                  {bossState.boss.description}
+                </div>
+              )}
 
-        {bossState.narrativeText && (
-          <div style={{ fontFamily: 'var(--font-body)', fontStyle: 'italic', fontSize: '0.75rem', color: '#5a5a3a', maxWidth: 440, textAlign: 'center', lineHeight: 1.5 }}>
-            &ldquo;{bossState.narrativeText}&rdquo;
-          </div>
-        )}
+              {bossState.narrativeText && (
+                <div style={{ fontFamily: 'var(--font-body)', fontStyle: 'italic', fontSize: '0.75rem', color: '#5a5a3a', maxWidth: 440, textAlign: 'center', lineHeight: 1.5 }}>
+                  &ldquo;{bossState.narrativeText}&rdquo;
+                </div>
+              )}
 
-        <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.6rem', color: '#555', letterSpacing: '0.5px' }}>
-          COMPLETE QUESTS AND CHALLENGES TO ATTACK
-        </div>
+              <div style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.72rem',
+                color: '#6a5a34',
+                maxWidth: 440,
+                textAlign: 'center',
+                lineHeight: 1.65,
+                fontStyle: 'italic',
+                background: 'rgba(201,168,76,0.04)',
+                border: '1px solid rgba(201,168,76,0.1)',
+                borderRadius: '3px',
+                padding: '0.65rem 1rem',
+              }}>
+                <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.5rem', color: 'rgba(201,168,76,0.4)', letterSpacing: '0.8px', display: 'block', marginBottom: '0.35rem' }}>
+                  ⚡ WEAKNESS
+                </span>
+                {loreBoss?.weakness_flavor ?? 'Complete your tasks and challenges to deal damage!'}
+              </div>
+            </>
+          )
+        })()}
       </div>
     )
   }
