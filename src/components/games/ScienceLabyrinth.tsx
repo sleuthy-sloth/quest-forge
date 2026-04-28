@@ -83,12 +83,7 @@ function fallbackQuestions(ageTier: 'junior' | 'senior'): Question[] {
   return bank
 }
 
-function accuracyColor(n: number): string {
-  const pct = questions.length ? n / questions.length : 0
-  if (pct >= 0.8) return '#2eb85c'
-  if (pct >= 0.6) return '#e8a020'
-  return '#e05555'
-}
+
 
 // ── Component ──────────────────────────────────────────────────────────────────
 
@@ -137,6 +132,14 @@ export default function ScienceLabyrinth({
   function addTimer(id: ReturnType<typeof setTimeout>) {
     timersRef.current.push(id)
   }
+
+  function accuracyColor(n: number): string {
+    const pct = questions.length ? n / questions.length : 0
+    if (pct >= 0.8) return '#2eb85c'
+    if (pct >= 0.6) return '#e8a020'
+    return '#e05555'
+  }
+
 
   // ── Fetch questions ────────────────────────────────────────────────────────
   // Runs AI generation and DB fallback IN PARALLEL. Prefers AI results when
