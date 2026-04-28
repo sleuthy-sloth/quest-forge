@@ -160,7 +160,7 @@ export default function MathArena({
     const aiPromise = fetch('/api/edu/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ subject: 'math', age_tier: ageTier, count: 10 }),
+      body: JSON.stringify({ subject: 'math', age_tier: ageTier, count: 5 }),
       signal: AbortSignal.timeout(30000),
     })
       .then(async (res) => {
@@ -175,7 +175,7 @@ export default function MathArena({
     // browser-side Supabase REST connection issue.
     const dbPromise = (async (): Promise<Question[] | null> => {
       try {
-        const res = await fetch(`/api/edu/challenges?subject=math&age_tier=${ageTier}&count=10`, {
+        const res = await fetch(`/api/edu/challenges?subject=math&age_tier=${ageTier}&count=5`, {
           signal: AbortSignal.timeout(25000),
         })
         if (!res.ok) {
@@ -203,7 +203,7 @@ export default function MathArena({
       // 1. Try AI first (may already be settled)
       const aiQuestions = await Promise.race([aiPromise, overallTimeout])
       if (aiQuestions) {
-        setQuestions(shuffle(aiQuestions).slice(0, 10))
+        setQuestions(shuffle(aiQuestions).slice(0, 5))
         setQuestionSource('ai')
         setPhase('playing')
         return
@@ -212,7 +212,7 @@ export default function MathArena({
       // 2. AI fell through — wait for DB (which was running in parallel)
       const dbQuestions = await Promise.race<Question[] | null>([dbPromise, overallTimeout])
       if (dbQuestions) {
-        setQuestions(shuffle(dbQuestions).slice(0, 10))
+        setQuestions(shuffle(dbQuestions).slice(0, 5))
         setQuestionSource('db')
         setPhase('playing')
         return
@@ -220,7 +220,7 @@ export default function MathArena({
 
       // 3. Neither source delivered — use hardcoded fallback (no save on these)
       console.warn('[MathArena] AI + DB both failed, using fallback questions')
-      setQuestions(shuffle(fallbackQuestions(ageTier)).slice(0, 10))
+      setQuestions(shuffle(fallbackQuestions(ageTier)).slice(0, 5))
       setQuestionSource('fallback')
       setPhase('playing')
     } catch {
@@ -305,7 +305,7 @@ export default function MathArena({
 
       addTimer(setTimeout(() => setScreenFlash(null), 300))
       addTimer(setTimeout(() => {
-        if (questionIndex === 9) {
+        if (questionIndex === questions.length - 1) {
           setCelebrationTick(t => t + 1)
           setAnswers(newAnswers)
           setPhase('results')
@@ -324,7 +324,7 @@ export default function MathArena({
 
       addTimer(setTimeout(() => setScreenFlash(null), 300))
       addTimer(setTimeout(() => {
-        if (questionIndex === 9) {
+        if (questionIndex === questions.length - 1) {
           setCelebrationTick(t => t + 1)
           setAnswers(newAnswers)
           setPhase('results')
@@ -558,7 +558,7 @@ export default function MathArena({
         >
           {/* Question counter */}
           <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '5px', color: '#7a6a44', textAlign: 'center', marginBottom: '10px', letterSpacing: '1px' }}>
-            QUESTION {questionIndex + 1} OF 10
+            QUESTION {questionIndex + 1} OF {questions.length}
           </div>
 
           {/* Question text */}

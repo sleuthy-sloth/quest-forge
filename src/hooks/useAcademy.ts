@@ -192,7 +192,7 @@ export function useAcademy(
       ? fetch('/api/edu/generate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ subject, age_tier: ageTier, count: 10 }),
+          body: JSON.stringify({ subject, age_tier: ageTier, count: 5 }),
           signal: AbortSignal.timeout(30000),
         })
           .then(async (res) => {
@@ -211,7 +211,7 @@ export function useAcademy(
 
     const dbPromise: Promise<EduChallenge[] | null> = (async () => {
       try {
-        const params = new URLSearchParams({ age_tier: ageTier, count: '10' })
+        const params = new URLSearchParams({ age_tier: ageTier, count: '5' })
         if (subject) params.set('subject', subject)
         const res = await fetch(`/api/edu/challenges?${params.toString()}`, {
           signal: AbortSignal.timeout(25000),
@@ -236,7 +236,7 @@ export function useAcademy(
     try {
       const aiResults = await Promise.race([aiPromise, overallTimeout])
       if (aiResults) {
-        setChallenges(shuffle(aiResults).slice(0, 10))
+        setChallenges(shuffle(aiResults).slice(0, 5))
         setSource('ai')
         setLoading(false)
         return
@@ -244,7 +244,7 @@ export function useAcademy(
 
       const dbResults = await Promise.race<EduChallenge[] | null>([dbPromise, overallTimeout])
       if (dbResults) {
-        setChallenges(shuffle(dbResults).slice(0, 10))
+        setChallenges(shuffle(dbResults).slice(0, 5))
         setSource('db')
         setLoading(false)
         return
@@ -255,7 +255,7 @@ export function useAcademy(
       const fallback = subject
         ? (FALLBACKS[subject] ?? GENERIC_FALLBACK)
         : GENERIC_FALLBACK
-      setChallenges(shuffle(fallback).slice(0, 10))
+      setChallenges(shuffle(fallback).slice(0, 5))
       setSource('fallback')
       setLoading(false)
     } catch {
@@ -264,7 +264,7 @@ export function useAcademy(
       const fallback = subject
         ? (FALLBACKS[subject] ?? GENERIC_FALLBACK)
         : GENERIC_FALLBACK
-      setChallenges(shuffle(fallback).slice(0, 10))
+      setChallenges(shuffle(fallback).slice(0, 5))
       setSource('fallback')
       setLoading(false)
     }

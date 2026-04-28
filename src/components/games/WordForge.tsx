@@ -172,7 +172,7 @@ export default function WordForge({
     const aiPromise = fetch('/api/edu/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ subject: 'vocabulary', age_tier: ageTier, count: 10 }),
+      body: JSON.stringify({ subject: 'vocabulary', age_tier: ageTier, count: 5 }),
       signal: AbortSignal.timeout(30000),
     })
       .then(async (res) => {
@@ -187,7 +187,7 @@ export default function WordForge({
     // browser-side Supabase REST connection issue.
     const dbPromise = (async (): Promise<Question[] | null> => {
       try {
-        const res = await fetch(`/api/edu/challenges?subject=vocabulary&age_tier=${ageTier}&count=10`, {
+        const res = await fetch(`/api/edu/challenges?subject=vocabulary&age_tier=${ageTier}&count=5`, {
           signal: AbortSignal.timeout(25000),
         })
         if (!res.ok) {
@@ -214,7 +214,7 @@ export default function WordForge({
     try {
       const aiQuestions = await Promise.race([aiPromise, overallTimeout])
       if (aiQuestions) {
-        setQuestions(shuffle(aiQuestions).slice(0, 10))
+        setQuestions(shuffle(aiQuestions).slice(0, 5))
         setQuestionSource('ai')
         setPhase('playing')
         return
@@ -222,14 +222,14 @@ export default function WordForge({
 
       const dbQuestions = await Promise.race<Question[] | null>([dbPromise, overallTimeout])
       if (dbQuestions) {
-        setQuestions(shuffle(dbQuestions).slice(0, 10))
+        setQuestions(shuffle(dbQuestions).slice(0, 5))
         setQuestionSource('db')
         setPhase('playing')
         return
       }
 
       console.warn('[WordForge] AI + DB both failed, using fallback questions')
-      setQuestions(shuffle(fallbackQuestions(ageTier)).slice(0, 10))
+      setQuestions(shuffle(fallbackQuestions(ageTier)).slice(0, 5))
       setQuestionSource('fallback')
       setPhase('playing')
     } catch {
@@ -295,7 +295,7 @@ export default function WordForge({
       addTimer(setTimeout(() => setScreenFlash(null), 300))
       addTimer(setTimeout(() => setIronHit(false), 600))
       addTimer(setTimeout(() => {
-        if (questionIndex === 9) {
+        if (questionIndex === questions.length - 1) {
           setAnswers(newAnswers)
           setPhase('results')
         } else {
@@ -312,7 +312,7 @@ export default function WordForge({
 
       addTimer(setTimeout(() => setScreenFlash(null), 300))
       addTimer(setTimeout(() => {
-        if (questionIndex === 9) {
+        if (questionIndex === questions.length - 1) {
           setAnswers(newAnswers)
           setPhase('results')
         } else {
@@ -541,7 +541,7 @@ export default function WordForge({
 
           {/* Question counter */}
           <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '5px', color: '#7a6a44', textAlign: 'center', marginBottom: '10px', letterSpacing: '1px' }}>
-            QUESTION {questionIndex + 1} OF 10
+            QUESTION {questionIndex + 1} OF {questions.length}
           </div>
 
           {/* Question text */}
