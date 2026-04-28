@@ -99,7 +99,7 @@ function extractFirstValidJson(text: string): string | null {
  * the flavor-text answer when the model emits raw untagged thinking before it.
  */
 function extractQuotedAnswer(text: string): string | null {
-  const matches = [...text.matchAll(/"([^"]{40,})"/g)]
+  const matches = Array.from(text.matchAll(/"([^"]{40,})"/g))
   for (let i = matches.length - 1; i >= 0; i--) {
     const candidate = matches[i][1].trim()
     if (candidate.includes(' ') && /[.!?]/.test(candidate)) {
