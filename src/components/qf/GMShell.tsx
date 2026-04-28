@@ -18,7 +18,6 @@ interface GMShellProps {
 const NAV = [
   { href: '/dashboard',              label: 'Hearth',        sub: 'Overview' },
   { href: '/dashboard/approvals',    label: 'Approvals',     sub: 'Pending verdicts' },
-  { href: '/dashboard/quests',       label: 'Quests',        sub: 'Quest board' },
   { href: '/dashboard/chores',       label: 'Chores',        sub: 'Recurring tasks' },
   { href: '/dashboard/players',      label: 'Emberbearers',  sub: 'Your kids' },
   { href: '/dashboard/loot',         label: 'Loot Emporium', sub: 'Rewards' },

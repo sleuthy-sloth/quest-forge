@@ -19,7 +19,7 @@ interface PhoneShellProps {
 
 const TABS = [
   { id: 'home',    href: '/play',          label: 'Hearth'  },
-  { id: 'quests',  href: '/play/quests',   label: 'Quests'  },
+  { id: 'quests',  href: '/play/quests',   label: 'Chores'  },
   { id: 'boss',    href: '/play/boss',     label: 'Boss'    },
   { id: 'academy', href: '/play/academy',  label: 'Academy' },
   { id: 'loot',    href: '/play/loot',     label: 'Loot'    },

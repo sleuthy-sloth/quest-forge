@@ -99,9 +99,9 @@ export default async function PlayerHomePage() {
   const bossSpriteName =
     (boss?.boss_sprite_config as { base_sprite?: string } | null)?.base_sprite || 'eyeball'
 
-  // Today's quests — assigned to this player or unassigned ("Everyone").
-  const { data: quests } = await supabase
-    .from('quests')
+  // Today's chores (presented as Quests) — assigned to this player or unassigned.
+  const { data: chores } = await supabase
+    .from('chores')
     .select('id, title, xp_reward, assigned_to')
     .eq('household_id', profile.household_id)
     .eq('is_active', true)
@@ -119,7 +119,7 @@ export default async function PlayerHomePage() {
     .gte('completed_at', startOfDay.toISOString())
   const doneIds = new Set((doneToday ?? []).map((r) => r.chore_id))
 
-  const todaysQuests = (quests ?? []).map((q) => ({
+  const todaysQuests = (chores ?? []).map((q) => ({
     id: q.id,
     title: q.title,
     xp: q.xp_reward,
@@ -317,7 +317,7 @@ export default async function PlayerHomePage() {
         />
       )}
 
-      {/* Today's quests preview */}
+      {/* Today's chores preview */}
       <div style={{ marginBottom: 14 }}>
         <div
           style={{
@@ -328,7 +328,7 @@ export default async function PlayerHomePage() {
           }}
         >
           <div className="qf-scribed" style={{ fontSize: 10 }}>
-            Today&rsquo;s Quests
+            Today&rsquo;s Chores
           </div>
           {todaysQuests.length > 0 && (
             <span

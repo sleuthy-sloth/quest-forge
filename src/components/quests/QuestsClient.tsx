@@ -229,10 +229,10 @@ export default function QuestsClient({ userId, householdId, initialAvatarConfig 
             </div>
             <div>
               <h1 style={{ fontFamily: 'var(--font-pixel), monospace', fontSize: '0.52rem', letterSpacing: '0.14em', color: 'rgba(201,168,76,0.85)', imageRendering: 'pixelated', textShadow: '0 0 18px rgba(201,168,76,0.35)' }}>
-                ⚔ Quest Board
+                ⚔ Chore Board
               </h1>
               <p style={{ fontFamily: 'var(--font-heading), serif', fontWeight: 300, fontSize: '0.7rem', color: 'rgba(200,215,255,0.25)', marginTop: '0.2rem' }}>
-                {loading ? '…' : `${availableCount} quest${availableCount !== 1 ? 's' : ''} available`}
+                {loading ? '…' : `${availableCount} chore${availableCount !== 1 ? 's' : ''} available`}
               </p>
             </div>
           </div>
@@ -260,7 +260,7 @@ export default function QuestsClient({ userId, householdId, initialAvatarConfig 
         {!loading && cards.length === 0 && (
           <div className="text-center py-16 rounded-sm" style={{ background: 'rgba(255,255,255,0.015)', border: '1px dashed rgba(201,168,76,0.1)' }}>
             <div className="text-4xl mb-3 opacity-25">📜</div>
-            <p style={{ fontFamily: 'var(--font-heading), serif', fontSize: '0.82rem', color: 'rgba(200,215,255,0.3)' }}>No quests await you.</p>
+            <p style={{ fontFamily: 'var(--font-heading), serif', fontSize: '0.82rem', color: 'rgba(200,215,255,0.3)' }}>No chores await you.</p>
             <p style={{ fontFamily: 'var(--font-heading), serif', fontWeight: 300, fontSize: '0.72rem', color: 'rgba(200,215,255,0.18)', marginTop: '0.35rem' }}>
               Ask your Game Master to issue new decrees.
             </p>
@@ -374,7 +374,7 @@ export default function QuestsClient({ userId, householdId, initialAvatarConfig 
                         aria-busy={isCompleting}
                         style={{ border: `1px solid ${diff.border}`, background: 'linear-gradient(160deg, rgba(22,15,5,0.98), rgba(14,9,2,0.98))', color: diff.color, boxShadow: `0 0 10px ${diff.color}20`, '--btn-glow': `0 0 18px ${diff.color}35` } as React.CSSProperties}
                       >
-                        {isCompleting ? '⚔ Marking Complete…' : '⚔ Complete Quest'}
+                        {isCompleting ? '⚔ Marking Complete…' : '⚔ Complete Chore'}
                       </button>
                     )}
                     {card.state === 'pending' && (
@@ -384,7 +384,7 @@ export default function QuestsClient({ userId, householdId, initialAvatarConfig 
                     )}
                     {card.state === 'verified' && (
                       <div style={{ padding: '0.85rem 1rem', borderRadius: 2, border: '1px solid rgba(46,184,92,0.22)', background: 'rgba(46,184,92,0.04)', textAlign: 'center', fontFamily: 'var(--font-pixel), monospace', fontSize: '0.42rem', letterSpacing: '0.1em', color: 'rgba(46,184,92,0.7)', imageRendering: 'pixelated' }}>
-                        ✓ Quest Complete — +{card.completion?.xp_awarded ?? card.xp_reward} XP Earned
+                        ✓ Chore Complete — +{card.completion?.xp_awarded ?? card.xp_reward} XP Earned
                       </div>
                     )}
 
