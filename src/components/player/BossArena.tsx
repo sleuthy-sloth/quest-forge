@@ -15,7 +15,7 @@ interface LoreBoss {
   arc: number
   name: string
   weakness_flavor: string
-  victory_image?: string
+  victory_image?: string | null
 }
 
 interface LoreArc {
@@ -23,7 +23,7 @@ interface LoreArc {
   name: string
   region: string
   weeks: number[]
-  background?: string
+  background?: string | null
 }
 
 const LORE_BOSSES = bossesRaw.bosses as LoreBoss[]
@@ -178,6 +178,7 @@ export default function BossArena({ householdId }: BossArenaProps) {
   // ── Render ─────────────────────────────────────────────────────────────
 
   const isDefeated = bossState?.boss?.currentHp === 0
+  const { boss: loreBoss, arc: loreArc } = getLoreForWeek(bossState?.weekNumber ?? 1)
 
   let content: React.ReactNode
 
@@ -353,7 +354,6 @@ export default function BossArena({ householdId }: BossArenaProps) {
         )}
 
         {(() => {
-          const { boss: loreBoss, arc: loreArc } = getLoreForWeek(bossState.weekNumber)
           return (
             <>
               <div style={{ textAlign: 'center', zIndex: 10 }}>
@@ -431,10 +431,10 @@ export default function BossArena({ householdId }: BossArenaProps) {
     <div style={{ position: 'relative', width: '100%', minHeight: '100vh', background: '#0a0a12', overflow: 'hidden' }}>
       {Keyframes}
       
-      {bossState?.arc?.background && (
+      {loreArc?.background && (
         <div style={{ position: 'absolute', inset: 0, opacity: 0.35, pointerEvents: 'none', zIndex: 0 }}>
           <Image
-            src={bossState.arc.background}
+            src={loreArc.background}
             alt=""
             fill
             style={{ objectFit: 'cover' }}
