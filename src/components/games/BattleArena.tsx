@@ -220,11 +220,11 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
           <div
             style={{
               fontFamily: 'var(--font-pixel)',
-              fontSize: '5px',
+              fontSize: '8px',
               color: enemy.glowColor,
               letterSpacing: '0.18em',
               textAlign: 'center',
-              marginBottom: '4px',
+              marginBottom: '6px',
               textTransform: 'uppercase',
             }}
           >
@@ -293,7 +293,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
             <div
               style={{
                 fontFamily: 'var(--font-pixel)',
-                fontSize: '5px',
+                fontSize: '8px',
                 color: '#c9a84c',
                 maxWidth: effectivePlayerSize,
                 overflow: 'hidden',
@@ -307,7 +307,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
             <div
               style={{
                 width: effectivePlayerSize,
-                height: '5px',
+                height: '8px',
                 background: 'rgba(255,255,255,0.1)',
                 borderRadius: '2px',
                 overflow: 'hidden',
@@ -342,12 +342,12 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
               <div
                 style={{
                   fontFamily: 'var(--font-pixel)',
-                  fontSize: '7px',
+                  fontSize: '11px',
                   color: '#c43a00',
                   background: 'rgba(196,58,0,0.12)',
                   border: '1px solid rgba(196,58,0,0.3)',
-                  borderRadius: '2px',
-                  padding: '3px 6px',
+                  borderRadius: '3px',
+                  padding: '4px 8px',
                 }}
               >
                 VS
@@ -363,7 +363,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
                   }
                   style={{
                     fontFamily: 'var(--font-pixel)',
-                    fontSize: '5px',
+                    fontSize: '8px',
                     color:
                       questionSource === 'ai'
                         ? '#7c4dff'
@@ -373,7 +373,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
                     background: 'rgba(255,255,255,0.04)',
                     border: '1px solid rgba(255,255,255,0.12)',
                     borderRadius: '2px',
-                    padding: '2px 4px',
+                    padding: '3px 6px',
                     letterSpacing: '1px',
                   }}
                 >
@@ -388,9 +388,9 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
                 <div
                   key={i}
                   style={{
-                    width: '7px',
-                    height: '7px',
-                    borderRadius: '1px',
+                    width: '10px',
+                    height: '10px',
+                    borderRadius: '2px',
                     background: i < correctCount ? '#c9a84c' : 'transparent',
                     border: `1px solid ${i < correctCount ? '#c9a84c' : 'rgba(201,168,76,0.3)'}`,
                   }}
@@ -401,7 +401,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
             <div
               style={{
                 fontFamily: 'var(--font-pixel)',
-                fontSize: '5px',
+                fontSize: '8px',
                 color: '#7a6a44',
               }}
             >
@@ -429,7 +429,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
             <div
               style={{
                 fontFamily: 'var(--font-pixel)',
-                fontSize: '5px',
+                fontSize: '8px',
                 color: enemy.glowColor,
                 maxWidth: effectiveEnemySize,
                 overflow: 'hidden',
@@ -443,7 +443,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
             <div
               style={{
                 width: effectiveEnemySize,
-                height: '5px',
+                height: '8px',
                 background: 'rgba(255,255,255,0.1)',
                 borderRadius: '2px',
                 overflow: 'hidden',
@@ -483,7 +483,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
               <span
                 style={{
                   fontFamily: 'var(--font-pixel)',
-                  fontSize: '6px',
+                  fontSize: '8px',
                   color: 'var(--ember-bright, #ff8c3a)',
                   letterSpacing: '0.15em',
                 }}
@@ -493,7 +493,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
               <span
                 style={{
                   fontFamily: 'var(--font-pixel)',
-                  fontSize: '6px',
+                  fontSize: '8px',
                   color: 'rgba(201,168,76,0.6)',
                   letterSpacing: '0.08em',
                 }}
@@ -507,7 +507,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
                   key={i}
                   style={{
                     flex: 1,
-                    height: '5px',
+                    height: '8px',
                     background:
                       i < streak
                         ? 'linear-gradient(180deg, #f9c846, #ff6010)'
