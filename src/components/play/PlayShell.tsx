@@ -7,6 +7,9 @@ import { signOut } from '@/app/actions/auth'
 import { playBgm } from '@/lib/audio'
 import WalkthroughOverlay from '@/components/play/WalkthroughOverlay'
 import { Embershard } from '@/components/qf/Embershard'
+import { Embers } from '@/components/qf/Embers'
+import { Coin } from '@/components/qf/Coin'
+import { useNotifications } from '@/hooks/useNotifications'
 
 const NAV_ITEMS = [
   { href: '/play',         label: 'Home',    icon: '⟡', sub: 'Hearthhold Center' },
@@ -21,16 +24,32 @@ const NAV_ITEMS = [
 interface PlayShellProps {
   displayName: string
   level: number
+  gold: number
   avatarClass: string | null
+  userId: string
+  householdId: string
+  role: 'gm' | 'player'
   children: React.ReactNode
 }
 
-export function PlayShell({ displayName, level, avatarClass, children }: PlayShellProps) {
+export function PlayShell({ 
+  displayName, 
+  level, 
+  gold,
+  avatarClass, 
+  userId,
+  householdId,
+  role,
+  children 
+}: PlayShellProps) {
   const pathname = usePathname()
   const bgmStarted = useRef(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const sidebarRef = useRef<HTMLElement>(null)
   const hamburgerRef = useRef<HTMLButtonElement>(null)
+
+  // Realtime notification listener
+  useNotifications(userId, householdId, role)
 
   // Start hub BGM on first mount
   useEffect(() => {
@@ -60,8 +79,12 @@ export function PlayShell({ displayName, level, avatarClass, children }: PlayShe
   }
 
   return (
-    <div className="flex flex-col min-h-dvh bg-[#040812]">
+    <div className="flex flex-col min-h-dvh bg-[#040812] relative overflow-hidden">
       <WalkthroughOverlay avatarClass={avatarClass} />
+      
+      {/* Dynamic Background */}
+      <div className="qf-ember-bg pointer-events-none" aria-hidden="true" />
+      <Embers count={6} />
 
       {/* Top bar */}
       <header
@@ -89,7 +112,7 @@ export function PlayShell({ displayName, level, avatarClass, children }: PlayShe
           <div className="flex items-center gap-2">
             <Embershard size={16} />
             <span
-              className="text-[#c9a84c] text-[0.45rem] tracking-[0.2em] uppercase"
+              className="text-[#c9a84c] text-[0.45rem] tracking-[0.2em] uppercase hidden sm:block"
               style={{
                 fontFamily: 'var(--font-pixel), monospace',
                 textShadow: '0 0 12px rgba(201,168,76,0.4)',
@@ -100,7 +123,14 @@ export function PlayShell({ displayName, level, avatarClass, children }: PlayShe
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
+          {/* Gold Display */}
+          <div className="flex items-center gap-2 px-3 py-1 bg-[#c9a84c]/5 border border-[#c9a84c]/10 rounded-full">
+            <Coin size={12} />
+            <span className="font-pixel text-[0.5rem] text-[#c9a84c] tracking-widest">
+              {gold.toLocaleString()}
+            </span>
+          </div>
           <div className="text-right">
             <p
               className="text-[#f0e6c8] text-xs font-semibold leading-tight"

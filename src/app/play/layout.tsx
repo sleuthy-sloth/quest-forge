@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { PhoneShell } from '@/components/qf'
+import { PlayShell } from '@/components/play/PlayShell'
 import { signOut } from '@/app/actions/auth'
 import LevelUpCelebration from '@/components/player/LevelUpCelebration'
 
@@ -17,10 +17,12 @@ export default async function PlayLayout({
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('id, role, gold, avatar_class, household_id, households(name)')
+    .select('id, role, gold, display_name, level, avatar_class, household_id, households(name)')
     .eq('id', user.id)
     .single<{
       id: string
+      display_name: string
+      level: number
       role: 'gm' | 'player'
       gold: number | null
       avatar_class: string | null
@@ -37,14 +39,11 @@ export default async function PlayLayout({
   }
   if (profile.role !== 'player') redirect('/dashboard')
 
-  const householdName = Array.isArray(profile.households)
-    ? profile.households[0]?.name
-    : profile.households?.name
-
   return (
-    <PhoneShell
-      statusbarTitle={householdName || 'Hearthhold'}
-      goldDisplay={profile.gold ?? 0}
+    <PlayShell
+      displayName={profile.display_name || 'Hero'}
+      level={profile.level || 1}
+      gold={profile.gold || 0}
       avatarClass={profile.avatar_class}
       userId={profile.id}
       householdId={profile.household_id}
@@ -54,6 +53,6 @@ export default async function PlayLayout({
       <Suspense fallback={null}>
         <LevelUpCelebration avatarClass={profile.avatar_class} />
       </Suspense>
-    </PhoneShell>
+    </PlayShell>
   )
 }
