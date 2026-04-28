@@ -11,8 +11,7 @@ const openRouterClient = process.env.OPENROUTER_API_KEY
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
-export const OPENROUTER_PRIMARY_MODEL = 'google/gemini-2.0-flash-lite-preview-02-05:free'
-export const OPENROUTER_FALLBACK_MODEL = 'meta-llama/llama-3.3-70b-instruct:free'
+export const OPENROUTER_MODEL = 'openrouter/free'
 
 // ── Chain-of-thought filtering ──────────────────────────────────────────
 
@@ -116,70 +115,55 @@ export interface GenerationPrompt {
 }
 
 /**
- * Generates text using OpenRouter. Tries a fast primary model first, and
- * falls back to a secondary model on the same provider if the first fails.
+ * Generates text via OpenRouter's free model router (`openrouter/free`).
+ * OpenRouter automatically selects the best available free model for
+ * each request, handling model availability and fallback internally.
  *
- * **Rationale:**
- * - Using two OpenRouter free models avoids needing multiple API keys.
- * - Primary: Gemini Flash Lite (extremely fast).
- * - Fallback: Llama 3.3 70B (fast, capable alternative).
+ * Returns null if the API key is missing or the call fails.
  */
 export async function generateWithFallback(
   prompt: GenerationPrompt
 ): Promise<string | null> {
-  const maxTokens = prompt.maxTokens ?? 200
-  const temperature = prompt.temperature ?? 0.85
-
   if (!openRouterClient) {
     console.warn('[ai] OPENROUTER_API_KEY not set — cannot generate')
     return null
   }
 
-  // Helper function to call OpenRouter with a specific model
-  const tryModel = async (model: string, isFallback = false): Promise<string | null> => {
-    try {
-      console.log(`[ai] trying OpenRouter ${isFallback ? 'fallback' : 'primary'} (${model})...`)
-      const response = await openRouterClient.chat.completions.create({
-        model,
-        messages: [
-          { role: 'system', content: prompt.system },
-          { role: 'user', content: prompt.user },
-        ],
-        max_tokens: maxTokens,
-        temperature,
-      })
-      if (!response.choices?.length) {
-        console.warn(`[ai] OpenRouter returned response without choices for ${model}:`, JSON.stringify(response).slice(0, 500))
-        return null
-      }
-      const text = stripThinking(response.choices[0]?.message?.content?.trim() ?? '')
-      if (text) {
-        console.log(`[ai] OpenRouter (${model}) returned ${text.length} chars`)
-        return text
-      }
-      console.warn(`[ai] OpenRouter (${model}) returned empty parsed response`)
-      return null
-    } catch (err: unknown) {
-      const status = (err as { status?: number }).status
-      if (status === 404) {
-        console.warn(`[ai] OpenRouter model "${model}" not found (404).`)
-      } else {
-        console.warn(`[ai] OpenRouter failed for ${model}:`, err)
-      }
+  const maxTokens = prompt.maxTokens ?? 200
+  const temperature = prompt.temperature ?? 0.85
+
+  try {
+    console.log(`[ai] calling OpenRouter (${OPENROUTER_MODEL})...`)
+    const response = await openRouterClient.chat.completions.create({
+      model: OPENROUTER_MODEL,
+      messages: [
+        { role: 'system', content: prompt.system },
+        { role: 'user', content: prompt.user },
+      ],
+      max_tokens: maxTokens,
+      temperature,
+    })
+
+    if (!response.choices?.length) {
+      console.warn('[ai] OpenRouter returned response without choices:', JSON.stringify(response).slice(0, 500))
       return null
     }
+
+    const raw = response.choices[0]?.message?.content?.trim() ?? ''
+    const text = stripThinking(raw)
+    if (text) {
+      // Log which model OpenRouter actually selected
+      const actualModel = (response as unknown as { model?: string }).model ?? 'unknown'
+      console.log(`[ai] OpenRouter (routed to ${actualModel}) returned ${text.length} chars`)
+      return text
+    }
+
+    console.warn('[ai] OpenRouter returned empty parsed response')
+    return null
+  } catch (err: unknown) {
+    console.warn('[ai] OpenRouter failed:', err)
+    return null
   }
-
-  // ── Primary ────────────────────────────────────────────────────────────────
-  const primaryResult = await tryModel(OPENROUTER_PRIMARY_MODEL, false)
-  if (primaryResult) return primaryResult
-
-  // ── Fallback ───────────────────────────────────────────────────────────────
-  console.log('[ai] Primary model failed, trying fallback...')
-  const fallbackResult = await tryModel(OPENROUTER_FALLBACK_MODEL, true)
-  if (fallbackResult) return fallbackResult
-
-  return null
 }
 
 /**
