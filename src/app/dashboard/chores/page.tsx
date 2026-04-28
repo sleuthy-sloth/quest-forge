@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import type { Tables } from '@/types/database'
 import { PixelBadge, PixelButton } from '@/components/ui'
 import { PageHeader } from '@/components/qf'
+import { CHORE_SUGGESTIONS } from '@/lib/constants/suggestions'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type Chore = Pick<
@@ -107,6 +108,21 @@ export default function ChoresPage() {
     setFormErrors(p => ({ ...p, difficulty: undefined, xp_reward: undefined }))
     setSubmitError(null)
     setSubmitOk(null)
+  }
+
+  function applySuggestion(s: typeof CHORE_SUGGESTIONS[number]) {
+    setFormState(p => ({
+      ...p,
+      title: s.title,
+      description: s.description,
+      difficulty: s.difficulty,
+      xp_reward: String(XP_PRESETS[s.difficulty]),
+      quest_flavor_text: '', // clear old flavor
+    }))
+    setFormErrors({})
+    setSubmitError(null)
+    setSubmitOk(null)
+    formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
   function validate(): boolean {
@@ -464,6 +480,47 @@ export default function ChoresPage() {
               LEFT COLUMN — Quest Board (list)
           ══════════════════════════════════════════════════════════════════════ */}
           <section>
+
+            {/* Suggestions */}
+            <div style={{ marginBottom: '1.5rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
+                <h2 style={{ fontFamily: 'var(--font-heading, Cinzel, serif)', fontSize: '0.72rem', fontWeight: 700, color: 'rgba(201,168,76,0.65)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+                  Quick Add Suggestions
+                </h2>
+                <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, rgba(201,168,76,0.2), transparent)' }} />
+              </div>
+              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                {CHORE_SUGGESTIONS.map((s, i) => (
+                  <button
+                    key={i}
+                    onClick={() => applySuggestion(s)}
+                    style={{
+                      padding: '0.4rem 0.75rem',
+                      borderRadius: 3,
+                      border: '1px solid rgba(201,168,76,0.15)',
+                      background: 'rgba(255,255,255,0.02)',
+                      color: 'rgba(200,215,255,0.6)',
+                      fontFamily: 'var(--font-heading, Cinzel, serif)',
+                      fontSize: '0.7rem',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s',
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.borderColor = 'rgba(201,168,76,0.4)'
+                      e.currentTarget.style.color = '#e8f0ff'
+                      e.currentTarget.style.background = 'rgba(201,168,76,0.05)'
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.borderColor = 'rgba(201,168,76,0.15)'
+                      e.currentTarget.style.color = 'rgba(200,215,255,0.6)'
+                      e.currentTarget.style.background = 'rgba(255,255,255,0.02)'
+                    }}
+                  >
+                    + {s.title}
+                  </button>
+                ))}
+              </div>
+            </div>
 
             {/* Section header + filters */}
             <div style={{ marginBottom: '1rem' }}>

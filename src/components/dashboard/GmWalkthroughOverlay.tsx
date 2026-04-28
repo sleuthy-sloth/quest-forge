@@ -9,62 +9,62 @@ interface Slide {
   title: string
   subtitle: string
   body: string[]
-  icon: string
+  image: string
 }
 
 const SLIDES: Slide[] = [
   {
     title: "You're the Game Master",
     subtitle: "Lead your family's legend",
-    icon: '👑',
+    image: '/images/walkthrough/gm_1.png',
     body: [
       "Quest Forge turns everyday tasks into a fantasy RPG for your family. You build the world; your kids live in it.",
       "As the GM, you manage the story, approve quests, and set the rewards that keep the Emberlight burning.",
     ],
   },
   {
-    title: "Your Roster",
-    subtitle: "Manage your heroes",
-    icon: '👥',
-    body: [
-      "Create child accounts from the Players tab. Each kid gets a hero with a class, an avatar, and an Embershard that grows as they work.",
-      "You can view their progress, adjust their XP/Gold, and see their current loadout at any time.",
-    ],
-  },
-  {
-    title: "The Quest Board",
+    title: "Issue Quest Decrees",
     subtitle: "Assign the path",
-    icon: '📜',
+    image: '/images/walkthrough/gm_2.png',
     body: [
-      "Create chores with difficulty, XP, and gold rewards. Assign to one kid or the whole household.",
+      "Create chores with difficulty, XP, and gold rewards. Use our suggestions or create your own custom deeds.",
       "When a kid completes a task, it appears in your Approvals queue. You verify completions before rewards are awarded.",
-    ],
-  },
-  {
-    title: "Rook's Emporium",
-    subtitle: "Loot and legacy",
-    icon: '💎',
-    body: [
-      "Stock the loot store with real-world rewards (screen time, choosing dinner, small cash).",
-      "Kids spend their hard-earned XP and gold to claim them. You fulfill the redemptions when they're ready.",
     ],
   },
   {
     title: "The Weekly Boss",
     subtitle: "A shared challenge",
-    icon: '⚔️',
+    image: '/images/walkthrough/gm_3.png',
     body: [
       "Each week, a boss appears. Every approved chore and completed challenge deals damage equal to its XP value.",
       "All household members attack the same boss together. Boss HP scales to your number of players.",
     ],
   },
   {
-    title: "Story & The Road Ahead",
+    title: "Rook's Emporium",
+    subtitle: "Loot and legacy",
+    image: '/images/walkthrough/gm_4.png',
+    body: [
+      "Stock the loot store with real-world rewards (screen time, choosing dinner, small cash).",
+      "Kids spend their hard-earned XP and gold to claim them. You fulfill the redemptions when they're ready.",
+    ],
+  },
+  {
+    title: "The Chronicle Arc",
     subtitle: "The Chronicles of Embervale",
-    icon: '📖',
+    image: '/images/walkthrough/gm_5.png',
     body: [
       "As your kids earn XP, the story of Embervale unfolds. New chapters unlock automatically.",
-      "13 arcs, 52 bosses, and a narrative personalized to your family's heroes. You can replay this tour anytime from Settings.",
+      "13 arcs, 52 bosses, and a narrative personalized to your family's heroes.",
+    ],
+  },
+  {
+    title: "Success is Effort",
+    subtitle: "A world blooming with light",
+    image: '/images/walkthrough/gm_6.png',
+    body: [
+      "Quest Forge is designed to reward process, not just results. Celebrate every small victory as the Light grows stronger.",
+      "You can replay this tour anytime from Settings. Now, go forth and build your legend!",
     ],
   },
 ]
@@ -147,17 +147,22 @@ export default function GmWalkthroughOverlay() {
           ))}
         </div>
 
-        {/* Icon */}
+        {/* Image */}
         <div
           style={{
-            fontSize: '2rem',
-            textAlign: 'center',
-            marginBottom: '0.75rem',
-            color: 'rgba(201,168,76,0.8)',
+            width: '100%',
+            height: 180,
+            borderRadius: 4,
+            overflow: 'hidden',
+            marginBottom: '1.25rem',
+            border: '1px solid rgba(201,168,76,0.2)',
           }}
-          aria-hidden="true"
         >
-          {slide.icon}
+          <img
+            src={slide.image}
+            alt=""
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
         </div>
 
         {/* Title */}

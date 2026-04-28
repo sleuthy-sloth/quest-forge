@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import type { Tables } from '@/types/database'
 import { PixelButton } from '@/components/ui'
 import { PageHeader } from '@/components/qf'
+import { LOOT_SUGGESTIONS } from '@/lib/constants/suggestions'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type LootItem = Pick<
@@ -120,6 +121,21 @@ export default function LootPage() {
     setFormState(p => ({ ...p, [k]: v }))
     setFormErrors(p => ({ ...p, [k]: undefined }))
     setSubmitError(null); setSubmitOk(null)
+  }
+
+  function applySuggestion(s: typeof LOOT_SUGGESTIONS[number]) {
+    setFormState(p => ({
+      ...p,
+      name: s.name,
+      real_reward_description: s.description,
+      flavor_text: '', // clear old flavor
+      category: s.category,
+      cost_gold: String(s.cost_gold),
+      cost_xp: '0',
+    }))
+    setFormErrors({})
+    setSubmitError(null); setSubmitOk(null)
+    formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
   function validate(): boolean {
@@ -428,6 +444,47 @@ export default function LootPage() {
               LEFT — Emporium Ledger
           ════════════════════════════════════════════════════════════════════ */}
           <section>
+
+            {/* Suggestions */}
+            <div style={{ marginBottom: '1.5rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
+                <h2 style={{ fontFamily: 'var(--font-heading, Cinzel, serif)', fontSize: '0.72rem', fontWeight: 700, color: 'rgba(201,168,76,0.65)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+                  Quick Add Suggestions
+                </h2>
+                <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, rgba(201,168,76,0.2), transparent)' }} />
+              </div>
+              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                {LOOT_SUGGESTIONS.map((s, i) => (
+                  <button
+                    key={i}
+                    onClick={() => applySuggestion(s)}
+                    style={{
+                      padding: '0.4rem 0.75rem',
+                      borderRadius: 3,
+                      border: '1px solid rgba(201,168,76,0.15)',
+                      background: 'rgba(255,255,255,0.02)',
+                      color: 'rgba(200,215,255,0.6)',
+                      fontFamily: 'var(--font-heading, Cinzel, serif)',
+                      fontSize: '0.7rem',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s',
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.borderColor = 'rgba(201,168,76,0.4)'
+                      e.currentTarget.style.color = '#e8f0ff'
+                      e.currentTarget.style.background = 'rgba(201,168,76,0.05)'
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.borderColor = 'rgba(201,168,76,0.15)'
+                      e.currentTarget.style.color = 'rgba(200,215,255,0.6)'
+                      e.currentTarget.style.background = 'rgba(255,255,255,0.02)'
+                    }}
+                  >
+                    + {s.name}
+                  </button>
+                ))}
+              </div>
+            </div>
 
             {/* Section header */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>

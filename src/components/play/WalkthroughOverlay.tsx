@@ -22,7 +22,7 @@ interface Slide {
   title: string
   subtitle: string
   body: string[]
-  icon: string
+  image: string
 }
 
 function buildSlides(avatarClass: string | null): Slide[] {
@@ -35,7 +35,7 @@ function buildSlides(avatarClass: string | null): Slide[] {
     {
       title: 'Welcome to Embervale',
       subtitle: 'A world sustained by light',
-      icon: '⟡',
+      image: '/images/walkthrough/player_1.png',
       body: [
         'Long ago, the Emberlight was kindled — a primordial force that flows through all living things, warming the land and holding back the darkness.',
         'But the Emberlight has been dimming. The Hollow creeps in at the edges, and without heroes to tend the flame, it will go out entirely.',
@@ -43,19 +43,9 @@ function buildSlides(avatarClass: string | null): Slide[] {
       ],
     },
     {
-      title: `The ${arch}`,
-      subtitle: 'Your Embershard awaits',
-      icon: cls?.icon ?? '⟡',
-      body: [
-        `Your Embershard takes the form of ${shard}. It grows stronger as you do.`,
-        `As a ${cls?.name ?? 'hero'} of Hearthhold, your calling is to venture out, complete quests, and prove your worth.`,
-        'Every challenge you overcome feeds the Emberlight — and pushes the Hollow back a little further.',
-      ],
-    },
-    {
       title: 'The Hollow Grows',
       subtitle: 'The world at stake',
-      icon: '🌑',
+      image: '/images/walkthrough/player_2.png',
       body: [
         'Embervale is kept alive by the Emberlight — the warmth that flows through every living thing. But the Hollow is spreading: an entropy that feeds on laziness and ignorance.',
         'Hearthhold, your home base, is the last village with a working Hearthstone. Your job is to keep it burning.',
@@ -64,7 +54,7 @@ function buildSlides(avatarClass: string | null): Slide[] {
     {
       title: 'The Quest Board',
       subtitle: 'Real efforts, real rewards',
-      icon: '📜',
+      image: '/images/walkthrough/player_3.png',
       body: [
         'The village square board in Hearthhold bears decrees from Elder Maren and the folk of the village. These are your daily quests.',
         'Complete chores and tasks in the real world to earn XP and gold. Your Game Master will assign these and verify your victories.',
@@ -74,39 +64,46 @@ function buildSlides(avatarClass: string | null): Slide[] {
     {
       title: 'Two Kinds of Power',
       subtitle: 'XP & Gold',
-      icon: '⬡',
+      image: '/images/walkthrough/player_4.png',
       body: [
-        'XP (⬡) is your life force. It grows forever, never goes away, and powers the story — when your household earns enough, the next chapter unlocks.',
-        'Gold (◈) is spendable currency. You earn it on certain chores and spend it at Rook\'s Emporium for real-world rewards. Think of XP as your legend, and gold as your pocket money.',
-      ],
-    },
-    {
-      title: 'The Academy',
-      subtitle: 'Sharpen your mind',
-      icon: '⚗',
-      body: [
-        'In the Wizard\'s Tower of Knowledge, Professor Ignis awaits with challenges of the mind.',
-        'Math, vocabulary, history, science, logic — each discipline you master earns XP and reveals more of Embervale\'s ancient lore.',
-        'Return daily for new exercises. Knowledge is the truest light against the Hollow.',
+        'XP (⬡) is your life force. It grows forever and powers the story — when your household earns enough, the next chapter unlocks.',
+        'Gold (◈) is spendable currency. You earn it on certain chores and spend it at Rook\'s Emporium for real-world rewards.',
       ],
     },
     {
       title: 'Fight Together',
       subtitle: 'The Weekly Boss',
-      icon: '⚔️',
+      image: '/images/walkthrough/player_5.png',
       body: [
         'Every week a boss threatens Embervale. The harder you work, the more damage you deal — each XP you earn hits the boss for the same amount.',
-        'It\'s not one hero\'s fight: everyone in your household attacks the same enemy. Defeat them before the week ends to unlock the next chapter and claim bonus rewards.',
+        'It\'s not one hero\'s fight: everyone in your household attacks the same enemy. Defeat them before the week ends to save the village!',
       ],
     },
     {
-      title: 'Loot Store & Beyond',
-      subtitle: 'Gear up and stand together',
-      icon: '💎',
+      title: 'Co-op Strategy',
+      subtitle: 'Strength in numbers',
+      image: '/images/walkthrough/player_6.png',
       body: [
-        'Rook the merchant runs the Loot Emporium. Spend your gold on items, cosmetics, and real-world rewards.',
-        'Defeat the boss to unlock the next chapter of the story. The fate of Embervale rests in your hands.',
+        'Each hero brings unique strengths to the party. Talk to your fellow Emberbearers to coordinate your efforts.',
+        'When one hero completes a quest, the whole village benefits from the light produced.',
+      ],
+    },
+    {
+      title: 'Level Up!',
+      subtitle: 'Unlock your potential',
+      image: '/images/walkthrough/player_7.png',
+      body: [
+        'As you grow in power, you will reach new levels. Each level increases your strength and unlocks new possibilities in Embervale.',
+        'Your Embershard will glow brighter, and your legend will be told in the halls of Hearthhold.',
+      ],
+    },
+    {
+      title: 'The Road Ahead',
+      subtitle: 'The Hollow recedes',
+      image: '/images/walkthrough/player_8.png',
+      body: [
         'The story of Embervale unfolds across 13 arcs and 52 bosses. Your journey is just beginning.',
+        'Keep the light alive, protect your home, and become the hero Embervale needs.',
       ],
     },
   ]
@@ -195,17 +192,22 @@ export default function WalkthroughOverlay({
           ))}
         </div>
 
-        {/* Icon */}
+        {/* Image */}
         <div
           style={{
-            fontSize: '2rem',
-            textAlign: 'center',
-            marginBottom: '0.75rem',
-            color: 'rgba(201,168,76,0.8)',
+            width: '100%',
+            height: 180,
+            borderRadius: 4,
+            overflow: 'hidden',
+            marginBottom: '1.25rem',
+            border: '1px solid rgba(201,168,76,0.2)',
           }}
-          aria-hidden="true"
         >
-          {slide.icon}
+          <img
+            src={slide.image}
+            alt=""
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
         </div>
 
         {/* Title */}
