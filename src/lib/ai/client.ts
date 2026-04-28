@@ -47,15 +47,18 @@ export function stripThinking(text: string): string {
   // Walk forward from each '{' and find the first balanced, parse-able JSON
   // block. A greedy /\{[\s\S]*\}/ would anchor to the first '{' which could be
   // inside thinking prose (e.g. "here's how {this} works").
+  let hasValidJson = false
   if (cleaned.includes('{')) {
     const jsonBlock = extractFirstValidJson(cleaned)
     if (jsonBlock !== null) {
+      hasValidJson = true
       const idx = cleaned.indexOf(jsonBlock)
-      if (idx > 50) {
-        const before = cleaned.slice(0, idx).trim()
-        if (before.length > 0 && /[a-zA-Z]{4,}/.test(before)) {
-          cleaned = jsonBlock
-        }
+      const before = cleaned.slice(0, idx).trim()
+      
+      // If the text before the JSON is just markdown fencing, empty, OR
+      // if there's a lot of text (thinking prose), we extract just the JSON.
+      if (before === '' || before.startsWith('```') || (idx > 50 && /[a-zA-Z]{4,}/.test(before))) {
+        cleaned = jsonBlock
       }
     }
   }
@@ -64,7 +67,9 @@ export function stripThinking(text: string): string {
   // For non-JSON responses the model may emit thinking as untagged prose and
   // put the actual answer in a double-quoted block.  Take the last quoted block
   // that looks like a complete prose sentence (≥40 chars, contains punctuation).
-  if (!cleaned.trimStart().startsWith('{')) {
+  // We ONLY do this if we didn't find valid JSON, because this regex will
+  // aggressively match string values inside JSON payloads and destroy the structure.
+  if (!hasValidJson && !cleaned.trimStart().startsWith('{') && !cleaned.trimStart().startsWith('```')) {
     const prose = extractQuotedAnswer(cleaned)
     if (prose) cleaned = prose
   }
