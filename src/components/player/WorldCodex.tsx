@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import worldRaw from '@/lore/world.json'
 import classesRaw from '@/lore/classes.json'
 
@@ -59,22 +60,31 @@ const SECTIONS: { id: Section; label: string; icon: string }[] = [
   { id: 'regions',    label: 'Regions',     icon: '🗺' },
 ]
 
-const NPC_ICONS: Record<string, string> = {
-  'Elder Maren':         '🌿',
-  'Rook':                '🎪',
-  'Professor Ignis':     '🔬',
-  'Kaya':                '⚔',
-  'The Chronicler':      '📜',
-  'Hollow-Touched Orrin':'💀',
+const NPC_IMAGES: Record<string, string> = {
+  'Elder Maren':         '/images/ui/intro_elder.png',
+  'Rook':                '/images/lore/rook.png',
+  'Professor Ignis':     '/images/lore/ignis.png',
+  'Kaya':                '/images/lore/kaya.png',
+  'The Chronicler':      '/images/lore/chronicler.png',
+  'Hollow-Touched Orrin':'/images/lore/orrin.png',
 }
 
-const REGION_ICONS: Record<string, string> = {
-  forest:      '🌲',
-  coastal:     '🌊',
-  mountains:   '⛰',
-  grasslands:  '🌾',
-  wasteland:   '🌑',
-  underground: '💡',
+const REGION_IMAGES: Record<string, string> = {
+  forest:      '/images/lore/heartwood.png',
+  coastal:     '/images/lore/shattered_coast.png',
+  mountains:   '/images/lore/ironspine.png',
+  grasslands:  '/images/lore/dustmere.png',
+  wasteland:   '/images/lore/ashlands.png',
+  underground: '/images/lore/underbright.png',
+}
+
+const CLASS_IMAGES: Record<string, string> = {
+  blazewarden:  '/images/lore/blazewarden.png',
+  lorescribe:   '/images/lore/lorescribe.png',
+  shadowstep:   '/images/lore/shadowstep.png',
+  hearthkeeper: '/images/lore/hearthkeeper.png',
+  stormcaller:  '/images/lore/stormcaller.png',
+  ironvow:      '/images/lore/ironvow.png',
 }
 
 const LOC_ICONS: Record<string, string> = {
@@ -89,16 +99,37 @@ const LOC_ICONS: Record<string, string> = {
 
 function WorldSection() {
   return (
-    <div style={{ padding: '16px' }}>
-      <div style={{ textAlign: 'center', marginBottom: 20 }}>
-        <div style={{ fontSize: 48, marginBottom: 8 }}>🌍</div>
-        <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 20, color: '#f0e6c8', margin: 0 }}>
-          {WORLD.world_name}
-        </h2>
-        <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 6, color: '#7a6a44', letterSpacing: '0.15em', marginTop: 4 }}>
-          THE EMBER REALM
+    <div style={{ padding: '0 0 16px 0' }}>
+      <div style={{ 
+        position: 'relative', 
+        width: '100%', 
+        height: 180, 
+        marginBottom: 20,
+        borderBottom: '1px solid rgba(201,168,76,0.3)',
+      }}>
+        <Image 
+          src="/images/ui/chronicle_map.png"
+          alt="Map of Embervale"
+          fill
+          style={{ objectFit: 'cover', objectPosition: 'center 30%', opacity: 0.8 }}
+        />
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(to top, #0e0a14 0%, transparent 50%, rgba(14,10,20,0.4) 100%)'
+        }} />
+        <div style={{
+          position: 'absolute', bottom: 16, left: 16, right: 16, textAlign: 'center'
+        }}>
+          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 26, color: '#f0e6c8', margin: 0, textShadow: '0 2px 8px rgba(0,0,0,0.8)' }}>
+            {WORLD.world_name}
+          </h2>
+          <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 7, color: '#c9a84c', letterSpacing: '0.15em', marginTop: 4, textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>
+            THE EMBER REALM
+          </div>
         </div>
       </div>
+
+      <div style={{ padding: '0 16px' }}>
 
       <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: '#b0c0e0', lineHeight: 1.7, marginBottom: 16 }}>
         {WORLD.summary}
@@ -136,6 +167,7 @@ function WorldSection() {
         <div style={{ fontFamily: 'var(--font-body)', fontSize: 12, color: '#b09a6e', lineHeight: 1.6 }}>
           Chosen to strengthen the Emberlight through effort, learning, and courage. Every quest completed, every lesson learned — it all pushes back the Hollow.
         </div>
+      </div>
       </div>
     </div>
   )
@@ -196,15 +228,30 @@ function ClassSection({ playerClass }: { playerClass: string | null }) {
           </div>
         )}
 
-        <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 6, color: cls.color_primary, letterSpacing: '0.15em', marginBottom: 4 }}>
-          {cls.archetype.toUpperCase()}
-        </div>
-        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 22, color: cls.color_secondary, margin: '0 0 8px' }}>
-          {cls.name}
-        </h3>
+        <div style={{ display: 'flex', gap: 16, marginBottom: 16 }}>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 6, color: cls.color_primary, letterSpacing: '0.15em', marginBottom: 4 }}>
+              {cls.archetype.toUpperCase()}
+            </div>
+            <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 22, color: cls.color_secondary, margin: '0 0 8px' }}>
+              {cls.name}
+            </h3>
 
-        <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: '#b0c0e0', fontStyle: 'italic', marginBottom: 14, lineHeight: 1.5 }}>
-          &ldquo;{cls.motto}&rdquo;
+            <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: '#b0c0e0', fontStyle: 'italic', lineHeight: 1.5 }}>
+              &ldquo;{cls.motto}&rdquo;
+            </div>
+          </div>
+          <div style={{ 
+            width: 80, height: 100, flexShrink: 0, position: 'relative',
+            borderRadius: 4, overflow: 'hidden', border: `1px solid ${cls.color_primary}44`
+          }}>
+            <Image 
+              src={CLASS_IMAGES[cls.id as keyof typeof CLASS_IMAGES]}
+              alt={cls.name}
+              fill
+              style={{ objectFit: 'cover', objectPosition: 'center 20%' }}
+            />
+          </div>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 12 }}>
@@ -318,16 +365,37 @@ function EmberShardSection({ level }: { level: number }) {
 
 function HearthholdSection() {
   return (
-    <div style={{ padding: 16 }}>
-      <div style={{ textAlign: 'center', marginBottom: 20 }}>
-        <div style={{ fontSize: 48, marginBottom: 8 }}>🏡</div>
-        <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 20, color: '#f0e6c8', margin: 0 }}>
-          {WORLD.home_base.name}
-        </h2>
-        <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 6, color: '#7a6a44', letterSpacing: '0.1em', marginTop: 4 }}>
-          YOUR HOME BASE
+    <div style={{ padding: '0 0 16px 0' }}>
+      <div style={{ 
+        position: 'relative', 
+        width: '100%', 
+        height: 160, 
+        marginBottom: 20,
+        borderBottom: '1px solid rgba(201,168,76,0.3)',
+      }}>
+        <Image 
+          src="/images/lore/heartwood.png"
+          alt="Hearthhold"
+          fill
+          style={{ objectFit: 'cover', opacity: 0.8 }}
+        />
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(to top, #0e0a14 0%, transparent 60%, rgba(14,10,20,0.6) 100%)'
+        }} />
+        <div style={{
+          position: 'absolute', bottom: 16, left: 16, right: 16, textAlign: 'center'
+        }}>
+          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 24, color: '#f0e6c8', margin: 0, textShadow: '0 2px 8px rgba(0,0,0,0.8)' }}>
+            {WORLD.home_base.name}
+          </h2>
+          <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 6, color: '#c9a84c', letterSpacing: '0.1em', marginTop: 4, textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>
+            YOUR HOME BASE
+          </div>
         </div>
       </div>
+
+      <div style={{ padding: '0 16px' }}>
 
       <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: '#b0c0e0', lineHeight: 1.7, marginBottom: 16 }}>
         {WORLD.home_base.description}
@@ -358,6 +426,7 @@ function HearthholdSection() {
           </div>
         ))}
       </div>
+      </div>
     </div>
   )
 }
@@ -379,8 +448,9 @@ function NPCSection() {
             key={n.name}
             onClick={() => setSelected(n.name)}
             style={{
+              display: 'flex', alignItems: 'center', gap: 6,
               fontFamily: 'var(--font-heading)', fontSize: 12,
-              padding: '5px 10px', borderRadius: 3,
+              padding: '4px 8px', borderRadius: 4,
               border: `1px solid ${selected === n.name ? 'rgba(201,168,76,0.5)' : 'rgba(90,58,26,0.3)'}`,
               background: selected === n.name ? 'rgba(201,168,76,0.08)' : 'transparent',
               color: selected === n.name ? '#c9a84c' : '#7a6a44',
@@ -388,7 +458,10 @@ function NPCSection() {
               transition: 'all 0.15s',
             }}
           >
-            {NPC_ICONS[n.name] ?? '✦'} {n.name}
+            <div style={{ position: 'relative', width: 20, height: 20, borderRadius: '50%', overflow: 'hidden', border: '1px solid rgba(201,168,76,0.3)' }}>
+              <Image src={NPC_IMAGES[n.name]} alt={n.name} fill style={{ objectFit: 'cover' }} />
+            </div>
+            {n.name}
           </button>
         ))}
       </div>
@@ -402,13 +475,12 @@ function NPCSection() {
       }}>
         <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 12 }}>
           <div style={{
-            width: 52, height: 52, borderRadius: 4, flexShrink: 0,
+            width: 64, height: 64, borderRadius: 6, flexShrink: 0,
             background: 'rgba(201,168,76,0.06)',
-            border: '1px solid rgba(201,168,76,0.2)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 28,
+            border: '1px solid rgba(201,168,76,0.3)',
+            position: 'relative', overflow: 'hidden'
           }}>
-            {NPC_ICONS[npc.name] ?? '✦'}
+            <Image src={NPC_IMAGES[npc.name]} alt={npc.name} fill style={{ objectFit: 'cover' }} />
           </div>
           <div>
             <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 18, color: '#f0e6c8', margin: '0 0 4px' }}>
@@ -455,8 +527,9 @@ function RegionsSection() {
             key={r.name}
             onClick={() => setSelected(r.name)}
             style={{
+              display: 'flex', alignItems: 'center', gap: 6,
               fontFamily: 'var(--font-heading)', fontSize: 11,
-              padding: '5px 10px', borderRadius: 3,
+              padding: '4px 8px', borderRadius: 4,
               border: `1px solid ${selected === r.name ? 'rgba(201,168,76,0.5)' : 'rgba(90,58,26,0.3)'}`,
               background: selected === r.name ? 'rgba(201,168,76,0.08)' : 'transparent',
               color: selected === r.name ? '#c9a84c' : '#7a6a44',
@@ -464,7 +537,10 @@ function RegionsSection() {
               transition: 'all 0.15s',
             }}
           >
-            {REGION_ICONS[r.type] ?? '🌍'} {r.name}
+            <div style={{ position: 'relative', width: 20, height: 20, borderRadius: '50%', overflow: 'hidden', border: '1px solid rgba(201,168,76,0.3)' }}>
+              <Image src={REGION_IMAGES[r.type]} alt={r.name} fill style={{ objectFit: 'cover' }} />
+            </div>
+            {r.name}
           </button>
         ))}
       </div>
@@ -477,22 +553,21 @@ function RegionsSection() {
         overflow: 'hidden',
       }}>
         <div style={{
-          padding: '14px 16px',
-          background: 'rgba(201,168,76,0.04)',
-          borderBottom: '1px solid rgba(201,168,76,0.1)',
-          display: 'flex', alignItems: 'center', gap: 12,
-        }}>
-          <div style={{ fontSize: 36 }}>{REGION_ICONS[region.type] ?? '🌍'}</div>
-          <div>
-            <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 18, color: '#f0e6c8', margin: '0 0 2px' }}>
-              {region.name}
-            </h3>
-            <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 5, color: '#7a6a44', letterSpacing: '0.1em' }}>
-              {region.type.toUpperCase()} · ARCS {region.associated_arcs.map(a => `${a}`).join(', ')}
+            position: 'relative', height: 120, width: '100%',
+            borderBottom: '1px solid rgba(201,168,76,0.1)'
+          }}>
+            <Image src={REGION_IMAGES[region.type]} alt={region.name} fill style={{ objectFit: 'cover' }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,28,46,1) 0%, transparent 60%)' }} />
+            <div style={{ position: 'absolute', bottom: 12, left: 16, right: 16 }}>
+              <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 20, color: '#f0e6c8', margin: '0 0 2px', textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>
+                {region.name}
+              </h3>
+              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 6, color: '#c9a84c', letterSpacing: '0.1em', textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}>
+                {region.type.toUpperCase()} · ARCS {region.associated_arcs.map(a => `${a}`).join(', ')}
+              </div>
             </div>
           </div>
-        </div>
-        <div style={{ padding: '14px 16px' }}>
+          <div style={{ padding: '14px 16px' }}>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: '#b0c0e0', lineHeight: 1.7, margin: 0 }}>
             {region.description}
           </p>

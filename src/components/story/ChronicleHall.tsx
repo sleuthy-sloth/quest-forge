@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useQuestStore } from '@/store/useQuestStore'
 import type { ChapterRow } from '@/store/useQuestStore'
+import Image from 'next/image'
 import bossesRaw from '@/lore/bosses.json'
 import worldRaw from '@/lore/world.json'
 
@@ -75,11 +76,11 @@ function getNarrator(weekNumber: number): WorldNPC | undefined {
   return NPCS.find((n) => n.name === 'Kaya')
 }
 
-const NARRATOR_ICONS: Record<string, string> = {
-  'Elder Maren': '🌿',
-  'Kaya': '⚔',
-  'Professor Ignis': '🔬',
-  'The Chronicler': '📜',
+const NARRATOR_IMAGES: Record<string, string> = {
+  'Elder Maren': '/images/ui/intro_elder.png',
+  'Kaya': '/images/lore/kaya.png',
+  'Professor Ignis': '/images/lore/ignis.png',
+  'The Chronicler': '/images/lore/chronicler.png',
 }
 
 // ── Chapter Reader ────────────────────────────────────────────────────────────
@@ -130,12 +131,12 @@ function ChapterReader({
 
           {/* NPC narrator */}
           {narrator && (
-            <div className="px-4 pt-2 pb-0 flex items-center gap-2">
+            <div className="px-4 pt-2 pb-0 flex items-center gap-3">
               <div
-                className="w-6 h-6 border border-[#5a3a1a]/50 bg-[#1a0e04]
-                  flex items-center justify-center text-[0.65rem]"
+                className="w-10 h-10 border border-[#5a3a1a]/50 bg-[#1a0e04] rounded-sm
+                  flex items-center justify-center overflow-hidden relative"
               >
-                {NARRATOR_ICONS[narrator.name] ?? '✦'}
+                <Image src={NARRATOR_IMAGES[narrator.name]} alt={narrator.name} fill style={{ objectFit: 'cover' }} />
               </div>
               <div>
                 <div className="text-[0.4rem] text-[#c9a84c]/60 font-mono uppercase tracking-wider">
@@ -530,14 +531,22 @@ export default function ChronicleHall() {
   return (
     <div className="flex flex-col" style={{ background: '#0e0a14', minHeight: '100%' }}>
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-[#5a3a1a]/30 flex-shrink-0">
-        <div>
-          <h1 className="text-[0.58rem] text-[#c9a84c] font-mono uppercase tracking-widest">
+      <div className="relative w-full h-[120px] border-b border-[#c9a84c]/20 flex-shrink-0">
+        <Image 
+          src="/images/ui/quests_parchment.png" 
+          alt="Chronicle Hall" 
+          fill 
+          style={{ objectFit: 'cover', objectPosition: 'center 30%', opacity: 0.65 }} 
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0e0a14] via-transparent to-transparent" />
+        <div className="absolute bottom-3 left-4">
+          <h1 className="text-xl text-[#f0e6c8] font-heading drop-shadow-md" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>
             Chronicle Hall
           </h1>
-          <p className="text-[0.38rem] text-[#b09a6e]/35 font-mono">The story of Embervale</p>
+          <p className="text-[0.45rem] text-[#c9a84c] font-mono tracking-[0.15em] drop-shadow-md mt-1">
+            THE STORY OF EMBERVALE
+          </p>
         </div>
-        <span className="text-base opacity-25">📜</span>
       </div>
 
       {/* Arc navigation strip */}
