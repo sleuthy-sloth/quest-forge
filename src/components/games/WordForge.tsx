@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { revalidatePlayCache } from '@/app/actions/cache'
 import BattleArena, { type BattleArenaHandle } from '@/components/games/BattleArena'
 import { ENEMY_PRESETS, DEFAULT_AVATAR_CONFIG } from '@/lib/constants/enemies'
 import { SLUG_PRESET } from '@/lib/constants/academy'
@@ -244,6 +245,12 @@ export default function WordForge({
     const timers = timersRef.current
     return () => { timers.forEach(clearTimeout) }
   }, [])
+
+  useEffect(() => {
+    if (phase === 'results') {
+      void revalidatePlayCache()
+    }
+  }, [phase])
 
   // ── Answer handler ───────────────────────────────────────────────────────
   // Inserts one row in edu_completions per answered question. The DB trigger

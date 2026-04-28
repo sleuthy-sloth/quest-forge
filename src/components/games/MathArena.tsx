@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { revalidatePlayCache } from '@/app/actions/cache'
 import BattleArena, { type BattleArenaHandle } from '@/components/games/BattleArena'
 import CelebrationEffect from '@/components/games/CelebrationEffect'
 import { ENEMY_PRESETS, DEFAULT_AVATAR_CONFIG } from '@/lib/constants/enemies'
@@ -235,6 +236,12 @@ export default function MathArena({
     const timers = timersRef.current
     return () => { timers.forEach(clearTimeout) }
   }, [])
+
+  useEffect(() => {
+    if (phase === 'results') {
+      void revalidatePlayCache()
+    }
+  }, [phase])
 
   // Fetch fresh profile data when results phase starts so XP reflects DB
   useEffect(() => {

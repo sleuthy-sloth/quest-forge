@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { revalidatePlayCache } from '@/app/actions/cache'
 import { useAcademy } from '@/hooks/useAcademy'
 import BattleArena, { type BattleArenaHandle } from '@/components/games/BattleArena'
 import CelebrationEffect from '@/components/games/CelebrationEffect'
@@ -160,6 +161,12 @@ export default function QuizInterface({
     return () => clearTimeout(timer)
   }, [phase, supabase, userId])
 
+  useEffect(() => {
+    if (phase === 'results') {
+      void revalidatePlayCache()
+    }
+  }, [phase])
+
   // ── Answer handler ───────────────────────────────────────────────────────
 
   async function handleAnswer(option: string) {
@@ -184,7 +191,7 @@ export default function QuizInterface({
       }
 
       addTimer(setTimeout(() => {
-        if (questionIndex >= 9) {
+        if (questionIndex === challenges.length - 1) {
           setCelebrationTick(t => t + 1)
           setPhase('results')
         } else {
@@ -208,7 +215,7 @@ export default function QuizInterface({
       }
 
       addTimer(setTimeout(() => {
-        if (questionIndex >= 9) {
+        if (questionIndex === challenges.length - 1) {
           setCelebrationTick(t => t + 1)
           setPhase('results')
         } else {
@@ -343,7 +350,7 @@ export default function QuizInterface({
               <div
                 style={{ fontFamily: 'var(--font-pixel)', fontSize: '14px', color: '#f0e6c8' }}
               >
-                {correctCount} / {questions.length}
+                {correctCount} / {challenges.length}
               </div>
               <div
                 style={{
@@ -369,10 +376,10 @@ export default function QuizInterface({
                 padding: '8px 12px',
                 fontFamily: 'var(--font-pixel)',
                 fontSize: '8px',
-                color: accuracyColor(questions.length ? correctCount / questions.length : 0),
+                color: accuracyColor(challenges.length ? correctCount / challenges.length : 0),
               }}
             >
-              {Math.round((questions.length ? correctCount / questions.length : 0) * 100)}%
+              {Math.round((challenges.length ? correctCount / challenges.length : 0) * 100)}%
             </div>
           </div>
 
@@ -475,7 +482,7 @@ export default function QuizInterface({
           enemyPreset={enemyPreset}
           correctCount={correctCount}
           questionIndex={questionIndex}
-          totalQuestions={questions.length}
+          totalQuestions={challenges.length}
           questionSource={source}
           screenFlash={flash}
           playerSize={64}
@@ -506,7 +513,7 @@ export default function QuizInterface({
               letterSpacing: '1px',
             }}
           >
-            QUESTION {questionIndex + 1} OF {questions.length}
+            QUESTION {questionIndex + 1} OF {challenges.length}
           </div>
 
           {/* Question text */}

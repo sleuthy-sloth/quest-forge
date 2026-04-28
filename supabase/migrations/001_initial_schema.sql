@@ -139,8 +139,8 @@ CREATE TABLE purchases (
 CREATE TABLE story_chapters (
   id                    uuid        PRIMARY KEY DEFAULT gen_random_uuid(),
   household_id          uuid        NOT NULL REFERENCES households(id) ON DELETE CASCADE,
-  week_number           int         NOT NULL CHECK (week_number >= 1),
-  chapter_number        int         NOT NULL CHECK (chapter_number >= 1),
+  week_number           int         NOT NULL CHECK (week_number >= 0),
+  chapter_number        int         NOT NULL CHECK (chapter_number >= 0),
   title                 text        NOT NULL DEFAULT '',
   narrative_text        text        NOT NULL DEFAULT '',
   boss_name             text,

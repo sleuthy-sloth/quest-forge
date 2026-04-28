@@ -311,6 +311,7 @@ export function useAcademy(
       if (insertError) {
         console.error('[useAcademy] edu_completions insert failed:', insertError)
         setError('Failed to save answer')
+        throw new Error('Database insert failed')
       }
     } catch (err) {
       console.error('[useAcademy] edu_completions insert threw:', err)
