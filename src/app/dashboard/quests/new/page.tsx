@@ -89,6 +89,7 @@ export default function NewQuestPage() {
       const { data: pData } = await supabase
         .from('profiles')
         .select('id, display_name')
+        .eq('household_id', profile.household_id)
         .eq('role', 'player')
         .order('created_at', { ascending: true })
 
@@ -142,7 +143,8 @@ export default function NewQuestPage() {
     const payload = {
       title: form.title.trim(),
       description: form.description.trim(),
-      quest_flavor_text: form.quest_flavor_text.trim(),
+      // quest_flavor_text is generated for the GM's reference but is not a
+      // column on the quests table (only chores has it). Omit from insert.
       xp_reward: parseInt(form.xp_reward, 10),
       gold_reward: parseInt(form.gold_reward, 10) || 0,
       assigned_to: form.assigned_to || null,

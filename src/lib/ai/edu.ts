@@ -91,14 +91,23 @@ function tryParseJson(text: string): { questions?: unknown } | null {
   try {
     return JSON.parse(cleaned) as { questions?: unknown }
   } catch {
-    // Try to extract the first {...} block.
-    const match = cleaned.match(/\{[\s\S]*\}/)
-    if (!match) return null
-    try {
-      return JSON.parse(match[0]) as { questions?: unknown }
-    } catch {
-      return null
+    // Walk forward from each '{' to find the first balanced, parse-able JSON
+    // block.  A greedy /\{[\s\S]*\}/ would start at the FIRST '{' which could
+    // be inside thinking prose (e.g. "here {is} my plan"), causing parse errors.
+    for (let i = 0; i < cleaned.length; i++) {
+      if (cleaned[i] !== '{') continue
+      let depth = 0
+      let j = i
+      for (; j < cleaned.length; j++) {
+        if (cleaned[j] === '{') depth++
+        else if (cleaned[j] === '}') { depth--; if (depth === 0) break }
+      }
+      if (depth === 0) {
+        const candidate = cleaned.slice(i, j + 1)
+        try { return JSON.parse(candidate) as { questions?: unknown } } catch { /* keep walking */ }
+      }
     }
+    return null
   }
 }
 
