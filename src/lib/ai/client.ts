@@ -124,13 +124,14 @@ export interface GenerationPrompt {
 }
 
 /**
- * Generates text using OpenRouter Nemotron (primary) with Gemini Flash
+ * Generates text using Gemini Flash (primary) with OpenRouter Nemotron
  * fallback.  Returns null if both providers fail or are unavailable.
  *
  * **Provider rationale:**
+ * - Gemini 2.0 Flash is the primary because it's much faster (2–4s vs 10+s)
+ *   and avoids Vercel serverless function timeouts on the Hobby plan.
  * - OpenRouter Nemotron (`nvidia/nemotron-3-super-120b-a12b:free`) is the
- *   primary because its free tier has higher rate limits than Gemini's.
- * - Gemini 2.0 Flash (free tier: 1,500 req/day) acts as the secondary.
+ *   fallback when Gemini is unavailable or fails.
  * - The app-level daily rate limiter (`canMakeRequest` / `incrementUsage`)
  *   guards the combined budget.
  */
@@ -140,9 +141,36 @@ export async function generateWithFallback(
   const maxTokens = prompt.maxTokens ?? 200
   const temperature = prompt.temperature ?? 0.85
 
-  // ── Primary: OpenRouter (Nemotron) ─────────────────────────────────────────
+  // ── Primary: Gemini Flash ──────────────────────────────────────────────────
+  if (geminiModel) {
+    try {
+      console.log('[ai] trying Gemini Flash (primary)...')
+      const result = await geminiModel.generateContent({
+        systemInstruction: prompt.system,
+        contents: [{ role: 'user', parts: [{ text: prompt.user }] }],
+        generationConfig: {
+          maxOutputTokens: maxTokens,
+          temperature,
+          topP: 0.95,
+        },
+      })
+      const text = stripThinking(result.response.text().trim())
+      if (text) {
+        console.log(`[ai] Gemini returned ${text.length} chars`)
+        return text
+      }
+      console.warn('[ai] Gemini returned empty response, trying OpenRouter')
+    } catch (err) {
+      console.warn('[ai] Gemini failed, trying OpenRouter:', err)
+    }
+  } else {
+    console.warn('[ai] GEMINI_API_KEY not set — skipping Gemini')
+  }
+
+  // ── Fallback: OpenRouter (Nemotron) ────────────────────────────────────────
   if (openRouterClient) {
     try {
+      console.log('[ai] trying OpenRouter Nemotron (fallback)...')
       const response = await openRouterClient.chat.completions.create({
         model: OPENROUTER_MODEL,
         messages: [
@@ -157,9 +185,10 @@ export async function generateWithFallback(
       } else {
         const text = stripThinking(response.choices[0]?.message?.content?.trim() ?? '')
         if (text) {
+          console.log(`[ai] OpenRouter returned ${text.length} chars`)
           return text
         }
-        console.warn('[ai] OpenRouter returned empty response, trying Gemini')
+        console.warn('[ai] OpenRouter returned empty response')
       }
     } catch (err: unknown) {
       const status = (err as { status?: number }).status
@@ -173,31 +202,7 @@ export async function generateWithFallback(
       }
     }
   } else {
-    console.warn('[ai] OPENROUTER_API_KEY not set — skipping OpenRouter')
-  }
-
-  // ── Fallback: Gemini Flash ─────────────────────────────────────────────────
-  if (geminiModel) {
-    try {
-      const result = await geminiModel.generateContent({
-        systemInstruction: prompt.system,
-        contents: [{ role: 'user', parts: [{ text: prompt.user }] }],
-        generationConfig: {
-          maxOutputTokens: maxTokens,
-          temperature,
-          topP: 0.95,
-        },
-      })
-      const text = stripThinking(result.response.text().trim())
-      if (text) {
-        return text
-      }
-      console.warn('[ai] Gemini returned empty response')
-    } catch (err) {
-      console.warn('[ai] Gemini fallback failed:', err)
-    }
-  } else {
-    console.warn('[ai] GEMINI_API_KEY not set — no fallback')
+    console.warn('[ai] OPENROUTER_API_KEY not set — no fallback')
   }
 
   return null
