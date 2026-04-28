@@ -83,7 +83,19 @@ export function PlayShell({
       <WalkthroughOverlay avatarClass={avatarClass} />
       
       {/* Dynamic Background */}
-      <div className="qf-ember-bg pointer-events-none" aria-hidden="true" />
+      <div className="qf-ember-bg pointer-events-none" aria-hidden="true">
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.12, zIndex: -1 }}>
+          <img
+            src="/images/lore/heartwood.png"
+            alt=""
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+          {/* Golden morning glow */}
+          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at top, rgba(201,168,76,0.15) 0%, transparent 70%)' }} />
+          {/* Bottom vignette */}
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #040812 0%, transparent 40%)' }} />
+        </div>
+      </div>
       <Embers count={6} />
 
       {/* Top bar */}

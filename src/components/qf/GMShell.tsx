@@ -141,9 +141,21 @@ export function GMShell({ children, householdName, displayName, weeklyBoss, user
       >
         Skip to content
       </a>
-
-      <div className="qf-ember-bg" aria-hidden="true" />
-      <Embers count={14} />
+      {/* Dynamic Background */}
+      <div className="qf-ember-bg pointer-events-none" aria-hidden="true">
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.12, zIndex: -1 }}>
+          <img
+            src={role === 'gm' ? "/images/lore/chronicle_map.png" : "/images/lore/heartwood.png"}
+            alt=""
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+          {/* Golden morning glow */}
+          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at top, rgba(201,168,76,0.15) 0%, transparent 70%)' }} />
+          {/* Bottom vignette */}
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #040812 0%, transparent 40%)' }} />
+        </div>
+      </div>
+      <Embers count={6} />
 
       {/* Topbar */}
       <header
@@ -466,18 +478,8 @@ export function GMShell({ children, householdName, displayName, weeklyBoss, user
         </aside>
 
         {/* Content */}
-        <main id="main-content" style={{ flex: 1, position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-          {/* Subtle thematic background */}
-          <div style={{ position: 'absolute', inset: 0, opacity: 0.05, pointerEvents: 'none', zIndex: -1 }}>
-            <img
-              src="/images/ui/quests_parchment.png"
-              alt=""
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
-          </div>
-          <div style={{ flex: 1, padding: isMobile ? 16 : 28, overflowY: 'auto', position: 'relative', zIndex: 1 }}>
-            {children}
-          </div>
+        <main id="main-content" style={{ flex: 1, padding: isMobile ? 16 : 28, overflow: 'auto', position: 'relative', zIndex: 1 }}>
+          {children}
         </main>
       </div>
     </div>
