@@ -264,7 +264,7 @@ export default function BossArena({ householdId }: BossArenaProps) {
         fontFamily: 'var(--font-body)', textAlign: 'center', position: 'relative',
         overflow: 'hidden',
       }}>
-        <CelebrationEffect />
+        <CelebrationEffect trigger={1} />
         
         <BossSprite key={bossState.chapterId} ref={spriteRef} config={bossState.boss.spriteConfig} />
 

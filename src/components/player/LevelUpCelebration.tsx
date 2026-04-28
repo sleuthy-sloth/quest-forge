@@ -78,7 +78,7 @@ export default function LevelUpCelebration({
         cursor: 'pointer',
       }}
     >
-      <CelebrationEffect />
+      <CelebrationEffect trigger={1} />
 
       <motion.div
         initial={{ scale: 0.5, opacity: 0 }}
