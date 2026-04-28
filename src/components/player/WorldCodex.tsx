@@ -537,7 +537,10 @@ export default function WorldCodex({ playerClass, level }: WorldCodexProps) {
         </div>
 
         {/* Section tabs */}
-        <div style={{ display: 'flex', gap: 4, overflowX: 'auto', paddingBottom: 0 }}>
+        <div 
+          className="flex gap-4 overflow-x-auto scrollbar-none pb-0"
+          style={{ paddingLeft: 16, paddingRight: 16 }}
+        >
           {SECTIONS.map(s => (
             <button
               key={s.id}
@@ -545,7 +548,7 @@ export default function WorldCodex({ playerClass, level }: WorldCodexProps) {
               style={{
                 flexShrink: 0,
                 display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
-                padding: '6px 10px 8px',
+                padding: '6px 4px 8px',
                 background: 'transparent',
                 border: 'none',
                 borderBottom: `2px solid ${section === s.id ? '#c9a84c' : 'transparent'}`,
@@ -554,8 +557,13 @@ export default function WorldCodex({ playerClass, level }: WorldCodexProps) {
                 transition: 'all 0.15s',
               }}
             >
-              <span style={{ fontSize: 16 }}>{s.icon}</span>
-              <span style={{ fontFamily: 'var(--font-pixel)', fontSize: 5, letterSpacing: '0.08em' }}>
+              <span style={{ fontSize: 16, opacity: section === s.id ? 1 : 0.5 }}>{s.icon}</span>
+              <span style={{ 
+                fontFamily: 'var(--font-pixel)', 
+                fontSize: 5, 
+                letterSpacing: '0.08em',
+                opacity: section === s.id ? 1 : 0.7 
+              }}>
                 {s.label.toUpperCase()}
               </span>
             </button>
