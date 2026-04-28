@@ -58,18 +58,45 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const supabase = createClient()
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
-        const currentUser = session?.user ?? null
-        setUser(currentUser)
-        if (currentUser) {
-          await fetchProfile(currentUser.id)
-        } else {
-          setProfile(null)
+    
+    // 1. Get initial session immediately
+    const initAuth = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
+        const initialUser = session?.user ?? null
+        setUser(initialUser)
+        if (initialUser) {
+          await fetchProfile(initialUser.id)
         }
+      } catch (err) {
+        console.error('[AuthContext] Initial auth error:', err)
+      } finally {
         setLoading(false)
       }
+    }
+    initAuth()
+
+    // 2. Listen for subsequent changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        const currentUser = session?.user ?? null
+        
+        // Only trigger profile fetch if the user actually changed
+        // (Prevents loops if onAuthStateChange fires on every token refresh)
+        setUser(prev => {
+          if (prev?.id === currentUser?.id) return prev
+          
+          if (currentUser) {
+            fetchProfile(currentUser.id).finally(() => setLoading(false))
+          } else {
+            setProfile(null)
+            setLoading(false)
+          }
+          return currentUser
+        })
+      }
     )
+
     return () => subscription.unsubscribe()
   }, [fetchProfile])
 
