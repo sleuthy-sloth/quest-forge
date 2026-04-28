@@ -193,7 +193,7 @@ export function useAcademy(
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ subject, age_tier: ageTier, count: 10 }),
-          signal: AbortSignal.timeout(15000),
+          signal: AbortSignal.timeout(30000),
         })
           .then(async (res) => {
             if (!res.ok) {
@@ -214,7 +214,7 @@ export function useAcademy(
         const params = new URLSearchParams({ age_tier: ageTier, count: '10' })
         if (subject) params.set('subject', subject)
         const res = await fetch(`/api/edu/challenges?${params.toString()}`, {
-          signal: AbortSignal.timeout(12000),
+          signal: AbortSignal.timeout(25000),
         })
         if (!res.ok) {
           console.error('[useAcademy] API route error:', res.status)
@@ -230,7 +230,7 @@ export function useAcademy(
     })()
 
     const overallTimeout: Promise<never> = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('timeout')), 16_000),
+      setTimeout(() => reject(new Error('timeout')), 32_000),
     )
 
     try {

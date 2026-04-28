@@ -4,6 +4,8 @@ import { createClient } from '@/lib/supabase/server'
 import { getAdminClient } from '@/lib/supabase/admin'
 import { generateEduChallenges, type EduSubject, type AgeTier } from '@/lib/ai/edu'
 
+export const maxDuration = 60;
+
 const SUBJECTS = ['math', 'reading', 'science', 'history', 'vocabulary', 'logic'] as const
 const AGE_TIERS = ['junior', 'senior'] as const
 
@@ -66,9 +68,10 @@ export async function POST(request: Request) {
   }
   console.log(`[edu/generate] providers: openrouter=${hasOpenRouter} gemini=${hasGemini} subject=${subject} tier=${age_tier}`)
 
-  // 12s timeout — OpenRouter (primary) + Gemini (fallback) both get a chance
+
+  // 25s timeout — OpenRouter (primary) + Gemini (fallback) both get a chance
   const timeoutPromise = new Promise<null>((resolve) =>
-    setTimeout(() => resolve(null), 12_000),
+    setTimeout(() => resolve(null), 25_000),
   )
   const generationPromise = generateEduChallenges(
     subject as EduSubject,
