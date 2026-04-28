@@ -100,12 +100,12 @@ export function useNotifications(userId: string | null, householdId: string | nu
             )
           }
           // Case B: Boss HP changed (only if it's currently active)
+          /* 
           else if (
             newChapter.boss_current_hp !== oldChapter.boss_current_hp &&
             newChapter.boss_current_hp !== null
           ) {
-            // We don't want to spam for every single point, but maybe for significant changes or just once
-            // For now, let's just dispatch it and let the listener decide
+            // Kid's don't need a notification popping up for every question answered that the boss received damage.
             window.dispatchEvent(
               new CustomEvent('qf:notification', {
                 detail: {
@@ -117,6 +117,7 @@ export function useNotifications(userId: string | null, householdId: string | nu
               })
             )
           }
+          */
         }
       )
       .subscribe()

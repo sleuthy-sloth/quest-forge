@@ -26,12 +26,12 @@ const TIER_DESCRIPTION: Record<AgeTier, string> = {
 }
 
 const SUBJECT_GUIDANCE: Record<EduSubject, string> = {
-  math:        'arithmetic, geometry, fractions, word problems — show the operation in the title',
-  reading:     'short reading passage (2–4 sentences) embedded in the question text itself, followed by a comprehension question — title is "Passage: <theme>"',
-  science:     'biology, chemistry, physics, earth science, astronomy — concept-level recall and applied reasoning',
-  history:     'world and US history from antiquity to the late 20th century — events, people, dates, causes',
-  vocabulary:  'definitions, synonyms, antonyms, usage in context — title is "Define: <word>"',
-  logic:       'pattern completion, deduction, sequences, simple set reasoning — no advanced math required',
+  math:        'arithmetic, geometry, fractions, word problems — focus on logical steps, not just recall',
+  reading:     'short reading passage (2–4 sentences) followed by a comprehension question that requires inference or detail recall',
+  science:     'biology, chemistry, physics, earth science — use precise scientific definitions (e.g., "dog" is an "animal", not just a "pet")',
+  history:     'world and US history — focus on significant events and cause-effect relationships',
+  vocabulary:  'definitions, synonyms, antonyms — use high-quality, unambiguous choices. Synonyms must be true synonyms (e.g., "cat" and "feline", not "cat" and "kitten"). Antonyms must be direct opposites (e.g., "hot" and "cold").',
+  logic:       'pattern completion, deduction, sequences — ensure there is only one logically sound answer.',
 }
 
 // Lower temperature for fact-based subjects, higher for creative passages.
@@ -63,7 +63,14 @@ For each question, return:
 - "explanation": one or two sentences explaining why the answer is correct
 - "xp_reward": integer 15–40 reflecting difficulty
 
-Vary difficulty across the set. No duplicate questions. No duplicate options within a question. Avoid topics that require visuals.
+Vary difficulty across the set. No duplicate questions. No duplicate options within a question. Avoid topics that require visuals. 
+
+CRITICAL: Ensure logical rigor. 
+- Definitions must be accurate (e.g., a "dog" is an "animal"). 
+- Synonyms must have near-identical meanings. 
+- Antonyms must be clear opposites (avoid "sun/night", use "day/night" or "hot/cold").
+- Distractors (wrong options) should be plausible but clearly incorrect to someone who knows the subject.
+- Avoid vague phrasing like "Which word replaces X?".
 
 Return JSON shaped EXACTLY:
 {"questions":[{"title":"...","question":"...","options":["a","b","c","d"],"correct_answer":"...","explanation":"...","xp_reward":25}, ...]}`
