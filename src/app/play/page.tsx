@@ -89,7 +89,7 @@ export default async function PlayerHomePage() {
     .eq('household_id', profile.household_id)
     .eq('is_unlocked', false)
     .gt('boss_current_hp', 0)
-    .order('week_number', { ascending: false })
+    .order('week_number', { ascending: true })
     .limit(1)
     .maybeSingle()
 

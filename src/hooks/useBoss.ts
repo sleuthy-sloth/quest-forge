@@ -97,7 +97,8 @@ export function useBoss(householdId: string | null) {
         .from('story_chapters')
         .select('*')
         .eq('household_id', householdId)
-        .order('week_number', { ascending: false })
+        .eq('is_unlocked', false)
+        .order('week_number', { ascending: true })
         .limit(1)
         .maybeSingle()
 

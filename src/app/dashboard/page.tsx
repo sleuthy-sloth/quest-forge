@@ -55,7 +55,8 @@ export default async function GMHomePage() {
       .from('story_chapters')
       .select('title, boss_name, boss_hp, boss_current_hp, week_number, chapter_number, is_unlocked')
       .eq('household_id', householdId)
-      .order('week_number', { ascending: false })
+      .eq('is_unlocked', false)
+      .order('week_number', { ascending: true })
       .limit(1)
       .maybeSingle(),
   ])
