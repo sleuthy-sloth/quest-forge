@@ -49,6 +49,9 @@ const DEFAULT_CONFIG: AvatarConfig = {
  * profile screen, leaderboard, etc.).
  */
 export default function AvatarPreview({ avatarConfig, size = 64, className }: Props) {
-  const config = (avatarConfig as AvatarConfig | null) ?? DEFAULT_CONFIG
+  // Ensure we fallback if it's null, undefined, or an empty object {}
+  const hasData = avatarConfig && Object.keys(avatarConfig).length > 0
+  const config = hasData ? (avatarConfig as AvatarConfig) : DEFAULT_CONFIG
+  
   return <SpriteCanvas config={config} size={size} className={className} />
 }
