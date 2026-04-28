@@ -453,6 +453,44 @@ export default function ChoresPage() {
             position: static !important;
           }
         }
+
+        /* ── chore card action buttons ── */
+        .ch-act-btn {
+          background: transparent;
+          border-radius: 2px;
+          font-family: var(--font-heading, 'Cinzel', serif);
+          font-size: 0.6rem;
+          font-weight: 600;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          padding: 0.35rem 0.7rem;
+          cursor: pointer;
+          white-space: nowrap;
+          transition: color 0.2s, border-color 0.2s, background 0.2s;
+          flex-shrink: 0;
+        }
+        .ch-act-edit {
+          border: 1px solid rgba(201,168,76,0.2);
+          color: rgba(201,168,76,0.55);
+        }
+        .ch-act-edit:hover {
+          color: rgba(201,168,76,0.9);
+          border-color: rgba(201,168,76,0.45);
+          background: rgba(201,168,76,0.06);
+        }
+        .ch-act-delete {
+          border: 1px solid rgba(220,80,80,0.2);
+          color: rgba(220,80,80,0.5);
+        }
+        .ch-act-delete:hover:not(:disabled) {
+          color: rgba(220,80,80,0.85);
+          border-color: rgba(220,80,80,0.45);
+          background: rgba(220,80,80,0.06);
+        }
+        .ch-act-delete:disabled {
+          opacity: 0.45;
+          cursor: not-allowed;
+        }
       `}</style>
 
       <PageHeader
@@ -659,17 +697,19 @@ export default function ChoresPage() {
 
                         {/* Actions */}
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', flexShrink: 0 }}>
-                          <PixelButton variant="secondary" size="sm" onClick={() => startEdit(chore)}>
+                          <button
+                            className="ch-act-btn ch-act-edit"
+                            onClick={() => startEdit(chore)}
+                          >
                             ✎ Edit
-                          </PixelButton>
-                          <PixelButton
-                            variant="danger"
-                            size="sm"
+                          </button>
+                          <button
+                            className="ch-act-btn ch-act-delete"
                             disabled={isDeactivating}
                             onClick={() => handleDeactivate(chore.id)}
                           >
                             {isDeactivating ? '…' : '✕ End'}
-                          </PixelButton>
+                          </button>
                         </div>
 
                       </div>
