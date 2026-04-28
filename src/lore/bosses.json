@@ -5,91 +5,104 @@
       "name": "The Ashwood Awakening",
       "region": "The Heartwood",
       "summary": "The Hollow stirs in the forest near Hearthhold. Something is corrupting the trees.",
-      "weeks": [1, 4]
+      "weeks": [1, 4],
+      "background": null
     },
     {
       "arc_number": 2,
       "name": "The Shattered Coast",
       "region": "The Shattered Coast",
       "summary": "A distress signal from the island settlement of Driftmere. The sea is turning gray.",
-      "weeks": [5, 8]
+      "weeks": [5, 8],
+      "background": null
     },
     {
       "arc_number": 3,
       "name": "The Ironspine Depths",
       "region": "The Ironspine Mountains",
       "summary": "The Forgekin send word: something is poisoning the Ember Veins beneath the mountains.",
-      "weeks": [9, 12]
+      "weeks": [9, 12],
+      "background": null
     },
     {
       "arc_number": 4,
       "name": "The Dustmere Crossing",
       "region": "The Dustmere Plains",
       "summary": "The Cinderstag herds are vanishing. The nomad clans are frightened.",
-      "weeks": [13, 16]
+      "weeks": [13, 16],
+      "background": null
     },
     {
       "arc_number": 5,
       "name": "The Underbright Descent",
       "region": "The Underbright",
       "summary": "The Emberbearers venture underground to find the source of the Hollow. Fungal horrors, crystal golems, and a sentient darkness await.",
-      "weeks": [17, 20]
+      "weeks": [17, 20],
+      "background": null
     },
     {
       "arc_number": 6,
       "name": "The Siege of Hearthhold",
       "region": "The Heartwood",
       "summary": "The Hollow attacks home. Defensive battles, tough choices, and a traitor within the village.",
-      "weeks": [21, 24]
+      "weeks": [21, 24],
+      "background": null
     },
     {
       "arc_number": 7,
       "name": "The Ember Forge",
       "region": "The Ironspine Mountains",
       "summary": "The Emberbearers learn to reforge their Embershards into more powerful forms. Trials of character.",
-      "weeks": [25, 28]
+      "weeks": [25, 28],
+      "background": null
     },
     {
       "arc_number": 8,
       "name": "The Ashen Court",
       "region": "The Ashlands",
       "summary": "The Hollow has a hierarchy. Political intrigue among creatures of darkness. Not all of them want the world to end.",
-      "weeks": [29, 32]
+      "weeks": [29, 32],
+      "background": null
     },
     {
       "arc_number": 9,
       "name": "The Memory Sea",
       "region": "Various (historical)",
       "summary": "A journey through Embervale's past. Historical settings and ancient truths.",
-      "weeks": [33, 36]
+      "weeks": [33, 36],
+      "background": null
     },
     {
       "arc_number": 10,
       "name": "The Emberbearers' Trial",
       "region": "Various",
       "summary": "A challenge that forces the players to work independently before reuniting stronger.",
-      "weeks": [37, 40]
+      "weeks": [37, 40],
+      "background": null
     },
     {
       "arc_number": 11,
       "name": "The Hollow King's Generals",
       "region": "The Ashlands",
       "summary": "Four powerful bosses representing Apathy, Ignorance, Discord, and Decay.",
-      "weeks": [41, 44]
+      "weeks": [41, 44],
+      "background": null
     },
     {
       "arc_number": 12,
       "name": "The World Root",
       "region": "The Underbright (deepest level)",
       "summary": "Descent to the source of the Emberlight. Revelations about what Embervale truly is.",
-      "weeks": [45, 48]
+      "weeks": [45, 48],
+      "background": null
     },
     {
       "arc_number": 13,
       "name": "The Hollow King",
       "region": "The Ashlands / The World Root",
       "summary": "The final confrontation. A multi-week boss with escalating difficulty.",
-      "weeks": [49, 52]
+      "weeks": [49, 52],
+      "background": null
     }
   ],
   "bosses": [

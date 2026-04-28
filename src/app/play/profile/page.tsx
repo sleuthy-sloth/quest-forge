@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 import { SignOutButton } from '@/components/play/SignOutButton'
 import AvatarPreview from '@/components/avatar/AvatarPreview'
@@ -242,11 +243,21 @@ export default async function ProfilePage() {
                 }}
               />
             ))}
-            <AvatarPreview
-              avatarConfig={profile.avatar_config as Record<string, unknown> | null}
-              size={256}
-              className="block"
-            />
+            {classInfo?.portrait ? (
+              <Image
+                src={classInfo.portrait}
+                alt={classInfo.name}
+                fill
+                style={{ objectFit: 'cover' }}
+                priority
+              />
+            ) : (
+              <AvatarPreview
+                avatarConfig={profile.avatar_config as Record<string, unknown> | null}
+                size={256}
+                className="block"
+              />
+            )}
           </div>
 
           {/* Edit Appearance link */}

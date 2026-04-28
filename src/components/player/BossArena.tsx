@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useEffect, useState, useCallback } from 'react'
+import Image from 'next/image'
 import BossSprite, { type BossSpriteHandle } from '@/components/boss/BossSprite'
 import BossHPBar from '@/components/boss/BossHPBar'
 import { useBoss } from '@/hooks/useBoss'
@@ -14,6 +15,7 @@ interface LoreBoss {
   arc: number
   name: string
   weakness_flavor: string
+  victory_image?: string
 }
 
 interface LoreArc {
@@ -21,6 +23,7 @@ interface LoreArc {
   name: string
   region: string
   weeks: number[]
+  background?: string
 }
 
 const LORE_BOSSES = bossesRaw.bosses as LoreBoss[]
@@ -265,8 +268,24 @@ export default function BossArena({ householdId }: BossArenaProps) {
         overflow: 'hidden',
       }}>
         <CelebrationEffect trigger={1} />
-        
         <BossSprite key={bossState.chapterId} ref={spriteRef} config={bossState.boss.spriteConfig} />
+
+        {loreBoss?.victory_image && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2.5, duration: 2 }}
+            style={{ position: 'absolute', inset: 0, zIndex: 5 }}
+          >
+            <Image
+              src={loreBoss.victory_image}
+              alt="Victory Illustration"
+              fill
+              style={{ objectFit: 'cover' }}
+            />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #0a0a12 10%, transparent 60%)' }} />
+          </motion.div>
+        )}
 
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
@@ -408,5 +427,26 @@ export default function BossArena({ householdId }: BossArenaProps) {
     )
   }
 
-  return <>{Keyframes}{content}</>
+  return (
+    <div style={{ position: 'relative', width: '100%', minHeight: '100vh', background: '#0a0a12', overflow: 'hidden' }}>
+      {Keyframes}
+      
+      {bossState?.arc?.background && (
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.35, pointerEvents: 'none', zIndex: 0 }}>
+          <Image
+            src={bossState.arc.background}
+            alt=""
+            fill
+            style={{ objectFit: 'cover' }}
+            priority
+          />
+          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at center, transparent 0%, #0a0a12 90%)' }} />
+        </div>
+      )}
+      
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        {content}
+      </div>
+    </div>
+  )
 }

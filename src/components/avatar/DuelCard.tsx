@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import AvatarPreview from './AvatarPreview'
 import EnemyRenderer from './EnemyRenderer'
 import type { EncounterConfig } from '@/types/encounter'
@@ -189,26 +190,39 @@ export default function DuelCard({
 
         {/* Teacher side */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
-          <div
-            style={{
-              width: 64,
-              height: 64,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: `radial-gradient(circle, ${teacher.glow}33, transparent 70%)`,
-              border: `1px solid ${teacher.glow}66`,
-              filter: status === 'defeated' ? 'grayscale(0.7) brightness(0.55)' : 'none',
-            }}
-          >
-            <EnemyRenderer
-              enemy={enemy}
-              animationPreset={preset}
-              size={52}
-              autoAttack={status === 'current'}
-              autoAttackInterval={8000}
-            />
-          </div>
+            <div
+              style={{
+                width: 64,
+                height: 64,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: teacher.portrait 
+                  ? 'none'
+                  : `radial-gradient(circle, ${teacher.glow}33, transparent 70%)`,
+                border: `1px solid ${teacher.glow}66`,
+                filter: status === 'defeated' ? 'grayscale(0.7) brightness(0.55)' : 'none',
+                position: 'relative',
+                overflow: 'hidden',
+              }}
+            >
+              {teacher.portrait ? (
+                <Image
+                  src={teacher.portrait}
+                  alt={teacher.name}
+                  fill
+                  style={{ objectFit: 'cover' }}
+                />
+              ) : (
+                <EnemyRenderer
+                  enemy={enemy}
+                  animationPreset={preset}
+                  size={52}
+                  autoAttack={status === 'current'}
+                  autoAttackInterval={8000}
+                />
+              )}
+            </div>
           <div
             className="font-pixel"
             style={{
