@@ -103,7 +103,7 @@ function WorldSection() {
       <div style={{
         position: 'relative',
         width: '100%',
-        height: 220,
+        height: 380,
         marginBottom: 24,
         borderBottom: '1px solid rgba(201,168,76,0.3)',
       }}>
@@ -111,7 +111,7 @@ function WorldSection() {
           src="/images/ui/chronicle_map.png"
           alt="Map of Embervale"
           fill
-          style={{ objectFit: 'cover', objectPosition: 'center 30%', opacity: 0.8 }}
+          style={{ objectFit: 'cover', objectPosition: 'center', opacity: 0.8 }}
         />
         <div style={{
           position: 'absolute', inset: 0,
@@ -243,12 +243,12 @@ function ClassSection({ playerClass }: { playerClass: string | null }) {
           )}
 
           {/* Full-width hero banner */}
-          <div style={{ position: 'relative', width: '100%', height: 200 }}>
+          <div style={{ position: 'relative', width: '100%', height: 420 }}>
             <Image
               src={CLASS_IMAGES[cls.id as keyof typeof CLASS_IMAGES]}
               alt={cls.name}
               fill
-              style={{ objectFit: 'cover', objectPosition: 'center 20%' }}
+              style={{ objectFit: 'cover', objectPosition: 'center' }}
             />
             <div style={{
               position: 'absolute', inset: 0,
@@ -387,7 +387,7 @@ function HearthholdSection() {
       <div style={{
         position: 'relative',
         width: '100%',
-        height: 200,
+        height: 380,
         marginBottom: 24,
         borderBottom: '1px solid rgba(201,168,76,0.3)',
       }}>
@@ -395,7 +395,7 @@ function HearthholdSection() {
           src="/images/lore/heartwood.png"
           alt="Hearthhold"
           fill
-          style={{ objectFit: 'cover', opacity: 0.8 }}
+          style={{ objectFit: 'cover', objectPosition: 'center', opacity: 0.8 }}
         />
         <div style={{
           position: 'absolute', inset: 0,
@@ -491,8 +491,8 @@ function NPCSection() {
         overflow: 'hidden',
       }}>
         {/* NPC portrait banner */}
-        <div style={{ position: 'relative', height: 160, width: '100%' }}>
-          <Image src={NPC_IMAGES[npc.name]} alt={npc.name} fill style={{ objectFit: 'cover', objectPosition: 'center top' }} />
+        <div style={{ position: 'relative', height: 400, width: '100%' }}>
+          <Image src={NPC_IMAGES[npc.name]} alt={npc.name} fill style={{ objectFit: 'cover', objectPosition: 'center 20%' }} />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,28,46,1) 0%, transparent 60%)' }} />
           <div style={{ position: 'absolute', bottom: 16, left: 18, right: 18 }}>
             <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 24, color: '#f0e6c8', margin: '0 0 4px', textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>
@@ -566,8 +566,8 @@ function RegionsSection() {
         borderRadius: 8,
         overflow: 'hidden',
       }}>
-        <div style={{ position: 'relative', height: 180, width: '100%' }}>
-          <Image src={REGION_IMAGES[region.type]} alt={region.name} fill style={{ objectFit: 'cover' }} />
+        <div style={{ position: 'relative', height: 380, width: '100%' }}>
+          <Image src={REGION_IMAGES[region.type]} alt={region.name} fill style={{ objectFit: 'cover', objectPosition: 'center' }} />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,28,46,1) 0%, transparent 55%)' }} />
           <div style={{ position: 'absolute', bottom: 16, left: 18, right: 18 }}>
             <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 26, color: '#f0e6c8', margin: '0 0 4px', textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useEffect, useState, useImperativeHandle, forwardRef } from 'react'
+import Image from 'next/image'
 import AnimatedAvatar from '@/components/avatar/AnimatedAvatar'
 import BattleEffectsLayer from '@/components/games/BattleEffectsLayer'
 import type { EncounterConfig } from '@/types/encounter'
@@ -239,15 +240,29 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            background: `linear-gradient(180deg, ${enemy.glowColor}14 0%, #070910 60%)`,
             border: `1px solid ${enemy.glowColor}33`,
             borderLeft: `3px solid ${enemy.glowColor}`,
             borderRadius: '3px',
             padding: '10px',
             marginBottom: streak > 0 ? '0' : '12px',
             overflow: 'hidden',
+            minHeight: isMobile ? 140 : 180,
           }}
         >
+          {/* Background Layer */}
+          <div style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
+            <Image
+              src="/images/lore/heartwood.png"
+              alt=""
+              fill
+              style={{ objectFit: 'cover', opacity: 0.15 }}
+            />
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              background: `linear-gradient(180deg, ${enemy.glowColor}14 0%, #070910 80%)`,
+            }} />
+          </div>
           {/* ── Combat effects layer ── */}
           <BattleEffectsLayer
             playerAttackTick={playerAttackTick}

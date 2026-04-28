@@ -466,8 +466,18 @@ export function GMShell({ children, householdName, displayName, weeklyBoss, user
         </aside>
 
         {/* Content */}
-        <main id="main-content" style={{ flex: 1, padding: isMobile ? 16 : 28, overflow: 'auto' }}>
-          {children}
+        <main id="main-content" style={{ flex: 1, position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+          {/* Subtle thematic background */}
+          <div style={{ position: 'absolute', inset: 0, opacity: 0.05, pointerEvents: 'none', zIndex: -1 }}>
+            <img
+              src="/images/ui/quests_parchment.png"
+              alt=""
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          </div>
+          <div style={{ flex: 1, padding: isMobile ? 16 : 28, overflowY: 'auto', position: 'relative', zIndex: 1 }}>
+            {children}
+          </div>
         </main>
       </div>
     </div>

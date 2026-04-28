@@ -432,7 +432,7 @@ export default function BossArena({ householdId }: BossArenaProps) {
       {Keyframes}
       
       {loreArc?.background && (
-        <div style={{ position: 'absolute', inset: 0, opacity: 0.35, pointerEvents: 'none', zIndex: 0 }}>
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.55, pointerEvents: 'none', zIndex: 0 }}>
           <Image
             src={loreArc.background}
             alt=""

@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import Image from 'next/image'
 import MathArena from '@/components/games/MathArena'
 import { derivePlayerPreset } from '@/lib/constants/academy'
 
@@ -25,18 +26,33 @@ export default async function MathArenaPage() {
     <div
       style={{
         minHeight: '100vh',
-        background: 'linear-gradient(180deg, #0a0f1e 0%, #040812 100%)',
+        background: 'var(--qf-bg-void)',
         paddingBottom: '32px',
+        position: 'relative',
+        overflow: 'hidden',
       }}
     >
-      <MathArena
-        ageTier={ageTier}
-        householdId={profile.household_id}
-        playerId={user.id}
-        avatarConfig={profile.avatar_config as Record<string, unknown> | null}
-        displayName={profile.display_name}
-        playerPreset={playerPreset}
-      />
+      {/* Scenic Background */}
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none', opacity: 0.2 }}>
+        <Image
+          src="/images/lore/heartwood.png"
+          alt=""
+          fill
+          style={{ objectFit: 'cover' }}
+        />
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at center, transparent 0%, var(--qf-bg-void) 90%)' }} />
+      </div>
+
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <MathArena
+          ageTier={ageTier}
+          householdId={profile.household_id}
+          playerId={user.id}
+          avatarConfig={profile.avatar_config as Record<string, unknown> | null}
+          displayName={profile.display_name}
+          playerPreset={playerPreset}
+        />
+      </div>
     </div>
   )
 }
