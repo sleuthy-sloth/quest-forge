@@ -1,5 +1,4 @@
 import OpenAI from 'openai'
-import { GoogleGenerativeAI } from '@google/generative-ai'
 
 // ── Provider initialization ──────────────────────────────────────────────────
 
@@ -10,17 +9,10 @@ const openRouterClient = process.env.OPENROUTER_API_KEY
     })
   : null
 
-const geminiClient = process.env.GEMINI_API_KEY
-  ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
-  : null
-
-export const geminiModel = geminiClient
-  ? geminiClient.getGenerativeModel({ model: 'gemini-2.0-flash' })
-  : null
-
 // ── Constants ────────────────────────────────────────────────────────────────
 
-export const OPENROUTER_MODEL = 'google/gemini-2.0-flash-lite-preview-02-05:free'
+export const OPENROUTER_PRIMARY_MODEL = 'google/gemini-2.0-flash-lite-preview-02-05:free'
+export const OPENROUTER_FALLBACK_MODEL = 'meta-llama/llama-3.3-70b-instruct:free'
 
 // ── Chain-of-thought filtering ──────────────────────────────────────────
 
@@ -124,17 +116,13 @@ export interface GenerationPrompt {
 }
 
 /**
- * Generates text using Gemini Flash (primary) with OpenRouter Nemotron
- * fallback.  Returns null if both providers fail or are unavailable.
+ * Generates text using OpenRouter. Tries a fast primary model first, and
+ * falls back to a secondary model on the same provider if the first fails.
  *
- * **Provider rationale:**
- * - Gemini 2.0 Flash is the primary because it's much faster (2–4s vs 10+s)
- *   and avoids Vercel serverless function timeouts on the Hobby plan.
- * - OpenRouter Gemini Flash Lite (`google/gemini-2.0-flash-lite-preview-02-05:free`) is the
- *   fallback when the direct Gemini API is unavailable, fails, or has quota issues. This model
- *   is much faster than Nemotron 120B and reliably finishes under Vercel's 10s Hobby limit.
- * - The app-level daily rate limiter (`canMakeRequest` / `incrementUsage`)
- *   guards the combined budget.
+ * **Rationale:**
+ * - Using two OpenRouter free models avoids needing multiple API keys.
+ * - Primary: Gemini Flash Lite (extremely fast).
+ * - Fallback: Llama 3.3 70B (fast, capable alternative).
  */
 export async function generateWithFallback(
   prompt: GenerationPrompt
@@ -142,38 +130,17 @@ export async function generateWithFallback(
   const maxTokens = prompt.maxTokens ?? 200
   const temperature = prompt.temperature ?? 0.85
 
-  // ── Primary: Gemini Flash ──────────────────────────────────────────────────
-  if (geminiModel) {
-    try {
-      console.log('[ai] trying Gemini Flash (primary)...')
-      const result = await geminiModel.generateContent({
-        systemInstruction: prompt.system,
-        contents: [{ role: 'user', parts: [{ text: prompt.user }] }],
-        generationConfig: {
-          maxOutputTokens: maxTokens,
-          temperature,
-          topP: 0.95,
-        },
-      })
-      const text = stripThinking(result.response.text().trim())
-      if (text) {
-        console.log(`[ai] Gemini returned ${text.length} chars`)
-        return text
-      }
-      console.warn('[ai] Gemini returned empty response, trying OpenRouter')
-    } catch (err) {
-      console.warn('[ai] Gemini failed, trying OpenRouter:', err)
-    }
-  } else {
-    console.warn('[ai] GEMINI_API_KEY not set — skipping Gemini')
+  if (!openRouterClient) {
+    console.warn('[ai] OPENROUTER_API_KEY not set — cannot generate')
+    return null
   }
 
-  // ── Fallback: OpenRouter (Nemotron) ────────────────────────────────────────
-  if (openRouterClient) {
+  // Helper function to call OpenRouter with a specific model
+  const tryModel = async (model: string, isFallback = false): Promise<string | null> => {
     try {
-      console.log('[ai] trying OpenRouter Nemotron (fallback)...')
+      console.log(`[ai] trying OpenRouter ${isFallback ? 'fallback' : 'primary'} (${model})...`)
       const response = await openRouterClient.chat.completions.create({
-        model: OPENROUTER_MODEL,
+        model,
         messages: [
           { role: 'system', content: prompt.system },
           { role: 'user', content: prompt.user },
@@ -182,29 +149,35 @@ export async function generateWithFallback(
         temperature,
       })
       if (!response.choices?.length) {
-        console.warn('[ai] OpenRouter returned response without choices:', JSON.stringify(response).slice(0, 500))
-      } else {
-        const text = stripThinking(response.choices[0]?.message?.content?.trim() ?? '')
-        if (text) {
-          console.log(`[ai] OpenRouter returned ${text.length} chars`)
-          return text
-        }
-        console.warn('[ai] OpenRouter returned empty response')
+        console.warn(`[ai] OpenRouter returned response without choices for ${model}:`, JSON.stringify(response).slice(0, 500))
+        return null
       }
+      const text = stripThinking(response.choices[0]?.message?.content?.trim() ?? '')
+      if (text) {
+        console.log(`[ai] OpenRouter (${model}) returned ${text.length} chars`)
+        return text
+      }
+      console.warn(`[ai] OpenRouter (${model}) returned empty parsed response`)
+      return null
     } catch (err: unknown) {
       const status = (err as { status?: number }).status
       if (status === 404) {
-        console.warn(
-          `[ai] OpenRouter model "${OPENROUTER_MODEL}" not found (404). ` +
-          `Check the model slug at https://openrouter.ai/models`,
-        )
+        console.warn(`[ai] OpenRouter model "${model}" not found (404).`)
       } else {
-        console.warn('[ai] OpenRouter failed:', err)
+        console.warn(`[ai] OpenRouter failed for ${model}:`, err)
       }
+      return null
     }
-  } else {
-    console.warn('[ai] OPENROUTER_API_KEY not set — no fallback')
   }
+
+  // ── Primary ────────────────────────────────────────────────────────────────
+  const primaryResult = await tryModel(OPENROUTER_PRIMARY_MODEL, false)
+  if (primaryResult) return primaryResult
+
+  // ── Fallback ───────────────────────────────────────────────────────────────
+  console.log('[ai] Primary model failed, trying fallback...')
+  const fallbackResult = await tryModel(OPENROUTER_FALLBACK_MODEL, true)
+  if (fallbackResult) return fallbackResult
 
   return null
 }

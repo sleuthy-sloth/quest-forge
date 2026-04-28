@@ -68,12 +68,11 @@ export async function POST(request: Request) {
 
     // Log which AI providers are configured on each request for debuggability
     const hasOpenRouter = !!process.env.OPENROUTER_API_KEY
-    const hasGemini     = !!process.env.GEMINI_API_KEY
-    if (!hasOpenRouter && !hasGemini) {
+    if (!hasOpenRouter) {
       console.warn('[edu/generate] No AI provider configured — returning empty for DB fallback')
       return NextResponse.json({ questions: [] })
     }
-    console.log(`[edu/generate] ▶ providers: openrouter=${hasOpenRouter} gemini=${hasGemini} subject=${subject} tier=${age_tier} count=${count} +${Date.now() - t0}ms`)
+    console.log(`[edu/generate] ▶ providers: openrouter=${hasOpenRouter} subject=${subject} tier=${age_tier} count=${count} +${Date.now() - t0}ms`)
 
     // ── Generate ─────────────────────────────────────────────────────────────
     // 20s timeout — generous for 5 questions
