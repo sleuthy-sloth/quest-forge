@@ -31,6 +31,9 @@ const crimsonText = Crimson_Text({
 export const metadata: Metadata = {
   title: 'Quest Forge: The Emberlight Chronicles',
   description: 'A fantasy RPG adventure where real-world chores and learning earn XP, unlock stories, and defeat bosses.',
+  icons: {
+    icon: '/favicon.png',
+  },
 }
 
 export default function RootLayout({

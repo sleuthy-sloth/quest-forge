@@ -54,6 +54,12 @@ body {
   font-size: 1rem;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  animation: fade-in 0.8s ease-out;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 /* ── Pixel art rendering ─────────────────────────────────── */
@@ -65,9 +71,13 @@ canvas.pixel,
 }
 
 /* ── Scrollbar ───────────────────────────────────────────── */
-::-webkit-scrollbar              { width: 6px; }
-::-webkit-scrollbar-track        { background: var(--bg-deep); }
-::-webkit-scrollbar-thumb        { background: var(--gold-600); border-radius: 3px; }
+::-webkit-scrollbar              { width: 8px; }
+::-webkit-scrollbar-track        { background: var(--bg-void); }
+::-webkit-scrollbar-thumb        { 
+  background: linear-gradient(180deg, var(--gold-600), var(--gold-500));
+  border: 2px solid var(--bg-void);
+  border-radius: 4px; 
+}
 ::-webkit-scrollbar-thumb:hover  { background: var(--gold-400); }
 
 /* ── Typography helpers ──────────────────────────────────── */

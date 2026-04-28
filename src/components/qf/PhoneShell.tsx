@@ -246,10 +246,11 @@ export function PhoneShell({
                     top: -8,
                     left: '50%',
                     transform: 'translateX(-50%)',
-                    width: 24,
+                    width: 32,
                     height: 2,
                     background: 'var(--qf-gold-400)',
-                    boxShadow: '0 0 8px var(--qf-gold-400)',
+                    boxShadow: '0 0 12px var(--qf-gold-400)',
+                    borderRadius: 1,
                   }}
                   aria-hidden="true"
                 />
@@ -260,8 +261,10 @@ export function PhoneShell({
                 style={{
                   fontSize: 6,
                   color: active ? 'var(--qf-gold-300)' : 'var(--qf-parchment-muted)',
-                  letterSpacing: '0.1em',
+                  letterSpacing: '0.12em',
                   textTransform: 'uppercase',
+                  textShadow: active ? '0 0 8px rgba(201,168,76,0.3)' : 'none',
+                  transition: 'color 0.2s',
                 }}
               >
                 {t.label}
