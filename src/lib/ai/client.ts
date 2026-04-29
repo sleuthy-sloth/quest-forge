@@ -6,12 +6,16 @@ const openRouterClient = process.env.OPENROUTER_API_KEY
   ? new OpenAI({
       apiKey: process.env.OPENROUTER_API_KEY,
       baseURL: 'https://openrouter.ai/api/v1',
+      timeout: 20_000,
     })
   : null
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
-export const OPENROUTER_MODEL = 'openrouter/free'
+// Fast MoE: 3.8B active params, no default reasoning overhead.
+export const PRIMARY_MODEL = 'google/gemma-4-26b-a4b:free'
+// Dynamic routing to any available free model — used as fallback if primary fails.
+export const FALLBACK_MODEL = 'openrouter/free'
 
 /**
  * Strips reasoning / thinking blocks that various AI models emit alongside
@@ -136,12 +140,44 @@ export interface GenerationPrompt {
   temperature?: number
 }
 
+async function tryGenerate(model: string, prompt: GenerationPrompt): Promise<string | null> {
+  if (!openRouterClient) return null
+  try {
+    const response = await openRouterClient.chat.completions.create({
+      model,
+      messages: [
+        { role: 'system', content: prompt.system },
+        { role: 'user', content: prompt.user },
+      ],
+      max_tokens: prompt.maxTokens ?? 200,
+      temperature: prompt.temperature ?? 0.85,
+    })
+
+    if (!response.choices?.length) {
+      console.warn(`[ai] ${model} returned response without choices:`, JSON.stringify(response).slice(0, 500))
+      return null
+    }
+
+    const raw = response.choices[0]?.message?.content?.trim() ?? ''
+    const text = stripThinking(raw)
+    if (text) {
+      const actualModel = (response as unknown as { model?: string }).model ?? model
+      console.log(`[ai] OpenRouter (routed to ${actualModel}) returned ${text.length} chars`)
+      return text
+    }
+
+    console.warn(`[ai] ${model} returned empty parsed response`)
+    return null
+  } catch (err: unknown) {
+    console.warn(`[ai] ${model} failed:`, err)
+    return null
+  }
+}
+
 /**
- * Generates text via OpenRouter's free model router (`openrouter/free`).
- * OpenRouter automatically selects the best available free model for
- * each request, handling model availability and fallback internally.
- *
- * Returns null if the API key is missing or the call fails.
+ * Tries PRIMARY_MODEL first (fast MoE, pinned). Falls back to FALLBACK_MODEL
+ * (openrouter/free, dynamic routing) if the primary is unavailable or times out.
+ * Returns null if both fail — caller should use seeded DB content.
  */
 export async function generateWithFallback(
   prompt: GenerationPrompt
@@ -151,41 +187,11 @@ export async function generateWithFallback(
     return null
   }
 
-  const maxTokens = prompt.maxTokens ?? 200
-  const temperature = prompt.temperature ?? 0.85
+  const primary = await tryGenerate(PRIMARY_MODEL, prompt)
+  if (primary) return primary
 
-  try {
-    console.log(`[ai] calling OpenRouter (${OPENROUTER_MODEL})...`)
-    const response = await openRouterClient.chat.completions.create({
-      model: OPENROUTER_MODEL,
-      messages: [
-        { role: 'system', content: prompt.system },
-        { role: 'user', content: prompt.user },
-      ],
-      max_tokens: maxTokens,
-      temperature,
-    })
-
-    if (!response.choices?.length) {
-      console.warn('[ai] OpenRouter returned response without choices:', JSON.stringify(response).slice(0, 500))
-      return null
-    }
-
-    const raw = response.choices[0]?.message?.content?.trim() ?? ''
-    const text = stripThinking(raw)
-    if (text) {
-      // Log which model OpenRouter actually selected
-      const actualModel = (response as unknown as { model?: string }).model ?? 'unknown'
-      console.log(`[ai] OpenRouter (routed to ${actualModel}) returned ${text.length} chars`)
-      return text
-    }
-
-    console.warn('[ai] OpenRouter returned empty parsed response')
-    return null
-  } catch (err: unknown) {
-    console.warn('[ai] OpenRouter failed:', err)
-    return null
-  }
+  console.warn(`[ai] Primary model (${PRIMARY_MODEL}) failed — trying ${FALLBACK_MODEL}`)
+  return tryGenerate(FALLBACK_MODEL, prompt)
 }
 
 /**
