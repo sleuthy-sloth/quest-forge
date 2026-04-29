@@ -158,15 +158,24 @@ async function tryGenerate(model: string, prompt: GenerationPrompt): Promise<str
       return null
     }
 
-    const raw = response.choices[0]?.message?.content?.trim() ?? ''
+    const msg = response.choices[0]?.message
+    // Some reasoning models (o1-style, newer DeepSeek) put the final answer in
+    // `message.reasoning` instead of `message.content`.
+    const raw = (msg?.content ?? (msg as unknown as Record<string, unknown>)?.reasoning as string ?? '').trim()
+    const actualModel = (response as unknown as { model?: string }).model ?? model
+
+    if (!raw) {
+      console.warn(`[ai] ${model} → ${actualModel}: content and reasoning both empty. finish_reason=${response.choices[0]?.finish_reason} message keys=${Object.keys(msg ?? {}).join(',')}`)
+      return null
+    }
+
     const text = stripThinking(raw)
     if (text) {
-      const actualModel = (response as unknown as { model?: string }).model ?? model
       console.log(`[ai] OpenRouter (routed to ${actualModel}) returned ${text.length} chars`)
       return text
     }
 
-    console.warn(`[ai] ${model} returned empty parsed response`)
+    console.warn(`[ai] ${model} → ${actualModel}: stripThinking produced empty string (raw length=${raw.length}, first 200 chars: ${raw.slice(0, 200)})`)
     return null
   } catch (err: unknown) {
     console.warn(`[ai] ${model} failed:`, err)
