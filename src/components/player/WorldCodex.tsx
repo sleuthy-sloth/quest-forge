@@ -140,7 +140,7 @@ function WorldSection() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 20 }}>
           <div style={{ background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.2)', borderRadius: 6, padding: '16px 14px', textAlign: 'center' }}>
             <div style={{ marginBottom: 12 }}>
-              <img src="/images/ui/icons/icon_emberlight.png" alt="" style={{ width: 48, height: 48, objectFit: 'contain' }} />
+              <Image src="/images/ui/icons/icon_emberlight.png" alt="" width={48} height={48} style={{ objectFit: 'contain' }} />
             </div>
             <div style={{ fontFamily: 'var(--font-heading)', fontSize: 15, color: '#c9a84c', marginBottom: 6 }}>
               {WORLD.core_force}
@@ -151,7 +151,7 @@ function WorldSection() {
           </div>
           <div style={{ background: 'rgba(80,20,20,0.15)', border: '1px solid rgba(196,58,0,0.2)', borderRadius: 6, padding: '16px 14px', textAlign: 'center' }}>
             <div style={{ marginBottom: 12 }}>
-              <img src="/images/ui/icons/icon_hollow.png" alt="" style={{ width: 48, height: 48, objectFit: 'contain' }} />
+              <Image src="/images/ui/icons/icon_hollow.png" alt="" width={48} height={48} style={{ objectFit: 'contain' }} />
             </div>
             <div style={{ fontFamily: 'var(--font-heading)', fontSize: 15, color: '#ff8c42', marginBottom: 6 }}>
               {WORLD.core_threat}
@@ -316,7 +316,7 @@ function EmberShardSection({ level }: { level: number }) {
     <div style={{ padding: 20 }}>
       <div style={{ textAlign: 'center', marginBottom: 24 }}>
         <div style={{ marginBottom: 16 }}>
-          <img src="/images/ui/icons/icon_embershard.png" alt="" style={{ width: 80, height: 80, objectFit: 'contain' }} />
+          <Image src="/images/ui/icons/icon_embershard.png" alt="" width={80} height={80} style={{ objectFit: 'contain' }} />
         </div>
         <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 8, color: '#7a6a44', letterSpacing: '0.15em', marginBottom: 6 }}>
           YOUR EMBERSHARD
@@ -655,7 +655,7 @@ export default function WorldCodex({ playerClass, level }: WorldCodexProps) {
               }}
             >
               <span style={{ fontSize: 20, opacity: section === s.id ? 1 : 0.55 }}>
-                <img src={s.icon} alt="" style={{ width: 32, height: 32, objectFit: 'contain' }} />
+                <Image src={s.icon} alt="" width={32} height={32} style={{ objectFit: 'contain' }} />
               </span>
               <span style={{
                 fontFamily: 'var(--font-pixel)',

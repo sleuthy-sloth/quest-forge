@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import EnemyRenderer from './EnemyRenderer'
 import type { EncounterConfig } from '@/types/encounter'
 import type { TeacherDef } from '@/lib/constants/academy'
@@ -65,10 +66,11 @@ export default function NowDuelingCallout({ teacher, enemy, animationPreset }: N
           }}
         >
           {teacher.portrait ? (
-            <img
+            <Image
               src={teacher.portrait}
               alt={teacher.name}
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              fill
+              style={{ objectFit: 'cover' }}
             />
           ) : (
             <EnemyRenderer

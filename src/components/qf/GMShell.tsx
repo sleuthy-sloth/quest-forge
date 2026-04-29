@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect, useRef, type ReactNode } from 'react'
 import { signOut } from '@/app/actions/auth'
@@ -144,10 +145,11 @@ export function GMShell({ children, householdName, displayName, weeklyBoss, user
       {/* Dynamic Background */}
       <div className="qf-ember-bg pointer-events-none" aria-hidden="true">
         <div style={{ position: 'absolute', inset: 0, opacity: 0.18, zIndex: -1 }}>
-          <img
+          <Image
             src="/images/backgrounds/dashboard.png"
             alt=""
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            fill
+            style={{ objectFit: 'cover' }}
           />
           {/* Golden morning glow */}
           <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at top, rgba(201,168,76,0.15) 0%, transparent 70%)' }} />

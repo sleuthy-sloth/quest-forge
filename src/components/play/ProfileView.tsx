@@ -115,7 +115,7 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 }
 
 export default function ProfileView({
@@ -295,7 +295,7 @@ export default function ProfileView({
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${progressPct}%` }}
-              transition={{ duration: 1, ease: 'easeOut', delay: 0.5 }}
+              transition={{ duration: 1, delay: 0.5 }}
               className="qf-xp-fill"
               style={{ borderRadius: '7px' }}
             />
@@ -485,8 +485,7 @@ export default function ProfileView({
             transition={{
               duration: 5 + Math.random() * 5,
               repeat: Infinity,
-              delay: Math.random() * 5,
-              ease: 'linear'
+              delay: Math.random() * 5
             }}
             style={{
               position: 'absolute',

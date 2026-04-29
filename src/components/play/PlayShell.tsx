@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { signOut } from '@/app/actions/auth'
 import { playBgm } from '@/lib/audio'
@@ -85,10 +86,11 @@ export function PlayShell({
       {/* Dynamic Background */}
       <div className="qf-ember-bg pointer-events-none" aria-hidden="true">
         <div style={{ position: 'absolute', inset: 0, opacity: 0.18, zIndex: -1 }}>
-          <img
+          <Image
             src="/images/backgrounds/dashboard.png"
             alt=""
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            fill
+            style={{ objectFit: 'cover' }}
           />
           {/* Golden morning glow */}
           <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at top, rgba(201,168,76,0.15) 0%, transparent 70%)' }} />
@@ -211,7 +213,7 @@ export function PlayShell({
                       : 'hover:bg-white/5 border border-transparent'}`}
                 >
                   <span className="text-xl shrink-0" aria-hidden="true">
-                    <img src={item.icon} alt="" className="w-8 h-8 object-contain" />
+                    <Image src={item.icon} alt="" width={32} height={32} className="object-contain" />
                   </span>
                   <div>
                     <div className={`text-sm font-heading tracking-wide
