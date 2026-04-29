@@ -143,9 +143,9 @@ export function GMShell({ children, householdName, displayName, weeklyBoss, user
       </a>
       {/* Dynamic Background */}
       <div className="qf-ember-bg pointer-events-none" aria-hidden="true">
-        <div style={{ position: 'absolute', inset: 0, opacity: 0.12, zIndex: -1 }}>
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.18, zIndex: -1 }}>
           <img
-            src={role === 'gm' ? "/images/lore/chronicle_map.png" : "/images/lore/heartwood.png"}
+            src="/images/backgrounds/dashboard.png"
             alt=""
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />

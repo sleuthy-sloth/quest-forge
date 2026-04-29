@@ -47,7 +47,7 @@ export default function NowDuelingCallout({ teacher, enemy, animationPreset }: N
           NOW DUELING
         </div>
 
-        {/* Enemy avatar */}
+        {/* Enemy avatar / Portrait */}
         <div
           style={{
             marginTop: 14,
@@ -57,17 +57,28 @@ export default function NowDuelingCallout({ teacher, enemy, animationPreset }: N
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: `radial-gradient(circle, ${teacher.glow}22, transparent 70%)`,
+            background: teacher.portrait ? 'none' : `radial-gradient(circle, ${teacher.glow}22, transparent 70%)`,
             border: `1px solid ${teacher.glow}44`,
+            borderRadius: 4,
+            position: 'relative',
+            overflow: 'hidden',
           }}
         >
-          <EnemyRenderer
-            enemy={enemy}
-            animationPreset={animationPreset}
-            size={44}
-            autoAttack
-            autoAttackInterval={9000}
-          />
+          {teacher.portrait ? (
+            <img
+              src={teacher.portrait}
+              alt={teacher.name}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          ) : (
+            <EnemyRenderer
+              enemy={enemy}
+              animationPreset={animationPreset}
+              size={44}
+              autoAttack
+              autoAttackInterval={9000}
+            />
+          )}
         </div>
 
         {/* Info */}
