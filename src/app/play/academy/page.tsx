@@ -70,7 +70,7 @@ export default async function AcademyPage() {
   // Derive status for each teacher: defeated → current → available
   let foundCurrent = false
   const teacherStatuses = TEACHERS.map(t => {
-    if (completedSlugs.has(t.slug)) return 'defeated' as TeacherStatus
+    if (completedSlugs.has(t.slug)) return 'available' as TeacherStatus
     if (!foundCurrent) {
       foundCurrent = true
       return 'current' as TeacherStatus
