@@ -20,9 +20,10 @@ describe('BOSS_PALETTES', () => {
 })
 
 describe('BOSS_SPRITE_MANIFEST', () => {
-  it('all entries use sheet format', () => {
+  it('all entries use recognized formats', () => {
+    const validFormats = ['sheet', 'procedural']
     for (const [key, entry] of Object.entries(BOSS_SPRITE_MANIFEST)) {
-      expect(entry.format, `${key}.format`).toBe('sheet')
+      expect(validFormats, `${key}.format`).toContain(entry.format)
     }
   })
 
@@ -32,12 +33,22 @@ describe('BOSS_SPRITE_MANIFEST', () => {
     }
   })
 
-  it('every sheet entry has cellW and cellH', () => {
+  it('every sheet entry has valid dimensions', () => {
     for (const [key, entry] of Object.entries(BOSS_SPRITE_MANIFEST)) {
-      expect(entry.cellW, `${key}.cellW`).toBeGreaterThan(0)
-      expect(entry.cellH, `${key}.cellH`).toBeGreaterThan(0)
-      expect(entry.cols, `${key}.cols`).toBeGreaterThan(0)
-      expect(entry.rows, `${key}.rows`).toBeGreaterThan(0)
+      if (entry.format === 'sheet') {
+        expect(entry.cellW, `${key}.cellW`).toBeGreaterThan(0)
+        expect(entry.cellH, `${key}.cellH`).toBeGreaterThan(0)
+        expect(entry.cols, `${key}.cols`).toBeGreaterThan(0)
+        expect(entry.rows, `${key}.rows`).toBeGreaterThan(0)
+      }
+    }
+  })
+
+  it('procedural entries have empty basePath', () => {
+    for (const [key, entry] of Object.entries(BOSS_SPRITE_MANIFEST)) {
+      if (entry.format === 'procedural') {
+        expect(entry.basePath, `${key}.basePath`).toBe('')
+      }
     }
   })
 })
