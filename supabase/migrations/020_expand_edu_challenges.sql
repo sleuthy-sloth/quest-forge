@@ -3,7 +3,11 @@
 -- Expand edu_challenges (+600 questions)
 -- ============================================================
 
-INSERT INTO edu_challenges (title, subject, age_tier, difficulty, xp_reward, challenge_type, content, is_active) VALUES
+DO $$ 
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM edu_challenges WHERE title = '15 + 17' AND subject = 'math') THEN
+    INSERT INTO edu_challenges (title, subject, age_tier, difficulty, xp_reward, challenge_type, content, is_active) VALUES
+
 -- MATH JUNIOR (50)
 ('15 + 17', 'math', 'junior', 1, 20, 'quiz', '{"question": "What is 15 + 17?", "type": "multiple_choice", "options": ["31", "32", "33", "34"], "correct_answer": "32", "explanation": "15 + 17 = 32. Break it down: 10+10=20, 5+7=12. 20+12=32."}'::jsonb, true),
 ('28 - 9', 'math', 'junior', 1, 20, 'quiz', '{"question": "What is 28 - 9?", "type": "multiple_choice", "options": ["17", "18", "19", "20"], "correct_answer": "19", "explanation": "28 - 9 = 19. Subtract 10 and add 1!"}'::jsonb, true),
@@ -691,6 +695,9 @@ INSERT INTO edu_challenges (title, subject, age_tier, difficulty, xp_reward, cha
 ('Online Etiquette: Cyberbullying', 'life_skills', 'senior', 4, 45, 'quiz', '{"question": "What should you do if you see someone being bullied online?", "type": "multiple_choice", "options": ["Join in", "Ignore it completely", "Report it and offer support to the victim", "Post mean comments about the bully"], "correct_answer": "Report it and offer support to the victim", "explanation": "Being an upstander helps create a safer online community."}'::jsonb, true),
 ('Cooking: Boiling Water', 'life_skills', 'senior', 1, 20, 'quiz', '{"question": "At what temperature does water boil at sea level?", "type": "multiple_choice", "options": ["50°C / 122°F", "100°C / 212°F", "150°C / 302°F", "200°C / 392°F"], "correct_answer": "100°C / 212°F", "explanation": "Boiling point is the temperature where liquid turns to gas."}'::jsonb, true),
 ('Global Citizenship', 'life_skills', 'senior', 4, 45, 'quiz', '{"question": "What does it mean to be a global citizen?", "type": "multiple_choice", "options": ["To live in every country", "To understand and respect different cultures and global issues", "To only care about your own city", "To have a passport"], "correct_answer": "To understand and respect different cultures and global issues", "explanation": "Global citizens recognize their role in a wider world community."}'::jsonb, true);
+  END IF;
+END $$;
+
 
 
 

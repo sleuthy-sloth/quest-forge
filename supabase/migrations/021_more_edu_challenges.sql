@@ -3,7 +3,10 @@
 -- Expand educational challenges for new subjects.
 -- ============================================================
 
-INSERT INTO edu_challenges (title, subject, age_tier, difficulty, xp_reward, challenge_type, content, is_active) VALUES
+DO $$ 
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM edu_challenges WHERE title = 'World Capitals' AND subject = 'general_knowledge') THEN
+    INSERT INTO edu_challenges (title, subject, age_tier, difficulty, xp_reward, challenge_type, content, is_active) VALUES
 -- General Knowledge (Senior)
 ('World Capitals', 'general_knowledge', 'senior', 4, 35, 'quiz', '{"question": "What is the capital city of France?", "type": "multiple_choice", "options": ["London", "Berlin", "Paris", "Rome"], "correct_answer": "Paris", "explanation": "Paris is the capital and largest city of France."}'::jsonb, true),
 ('Oceanography', 'general_knowledge', 'senior', 3, 30, 'quiz', '{"question": "Which is the largest ocean on Earth?", "type": "multiple_choice", "options": ["Atlantic", "Indian", "Arctic", "Pacific"], "correct_answer": "Pacific", "explanation": "The Pacific Ocean covers about one-third of the Earth''s surface."}'::jsonb, true),
@@ -27,3 +30,6 @@ INSERT INTO edu_challenges (title, subject, age_tier, difficulty, xp_reward, cha
 ('Emotional Intelligence', 'life_skills', 'senior', 2, 25, 'quiz', '{"question": "Which of these is a key part of active listening?", "type": "multiple_choice", "options": ["Thinking about your reply", "Interrupting with questions", "Maintaining eye contact and summarizing", "Looking at your phone"], "correct_answer": "Maintaining eye contact and summarizing", "explanation": "Active listening involves fully concentrating on and understanding the speaker."}'::jsonb, true),
 ('Maintenance', 'life_skills', 'senior', 1, 20, 'quiz', '{"question": "How often should you test the batteries in your home smoke detectors?", "type": "multiple_choice", "options": ["Once a week", "Once a month", "Once a year", "Never"], "correct_answer": "Once a month", "explanation": "Monthly testing ensures that the detectors will work in case of a fire."}'::jsonb, true),
 ('Health: Burns', 'life_skills', 'senior', 2, 25, 'quiz', '{"question": "What is the first thing you should do for a minor thermal burn?", "type": "multiple_choice", "options": ["Apply butter", "Use ice directly", "Run cool water over it", "Pop any blisters"], "correct_answer": "Run cool water over it", "explanation": "Cool running water helps stop the burning process and soothe the skin. Never use ice or butter."}'::jsonb, true);
+  END IF;
+END $$;
+
