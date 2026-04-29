@@ -9,6 +9,7 @@ import {
   Coin,
 } from '@/components/qf'
 import AvatarPreview from '@/components/avatar/AvatarPreview'
+import NarrativeEditor from '@/components/dashboard/NarrativeEditor'
 
 function classKey(avatarClass: string | null): string {
   return (avatarClass ?? 'blazewarden').toLowerCase()
@@ -53,7 +54,7 @@ export default async function GMHomePage() {
 
     supabase
       .from('story_chapters')
-      .select('title, boss_name, boss_hp, boss_current_hp, week_number, chapter_number, is_unlocked')
+      .select('id, title, narrative_text, boss_name, boss_hp, boss_current_hp, week_number, chapter_number, is_unlocked')
       .eq('household_id', householdId)
       .eq('is_unlocked', false)
       .order('week_number', { ascending: true })
@@ -156,6 +157,18 @@ export default async function GMHomePage() {
           accent="var(--qf-gold-200)"
         />
       </div>
+
+      {/* Narrative Editor Section */}
+      {boss && (
+        <NarrativeEditor 
+          chapter={{
+            id: (boss as any).id,
+            title: boss.title,
+            narrative_text: (boss as any).narrative_text
+          }} 
+          players={players?.map(p => ({ id: p.id, display_name: p.display_name })) || []}
+        />
+      )}
 
       {/* Two cols: pending approvals + emberbearers */}
       <div className="dash-panels">

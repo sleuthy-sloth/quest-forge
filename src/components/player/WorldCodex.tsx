@@ -14,6 +14,8 @@ interface Region {
   description: string
   associated_arcs: number[]
   coords?: { x: number; y: number }
+  discovery_subject?: string
+  lore_fragments?: { threshold: number; text: string }[]
 }
 
 interface NPC {
@@ -44,9 +46,40 @@ interface ClassDef {
 
 // ── Static data ───────────────────────────────────────────────────────────────
 
-const WORLD = worldRaw as typeof worldRaw
-const CLASSES = classesRaw.classes as ClassDef[]
-const REGIONS = WORLD.regions as Region[]
+const WORLD_WITH_METADATA = {
+  ...WORLD,
+  regions: WORLD.regions.map(r => {
+    // Map discovery subjects to regions
+    const subjectMap: Record<string, string> = {
+      "The Ironspine Mountains": "math",
+      "The Shattered Coast": "science",
+      "The Heartwood": "reading",
+      "The Dustmere Plains": "history",
+      "The Underbright": "logic",
+      "The Ashlands": "overall"
+    }
+    
+    // Add lore fragments
+    const loreFragments: Record<string, { threshold: number; text: string }[]> = {
+      "The Ironspine Mountains": [
+        { threshold: 5, text: "The Forgekin once built a bridge of pure geometry across the Chasm of Prime." },
+        { threshold: 15, text: "Legend says the mountain itself is a dormant calculator of the cosmos." }
+      ],
+      "The Heartwood": [
+        { threshold: 5, text: "The Great Oak whispers stories of the first Emberbearers in a language of rustling leaves." },
+        { threshold: 15, text: "Deep within the grove, the Sap of Radiance flows like liquid sunlight." }
+      ]
+    }
+
+    return {
+      ...r,
+      discovery_subject: subjectMap[r.name],
+      lore_fragments: loreFragments[r.name] || []
+    }
+  })
+}
+
+const REGIONS = WORLD_WITH_METADATA.regions as Region[]
 const NPCS = WORLD.npcs as NPC[]
 const EMBER_STATES = WORLD.embershard_states as EmberState[]
 
@@ -600,9 +633,26 @@ function NPCSection() {
   )
 }
 
-function RegionsSection() {
+function RegionsSection({ eduCompletions = [], bossDefeats = [] }: { eduCompletions?: any[]; bossDefeats?: any[] }) {
   const [selected, setSelected] = useState<string>(REGIONS[0].name)
   const region = REGIONS.find(r => r.name === selected) ?? REGIONS[0]
+
+  // Calculate discovery status
+  const subjectCompletions = (region.discovery_subject === 'overall')
+    ? eduCompletions.length
+    : eduCompletions.filter((c: any) => c.edu_challenges?.subject === region.discovery_subject).length
+
+  const isDiscovered = region.name === "The Heartwood" || subjectCompletions > 0
+  const unlockedFragments = region.lore_fragments?.filter(f => subjectCompletions >= f.threshold) || []
+
+  // Bosses associated with this region's arcs
+  const regionBosses = bossDefeats.filter((b: any) => {
+    // This is a simplification; in a real app, we'd map boss IDs to arcs/regions
+    // For now, let's just show some based on name matching or placeholders
+    if (region.name === "The Ironspine Mountains" && b.boss_id.includes('giant')) return true
+    if (region.name === "The Heartwood" && b.boss_id.includes('treant')) return true
+    return false
+  })
 
   return (
     <div style={{ padding: 20 }}>
@@ -655,9 +705,75 @@ function RegionsSection() {
           </div>
         </div>
         <div style={{ padding: '18px 20px' }}>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, color: '#c0c8e0', lineHeight: 1.75, margin: 0 }}>
-            {region.description}
-          </p>
+          {!isDiscovered ? (
+            <div style={{ textAlign: 'center', padding: '2rem 1rem', background: 'rgba(0,0,0,0.3)', borderRadius: 8 }}>
+              <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>🔒</div>
+              <div style={{ fontFamily: 'var(--font-heading)', color: '#7a6a44', marginBottom: '0.5rem' }}>Region Undiscovered</div>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: '#5a4a2a' }}>
+                Complete {region.discovery_subject} trials in the Academy to unlock this region&apos;s lore.
+              </p>
+            </div>
+          ) : (
+            <>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, color: '#c0c8e0', lineHeight: 1.75, marginBottom: '1.5rem' }}>
+                {region.description}
+              </p>
+              
+              {unlockedFragments.length > 0 && (
+                <div style={{ marginTop: '1.5rem', borderTop: '1px solid rgba(201,168,76,0.1)', paddingTop: '1.5rem' }}>
+                  <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 8, color: '#c9a84c', letterSpacing: '0.1em', marginBottom: '1rem' }}>
+                    LORE FRAGMENTS UNLOCKED ({unlockedFragments.length})
+                  </div>
+                  {unlockedFragments.map((f, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      style={{ 
+                        padding: '12px 14px', 
+                        background: 'rgba(201,168,76,0.05)', 
+                        borderLeft: '2px solid #c9a84c',
+                        borderRadius: '0 4px 4px 0',
+                        marginBottom: '10px',
+                        fontFamily: 'var(--font-body)',
+                        fontSize: 13,
+                        color: '#b09a6e',
+                        lineHeight: 1.5,
+                        fontStyle: 'italic'
+                      }}
+                    >
+                      &ldquo;{f.text}&rdquo;
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+
+              {regionBosses.length > 0 && (
+                <div style={{ marginTop: '1.5rem', borderTop: '1px solid rgba(201,168,76,0.1)', paddingTop: '1.5rem' }}>
+                  <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 8, color: '#ff8c42', letterSpacing: '0.1em', marginBottom: '1rem' }}>
+                    LEGENDARY ENCOUNTERS ({regionBosses.length})
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: '10px' }}>
+                    {regionBosses.map((b: any, i: number) => (
+                      <div key={i} style={{ 
+                        padding: '10px', 
+                        background: 'rgba(255,140,66,0.05)', 
+                        border: '1px solid rgba(255,140,66,0.2)', 
+                        borderRadius: '4px',
+                        textAlign: 'center'
+                      }}>
+                        <div style={{ fontSize: '1.2rem', marginBottom: '4px' }}>⚔️</div>
+                        <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.5rem', color: '#ff8c42' }}>
+                          {b.boss_id.replace(/-/g, ' ').toUpperCase()}
+                        </div>
+                        <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>CONQUERED</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>
@@ -670,9 +786,17 @@ interface WorldCodexProps {
   playerClass: string | null
   level: number
   householdPlayers?: any[]
+  eduCompletions?: any[]
+  bossDefeats?: any[]
 }
 
-export default function WorldCodex({ playerClass, level, householdPlayers = [] }: WorldCodexProps) {
+export default function WorldCodex({ 
+  playerClass, 
+  level, 
+  householdPlayers = [],
+  eduCompletions = [],
+  bossDefeats = []
+}: WorldCodexProps) {
   const [section, setSection] = useState<Section>('world')
 
   function renderSection() {
@@ -682,7 +806,7 @@ export default function WorldCodex({ playerClass, level, householdPlayers = [] }
       case 'embershard': return <EmberShardSection level={level} />
       case 'hearthhold': return <HearthholdSection />
       case 'npcs':       return <NPCSection />
-      case 'regions':    return <RegionsSection />
+      case 'regions':    return <RegionsSection eduCompletions={eduCompletions} bossDefeats={bossDefeats} />
     }
   }
 

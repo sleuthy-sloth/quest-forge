@@ -29,12 +29,24 @@ export default async function WorldPage() {
     .eq('household_id', profile?.household_id ?? '')
     .eq('role', 'player')
 
+  const { data: eduCompletions } = await supabase
+    .from('edu_completions')
+    .select('edu_challenges(subject)')
+    .eq('player_id', user.id)
+
+  const { data: bossDefeats } = await supabase
+    .from('boss_defeats')
+    .select('boss_id')
+    .eq('household_id', profile?.household_id ?? '')
+
   return (
     <ZoneManager zone="hub">
       <WorldCodex
         playerClass={profile?.avatar_class ?? null}
         level={profile?.level ?? 1}
         householdPlayers={householdPlayers ?? []}
+        eduCompletions={eduCompletions ?? []}
+        bossDefeats={bossDefeats ?? []}
       />
     </ZoneManager>
   )

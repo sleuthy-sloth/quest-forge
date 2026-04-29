@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useQuestStore } from '@/store/useQuestStore'
 import type { ChapterRow } from '@/store/useQuestStore'
 import Image from 'next/image'
+import EpicScroll from '@/components/play/EpicScroll'
 import worldRaw from '@/lore/world.json'
 
 // ── Types ────────────────────────────────────────────────────────────────────
@@ -255,11 +256,19 @@ export default function ChronicleHall() {
   }
 
   return (
-    <div 
-      ref={scrollRef}
-      className="qf-shell overflow-y-auto scroll-smooth" 
-      style={{ background: '#0e0a14', height: '100vh' }}
     >
+      {/* Cinematic Narrative View */}
+      <EpicScroll 
+        beats={chapters.map(c => ({
+          id: c.id,
+          title: c.title,
+          text: c.narrative_text,
+          image: c.content_image_url || undefined,
+          isMilestone: true
+        }))}
+        progress={100} // This should eventually reflect the actual progress towards the next boss
+      />
+
       {/* Atmospheric Backgrounds */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 bg-[url('/images/ui/paper_texture.png')] opacity-[0.03] mix-blend-overlay" />
@@ -298,22 +307,7 @@ export default function ChronicleHall() {
         </div>
       </div>
 
-      {/* Main Scroll Content */}
-      <main className="relative z-10 w-full">
-        {chapters.map((chapter, idx) => (
-          <ChapterBlock key={chapter.id} chapter={chapter} />
-        ))}
-        
-        {/* End of Scroll Footer */}
-        <div className="py-24 text-center">
-          <div className="relative w-16 h-16 mx-auto mb-8 opacity-20 filter grayscale">
-            <Image src="/images/ui/icons/icon_world.png" alt="Quest Forge" fill className="object-contain" />
-          </div>
-          <p className="text-[#c9a84c]/40 font-mono text-[0.6rem] tracking-[0.5em] uppercase">
-            To be continued...
-          </p>
-        </div>
-      </main>
+      {/* The main scroll content is now inside EpicScroll above */}
 
       {/* Scroll indicator */}
       <motion.div 
