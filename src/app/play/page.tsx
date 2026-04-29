@@ -264,7 +264,7 @@ export default async function PlayerHomePage() {
               <div
                 style={{
                   position: 'relative',
-                  padding: '24px 24px 24px 160px',
+                  padding: '24px 24px 24px 200px',
                   background:
                     'linear-gradient(180deg, rgba(196,58,0,0.15) 0%, rgba(15,17,24,0.8) 100%), var(--qf-bg-card-alt)',
                   border: '1px solid var(--qf-ember-deep)',
@@ -278,7 +278,7 @@ export default async function PlayerHomePage() {
                   className="qf-boss-bob"
                   aria-hidden="true"
                 >
-                  <BossSprite config={{ ...bossConfig, scale: 0.45 }} />
+                  <BossSprite config={{ ...bossConfig, scale: 1.1 }} />
                 </div>
                 <div
                   className="font-pixel"
