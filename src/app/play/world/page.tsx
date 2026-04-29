@@ -22,7 +22,7 @@ export default async function WorldPage() {
   const { data: householdPlayers } = await supabase
     .from('profiles')
     .select('id, display_name, avatar_class, avatar_config, level, story_chapter')
-    .eq('household_id', profile?.household_id)
+    .eq('household_id', profile?.household_id ?? '')
     .eq('role', 'player')
 
   return (

@@ -159,7 +159,7 @@ function WorldSection({ householdPlayers = [] }: { householdPlayers?: any[] }) {
                 boxShadow: '0 0 15px rgba(201,168,76,0.3)'
               }}>
                 <AvatarPreview 
-                  config={p.avatar_config} 
+                  avatarConfig={p.avatar_config} 
                   className="w-full h-full"
                 />
               </div>
