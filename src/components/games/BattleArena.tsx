@@ -469,11 +469,12 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
                 style={{
                   fontFamily: 'var(--font-pixel)',
                   fontSize: '11px',
-                  color: '#c43a00',
-                  background: 'rgba(196,58,0,0.12)',
-                  border: '1px solid rgba(196,58,0,0.3)',
+                  color: '#ff4d00',
+                  background: 'rgba(196,58,0,0.25)',
+                  border: '1px solid rgba(196,58,0,0.6)',
                   borderRadius: '3px',
                   padding: '4px 8px',
+                  textShadow: '0 0 8px rgba(196,58,0,0.4)',
                 }}
               >
                 VS
@@ -528,7 +529,8 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
               style={{
                 fontFamily: 'var(--font-pixel)',
                 fontSize: '8px',
-                color: '#7a6a44',
+                color: '#d4c391',
+                textShadow: '0 1px 3px rgba(0,0,0,0.8)',
               }}
             >
               Q{questionIndex + 1} / {totalQuestions}
