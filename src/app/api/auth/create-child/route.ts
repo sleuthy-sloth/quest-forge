@@ -185,3 +185,43 @@ export async function PATCH(request: Request) {
 
   return NextResponse.json({ success: true })
 }
+
+// ── DELETE — Remove a player profile ─────────────────────────
+export async function DELETE(request: Request) {
+  const { error, status, profile, supabase } = await verifyGm()
+  if (error) return NextResponse.json({ error }, { status: status! })
+
+  const { searchParams } = new URL(request.url)
+  const playerId = searchParams.get('playerId')
+
+  if (!playerId) {
+    return NextResponse.json({ error: 'Player ID is required.' }, { status: 400 })
+  }
+
+  // Verify the target is a player in the GM's own household
+  const { data: playerProfile } = await supabase!
+    .from('profiles')
+    .select('id')
+    .eq('id', playerId)
+    .eq('household_id', profile!.household_id)
+    .eq('role', 'player')
+    .single()
+
+  if (!playerProfile) {
+    return NextResponse.json({ error: 'Player not found in your household.' }, { status: 404 })
+  }
+
+  const admin = getAdminClient()
+
+  // 1. Delete the Auth user (this will cascade delete the profile row due to FK + trigger, 
+  // or we do it explicitly if needed. In Supabase, deleting the auth user removes the user, 
+  // and if ON DELETE CASCADE is set on profiles.id -> auth.users.id, it works.)
+  const { error: deleteError } = await admin.auth.admin.deleteUser(playerId)
+
+  if (deleteError) {
+    console.error('[create-child DELETE] failed:', deleteError)
+    return NextResponse.json({ error: 'Could not delete player account.' }, { status: 500 })
+  }
+
+  return NextResponse.json({ success: true })
+}

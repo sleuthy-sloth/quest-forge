@@ -214,6 +214,30 @@ export default function PlayersPage() {
   const [renameTarget, setRenameTarget] = useState<string | null>(null)
   const [renameValue, setRenameValue] = useState('')
   const [renaming, setRenaming] = useState(false)
+  const [deleteTarget, setDeleteTarget] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
+
+  const handleDelete = async (playerId: string) => {
+    if (!confirm('Are you absolutely sure? This will permanently erase this adventurer and all their progress.')) {
+      setDeleteTarget(null)
+      return
+    }
+    setDeleting(true)
+    try {
+      const res = await fetch(`/api/auth/create-child?playerId=${playerId}`, { method: 'DELETE' })
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.error || 'Failed to delete player.')
+      }
+      setPlayers(prev => prev.filter(p => p.id !== playerId))
+      setDeleteTarget(null)
+    } catch (err: any) {
+      console.error('Failed to delete player:', err)
+      alert(err.message || 'Failed to delete player.')
+    } finally {
+      setDeleting(false)
+    }
+  }
 
   const fetchPlayers = useCallback(async () => {
     if (!householdId) {
@@ -602,13 +626,24 @@ export default function PlayersPage() {
                     </div>
 
                     {/* Reset button */}
-                    <button
-                      className={`reset-btn${resetTarget === player.id ? ' active' : ''}`}
-                      onClick={() => setResetTarget(resetTarget === player.id ? null : player.id)}
-                      aria-expanded={resetTarget === player.id}
-                    >
-                      {resetTarget === player.id ? '✕ Cancel' : '🔑 Reset PW'}
-                    </button>
+                    <div style={{ display: 'flex', gap: '0.4rem' }}>
+                      <button
+                        className={`reset-btn${resetTarget === player.id ? ' active' : ''}`}
+                        onClick={() => setResetTarget(resetTarget === player.id ? null : player.id)}
+                        aria-expanded={resetTarget === player.id}
+                      >
+                        {resetTarget === player.id ? '✕ Cancel' : '🔑 Reset PW'}
+                      </button>
+                      <button
+                        className="reset-btn"
+                        style={{ borderColor: 'rgba(220,80,80,0.2)', color: 'rgba(220,100,100,0.4)' }}
+                        onClick={() => handleDelete(player.id)}
+                        onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(220,80,80,0.5)'; e.currentTarget.style.color = 'rgba(220,100,100,0.85)'; }}
+                        onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(220,80,80,0.2)'; e.currentTarget.style.color = 'rgba(220,100,100,0.4)'; }}
+                      >
+                        🗑 Delete
+                      </button>
+                    </div>
                   </div>
 
                   {/* Inline reset form */}

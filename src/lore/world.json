@@ -101,12 +101,12 @@
     }
   ],
   "embershard_states": [
-    { "level_range": [1, 5], "name": "Dim Ember", "description": "A faintly glowing crystal. Warm to the touch." },
-    { "level_range": [6, 10], "name": "Steady Flame", "description": "The shard pulses with visible light. It hums when the Hollow is near." },
-    { "level_range": [11, 15], "name": "Bright Blaze", "description": "The shard projects light outward, illuminating dark places and weakening Hollow creatures." },
-    { "level_range": [16, 20], "name": "Radiant Core", "description": "The shard shapes itself to its bearer's class, taking on unique properties." },
-    { "level_range": [21, 25], "name": "Stormtide", "description": "The shard affects the environment — warming air, pushing back ash, calling sparks." },
-    { "level_range": [26, 30], "name": "Living Light", "description": "The shard becomes semi-sentient, occasionally acting on its own to protect its bearer." },
-    { "level_range": [31, 99], "name": "Hearthfire", "description": "The bearer doesn't carry the shard — they are the shard. Their presence alone pushes back the Hollow." }
+    { "level_range": [1, 5], "name": "Dim Ember", "description": "A faintly glowing crystal. Warm to the touch.", "icon": "/images/ui/icons/icon_embershard_dim.png" },
+    { "level_range": [6, 10], "name": "Steady Flame", "description": "The shard pulses with visible light. It hums when the Hollow is near.", "icon": "/images/ui/icons/icon_embershard_dim.png" },
+    { "level_range": [11, 15], "name": "Bright Blaze", "description": "The shard projects light outward, illuminating dark places and weakening Hollow creatures.", "icon": "/images/ui/icons/icon_embershard.png" },
+    { "level_range": [16, 20], "name": "Radiant Core", "description": "The shard shapes itself to its bearer's class, taking on unique properties.", "icon": "/images/ui/icons/icon_embershard.png" },
+    { "level_range": [21, 25], "name": "Stormtide", "description": "The shard affects the environment — warming air, pushing back ash, calling sparks.", "icon": "/images/ui/icons/icon_embershard.png" },
+    { "level_range": [26, 30], "name": "Living Light", "description": "The shard becomes semi-sentient, occasionally acting on its own to protect its bearer.", "icon": "/images/ui/icons/icon_embershard_radiant.png" },
+    { "level_range": [31, 99], "name": "Hearthfire", "description": "The bearer doesn't carry the shard — they are the shard. Their presence alone pushes back the Hollow.", "icon": "/images/ui/icons/icon_embershard_radiant.png" }
   ]
 }

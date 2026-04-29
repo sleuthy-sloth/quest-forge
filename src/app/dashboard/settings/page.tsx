@@ -126,18 +126,25 @@ export default async function SettingsPage() {
                 </div>
                 <span>{gm.display_name}</span>
               </div>
-              {gm.id === user.id && (
-                <span
-                  className="font-pixel"
-                  style={{
-                    fontSize: 6,
-                    color: 'var(--qf-gold-400)',
-                    letterSpacing: '0.1em',
-                  }}
-                >
-                  YOU
-                </span>
-              )}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                {gm.id === user.id ? (
+                  <span className="font-pixel" style={{ fontSize: 6, color: 'var(--qf-gold-400)', letterSpacing: '0.1em' }}>YOU</span>
+                ) : (
+                  <button
+                    onClick={async () => {
+                      if (confirm(`Remove ${gm.display_name} as a Game Master? They will lose all access to this household.`)) {
+                        const res = await fetch(`/api/gm/household?gmId=${gm.id}`, { method: 'DELETE' })
+                        if (res.ok) window.location.reload()
+                        else alert('Failed to remove GM.')
+                      }
+                    }}
+                    className="font-pixel"
+                    style={{ background: 'none', border: '1px solid rgba(220,80,80,0.3)', color: 'rgba(220,100,100,0.6)', fontSize: 6, padding: '2px 6px', borderRadius: 2, cursor: 'pointer' }}
+                  >
+                    REMOVE
+                  </button>
+                )}
+              </div>
             </div>
           ))}
         </div>
@@ -175,9 +182,50 @@ export default async function SettingsPage() {
         </div>
       </div>
 
+      {/* Danger Zone */}
+      <PageDivider>Danger Zone</PageDivider>
+      <div className="qf-ornate-panel" style={{ padding: 18, border: '1px solid rgba(220,80,80,0.3)', background: 'rgba(220,60,60,0.03)' }}>
+        <div style={{ marginBottom: 18 }}>
+          <div className="font-pixel" style={{ fontSize: 7, color: 'rgba(220,100,100,0.8)', letterSpacing: '0.14em', marginBottom: 12 }}>
+            RESET STORY & PROGRESS
+          </div>
+          <p style={{ fontFamily: 'var(--font-heading), Cinzel, serif', fontSize: 12, color: 'var(--qf-parchment-dim)', fontStyle: 'italic', marginBottom: 14 }}>
+            Wipe all deeds, loot, and level progress for every adventurer in this household. The story will return to Chapter 1.
+          </p>
+          <button
+            onClick={async () => {
+              if (confirm('ARE YOU SURE? This will permanently erase ALL player progress and reset the story. This cannot be undone.')) {
+                const res = await fetch('/api/gm/household', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ action: 'reset_progress' })
+                })
+                if (res.ok) {
+                  alert('The chronicles have been reset.')
+                  window.location.reload()
+                } else {
+                  alert('Failed to reset progress.')
+                }
+              }
+            }}
+            className="font-pixel"
+            style={{
+              background: 'rgba(220,60,60,0.1)',
+              border: '1px solid rgba(220,80,80,0.4)',
+              borderRadius: 2,
+              color: 'rgba(220,100,100,0.85)',
+              fontSize: 8,
+              padding: '0.6rem 1rem',
+              cursor: 'pointer',
+              letterSpacing: '0.05em'
+            }}
+          >
+            RESET WORLD PROGRESS
+          </button>
+        </div>
       {/* About & legal */}
       <PageDivider>About</PageDivider>
-      <div className="qf-ornate-panel" style={{ padding: 18 }}>
+      <div className="qf-ornate-panel" style={{ padding: 18, marginBottom: 40 }}>
         <Link
           href="/dashboard/settings/about"
           style={{
@@ -194,15 +242,7 @@ export default async function SettingsPage() {
         >
           <span>◆</span>
           <span>Credits &amp; Art Attribution</span>
-          <span
-            style={{
-              marginLeft: 'auto',
-              fontSize: 11,
-              opacity: 0.45,
-            }}
-          >
-            ›
-          </span>
+          <span style={{ marginLeft: 'auto', fontSize: 11, opacity: 0.45 }}>›</span>
         </Link>
         {[
           { label: 'Version', value: 'Phase 4' },

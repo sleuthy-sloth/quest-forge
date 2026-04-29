@@ -25,6 +25,7 @@ interface EmberState {
   level_range: [number, number]
   name: string
   description: string
+  icon: string
 }
 
 interface ClassDef {
@@ -314,9 +315,15 @@ function EmberShardSection({ level }: { level: number }) {
 
   return (
     <div style={{ padding: 20 }}>
-      <div style={{ textAlign: 'center', marginBottom: 24 }}>
-        <div style={{ marginBottom: 16 }}>
-          <Image src="/images/ui/icons/icon_embershard.png" alt="" width={80} height={80} style={{ objectFit: 'contain' }} />
+      <div style={{ textAlign: 'center', marginBottom: 24, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'center' }}>
+          <Image 
+            src={current.icon || "/images/ui/icons/icon_embershard.png"} 
+            alt={current.name} 
+            width={120} 
+            height={120} 
+            style={{ objectFit: 'contain' }} 
+          />
         </div>
         <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 8, color: '#7a6a44', letterSpacing: '0.15em', marginBottom: 6 }}>
           YOUR EMBERSHARD
