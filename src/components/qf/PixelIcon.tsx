@@ -13,6 +13,8 @@ type PixelIconId =
   | 'photo'
   | 'check'
   | 'shard'
+  | 'globe'
+  | 'heart'
 
 interface PixelIconProps {
   id: PixelIconId
@@ -168,6 +170,27 @@ export function PixelIcon({ id, size = 20, color = 'var(--qf-gold-300)' }: Pixel
             strokeWidth="0.5"
           />
           <polygon points="8,1 11,6 8,8 5,6" fill="#fff8e7" opacity="0.5" />
+        </svg>
+      )
+    case 'globe':
+      return (
+        <svg style={s} viewBox="0 0 16 16" aria-hidden="true">
+          <circle cx="8" cy="8" r="7" fill={color} opacity="0.2" />
+          <circle cx="8" cy="8" r="7" stroke={color} strokeWidth="1" fill="none" />
+          <path d="M8,1 A7,7 0 0,1 8,15 M1,8 A7,7 0 0,1 15,8" stroke={color} strokeWidth="0.5" fill="none" opacity="0.5" />
+          <path d="M4,4 Q6,6 4,10 M12,4 Q10,6 12,10" stroke={color} strokeWidth="0.5" fill="none" opacity="0.5" />
+          <rect x="6" y="5" width="4" height="3" fill={color} opacity="0.6" rx="1" />
+          <rect x="4" y="9" width="3" height="2" fill={color} opacity="0.4" rx="1" />
+        </svg>
+      )
+    case 'heart':
+      return (
+        <svg style={s} viewBox="0 0 16 16" aria-hidden="true">
+          <path
+            d="M8,14 L7,13 C3,9 1,7 1,4.5 A3.5,3.5 0 0,1 4.5,1 A3.5,3.5 0 0,1 8,4.5 A3.5,3.5 0 0,1 11.5,1 A3.5,3.5 0 0,1 15,4.5 C15,7 13,9 9,13 L8,14 Z"
+            fill={color}
+          />
+          <path d="M4,4 L6,4 L6,6 L4,6 Z" fill="rgba(255,255,255,0.3)" />
         </svg>
       )
     default:

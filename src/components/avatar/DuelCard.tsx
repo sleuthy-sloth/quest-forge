@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import AvatarPreview from './AvatarPreview'
 import EnemyRenderer from './EnemyRenderer'
+import { PixelIcon } from '../qf/PixelIcon'
 import type { EncounterConfig } from '@/types/encounter'
 import type { TeacherDef, TeacherStatus } from '@/lib/constants/academy'
 import { TEACHER_STATUS_STYLE, SLUG_PRESET } from '@/lib/constants/academy'
@@ -26,15 +27,15 @@ interface DuelCardProps {
 // ── Subject icons ─────────────────────────────────────────────────────────────
 
 const SUBJECT_ICONS: Record<string, string> = {
-  'Math Arena':        '⚡',
-  'Reading Tome':      '📖',
-  'Science Labyrinth': '🔬',
-  'History Scroll':    '📜',
-  'Vocab Duel':        '💬',
-  'Logic Gate':        '🧩',
-  'Word Forge':        '✍️',
-  'General Knowledge': '🌍',
-  'Life Skills':       '🌱',
+  'Math Arena':        'sword',
+  'Reading Tome':      'scroll',
+  'Science Labyrinth': 'flask',
+  'History Scroll':    'scroll',
+  'Vocab Duel':        'book',
+  'Logic Gate':        'circuit',
+  'Word Forge':        'hammer',
+  'General Knowledge': 'globe',
+  'Life Skills':       'heart',
 }
 
 // ── Corners helper ────────────────────────────────────────────────────────────
@@ -115,7 +116,6 @@ export default function DuelCard({
     : status === 'defeated'  ? `+ XP CLAIMED`
     : 'DEFEAT PRIOR FOE'
 
-  const subjectIcon = SUBJECT_ICONS[teacher.subject] ?? '⚔'
   const spriteSize = status === 'current' ? 96 : 80
 
   const inner = (
@@ -150,7 +150,7 @@ export default function DuelCard({
         {/* Subject icon + label row */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: status === 'current' ? 22 : 18 }}>{subjectIcon}</span>
+            <PixelIcon id={(SUBJECT_ICONS[teacher.subject] || 'star') as any} size={status === 'current' ? 24 : 18} color={teacher.glow} />
             <span
               className="font-pixel"
               style={{ fontSize: status === 'current' ? 9 : 8, color: teacher.glow, letterSpacing: '0.15em' }}
