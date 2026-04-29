@@ -44,7 +44,7 @@ IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'purchases
     p.household_id, 
     p.player_id, 
     p.item_id, 
-    CASE WHEN p.redeemed THEN 'redeemed'::text ELSE 'pending'::text END,
+    CASE WHEN p.redeemed THEN 'redeemed'::redemption_status ELSE 'pending'::redemption_status END,
     p.purchased_at,
     p.redeemed_at
   FROM purchases p
@@ -321,7 +321,7 @@ BEGIN
   -- Insert into redemptions (transaction log)
   INSERT INTO redemptions (household_id, player_id, reward_id, gold_cost_paid, xp_cost_paid, status)
   VALUES (v_player.household_id, p_player_id, v_reward.id, v_reward.cost_gold, v_reward.cost_xp, 
-    CASE WHEN v_reward.category = 'cosmetic' THEN 'redeemed' ELSE 'pending' END)
+    CASE WHEN v_reward.category = 'cosmetic' THEN 'redeemed'::redemption_status ELSE 'pending'::redemption_status END)
   RETURNING id INTO v_red_id;
 
   -- If it's a cosmetic or item, also add to inventory
