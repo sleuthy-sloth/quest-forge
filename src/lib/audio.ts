@@ -2,8 +2,8 @@ import { Howl, Howler } from 'howler'
 import { useAudioStore } from '@/store/useAudioStore'
 
 // ── Types ─────────────────────────────────────────────────────
-export type BgmTrack = 'hub' | 'academy' | 'boss'
-export type SfxName  = 'victory' | 'coin' | 'attack' | 'click'
+export type BgmTrack = 'hub' | 'academy' | 'boss' | 'victory' | 'tavern'
+export type SfxName  = 'victory' | 'coin' | 'attack' | 'click' | 'level_up' | 'impact'
 
 // ── URL resolver ──────────────────────────────────────────────
 const BASE = (process.env.NEXT_PUBLIC_SPRITE_BASE_URL ?? '/sprites').replace(/\/$/, '')
@@ -32,9 +32,11 @@ function audioUrl(filename: string, mode: 'base' | 'root' | 'sprites' = 'root'):
 
 // ── Track configs ─────────────────────────────────────────────
 const BGM_FILES: Record<BgmTrack, string> = {
-  hub:    'bgm_hub.mp3',
+  hub:     'bgm_hub.mp3',
   academy: 'bgm_academy.mp3',
-  boss:   'bgm_boss.mp3',
+  boss:    'bgm_boss.mp3',
+  victory: 'bgm_victory.mp3',
+  tavern:  'bgm_tavern.mp3',
 }
 
 const SFX_FILES: Record<SfxName, string> = {
@@ -42,14 +44,16 @@ const SFX_FILES: Record<SfxName, string> = {
   coin:     'sfx_coin.mp3',
   attack:   'sfx_attack.mp3',
   click:    'sfx_click.mp3',
+  level_up: 'sfx_level_up.mp3',
+  impact:   'sfx_impact.mp3',
 }
 
 // ── Singleton state ───────────────────────────────────────────
 let unlocked = false
 let currentBgm: BgmTrack | null = null
 let currentBgmId: number | null = null
-let bgmInstances: Record<BgmTrack, Howl | null> = { hub: null, academy: null, boss: null }
-let sfxInstances: Record<SfxName, Howl | null> = { victory: null, coin: null, attack: null, click: null }
+let bgmInstances: Record<BgmTrack, Howl | null> = { hub: null, academy: null, boss: null, victory: null, tavern: null }
+let sfxInstances: Record<SfxName, Howl | null> = { victory: null, coin: null, attack: null, click: null, level_up: null, impact: null }
 let globalMuted = false
 
 // ── Procedural audio fallback ─────────────────────────────────
@@ -68,15 +72,17 @@ interface ProcBgmNodes {
   harmGain: GainNode
 }
 let procBgmNodes: Record<BgmTrack, ProcBgmNodes | null> = {
-  hub: null, academy: null, boss: null,
+  hub: null, academy: null, boss: null, victory: null, tavern: null,
 }
 let procBgmPlaying: BgmTrack | null = null
 
 /** Mappings from BgmTrack to oscillator + gain parameters for procedural fallback */
 const PROC_BGM_PARAMS: Record<BgmTrack, { freq: number; type: OscillatorType; gain: number }> = {
-  hub:    { freq: 110, type: 'sine',     gain: 0.08 },
+  hub:     { freq: 110, type: 'sine',     gain: 0.08 },
   academy: { freq: 130, type: 'triangle', gain: 0.06 },
-  boss:   { freq: 82,  type: 'sawtooth', gain: 0.05 },
+  boss:    { freq: 82,  type: 'sawtooth', gain: 0.05 },
+  victory: { freq: 440, type: 'sine',     gain: 0.1 },
+  tavern:  { freq: 165, type: 'sine',     gain: 0.07 },
 }
 
 function startProceduralBgm(track: BgmTrack): void {
@@ -145,10 +151,12 @@ function stopProceduralBgm(): void {
 
 // ── Procedural SFX fallback ───────────────────────────────────
 const PROC_SFX_PARAMS: Record<SfxName, { freq: number; type: OscillatorType; duration: number; gain: number }> = {
-  victory: { freq: 880, type: 'sine',     duration: 0.4, gain: 0.15 },
-  coin:    { freq: 1320, type: 'triangle', duration: 0.12, gain: 0.1 },
-  attack:  { freq: 220, type: 'sawtooth', duration: 0.1,  gain: 0.08 },
-  click:   { freq: 660, type: 'square',   duration: 0.05, gain: 0.06 },
+  victory:  { freq: 880,  type: 'sine',     duration: 0.4,  gain: 0.15 },
+  coin:     { freq: 1320, type: 'triangle', duration: 0.12, gain: 0.1 },
+  attack:   { freq: 220,  type: 'sawtooth', duration: 0.1,  gain: 0.08 },
+  click:    { freq: 660,  type: 'square',   duration: 0.05, gain: 0.06 },
+  level_up: { freq: 1760, type: 'sine',     duration: 0.6,  gain: 0.12 },
+  impact:   { freq: 110,  type: 'sawtooth', duration: 0.15, gain: 0.1 },
 }
 
 function playProceduralSfx(name: SfxName): void {
@@ -394,8 +402,8 @@ export function _reset(): void {
   didSubscribe = false
   currentBgm = null
   currentBgmId = null
-  bgmInstances = { hub: null, academy: null, boss: null }
-  sfxInstances = { victory: null, coin: null, attack: null, click: null }
+  bgmInstances = { hub: null, academy: null, boss: null, victory: null, tavern: null }
+  sfxInstances = { victory: null, coin: null, attack: null, click: null, level_up: null, impact: null }
   globalMuted = false
   if (audioCtx) {
     audioCtx.close().catch(() => {})

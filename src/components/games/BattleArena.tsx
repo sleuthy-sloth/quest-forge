@@ -4,6 +4,7 @@ import { useRef, useEffect, useState, useImperativeHandle, forwardRef } from 're
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import AnimatedAvatar from '@/components/avatar/AnimatedAvatar'
+import BossRenderer from '@/components/play/BossRenderer'
 import BattleEffectsLayer from '@/components/games/BattleEffectsLayer'
 import type { EncounterConfig } from '@/types/encounter'
 import type { AvatarConfig } from '@/types/avatar'
@@ -81,11 +82,14 @@ interface BattleArenaProps {
    */
   atmosphere?: 'embers' | 'mist' | 'dust'
 
-  /**
-   * Player's current HP as a percentage (0-100).
-   * Drives the player HP bar. Defaults to 100.
-   */
+  /** Player's current HP as a percentage (0-100). Drives the player HP bar. Defaults to 100. */
   playerHpPct?: number
+
+  /** Whether the enemy is a high-fidelity procedural boss. */
+  isBoss?: boolean
+
+  /** Optional boss type override (e.g. 'treant', 'giant'). */
+  bossType?: string
 }
 
 // ── Ref handle ────────────────────────────────────────────────────────────────
@@ -164,6 +168,8 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
       backgroundSrc,
       atmosphere = 'dust',
       playerHpPct = 100,
+      isBoss = false,
+      bossType,
     },
     ref,
   ) {
@@ -582,12 +588,23 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
               filter: 'drop-shadow(0 10px 15px rgba(0,0,0,0.5))'
             }}
           >
-            <AnimatedAvatar
-              config={enemy.avatar}
-              size={effectiveEnemySize}
-              animationPreset={enemyPreset}
-              attackTrigger={enemyAttackTick}
-            />
+            {isBoss ? (
+              <BossRenderer
+                type={bossType || enemy.id}
+                currentHp={totalQuestions - correctCount}
+                maxHp={totalQuestions}
+                isHurt={enemyShake}
+                size={effectiveEnemySize * 1.5}
+                config={{ color: enemy.glowColor, accent: '#fff' }}
+              />
+            ) : (
+              <AnimatedAvatar
+                config={enemy.avatar}
+                size={effectiveEnemySize}
+                animationPreset={enemyPreset}
+                attackTrigger={enemyAttackTick}
+              />
+            )}
             <div
               style={{
                 fontFamily: 'var(--font-pixel)',

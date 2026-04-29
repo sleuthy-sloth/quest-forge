@@ -306,34 +306,65 @@ export default function ProfileView({
       {/* ── Stats ───────────────────────────────────────────────────── */}
       <motion.div variants={itemVariants} style={{ marginBottom: '2.5rem', zIndex: 1 }}>
         <SectionHeading label="ATTRIBUTES" accent={accent} />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '1rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           {stats.map((stat) => {
             const isPrimary = stat.name === primaryStat
+            // Max stat for bar calculation (e.g. 50 or 100)
+            const maxStat = 100
+            const statPct = Math.min(100, (stat.value / maxStat) * 100)
+            
             return (
               <div
                 key={stat.name}
-                className="qf-ornate-panel"
                 style={{
+                  position: 'relative',
                   padding: '1rem',
                   borderRadius: '8px',
-                  background: isPrimary ? `linear-gradient(135deg, ${accent}15, var(--qf-bg-card))` : 'var(--qf-bg-card)',
-                  border: isPrimary ? `1px solid ${accent}66` : '1px solid var(--qf-rule)',
+                  background: isPrimary ? `linear-gradient(135deg, ${accent}08, transparent)` : 'transparent',
+                  border: `1px solid ${isPrimary ? accent + '22' : 'rgba(255,255,255,0.03)'}`,
                 }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                  <StatIcon stat={stat.name} color={isPrimary ? accent : 'var(--qf-parchment-muted)'} />
-                  <span style={{ fontSize: '1.2rem', fontWeight: 800, color: isPrimary ? accent : 'var(--qf-parchment)' }}>
-                    {stat.value}
-                  </span>
-                </div>
-                <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.5rem', color: 'var(--qf-parchment-muted)', letterSpacing: '0.05em' }}>
-                  {stat.name.toUpperCase()}
-                </div>
-                {isPrimary && (
-                  <div style={{ fontSize: '0.6rem', color: accent, marginTop: '0.25rem', fontStyle: 'italic' }}>
-                    Primary Stat
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.65rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <div style={{ 
+                      width: 32, height: 32, borderRadius: '6px', 
+                      background: isPrimary ? accent + '22' : 'rgba(255,255,255,0.05)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center' 
+                    }}>
+                      <StatIcon stat={stat.name} color={isPrimary ? accent : 'var(--qf-parchment-muted)'} />
+                    </div>
+                    <div>
+                      <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.55rem', color: isPrimary ? accent : 'var(--qf-parchment-dim)', letterSpacing: '0.1em' }}>
+                        {stat.name.toUpperCase()}
+                      </div>
+                      <div style={{ fontSize: '0.6rem', color: 'rgba(200,215,255,0.25)', fontStyle: 'italic' }}>
+                        {stat.name === 'Strength' && 'Driven by Vocabulary & Word Mastery'}
+                        {stat.name === 'Wisdom' && 'Driven by Math & Science Trials'}
+                        {stat.name === 'Courage' && 'Driven by Reading & History Quests'}
+                        {stat.name === 'Endurance' && 'Driven by Chores & Consistency'}
+                      </div>
+                    </div>
                   </div>
-                )}
+                  <div style={{ textAlign: 'right' }}>
+                    <span style={{ fontSize: '1.4rem', fontWeight: 900, color: isPrimary ? accent : '#fff', textShadow: isPrimary ? `0 0 10px ${accent}33` : 'none' }}>
+                      {stat.value}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Progress Bar */}
+                <div style={{ height: '6px', background: 'rgba(255,255,255,0.05)', borderRadius: '3px', overflow: 'hidden' }}>
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${statPct}%` }}
+                    transition={{ duration: 1.5, ease: 'easeOut', delay: 0.2 }}
+                    style={{ 
+                      height: '100%', 
+                      background: isPrimary ? `linear-gradient(90deg, ${accent}, ${accent2})` : `linear-gradient(90deg, #7a6a44, #c9a84c)`,
+                      boxShadow: isPrimary ? `0 0 10px ${accent}66` : 'none'
+                    }}
+                  />
+                </div>
               </div>
             )
           })}
