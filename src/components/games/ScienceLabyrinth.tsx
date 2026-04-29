@@ -107,6 +107,7 @@ export default function ScienceLabyrinth({
     source: questionSource,
     secondBatchLoading,
     secondBatchReady,
+    sessionWrong,
     fetchChallenges,
     submitAnswer,
   } = useAcademy(playerId, householdId)
@@ -236,7 +237,12 @@ export default function ScienceLabyrinth({
         addTimer(setTimeout(() => setWallMounted(false), 300))
       }
 
-      if (isFinished) {
+      // Lose condition: 4 misses = 0 HP
+      if (sessionWrong + 1 >= 4) {
+        playSfx('click')
+        setAnswers(newAnswers)
+        setPhase('results')
+      } else if (isFinished) {
         playSfx('victory')
         setPhase('results')
       } else if (questionIndex === 4 && secondBatchLoading) {
@@ -299,7 +305,9 @@ export default function ScienceLabyrinth({
 
   if (phase === 'results') {
     const correctCount = score
-    const cleared = correctCount >= 6
+    const wrongCount = sessionWrong
+    const isDefeat = wrongCount >= 4
+    const cleared = correctCount >= 6 && !isDefeat
     return (
       <div className="px-4 py-6" style={{ maxWidth: '480px', margin: '0 auto' }}>
 
@@ -311,16 +319,18 @@ export default function ScienceLabyrinth({
           {/* Header */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
             <div style={{ flex: 1 }}>
-              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '6px', color: '#1e8a4a', marginBottom: '4px', letterSpacing: '1px' }}>
-                {cleared ? 'LABYRINTH CLEARED' : 'LABYRINTH ATTEMPTED'}
+              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '6px', color: isDefeat ? '#e05555' : '#1e8a4a', marginBottom: '4px', letterSpacing: '1px' }}>
+                {isDefeat ? 'LABYRINTH FAILED' : cleared ? 'LABYRINTH CLEARED' : 'LABYRINTH ATTEMPTED'}
               </div>
-              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '14px', color: '#f0e6c8' }}>
-                {correctCount} / {questions.length}
+              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '14px', color: isDefeat ? '#e05555' : '#f0e6c8' }}>
+                {isDefeat ? 'DEFEATED' : `${correctCount} / ${questions.length}`}
               </div>
               <div style={{ fontFamily: 'var(--font-heading)', fontSize: '11px', color: '#7a6a44', marginTop: '2px' }}>
-                {questionSource === 'fallback'
-                  ? 'Practice round — XP not awarded (offline questions)'
-                  : `+${xpEarned} XP · Maze Explored`}
+                {isDefeat 
+                  ? `${wrongCount} MISSES`
+                  : questionSource === 'fallback'
+                    ? 'Practice round — XP not awarded (offline questions)'
+                    : `+${xpEarned} XP · Maze Explored`}
               </div>
             </div>
             <div style={{
@@ -432,6 +442,7 @@ export default function ScienceLabyrinth({
           enemySize={64}
           backgroundSrc="/images/lore/ashlands.png"
           atmosphere="embers"
+          playerHpPct={Math.max(0, 100 - (sessionWrong * 25))}
         />
 
         {/* ── Question card ────────────────────────────────────────── */}

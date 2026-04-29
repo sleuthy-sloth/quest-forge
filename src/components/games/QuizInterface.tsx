@@ -68,6 +68,7 @@ export default function QuizInterface({
     ageTier,
     sessionCorrect,
     sessionXp,
+    sessionWrong,
     submitting,
     secondBatchLoading,
     secondBatchReady,
@@ -111,6 +112,12 @@ export default function QuizInterface({
       case 'math-arena': return { bg: '/images/lore/underbright.png', atm: 'mist' }
       case 'science-labyrinth': return { bg: '/images/lore/ashlands.png', atm: 'embers' }
       case 'word-forge': return { bg: '/images/lore/dustmere.png', atm: 'dust' }
+      case 'reading-tome': return { bg: '/images/lore/underbright.png', atm: 'mist' }
+      case 'history-scroll': return { bg: '/images/lore/ironspine.png', atm: 'dust' }
+      case 'vocab-duel': return { bg: '/images/lore/shattered_coast.png', atm: 'mist' }
+      case 'logic-gate': return { bg: '/images/lore/dustmere.png', atm: 'mist' }
+      case 'general-knowledge': return { bg: '/images/lore/shattered_coast.png', atm: 'mist' }
+      case 'life-skills': return { bg: '/images/lore/heartwood.png', atm: 'dust' }
       default: return { bg: '/images/lore/heartwood.png', atm: 'dust' }
     }
   }, [enemySlug])
@@ -239,7 +246,11 @@ export default function QuizInterface({
       }
 
       addTimer(setTimeout(() => {
-        if (questionIndex >= 9) {
+        // Lose condition: 4 misses = 0 HP
+        if (sessionWrong + 1 >= 4) {
+          playSfx('click') // Maybe a defeat sound?
+          setPhase('results')
+        } else if (questionIndex >= 9) {
           playSfx('victory')
           setCelebrationTick(t => t + 1)
           setPhase('results')
@@ -356,6 +367,8 @@ export default function QuizInterface({
 
   if (phase === 'results') {
     const correctCount = sessionCorrect
+    const wrongCount = sessionWrong
+    const isDefeat = wrongCount >= 4
     const accuracy = correctCount / 10
 
     return (
@@ -403,56 +416,58 @@ export default function QuizInterface({
               padding: '28px 20px 24px',
               textAlign: 'center',
               borderBottom: '1px solid rgba(201,168,76,0.1)',
-              background: `linear-gradient(180deg, rgba(${accuracy >= 0.8 ? '46,184,92' : accuracy >= 0.6 ? '232,160,32' : '224,85,85'},0.08), transparent)`,
+              background: `linear-gradient(180deg, rgba(${isDefeat ? '224,85,85' : accuracy >= 0.8 ? '46,184,92' : accuracy >= 0.6 ? '232,160,32' : '224,85,85'},0.08), transparent)`,
             }}>
               <div
                 style={{
                   fontFamily: 'var(--font-pixel)',
                   fontSize: 9,
-                  color: '#7a6a44',
+                  color: isDefeat ? '#e05555' : '#7a6a44',
                   letterSpacing: '2px',
                   marginBottom: 14,
                 }}
               >
-                QUIZ COMPLETE
+                {isDefeat ? 'TRIAL FAILED' : 'QUIZ COMPLETE'}
               </div>
               <div
                 style={{
                   fontFamily: 'var(--font-pixel)',
                   fontSize: 'clamp(28px, 6vw, 48px)',
-                  color: accuracyColor(accuracy),
+                  color: isDefeat ? '#e05555' : accuracyColor(accuracy),
                   animation: 'score-pop 0.5s ease both',
                   lineHeight: 1,
                   marginBottom: 10,
-                  textShadow: `0 0 20px ${accuracyColor(accuracy)}66`,
+                  textShadow: `0 0 20px ${isDefeat ? '#e05555' : accuracyColor(accuracy)}66`,
                 }}
               >
-                {correctCount} / {challenges.length}
+                {isDefeat ? 'DEFEATED' : `${correctCount} / ${challenges.length}`}
               </div>
               <div
                 style={{
                   display: 'inline-block',
-                  background: `rgba(${accuracy >= 0.8 ? '46,184,92' : accuracy >= 0.6 ? '232,160,32' : '224,85,85'},0.15)`,
-                  border: `1px solid ${accuracyColor(accuracy)}66`,
+                  background: `rgba(${isDefeat ? '224,85,85' : accuracy >= 0.8 ? '46,184,92' : accuracy >= 0.6 ? '232,160,32' : '224,85,85'},0.15)`,
+                  border: `1px solid ${isDefeat ? '#e0555566' : accuracyColor(accuracy) + '66'}`,
                   borderRadius: 4,
                   padding: '4px 14px',
                   fontFamily: 'var(--font-pixel)',
                   fontSize: 11,
-                  color: accuracyColor(accuracy),
+                  color: isDefeat ? '#e05555' : accuracyColor(accuracy),
                   marginBottom: 12,
                 }}
               >
-                {Math.round(accuracy * 100)}%
+                {isDefeat ? `${wrongCount} MISSES` : `${Math.round(accuracy * 100)}% Accuracy`}
               </div>
-              <div
-                style={{
-                  fontFamily: 'var(--font-heading)',
-                  fontSize: 18,
-                  color: '#c9a84c',
-                }}
-              >
-                +{sessionXp} XP earned
-              </div>
+              {!isDefeat && (
+                <div
+                  style={{
+                    fontFamily: 'var(--font-heading)',
+                    fontSize: 18,
+                    color: '#c9a84c',
+                  }}
+                >
+                  +{sessionXp} XP earned
+                </div>
+              )}
               {freshProfile && (
                 <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 8, color: '#7a6a44', marginTop: 6, letterSpacing: '0.1em' }}>
                   LV {freshProfile.level} · {freshProfile.xp_available.toLocaleString()} XP available
@@ -577,6 +592,7 @@ export default function QuizInterface({
             enemyTitle={teacher?.title}
             backgroundSrc={theme.bg}
             atmosphere={theme.atm as any}
+            playerHpPct={Math.max(0, 100 - (sessionWrong * 25))}
           />
         </div>
 

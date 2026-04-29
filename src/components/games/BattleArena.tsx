@@ -80,6 +80,12 @@ interface BattleArenaProps {
    * - 'dust': Soft motes (Heartwood/Dustmere)
    */
   atmosphere?: 'embers' | 'mist' | 'dust'
+
+  /**
+   * Player's current HP as a percentage (0-100).
+   * Drives the player HP bar. Defaults to 100.
+   */
+  playerHpPct?: number
 }
 
 // ── Ref handle ────────────────────────────────────────────────────────────────
@@ -157,6 +163,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
       enemyTitle,
       backgroundSrc,
       atmosphere = 'dust',
+      playerHpPct = 100,
     },
     ref,
   ) {
@@ -430,7 +437,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
             >
               {playerDisplayName}
             </div>
-            {/* Player HP bar — always full (cosmetic) */}
+            {/* Player HP bar */}
             <div
               style={{
                 width: effectivePlayerSize,
@@ -443,13 +450,13 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
               <div
                 style={{
                   height: '100%',
-                  width: '100%',
+                  width: `${playerHpPct}%`,
                   borderRadius: '2px',
                   background:
                     screenFlash === 'red'
                       ? 'linear-gradient(90deg,#e05555,#ff7070)'
                       : 'linear-gradient(90deg,#2eb85c,#5aab6e)',
-                  transition: 'background 0.3s',
+                  transition: 'width 0.3s ease, background 0.3s',
                 }}
               />
             </div>

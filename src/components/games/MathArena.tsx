@@ -107,6 +107,7 @@ export default function MathArena({
     source: questionSource,
     secondBatchLoading,
     secondBatchReady,
+    sessionWrong,
     fetchChallenges,
     submitAnswer,
   } = useAcademy(playerId, householdId)
@@ -247,7 +248,12 @@ export default function MathArena({
 
       addTimer(setTimeout(() => setScreenFlash(null), 300))
       addTimer(setTimeout(() => {
-        if (questionIndex >= 9) {
+        // Lose condition: 4 misses = 0 HP
+        if (sessionWrong + 1 >= 4) {
+          playSfx('click')
+          setAnswers(newAnswers)
+          setPhase('results')
+        } else if (questionIndex >= 9) {
           playSfx('victory')
           setCelebrationTick(t => t + 1)
           setAnswers(newAnswers)
@@ -325,6 +331,8 @@ export default function MathArena({
   // ── Results phase ─────────────────────────────────────────────────────────
 
   if (phase === 'results') {
+    const wrongCount = sessionWrong
+    const isDefeat = wrongCount >= 4
     return (
       <div className="px-4 py-6" style={{ maxWidth: '480px', margin: '0 auto', position: 'relative' }}>
         {/*
@@ -354,16 +362,18 @@ export default function MathArena({
           {/* Header */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
             <div style={{ flex: 1 }}>
-              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '6px', color: '#7a6a44', marginBottom: '4px', letterSpacing: '1px' }}>
-                TRAINING COMPLETE
+              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '6px', color: isDefeat ? '#e05555' : '#7a6a44', marginBottom: '4px', letterSpacing: '1px' }}>
+                {isDefeat ? 'TRIAL FAILED' : 'TRAINING COMPLETE'}
               </div>
-              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '14px', color: '#f0e6c8' }}>
-                {correctCount} / 10
+              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '14px', color: isDefeat ? '#e05555' : '#f0e6c8' }}>
+                {isDefeat ? 'DEFEATED' : `${correctCount} / 10`}
               </div>
               <div style={{ fontFamily: 'var(--font-heading)', fontSize: '11px', color: '#7a6a44', marginTop: '2px' }}>
-                {questionSource === 'fallback'
-                  ? 'Practice round — XP not awarded (offline questions)'
-                  : `+${xpEarned} XP awarded`}
+                {isDefeat 
+                  ? `${wrongCount} MISSES`
+                  : questionSource === 'fallback'
+                    ? 'Practice round — XP not awarded (offline questions)'
+                    : `+${xpEarned} XP awarded`}
               </div>
               {freshProfile && (
                 <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '5px', color: '#c9a84c', marginTop: '4px', letterSpacing: '0.1em' }}>
@@ -470,6 +480,7 @@ export default function MathArena({
           enemyTitle={TEACHER_BY_SLUG['math-arena']?.title}
           backgroundSrc="/images/lore/underbright.png"
           atmosphere="mist"
+          playerHpPct={Math.max(0, 100 - (sessionWrong * 25))}
         />
 
         {/* ── Question card ──────────────────────────────────────────────── */}

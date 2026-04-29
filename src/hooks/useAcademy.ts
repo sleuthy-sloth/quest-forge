@@ -40,6 +40,8 @@ export interface UseAcademyResult {
   sessionCorrect: number
   /** Running XP earned this session (sum of xp_reward for correct answers). */
   sessionXp: number
+  /** Running count of wrong answers in this session. */
+  sessionWrong: number
   /** True while a submitAnswer call is in-flight (prevents double-submission). */
   submitting: boolean
   /** True while the second batch (questions 6-10) is being generated/fetched. */
@@ -156,6 +158,7 @@ export function useAcademy(
   const [ageTier, setAgeTier] = useState<'junior' | 'senior' | null>(null)
   const [sessionCorrect, setSessionCorrect] = useState(0)
   const [sessionXp, setSessionXp] = useState(0)
+  const [sessionWrong, setSessionWrong] = useState(0)
   const [submitting, setSubmitting] = useState(false)
   const [secondBatchLoading, setSecondBatchLoading] = useState(false)
   const [secondBatchReady, setSecondBatchReady] = useState(false)
@@ -191,6 +194,7 @@ export function useAcademy(
     setSource(null)
     setSessionCorrect(0)
     setSessionXp(0)
+    setSessionWrong(0)
     setSecondBatchReady(false)
     setSecondBatchLoading(false)
 
@@ -315,6 +319,8 @@ export function useAcademy(
       if (correct) {
         setSessionCorrect(prev => prev + 1)
         setSessionXp(prev => prev + xpToAward)
+      } else {
+        setSessionWrong(prev => prev + 1)
       }
 
       // Skip persistence if the id isn't a UUID — protects against the FK
@@ -349,6 +355,7 @@ export function useAcademy(
   const resetSession = useCallback(() => {
     setSessionCorrect(0)
     setSessionXp(0)
+    setSessionWrong(0)
     setError(null)
   }, [])
 
@@ -360,6 +367,7 @@ export function useAcademy(
     ageTier,
     sessionCorrect,
     sessionXp,
+    sessionWrong,
     submitting,
     secondBatchLoading,
     secondBatchReady,

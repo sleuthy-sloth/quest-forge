@@ -130,6 +130,7 @@ export default function WordForge({
     source: questionSource,
     secondBatchLoading,
     secondBatchReady,
+    sessionWrong,
     fetchChallenges,
     submitAnswer,
   } = useAcademy(playerId, householdId)
@@ -237,7 +238,12 @@ export default function WordForge({
     const isFinished = nextIdx >= 10
 
     addTimer(setTimeout(() => {
-      if (isFinished) {
+      // Lose condition: 4 misses = 0 HP
+      if (sessionWrong + 1 >= 4) {
+        playSfx('click')
+        setAnswers(newAnswers)
+        setPhase('results')
+      } else if (isFinished) {
         playSfx('victory')
         setPhase('results')
       } else if (questionIndex === 4 && secondBatchLoading) {
@@ -300,6 +306,8 @@ export default function WordForge({
 
   if (phase === 'results') {
     const correctCount = score
+    const wrongCount = sessionWrong
+    const isDefeat = wrongCount >= 4
     return (
       <div className="px-4 py-6" style={{ maxWidth: '480px', margin: '0 auto' }}>
         {submissionError && (
@@ -320,16 +328,18 @@ export default function WordForge({
           {/* Header */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
             <div style={{ flex: 1 }}>
-              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '6px', color: '#7a6a44', marginBottom: '4px', letterSpacing: '1px' }}>
-                FORGE COMPLETE
+              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '6px', color: isDefeat ? '#e05555' : '#7a6a44', marginBottom: '4px', letterSpacing: '1px' }}>
+                {isDefeat ? 'FORGE FAILED' : 'FORGE COMPLETE'}
               </div>
-              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '14px', color: '#f0e6c8' }}>
-                {correctCount} / {questions.length}
+              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '14px', color: isDefeat ? '#e05555' : '#f0e6c8' }}>
+                {isDefeat ? 'DEFEATED' : `${correctCount} / ${questions.length}`}
               </div>
               <div style={{ fontFamily: 'var(--font-heading)', fontSize: '11px', color: '#7a6a44', marginTop: '2px' }}>
-                {questionSource === 'fallback'
-                  ? 'Practice round — XP not awarded (offline questions)'
-                  : `+${xpEarned} XP awarded`}
+                {isDefeat 
+                  ? `${wrongCount} MISSES`
+                  : questionSource === 'fallback'
+                    ? 'Practice round — XP not awarded (offline questions)'
+                    : `+${xpEarned} XP awarded`}
               </div>
             </div>
             <div style={{
@@ -431,6 +441,7 @@ export default function WordForge({
           enemySize={64}
           backgroundSrc="/images/lore/dustmere.png"
           atmosphere="dust"
+          playerHpPct={Math.max(0, 100 - (sessionWrong * 25))}
         />
 
         {/* ── Question card ───────────────────────────────────────────────── */}

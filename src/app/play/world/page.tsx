@@ -6,6 +6,10 @@ import WorldCodex from '@/components/player/WorldCodex'
 export const metadata = {
   title: 'Codex of Embervale | Quest Forge',
   description: 'Learn about the world of Embervale — its regions, characters, your class, and the Embershard.',
+  icons: {
+    icon: '/images/ui/icons/icon_embershard.png',
+    apple: '/images/ui/icons/icon_embershard_radiant.png',
+  },
 }
 
 export default async function WorldPage() {
