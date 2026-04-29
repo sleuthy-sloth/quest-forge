@@ -162,6 +162,20 @@ export default async function PlayerHomePage() {
           .dashboard-right { display: flex; flex-direction: column; gap: 16px; }
           .hero-avatar-wrap { width: 96px !important; height: 96px !important; }
         }
+        .boss-card-body {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 16px;
+          margin-top: 10px;
+        }
+        @media (max-width: 540px) {
+          .boss-card-body {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+          }
+        }
       `}</style>
       <div style={{ padding: '12px 18px 24px' }}>
         <div className="dashboard-grid">
@@ -264,53 +278,55 @@ export default async function PlayerHomePage() {
               <div
                 style={{
                   position: 'relative',
-                  padding: '24px 24px 24px 200px',
+                  padding: '18px 20px 20px',
                   background:
                     'linear-gradient(180deg, rgba(196,58,0,0.15) 0%, rgba(15,17,24,0.8) 100%), var(--qf-bg-card-alt)',
                   border: '1px solid var(--qf-ember-deep)',
-                  minHeight: 140,
                 }}
               >
                 <span className="qf-corner-tl" /><span className="qf-corner-tr" />
                 <span className="qf-corner-bl" /><span className="qf-corner-br" />
-                <div
-                  style={{ position: 'absolute', top: '50%', left: 20, transform: 'translateY(-50%)', opacity: 1, zIndex: 5 }}
-                  className="qf-boss-bob"
-                  aria-hidden="true"
-                >
-                  <BossSprite config={{ ...bossConfig, scale: 1.1 }} />
-                </div>
                 <div
                   className="font-pixel"
                   style={{ fontSize: 9, color: 'var(--qf-ember-bright)', letterSpacing: '0.18em' }}
                 >
                   WEEK {boss.week_number ?? 1} · BOSS
                 </div>
-                <div
-                  className="font-heading qf-flicker"
-                  style={{ fontSize: 22, color: 'var(--qf-parchment)', marginTop: 4, fontWeight: 700 }}
-                >
-                  {boss.boss_name}
-                </div>
-                {boss.boss_description && (
+                <div className="boss-card-body">
                   <div
-                    style={{
-                      fontSize: 13,
-                      color: 'var(--qf-parchment-dim)',
-                      fontStyle: 'italic',
-                      margin: '6px 0 14px',
-                      maxWidth: '70%',
-                      lineHeight: 1.5,
-                    }}
+                    style={{ flexShrink: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                    className="qf-boss-bob"
+                    aria-hidden="true"
                   >
-                    &ldquo;{boss.boss_description}&rdquo;
+                    <BossSprite config={{ ...bossConfig, scale: 2 }} />
                   </div>
-                )}
-                <HPBar
-                  pct={bossHpPct}
-                  label="HP"
-                  value={`${boss.boss_current_hp.toLocaleString()} / ${boss.boss_hp.toLocaleString()}`}
-                />
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div
+                      className="font-heading qf-flicker"
+                      style={{ fontSize: 22, color: 'var(--qf-parchment)', fontWeight: 700, lineHeight: 1.2 }}
+                    >
+                      {boss.boss_name}
+                    </div>
+                    {boss.boss_description && (
+                      <div
+                        style={{
+                          fontSize: 13,
+                          color: 'var(--qf-parchment-dim)',
+                          fontStyle: 'italic',
+                          margin: '6px 0 14px',
+                          lineHeight: 1.5,
+                        }}
+                      >
+                        &ldquo;{boss.boss_description}&rdquo;
+                      </div>
+                    )}
+                    <HPBar
+                      pct={bossHpPct}
+                      label="HP"
+                      value={`${boss.boss_current_hp.toLocaleString()} / ${boss.boss_hp.toLocaleString()}`}
+                    />
+                  </div>
+                </div>
               </div>
             ) : (
               <div
