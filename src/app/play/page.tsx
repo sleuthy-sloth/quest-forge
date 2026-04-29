@@ -8,8 +8,9 @@ import {
   XPBar,
   HPBar,
   XPIcon,
-  BossSprite,
 } from '@/components/qf'
+import BossSprite, { BossSpriteConfig } from '@/components/boss/BossSprite'
+import { BOSS_PALETTES } from '@/lib/sprites/palette'
 import { embershardState, xpForLevel } from '@/lib/xp'
 import { TEACHERS, SLUG_PRESET } from '@/lib/constants/academy'
 import { ENEMY_PRESETS } from '@/lib/constants/enemies'
@@ -95,8 +96,30 @@ export default async function PlayerHomePage() {
   const bossHpPct = boss
     ? Math.round((boss.boss_current_hp / (boss.boss_hp || 1)) * 100)
     : 0
-  const bossSpriteName =
-    (boss?.boss_sprite_config as { base_sprite?: string } | null)?.base_sprite || boss?.boss_name || 'eyeball'
+
+  // Synthesize procedural config if missing
+  const arcNum = boss ? (Math.floor((boss.week_number - 1) / 4) + 1) : 1
+  const palettes = ['blight_hollow', 'frost_hollow', 'ember_corrupt', 'ash_gray', 'hollow_dark']
+  const arcPalette = palettes[Math.min(arcNum - 1, palettes.length - 1)]
+
+  let synthesizedConfig: BossSpriteConfig = {
+    base_sprite: 'procedural_automaton',
+    palette: arcPalette,
+    scale: 1,
+    particles: ['embers'],
+    frame: 'frame_normal',
+    glow_color: BOSS_PALETTES[arcPalette]?.glow || '#4a0080'
+  }
+
+  if (boss?.boss_name?.toLowerCase().includes('tree') || boss?.boss_name?.toLowerCase().includes('root')) {
+    synthesizedConfig.base_sprite = 'procedural_treant'
+  } else if (boss?.boss_name?.toLowerCase().includes('giant') || boss?.boss_name?.toLowerCase().includes('golem')) {
+    synthesizedConfig.base_sprite = 'procedural_giant'
+  } else if (boss?.boss_name?.toLowerCase().includes('flame') || boss?.boss_name?.toLowerCase().includes('ember')) {
+    synthesizedConfig.base_sprite = 'procedural_flame'
+  }
+
+  const bossConfig: BossSpriteConfig = (boss?.boss_sprite_config as any) || synthesizedConfig
 
   // Today's chores
   const { data: chores } = await supabase
@@ -255,7 +278,7 @@ export default async function PlayerHomePage() {
                   className="qf-boss-bob"
                   aria-hidden="true"
                 >
-                  <BossSprite name={bossSpriteName} scale={2.2} />
+                  <BossSprite config={bossConfig} />
                 </div>
                 <div
                   className="font-pixel"

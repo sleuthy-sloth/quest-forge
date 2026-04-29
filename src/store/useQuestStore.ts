@@ -356,7 +356,7 @@ export const useQuestStore = create<QuestState>((set, get) => ({
     const supabase = createClient()
     const { data, error } = await supabase
       .from('story_chapters')
-      .select('id, title, narrative_text, week_number, is_unlocked, household_id')
+      .select('id, title, narrative_text, week_number, is_unlocked, household_id, content_image_url, chapter_number')
       .eq('household_id', householdId)
       .eq('is_unlocked', true)
       .order('week_number', { ascending: true })
