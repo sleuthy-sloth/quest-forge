@@ -59,12 +59,14 @@ const BossSprite = forwardRef<BossSpriteHandle, { config: BossSpriteConfig }>(
 
     const [loaded, setLoaded] = useState(false)
     const [loadError, setLoadError] = useState(false)
+    const [isDefeated, setIsDefeated] = useState(false)
 
     const spriteInfo = BOSS_SPRITE_MANIFEST[config.base_sprite]
     const palette    = BOSS_PALETTES[config.palette] ?? BOSS_PALETTES.hollow_dark
+    const isProcedural = spriteInfo?.format === 'procedural'
 
     // Native size: folder and procedural sprites are 256×256; sheet sprites use cellW
-    const nativeSize  = spriteInfo?.format === 'folder' || spriteInfo?.format === 'procedural' ? 256 : (spriteInfo?.cellW ?? 64)
+    const nativeSize  = spriteInfo?.format === 'folder' || isProcedural ? 256 : (spriteInfo?.cellW ?? 64)
     const displaySize = nativeSize * config.scale
 
     // -----------------------------------------------------------------------
@@ -151,29 +153,9 @@ const BossSprite = forwardRef<BossSpriteHandle, { config: BossSpriteConfig }>(
         window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
       // ---------------------------------------------------------------------
-      // Procedural branch: draw via Canvas 2D rAF loop
+      // Sprite-sheet / folder frame-based animation
       // ---------------------------------------------------------------------
-      if (spriteInfo?.format === 'procedural') {
-        const drawFn = PROCEDURAL_BOSS_REGISTRY[config.base_sprite]
-        if (!drawFn) { setLoadError(true); return }
-
-        const canvas = canvasRef.current
-        if (!canvas) return
-        const ctx = canvas.getContext('2d')
-        if (!ctx) return
-
-        if (prefersReducedMotion) {
-          drawFn(ctx, displaySize, displaySize, palette, 0)
-          return
-        }
-
-        const tick = (ts: number) => {
-          drawFn(ctx, displaySize, displaySize, palette, ts)
-          rafHandle.current = requestAnimationFrame(tick)
-        }
-        rafHandle.current = requestAnimationFrame(tick)
-        return () => cancelAnimationFrame(rafHandle.current)
-      }
+      if (isProcedural) return // SVG components handle their own animations
 
       // ---------------------------------------------------------------------
       // Sprite-sheet / folder frame-based animation
@@ -220,6 +202,19 @@ const BossSprite = forwardRef<BossSpriteHandle, { config: BossSpriteConfig }>(
       },
 
       defeat() {
+        if (isProcedural) {
+          const flash = flashRef.current
+          if (flash) {
+            flash.style.opacity = '1'
+            flash.style.background = 'white'
+            setTimeout(() => {
+              setIsDefeated(true)
+              flash.style.opacity = '0'
+            }, 300)
+          }
+          return
+        }
+
         const canvas = canvasRef.current
         if (!canvas) return
         const ctx = canvas.getContext('2d')
@@ -305,16 +300,40 @@ const BossSprite = forwardRef<BossSpriteHandle, { config: BossSpriteConfig }>(
       <div style={{ position: 'relative', width: displaySize, height: displaySize, display: 'inline-block' }}>
         <style>{PARTICLE_CSS_KEYFRAMES}</style>
 
-        <canvas
-          ref={canvasRef}
-          width={displaySize}
-          height={displaySize}
-          style={{
-            imageRendering: 'pixelated',
-            display: 'block',
-            filter: loaded ? `drop-shadow(0 0 8px ${config.glow_color})` : undefined,
-          }}
-        />
+        {isProcedural ? (() => {
+          const ProceduralComponent = PROCEDURAL_BOSS_REGISTRY[config.base_sprite]
+          return ProceduralComponent ? (
+            <div style={{
+              filter: `drop-shadow(0 0 8px ${config.glow_color})`,
+              display: isDefeated ? 'none' : 'flex',
+              opacity: isDefeated ? 0 : 1,
+              transition: 'opacity 0.5s',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '100%',
+              height: '100%',
+            }}>
+              <ProceduralComponent
+                palette={palette}
+                size={displaySize}
+                glowColor={config.glow_color}
+              />
+            </div>
+          ) : (
+            <div style={{ color: '#555' }}>registry error</div>
+          )
+        })() : (
+          <canvas
+            ref={canvasRef}
+            width={displaySize}
+            height={displaySize}
+            style={{
+              imageRendering: 'pixelated',
+              display: 'block',
+              filter: loaded ? `drop-shadow(0 0 8px ${config.glow_color})` : undefined,
+            }}
+          />
+        )}
 
         {/* Red flash overlay for takeDamage() */}
         <div

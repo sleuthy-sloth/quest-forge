@@ -140,6 +140,10 @@ export const BOSS_SPRITE_MANIFEST: Record<string, BossSpriteInfo> = {
     format: 'procedural',
     basePath: '',
   },
+  procedural_automaton: {
+    format: 'procedural',
+    basePath: '',
+  },
 }
 
 // ---------------------------------------------------------------------------
