@@ -13,7 +13,7 @@ const openRouterClient = process.env.OPENROUTER_API_KEY
 // ── Constants ────────────────────────────────────────────────────────────────
 
 // Fast MoE: 3.8B active params, no default reasoning overhead.
-export const PRIMARY_MODEL = 'google/gemma-4-26b-a4b:free'
+export const PRIMARY_MODEL = 'google/gemma-4-26b-a4b-it:free'
 // Dynamic routing to any available free model — used as fallback if primary fails.
 export const FALLBACK_MODEL = 'openrouter/free'
 
