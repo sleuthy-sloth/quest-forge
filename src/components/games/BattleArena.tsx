@@ -493,15 +493,25 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
                     fontSize: '8px',
                     color:
                       questionSource === 'ai'
-                        ? '#7c4dff'
+                        ? '#c4a0ff'
                         : questionSource === 'db'
                           ? '#2eb85c'
                           : '#7a6a44',
-                    background: 'rgba(255,255,255,0.04)',
-                    border: '1px solid rgba(255,255,255,0.12)',
+                    background:
+                      questionSource === 'ai'
+                        ? 'rgba(124,77,255,0.18)'
+                        : 'rgba(255,255,255,0.04)',
+                    border:
+                      questionSource === 'ai'
+                        ? '1px solid rgba(180,130,255,0.5)'
+                        : '1px solid rgba(255,255,255,0.12)',
                     borderRadius: '2px',
                     padding: '3px 6px',
                     letterSpacing: '1px',
+                    textShadow:
+                      questionSource === 'ai'
+                        ? '0 0 8px rgba(180,130,255,0.6)'
+                        : undefined,
                   }}
                 >
                   {questionSource.toUpperCase()}
