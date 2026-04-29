@@ -232,7 +232,7 @@ export const TEACHERS: TeacherDef[] = [
     tagline: 'The world is a book, and those who do not travel read only a page.',
     glow:    '#9e1a7a',
     level:   12,
-    portrait: '/Users/spkoehl/.gemini/antigravity/brain/5b558174-3564-407e-9bc4-f0e99a1324a5/teacher_general_knowledge_1777484438982.png',
+    portrait: '/images/portraits/general-knowledge.png',
   },
   {
     slug:    'life-skills',
@@ -242,7 +242,7 @@ export const TEACHERS: TeacherDef[] = [
     tagline: 'Kindness is the strongest armor.',
     glow:    '#9e8a1a',
     level:   5,
-    portrait: '/Users/spkoehl/.gemini/antigravity/brain/5b558174-3564-407e-9bc4-f0e99a1324a5/teacher_life_skills_1777484742864.png',
+    portrait: '/images/portraits/life-skills.png',
   },
 ]
 

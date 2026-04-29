@@ -217,4 +217,48 @@ export const ENEMY_PRESETS: Record<string, EncounterConfig> = {
       shield: L('shield_round'),
     } satisfies AvatarConfig,
   },
+
+  // ── General Knowledge ──────────────────────────────────────────────────────
+  'general-knowledge': {
+    id: 'general-knowledge',
+    name: 'The Universal Scholar',
+    glowColor: '#9e1a7a',
+    avatar: {
+      body:   L('body_male'),
+      head:   L('human_male'),
+      eyes:   L('eyes_green'),
+      hair:   L('bob', '#c9a84c'),
+      pants:  L('pants', 'purple'),
+      shirt:  L('longsleeve', 'purple'),
+      boots:  L('shoes', 'black'),
+      hands:  NO_HANDS,
+      belt:   NO_BELT,
+      cape:   L('solid', 'gold'),
+      helmet: L('hood', 'purple'),
+      weapon: NO_LAYER,
+      shield: NO_SHIELD,
+    } satisfies AvatarConfig,
+  },
+
+  // ── Life Skills ────────────────────────────────────────────────────────────
+  'life-skills': {
+    id: 'life-skills',
+    name: 'Nurturer Lea',
+    glowColor: '#9e8a1a',
+    avatar: {
+      body:   L('body_female'),
+      head:   L('human_female'),
+      eyes:   L('eyes_blue'),
+      hair:   L('long_center_part', '#9e8a1a'),
+      pants:  L('pants', 'forest'),
+      shirt:  L('longsleeve', 'forest'),
+      boots:  L('boots', 'brown'),
+      hands:  NO_HANDS,
+      belt:   NO_BELT,
+      cape:   NO_LAYER,
+      helmet: NO_LAYER,
+      weapon: NO_LAYER,
+      shield: NO_SHIELD,
+    } satisfies AvatarConfig,
+  },
 } as const

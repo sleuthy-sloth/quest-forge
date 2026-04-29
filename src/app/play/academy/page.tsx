@@ -131,7 +131,7 @@ export default async function AcademyPage() {
               fontStyle: 'italic',
             }}
           >
-            Seven Teachers, Seven Trials
+            Nine Teachers, Nine Trials
           </h1>
           <p
             style={{

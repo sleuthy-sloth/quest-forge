@@ -57,7 +57,7 @@ type Section = 'world' | 'class' | 'embershard' | 'hearthhold' | 'npcs' | 'regio
 const SECTIONS: { id: Section; label: string; icon: string }[] = [
   { id: 'world',      label: 'The World',   icon: '/images/ui/icons/icon_world.png' },
   { id: 'class',      label: 'Your Class',  icon: '/images/ui/icons/icon_class.png' },
-  { id: 'embershard', label: 'Embershard',  icon: '/Users/spkoehl/.gemini/antigravity/brain/5b558174-3564-407e-9bc4-f0e99a1324a5/icon_embershard_radiant_1777471810347.png' },
+  { id: 'embershard', label: 'Embershard',  icon: '/images/ui/icons/embershard_radiant.png' },
   { id: 'hearthhold', label: 'Hearthhold',  icon: '/images/ui/icons/icon_hearthhold.png' },
   { id: 'npcs',       label: 'Characters',  icon: '/images/ui/icons/icon_characters.png' },
   { id: 'regions',    label: 'Regions',     icon: '/images/ui/icons/icon_regions.png' },
@@ -150,18 +150,27 @@ function WorldSection({ householdPlayers = [] }: { householdPlayers?: any[] }) {
               }}
             >
               <div style={{
-                width: 40,
-                height: 40,
+                width: 44,
+                height: 44,
                 borderRadius: '50%',
                 border: '2px solid var(--qf-gold-400)',
-                background: 'rgba(14,10,20,0.8)',
+                background: 'rgba(14,10,20,0.9)',
                 overflow: 'hidden',
-                boxShadow: '0 0 15px rgba(201,168,76,0.3)'
+                boxShadow: '0 0 15px rgba(201,168,76,0.4)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <AvatarPreview
-                  avatarConfig={p.avatar_config}
-                  className="w-full h-full"
-                />
+                {/* 
+                  Scale up slightly so the character fills more of the circle.
+                  The 64x64 cell is centered on the character's head/torso area.
+                */}
+                <div style={{ transform: 'scale(1.5) translateY(-12%)' }}>
+                  <AvatarPreview
+                    avatarConfig={p.avatar_config}
+                    size={44}
+                  />
+                </div>
               </div>
             </div>
           )
