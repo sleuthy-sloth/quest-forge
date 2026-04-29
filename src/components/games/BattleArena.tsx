@@ -275,14 +275,15 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
             position: 'relative',
             display: 'flex',
             alignItems: 'center',
-            gap: '8px',
+            gap: '12px',
             border: `1px solid ${enemy.glowColor}33`,
-            borderLeft: `3px solid ${enemy.glowColor}`,
+            borderTop: `3px solid ${enemy.glowColor}`,
+            borderLeft: 'none',
             borderRadius: '3px',
-            padding: '10px',
+            padding: isMobile ? '12px 10px' : '16px 20px',
             marginBottom: streak > 0 ? '0' : '12px',
             overflow: 'hidden',
-            minHeight: isMobile ? 140 : 180,
+            minHeight: isMobile ? 160 : 220,
           }}
         >
           {/* Background Layer */}
@@ -415,7 +416,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
             <div
               style={{
                 fontFamily: 'var(--font-pixel)',
-                fontSize: '8px',
+                fontSize: '9px',
                 color: '#c9a84c',
                 maxWidth: effectivePlayerSize,
                 overflow: 'hidden',
@@ -423,7 +424,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
                 whiteSpace: 'nowrap',
                 textShadow: '0 1px 4px rgba(0,0,0,0.8)',
                 background: 'rgba(0,0,0,0.4)',
-                padding: '1px 4px',
+                padding: '2px 5px',
                 borderRadius: '2px',
               }}
             >
@@ -468,12 +469,13 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
               <div
                 style={{
                   fontFamily: 'var(--font-pixel)',
-                  fontSize: '11px',
+                  fontSize: '14px',
                   color: '#ff4d00',
                   background: 'rgba(196,58,0,0.25)',
                   border: '1px solid rgba(196,58,0,0.6)',
                   borderRadius: '3px',
-                  padding: '4px 8px',
+                  padding: '5px 10px',
+                  letterSpacing: '0.2em',
                   textShadow: '0 0 8px rgba(196,58,0,0.4)',
                 }}
               >
@@ -519,28 +521,36 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
               )}
             </div>
 
-            {/* Score pips */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '3px' }}>
-              {Array.from({ length: totalQuestions }, (_, i) => (
-                <div
-                  key={i}
-                  style={{
-                    width: '10px',
-                    height: '10px',
-                    borderRadius: '2px',
-                    background: i < correctCount ? '#c9a84c' : 'transparent',
-                    border: `1px solid ${i < correctCount ? '#c9a84c' : 'rgba(201,168,76,0.3)'}`,
-                  }}
-                />
+            {/* Score pips — two rows of 5 */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px' }}>
+              {[0, 1].map(row => (
+                <div key={row} style={{ display: 'flex', gap: '3px' }}>
+                  {Array.from({ length: 5 }, (_, col) => {
+                    const i = row * 5 + col
+                    return (
+                      <div
+                        key={i}
+                        style={{
+                          width: '12px',
+                          height: '12px',
+                          borderRadius: '2px',
+                          background: i < correctCount ? '#c9a84c' : 'transparent',
+                          border: `1px solid ${i < correctCount ? '#c9a84c' : 'rgba(201,168,76,0.3)'}`,
+                        }}
+                      />
+                    )
+                  })}
+                </div>
               ))}
             </div>
 
             <div
               style={{
                 fontFamily: 'var(--font-pixel)',
-                fontSize: '8px',
-                color: '#d4c391',
+                fontSize: '10px',
+                color: '#e0d4a0',
                 textShadow: '0 1px 3px rgba(0,0,0,0.8)',
+                letterSpacing: '0.05em',
               }}
             >
               Q{questionIndex + 1} / {totalQuestions}
@@ -574,7 +584,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
             <div
               style={{
                 fontFamily: 'var(--font-pixel)',
-                fontSize: '8px',
+                fontSize: '9px',
                 color: enemy.glowColor,
                 maxWidth: effectiveEnemySize,
                 overflow: 'hidden',
@@ -582,7 +592,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
                 whiteSpace: 'nowrap',
                 textShadow: '0 1px 4px rgba(0,0,0,0.8)',
                 background: 'rgba(0,0,0,0.4)',
-                padding: '1px 4px',
+                padding: '2px 5px',
                 borderRadius: '2px',
               }}
             >

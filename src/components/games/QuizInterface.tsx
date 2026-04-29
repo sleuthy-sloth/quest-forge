@@ -15,7 +15,7 @@ import type { AvatarConfig } from '@/types/avatar'
 // Types
 // ---------------------------------------------------------------------------
 
-type Phase = 'loading' | 'playing' | 'results'
+type Phase = 'loading' | 'playing' | 'waiting' | 'results'
 type Feedback = null | 'correct' | 'wrong'
 type Flash = 'green' | 'red' | null
 
@@ -68,6 +68,8 @@ export default function QuizInterface({
     sessionCorrect,
     sessionXp,
     submitting,
+    secondBatchLoading,
+    secondBatchReady,
     fetchChallenges,
     submitAnswer,
   } = useAcademy(userId, householdId)
@@ -125,6 +127,16 @@ export default function QuizInterface({
     if (!fetching && challenges.length > 0) setPhase('playing')
     if (!fetching && fetchError) setPhase('loading')
   }, [fetching, challenges.length, fetchError])
+
+  // When waiting for the second batch and it arrives, advance to Q6
+  useEffect(() => {
+    if (phase === 'waiting' && secondBatchReady) {
+      setQuestionIndex(5)
+      setFeedback(null)
+      setChosenWrong(null)
+      setPhase('playing')
+    }
+  }, [phase, secondBatchReady])
 
   // Safety timeout: if still loading after 18 s, force a re-fetch
   const loadingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -196,9 +208,12 @@ export default function QuizInterface({
       }
 
       addTimer(setTimeout(() => {
-        if (questionIndex === challenges.length - 1) {
+        if (questionIndex >= 9) {
           setCelebrationTick(t => t + 1)
           setPhase('results')
+        } else if (questionIndex === 4 && secondBatchLoading) {
+          // Q5 done but batch 2 not ready yet — phase will advance via useEffect
+          setPhase('waiting')
         } else {
           setQuestionIndex(qi => qi + 1)
           setFeedback(null)
@@ -220,9 +235,11 @@ export default function QuizInterface({
       }
 
       addTimer(setTimeout(() => {
-        if (questionIndex === challenges.length - 1) {
+        if (questionIndex >= 9) {
           setCelebrationTick(t => t + 1)
           setPhase('results')
+        } else if (questionIndex === 4 && secondBatchLoading) {
+          setPhase('waiting')
         } else {
           setQuestionIndex(qi => qi + 1)
           setFeedback(null)
@@ -301,11 +318,40 @@ export default function QuizInterface({
     )
   }
 
+  // ── Waiting (second batch loading between Q5 and Q6) ─────────────────────
+
+  if (phase === 'waiting') {
+    return (
+      <div className="px-4 pt-10" style={{ maxWidth: 820, margin: '0 auto', textAlign: 'center' }}>
+        <div
+          style={{
+            fontFamily: 'var(--font-pixel)',
+            fontSize: 9,
+            color: 'var(--qf-gold-300)',
+            letterSpacing: '0.18em',
+            marginBottom: 10,
+          }}
+        >
+          PREPARING NEXT CHALLENGE…
+        </div>
+        <div
+          style={{
+            fontSize: 11,
+            color: 'var(--qf-parchment-dim)',
+            fontFamily: 'var(--font-body)',
+          }}
+        >
+          The Gemini Oracle is forging your next set of questions.
+        </div>
+      </div>
+    )
+  }
+
   // ── Results ──────────────────────────────────────────────────────────────
 
   if (phase === 'results') {
     const correctCount = sessionCorrect
-    const accuracy = challenges.length ? correctCount / challenges.length : 0
+    const accuracy = correctCount / 10
 
     return (
       <>
@@ -503,69 +549,56 @@ export default function QuizInterface({
           from { opacity: 0; transform: translateY(8px); }
           to   { opacity: 1; transform: translateY(0); }
         }
-        @media (min-width: 768px) {
-          .quiz-layout {
-            display: grid !important;
-            grid-template-columns: 2fr 3fr !important;
-            gap: 24px !important;
-            align-items: start !important;
-          }
-          .quiz-arena-sticky {
-            position: sticky !important;
-            top: 16px !important;
-          }
-        }
       `}</style>
 
-      <div className="px-4 pt-4 pb-10" style={{ maxWidth: 860, margin: '0 auto' }}>
-        <div className="quiz-layout">
-          {/* ── Battle arena (sticky sidebar on desktop) ── */}
-          <div className="quiz-arena-sticky">
-            <BattleArena
-              ref={arenaRef}
-              playerConfig={(avatarConfig as AvatarConfig | null) ?? DEFAULT_AVATAR_CONFIG}
-              playerPreset={playerPreset}
-              playerDisplayName={displayName ?? 'Hero'}
-              enemy={enemy}
-              enemyPreset={enemyPreset}
-              correctCount={correctCount}
-              questionIndex={questionIndex}
-              totalQuestions={challenges.length}
-              questionSource={source}
-              screenFlash={flash}
-              playerSize={72}
-              enemySize={72}
-              streak={streak}
-              enemyTitle={teacher?.title}
-              backgroundSrc={theme.bg}
-              atmosphere={theme.atm as any}
-            />
-          </div>
+      <div className="px-4 pt-4 pb-10" style={{ maxWidth: 820, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 16 }}>
+        {/* ── Battle arena (full-width header) ── */}
+        <div>
+          <BattleArena
+            ref={arenaRef}
+            playerConfig={(avatarConfig as AvatarConfig | null) ?? DEFAULT_AVATAR_CONFIG}
+            playerPreset={playerPreset}
+            playerDisplayName={displayName ?? 'Hero'}
+            enemy={enemy}
+            enemyPreset={enemyPreset}
+            correctCount={correctCount}
+            questionIndex={questionIndex}
+            totalQuestions={10}
+            questionSource={source}
+            screenFlash={flash}
+            playerSize={96}
+            enemySize={96}
+            streak={streak}
+            enemyTitle={teacher?.title}
+            backgroundSrc={theme.bg}
+            atmosphere={theme.atm as any}
+          />
+        </div>
 
-          {/* ── Question card ── */}
+        {/* ── Question card ── */}
+        <div
+          key={questionIndex}
+          style={{
+            background: 'rgba(26,28,46,0.85)',
+            border: '1px solid rgba(201,168,76,0.2)',
+            borderRadius: 6,
+            padding: '20px 18px',
+            animation: 'card-rise 0.25s ease',
+          }}
+        >
+          {/* Progress header */}
           <div
-            key={questionIndex}
             style={{
-              background: 'rgba(26,28,46,0.85)',
-              border: '1px solid rgba(201,168,76,0.2)',
-              borderRadius: 6,
-              padding: '20px 18px',
-              animation: 'card-rise 0.25s ease',
+              fontFamily: 'var(--font-pixel)',
+              fontSize: 8,
+              color: '#7a6a44',
+              textAlign: 'center',
+              marginBottom: 16,
+              letterSpacing: '1.5px',
             }}
           >
-            {/* Progress header */}
-            <div
-              style={{
-                fontFamily: 'var(--font-pixel)',
-                fontSize: 8,
-                color: '#7a6a44',
-                textAlign: 'center',
-                marginBottom: 16,
-                letterSpacing: '1.5px',
-              }}
-            >
-              QUESTION {questionIndex + 1} OF {challenges.length}
-            </div>
+            QUESTION {questionIndex + 1} OF 10
+          </div>
 
             {/* Question text */}
             {(() => {
@@ -658,7 +691,6 @@ export default function QuizInterface({
                 {current.content.explanation}
               </div>
             )}
-          </div>
         </div>
       </div>
     </>
