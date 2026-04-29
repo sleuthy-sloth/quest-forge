@@ -222,8 +222,14 @@ export default function LootPage() {
     setPurchaseError(null)
 
     try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        setPurchaseError('Not logged in.')
+        return
+      }
+
       const { data, error: rpcError } = await supabase.rpc('purchase_reward', {
-        p_player_id: (await supabase.auth.getUser()).data.user?.id,
+        p_player_id: user.id,
         p_reward_id: confirmItem.id,
       })
 

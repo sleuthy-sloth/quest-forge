@@ -167,7 +167,7 @@ export default function LootStore() {
 
                 {/* Name */}
                 <p style={{ fontFamily: 'var(--font-heading), serif', fontWeight: 700, fontSize: '0.82rem', color: canAfford ? '#f0e6c8' : 'rgba(240,230,200,0.45)', lineHeight: 1.25 }}>
-                  {item.name}
+                  {item.title}
                 </p>
 
                 {/* Description */}

@@ -8,7 +8,10 @@ import { PageHeader } from '@/components/qf'
 import { LOOT_SUGGESTIONS } from '@/lib/constants/suggestions'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
-type LootItem = Tables<'rewards'>
+type LootItem = Pick<
+  Tables<'rewards'>,
+  | 'id' | 'title' | 'description' | 'cost_xp' | 'cost_gold' | 'category' | 'is_available'
+>
 type LootCategory = 'real_reward' | 'cosmetic' | 'power_up' | 'story_unlock'
 
 interface ItemForm {
