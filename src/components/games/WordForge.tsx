@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { revalidatePlayCache } from '@/app/actions/cache'
+import { playSfx } from '@/lib/audio'
+import { useAcademy } from '@/hooks/useAcademy'
 import BattleArena, { type BattleArenaHandle } from '@/components/games/BattleArena'
 import { ENEMY_PRESETS, DEFAULT_AVATAR_CONFIG } from '@/lib/constants/enemies'
 import { SLUG_PRESET } from '@/lib/constants/academy'
@@ -24,7 +26,7 @@ interface Question {
   xp_reward: number
 }
 
-type Phase = 'loading' | 'playing' | 'results'
+type Phase = 'loading' | 'playing' | 'waiting' | 'results'
 type Feedback = null | 'correct' | 'wrong'
 type ScreenFlash = 'blue' | 'red' | null
 type FetchErrorKind = 'network' | 'empty' | null
@@ -133,6 +135,7 @@ export default function WordForge({
   } = useAcademy(playerId, householdId)
 
   // Playing state
+  const [phase, setPhase] = useState<Phase>('loading')
   const [questionIndex, setQuestionIndex] = useState(0)
   const [score, setScore] = useState(0)
   const [answers, setAnswers] = useState<string[]>([])
@@ -142,6 +145,7 @@ export default function WordForge({
   const [chosenWrong, setChosenWrong] = useState<string | null>(null)
 
   const [xpEarned, setXpEarned] = useState(0)
+  const [submissionError, setSubmissionError] = useState(false)
 
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([])
   function addTimer(id: ReturnType<typeof setTimeout>) {
@@ -160,6 +164,13 @@ export default function WordForge({
   useEffect(() => {
     fetchChallenges('vocabulary')
   }, [fetchChallenges])
+
+  // Sync phase with useAcademy loading state
+  useEffect(() => {
+    if (!loading && phase === 'loading' && questions.length > 0) {
+      setPhase('playing')
+    }
+  }, [loading, questions.length, phase])
 
   // Auto-advance from waiting to Q6 when second batch arrives
   useEffect(() => {
@@ -184,111 +195,59 @@ export default function WordForge({
 
   // ── Answer handler ───────────────────────────────────────────────────────
 
-  function handleAnswer(option: string) {
-    if (feedback !== null) return
+  async function handleAnswer(option: string) {
+    if (feedback !== null) return // debounce
 
     const current = questions[questionIndex]
+    if (!current) return
+
     const isCorrect = option === current.content.correct_answer
     const newAnswers = [...answers, option]
 
-    void submitAnswer(current.id, isCorrect)
+    // Fire persistence via hook
+    try {
+      await submitAnswer(current.id, isCorrect)
+    } catch {
+      setSubmissionError(true)
+    }
 
     if (isCorrect) {
-      const newScore = score + 1
-      setScore(newScore)
+      setScore(s => s + 1)
       setXpEarned(prev => prev + current.xp_reward)
       setAnswers(newAnswers)
       setFeedback('correct')
       setIronHit(true)
       setScreenFlash('blue')
+      playSfx('attack')
       arenaRef.current?.triggerPlayerAttack()
 
       addTimer(setTimeout(() => setScreenFlash(null), 300))
       addTimer(setTimeout(() => setIronHit(false), 600))
-      addTimer(setTimeout(() => {
-        if (questionIndex === 9) {
-          setAnswers(newAnswers)
-          setPhase('results')
-        } else if (questionIndex === 4 && secondBatchLoading) {
-          setAnswers(newAnswers)
-          setPhase('waiting')
-        } else {
-          setQuestionIndex(qi => qi + 1)
-          setFeedback(null)
-        }
-      }, 1000))
     } else {
       setAnswers(newAnswers)
       setFeedback('wrong')
       setChosenWrong(option)
       setScreenFlash('red')
+      playSfx('click')
       arenaRef.current?.triggerEnemyAttack()
-
       addTimer(setTimeout(() => setScreenFlash(null), 300))
-      addTimer(setTimeout(() => {
-        if (questionIndex === 9) {
-          setAnswers(newAnswers)
-          setPhase('results')
-        } else if (questionIndex === 4 && secondBatchLoading) {
-          setAnswers(newAnswers)
-          setPhase('waiting')
-        } else {
-          setQuestionIndex(qi => qi + 1)
-          setFeedback(null)
-          setChosenWrong(null)
-        }
-      }, 3000))
     }
-  }
 
-  function handleAnswer(option: string) {
-    if (feedback !== null) return
+    const nextIdx = questionIndex + 1
+    const isFinished = nextIdx >= 10
 
-    const current = questions[questionIndex]
-    const isCorrect = option === current.content.correct_answer
-    const newAnswers = [...answers, option]
-
-    void recordAnswer(current, isCorrect)
-
-    if (isCorrect) {
-      const newScore = score + 1
-      setScore(newScore)
-      setAnswers(newAnswers)
-      setFeedback('correct')
-      setIronHit(true)
-      setScreenFlash('blue')
-      arenaRef.current?.triggerPlayerAttack()
-
-      addTimer(setTimeout(() => setScreenFlash(null), 300))
-      addTimer(setTimeout(() => setIronHit(false), 600))
-      addTimer(setTimeout(() => {
-        if (questionIndex === questions.length - 1) {
-          setAnswers(newAnswers)
-          setPhase('results')
-        } else {
-          setQuestionIndex(qi => qi + 1)
-          setFeedback(null)
-        }
-      }, 1000))
-    } else {
-      setAnswers(newAnswers)
-      setFeedback('wrong')
-      setChosenWrong(option)
-      setScreenFlash('red')
-      arenaRef.current?.triggerEnemyAttack()
-
-      addTimer(setTimeout(() => setScreenFlash(null), 300))
-      addTimer(setTimeout(() => {
-        if (questionIndex === questions.length - 1) {
-          setAnswers(newAnswers)
-          setPhase('results')
-        } else {
-          setQuestionIndex(qi => qi + 1)
-          setFeedback(null)
-          setChosenWrong(null)
-        }
-      }, 3000))
-    }
+    addTimer(setTimeout(() => {
+      if (isFinished) {
+        playSfx('victory')
+        setPhase('results')
+      } else if (questionIndex === 4 && secondBatchLoading) {
+        setPhase('waiting')
+      } else {
+        setQuestionIndex(nextIdx)
+        setFeedback(null)
+        setChosenWrong(null)
+      }
+    }, isCorrect ? 1000 : 3000))
   }
 
   // ── Loading ──────────────────────────────────────────────────────────────
@@ -343,7 +302,7 @@ export default function WordForge({
     const correctCount = score
     return (
       <div className="px-4 py-6" style={{ maxWidth: '480px', margin: '0 auto' }}>
-        {saveError && (
+        {submissionError && (
           <div style={{
             fontFamily: 'var(--font-body)', fontSize: '12px', color: '#e05555',
             background: 'rgba(224,85,85,0.1)', border: '1px solid rgba(224,85,85,0.3)',
@@ -450,7 +409,7 @@ export default function WordForge({
 
   const current = questions[questionIndex]
   const correctCount = score
-  const vocabWord = extractWord(current.title)
+  const vocabWord = extractWord(current?.title ?? 'Word')
   const heatLevel = questions.length ? correctCount / questions.length : 0
 
   return (

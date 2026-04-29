@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { revalidatePlayCache } from '@/app/actions/cache'
+import { playSfx } from '@/lib/audio'
+import { useAcademy } from '@/hooks/useAcademy'
 import BattleArena, { type BattleArenaHandle } from '@/components/games/BattleArena'
 import { ENEMY_PRESETS, DEFAULT_AVATAR_CONFIG } from '@/lib/constants/enemies'
 import { SLUG_PRESET } from '@/lib/constants/academy'
@@ -24,7 +26,7 @@ interface Question {
   xp_reward: number
 }
 
-type Phase = 'loading' | 'playing' | 'results'
+type Phase = 'loading' | 'playing' | 'waiting' | 'results'
 type Feedback = null | 'correct' | 'wrong'
 type ScreenFlash = 'green' | 'red' | null
 type FetchErrorKind = 'network' | 'empty' | null
@@ -110,6 +112,7 @@ export default function ScienceLabyrinth({
   } = useAcademy(playerId, householdId)
 
   // Playing state
+  const [phase, setPhase] = useState<Phase>('loading')
   const [questionIndex, setQuestionIndex] = useState(0)
   const [score, setScore] = useState(0)
   const [answers, setAnswers] = useState<string[]>([])
@@ -124,6 +127,7 @@ export default function ScienceLabyrinth({
 
   // Results state
   const [xpEarned, setXpEarned] = useState(0)
+  const [submissionError, setSubmissionError] = useState(false)
 
   // Battle arena ref for triggering attack animations
   const arenaRef = useRef<BattleArenaHandle>(null)
@@ -150,6 +154,13 @@ export default function ScienceLabyrinth({
     fetchChallenges('science')
   }, [fetchChallenges])
 
+  // Sync phase with useAcademy loading state
+  useEffect(() => {
+    if (!loading && phase === 'loading' && questions.length > 0) {
+      setPhase('playing')
+    }
+  }, [loading, questions.length, phase])
+
   // Auto-advance from waiting to Q6 when second batch arrives
   useEffect(() => {
     if (phase === 'waiting' && secondBatchReady) {
@@ -173,39 +184,34 @@ export default function ScienceLabyrinth({
 
   // ── Answer handler ─────────────────────────────────────────────────────────
 
-  function handleAnswer(option: string) {
-    if (feedback !== null) return
+  async function handleAnswer(option: string) {
+    if (feedback !== null) return // debounce
 
     const current = questions[questionIndex]
+    if (!current) return
+
     const isCorrect = option === current.content.correct_answer
     const newAnswers = [...answers, option]
 
-    void submitAnswer(current.id, isCorrect)
+    // Fire persistence via hook
+    try {
+      await submitAnswer(current.id, isCorrect)
+    } catch {
+      setSubmissionError(true)
+    }
 
     if (isCorrect) {
-      const newScore = score + 1
-      setScore(newScore)
+      setScore(s => s + 1)
       setXpEarned(prev => prev + current.xp_reward)
       setAnswers(newAnswers)
       setFeedback('correct')
       setCorridorAdvancing(true)
       setScreenFlash('green')
+      playSfx('attack')
       arenaRef.current?.triggerPlayerAttack()
 
       addTimer(setTimeout(() => setScreenFlash(null), 300))
       addTimer(setTimeout(() => setCorridorAdvancing(false), 600))
-      addTimer(setTimeout(() => {
-        if (questionIndex === 9) {
-          setAnswers(newAnswers)
-          setPhase('results')
-        } else if (questionIndex === 4 && secondBatchLoading) {
-          setAnswers(newAnswers)
-          setPhase('waiting')
-        } else {
-          setQuestionIndex(qi => qi + 1)
-          setFeedback(null)
-        }
-      }, 1000))
     } else {
       setAnswers(newAnswers)
       setFeedback('wrong')
@@ -213,28 +219,34 @@ export default function ScienceLabyrinth({
       setScreenFlash('red')
       setWallMounted(true)
       setWallVisible(true)
+      playSfx('click')
       arenaRef.current?.triggerEnemyAttack()
 
       addTimer(setTimeout(() => setScreenFlash(null), 300))
-      addTimer(setTimeout(() => {
+    }
+
+    const nextIdx = questionIndex + 1
+    const isFinished = nextIdx >= 10
+
+    addTimer(setTimeout(() => {
+      if (!isCorrect) {
         // Start wall lift
         setWallVisible(false)
         // Remove wall from DOM after lift completes (300ms) so it can't eat pointer events
         addTimer(setTimeout(() => setWallMounted(false), 300))
-        // Advance question
-        if (questionIndex === 9) {
-          setAnswers(newAnswers)
-          setPhase('results')
-        } else if (questionIndex === 4 && secondBatchLoading) {
-          setAnswers(newAnswers)
-          setPhase('waiting')
-        } else {
-          setQuestionIndex(qi => qi + 1)
-          setFeedback(null)
-          setChosenWrong(null)
-        }
-      }, 3000))
-    }
+      }
+
+      if (isFinished) {
+        playSfx('victory')
+        setPhase('results')
+      } else if (questionIndex === 4 && secondBatchLoading) {
+        setPhase('waiting')
+      } else {
+        setQuestionIndex(nextIdx)
+        setFeedback(null)
+        setChosenWrong(null)
+      }
+    }, isCorrect ? 1000 : 3000))
   }
 
   // ── Loading phase ──────────────────────────────────────────────────────────
@@ -387,66 +399,7 @@ export default function ScienceLabyrinth({
     )
   }
 
-  // ── Answer handler ─────────────────────────────────────────────────────────
 
-  function handleAnswer(option: string) {
-    if (feedback !== null) return
-
-    const current = questions[questionIndex]
-    const isCorrect = option === current.content.correct_answer
-    const newAnswers = [...answers, option]
-
-    void recordAnswer(current, isCorrect)
-
-    if (isCorrect) {
-      const newScore = score + 1
-      setScore(newScore)
-      setAnswers(newAnswers)
-      setFeedback('correct')
-      setCorridorAdvancing(true)
-      setScreenFlash('green')
-      arenaRef.current?.triggerPlayerAttack()
-
-      addTimer(setTimeout(() => setScreenFlash(null), 300))
-      addTimer(setTimeout(() => setCorridorAdvancing(false), 600))
-      addTimer(setTimeout(() => {
-        if (questionIndex === questions.length - 1) {
-          setAnswers(newAnswers)
-          setPhase('results')
-        } else {
-          setQuestionIndex(qi => qi + 1)
-          setFeedback(null)
-        }
-      }, 1000))
-    } else {
-      setAnswers(newAnswers)
-      setFeedback('wrong')
-      setChosenWrong(option)
-      setScreenFlash('red')
-      setWallMounted(true)
-      setWallVisible(true)
-      arenaRef.current?.triggerEnemyAttack()
-
-      addTimer(setTimeout(() => setScreenFlash(null), 300))
-      addTimer(setTimeout(() => {
-        // Start wall lift
-        setWallVisible(false)
-        // Remove wall from DOM after lift completes (300ms) so it can't eat pointer events
-        addTimer(setTimeout(() => setWallMounted(false), 300))
-        // Advance question
-        if (questionIndex === questions.length - 1) {
-          setFeedback(null)
-          setChosenWrong(null)
-          setAnswers(newAnswers)
-          setPhase('results')
-        } else {
-          setQuestionIndex(qi => qi + 1)
-          setFeedback(null)
-          setChosenWrong(null)
-        }
-      }, 3000))
-    }
-  }
 
   // ── Playing phase render ────────────────────────────────────────────────────
 

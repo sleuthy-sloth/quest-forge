@@ -3,7 +3,7 @@ import { canMakeRequest, incrementUsage } from './rate-limiter'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
-export type EduSubject = 'math' | 'reading' | 'science' | 'history' | 'vocabulary' | 'logic'
+export type EduSubject = 'math' | 'reading' | 'science' | 'history' | 'vocabulary' | 'logic' | 'general_knowledge' | 'life_skills'
 export type AgeTier = 'junior' | 'senior'
 
 export interface GeneratedQuestion {
@@ -32,6 +32,8 @@ const SUBJECT_GUIDANCE: Record<EduSubject, string> = {
   history:     'world and US history — focus on significant events and cause-effect relationships',
   vocabulary:  'definitions, synonyms, antonyms — use high-quality, unambiguous choices. Synonyms must be true synonyms (e.g., "cat" and "feline", not "cat" and "kitten"). Antonyms must be direct opposites (e.g., "hot" and "cold").',
   logic:       'a DIVERSE MIX of question types. Each set of 5 questions MUST include at least 4 different types from this list — do NOT repeat the same type more than once:\n  1. NUMBER SEQUENCE: "2, 5, 8, 11, ___?" (arithmetic or geometric progressions)\n  2. SYMBOL PATTERN: Use Unicode symbols inline — "◯ ■ △ ◯ ■ ___" (put symbol answers in options too)\n  3. WORD ANALOGY: "Hot is to cold as day is to ___?"\n  4. SYLLOGISM: "All birds have feathers. A sparrow is a bird. Does a sparrow have feathers?"\n  5. ODD ONE OUT: "Apple, banana, carrot, grape — which does not belong and why?"\n  6. ORDERING PUZZLE: "Sarah is older than Tom. Tom is older than Ben. Who is youngest?"\n  7. IF/THEN DEDUCTION: "If all knights are brave, and Alric is a knight, is Alric brave?"\n  8. RIDDLE/LATERAL: A short, age-appropriate riddle with a clear logical answer (e.g. "I have hands but cannot clap. What am I?")',
+  general_knowledge: 'trivia across geography, art, pop culture, and sports — keep it globally relevant and fun.',
+  life_skills: 'emotional intelligence, social etiquette, safety, and basic health — focus on positive behaviors and problem solving.',
 }
 
 // Lower temperature for fact-based subjects, higher for creative passages.
@@ -42,6 +44,8 @@ const SUBJECT_TEMPERATURE: Record<EduSubject, number> = {
   history:    0.7,
   vocabulary: 0.7,
   reading:    0.85,
+  general_knowledge: 0.75,
+  life_skills: 0.8,
 }
 
 function buildPrompt(subject: EduSubject, ageTier: AgeTier, count: number): { system: string; user: string } {

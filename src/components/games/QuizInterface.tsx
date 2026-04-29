@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { revalidatePlayCache } from '@/app/actions/cache'
+import { playSfx } from '@/lib/audio'
 import { useAcademy } from '@/hooks/useAcademy'
 import BattleArena, { type BattleArenaHandle } from '@/components/games/BattleArena'
 import CelebrationEffect from '@/components/games/CelebrationEffect'
@@ -197,6 +198,7 @@ export default function QuizInterface({
       setStreak(s => Math.min(s + 1, 10))
       setFeedback('correct')
       setFlash('green')
+      playSfx('attack')
       arenaRef.current?.triggerPlayerAttack()
 
       addTimer(setTimeout(() => setFlash(null), 350))
@@ -209,6 +211,7 @@ export default function QuizInterface({
 
       addTimer(setTimeout(() => {
         if (questionIndex >= 9) {
+          playSfx('victory')
           setCelebrationTick(t => t + 1)
           setPhase('results')
         } else if (questionIndex === 4 && secondBatchLoading) {
@@ -224,6 +227,7 @@ export default function QuizInterface({
       setFeedback('wrong')
       setChosenWrong(option)
       setFlash('red')
+      playSfx('click')
       arenaRef.current?.triggerEnemyAttack()
 
       addTimer(setTimeout(() => setFlash(null), 350))
@@ -236,6 +240,7 @@ export default function QuizInterface({
 
       addTimer(setTimeout(() => {
         if (questionIndex >= 9) {
+          playSfx('victory')
           setCelebrationTick(t => t + 1)
           setPhase('results')
         } else if (questionIndex === 4 && secondBatchLoading) {

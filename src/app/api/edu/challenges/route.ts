@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 
-const SUBJECTS = ['math', 'reading', 'science', 'history', 'vocabulary', 'logic'] as const
+const SUBJECTS = ['math', 'reading', 'science', 'history', 'vocabulary', 'logic', 'general_knowledge', 'life_skills'] as const
 const AGE_TIERS = ['junior', 'senior'] as const
 
 const Schema = z.object({

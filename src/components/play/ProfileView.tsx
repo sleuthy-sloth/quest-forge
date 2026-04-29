@@ -66,22 +66,22 @@ function StatIcon({ stat, color }: { stat: string; color: string }) {
 
 function SectionHeading({ label, accent }: { label: string; accent: string }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem', marginTop: '0.5rem' }}>
       <h2
         style={{
           fontFamily:     'var(--font-pixel), monospace',
-          fontSize:       '0.65rem',
-          letterSpacing:  '0.2em',
+          fontSize:       '0.75rem',
+          letterSpacing:  '0.25em',
           color:          accent,
           imageRendering: 'pixelated',
           whiteSpace:     'nowrap',
           flexShrink:      0,
-          textShadow:     `0 0 10px ${accent}44`,
+          textShadow:     `0 0 15px ${accent}66`,
         }}
       >
         {label}
       </h2>
-      <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg, ${accent}44, transparent)` }} />
+      <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg, ${accent}66, transparent)` }} />
     </div>
   )
 }
@@ -345,8 +345,19 @@ export default function ProfileView({
         <SectionHeading label="ADVENTURE LOG" accent={accent} />
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           {completions.length === 0 ? (
-            <p style={{ textAlign: 'center', color: 'var(--qf-parchment)', fontStyle: 'italic', padding: '3.5rem 1rem', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px dashed rgba(255,255,255,0.1)' }}>
-              Your chronicles are empty. Begin your deeds!
+            <p style={{ 
+              textAlign: 'center', 
+              color: '#f0e6c8', 
+              fontStyle: 'italic', 
+              padding: '4rem 1.5rem', 
+              background: 'rgba(255,255,255,0.05)', 
+              borderRadius: '12px', 
+              border: '1px dashed rgba(201,168,76,0.3)',
+              fontSize: '0.95rem',
+              lineHeight: 1.6
+            }}>
+              Your chronicles are empty. <br/>
+              <span style={{ fontSize: '0.8rem', opacity: 0.6, fontStyle: 'normal' }}>Begin your deeds to record your legend!</span>
             </p>
           ) : (
             completions.map((c, i) => (
@@ -401,8 +412,19 @@ export default function ProfileView({
         <SectionHeading label="LEGENDARY LOOT" accent={accent} />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '1rem' }}>
           {purchases.length === 0 ? (
-            <div style={{ gridColumn: '1/-1', textAlign: 'center', color: 'var(--qf-parchment)', fontStyle: 'italic', padding: '3.5rem 1rem', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px dashed rgba(255,255,255,0.1)' }}>
-              No loot found. Visit the Emporium.
+            <div style={{ 
+              gridColumn: '1/-1', 
+              textAlign: 'center', 
+              color: '#f0e6c8', 
+              fontStyle: 'italic', 
+              padding: '4rem 1.5rem', 
+              background: 'rgba(255,255,255,0.05)', 
+              borderRadius: '12px', 
+              border: '1px dashed rgba(201,168,76,0.3)',
+              fontSize: '0.95rem'
+            }}>
+              No loot found. <br/>
+              <span style={{ fontSize: '0.8rem', opacity: 0.6, fontStyle: 'normal' }}>Visit the Emporium to claim your rewards!</span>
             </div>
           ) : (
             purchases.map((p) => (

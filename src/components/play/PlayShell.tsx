@@ -44,7 +44,6 @@ export function PlayShell({
   children 
 }: PlayShellProps) {
   const pathname = usePathname()
-  const bgmStarted = useRef(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const sidebarRef = useRef<HTMLElement>(null)
   const hamburgerRef = useRef<HTMLButtonElement>(null)
@@ -52,12 +51,16 @@ export function PlayShell({
   // Realtime notification listener
   useNotifications(userId, householdId, role)
 
-  // Start hub BGM on first mount
+  // Handle BGM switching based on location
   useEffect(() => {
-    if (bgmStarted.current) return
-    bgmStarted.current = true
-    playBgm('hub')
-  }, [])
+    if (pathname.includes('/play/academy/')) {
+      playBgm('academy')
+    } else if (pathname.includes('/play/boss/')) {
+      playBgm('boss')
+    } else {
+      playBgm('hub')
+    }
+  }, [pathname])
 
   // Focus management and Esc key for sidebar
   useEffect(() => {

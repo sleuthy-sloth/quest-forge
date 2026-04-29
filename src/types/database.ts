@@ -870,6 +870,8 @@ export type Database = {
         | "history"
         | "vocabulary"
         | "logic"
+        | "general_knowledge"
+        | "life_skills"
       user_role: "gm" | "player"
       redemption_status: "pending" | "approved" | "redeemed"
       reward_type: "digital" | "real_world"
@@ -1019,6 +1021,8 @@ export const Constants = {
         "history",
         "vocabulary",
         "logic",
+        "general_knowledge",
+        "life_skills",
       ],
       user_role: ["gm", "player"],
       redemption_status: ["pending", "approved", "redeemed"],

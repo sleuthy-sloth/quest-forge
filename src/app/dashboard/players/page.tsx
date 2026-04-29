@@ -250,20 +250,36 @@ export default function PlayersPage() {
     }
   }
 
-  const handleDelete = async (playerId: string) => {
-    if (!confirm('Are you absolutely sure? This will permanently erase this adventurer and all their progress.')) {
-      setDeleteTarget(null)
+  const handleResetPlayer = async (playerId: string, name: string) => {
+    if (!confirm(`Reset ${name}'s progress? This will wipe their XP, Gold, and Loot, but keep their character account.`)) {
+      return
+    }
+    try {
+      const res = await fetch('/api/gm/household', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'reset_player', playerId }),
+      })
+      if (!res.ok) throw new Error('Failed to reset player.')
+      alert(`${name} has been reset to level 1.`)
+      fetchPlayers() // refresh list
+    } catch (err: any) {
+      alert(err.message)
+    }
+  }
+
+  const handleDelete = async (playerId: string, name: string) => {
+    if (!confirm(`Are you absolutely sure you want to DELETE ${name}? This will permanently erase this adventurer account.`)) {
       return
     }
     setDeleting(true)
     try {
-      const res = await fetch(`/api/auth/create-child?playerId=${playerId}`, { method: 'DELETE' })
+      const res = await fetch(`/api/gm/household?playerId=${playerId}`, { method: 'DELETE' })
       if (!res.ok) {
         const data = await res.json()
         throw new Error(data.error || 'Failed to delete player.')
       }
       setPlayers(prev => prev.filter(p => p.id !== playerId))
-      setDeleteTarget(null)
     } catch (err: any) {
       console.error('Failed to delete player:', err)
       alert(err.message || 'Failed to delete player.')
@@ -557,11 +573,16 @@ export default function PlayersPage() {
                         <span style={{ fontSize: '0.72rem', color: 'rgba(201,168,76,0.5)' }}>{player.gold}g</span>
                       </div>
                     </div>
-                    <div style={{ display: 'flex', gap: '0.4rem' }}>
+                    <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+                      <button className="reset-btn" onClick={() => handleResetPlayer(player.id, player.display_name)}>
+                        🔄 Reset Progress
+                      </button>
                       <button className={`reset-btn${resetTarget === player.id ? ' active' : ''}`} onClick={() => setResetTarget(resetTarget === player.id ? null : player.id)}>
                         {resetTarget === player.id ? '✕ Cancel' : '🔑 Reset PW'}
                       </button>
-                      <button className="reset-btn" style={{ borderColor: 'rgba(220,80,80,0.2)', color: 'rgba(220,100,100,0.4)' }} onClick={() => handleDelete(player.id)}>🗑 Delete</button>
+                      <button className="reset-btn" style={{ borderColor: 'rgba(220,80,80,0.2)', color: 'rgba(220,100,100,0.4)' }} onClick={() => handleDelete(player.id, player.display_name)}>
+                        🗑 Delete
+                      </button>
                     </div>
                   </div>
                   {resetTarget === player.id && <ResetForm playerId={player.id} onDone={() => setResetTarget(null)} />}

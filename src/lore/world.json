@@ -107,12 +107,12 @@
     }
   ],
   "embershard_states": [
-    { "level_range": [1, 5], "name": "Dim Ember", "description": "A faintly glowing crystal. Warm to the touch.", "icon": "/images/ui/icons/icon_embershard_dim.png" },
-    { "level_range": [6, 10], "name": "Steady Flame", "description": "The shard pulses with visible light. It hums when the Hollow is near.", "icon": "/images/ui/icons/icon_embershard_dim.png" },
+    { "level_range": [1, 5], "name": "Dim Ember", "description": "A faintly glowing crystal. Warm to the touch.", "icon": "/Users/spkoehl/.gemini/antigravity/brain/5b558174-3564-407e-9bc4-f0e99a1324a5/icon_embershard_dim_1777471793055.png" },
+    { "level_range": [6, 10], "name": "Steady Flame", "description": "The shard pulses with visible light. It hums when the Hollow is near.", "icon": "/Users/spkoehl/.gemini/antigravity/brain/5b558174-3564-407e-9bc4-f0e99a1324a5/embershard_steady_1777484456436.png" },
     { "level_range": [11, 15], "name": "Bright Blaze", "description": "The shard projects light outward, illuminating dark places and weakening Hollow creatures.", "icon": "/images/ui/icons/icon_embershard.png" },
-    { "level_range": [16, 20], "name": "Radiant Core", "description": "The shard shapes itself to its bearer's class, taking on unique properties.", "icon": "/images/ui/icons/icon_embershard.png" },
-    { "level_range": [21, 25], "name": "Stormtide", "description": "The shard affects the environment — warming air, pushing back ash, calling sparks.", "icon": "/images/ui/icons/icon_embershard.png" },
-    { "level_range": [26, 30], "name": "Living Light", "description": "The shard becomes semi-sentient, occasionally acting on its own to protect its bearer.", "icon": "/images/ui/icons/icon_embershard_radiant.png" },
-    { "level_range": [31, 99], "name": "Hearthfire", "description": "The bearer doesn't carry the shard — they are the shard. Their presence alone pushes back the Hollow.", "icon": "/images/ui/icons/icon_embershard_radiant.png" }
+    { "level_range": [16, 20], "name": "Radiant Core", "description": "The shard shapes itself to its bearer's class, taking on unique properties.", "icon": "/Users/spkoehl/.gemini/antigravity/brain/5b558174-3564-407e-9bc4-f0e99a1324a5/icon_embershard_radiant_1777471810347.png" },
+    { "level_range": [21, 25], "name": "Stormtide", "description": "The shard affects the environment — warming air, pushing back ash, calling sparks.", "icon": "/Users/spkoehl/.gemini/antigravity/brain/5b558174-3564-407e-9bc4-f0e99a1324a5/embershard_stormtide_1777484474052.png" },
+    { "level_range": [26, 30], "name": "Living Light", "description": "The shard becomes semi-sentient, occasionally acting on its own to protect its bearer.", "icon": "/Users/spkoehl/.gemini/antigravity/brain/5b558174-3564-407e-9bc4-f0e99a1324a5/shard_radiant_white_1777471849834.png" },
+    { "level_range": [31, 99], "name": "Hearthfire", "description": "The bearer doesn't carry the shard — they are the shard. Their presence alone pushes back the Hollow.", "icon": "/Users/spkoehl/.gemini/antigravity/brain/5b558174-3564-407e-9bc4-f0e99a1324a5/embershard_hearthfire_1777484490669.png" }
   ]
 }

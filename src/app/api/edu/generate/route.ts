@@ -6,7 +6,7 @@ import { generateEduChallenges, type EduSubject, type AgeTier } from '@/lib/ai/e
 
 export const maxDuration = 30
 
-const SUBJECTS = ['math', 'reading', 'science', 'history', 'vocabulary', 'logic'] as const
+const SUBJECTS = ['math', 'reading', 'science', 'history', 'vocabulary', 'logic', 'general_knowledge', 'life_skills'] as const
 const AGE_TIERS = ['junior', 'senior'] as const
 
 const Schema = z.object({

@@ -57,7 +57,7 @@ type Section = 'world' | 'class' | 'embershard' | 'hearthhold' | 'npcs' | 'regio
 const SECTIONS: { id: Section; label: string; icon: string }[] = [
   { id: 'world',      label: 'The World',   icon: '/images/ui/icons/icon_world.png' },
   { id: 'class',      label: 'Your Class',  icon: '/images/ui/icons/icon_class.png' },
-  { id: 'embershard', label: 'Embershard',  icon: '/images/ui/icons/icon_embershard.png' },
+  { id: 'embershard', label: 'Embershard',  icon: '/Users/spkoehl/.gemini/antigravity/brain/5b558174-3564-407e-9bc4-f0e99a1324a5/icon_embershard_radiant_1777471810347.png' },
   { id: 'hearthhold', label: 'Hearthhold',  icon: '/images/ui/icons/icon_hearthhold.png' },
   { id: 'npcs',       label: 'Characters',  icon: '/images/ui/icons/icon_characters.png' },
   { id: 'regions',    label: 'Regions',     icon: '/images/ui/icons/icon_regions.png' },
@@ -361,8 +361,8 @@ function EmberShardSection({ level }: { level: number }) {
   const next = EMBER_STATES[nextIdx] ?? null
 
   return (
-    <div style={{ padding: 20 }}>
-      <div style={{ textAlign: 'center', marginBottom: 24, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div style={{ padding: '20px 0', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ textAlign: 'center', marginBottom: 24, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
         <div style={{ marginBottom: 16, width: '100%', display: 'flex', justifyContent: 'center' }}>
           <div style={{ position: 'relative', width: 140, height: 140, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at center, rgba(201,168,76,0.15) 0%, transparent 70%)', borderRadius: '50%' }} />

@@ -59,6 +59,20 @@ export const GAMES = [
     tagline: 'Unlock the puzzles of the mind',
     accent:  '#1e8ab8',
   },
+  {
+    slug:    'general-knowledge',
+    name:    'General Knowledge',
+    icon:    'globe' as const,
+    tagline: 'The world is wider than you know',
+    accent:  '#9e1a7a',
+  },
+  {
+    slug:    'life-skills',
+    name:    'Life Skills',
+    icon:    'heart' as const,
+    tagline: 'Master the art of living well',
+    accent:  '#9e8a1a',
+  },
 ] as const
 
 /** Inferred element type of the GAMES array — used in GameCard and EncounterCard props. */
@@ -120,6 +134,8 @@ export const SUBJECT_TO_SLUG: Record<string, string> = {
   math:       'math-arena',
   word:       'word-forge',
   science:    'science-labyrinth',
+  general_knowledge: 'general-knowledge',
+  life_skills: 'life-skills',
 }
 
 // ── Teacher roster ────────────────────────────────────────────────────────────
@@ -208,6 +224,26 @@ export const TEACHERS: TeacherDef[] = [
     level:   11,
     portrait: '/images/portraits/logic-gate.png',
   },
+  {
+    slug:    'general-knowledge',
+    subject: 'General Knowledge',
+    name:    'Master of All',
+    title:   'The Universal Scholar',
+    tagline: 'The world is a book, and those who do not travel read only a page.',
+    glow:    '#9e1a7a',
+    level:   12,
+    portrait: '/Users/spkoehl/.gemini/antigravity/brain/5b558174-3564-407e-9bc4-f0e99a1324a5/teacher_general_knowledge_1777484438982.png',
+  },
+  {
+    slug:    'life-skills',
+    subject: 'Life Skills',
+    name:    'Nurturer Lea',
+    title:   'The Guardian of Growth',
+    tagline: 'Kindness is the strongest armor.',
+    glow:    '#9e8a1a',
+    level:   5,
+    portrait: '/Users/spkoehl/.gemini/antigravity/brain/5b558174-3564-407e-9bc4-f0e99a1324a5/teacher_life_skills_1777484742864.png',
+  },
 ]
 
 export const TEACHER_BY_SLUG: Record<string, TeacherDef> = Object.fromEntries(
@@ -249,4 +285,6 @@ export const SLUG_PRESET: Record<string, AnimationPreset> = {
   'history-scroll':    'warrior',
   'vocab-duel':        'mage',
   'logic-gate':        'warrior',
+  'general-knowledge': 'scholar',
+  'life-skills':       'scholar',
 }

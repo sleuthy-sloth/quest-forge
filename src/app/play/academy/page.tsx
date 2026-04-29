@@ -53,13 +53,15 @@ export default async function AcademyPage() {
 
   // Map SUBJECT_TO_SLUG keys → completed subjects
   const subjectToSlug: Record<string, string> = {
-    math:       'math-arena',
-    word:       'word-forge',
-    science:    'science-labyrinth',
-    reading:    'reading-tome',
-    history:    'history-scroll',
-    vocabulary: 'vocab-duel',
-    logic:      'logic-gate',
+    math:              'math-arena',
+    word:              'word-forge',
+    science:           'science-labyrinth',
+    reading:           'reading-tome',
+    history:           'history-scroll',
+    vocabulary:        'vocab-duel',
+    logic:             'logic-gate',
+    general_knowledge: 'general-knowledge',
+    life_skills:       'life-skills',
   }
   const completedSlugs = new Set<string>()
   for (const [subject, slug] of Object.entries(subjectToSlug)) {

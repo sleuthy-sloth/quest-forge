@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { revalidatePlayCache } from '@/app/actions/cache'
+import { playSfx } from '@/lib/audio'
+import { useAcademy } from '@/hooks/useAcademy'
 import BattleArena, { type BattleArenaHandle } from '@/components/games/BattleArena'
 import CelebrationEffect from '@/components/games/CelebrationEffect'
 import { ENEMY_PRESETS, DEFAULT_AVATAR_CONFIG } from '@/lib/constants/enemies'
@@ -110,6 +112,7 @@ export default function MathArena({
   } = useAcademy(playerId, householdId)
 
   // Playing state
+  const [phase, setPhase] = useState<Phase>('loading')
   const [questionIndex, setQuestionIndex] = useState(0)
   const [score, setScore] = useState(0)
   const [streak, setStreak] = useState(0)
@@ -117,6 +120,9 @@ export default function MathArena({
   const [feedback, setFeedback] = useState<Feedback>(null)
   const [screenFlash, setScreenFlash] = useState<ScreenFlash>(null)
   const [chosenWrong, setChosenWrong] = useState<string | null>(null)
+  const [saveError, setSaveError] = useState(false)
+
+  const correctCount = score
 
   // Celebration effect trigger (incremented when the quiz finishes)
   const [celebrationTick, setCelebrationTick] = useState(0)
@@ -137,6 +143,7 @@ export default function MathArena({
 
   // Results — XP accumulates per correct answer (DB trigger awards it on insert)
   const [xpEarned, setXpEarned] = useState(0)
+  const [submissionError, setSubmissionError] = useState(false)
   const [freshProfile, setFreshProfile] = useState<{ xp_total: number; xp_available: number; level: number } | null>(null)
 
   // ── Initial Fetch ─────────────────────────────────────────────────────────
@@ -144,6 +151,13 @@ export default function MathArena({
   useEffect(() => {
     fetchChallenges('math')
   }, [fetchChallenges])
+
+  // Sync phase with useAcademy loading state
+  useEffect(() => {
+    if (!loading && phase === 'loading' && questions.length > 0) {
+      setPhase('playing')
+    }
+  }, [loading, questions.length, phase])
 
   // Auto-advance from waiting to Q6 when second batch arrives
   useEffect(() => {
@@ -182,15 +196,19 @@ export default function MathArena({
 
   // ── Answer handler ───────────────────────────────────────────────────────
 
-  function handleAnswer(option: string) {
+  async function handleAnswer(option: string) {
     if (feedback !== null) return // debounce
 
     const current = questions[questionIndex]
     const correct = option === current.content.correct_answer
     const newAnswers = [...answers, option]
 
-    // Fire the persistence via hook; UI doesn't block on it.
-    void submitAnswer(current.id, correct)
+    // Fire the persistence via hook
+    try {
+      await submitAnswer(current.id, correct)
+    } catch {
+      setSubmissionError(true)
+    }
 
     if (correct) {
       const newScore = score + 1
@@ -200,11 +218,13 @@ export default function MathArena({
       setAnswers(newAnswers)
       setFeedback('correct')
       setScreenFlash('green')
+      playSfx('attack')
       arenaRef.current?.triggerPlayerAttack()
 
       addTimer(setTimeout(() => setScreenFlash(null), 300))
       addTimer(setTimeout(() => {
         if (questionIndex >= 9) {
+          playSfx('victory')
           setCelebrationTick(t => t + 1)
           setAnswers(newAnswers)
           setPhase('results')
@@ -222,11 +242,13 @@ export default function MathArena({
       setFeedback('wrong')
       setChosenWrong(option)
       setScreenFlash('red')
+      playSfx('click')
       arenaRef.current?.triggerEnemyAttack()
 
       addTimer(setTimeout(() => setScreenFlash(null), 300))
       addTimer(setTimeout(() => {
         if (questionIndex >= 9) {
+          playSfx('victory')
           setCelebrationTick(t => t + 1)
           setAnswers(newAnswers)
           setPhase('results')
@@ -245,7 +267,6 @@ export default function MathArena({
   // ── Render helpers ───────────────────────────────────────────────────────
 
   const current = questions[questionIndex]
-  const correctCount = score
 
   // Accuracy badge color
   function accuracyColor(n: number): string {

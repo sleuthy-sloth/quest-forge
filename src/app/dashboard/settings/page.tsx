@@ -1,31 +1,55 @@
+'use client'
+
+import { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/client'
 import { PageHeader, PageDivider } from '@/components/qf'
 import InviteGmForm from '@/components/dashboard/InviteGmForm'
 
-export default async function SettingsPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
+export default function SettingsPage() {
+  const supabase = useMemo(() => createClient(), [])
+  const [user, setUser] = useState<any>(null)
+  const [profile, setProfile] = useState<any>(null)
+  const [gmList, setGmList] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('display_name, role, household_id')
-    .eq('id', user.id)
-    .single()
+  useEffect(() => {
+    async function loadData() {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        window.location.href = '/login'
+        return
+      }
+      setUser(user)
 
-  if (!profile || profile.role !== 'gm') redirect('/play')
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('display_name, role, household_id')
+        .eq('id', user.id)
+        .single()
 
-  // Fetch all GMs in this household
-  const { data: gms } = await supabase
-    .from('profiles')
-    .select('id, display_name, created_at')
-    .eq('household_id', profile.household_id)
-    .eq('role', 'gm')
-    .order('created_at', { ascending: true })
+      if (!profile || profile.role !== 'gm') {
+        window.location.href = '/play'
+        return
+      }
+      setProfile(profile)
 
-  const gmList = gms ?? []
+      const { data: gms } = await supabase
+        .from('profiles')
+        .select('id, display_name, created_at')
+        .eq('household_id', profile.household_id)
+        .eq('role', 'gm')
+        .order('created_at', { ascending: true })
+
+      setGmList(gms ?? [])
+      setLoading(false)
+    }
+    loadData()
+  }, [supabase])
+
+  if (loading || !profile) {
+    return <div style={{ padding: 40, color: 'var(--qf-parchment-dim)' }}>Consulting the chronicles…</div>
+  }
 
   return (
     <div style={{ maxWidth: 720 }}>
@@ -74,11 +98,7 @@ export default async function SettingsPage() {
       <PageDivider>Game Masters</PageDivider>
       <div className="qf-ornate-panel" style={{ padding: 18, marginBottom: 18 }}>
         {/* Existing GMs list */}
-        <div
-          style={{
-            marginBottom: 18,
-          }}
-        >
+        <div style={{ marginBottom: 18 }}>
           <div
             className="font-pixel"
             style={{
@@ -150,32 +170,11 @@ export default async function SettingsPage() {
         </div>
 
         {/* Invite form */}
-        <div
-          style={{
-            borderTop: '1px solid var(--qf-rule)',
-            paddingTop: 16,
-          }}
-        >
-          <div
-            className="font-pixel"
-            style={{
-              fontSize: 7,
-              color: 'var(--qf-parchment-muted)',
-              letterSpacing: '0.14em',
-              marginBottom: 12,
-            }}
-          >
+        <div style={{ borderTop: '1px solid var(--qf-rule)', paddingTop: 16 }}>
+          <div className="font-pixel" style={{ fontSize: 7, color: 'var(--qf-parchment-muted)', letterSpacing: '0.14em', marginBottom: 12 }}>
             ADD CO-GM
           </div>
-          <p
-            style={{
-              fontFamily: 'var(--font-heading), Cinzel, serif',
-              fontSize: 12,
-              color: 'var(--qf-parchment-dim)',
-              fontStyle: 'italic',
-              marginBottom: 14,
-            }}
-          >
+          <p style={{ fontFamily: 'var(--font-heading), Cinzel, serif', fontSize: 12, color: 'var(--qf-parchment-dim)', fontStyle: 'italic', marginBottom: 14 }}>
             Invite another parent to help manage the household. They&apos;ll have full Game Master powers.
           </p>
           <InviteGmForm />
@@ -184,17 +183,48 @@ export default async function SettingsPage() {
 
       {/* Danger Zone */}
       <PageDivider>Danger Zone</PageDivider>
-      <div className="qf-ornate-panel" style={{ padding: 18, border: '1px solid rgba(220,80,80,0.3)', background: 'rgba(220,60,60,0.03)' }}>
-        <div style={{ marginBottom: 18 }}>
+      <div className="qf-ornate-panel" style={{ padding: 18, border: '1px solid rgba(220,80,80,0.3)', background: 'rgba(220,60,60,0.03)', marginBottom: 40 }}>
+        {/* Reset Story Only */}
+        <div style={{ marginBottom: 24, paddingBottom: 24, borderBottom: '1px solid rgba(220,80,80,0.1)' }}>
           <div className="font-pixel" style={{ fontSize: 7, color: 'rgba(220,100,100,0.8)', letterSpacing: '0.14em', marginBottom: 12 }}>
-            RESET STORY & PROGRESS
+            RESET STORY NARRATIVE
+          </div>
+          <p style={{ fontFamily: 'var(--font-heading), Cinzel, serif', fontSize: 12, color: 'var(--qf-parchment-dim)', fontStyle: 'italic', marginBottom: 14 }}>
+            Reset the world story to Chapter 1 for all players. Player XP, Gold, and Loot will be kept.
+          </p>
+          <button
+            onClick={async () => {
+              if (confirm('Reset the story to Chapter 1? This cannot be undone.')) {
+                const res = await fetch('/api/gm/household', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ action: 'reset_story' })
+                })
+                if (res.ok) alert('The story has been reset.')
+                else alert('Failed to reset story.')
+              }
+            }}
+            className="font-pixel"
+            style={{
+              background: 'rgba(220,60,60,0.05)', border: '1px solid rgba(220,80,80,0.3)',
+              borderRadius: 2, color: 'rgba(220,100,100,0.8)', fontSize: 7, padding: '0.5rem 0.8rem', cursor: 'pointer'
+            }}
+          >
+            RESET STORY ONLY
+          </button>
+        </div>
+
+        {/* Hard Reset */}
+        <div>
+          <div className="font-pixel" style={{ fontSize: 7, color: 'rgba(220,100,100,0.8)', letterSpacing: '0.14em', marginBottom: 12 }}>
+            FULL HOUSEHOLD WIPE
           </div>
           <p style={{ fontFamily: 'var(--font-heading), Cinzel, serif', fontSize: 12, color: 'var(--qf-parchment-dim)', fontStyle: 'italic', marginBottom: 14 }}>
             Wipe all deeds, loot, and level progress for every adventurer in this household. The story will return to Chapter 1.
           </p>
           <button
             onClick={async () => {
-              if (confirm('ARE YOU SURE? This will permanently erase ALL player progress and reset the story. This cannot be undone.')) {
+              if (confirm('ARE YOU SURE? This will permanently erase ALL player progress and reset the story.')) {
                 const res = await fetch('/api/gm/household', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
@@ -210,17 +240,11 @@ export default async function SettingsPage() {
             }}
             className="font-pixel"
             style={{
-              background: 'rgba(220,60,60,0.1)',
-              border: '1px solid rgba(220,80,80,0.4)',
-              borderRadius: 2,
-              color: 'rgba(220,100,100,0.85)',
-              fontSize: 8,
-              padding: '0.6rem 1rem',
-              cursor: 'pointer',
-              letterSpacing: '0.05em'
+              background: 'rgba(220,60,60,0.1)', border: '1px solid rgba(220,80,80,0.4)',
+              borderRadius: 2, color: 'rgba(220,100,100,0.85)', fontSize: 8, padding: '0.6rem 1rem', cursor: 'pointer', letterSpacing: '0.05em'
             }}
           >
-            RESET WORLD PROGRESS
+            PERFORM HARD RESET
           </button>
         </div>
       </div>
@@ -231,15 +255,9 @@ export default async function SettingsPage() {
         <Link
           href="/dashboard/settings/about"
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            padding: '0.6rem 0',
-            borderBottom: '1px solid var(--qf-rule)',
-            fontFamily: 'var(--font-heading), Cinzel, serif',
-            fontSize: 13,
-            color: 'var(--qf-gold-300)',
-            textDecoration: 'none',
+            display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.6rem 0',
+            borderBottom: '1px solid var(--qf-rule)', fontFamily: 'var(--font-heading), Cinzel, serif',
+            fontSize: 13, color: 'var(--qf-gold-300)', textDecoration: 'none',
           }}
         >
           <span>◆</span>
@@ -253,14 +271,9 @@ export default async function SettingsPage() {
           <div
             key={row.label}
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '0.6rem 0',
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.6rem 0',
               borderBottom: i < all.length - 1 ? '1px solid var(--qf-rule)' : 'none',
-              fontFamily: 'var(--font-heading), Cinzel, serif',
-              fontSize: 13,
-              color: 'var(--qf-parchment)',
+              fontFamily: 'var(--font-heading), Cinzel, serif', fontSize: 13, color: 'var(--qf-parchment)',
             }}
           >
             <span>{row.label}</span>
