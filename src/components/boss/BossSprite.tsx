@@ -252,7 +252,7 @@ const BossSprite = forwardRef<BossSpriteHandle, { config: BossSpriteConfig }>(
       },
     }))
 
-    const frameColor = config.frame === 'frame_epic' ? '#aa44ff' : '#888'
+    const frameColor = config.glow_color || (config.frame === 'frame_epic' ? '#aa44ff' : '#888')
 
     return (
       <div style={{ position: 'relative', width: displaySize, height: displaySize, display: 'inline-block' }}>
