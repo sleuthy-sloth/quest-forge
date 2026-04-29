@@ -57,7 +57,7 @@ type Section = 'world' | 'class' | 'embershard' | 'hearthhold' | 'npcs' | 'regio
 const SECTIONS: { id: Section; label: string; icon: string }[] = [
   { id: 'world',      label: 'The World',   icon: '/images/ui/icons/icon_world.png' },
   { id: 'class',      label: 'Your Class',  icon: '/images/ui/icons/icon_class.png' },
-  { id: 'embershard', label: 'Embershard',  icon: '/images/ui/icons/embershard_radiant.png' },
+  { id: 'embershard', label: 'Embershard',  icon: '/images/ui/icons/icon_embershard_radiant.png' },
   { id: 'hearthhold', label: 'Hearthhold',  icon: '/images/ui/icons/icon_hearthhold.png' },
   { id: 'npcs',       label: 'Characters',  icon: '/images/ui/icons/icon_characters.png' },
   { id: 'regions',    label: 'Regions',     icon: '/images/ui/icons/icon_regions.png' },

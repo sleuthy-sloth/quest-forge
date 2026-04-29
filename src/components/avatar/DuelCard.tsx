@@ -26,13 +26,15 @@ interface DuelCardProps {
 // ── Subject icons ─────────────────────────────────────────────────────────────
 
 const SUBJECT_ICONS: Record<string, string> = {
-  math:       '⚡',
-  reading:    '📖',
-  science:    '🔬',
-  history:    '📜',
-  vocabulary: '💬',
-  logic:      '🧩',
-  word:       '✍️',
+  'Math Arena':        '⚡',
+  'Reading Tome':      '📖',
+  'Science Labyrinth': '🔬',
+  'History Scroll':    '📜',
+  'Vocab Duel':        '💬',
+  'Logic Gate':        '🧩',
+  'Word Forge':        '✍️',
+  'General Knowledge': '🌍',
+  'Life Skills':       '🌱',
 }
 
 // ── Corners helper ────────────────────────────────────────────────────────────
