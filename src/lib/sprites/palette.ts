@@ -36,13 +36,19 @@ export const BOSS_PALETTES: Record<string, BossPalette> = {
     accent:    '#c8c8c8',
     glow:      '#888888',
   },
+  blight_hollow: {
+    primary:   '#1a0d2e',
+    secondary: '#3d1a5c',
+    accent:    '#9b4dff',
+    glow:      '#6a1fa8',
+  },
 }
 
 // ---------------------------------------------------------------------------
 // Boss sprite manifest
 // ---------------------------------------------------------------------------
 
-export type BossSpriteFormat = 'folder' | 'sheet'
+export type BossSpriteFormat = 'folder' | 'sheet' | 'procedural'
 
 export interface BossSpriteInfo {
   format: BossSpriteFormat
@@ -111,6 +117,28 @@ export const BOSS_SPRITE_MANIFEST: Record<string, BossSpriteInfo> = {
     format: 'sheet',
     basePath: 'bosses/snake.png',
     cellW: 64, cellH: 64, cols: 7, rows: 4,
+  },
+
+  // --- Procedural: drawn by Canvas 2D, no sprite files ---
+  procedural_treant: {
+    format: 'procedural',
+    basePath: '',
+  },
+  procedural_giant: {
+    format: 'procedural',
+    basePath: '',
+  },
+  procedural_golem: {
+    format: 'procedural',
+    basePath: '',
+  },
+  procedural_flame: {
+    format: 'procedural',
+    basePath: '',
+  },
+  procedural_hollow_king: {
+    format: 'procedural',
+    basePath: '',
   },
 }
 

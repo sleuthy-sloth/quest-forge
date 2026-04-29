@@ -33,12 +33,12 @@ export interface BossState {
 // ---------------------------------------------------------------------------
 
 const DEFAULT_BOSS_CONFIG: BossSpriteConfig = {
-  base_sprite: 'demon',
-  palette: 'hollow_dark',
+  base_sprite: 'procedural_treant',
+  palette: 'blight_hollow',
   scale: 2,
-  particles: ['ember_float', 'shadow_tendril'],
+  particles: ['blight_spore', 'root_crawl', 'dark_aura'],
   frame: 'frame_epic',
-  glow_color: '#4a0080',
+  glow_color: '#6a1fa8',
 }
 
 // ---------------------------------------------------------------------------

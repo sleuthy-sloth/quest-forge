@@ -51,6 +51,18 @@ export const PARTICLE_CSS_KEYFRAMES = `
   20%  { opacity: 0.6; }
   100% { transform: translateY(120px) translateX(15px) rotate(360deg); opacity: 0; }
 }
+@keyframes blight-spore {
+  0%   { transform: translateY(0) scale(0.6); opacity: 0; }
+  15%  { opacity: 0.75; }
+  60%  { transform: translateY(-55px) translateX(8px) scale(1); opacity: 0.5; }
+  100% { transform: translateY(-90px) translateX(-4px) scale(0.3); opacity: 0; }
+}
+@keyframes root-crawl {
+  0%   { transform: scaleX(0); opacity: 0; transform-origin: left center; }
+  20%  { opacity: 0.6; }
+  70%  { transform: scaleX(1) translateY(2px); opacity: 0.4; transform-origin: left center; }
+  100% { transform: scaleX(1); opacity: 0; transform-origin: left center; }
+}
 `
 
 export const PARTICLE_DEFS: Record<string, ParticleDef> = {
@@ -169,6 +181,40 @@ export const PARTICLE_DEFS: Record<string, ParticleDef> = {
       top: '-20px',
       animation: `ash-fall ${(2.5 + (i % 2)).toFixed(1)}s linear infinite`,
       animationDelay: `${i * 0.7}s`,
+      pointerEvents: 'none',
+    }),
+  },
+
+  blight_spore: {
+    count: 10,
+    keyframes: 'blight-spore',
+    style: (i) => ({
+      position: 'absolute',
+      width:  `${4 + (i % 3) * 2}px`,
+      height: `${4 + (i % 3) * 2}px`,
+      borderRadius: '50%',
+      backgroundColor: ['#9b4dff', '#6a1fa8', '#c084fc'][i % 3],
+      boxShadow: '0 0 6px #9b4dff',
+      left:   `${8 + (i * 29) % 84}%`,
+      bottom: `${30 + (i * 17) % 35}%`,
+      animation: `blight-spore ${(2.0 + (i * 40) % 120 / 100).toFixed(2)}s ease-out infinite`,
+      animationDelay: `${((i * 37) % 200 / 100).toFixed(2)}s`,
+      pointerEvents: 'none',
+    }),
+  },
+
+  root_crawl: {
+    count: 6,
+    keyframes: 'root-crawl',
+    style: (i) => ({
+      position: 'absolute',
+      width:  `${20 + (i * 13) % 40}px`,
+      height: '3px',
+      backgroundColor: i % 2 === 0 ? '#3d1a5c' : '#1a0d2e',
+      left:   `${5 + (i * 31) % 70}%`,
+      bottom: `${2 + (i * 3) % 8}%`,
+      animation: `root-crawl ${(2.5 + (i * 50) % 100 / 100).toFixed(2)}s ease-out infinite`,
+      animationDelay: `${((i * 67) % 300 / 100).toFixed(2)}s`,
       pointerEvents: 'none',
     }),
   },

@@ -14,6 +14,7 @@ import {
   swapPalette,
   fetchBitmap,
 } from '@/lib/sprites/palette'
+import { PROCEDURAL_BOSS_REGISTRY } from '@/lib/sprites/proceduralBosses'
 import {
   PARTICLE_CSS_KEYFRAMES,
   PARTICLE_DEFS,
@@ -62,8 +63,8 @@ const BossSprite = forwardRef<BossSpriteHandle, { config: BossSpriteConfig }>(
     const spriteInfo = BOSS_SPRITE_MANIFEST[config.base_sprite]
     const palette    = BOSS_PALETTES[config.palette] ?? BOSS_PALETTES.hollow_dark
 
-    // Native size: folder sprites are 256×256; sheet sprites use cellW
-    const nativeSize  = spriteInfo?.format === 'folder' ? 256 : (spriteInfo?.cellW ?? 64)
+    // Native size: folder and procedural sprites are 256×256; sheet sprites use cellW
+    const nativeSize  = spriteInfo?.format === 'folder' || spriteInfo?.format === 'procedural' ? 256 : (spriteInfo?.cellW ?? 64)
     const displaySize = nativeSize * config.scale
 
     // -----------------------------------------------------------------------
@@ -75,6 +76,12 @@ const BossSprite = forwardRef<BossSpriteHandle, { config: BossSpriteConfig }>(
       let cancelled = false
 
       async function load() {
+        // Procedural sprites are drawn directly — no image loading needed
+        if (spriteInfo.format === 'procedural') {
+          setLoaded(true)
+          return
+        }
+
         const offscreen = document.createElement('canvas')
         offscreen.width  = nativeSize
         offscreen.height = nativeSize
@@ -143,6 +150,34 @@ const BossSprite = forwardRef<BossSpriteHandle, { config: BossSpriteConfig }>(
         typeof window !== 'undefined' &&
         window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+      // ---------------------------------------------------------------------
+      // Procedural branch: draw via Canvas 2D rAF loop
+      // ---------------------------------------------------------------------
+      if (spriteInfo?.format === 'procedural') {
+        const drawFn = PROCEDURAL_BOSS_REGISTRY[config.base_sprite]
+        if (!drawFn) { setLoadError(true); return }
+
+        const canvas = canvasRef.current
+        if (!canvas) return
+        const ctx = canvas.getContext('2d')
+        if (!ctx) return
+
+        if (prefersReducedMotion) {
+          drawFn(ctx, displaySize, displaySize, palette, 0)
+          return
+        }
+
+        const tick = (ts: number) => {
+          drawFn(ctx, displaySize, displaySize, palette, ts)
+          rafHandle.current = requestAnimationFrame(tick)
+        }
+        rafHandle.current = requestAnimationFrame(tick)
+        return () => cancelAnimationFrame(rafHandle.current)
+      }
+
+      // ---------------------------------------------------------------------
+      // Sprite-sheet / folder frame-based animation
+      // ---------------------------------------------------------------------
       function draw() {
         const canvas = canvasRef.current
         if (!canvas) return
@@ -171,7 +206,7 @@ const BossSprite = forwardRef<BossSpriteHandle, { config: BossSpriteConfig }>(
         if (intervalHandle.current) clearInterval(intervalHandle.current)
         cancelAnimationFrame(rafHandle.current)
       }
-    }, [loaded, displaySize])
+    }, [loaded, displaySize, config.base_sprite, config.palette, palette, spriteInfo])
 
     // -----------------------------------------------------------------------
     // Imperative API
@@ -245,6 +280,7 @@ const BossSprite = forwardRef<BossSpriteHandle, { config: BossSpriteConfig }>(
     // Render
     // -----------------------------------------------------------------------
     if (loadError) {
+      const isProcedural = spriteInfo?.format === 'procedural'
       return (
         <div style={{
           width: displaySize,
@@ -260,7 +296,7 @@ const BossSprite = forwardRef<BossSpriteHandle, { config: BossSpriteConfig }>(
           textAlign: 'center',
           imageRendering: 'pixelated',
         }}>
-          ☠<br />sprite<br />unavailable
+          {isProcedural ? 'rendering\nerror' : '☠\nsprite\nunavailable'}
         </div>
       )
     }
