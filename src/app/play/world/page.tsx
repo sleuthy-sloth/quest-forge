@@ -15,15 +15,22 @@ export default async function WorldPage() {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('avatar_class, level')
+    .select('avatar_class, level, household_id')
     .eq('id', user.id)
     .single()
+
+  const { data: householdPlayers } = await supabase
+    .from('profiles')
+    .select('id, display_name, avatar_class, avatar_config, level, story_chapter')
+    .eq('household_id', profile?.household_id)
+    .eq('role', 'player')
 
   return (
     <ZoneManager zone="hub">
       <WorldCodex
         playerClass={profile?.avatar_class ?? null}
         level={profile?.level ?? 1}
+        householdPlayers={householdPlayers ?? []}
       />
     </ZoneManager>
   )

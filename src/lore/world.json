@@ -18,37 +18,43 @@
       "name": "The Heartwood",
       "type": "forest",
       "description": "A vast ancient forest at the center of Embervale. The oldest trees have roots that reach the deep Radiance. Home to Hearthhold, the heroes' base of operations.",
-      "associated_arcs": [1]
+      "associated_arcs": [1, 6],
+      "coords": { "x": 50, "y": 48 }
     },
     {
       "name": "The Shattered Coast",
       "type": "coastal",
       "description": "A western shoreline fractured into hundreds of islands. The waters glow faintly at night from radiant veins beneath the waves. Pirates, traders, and sea creatures dwell here.",
-      "associated_arcs": [2]
+      "associated_arcs": [2, 7],
+      "coords": { "x": 22, "y": 42 }
     },
     {
       "name": "The Ironspine Mountains",
       "type": "mountains",
       "description": "Northern peaks so tall their summits vanish into cloud. Home to the Forgekin and the Wind Readers. Deep beneath run the Glimmerveins — rivers of raw light-energy.",
-      "associated_arcs": [3]
+      "associated_arcs": [3, 8],
+      "coords": { "x": 48, "y": 18 }
     },
     {
       "name": "The Dustmere Plains",
       "type": "grasslands",
       "description": "Eastern grasslands traversed by nomadic clans following the Cinderstag herds. The grass ripples like gold in the wind.",
-      "associated_arcs": [4]
+      "associated_arcs": [4, 9],
+      "coords": { "x": 78, "y": 38 }
     },
     {
       "name": "The Ashlands",
       "type": "wasteland",
       "description": "The southern wasteland where the Emberlight has nearly died. Gray dust, leafless trees, silence. Home of the Hollow. It grows larger each year.",
-      "associated_arcs": [11, 12, 13]
+      "associated_arcs": [11, 12, 13],
+      "coords": { "x": 52, "y": 82 }
     },
     {
       "name": "The Underbright",
       "type": "underground",
       "description": "A vast cavern network lit by bioluminescent fungi and crystallized light-stone. Beautiful and dangerous in equal measure.",
-      "associated_arcs": [5]
+      "associated_arcs": [5, 10],
+      "coords": { "x": 35, "y": 68 }
     }
   ],
   "home_base": {

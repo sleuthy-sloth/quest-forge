@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import worldRaw from '@/lore/world.json'
 import classesRaw from '@/lore/classes.json'
+import AvatarPreview from '@/components/avatar/AvatarPreview'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -12,6 +13,7 @@ interface Region {
   type: string
   description: string
   associated_arcs: number[]
+  coords?: { x: number; y: number }
 }
 
 interface NPC {
@@ -98,7 +100,7 @@ const LOC_ICONS: Record<string, string> = {
 
 // ── Sub-sections ──────────────────────────────────────────────────────────────
 
-function WorldSection() {
+function WorldSection({ householdPlayers = [] }: { householdPlayers?: any[] }) {
   return (
     <div style={{ padding: '0 0 40px 0' }}>
       <div style={{
@@ -120,6 +122,63 @@ function WorldSection() {
           position: 'absolute', inset: 0,
           background: 'linear-gradient(to top, #0e0a14 0%, transparent 40%, rgba(14,10,20,0.4) 100%)'
         }} />
+
+        {/* Player Avatars on Map */}
+        {householdPlayers?.map((p, idx) => {
+          const arc = Math.floor(((p.story_chapter || 1) - 1) / 4) + 1
+          const region = WORLD.regions.find(r => r.associated_arcs.includes(arc))
+          const coords = region?.coords || { x: 50, y: 48 }
+          
+          // Jitter slightly so they don't overlap perfectly
+          const jitterX = (idx % 3 - 1) * 3
+          const jitterY = (Math.floor(idx / 3) - 1) * 3
+
+          return (
+            <div
+              key={p.id}
+              style={{
+                position: 'absolute',
+                left: `${coords.x + jitterX}%`,
+                top: `${coords.y + jitterY}%`,
+                transform: 'translate(-50%, -50%)',
+                zIndex: 10,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.8))',
+                transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+              }}
+            >
+              <div style={{
+                width: 32,
+                height: 32,
+                borderRadius: '50%',
+                border: '2px solid var(--qf-gold-400)',
+                background: 'rgba(14,10,20,0.8)',
+                overflow: 'hidden',
+                boxShadow: '0 0 15px rgba(201,168,76,0.3)'
+              }}>
+                <AvatarPreview 
+                  config={p.avatar_config} 
+                  className="w-full h-full"
+                />
+              </div>
+              <div style={{
+                fontFamily: 'var(--font-pixel)',
+                fontSize: 6,
+                color: '#f0e6c8',
+                marginTop: 4,
+                background: 'rgba(0,0,0,0.6)',
+                padding: '2px 4px',
+                borderRadius: 2,
+                whiteSpace: 'nowrap'
+              }}>
+                {p.display_name}
+              </div>
+            </div>
+          )
+        })}
+
         <div style={{
           position: 'absolute', bottom: 24, left: 24, right: 24, textAlign: 'center'
         }}>
@@ -610,14 +669,15 @@ function RegionsSection() {
 interface WorldCodexProps {
   playerClass: string | null
   level: number
+  householdPlayers?: any[]
 }
 
-export default function WorldCodex({ playerClass, level }: WorldCodexProps) {
+export default function WorldCodex({ playerClass, level, householdPlayers = [] }: WorldCodexProps) {
   const [section, setSection] = useState<Section>('world')
 
   function renderSection() {
     switch (section) {
-      case 'world':      return <WorldSection />
+      case 'world':      return <WorldSection householdPlayers={householdPlayers} />
       case 'class':      return <ClassSection playerClass={playerClass} />
       case 'embershard': return <EmberShardSection level={level} />
       case 'hearthhold': return <HearthholdSection />
