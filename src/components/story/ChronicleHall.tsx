@@ -148,13 +148,19 @@ function ChapterReader({
           )}
 
           {/* Chapter title */}
-          <div className="px-6 pt-6 pb-4 border-t border-[#5a3a1a]/20 mt-4">
-            <div className="text-[0.6rem] text-[#b09a6e]/40 font-mono uppercase tracking-[0.25em] mb-2 text-center">
+          <div className="px-8 pt-10 pb-6 border-t border-[#5a3a1a]/30 mt-6 relative">
+            {/* Decorative flourish */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-px bg-gradient-to-r from-transparent via-[#c9a84c]/50 to-transparent" />
+            
+            <div className="text-[0.7rem] text-[#b09a6e]/50 font-mono uppercase tracking-[0.4em] mb-4 text-center">
               Week {chapter.week_number}
             </div>
             <h2
-              className="text-[#d4b0ff] text-2xl md:text-3xl text-center leading-tight"
-              style={{ fontFamily: 'var(--font-heading), serif', textShadow: '0 2px 10px rgba(212,176,255,0.2)' }}
+              className="text-[#d4b0ff] text-3xl md:text-5xl text-center leading-[1.1] tracking-tight"
+              style={{ 
+                fontFamily: 'var(--font-heading), serif', 
+                textShadow: '0 4px 20px rgba(212,176,255,0.25), 0 0 40px rgba(212,176,255,0.1)' 
+              }}
             >
               {chapter.title}
             </h2>
@@ -165,21 +171,21 @@ function ChapterReader({
           {/* Narrative text */}
           {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
           <div
-            className="px-8 pb-10 cursor-pointer max-w-2xl mx-auto"
+            className="px-10 pb-16 cursor-pointer max-w-3xl mx-auto"
             onClick={() => { if (!typingDone) setSkipTyping(true) }}
             title="Click to skip animation"
           >
             {skipTyping ? (
               <p
-                className="text-[#b0c0e0] text-lg md:text-xl leading-[1.8] tracking-[0.015em] whitespace-pre-wrap"
-                style={{ fontFamily: 'var(--font-body), serif' }}
+                className="text-[#f0e6c8] text-xl md:text-2xl leading-[1.9] tracking-[0.01em] whitespace-pre-wrap"
+                style={{ fontFamily: 'var(--font-body), serif', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}
               >
                 {chapter.narrative_text}
               </p>
             ) : (
               <motion.p
-                className="text-[#b0c0e0] text-lg md:text-xl leading-[1.8] tracking-[0.015em] whitespace-pre-wrap"
-                style={{ fontFamily: 'var(--font-body), serif' }}
+                className="text-[#f0e6c8] text-xl md:text-2xl leading-[1.9] tracking-[0.01em] whitespace-pre-wrap"
+                style={{ fontFamily: 'var(--font-body), serif', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}
                 variants={{ visible: { transition: { staggerChildren: PER_CHAR } } }}
                 initial="hidden"
                 animate="visible"
@@ -253,25 +259,25 @@ function HeroicDeeds({ weekNumber, householdId }: { weekNumber: number; househol
   }, {} as Record<string, string[]>)
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-10">
       <div className="text-center">
-        <h3 className="text-[#c9a84c] text-sm font-pixel tracking-[0.2em] uppercase mb-4">Heroic Deeds of the Week</h3>
-        <div className="w-16 h-px bg-[#c9a84c]/30 mx-auto" />
+        <h3 className="text-[#c9a84c] text-lg font-pixel tracking-[0.3em] uppercase mb-6">Heroic Deeds of the Week</h3>
+        <div className="w-24 h-px bg-[#c9a84c]/30 mx-auto" />
       </div>
       
-      <div className="grid gap-6">
+      <div className="grid gap-10">
         {Object.entries(grouped).map(([name, tasks]) => (
-          <div key={name} className="bg-black/20 border border-[#c9a84c]/10 p-4 rounded-sm">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 rounded-full bg-[#c9a84c]/10 flex items-center justify-center border border-[#c9a84c]/20">
-                <span className="text-[#c9a84c] font-bold text-xs">{name.charAt(0)}</span>
+          <div key={name} className="bg-black/40 border border-[#c9a84c]/20 p-8 rounded-sm shadow-xl">
+            <div className="flex items-center gap-6 mb-6">
+              <div className="w-14 h-14 rounded-full bg-[#c9a84c]/10 flex items-center justify-center border border-[#c9a84c]/30 shadow-[0_0_15px_rgba(201,168,76,0.15)]">
+                <span className="text-[#c9a84c] font-bold text-xl">{name.charAt(0)}</span>
               </div>
-              <span className="font-heading text-[#f0e6c8] text-lg">{name}</span>
+              <span className="font-heading text-[#f0e6c8] text-3xl tracking-wide">{name}</span>
             </div>
-            <ul className="space-y-2">
+            <ul className="space-y-4">
               {tasks.map((t, i) => (
-                <li key={i} className="flex items-start gap-2 text-[#b09a6e]/70 text-sm italic">
-                  <span className="text-[#c9a84c] mt-1 text-[0.6rem]">✦</span>
+                <li key={i} className="flex items-start gap-4 text-[#b09a6e] text-xl italic leading-relaxed">
+                  <span className="text-[#c9a84c] mt-2 text-xs">✦</span>
                   <span>{t}</span>
                 </li>
               ))}
