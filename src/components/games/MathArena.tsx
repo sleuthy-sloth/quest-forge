@@ -189,19 +189,7 @@ export default function MathArena({
 
       const batch1Ids = batch1.map(q => q.id).filter(id => UUID_RE.test(id))
 
-      const aiPromise = fetch('/api/edu/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ subject: 'math', age_tier: ageTier, count: 5 }),
-        signal: AbortSignal.timeout(55000),
-      })
-        .then(async (res) => {
-          if (!res.ok) return null
-          const json = (await res.json()) as { questions?: Question[] }
-          return json.questions && json.questions.length >= 3 ? json.questions : null
-        })
-        .catch(() => null)
-
+      // Start DB fetch immediately so it's warm if AI fails, but prefer AI.
       const dbFallbackPromise = (async (): Promise<Question[] | null> => {
         try {
           const params = new URLSearchParams({ subject: 'math', age_tier: ageTier, count: '5' })
@@ -218,20 +206,39 @@ export default function MathArena({
       })()
 
       let batch2: Question[] | null = null
+      let batch2Source: QuestionSource = 'db'
+
+      // Try AI first — player answering Q1-5 gives it 30-60s to resolve.
       try {
-        batch2 = await Promise.any([
-          aiPromise.then(r => r ?? Promise.reject()),
-          dbFallbackPromise.then(r => r ?? Promise.reject()),
-        ])
+        const res = await fetch('/api/edu/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ subject: 'math', age_tier: ageTier, count: 5 }),
+          signal: AbortSignal.timeout(55000),
+        })
+        if (res.ok) {
+          const json = (await res.json()) as { questions?: Question[] }
+          if (json.questions && json.questions.length >= 3) {
+            batch2 = json.questions
+            batch2Source = 'ai'
+          }
+        }
       } catch {
-        batch2 = null
+        // AI failed — fall through to DB
+      }
+
+      if (!batch2 || batch2.length === 0) {
+        batch2 = await dbFallbackPromise
+        batch2Source = batch2 ? 'db' : 'fallback'
       }
 
       if (!batch2 || batch2.length === 0) {
         batch2 = shuffle(fallbackQuestions(ageTier)).slice(0, 5)
+        batch2Source = 'fallback'
       }
 
       setQuestions(prev => [...prev, ...shuffle(batch2!).slice(0, 5)])
+      if (batch2Source === 'ai') setQuestionSource('ai')
       setSecondBatchReady(true)
       setSecondBatchLoading(false)
     })()

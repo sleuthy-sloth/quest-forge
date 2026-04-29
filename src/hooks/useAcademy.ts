@@ -229,22 +229,8 @@ export function useAcademy(
 
       const batch1Ids = batch1.map(q => q.id).filter(id => UUID_RE.test(id))
 
-      // Fire AI and DB fallback simultaneously — use whichever wins
-      const aiPromise: Promise<EduChallenge[] | null> = subject
-        ? fetch('/api/edu/generate', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ subject, age_tier: ageTier, count: 5 }),
-            signal: AbortSignal.timeout(55000),
-          })
-            .then(async (res) => {
-              if (!res.ok) return null
-              const json = (await res.json()) as { questions?: EduChallenge[] }
-              return json.questions && json.questions.length >= 3 ? json.questions : null
-            })
-            .catch(() => null)
-        : Promise.resolve(null)
-
+      // Start the DB fallback fetch immediately so it's ready if AI fails,
+      // but prefer AI — only fall back to DB if AI rejects or returns nothing.
       const dbFallbackPromise: Promise<EduChallenge[] | null> = (async () => {
         try {
           const params = new URLSearchParams({ age_tier: ageTier, count: '5' })
@@ -262,24 +248,45 @@ export function useAcademy(
       })()
 
       let batch2: EduChallenge[] | null = null
-      try {
-        // Take whichever resolves first with valid questions
-        batch2 = await Promise.any([
-          aiPromise.then(r => r ?? Promise.reject()),
-          dbFallbackPromise.then(r => r ?? Promise.reject()),
-        ])
-      } catch {
-        batch2 = null
+      let batch2Source: 'ai' | 'db' | 'fallback' = 'db'
+
+      // Try AI first — the player answering Q1-5 gives it 30-60s to resolve.
+      if (subject) {
+        try {
+          const res = await fetch('/api/edu/generate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ subject, age_tier: ageTier, count: 5 }),
+            signal: AbortSignal.timeout(55000),
+          })
+          if (res.ok) {
+            const json = (await res.json()) as { questions?: EduChallenge[] }
+            if (json.questions && json.questions.length >= 3) {
+              batch2 = json.questions
+              batch2Source = 'ai'
+            }
+          }
+        } catch {
+          // AI failed — fall through to DB
+        }
+      }
+
+      // AI didn't deliver — use the DB fetch that was running in parallel
+      if (!batch2 || batch2.length === 0) {
+        batch2 = await dbFallbackPromise
+        batch2Source = batch2 ? 'db' : 'fallback'
       }
 
       if (!batch2 || batch2.length === 0) {
-        // Last resort: hardcoded fallback, different slice to avoid exact repeats
+        // Last resort: hardcoded fallback
         const fallback = subject ? (FALLBACKS[subject] ?? GENERIC_FALLBACK) : GENERIC_FALLBACK
         batch2 = shuffle(fallback).slice(0, 5)
+        batch2Source = 'fallback'
       }
 
       const shuffled2 = shuffle(batch2).slice(0, 5)
       setChallenges(prev => [...prev, ...shuffled2])
+      if (batch2Source === 'ai') setSource('ai')
       setSecondBatchReady(true)
       setSecondBatchLoading(false)
     })()
