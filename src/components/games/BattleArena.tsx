@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useEffect, useState, useImperativeHandle, forwardRef } from 'react'
+import { motion } from 'framer-motion'
 import Image from 'next/image'
 import AnimatedAvatar from '@/components/avatar/AnimatedAvatar'
 import BattleEffectsLayer from '@/components/games/BattleEffectsLayer'
@@ -203,7 +204,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
         if (playerShakeTimer.current) clearTimeout(playerShakeTimer.current)
         if (enemyShakeTimer.current) clearTimeout(enemyShakeTimer.current)
       }
-    }, [screenFlash]) // eslint-disable-line react-hooks/exhaustive-deps
+    }, [screenFlash]); // eslint-disable-line react-hooks/exhaustive-deps
 
     // ── Enemy HP percentage ──────────────────────────────────────────────────
     // Guard: totalQuestions must be > 0 to avoid division by zero.
@@ -451,7 +452,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
                 }}
               />
             </div>
-          </div>
+          </motion.div>
 
           {/* ── Center: VS + pips + counter ── */}
           <div
@@ -595,7 +596,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
                 }}
               />
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* ── Combo meter ── */}
