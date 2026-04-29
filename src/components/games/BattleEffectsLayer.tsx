@@ -26,39 +26,34 @@ interface Props {
 
 const KEYFRAMES = `
 @keyframes ba-slash-right {
-  0%   { transform: translateX(-48px) rotate(-35deg) scaleX(0.4); opacity: 0; }
-  15%  { opacity: 1; }
-  85%  { opacity: 0.9; }
-  100% { transform: translateX(48px) rotate(-35deg) scaleX(1.1); opacity: 0; }
+  0%   { transform: translateX(-60px) rotate(-15deg) scaleX(0.1); opacity: 0; }
+  20%  { opacity: 1; transform: translateX(-30px) rotate(-15deg) scaleX(1.2); }
+  100% { transform: translateX(60px) rotate(-15deg) scaleX(1.5); opacity: 0; }
 }
 @keyframes ba-slash-left {
-  0%   { transform: translateX(48px) rotate(35deg) scaleX(0.4); opacity: 0; }
-  15%  { opacity: 1; }
-  85%  { opacity: 0.9; }
-  100% { transform: translateX(-48px) rotate(35deg) scaleX(1.1); opacity: 0; }
+  0%   { transform: translateX(60px) rotate(15deg) scaleX(0.1); opacity: 0; }
+  20%  { opacity: 1; transform: translateX(30px) rotate(15deg) scaleX(1.2); }
+  100% { transform: translateX(-60px) rotate(15deg) scaleX(1.5); opacity: 0; }
 }
 @keyframes ba-bolt-right {
-  0%   { transform: translateX(-44px); opacity: 0; }
-  12%  { opacity: 1; }
-  88%  { opacity: 0.9; }
-  100% { transform: translateX(44px); opacity: 0; }
+  0%   { transform: translateX(-50px) scale(0.5); opacity: 0; }
+  20%  { opacity: 1; transform: translateX(-30px) scale(1.1); }
+  100% { transform: translateX(50px) scale(1.3); opacity: 0; }
 }
 @keyframes ba-bolt-left {
-  0%   { transform: translateX(44px); opacity: 0; }
-  12%  { opacity: 1; }
-  88%  { opacity: 0.9; }
-  100% { transform: translateX(-44px); opacity: 0; }
+  0%   { transform: translateX(50px) scale(0.5); opacity: 0; }
+  20%  { opacity: 1; transform: translateX(30px) scale(1.1); }
+  100% { transform: translateX(-50px) scale(1.3); opacity: 0; }
 }
-@keyframes ba-ring {
-  0%   { transform: scale(0); opacity: 0.85; }
-  100% { transform: scale(2.6); opacity: 0; }
+@keyframes ba-impact-flare {
+  0% { transform: scale(0.2); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.8; }
+  100% { transform: scale(2); opacity: 0; }
 }
-@keyframes ba-spark-0 { 0% { transform: translate(0,0); opacity:1; } 100% { transform: translate(-18px,-22px); opacity:0; } }
-@keyframes ba-spark-1 { 0% { transform: translate(0,0); opacity:1; } 100% { transform: translate(22px,-18px); opacity:0; } }
-@keyframes ba-spark-2 { 0% { transform: translate(0,0); opacity:1; } 100% { transform: translate(18px,22px); opacity:0; } }
-@keyframes ba-spark-3 { 0% { transform: translate(0,0); opacity:1; } 100% { transform: translate(-22px,18px); opacity:0; } }
-@keyframes ba-spark-4 { 0% { transform: translate(0,0); opacity:1; } 100% { transform: translate(0px,-26px); opacity:0; } }
-@keyframes ba-spark-5 { 0% { transform: translate(0,0); opacity:1; } 100% { transform: translate(26px,0px); opacity:0; } }
+@keyframes ba-spark-spread {
+  0% { transform: translate(0,0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+}
 @media (prefers-reduced-motion: reduce) {
   .ba-fx { display: none !important; }
 }
@@ -132,16 +127,16 @@ export default function BattleEffectsLayer({ playerAttackTick, enemyAttackTick, 
                 position: 'absolute',
                 top: '50%',
                 left: '50%',
-                width: 36,
-                height: 4,
-                marginTop: -2,
-                marginLeft: -18,
+                width: 60,
+                height: 2,
+                marginTop: -1,
+                marginLeft: -30,
                 background: `linear-gradient(90deg, transparent, ${color}, #fff, ${color}, transparent)`,
                 borderRadius: 2,
-                boxShadow: `0 0 8px 2px ${color}88`,
-                animation: 'ba-slash-right 0.25s ease-out forwards',
+                boxShadow: `0 0 10px 3px ${color}`,
+                animation: 'ba-slash-right 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards',
                 pointerEvents: 'none',
-                zIndex: 20,
+                zIndex: 30,
               }}
             />
           ) : (
@@ -176,43 +171,52 @@ export default function BattleEffectsLayer({ playerAttackTick, enemyAttackTick, 
             style={{
               position: 'absolute',
               top: '50%',
-              left: isPlayer ? '70%' : '30%',
+              left: isPlayer ? '75%' : '25%',
               transform: 'translate(-50%, -50%)',
               pointerEvents: 'none',
-              zIndex: 20,
+              zIndex: 30,
             }}
           >
-            {/* Impact ring */}
+            {/* Impact flare */}
             <div
               style={{
                 position: 'absolute',
-                width: 24,
-                height: 24,
-                marginTop: -12,
-                marginLeft: -12,
-                border: `2px solid ${color}`,
+                width: 40,
+                height: 40,
+                marginTop: -20,
+                marginLeft: -20,
+                background: `radial-gradient(circle, #fff 0%, ${color}aa 40%, transparent 70%)`,
                 borderRadius: '50%',
-                boxShadow: `0 0 6px ${color}`,
-                animation: 'ba-ring 0.35s ease-out forwards',
+                animation: 'ba-impact-flare 0.4s ease-out forwards',
               }}
             />
             {/* Spark particles */}
-            {[0, 1, 2, 3, 4, 5].map(i => (
-              <div
-                key={i}
-                style={{
-                  position: 'absolute',
-                  width: 4,
-                  height: 4,
-                  marginTop: -2,
-                  marginLeft: -2,
-                  borderRadius: 1,
-                  background: i % 2 === 0 ? color : '#fff',
-                  boxShadow: `0 0 4px ${color}`,
-                  animation: `ba-spark-${i} 0.37s ease-out forwards`,
-                }}
-              />
-            ))}
+            {Array.from({ length: 8 }).map((_, i) => {
+              const angle = (i / 8) * Math.PI * 2
+              const distance = 25 + Math.random() * 15
+              const tx = Math.cos(angle) * distance
+              const ty = Math.sin(angle) * distance
+              return (
+                <div
+                  key={i}
+                  style={{
+                    position: 'absolute',
+                    width: 3,
+                    height: 3,
+                    marginTop: -1.5,
+                    marginLeft: -1.5,
+                    borderRadius: '50%',
+                    background: i % 2 === 0 ? color : '#fff',
+                    boxShadow: `0 0 6px ${color}`,
+                    // @ts-ignore
+                    '--tx': `${tx}px`,
+                    // @ts-ignore
+                    '--ty': `${ty}px`,
+                    animation: `ba-spark-spread 0.5s cubic-bezier(0, 0, 0.2, 1) forwards`,
+                  } as any}
+                />
+              )
+            })}
           </div>
         )
       })}

@@ -527,6 +527,8 @@ export default function ScienceLabyrinth({
           screenFlash={screenFlash}
           playerSize={64}
           enemySize={64}
+          backgroundSrc="/images/lore/ashlands.png"
+          atmosphere="embers"
         />
 
         {/* ── Question card ────────────────────────────────────────── */}

@@ -514,6 +514,8 @@ export default function WordForge({
           screenFlash={screenFlash === 'blue' ? 'green' : screenFlash}
           playerSize={64}
           enemySize={64}
+          backgroundSrc="/images/lore/dustmere.png"
+          atmosphere="dust"
         />
 
         {/* ── Question card ───────────────────────────────────────────────── */}

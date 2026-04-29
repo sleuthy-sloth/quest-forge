@@ -102,6 +102,16 @@ export default function QuizInterface({
     timersRef.current.push(id)
   }
 
+  // Map enemy slugs to thematic backgrounds and atmospheres
+  const theme = useMemo(() => {
+    switch (enemySlug) {
+      case 'math-arena': return { bg: '/images/lore/underbright.png', atm: 'mist' }
+      case 'science-labyrinth': return { bg: '/images/lore/ashlands.png', atm: 'embers' }
+      case 'word-forge': return { bg: '/images/lore/dustmere.png', atm: 'dust' }
+      default: return { bg: '/images/lore/heartwood.png', atm: 'dust' }
+    }
+  }, [enemySlug])
+
   // ── Load challenges when age tier is known ──────────────────────────────
   const startedRef = useRef(false)
   useEffect(() => {
@@ -527,6 +537,8 @@ export default function QuizInterface({
               enemySize={72}
               streak={streak}
               enemyTitle={teacher?.title}
+              backgroundSrc={theme.bg}
+              atmosphere={theme.atm as any}
             />
           </div>
 

@@ -551,6 +551,8 @@ export default function MathArena({
           enemySize={64}
           streak={streak}
           enemyTitle={TEACHER_BY_SLUG['math-arena']?.title}
+          backgroundSrc="/images/lore/underbright.png"
+          atmosphere="mist"
         />
 
         {/* ── Question card ──────────────────────────────────────────────── */}

@@ -65,6 +65,20 @@ interface BattleArenaProps {
    * When omitted, nothing is shown.
    */
   enemyTitle?: string
+
+  /**
+   * Optional background image override.
+   * If not provided, a default or region-specific background will be used.
+   */
+  backgroundSrc?: string
+
+  /**
+   * Atmospheric effect type.
+   * - 'embers': Floating fire particles (Ironspine/Ashlands)
+   * - 'mist': Drifting fog (Shattered Coast/Underbright)
+   * - 'dust': Soft motes (Heartwood/Dustmere)
+   */
+  atmosphere?: 'embers' | 'mist' | 'dust'
 }
 
 // ── Ref handle ────────────────────────────────────────────────────────────────
@@ -140,6 +154,8 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
       className,
       streak = 0,
       enemyTitle,
+      backgroundSrc,
+      atmosphere = 'dust',
     },
     ref,
   ) {
@@ -206,8 +222,27 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
             60%      { transform: translateX(-3px); }
             80%      { transform: translateX(3px); }
           }
+          @keyframes ba-pan-bg {
+            0% { transform: scale(1.1) translateX(-2%); }
+            50% { transform: scale(1.1) translateX(2%); }
+            100% { transform: scale(1.1) translateX(-2%); }
+          }
+          @keyframes ba-float-embers {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { transform: translateY(-100px) translateX(20px); opacity: 0; }
+          }
+          @keyframes ba-float-dust {
+            0% { transform: translate(0, 0); opacity: 0; }
+            50% { opacity: 0.3; }
+            100% { transform: translate(30px, -30px); opacity: 0; }
+          }
+          @keyframes ba-mist-move {
+            0% { transform: translateX(-10%); }
+            100% { transform: translateX(10%); }
+          }
           @media (prefers-reduced-motion: reduce) {
-            .ba-shake {
+            .ba-shake, .ba-pan-bg, .ba-float {
               animation: none !important;
             }
             .ba-flash {
@@ -250,17 +285,81 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
           }}
         >
           {/* Background Layer */}
-          <div style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
-            <Image
-              src="/images/lore/heartwood.png"
-              alt=""
-              fill
-              style={{ objectFit: 'cover', opacity: 0.15 }}
-            />
+          <div style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none', overflow: 'hidden' }}>
+            <div 
+              className="ba-pan-bg"
+              style={{ 
+                position: 'absolute', 
+                inset: '-10%', 
+                animation: 'ba-pan-bg 20s ease-in-out infinite' 
+              }}
+            >
+              <Image
+                src={backgroundSrc || "/images/lore/heartwood.png"}
+                alt=""
+                fill
+                style={{ objectFit: 'cover', opacity: 0.45 }}
+              />
+            </div>
+            
+            {/* Atmospheric Overlays */}
+            {atmosphere === 'embers' && (
+              <div className="absolute inset-0">
+                {Array.from({ length: 15 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="ba-float"
+                    style={{
+                      position: 'absolute',
+                      width: '3px',
+                      height: '3px',
+                      background: '#ff6010',
+                      borderRadius: '50%',
+                      boxShadow: '0 0 5px #ff6010',
+                      left: `${Math.random() * 100}%`,
+                      top: `${Math.random() * 100}%`,
+                      animation: `ba-float-embers ${5 + Math.random() * 5}s linear infinite`,
+                      animationDelay: `${Math.random() * 5}s`,
+                    }}
+                  />
+                ))}
+              </div>
+            )}
+            {atmosphere === 'dust' && (
+              <div className="absolute inset-0">
+                {Array.from({ length: 20 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="ba-float"
+                    style={{
+                      position: 'absolute',
+                      width: '2px',
+                      height: '2px',
+                      background: 'rgba(201,168,76,0.4)',
+                      borderRadius: '50%',
+                      left: `${Math.random() * 100}%`,
+                      top: `${Math.random() * 100}%`,
+                      animation: `ba-float-dust ${8 + Math.random() * 8}s linear infinite`,
+                      animationDelay: `${Math.random() * 5}s`,
+                    }}
+                  />
+                ))}
+              </div>
+            )}
+            {atmosphere === 'mist' && (
+              <div 
+                className="absolute inset-0 opacity-30"
+                style={{
+                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)',
+                  animation: 'ba-mist-move 10s ease-in-out infinite alternate',
+                }}
+              />
+            )}
+
             <div style={{
               position: 'absolute',
               inset: 0,
-              background: `linear-gradient(180deg, ${enemy.glowColor}14 0%, #070910 80%)`,
+              background: `linear-gradient(180deg, ${enemy.glowColor}22 0%, #070910ee 90%)`,
             }} />
           </div>
           {/* ── Combat effects layer ── */}
@@ -289,14 +388,21 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
           />
 
           {/* ── Left: Player ── */}
-          <div
+          <motion.div
             className={playerShake ? 'ba-shake' : undefined}
+            animate={playerAttackTick > 0 ? {
+              x: [0, -20, 100, 0],
+              transition: { duration: 0.4, times: [0, 0.2, 0.5, 1], ease: "easeInOut" }
+            } : {}}
+            key={`player-atk-${playerAttackTick}`}
             style={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               gap: '3px',
               flexShrink: 0,
+              zIndex: 5,
+              filter: 'drop-shadow(0 10px 15px rgba(0,0,0,0.5))'
             }}
           >
             <AnimatedAvatar
@@ -314,6 +420,10 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
+                textShadow: '0 1px 4px rgba(0,0,0,0.8)',
+                background: 'rgba(0,0,0,0.4)',
+                padding: '1px 4px',
+                borderRadius: '2px',
               }}
             >
               {playerDisplayName}
@@ -425,14 +535,21 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
           </div>
 
           {/* ── Right: Enemy ── */}
-          <div
+          <motion.div
             className={enemyShake ? 'ba-shake' : undefined}
+            animate={enemyAttackTick > 0 ? {
+              x: [0, 20, -100, 0],
+              transition: { duration: 0.4, times: [0, 0.2, 0.5, 1], ease: "easeInOut" }
+            } : {}}
+            key={`enemy-atk-${enemyAttackTick}`}
             style={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               gap: '3px',
               flexShrink: 0,
+              zIndex: 5,
+              filter: 'drop-shadow(0 10px 15px rgba(0,0,0,0.5))'
             }}
           >
             <AnimatedAvatar
@@ -450,6 +567,10 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
+                textShadow: '0 1px 4px rgba(0,0,0,0.8)',
+                background: 'rgba(0,0,0,0.4)',
+                padding: '1px 4px',
+                borderRadius: '2px',
               }}
             >
               {enemy.name}
