@@ -146,7 +146,6 @@ export const TEACHERS: TeacherDef[] = [
     tagline: 'The shapes will not deceive you twice.',
     glow:    '#c43a00',
     level:   7,
-    portrait: '/faculty_numerus_1777401767109.png',
   },
   {
     slug:    'word-forge',
@@ -156,7 +155,6 @@ export const TEACHERS: TeacherDef[] = [
     tagline: 'Hammer the letters until they speak.',
     glow:    '#1a5c9e',
     level:   6,
-    portrait: '/faculty_vex_1777401783378.png',
   },
   {
     slug:    'science-labyrinth',
