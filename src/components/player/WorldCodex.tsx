@@ -52,12 +52,12 @@ const HOME_LOCS = Object.entries(WORLD.home_base.locations)
 type Section = 'world' | 'class' | 'embershard' | 'hearthhold' | 'npcs' | 'regions'
 
 const SECTIONS: { id: Section; label: string; icon: string }[] = [
-  { id: 'world',      label: 'The World',   icon: '🌍' },
-  { id: 'class',      label: 'Your Class',  icon: '⚔' },
-  { id: 'embershard', label: 'Embershard',  icon: '💎' },
-  { id: 'hearthhold', label: 'Hearthhold',  icon: '🏡' },
-  { id: 'npcs',       label: 'Characters',  icon: '👥' },
-  { id: 'regions',    label: 'Regions',     icon: '🗺' },
+  { id: 'world',      label: 'The World',   icon: '/images/ui/icons/icon_world.png' },
+  { id: 'class',      label: 'Your Class',  icon: '/images/ui/icons/icon_class.png' },
+  { id: 'embershard', label: 'Embershard',  icon: '/images/ui/icons/icon_embershard.png' },
+  { id: 'hearthhold', label: 'Hearthhold',  icon: '/images/ui/icons/icon_hearthhold.png' },
+  { id: 'npcs',       label: 'Characters',  icon: '/images/ui/icons/icon_characters.png' },
+  { id: 'regions',    label: 'Regions',     icon: '/images/ui/icons/icon_regions.png' },
 ]
 
 const NPC_IMAGES: Record<string, string> = {
@@ -99,31 +99,33 @@ const LOC_ICONS: Record<string, string> = {
 
 function WorldSection() {
   return (
-    <div style={{ padding: '0 0 20px 0' }}>
+    <div style={{ padding: '0 0 40px 0' }}>
       <div style={{
         position: 'relative',
         width: '100%',
-        height: 380,
-        marginBottom: 24,
-        borderBottom: '1px solid rgba(201,168,76,0.3)',
+        aspectRatio: '16/9',
+        marginBottom: 32,
+        background: '#040812',
+        borderBottom: '2px solid rgba(201,168,76,0.2)',
+        overflow: 'hidden',
       }}>
         <Image
           src="/images/ui/chronicle_map.png"
           alt="Map of Embervale"
           fill
-          style={{ objectFit: 'cover', objectPosition: 'center', opacity: 0.8 }}
+          style={{ objectFit: 'contain', opacity: 0.9 }}
         />
         <div style={{
           position: 'absolute', inset: 0,
-          background: 'linear-gradient(to top, #0e0a14 0%, transparent 50%, rgba(14,10,20,0.4) 100%)'
+          background: 'linear-gradient(to top, #0e0a14 0%, transparent 40%, rgba(14,10,20,0.4) 100%)'
         }} />
         <div style={{
-          position: 'absolute', bottom: 20, left: 20, right: 20, textAlign: 'center'
+          position: 'absolute', bottom: 24, left: 24, right: 24, textAlign: 'center'
         }}>
-          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 32, color: '#f0e6c8', margin: 0, textShadow: '0 2px 8px rgba(0,0,0,0.8)' }}>
+          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 42, color: '#f0e6c8', margin: 0, textShadow: '0 4px 12px rgba(0,0,0,0.9)' }}>
             {WORLD.world_name}
           </h2>
-          <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 9, color: '#c9a84c', letterSpacing: '0.15em', marginTop: 6, textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>
+          <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 11, color: '#c9a84c', letterSpacing: '0.2em', marginTop: 8, textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>
             THE EMBER REALM
           </div>
         </div>
@@ -243,22 +245,22 @@ function ClassSection({ playerClass }: { playerClass: string | null }) {
           )}
 
           {/* Full-width hero banner */}
-          <div style={{ position: 'relative', width: '100%', height: 420 }}>
+          <div style={{ position: 'relative', width: '100%', aspectRatio: '1', background: '#080c14' }}>
             <Image
               src={CLASS_IMAGES[cls.id as keyof typeof CLASS_IMAGES]}
               alt={cls.name}
               fill
-              style={{ objectFit: 'cover', objectPosition: 'center' }}
+              style={{ objectFit: 'contain' }}
             />
             <div style={{
               position: 'absolute', inset: 0,
-              background: `linear-gradient(to top, ${cls.color_primary}cc 0%, transparent 55%, rgba(13,15,28,0.3) 100%)`
+              background: `linear-gradient(to top, ${cls.color_primary}aa 0%, transparent 50%, rgba(13,15,28,0.3) 100%)`
             }} />
-            <div style={{ position: 'absolute', bottom: 16, left: 20, right: 20 }}>
-              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 9, color: cls.color_primary, letterSpacing: '0.15em', marginBottom: 6 }}>
+            <div style={{ position: 'absolute', bottom: 20, left: 24, right: 24 }}>
+              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 11, color: cls.color_primary, letterSpacing: '0.2em', marginBottom: 8 }}>
                 {cls.archetype.toUpperCase()}
               </div>
-              <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 28, color: '#fff', margin: 0, textShadow: `0 2px 12px rgba(0,0,0,0.9), 0 0 20px ${cls.color_primary}88` }}>
+              <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 36, color: '#fff', margin: 0, textShadow: `0 4px 15px rgba(0,0,0,0.9), 0 0 25px ${cls.color_primary}88` }}>
                 {cls.name}
               </h3>
             </div>
@@ -387,27 +389,29 @@ function HearthholdSection() {
       <div style={{
         position: 'relative',
         width: '100%',
-        height: 380,
-        marginBottom: 24,
-        borderBottom: '1px solid rgba(201,168,76,0.3)',
+        aspectRatio: '16/9',
+        marginBottom: 32,
+        background: '#080c14',
+        borderBottom: '2px solid rgba(201,168,76,0.2)',
+        overflow: 'hidden',
       }}>
         <Image
           src="/images/lore/heartwood.png"
           alt="Hearthhold"
           fill
-          style={{ objectFit: 'cover', objectPosition: 'center', opacity: 0.8 }}
+          style={{ objectFit: 'contain', opacity: 0.9 }}
         />
         <div style={{
           position: 'absolute', inset: 0,
-          background: 'linear-gradient(to top, #0e0a14 0%, transparent 60%, rgba(14,10,20,0.6) 100%)'
+          background: 'linear-gradient(to top, #0e0a14 0%, transparent 50%, rgba(14,10,20,0.6) 100%)'
         }} />
         <div style={{
-          position: 'absolute', bottom: 20, left: 20, right: 20, textAlign: 'center'
+          position: 'absolute', bottom: 24, left: 24, right: 24, textAlign: 'center'
         }}>
-          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 30, color: '#f0e6c8', margin: 0, textShadow: '0 2px 8px rgba(0,0,0,0.8)' }}>
+          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 36, color: '#f0e6c8', margin: 0, textShadow: '0 4px 12px rgba(0,0,0,0.9)' }}>
             {WORLD.home_base.name}
           </h2>
-          <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 8, color: '#c9a84c', letterSpacing: '0.1em', marginTop: 6, textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>
+          <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 11, color: '#c9a84c', letterSpacing: '0.15em', marginTop: 8, textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>
             YOUR HOME BASE
           </div>
         </div>
@@ -491,14 +495,14 @@ function NPCSection() {
         overflow: 'hidden',
       }}>
         {/* NPC portrait banner */}
-        <div style={{ position: 'relative', height: 400, width: '100%' }}>
-          <Image src={NPC_IMAGES[npc.name]} alt={npc.name} fill style={{ objectFit: 'cover', objectPosition: 'center 20%' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,28,46,1) 0%, transparent 60%)' }} />
-          <div style={{ position: 'absolute', bottom: 16, left: 18, right: 18 }}>
-            <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 24, color: '#f0e6c8', margin: '0 0 4px', textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>
+        <div style={{ position: 'relative', aspectRatio: '1', width: '100%', background: '#080c14' }}>
+          <Image src={NPC_IMAGES[npc.name]} alt={npc.name} fill style={{ objectFit: 'contain' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,28,46,1) 0%, transparent 40%)' }} />
+          <div style={{ position: 'absolute', bottom: 20, left: 24, right: 24 }}>
+            <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 32, color: '#f0e6c8', margin: '0 0 6px', textShadow: '0 4px 8px rgba(0,0,0,0.9)' }}>
               {npc.name}
             </h3>
-            <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 8, color: '#c9a84c', letterSpacing: '0.1em' }}>
+            <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 11, color: '#c9a84c', letterSpacing: '0.15em' }}>
               {npc.role.toUpperCase()}
             </div>
           </div>
@@ -566,14 +570,14 @@ function RegionsSection() {
         borderRadius: 8,
         overflow: 'hidden',
       }}>
-        <div style={{ position: 'relative', height: 380, width: '100%' }}>
-          <Image src={REGION_IMAGES[region.type]} alt={region.name} fill style={{ objectFit: 'cover', objectPosition: 'center' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,28,46,1) 0%, transparent 55%)' }} />
-          <div style={{ position: 'absolute', bottom: 16, left: 18, right: 18 }}>
-            <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 26, color: '#f0e6c8', margin: '0 0 4px', textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>
+        <div style={{ position: 'relative', aspectRatio: '1', width: '100%', background: '#080c14' }}>
+          <Image src={REGION_IMAGES[region.type]} alt={region.name} fill style={{ objectFit: 'contain' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,28,46,1) 0%, transparent 40%)' }} />
+          <div style={{ position: 'absolute', bottom: 20, left: 24, right: 24 }}>
+            <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 36, color: '#f0e6c8', margin: '0 0 8px', textShadow: '0 4px 12px rgba(0,0,0,0.9)' }}>
               {region.name}
             </h3>
-            <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 8, color: '#c9a84c', letterSpacing: '0.1em', textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}>
+            <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 11, color: '#c9a84c', letterSpacing: '0.15em', textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}>
               {region.type.toUpperCase()} · ARCS {region.associated_arcs.map(a => `${a}`).join(', ')}
             </div>
           </div>
@@ -644,7 +648,9 @@ export default function WorldCodex({ playerClass, level }: WorldCodexProps) {
                 minWidth: 60,
               }}
             >
-              <span style={{ fontSize: 20, opacity: section === s.id ? 1 : 0.55 }}>{s.icon}</span>
+              <span style={{ fontSize: 20, opacity: section === s.id ? 1 : 0.55 }}>
+                <img src={s.icon} alt="" style={{ width: 32, height: 32, objectFit: 'contain' }} />
+              </span>
               <span style={{
                 fontFamily: 'var(--font-pixel)',
                 fontSize: 7,

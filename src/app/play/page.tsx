@@ -86,7 +86,7 @@ export default async function PlayerHomePage() {
     .from('story_chapters')
     .select('boss_name, boss_description, boss_hp, boss_current_hp, week_number, boss_sprite_config')
     .eq('household_id', profile.household_id)
-    .eq('is_unlocked', false)
+    .eq('is_unlocked', true)
     .gt('boss_current_hp', 0)
     .order('week_number', { ascending: true })
     .limit(1)

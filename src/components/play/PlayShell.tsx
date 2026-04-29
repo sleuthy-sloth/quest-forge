@@ -12,13 +12,13 @@ import { Coin } from '@/components/qf/Coin'
 import { useNotifications } from '@/hooks/useNotifications'
 
 const NAV_ITEMS = [
-  { href: '/play',         label: 'Home',    icon: '⟡', sub: 'Hearthhold Center' },
-  { href: '/play/quests',  label: 'Quests',  icon: '📜', sub: 'Daily Deeds' },
-  { href: '/play/academy', label: 'Academy', icon: '⚗', sub: 'Educational Duels' },
-  { href: '/play/story',   label: 'Story',   icon: '📖', sub: 'Chronicle Hall' },
-  { href: '/play/world',   label: 'World',   icon: '🌍', sub: 'Embervale Guide' },
-  { href: '/play/loot',    label: 'Loot',    icon: '💎', sub: 'The Emporium' },
-  { href: '/play/profile', label: 'Profile', icon: '👤', sub: 'Your Progress' },
+  { href: '/play',         label: 'Home',    icon: '/images/ui/icons/icon_hearthhold.png', sub: 'Hearthhold Center' },
+  { href: '/play/quests',  label: 'Quests',  icon: '/images/ui/icons/icon_class.png', sub: 'Daily Deeds' },
+  { href: '/play/academy', label: 'Academy', icon: '/images/ui/icons/icon_embershard.png', sub: 'Educational Duels' },
+  { href: '/play/story',   label: 'Story',   icon: '/images/ui/icons/icon_regions.png', sub: 'Chronicle Hall' },
+  { href: '/play/world',   label: 'World',   icon: '/images/ui/icons/icon_world.png', sub: 'Embervale Guide' },
+  { href: '/play/loot',    label: 'Loot',    icon: '/images/ui/icons/icon_embershard.png', sub: 'The Emporium' },
+  { href: '/play/profile', label: 'Profile', icon: '/images/ui/icons/icon_characters.png', sub: 'Your Progress' },
 ]
 
 interface PlayShellProps {
@@ -210,7 +210,9 @@ export function PlayShell({
                       ? 'bg-[#c9a84c]/10 border border-[#c9a84c]/20' 
                       : 'hover:bg-white/5 border border-transparent'}`}
                 >
-                  <span className="text-xl" aria-hidden="true">{item.icon}</span>
+                  <span className="text-xl shrink-0" aria-hidden="true">
+                    <img src={item.icon} alt="" className="w-8 h-8 object-contain" />
+                  </span>
                   <div>
                     <div className={`text-sm font-heading tracking-wide
                       ${active ? 'text-[#c9a84c]' : 'text-[#f0e6c8]'}`}>
