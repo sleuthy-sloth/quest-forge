@@ -296,7 +296,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
               }}
             >
               <Image
-                src={backgroundSrc || "/images/lore/heartwood.png"}
+                src={backgroundSrc || "/images/backgrounds/arena.png"}
                 alt=""
                 fill
                 style={{ objectFit: 'cover', opacity: 0.45 }}

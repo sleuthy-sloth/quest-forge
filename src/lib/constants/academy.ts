@@ -146,6 +146,7 @@ export const TEACHERS: TeacherDef[] = [
     tagline: 'The shapes will not deceive you twice.',
     glow:    '#c43a00',
     level:   7,
+    portrait: '/images/portraits/math-arena.png',
   },
   {
     slug:    'word-forge',
@@ -155,6 +156,7 @@ export const TEACHERS: TeacherDef[] = [
     tagline: 'Hammer the letters until they speak.',
     glow:    '#1a5c9e',
     level:   6,
+    portrait: '/images/portraits/word-forge.png',
   },
   {
     slug:    'science-labyrinth',
@@ -164,6 +166,7 @@ export const TEACHERS: TeacherDef[] = [
     tagline: 'Curiosity without rigor is a vine that strangles.',
     glow:    '#1e8a4a',
     level:   8,
+    portrait: '/images/portraits/science-labyrinth.png',
   },
   {
     slug:    'reading-tome',
@@ -173,6 +176,7 @@ export const TEACHERS: TeacherDef[] = [
     tagline: 'Words are doors. Open the next.',
     glow:    '#c9a84c',
     level:   9,
+    portrait: '/images/portraits/reading-tome.png',
   },
   {
     slug:    'history-scroll',
@@ -182,6 +186,7 @@ export const TEACHERS: TeacherDef[] = [
     tagline: 'The past is alive — and it remembers you.',
     glow:    '#9e6a1a',
     level:   9,
+    portrait: '/images/portraits/history-scroll.png',
   },
   {
     slug:    'vocab-duel',
@@ -191,6 +196,7 @@ export const TEACHERS: TeacherDef[] = [
     tagline: 'Speak well — or your last word will be your last.',
     glow:    '#7a1a9e',
     level:   10,
+    portrait: '/images/portraits/vocab-duel.png',
   },
   {
     slug:    'logic-gate',
@@ -200,6 +206,7 @@ export const TEACHERS: TeacherDef[] = [
     tagline: 'Each step proves the one before it.',
     glow:    '#1e8ab8',
     level:   11,
+    portrait: '/images/portraits/logic-gate.png',
   },
 ]
 
