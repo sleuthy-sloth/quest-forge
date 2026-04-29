@@ -45,10 +45,64 @@ for (const boss of bossesData.bosses) {
 const GENERIC_FALLBACK =
   'With a final surge of combined Emberlight, the Emberbearers stand victorious. The Hollow retreats — for now. The Hearthstone glows a little brighter tonight, and the Hearthhold rests easier knowing its heroes are watching.'
 
+const SYSTEM_PROMPT_OPENING = `You are the Chronicler of Embervale. You write atmospheric, immersive chapter introductions in 2–3 paragraphs.
+
+Tone and style:
+- Mystical, inviting, and rich with sensory detail
+- Focus on the region's landscape and the mood of the current arc
+- Reference the boss as a shadow or a looming threat, but don't reveal everything yet
+- Use Embervale-specific terminology: "Hearthhold" (home), "Emberbearer" (hero), "the Emberlight" (hope), "the Hollow" (the enemy)
+- Output ONLY the narrative text. No titles, no labels, no preamble.`
+
 // ---------------------------------------------------------------------------
-// Main export
+// Main exports
 // ---------------------------------------------------------------------------
 
+/**
+ * Generates an atmospheric introduction for a story chapter.
+ */
+export async function generateOpeningNarrative(
+  boss: BossData,
+  region: string,
+  arcName: string
+): Promise<string> {
+  const allowed = await canMakeRequest().catch(() => false)
+  if (!allowed) {
+    console.warn('[story] Daily AI limit reached — serving fallback')
+    return boss.description ?? 'A new chapter begins in the chronicles of Embervale.'
+  }
+
+  const userPrompt = [
+    `**Region:** ${region}`,
+    `**Arc:** ${arcName}`,
+    `**Week:** ${boss.weekNumber}`,
+    `**Boss Looming:** ${boss.name}`,
+    boss.description ? `**Boss Context:** ${boss.description}` : '',
+    '',
+    'Write an immersive opening for this chapter of the saga.',
+  ].filter(Boolean).join('\n')
+
+  const text = await generateWithFallback({
+    system: SYSTEM_PROMPT_OPENING,
+    user: userPrompt,
+    maxTokens: 500,
+    temperature: 0.8,
+  })
+
+  if (!text) {
+    return boss.description ?? 'A new chapter begins.'
+  }
+
+  await incrementUsage().catch(err =>
+    console.error('[story] Failed to increment usage counter:', err)
+  )
+
+  return text
+}
+
+/**
+ * Generates a cinematic victory narrative when a weekly boss is defeated.
+ */
 export async function generateVictoryNarrative(
   boss: BossData,
   players: PlayerData[],

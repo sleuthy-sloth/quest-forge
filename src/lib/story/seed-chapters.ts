@@ -80,6 +80,16 @@ export async function seedStoryChaptersForHousehold(
   }
 
   // ── Weeks 1–52: Boss chapters ────────────────────────────────────────────
+  // Calculate player scaling: actual_hp = base_hp * (0.5 + (0.5 * player_count))
+  // We fetch player count for the household first.
+  const { count: playerCount } = await admin
+    .from('profiles')
+    .select('id', { count: 'exact', head: true })
+    .eq('household_id', householdId)
+    .eq('role', 'player')
+
+  const scale = 0.5 + (0.5 * (playerCount ?? 1))
+
   for (const boss of bosses) {
     const richScaffold = scaffolds.find(
       (c) => c.week === boss.week && c.type !== 'prologue',
@@ -88,6 +98,8 @@ export async function seedStoryChaptersForHousehold(
     const title = richScaffold?.title ?? boss.name
     const content = richScaffold?.scaffold ??
       `${boss.description}\n\n${boss.weakness_flavor ?? ''}`
+
+    const scaledHp = Math.round(boss.hp * scale)
 
     rows.push({
       household_id: householdId,
@@ -101,8 +113,8 @@ export async function seedStoryChaptersForHousehold(
       narrative_text: boss.defeat_narrative ?? boss.description,
       boss_name: boss.name,
       boss_description: boss.description,
-      boss_hp: boss.hp,
-      boss_current_hp: boss.hp,
+      boss_hp: scaledHp,
+      boss_current_hp: scaledHp,
       xp_threshold_to_unlock: Math.max(0, (boss.week - 1) * 250),
       is_unlocked: false,
       rewards_claimed: false,

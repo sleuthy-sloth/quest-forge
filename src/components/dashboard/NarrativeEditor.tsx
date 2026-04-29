@@ -26,6 +26,7 @@ export default function NarrativeEditor({ chapter, players = [] }: NarrativeEdit
   const [milestoneText, setMilestoneText] = useState('')
   const [selectedPlayer, setSelectedPlayer] = useState('')
   const [isBestowing, setIsBestowing] = useState(false)
+  const [isGenerating, setIsGenerating] = useState(false)
 
   const handleSave = async () => {
     setIsSaving(true)
@@ -43,6 +44,40 @@ export default function NarrativeEditor({ chapter, players = [] }: NarrativeEdit
     } else {
       setSaveStatus('success')
       setTimeout(() => setSaveStatus('idle'), 3000)
+    }
+  }
+
+  const handleGenerateIntro = async () => {
+    setIsGenerating(true)
+    try {
+      const res = await fetch('/api/story/generate-opening', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chapterId: chapter.id }),
+      })
+      const data = await res.json()
+      if (data.narrative) setText(data.narrative)
+    } catch (err) {
+      alert('Failed to generate intro.')
+    } finally {
+      setIsGenerating(false)
+    }
+  }
+
+  const handleGenerateVictory = async () => {
+    setIsGenerating(true)
+    try {
+      const res = await fetch('/api/story/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chapterId: chapter.id }),
+      })
+      const data = await res.json()
+      if (data.narrative) setText(data.narrative)
+    } catch (err) {
+      alert('Failed to generate victory.')
+    } finally {
+      setIsGenerating(false)
     }
   }
 
@@ -72,6 +107,43 @@ export default function NarrativeEditor({ chapter, players = [] }: NarrativeEdit
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
         <h3 className="qf-scribed" style={{ fontSize: '1rem', color: '#c9a84c' }}>Narrative Editor</h3>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <button
+            onClick={handleGenerateIntro}
+            disabled={isGenerating}
+            title="Generate a mystical opening for this chapter via AI"
+            style={{
+              padding: '0.5rem 0.75rem',
+              background: 'rgba(212,176,255,0.1)',
+              color: '#d4b0ff',
+              border: '1px solid rgba(212,176,255,0.3)',
+              borderRadius: '4px',
+              fontFamily: 'var(--font-pixel)',
+              fontSize: '0.55rem',
+              cursor: 'pointer',
+              opacity: isGenerating ? 0.5 : 1
+            }}
+          >
+            {isGenerating ? 'SCRIBING...' : '✦ GEN INTRO'}
+          </button>
+          <button
+            onClick={handleGenerateVictory}
+            disabled={isGenerating}
+            title="Generate a cinematic victory narrative via AI"
+            style={{
+              padding: '0.5rem 0.75rem',
+              background: 'rgba(212,176,255,0.1)',
+              color: '#d4b0ff',
+              border: '1px solid rgba(212,176,255,0.3)',
+              borderRadius: '4px',
+              fontFamily: 'var(--font-pixel)',
+              fontSize: '0.55rem',
+              cursor: 'pointer',
+              opacity: isGenerating ? 0.5 : 1
+            }}
+          >
+            {isGenerating ? 'SCRIBING...' : '✦ GEN VICTORY'}
+          </button>
+          <div style={{ width: '1px', height: '20px', background: 'rgba(201,168,76,0.2)', margin: '0 0.25rem' }} />
           {saveStatus === 'success' && <span style={{ color: 'var(--qf-success)', fontSize: '0.7rem' }}>✓ Saved</span>}
           <button
             onClick={handleSave}
