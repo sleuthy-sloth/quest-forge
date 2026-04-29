@@ -11,12 +11,21 @@ const BASE = (process.env.NEXT_PUBLIC_SPRITE_BASE_URL ?? '/sprites').replace(/\/
 /**
  * Returns the URL for an audio asset.
  * @param filename The name of the file (e.g. 'bgm_hub.mp3')
- * @param useBase Whether to use the SPRITE_BASE_URL prefix (e.g. /sprites/audio/...)
+ * @param mode The path resolution mode:
+ *   - 'base': Uses NEXT_PUBLIC_SPRITE_BASE_URL/audio/
+ *   - 'root': Uses /audio/ (local public folder)
+ *   - 'sprites': Uses /sprites/audio/ (local legacy structure)
  */
-function audioUrl(filename: string, useBase: boolean = false): string {
+function audioUrl(filename: string, mode: 'base' | 'root' | 'sprites' = 'root'): string {
   const clean = filename.replace(/^\//, '')
-  if (useBase) {
-    return `${BASE}/audio/${clean}`
+  if (mode === 'base') {
+    // If BASE is just '/' (default when env var missing), mode='base' is redundant with 'sprites'
+    // but we handle it gracefully here.
+    const prefix = BASE === '/sprites' ? '/sprites' : BASE
+    return `${prefix}/audio/${clean}`
+  }
+  if (mode === 'sprites') {
+    return `/sprites/audio/${clean}`
   }
   return `/audio/${clean}`
 }
@@ -195,10 +204,10 @@ export function initAudio(): void {
       try { prev.unload() } catch { /* ignore */ }
     }
     bgmInstances[track] = new Howl({
-      // Try multiple possible paths to accommodate different local/remote asset structures
       src: [
-        audioUrl(BGM_FILES[track], true),  // /sprites/audio/...
-        audioUrl(BGM_FILES[track], false), // /audio/...
+        audioUrl(BGM_FILES[track], 'base'),
+        audioUrl(BGM_FILES[track], 'root'),
+        audioUrl(BGM_FILES[track], 'sprites'),
       ],
       loop: true,
       volume: 0,
@@ -206,7 +215,12 @@ export function initAudio(): void {
       pool: 1,
       preload: true,
       onloaderror: (_id, err) => {
-        console.warn(`[audio] MP3 unavailable for "${track}":`, err)
+        const urls = [
+          audioUrl(BGM_FILES[track], 'base'),
+          audioUrl(BGM_FILES[track], 'root'),
+          audioUrl(BGM_FILES[track], 'sprites'),
+        ]
+        console.warn(`[audio] BGM unavailable for "${track}". Attempted URLs:`, urls, 'Error:', err)
         bgmInstances[track] = null
         if (currentBgm === track) {
           stopProceduralBgm()
@@ -225,15 +239,21 @@ export function initAudio(): void {
   for (const name of Object.keys(SFX_FILES) as SfxName[]) {
     sfxInstances[name] = new Howl({
       src: [
-        audioUrl(SFX_FILES[name], true),
-        audioUrl(SFX_FILES[name], false),
+        audioUrl(SFX_FILES[name], 'base'),
+        audioUrl(SFX_FILES[name], 'root'),
+        audioUrl(SFX_FILES[name], 'sprites'),
       ],
       loop: false,
       volume: 0.8,
       html5: false,
       preload: true,
       onloaderror: (_id, err) => {
-        console.warn(`[audio] SFX MP3 unavailable for "${name}":`, err)
+        const urls = [
+          audioUrl(SFX_FILES[name], 'base'),
+          audioUrl(SFX_FILES[name], 'root'),
+          audioUrl(SFX_FILES[name], 'sprites'),
+        ]
+        console.warn(`[audio] SFX unavailable for "${name}". Attempted URLs:`, urls, 'Error:', err)
         sfxInstances[name] = null
       },
     })
