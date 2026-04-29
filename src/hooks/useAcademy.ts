@@ -26,11 +26,11 @@ export interface EduChallenge {
 export type QuestionSource = 'ai' | 'db' | 'fallback'
 
 export interface UseAcademyResult {
-  /** Currently loaded challenge set (up to 10). */
+  /** Currently loaded challenge set — grows from 5 to 10 as the second batch arrives. */
   challenges: EduChallenge[]
-  /** Where the loaded challenges came from (null until first fetch resolves). */
+  /** Where the first batch of challenges came from (null until first fetch resolves). */
   source: QuestionSource | null
-  /** Whether challenges are still being fetched. */
+  /** Whether the first batch (5 questions) is still loading. */
   loading: boolean
   /** Human-readable error, or null when OK. */
   error: string | null
@@ -42,7 +42,11 @@ export interface UseAcademyResult {
   sessionXp: number
   /** True while a submitAnswer call is in-flight (prevents double-submission). */
   submitting: boolean
-  /** Fetch a fresh random set of 10 challenges, optionally filtered by subject. */
+  /** True while the second batch (questions 6-10) is being generated/fetched. */
+  secondBatchLoading: boolean
+  /** True once the second batch has been appended to challenges. */
+  secondBatchReady: boolean
+  /** Fetch a fresh 10-challenge session (5 DB immediately + 5 AI/DB in background). */
   fetchChallenges: (subject?: string) => Promise<void>
   /**
    * Record an answer and, if correct, award XP.
@@ -153,6 +157,8 @@ export function useAcademy(
   const [sessionCorrect, setSessionCorrect] = useState(0)
   const [sessionXp, setSessionXp] = useState(0)
   const [submitting, setSubmitting] = useState(false)
+  const [secondBatchLoading, setSecondBatchLoading] = useState(false)
+  const [secondBatchReady, setSecondBatchReady] = useState(false)
 
   const submittingRef = useRef(false)
 
@@ -179,95 +185,104 @@ export function useAcademy(
   // that affected direct queries.
 
   const fetchChallenges = useCallback(async (subject?: string) => {
-    if (!ageTier) return // age not yet loaded; caller should wait
+    if (!ageTier) return
     setLoading(true)
     setError(null)
     setSource(null)
     setSessionCorrect(0)
     setSessionXp(0)
+    setSecondBatchReady(false)
+    setSecondBatchLoading(false)
 
-    // Quiz-style games (Reading, History, Vocab, Logic) always pass `subject`.
-    // Without it we can't sensibly call the AI generator.
-    const aiPromise: Promise<EduChallenge[] | null> = subject
-      ? fetch('/api/edu/generate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ subject, age_tier: ageTier, count: 5 }),
-          signal: AbortSignal.timeout(55000),
-        })
-          .then(async (res) => {
-            if (!res.ok) {
-              console.warn('[useAcademy] AI generate returned', res.status, '— falling back to DB')
-              return null
-            }
-            const json = (await res.json()) as { questions?: EduChallenge[] }
-            return json.questions && json.questions.length >= 5 ? json.questions : null
-          })
-          .catch((err) => {
-            console.warn('[useAcademy] AI generate fetch failed:', err)
-            return null
-          })
-      : Promise.resolve(null)
+    // ── Phase 1: DB questions only — resolves immediately ─────────────────
+    let batch1: EduChallenge[] = []
+    try {
+      const params = new URLSearchParams({ age_tier: ageTier, count: '5' })
+      if (subject) params.set('subject', subject)
+      const res = await fetch(`/api/edu/challenges?${params.toString()}`, {
+        signal: AbortSignal.timeout(20000),
+      })
+      if (res.ok) {
+        const json = (await res.json()) as { questions?: EduChallenge[] }
+        if (json.questions && json.questions.length > 0) {
+          batch1 = shuffle(json.questions).slice(0, 5)
+        }
+      }
+    } catch (err) {
+      console.warn('[useAcademy] Phase-1 DB fetch failed:', err)
+    }
 
-    const dbPromise: Promise<EduChallenge[] | null> = (async () => {
-      try {
-        const params = new URLSearchParams({ age_tier: ageTier, count: '5' })
-        if (subject) params.set('subject', subject)
-        const res = await fetch(`/api/edu/challenges?${params.toString()}`, {
-          signal: AbortSignal.timeout(45000),
-        })
-        if (!res.ok) {
-          console.error('[useAcademy] API route error:', res.status)
+    if (batch1.length === 0) {
+      // DB unavailable — seed from fallback so we can still start
+      const fallback = subject ? (FALLBACKS[subject] ?? GENERIC_FALLBACK) : GENERIC_FALLBACK
+      batch1 = shuffle(fallback).slice(0, 5)
+    }
+
+    setChallenges(batch1)
+    setSource('db')
+    setLoading(false)
+    // Game starts here with 5 questions. ↑
+
+    // ── Phase 2: AI generation in background (questions 6-10) ────────────
+    ;(async () => {
+      setSecondBatchLoading(true)
+
+      const batch1Ids = batch1.map(q => q.id).filter(id => UUID_RE.test(id))
+
+      // Fire AI and DB fallback simultaneously — use whichever wins
+      const aiPromise: Promise<EduChallenge[] | null> = subject
+        ? fetch('/api/edu/generate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ subject, age_tier: ageTier, count: 5 }),
+            signal: AbortSignal.timeout(55000),
+          })
+            .then(async (res) => {
+              if (!res.ok) return null
+              const json = (await res.json()) as { questions?: EduChallenge[] }
+              return json.questions && json.questions.length >= 3 ? json.questions : null
+            })
+            .catch(() => null)
+        : Promise.resolve(null)
+
+      const dbFallbackPromise: Promise<EduChallenge[] | null> = (async () => {
+        try {
+          const params = new URLSearchParams({ age_tier: ageTier, count: '5' })
+          if (subject) params.set('subject', subject)
+          if (batch1Ids.length > 0) params.set('exclude', batch1Ids.join(','))
+          const res = await fetch(`/api/edu/challenges?${params.toString()}`, {
+            signal: AbortSignal.timeout(20000),
+          })
+          if (!res.ok) return null
+          const json = (await res.json()) as { questions?: EduChallenge[] }
+          return json.questions && json.questions.length > 0 ? json.questions : null
+        } catch {
           return null
         }
-        const json = (await res.json()) as { questions?: EduChallenge[] }
-        if (!json.questions || json.questions.length === 0) return null
-        return json.questions
-      } catch (err) {
-        console.error('[useAcademy] API route threw:', err)
-        return null
+      })()
+
+      let batch2: EduChallenge[] | null = null
+      try {
+        // Take whichever resolves first with valid questions
+        batch2 = await Promise.any([
+          aiPromise.then(r => r ?? Promise.reject()),
+          dbFallbackPromise.then(r => r ?? Promise.reject()),
+        ])
+      } catch {
+        batch2 = null
       }
+
+      if (!batch2 || batch2.length === 0) {
+        // Last resort: hardcoded fallback, different slice to avoid exact repeats
+        const fallback = subject ? (FALLBACKS[subject] ?? GENERIC_FALLBACK) : GENERIC_FALLBACK
+        batch2 = shuffle(fallback).slice(0, 5)
+      }
+
+      const shuffled2 = shuffle(batch2).slice(0, 5)
+      setChallenges(prev => [...prev, ...shuffled2])
+      setSecondBatchReady(true)
+      setSecondBatchLoading(false)
     })()
-
-    const overallTimeout: Promise<never> = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('timeout')), 60_000),
-    )
-
-    try {
-      const aiResults = await Promise.race([aiPromise, overallTimeout])
-      if (aiResults) {
-        setChallenges(shuffle(aiResults).slice(0, 5))
-        setSource('ai')
-        setLoading(false)
-        return
-      }
-
-      const dbResults = await Promise.race<EduChallenge[] | null>([dbPromise, overallTimeout])
-      if (dbResults) {
-        setChallenges(shuffle(dbResults).slice(0, 5))
-        setSource('db')
-        setLoading(false)
-        return
-      }
-
-      // Last resort: hardcoded fallback questions so the player always has
-      // something to answer, even when both AI and DB are offline.
-      const fallback = subject
-        ? (FALLBACKS[subject] ?? GENERIC_FALLBACK)
-        : GENERIC_FALLBACK
-      setChallenges(shuffle(fallback).slice(0, 5))
-      setSource('fallback')
-      setLoading(false)
-    } catch {
-      // Even in an error path, serve the hardcoded fallback so the UI
-      // never shows a blank/error state when questions were expected.
-      const fallback = subject
-        ? (FALLBACKS[subject] ?? GENERIC_FALLBACK)
-        : GENERIC_FALLBACK
-      setChallenges(shuffle(fallback).slice(0, 5))
-      setSource('fallback')
-      setLoading(false)
-    }
   }, [ageTier])
 
   // ── Submit answer ─────────────────────────────────────────────────────────
@@ -339,6 +354,8 @@ export function useAcademy(
     sessionCorrect,
     sessionXp,
     submitting,
+    secondBatchLoading,
+    secondBatchReady,
     fetchChallenges,
     submitAnswer,
     resetSession,

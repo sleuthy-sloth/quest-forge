@@ -25,7 +25,7 @@ interface Question {
   xp_reward: number
 }
 
-type Phase = 'loading' | 'playing' | 'results'
+type Phase = 'loading' | 'playing' | 'waiting' | 'results'
 type Feedback = null | 'correct' | 'wrong'
 type ScreenFlash = 'green' | 'red' | null
 type FetchErrorKind = 'network' | 'empty' | null
@@ -105,6 +105,8 @@ export default function MathArena({
   const [questions, setQuestions] = useState<Question[]>([])
   const [questionSource, setQuestionSource] = useState<QuestionSource | null>(null)
   const [fetchErrorKind, setFetchErrorKind] = useState<FetchErrorKind>(null)
+  const [secondBatchLoading, setSecondBatchLoading] = useState(false)
+  const [secondBatchReady, setSecondBatchReady] = useState(false)
 
   // Playing state
   const [questionIndex, setQuestionIndex] = useState(0)
@@ -138,9 +140,8 @@ export default function MathArena({
   const [freshProfile, setFreshProfile] = useState<{ xp_total: number; xp_available: number; level: number } | null>(null)
 
   // ── Fetch questions ──────────────────────────────────────────────────────
-  // Runs AI generation and DB fallback IN PARALLEL. Prefers AI results when
-  // they arrive quickly; falls back to the DB if AI fails. A 16 s safety
-  // timeout caps the total wait regardless of source.
+  // Phase 1: DB questions arrive instantly → game starts immediately.
+  // Phase 2: AI generation runs in background → appended as questions 6-10.
 
   const fetchQuestions = useCallback(async () => {
     setPhase('loading')
@@ -154,83 +155,99 @@ export default function MathArena({
     setChosenWrong(null)
     setSaveError(false)
     setQuestionSource(null)
+    setSecondBatchReady(false)
+    setSecondBatchLoading(false)
 
-    console.log('[MathArena] ageTier:', ageTier, 'householdId:', householdId?.slice(0, 8))
-
-    // Kick off AI and DB at the same time — the winner may supply questions
-    const aiPromise = fetch('/api/edu/generate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ subject: 'math', age_tier: ageTier, count: 5 }),
-      signal: AbortSignal.timeout(55000),
-    })
-      .then(async (res) => {
-        if (!res.ok) return null
-        const json = (await res.json()) as { questions?: Question[] }
-        return json.questions && json.questions.length >= 5 ? json.questions : null
-      })
-      .catch(() => null)
-
-    // Wrap dbPromise with its own timeout so it can't hang indefinitely.
-    // Uses a server API route (which reliably connects) to bypass the
-    // browser-side Supabase REST connection issue.
-    const dbPromise = (async (): Promise<Question[] | null> => {
-      try {
-        const res = await fetch(`/api/edu/challenges?subject=math&age_tier=${ageTier}&count=5`, {
-          signal: AbortSignal.timeout(45000),
-        })
-        if (!res.ok) {
-          console.error('[MathArena] API route error:', res.status)
-          return null
-        }
-        const json = (await res.json()) as { questions?: Question[] }
-        if (!json.questions || json.questions.length === 0) {
-          console.warn('[MathArena] API route returned 0 questions, ageTier:', ageTier)
-          return null
-        }
-        return json.questions
-      } catch (err) {
-        console.error('[MathArena] API route threw:', err)
-        return null
-      }
-    })()
-
-    // Safety net: 16 s is well above the parallel worst case (max 9 s / 12 s)
-    const overallTimeout: Promise<never> = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('timeout')), 60_000),
-    )
-
+    // ── Phase 1: DB only ───────────────────────────────────────────────────
+    let batch1: Question[] = []
     try {
-      // 1. Try AI first (may already be settled)
-      const aiQuestions = await Promise.race([aiPromise, overallTimeout])
-      if (aiQuestions) {
-        setQuestions(shuffle(aiQuestions).slice(0, 5))
-        setQuestionSource('ai')
-        setPhase('playing')
-        return
+      const res = await fetch(`/api/edu/challenges?subject=math&age_tier=${ageTier}&count=5`, {
+        signal: AbortSignal.timeout(20000),
+      })
+      if (res.ok) {
+        const json = (await res.json()) as { questions?: Question[] }
+        if (json.questions && json.questions.length > 0) {
+          batch1 = shuffle(json.questions).slice(0, 5)
+        }
       }
-
-      // 2. AI fell through — wait for DB (which was running in parallel)
-      const dbQuestions = await Promise.race<Question[] | null>([dbPromise, overallTimeout])
-      if (dbQuestions) {
-        setQuestions(shuffle(dbQuestions).slice(0, 5))
-        setQuestionSource('db')
-        setPhase('playing')
-        return
-      }
-
-      // 3. Neither source delivered — use hardcoded fallback (no save on these)
-      console.warn('[MathArena] AI + DB both failed, using fallback questions')
-      setQuestions(shuffle(fallbackQuestions(ageTier)).slice(0, 5))
-      setQuestionSource('fallback')
-      setPhase('playing')
-    } catch {
-      console.error('[MathArena] overall timeout fetching questions')
-      setFetchErrorKind('network')
+    } catch (err) {
+      console.warn('[MathArena] Phase-1 DB fetch failed:', err)
     }
+
+    if (batch1.length === 0) {
+      batch1 = shuffle(fallbackQuestions(ageTier)).slice(0, 5)
+    }
+
+    setQuestions(batch1)
+    setQuestionSource('db')
+    setPhase('playing')
+    // Game starts here with 5 questions. ↑
+
+    // ── Phase 2: AI in background ──────────────────────────────────────────
+    ;(async () => {
+      setSecondBatchLoading(true)
+
+      const batch1Ids = batch1.map(q => q.id).filter(id => UUID_RE.test(id))
+
+      const aiPromise = fetch('/api/edu/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subject: 'math', age_tier: ageTier, count: 5 }),
+        signal: AbortSignal.timeout(55000),
+      })
+        .then(async (res) => {
+          if (!res.ok) return null
+          const json = (await res.json()) as { questions?: Question[] }
+          return json.questions && json.questions.length >= 3 ? json.questions : null
+        })
+        .catch(() => null)
+
+      const dbFallbackPromise = (async (): Promise<Question[] | null> => {
+        try {
+          const params = new URLSearchParams({ subject: 'math', age_tier: ageTier, count: '5' })
+          if (batch1Ids.length > 0) params.set('exclude', batch1Ids.join(','))
+          const res = await fetch(`/api/edu/challenges?${params.toString()}`, {
+            signal: AbortSignal.timeout(20000),
+          })
+          if (!res.ok) return null
+          const json = (await res.json()) as { questions?: Question[] }
+          return json.questions && json.questions.length > 0 ? json.questions : null
+        } catch {
+          return null
+        }
+      })()
+
+      let batch2: Question[] | null = null
+      try {
+        batch2 = await Promise.any([
+          aiPromise.then(r => r ?? Promise.reject()),
+          dbFallbackPromise.then(r => r ?? Promise.reject()),
+        ])
+      } catch {
+        batch2 = null
+      }
+
+      if (!batch2 || batch2.length === 0) {
+        batch2 = shuffle(fallbackQuestions(ageTier)).slice(0, 5)
+      }
+
+      setQuestions(prev => [...prev, ...shuffle(batch2!).slice(0, 5)])
+      setSecondBatchReady(true)
+      setSecondBatchLoading(false)
+    })()
   }, [ageTier, householdId])
 
   useEffect(() => { fetchQuestions() }, [fetchQuestions])
+
+  // Auto-advance from waiting to Q6 when second batch arrives
+  useEffect(() => {
+    if (phase === 'waiting' && secondBatchReady) {
+      setQuestionIndex(5)
+      setFeedback(null)
+      setChosenWrong(null)
+      setPhase('playing')
+    }
+  }, [phase, secondBatchReady])
 
   useEffect(() => {
     const timers = timersRef.current
@@ -312,10 +329,13 @@ export default function MathArena({
 
       addTimer(setTimeout(() => setScreenFlash(null), 300))
       addTimer(setTimeout(() => {
-        if (questionIndex === questions.length - 1) {
+        if (questionIndex >= 9) {
           setCelebrationTick(t => t + 1)
           setAnswers(newAnswers)
           setPhase('results')
+        } else if (questionIndex === 4 && secondBatchLoading) {
+          setAnswers(newAnswers)
+          setPhase('waiting')
         } else {
           setQuestionIndex(qi => qi + 1)
           setFeedback(null)
@@ -331,10 +351,13 @@ export default function MathArena({
 
       addTimer(setTimeout(() => setScreenFlash(null), 300))
       addTimer(setTimeout(() => {
-        if (questionIndex === questions.length - 1) {
+        if (questionIndex >= 9) {
           setCelebrationTick(t => t + 1)
           setAnswers(newAnswers)
           setPhase('results')
+        } else if (questionIndex === 4 && secondBatchLoading) {
+          setAnswers(newAnswers)
+          setPhase('waiting')
         } else {
           setQuestionIndex(qi => qi + 1)
           setFeedback(null)
@@ -351,7 +374,7 @@ export default function MathArena({
 
   // Accuracy badge color
   function accuracyColor(n: number): string {
-    const pct = questions.length ? n / questions.length : 0
+    const pct = n / 10
     if (pct >= 0.8) return '#2eb85c'
     if (pct >= 0.6) return '#e8a020'
     return '#e05555'
@@ -405,6 +428,21 @@ export default function MathArena({
     )
   }
 
+  // ── Waiting phase (second batch loading between Q5 and Q6) ──────────────
+
+  if (phase === 'waiting') {
+    return (
+      <div style={{ padding: '48px 16px', textAlign: 'center' }}>
+        <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 9, color: 'var(--qf-gold-300)', letterSpacing: '0.18em', marginBottom: 10 }}>
+          PREPARING NEXT CHALLENGE…
+        </div>
+        <div style={{ fontSize: 11, color: 'var(--qf-parchment-dim)', fontFamily: 'var(--font-body)' }}>
+          The Gemini Oracle is forging your next set of questions.
+        </div>
+      </div>
+    )
+  }
+
   // ── Results phase ─────────────────────────────────────────────────────────
 
   if (phase === 'results') {
@@ -441,7 +479,7 @@ export default function MathArena({
                 TRAINING COMPLETE
               </div>
               <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '14px', color: '#f0e6c8' }}>
-                {correctCount} / {questions.length}
+                {correctCount} / 10
               </div>
               <div style={{ fontFamily: 'var(--font-heading)', fontSize: '11px', color: '#7a6a44', marginTop: '2px' }}>
                 {questionSource === 'fallback'
@@ -461,7 +499,7 @@ export default function MathArena({
               fontFamily: 'var(--font-pixel)', fontSize: '8px',
               color: accuracyColor(correctCount),
             }}>
-              {Math.round((questions.length ? correctCount / questions.length : 0) * 100)}%
+              {Math.round((correctCount / 10) * 100)}%
             </div>
           </div>
 
@@ -532,7 +570,7 @@ export default function MathArena({
 
   return (
     <>
-      <div className="px-4 pt-4 pb-8" style={{ maxWidth: '480px', margin: '0 auto' }}>
+      <div className="px-4 pt-4 pb-8" style={{ maxWidth: '820px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 16 }}>
 
         {/* ── Battle arena ── */}
         <BattleArena
@@ -544,11 +582,11 @@ export default function MathArena({
           enemyPreset={enemyPreset}
           correctCount={correctCount}
           questionIndex={questionIndex}
-          totalQuestions={questions.length}
+          totalQuestions={10}
           questionSource={questionSource}
           screenFlash={screenFlash}
-          playerSize={64}
-          enemySize={64}
+          playerSize={96}
+          enemySize={96}
           streak={streak}
           enemyTitle={TEACHER_BY_SLUG['math-arena']?.title}
           backgroundSrc="/images/lore/underbright.png"
@@ -567,7 +605,7 @@ export default function MathArena({
         >
           {/* Question counter */}
           <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '5px', color: '#7a6a44', textAlign: 'center', marginBottom: '10px', letterSpacing: '1px' }}>
-            QUESTION {questionIndex + 1} OF {questions.length}
+            QUESTION {questionIndex + 1} OF 10
           </div>
 
           {/* Question text */}

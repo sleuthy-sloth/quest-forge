@@ -150,30 +150,18 @@ function WorldSection({ householdPlayers = [] }: { householdPlayers?: any[] }) {
               }}
             >
               <div style={{
-                width: 32,
-                height: 32,
+                width: 40,
+                height: 40,
                 borderRadius: '50%',
                 border: '2px solid var(--qf-gold-400)',
                 background: 'rgba(14,10,20,0.8)',
                 overflow: 'hidden',
                 boxShadow: '0 0 15px rgba(201,168,76,0.3)'
               }}>
-                <AvatarPreview 
-                  avatarConfig={p.avatar_config} 
+                <AvatarPreview
+                  avatarConfig={p.avatar_config}
                   className="w-full h-full"
                 />
-              </div>
-              <div style={{
-                fontFamily: 'var(--font-pixel)',
-                fontSize: 6,
-                color: '#f0e6c8',
-                marginTop: 4,
-                background: 'rgba(0,0,0,0.6)',
-                padding: '2px 4px',
-                borderRadius: 2,
-                whiteSpace: 'nowrap'
-              }}>
-                {p.display_name}
               </div>
             </div>
           )

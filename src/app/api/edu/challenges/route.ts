@@ -37,14 +37,25 @@ export async function GET(request: NextRequest) {
 
   const { subject: subj, age_tier: tier, count } = result.data
 
+  // Optional comma-separated list of IDs to exclude (used for second-batch deduplication)
+  const excludeParam = searchParams.get('exclude')
+  const excludeIds = excludeParam
+    ? excludeParam.split(',').map(s => s.trim()).filter(s => /^[0-9a-f-]{36}$/i.test(s))
+    : []
+
   try {
-    const { data, error } = await supabase
+    let query = supabase
       .from('edu_challenges')
       .select('id, title, content, xp_reward')
       .eq('subject', subj)
       .eq('age_tier', tier)
       .eq('is_active', true)
-      .limit(50)
+
+    if (excludeIds.length > 0) {
+      query = query.not('id', 'in', `(${excludeIds.join(',')})`)
+    }
+
+    const { data, error } = await query.limit(50)
 
     if (error) {
       console.error('[api/edu/challenges] DB error:', error)
