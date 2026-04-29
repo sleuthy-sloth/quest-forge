@@ -490,27 +490,27 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
                   }
                   style={{
                     fontFamily: 'var(--font-pixel)',
-                    fontSize: '8px',
+                    fontSize: '9px',
                     color:
                       questionSource === 'ai'
-                        ? '#c4a0ff'
+                        ? '#eedeff'
                         : questionSource === 'db'
                           ? '#2eb85c'
                           : '#7a6a44',
                     background:
                       questionSource === 'ai'
-                        ? 'rgba(124,77,255,0.18)'
+                        ? 'rgba(124,77,255,0.40)'
                         : 'rgba(255,255,255,0.04)',
                     border:
                       questionSource === 'ai'
-                        ? '1px solid rgba(180,130,255,0.5)'
+                        ? '1px solid rgba(210,175,255,0.85)'
                         : '1px solid rgba(255,255,255,0.12)',
                     borderRadius: '2px',
                     padding: '3px 6px',
                     letterSpacing: '1px',
                     textShadow:
                       questionSource === 'ai'
-                        ? '0 0 8px rgba(180,130,255,0.6)'
+                        ? '0 0 6px rgba(255,255,255,0.5), 0 0 14px rgba(180,130,255,0.9)'
                         : undefined,
                   }}
                 >
