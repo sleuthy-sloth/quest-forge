@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { ChestAnimation } from '@/components/qf/ChestAnimation'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -150,6 +151,8 @@ export default function LootPage() {
   const [purchasing,     setPurchasing]     = useState(false)
   const [purchaseError,  setPurchaseError]  = useState<string | null>(null)
   const [justBought,     setJustBought]     = useState<string | null>(null) // item id
+  const [showChest,      setShowChest]      = useState(false)
+  const [lastItemName,   setLastItemName]   = useState("")
 
   // ── Data fetch ──────────────────────────────────────────────────────────────
   const loadData = useCallback(async () => {
@@ -262,6 +265,9 @@ export default function LootPage() {
       }
       setPurchases(prev => [newPurchase, ...prev])
       setJustBought(confirmItem.id)
+      setLastItemName(confirmItem.title)
+      setShowChest(true)
+      
       setTimeout(() => setJustBought(null), 2500)
       setConfirmItem(null)
     } catch {
@@ -299,7 +305,7 @@ export default function LootPage() {
           flex: 1;
           padding: 0.85rem 0;
           font-family: var(--font-pixel, 'Press Start 2P', monospace);
-          font-size: 0.58rem;
+          font-size: 0.65rem;
           letter-spacing: 0.12em;
           text-transform: uppercase;
           image-rendering: pixelated;
@@ -315,7 +321,7 @@ export default function LootPage() {
           padding: 0.9rem 1rem;
           border-radius: 3px;
           font-family: var(--font-pixel, 'Press Start 2P', monospace);
-          font-size: 0.58rem;
+          font-size: 0.65rem;
           letter-spacing: 0.12em;
           text-transform: uppercase;
           image-rendering: pixelated;
@@ -332,7 +338,7 @@ export default function LootPage() {
           padding: 1rem;
           border-radius: 3px;
           font-family: var(--font-pixel, 'Press Start 2P', monospace);
-          font-size: 0.58rem;
+          font-size: 0.65rem;
           letter-spacing: 0.1em;
           text-transform: uppercase;
           image-rendering: pixelated;
@@ -941,7 +947,7 @@ export default function LootPage() {
                 {confirmItem.cost_gold > 0 && (
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                     <GoldIcon size={18} />
-                    <span style={{ fontFamily: 'var(--font-pixel), monospace', fontSize: '0.55rem', imageRendering: 'pixelated', color: 'rgba(201,168,76,0.95)' }}>
+                    <span style={{ fontFamily: 'var(--font-pixel), monospace', fontSize: '0.5rem', imageRendering: 'pixelated', color: 'rgba(201,168,76,0.95)' }}>
                       {confirmItem.cost_gold.toLocaleString()} GP
                     </span>
                   </div>
@@ -953,7 +959,7 @@ export default function LootPage() {
               <p
                 style={{
                   fontFamily:     'var(--font-pixel), monospace',
-                  fontSize:       '0.48rem',
+                  fontSize:       '0.4rem',
                   imageRendering: 'pixelated',
                   color:          'rgba(200,215,255,0.4)',
                   letterSpacing:  '0.1em',

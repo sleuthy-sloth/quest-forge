@@ -1,0 +1,18 @@
+{
+  "name": "Quest Forge: The Emberlight Chronicles",
+  "short_name": "Quest Forge",
+  "description": "A gamified productivity platform for families. Turn chores into quests.",
+  "start_url": "/play",
+  "display": "standalone",
+  "background_color": "#040812",
+  "theme_color": "#c9a84c",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "orientation": "portrait"
+}
