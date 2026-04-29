@@ -305,7 +305,10 @@ export async function loadSpriteImages(
  * Full LPC sheets (≥11 rows) use row 10; walk-only sheets (4 rows) use row 2.
  */
 export function detectWalkRow(img: HTMLImageElement): number {
-  const rowCount = Math.floor(img.naturalHeight / CELL)
+  const isOversize = img.naturalWidth > 1000 || img.naturalWidth === 192
+  const cellSize = isOversize ? 192 : CELL
+  const rowCount = Math.floor(img.naturalHeight / cellSize)
+
   if (rowCount === 1) return 0                            // single-frame sprite (weapons, shields)
   if (rowCount >= WALK_DOWN_ROW_FULL + 1) return WALK_DOWN_ROW_FULL  // full multi-row sheet
   return WALK_DOWN_ROW_WALK                                // walk-only sheet (4 rows)
@@ -396,12 +399,32 @@ export function compositeLayer(
   const ctx = off.getContext('2d')!
   ctx.imageSmoothingEnabled = false
 
-  const col = frame?.col ?? WALK_FRAME_COL
-  const row = frame?.row ?? detectWalkRow(img)
-  const sx = col * CELL
-  const sy = row * CELL
+  const isOversize = img.naturalWidth > 1000 || img.naturalWidth === 192
+  const cellSize = isOversize ? 192 : CELL
 
-  // Source rect exceeds image bounds — single-frame sprite with no data for this frame.
+  let col = frame?.col ?? WALK_FRAME_COL
+  let row = frame?.row ?? detectWalkRow(img)
+
+  // ── Flicker Fix ──────────────────────────────────────────────────────────
+  // Fallback to frame 0 if requested column or row exceeds image dimensions.
+  // This prevents assets (especially single-frame weapons/shields) from 
+  // flickering out during multi-frame walk or attack animations.
+  if ((col * cellSize) + cellSize > img.naturalWidth) col = 0
+  if ((row * cellSize) + cellSize > img.naturalHeight) row = 0
+
+  let sx = col * cellSize
+  let sy = row * cellSize
+
+  // ── Oversize Centering ───────────────────────────────────────────────────
+  // If the source image is oversize (192x192 per frame), we center the
+  // 64x64 body area. LPC oversize frames are 3x3 grids of 64x64 cells,
+  // with the character centered in the middle cell.
+  if (isOversize) {
+    sx += (cellSize - CELL) / 2
+    sy += (cellSize - CELL) / 2
+  }
+
+  // Final safety check — if even the fallback frame is out of bounds, return empty.
   if (sx + CELL > img.naturalWidth || sy + CELL > img.naturalHeight) {
     return off
   }
