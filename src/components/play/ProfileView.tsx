@@ -345,7 +345,7 @@ export default function ProfileView({
         <SectionHeading label="ADVENTURE LOG" accent={accent} />
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           {completions.length === 0 ? (
-            <p style={{ textAlign: 'center', color: 'var(--qf-parchment-faint)', fontStyle: 'italic', padding: '2rem' }}>
+            <p style={{ textAlign: 'center', color: 'var(--qf-parchment-dim)', fontStyle: 'italic', padding: '2.5rem 1rem', opacity: 0.8 }}>
               Your chronicles are empty. Begin your deeds!
             </p>
           ) : (
@@ -401,7 +401,7 @@ export default function ProfileView({
         <SectionHeading label="LEGENDARY LOOT" accent={accent} />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '1rem' }}>
           {purchases.length === 0 ? (
-            <div style={{ gridColumn: '1/-1', textAlign: 'center', color: 'var(--qf-parchment-faint)', fontStyle: 'italic', padding: '2rem' }}>
+            <div style={{ gridColumn: '1/-1', textAlign: 'center', color: 'var(--qf-parchment-dim)', fontStyle: 'italic', padding: '2.5rem 1rem', opacity: 0.8 }}>
               No loot found. Visit the Emporium.
             </div>
           ) : (
