@@ -431,13 +431,13 @@ export default function ProfileView({
               <div
                 key={p.id}
                 className="qf-ornate-panel"
-                style={{ padding: '1rem', borderRadius: '8px', opacity: p.redeemed ? 0.6 : 1 }}
+                style={{ padding: '1rem', borderRadius: '8px', opacity: p.status === 'redeemed' ? 0.6 : 1 }}
               >
                 <div style={{ fontSize: '0.9rem', fontWeight: 700, marginBottom: '0.25rem', color: 'var(--qf-gold-200)' }}>
-                  {p.loot_store_items?.name ?? 'Mystic Item'}
+                  {p.rewards?.title ?? 'Mystic Item'}
                 </div>
                 <div style={{ fontSize: '0.65rem', color: 'var(--qf-parchment-dim)', marginBottom: '0.75rem' }}>
-                  {p.loot_store_items?.category.toUpperCase()}
+                  {p.rewards?.category.toUpperCase()}
                 </div>
                 <div
                   style={{
@@ -449,7 +449,7 @@ export default function ProfileView({
                     gap: '0.25rem',
                   }}
                 >
-                  {p.redeemed ? 'CLAIMED' : 'READY TO CLAIM'}
+                  {p.status === 'redeemed' ? 'CLAIMED' : 'READY TO CLAIM'}
                 </div>
               </div>
             ))

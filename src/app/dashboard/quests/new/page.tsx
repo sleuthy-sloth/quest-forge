@@ -35,7 +35,7 @@ interface QuestForm {
   assigned_to: string
   difficulty: Difficulty
   is_boss: boolean
-  boss_health: string
+  boss_hp: string
   boss_sprite: string
 }
 
@@ -48,7 +48,7 @@ const FORM_EMPTY: QuestForm = {
   assigned_to: '',
   difficulty: 'easy',
   is_boss: false,
-  boss_health: '200',
+  boss_hp: '200',
   boss_sprite: 'slime',
 }
 
@@ -124,8 +124,8 @@ export default function NewQuestPage() {
     const gold = parseInt(form.gold_reward, 10)
     if (isNaN(gold) || gold < 0 || gold > 9999) errs.gold_reward = '0–9999'
     if (form.is_boss) {
-      const bh = parseInt(form.boss_health, 10)
-      if (isNaN(bh) || bh < 100 || bh > 500) errs.boss_health = '100–500'
+      const bh = parseInt(form.boss_hp, 10)
+      if (isNaN(bh) || bh < 100 || bh > 500) errs.boss_hp = '100–500'
       if (!form.boss_sprite) errs.boss_sprite = 'Select a boss sprite'
     }
     setFormErrors(errs)
@@ -138,7 +138,7 @@ export default function NewQuestPage() {
     setSubmitting(true)
     setSubmitError(null)
 
-    const bossHp = form.is_boss ? parseInt(form.boss_health, 10) : null
+    const bossHp = form.is_boss ? parseInt(form.boss_hp, 10) : null
 
     const payload = {
       title: form.title.trim(),
@@ -150,9 +150,9 @@ export default function NewQuestPage() {
       assigned_to: form.assigned_to || null,
       difficulty: form.difficulty,
       is_boss: form.is_boss,
-      boss_health: bossHp,
-      boss_current_health: bossHp,
-      boss_sprite: form.is_boss ? form.boss_sprite : null,
+      boss_hp: bossHp,
+      boss_current_hp: bossHp,
+      boss_sprite_config: form.is_boss ? { type: form.boss_sprite } : null,
       household_id: householdId,
       created_by: userId,
       is_active: true,
@@ -501,7 +501,7 @@ export default function NewQuestPage() {
                   {/* Boss Health slider */}
                   <div style={{ marginBottom: '1rem' }}>
                     <label className="qf-label" htmlFor="q-boss-hp">
-                      Boss Health: {form.boss_health || 200} HP
+                      Boss Health: {form.boss_hp || 200} HP
                     </label>
                     <input
                       id="q-boss-hp"
@@ -509,8 +509,8 @@ export default function NewQuestPage() {
                       min={100}
                       max={500}
                       step={50}
-                      value={form.boss_health}
-                      onChange={e => setField('boss_health', e.target.value)}
+                      value={form.boss_hp}
+                      onChange={e => setField('boss_hp', e.target.value)}
                       disabled={submitting}
                       style={{ width: '100%', accentColor: '#e84040' }}
                     />
@@ -518,7 +518,7 @@ export default function NewQuestPage() {
                       <span>100</span>
                       <span>500</span>
                     </div>
-                    {formErrors.boss_health && <p className="text-[0.7rem] font-heading mt-1" style={{ color: 'rgba(220,100,100,0.8)' }}>{formErrors.boss_health}</p>}
+                    {formErrors.boss_hp && <p className="text-[0.7rem] font-heading mt-1" style={{ color: 'rgba(220,100,100,0.8)' }}>{formErrors.boss_hp}</p>}
                   </div>
 
                   {/* Sprite Selector */}

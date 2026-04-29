@@ -67,20 +67,9 @@ export interface QuestState {
   createHousehold: (householdName: string, displayName: string) => Promise<boolean>
 
   /**
-   * Buy a digital reward. Full real flow:
-   *   1. Check local gold >= cost
-   *   2. Optimistic deduction + coin SFX
-   *   3. UPDATE profiles SET gold = gold - cost (server validates balance)
-   *   4. INSERT INTO player_inventory
-   *   5. Rollback store.gold on failure
-   *   6. playSfx('purchase') on success
+   * Buy or redeem a reward. Uses the unified purchase_reward RPC.
    */
-  buyReward: (rewardId: string, cost: number) => Promise<boolean>
-
-  /**
-   * Redeem a real-world voucher. Creates a row in redemptions table.
-   */
-  redeemVoucher: (rewardId: string, cost: number) => Promise<boolean>
+  purchaseReward: (rewardId: string) => Promise<{ success: boolean; error: string | null }>
 
   /** Parent-only: set is_unlocked = true on a chapter. */
   unlockChapter: (chapterId: string) => Promise<boolean>
@@ -220,107 +209,35 @@ export const useQuestStore = create<QuestState>((set, get) => ({
     set({ health: amount === undefined ? max : Math.min(max, state.health + amount) })
   },
 
-  buyReward: async (rewardId, cost) => {
-    const { gold: currentGold, playerId, householdId } = get()
-    if (currentGold < cost || !playerId || !householdId) return false
-
-    const previousGold = currentGold
-    set({ gold: currentGold - cost })
-    playSfx('coin')
+  purchaseReward: async (rewardId) => {
+    const { playerId } = get()
+    if (!playerId) return { success: false, error: 'Not logged in' }
 
     const supabase = createClient()
-
-    // Step 1: deduct gold server-side (the CHECK constraint on profiles.gold
-    // provides an additional safety net in the DB).
-    const { error: goldError } = await supabase.rpc('deduct_gold', {
+    const { data, error } = await supabase.rpc('purchase_reward', {
       p_player_id: playerId,
-      p_amount: cost,
+      p_reward_id: rewardId,
     })
 
-    if (goldError) {
-      // Fallback: direct UPDATE if the RPC doesn't exist yet
-      const { error: directError } = await supabase
-        .from('profiles')
-        .update({ gold: currentGold - cost })
-        .eq('id', playerId)
-        .eq('gold', currentGold) // optimistic lock — only deduct if gold hasn't changed
+    if (error) return { success: false, error: error.message }
 
-      if (directError) {
-        set({ gold: previousGold })
-        return false
-      }
+    const result = data as {
+      error?: string
+      redemptionId?: string
+      newXpAvailable?: number
+      newGold?: number
     }
 
-    // Step 2: insert into player_inventory
-    const { error: insertError } = await supabase
-      .from('player_inventory')
-      .insert({
-        player_id: playerId,
-        reward_id: rewardId,
-        household_id: householdId,
-      })
+    if (result.error) return { success: false, error: result.error }
 
-    if (insertError) {
-      // Rollback gold
-      await supabase
-        .from('profiles')
-        .update({ gold: previousGold })
-        .eq('id', playerId)
-
-      set({ gold: previousGold })
-      return false
-    }
-
-    playSfx('coin')
-    return true
-  },
-
-  redeemVoucher: async (rewardId, cost) => {
-    const { gold: currentGold, playerId, householdId } = get()
-    if (currentGold < cost || !playerId || !householdId) return false
-
-    const previousGold = currentGold
-    set({ gold: currentGold - cost })
-    playSfx('coin')
-
-    const supabase = createClient()
-
-    // Deduct gold
-    const { error: goldError } = await supabase.rpc('deduct_gold', {
-      p_player_id: playerId,
-      p_amount: cost,
+    // Update local state
+    set({
+      xpAvailable: result.newXpAvailable,
+      gold: result.newGold,
     })
 
-    if (goldError) {
-      const { error: directError } = await supabase
-        .from('profiles')
-        .update({ gold: currentGold - cost })
-        .eq('id', playerId)
-
-      if (directError) {
-        set({ gold: previousGold })
-        return false
-      }
-    }
-
-    // Insert redemption
-    const { error: insertError } = await supabase
-      .from('redemptions')
-      .insert({
-        player_id: playerId,
-        reward_id: rewardId,
-        household_id: householdId,
-        status: 'pending',
-      })
-
-    if (insertError) {
-      await supabase.from('profiles').update({ gold: previousGold }).eq('id', playerId)
-      set({ gold: previousGold })
-      return false
-    }
-
     playSfx('coin')
-    return true
+    return { success: true, error: null }
   },
 
   unlockChapter: async (chapterId) => {

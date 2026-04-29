@@ -9,27 +9,23 @@ type LootCategory = 'real_reward' | 'cosmetic' | 'power_up' | 'story_unlock'
 
 interface LootItem {
   id: string
-  name: string
+  title: string
   description: string
-  flavor_text: string
   cost_xp: number
   cost_gold: number
   category: LootCategory
-  real_reward_description: string
   sprite_icon: string | null
 }
 
 interface PurchasedItem {
   id: string
-  item_id: string
-  purchased_at: string
-  redeemed: boolean
-  redeemed_at: string | null
-  item: {
-    name: string
+  reward_id: string
+  created_at: string
+  status: 'pending' | 'approved' | 'redeemed'
+  approved_at: string | null
+  reward: {
+    title: string
     description: string
-    flavor_text: string
-    real_reward_description: string
     category: LootCategory
   } | null
 }
@@ -173,33 +169,33 @@ export default function LootPage() {
 
     const [{ data: itemData }, { data: purchaseData }] = await Promise.all([
       supabase
-        .from('loot_store_items')
-        .select('id, name, description, flavor_text, cost_xp, cost_gold, category, real_reward_description, sprite_icon')
+        .from('rewards')
+        .select('id, title, description, cost_xp, cost_gold, category, sprite_icon')
         .eq('household_id', profile.household_id)
         .eq('is_available', true)
-        .order('cost_xp', { ascending: true }),
+        .order('cost_gold', { ascending: true }),
       supabase
-        .from('purchases')
-        .select('id, item_id, purchased_at, redeemed, redeemed_at, household_id, loot_store_items (name, description, flavor_text, real_reward_description, category)'),
+        .from('redemptions')
+        .select('id, reward_id, created_at, status, approved_at, household_id, rewards (title, description, category)'),
     ])
 
-    setItems((itemData ?? []) as LootItem[])
-    // Flatten the nested loot_store_items key from the join
+    setItems((itemData ?? []) as unknown as LootItem[])
+    // Flatten the nested rewards key from the join
     type RawPurchase = {
-      id: string; item_id: string; purchased_at: string; redeemed: boolean;
-      redeemed_at: string | null; household_id: string
-      loot_store_items: PurchasedItem['item']
+      id: string; reward_id: string; created_at: string; status: PurchasedItem['status'];
+      approved_at: string | null; household_id: string
+      rewards: PurchasedItem['reward']
     }
     setPurchases(
-      ((purchaseData ?? []) as RawPurchase[])
+      ((purchaseData ?? []) as unknown as RawPurchase[])
         .filter(p => p.household_id === profile.household_id)
         .map(p => ({
           id:           p.id,
-          item_id:      p.item_id,
-          purchased_at: p.purchased_at,
-          redeemed:     p.redeemed,
-          redeemed_at:  p.redeemed_at,
-          item:         p.loot_store_items ?? null,
+          reward_id:    p.reward_id,
+          created_at:   p.created_at,
+          status:       p.status,
+          approved_at:  p.approved_at,
+          reward:       p.rewards ?? null,
         }))
         .reverse()
     )
@@ -226,37 +222,35 @@ export default function LootPage() {
     setPurchaseError(null)
 
     try {
-      const res = await fetch('/api/loot/purchase', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ itemId: confirmItem.id }),
+      const { data, error: rpcError } = await supabase.rpc('purchase_reward', {
+        p_player_id: (await supabase.auth.getUser()).data.user?.id,
+        p_reward_id: confirmItem.id,
       })
-      const data = await res.json() as {
+
+      const resData = data as {
+        error?: string
+        redemptionId?: string
         newXpAvailable?: number
         newGold?: number
-        purchase?: { id: string; item_id: string; purchased_at: string; redeemed: boolean; redeemed_at: null }
-        error?: string
       }
 
-      if (!res.ok || !data.purchase) {
-        setPurchaseError(data.error ?? 'Purchase failed. Please try again.')
+      if (rpcError || resData.error) {
+        setPurchaseError(rpcError?.message || resData.error || 'Purchase failed. Please try again.')
         return
       }
 
-      setXpAvailable(data.newXpAvailable ?? 0)
-      setGold(data.newGold ?? 0)
+      setXpAvailable(resData.newXpAvailable ?? 0)
+      setGold(resData.newGold ?? 0)
 
       const newPurchase: PurchasedItem = {
-        id:           data.purchase.id,
-        item_id:      confirmItem.id,
-        purchased_at: data.purchase.purchased_at,
-        redeemed:     false,
-        redeemed_at:  null,
-        item: {
-          name:                    confirmItem.name,
+        id:           resData.redemptionId!,
+        reward_id:    confirmItem.id,
+        created_at:   new Date().toISOString(),
+        status:       confirmItem.category === 'cosmetic' ? 'redeemed' : 'pending',
+        approved_at:  null,
+        reward: {
+          title:                   confirmItem.title,
           description:             confirmItem.description,
-          flavor_text:             confirmItem.flavor_text,
-          real_reward_description: confirmItem.real_reward_description,
           category:                confirmItem.category,
         },
       }
@@ -583,11 +577,11 @@ export default function LootPage() {
                           lineHeight:  1.25,
                         }}
                       >
-                        {item.name}
+                        {item.title}
                       </p>
 
                       {/* Flavor text */}
-                      {item.flavor_text && (
+                      {item.description && (
                         <p
                           style={{
                             fontFamily: 'var(--font-body), serif',
@@ -598,7 +592,7 @@ export default function LootPage() {
                             flex:        1,
                           }}
                         >
-                          {item.flavor_text}
+                          {item.description}
                         </p>
                       )}
 
@@ -682,7 +676,7 @@ export default function LootPage() {
           ) : (
             <div className="flex flex-col gap-3">
               {purchases.map((p, idx) => {
-                const cat  = p.item ? CAT_META[p.item.category] : CAT_META.real_reward
+                const cat  = p.reward ? CAT_META[p.reward.category] : CAT_META.real_reward
                 return (
                   <div
                     key={p.id}
@@ -690,10 +684,10 @@ export default function LootPage() {
                     style={{
                       animationDelay: `${idx * 0.04}s`,
                       position:      'relative',
-                      background:    p.redeemed
+                      background:    p.status === 'redeemed'
                         ? 'rgba(46,184,92,0.04)'
                         : 'linear-gradient(170deg, #1a1208 0%, #0e0804 60%, #181006 100%)',
-                      border:        p.redeemed
+                      border:        p.status === 'redeemed'
                         ? '1px solid rgba(46,184,92,0.25)'
                         : '1px solid rgba(201,168,76,0.15)',
                       borderRadius:   3,
@@ -709,7 +703,7 @@ export default function LootPage() {
                     <div style={{ padding: '1rem 1rem 1rem 1rem', display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
                       {/* Icon */}
                       <div style={{ flexShrink: 0 }}>
-                        {p.item && <CategoryIcon category={p.item.category} size={40} />}
+                        {p.reward && <CategoryIcon category={p.reward.category} size={40} />}
                       </div>
 
                       {/* Content */}
@@ -725,11 +719,11 @@ export default function LootPage() {
                               lineHeight:  1.25,
                             }}
                           >
-                            {p.item?.name ?? 'Unknown Item'}
+                            {p.reward?.title ?? 'Unknown Item'}
                           </p>
 
                           {/* Redemption badge */}
-                          {p.redeemed ? (
+                          {p.status === 'redeemed' ? (
                             <span
                               style={{
                                 fontFamily:     'var(--font-pixel), monospace',
@@ -761,13 +755,13 @@ export default function LootPage() {
                                 whiteSpace:     'nowrap',
                               }}
                             >
-                              Not Yet Redeemed
+                              {p.status === 'approved' ? 'Approved' : 'Pending'}
                             </span>
                           )}
                         </div>
 
                         {/* Real reward description */}
-                        {p.item?.real_reward_description && (
+                        {p.reward?.description && (
                           <div
                             style={{
                               marginBottom:  '0.4rem',
@@ -785,7 +779,7 @@ export default function LootPage() {
                                 lineHeight:     1.5,
                               }}
                             >
-                              {p.item.real_reward_description}
+                              {p.reward.description}
                             </p>
                           </div>
                         )}
@@ -800,9 +794,9 @@ export default function LootPage() {
                               color:      'rgba(200,215,255,0.28)',
                             }}
                           >
-                            Purchased {fmtDate(p.purchased_at)}
+                            Purchased {fmtDate(p.created_at)}
                           </span>
-                          {p.redeemed && p.redeemed_at && (
+                          {p.status === 'redeemed' && p.approved_at && (
                             <span
                               style={{
                                 fontFamily: 'var(--font-heading), serif',
@@ -811,7 +805,7 @@ export default function LootPage() {
                                 color:      'rgba(46,184,92,0.5)',
                               }}
                             >
-                              ✓ Redeemed {fmtDate(p.redeemed_at)}
+                              ✓ Redeemed {fmtDate(p.approved_at)}
                             </span>
                           )}
                         </div>
@@ -888,7 +882,7 @@ export default function LootPage() {
                 marginBottom: '0.3rem',
               }}
             >
-              {confirmItem.name}
+              {confirmItem.title}
             </p>
 
             {/* Category */}

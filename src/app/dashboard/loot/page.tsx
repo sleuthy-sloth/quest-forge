@@ -8,17 +8,12 @@ import { PageHeader } from '@/components/qf'
 import { LOOT_SUGGESTIONS } from '@/lib/constants/suggestions'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
-type LootItem = Pick<
-  Tables<'loot_store_items'>,
-  | 'id' | 'name' | 'description' | 'flavor_text' | 'real_reward_description'
-  | 'cost_xp' | 'cost_gold' | 'category' | 'is_available'
->
+type LootItem = Tables<'rewards'>
 type LootCategory = 'real_reward' | 'cosmetic' | 'power_up' | 'story_unlock'
 
 interface ItemForm {
-  name: string
-  real_reward_description: string
-  flavor_text: string
+  title: string
+  description: string
   cost_xp: string
   cost_gold: string
   category: LootCategory
@@ -37,7 +32,7 @@ const CAT_META: Record<LootCategory, {
 const CATEGORY_ORDER: LootCategory[] = ['real_reward', 'cosmetic', 'power_up', 'story_unlock']
 
 const FORM_EMPTY: ItemForm = {
-  name: '', real_reward_description: '', flavor_text: '',
+  title: '', description: '',
   cost_xp: '0', cost_gold: '0', category: 'real_reward',
 }
 
@@ -105,10 +100,10 @@ export default function LootPage() {
     setHouseholdId(profile.household_id)
 
     const { data } = await supabase
-      .from('loot_store_items')
-      .select('id, name, description, flavor_text, real_reward_description, cost_xp, cost_gold, category, is_available')
+      .from('rewards')
+      .select('id, title, description, cost_xp, cost_gold, category, is_available')
       .order('category', { ascending: true })
-      .order('name',     { ascending: true })
+      .order('title',     { ascending: true })
 
     setItems(data ?? [])
     setLoading(false)
@@ -126,9 +121,8 @@ export default function LootPage() {
   function applySuggestion(s: typeof LOOT_SUGGESTIONS[number]) {
     setFormState(p => ({
       ...p,
-      name: s.name,
-      real_reward_description: s.description,
-      flavor_text: '', // clear old flavor
+      title: s.name,
+      description: s.description,
       category: s.category,
       cost_gold: String(s.cost_gold),
       cost_xp: '0',
@@ -140,7 +134,7 @@ export default function LootPage() {
 
   function validate(): boolean {
     const errs: Partial<Record<keyof ItemForm, string>> = {}
-    if (!form.name.trim()) errs.name = 'Name required'
+    if (!form.title.trim()) errs.title = 'Title required'
     const xp   = parseInt(form.cost_xp,   10)
     const gold = parseInt(form.cost_gold, 10)
     if (isNaN(xp)   || xp   < 0 || xp   > 99999) errs.cost_xp   = '0–99 999'
@@ -156,17 +150,15 @@ export default function LootPage() {
     setSubmitting(true); setSubmitError(null); setSubmitOk(null)
 
     const payload = {
-      name:                   form.name.trim(),
-      real_reward_description: form.real_reward_description.trim(),
-      flavor_text:            form.flavor_text.trim(),
-      description:            form.real_reward_description.trim(), // mirrors real_reward_description
+      title:                  form.title.trim(),
+      description:            form.description.trim(),
       cost_xp:                parseInt(form.cost_xp,   10) || 0,
       cost_gold:              parseInt(form.cost_gold, 10) || 0,
       category:               form.category,
     }
 
     if (editingId) {
-      const { error } = await supabase.from('loot_store_items').update(payload).eq('id', editingId)
+      const { error } = await supabase.from('rewards').update(payload).eq('id', editingId)
       if (error) {
         setSubmitError('Failed to update item.')
       } else {
@@ -176,18 +168,25 @@ export default function LootPage() {
       }
     } else {
       const { data, error } = await supabase
-        .from('loot_store_items')
-        .insert({ ...payload, household_id: householdId, created_by: userId, is_available: true })
-        .select('id, name, description, flavor_text, real_reward_description, cost_xp, cost_gold, category, is_available')
+        .from('rewards')
+        .insert({
+          ...payload,
+          household_id: householdId,
+          created_by: userId,
+          is_available: true,
+          icon_type: 'chest', // Default for now
+          reward_type: form.category === 'real_reward' ? 'real_world' : 'digital'
+        })
+        .select('id, title, description, cost_xp, cost_gold, category, is_available, icon_type, reward_type, created_at, created_by, household_id, metadata, sprite_icon')
         .single()
       if (error || !data) {
         setSubmitError('Failed to add item.')
       } else {
-        setItems(prev => [...prev, data].sort((a, b) =>
-          a.category.localeCompare(b.category) || a.name.localeCompare(b.name)
+        setItems(prev => [...prev, data as LootItem].sort((a, b) =>
+          (a.category ?? '').localeCompare(b.category ?? '') || a.title.localeCompare(b.title)
         ))
         setFormState(FORM_EMPTY)
-        setSubmitOk(`"${data.name}" added to the Emporium!`)
+        setSubmitOk(`"${data.title}" added to the Emporium!`)
       }
     }
     setSubmitting(false)
@@ -197,9 +196,8 @@ export default function LootPage() {
   function startEdit(item: LootItem) {
     setEditingId(item.id)
     setFormState({
-      name:                   item.name,
-      real_reward_description: item.real_reward_description ?? '',
-      flavor_text:            item.flavor_text ?? '',
+      title:                  item.title,
+      description:            item.description ?? '',
       cost_xp:                String(item.cost_xp),
       cost_gold:              String(item.cost_gold),
       category:               item.category as LootCategory,
@@ -217,7 +215,7 @@ export default function LootPage() {
   async function toggleAvail(id: string, next: boolean) {
     setTogglingId(id)
     const { error } = await supabase
-      .from('loot_store_items').update({ is_available: next }).eq('id', id)
+      .from('rewards').update({ is_available: next }).eq('id', id)
     if (!error) setItems(prev => prev.map(i => i.id === id ? { ...i, is_available: next } : i))
     setTogglingId(null)
   }
@@ -225,7 +223,7 @@ export default function LootPage() {
   // ── Delete ──────────────────────────────────────────────────────────────────
   async function handleDelete(id: string) {
     setDeletingId(id)
-    const { error } = await supabase.from('loot_store_items').delete().eq('id', id)
+    const { error } = await supabase.from('rewards').delete().eq('id', id)
     if (!error) {
       setItems(prev => prev.filter(i => i.id !== id))
       if (editingId === id) cancelEdit()
@@ -586,7 +584,7 @@ export default function LootPage() {
                             fontSize: '0.88rem', fontWeight: 600,
                             color: item.is_available ? '#e8f0ff' : 'rgba(200,215,255,0.3)',
                           }}>
-                            {item.name}
+                            {item.title}
                           </span>
                           {/* Category badge */}
                           <span style={{
@@ -611,7 +609,7 @@ export default function LootPage() {
                             </span>
                           )}
                         </div>
-                        {item.real_reward_description && (
+                        {item.description && (
                           <span style={{
                             fontFamily: 'var(--font-body, "Crimson Text", Georgia, serif)',
                             fontSize: '0.8rem', fontStyle: 'italic',
@@ -621,7 +619,7 @@ export default function LootPage() {
                             WebkitLineClamp: 1,
                             WebkitBoxOrient: 'vertical',
                           }}>
-                            {item.real_reward_description}
+                            {item.description}
                           </span>
                         )}
                       </div>
@@ -776,51 +774,34 @@ export default function LootPage() {
 
                 {/* Item Name */}
                 <div>
-                  <label className="loot-label" htmlFor="l-name">Item Name</label>
+                  <label className="loot-label" htmlFor="l-title">Item Title</label>
                   <input
-                    id="l-name"
-                    className={`loot-input${formErrors.name ? ' err' : ''}`}
+                    id="l-title"
+                    className={`loot-input${formErrors.title ? ' err' : ''}`}
                     type="text"
                     placeholder="e.g. Screen Time Scroll…"
-                    value={form.name}
-                    onChange={e => setField('name', e.target.value)}
+                    value={form.title}
+                    onChange={e => setField('title', e.target.value)}
                     disabled={submitting}
                     autoComplete="off"
                   />
-                  {formErrors.name && <p style={{ color: 'rgba(220,100,100,0.8)', fontSize: '0.68rem', marginTop: 3, fontFamily: 'var(--font-heading, Cinzel, serif)' }}>{formErrors.name}</p>}
+                  {formErrors.title && <p style={{ color: 'rgba(220,100,100,0.8)', fontSize: '0.68rem', marginTop: 3, fontFamily: 'var(--font-heading, Cinzel, serif)' }}>{formErrors.title}</p>}
                 </div>
 
                 {/* Real-world reward */}
                 <div>
-                  <label className="loot-label" htmlFor="l-irl">
-                    Real-World Reward
-                    <span style={{ color: 'rgba(200,215,255,0.2)', fontWeight: 300, marginLeft: 6 }}>(what they actually get)</span>
+                  <label className="loot-label" htmlFor="l-desc">
+                    Description
+                    <span style={{ color: 'rgba(200,215,255,0.2)', fontWeight: 300, marginLeft: 6 }}>(what they get or see)</span>
                   </label>
                   <textarea
-                    id="l-irl"
+                    id="l-desc"
                     className="loot-input"
-                    placeholder="e.g. 30 minutes of extra screen time…"
-                    value={form.real_reward_description}
-                    onChange={e => setField('real_reward_description', e.target.value)}
+                    placeholder="e.g. 30 minutes of extra gaming tonight…"
+                    value={form.description}
+                    onChange={e => setField('description', e.target.value)}
                     disabled={submitting}
-                    rows={2}
-                  />
-                </div>
-
-                {/* Fantasy flavor text */}
-                <div>
-                  <label className="loot-label" htmlFor="l-flavor">
-                    Fantasy Flavor Text
-                    <span style={{ color: 'rgba(200,215,255,0.2)', fontWeight: 300, marginLeft: 6 }}>(optional)</span>
-                  </label>
-                  <textarea
-                    id="l-flavor"
-                    className="loot-input"
-                    placeholder="e.g. A shimmering scroll that grants one hour of sanctioned leisure in the realm of screens…"
-                    value={form.flavor_text}
-                    onChange={e => setField('flavor_text', e.target.value)}
-                    disabled={submitting}
-                    rows={2}
+                    rows={4}
                   />
                 </div>
 

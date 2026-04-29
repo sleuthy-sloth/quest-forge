@@ -23,8 +23,7 @@ export default function ShopModal({ open, onClose }: ShopModalProps) {
   const householdId = useQuestStore((s) => s.householdId)
   const gold = useQuestStore((s) => s.gold)
   const playerId = useQuestStore((s) => s.playerId)
-  const buyReward = useQuestStore((s) => s.buyReward)
-  const redeemVoucher = useQuestStore((s) => s.redeemVoucher)
+  const purchaseReward = useQuestStore((s) => s.purchaseReward)
 
   const [rewards, setRewards] = useState<RewardRow[]>([])
   const [loading, setLoading] = useState(true)
@@ -42,9 +41,9 @@ export default function ShopModal({ open, onClose }: ShopModalProps) {
       const supabase = createClient()
       const { data, error: err } = await supabase
         .from('rewards')
-        .select('id, household_id, title, description, cost, icon_type, reward_type, created_at')
+        .select('id, household_id, title, description, cost_gold, cost_xp, icon_type, reward_type, created_at')
         .eq('household_id', hId)
-        .order('cost', { ascending: true })
+        .order('cost_gold', { ascending: true })
 
       if (!cancelled) {
         if (err) {
@@ -60,17 +59,17 @@ export default function ShopModal({ open, onClose }: ShopModalProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, householdId])
 
-  async function handleBuy(rewardId: string, cost: number, rewardType: string) {
+  async function handleBuy(rewardId: string) {
     playSfx('click')
     setBuyingId(rewardId)
 
-    const ok = rewardType === 'real_world'
-      ? await redeemVoucher(rewardId, cost)
-      : await buyReward(rewardId, cost)
+    const { success, error: buyError } = await purchaseReward(rewardId)
 
     setBuyingId(null)
-    if (ok) {
+    if (success) {
       setRewards((prev) => prev.filter((r) => r.id !== rewardId))
+    } else if (buyError) {
+      setError(buyError)
     }
   }
 
@@ -156,7 +155,7 @@ export default function ShopModal({ open, onClose }: ShopModalProps) {
                 </p>
               ) : (
                 rewards.map((reward, i) => {
-                  const canAfford = gold >= reward.cost
+                  const canAfford = gold >= reward.cost_gold
                   const isBuying = buyingId === reward.id
 
                   return (
@@ -209,10 +208,10 @@ export default function ShopModal({ open, onClose }: ShopModalProps) {
                           className={`font-mono text-[0.6rem] font-bold
                             ${canAfford ? 'text-[#f0c84c]' : 'text-[#a08060]/60'}`}
                         >
-                          {reward.cost}G
+                          {reward.cost_gold}G
                         </span>
                         <button
-                          onClick={() => handleBuy(reward.id, reward.cost, (reward as { reward_type?: string }).reward_type ?? 'digital')}
+                          onClick={() => handleBuy(reward.id)}
                           disabled={!canAfford || isBuying}
                           className={`px-2 py-0.5 text-[0.5rem] font-mono tracking-wider uppercase
                             border transition-colors [image-rendering:pixelated]

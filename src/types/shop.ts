@@ -11,19 +11,30 @@ export interface RewardRow {
   household_id: string
   title: string
   description: string
-  cost: number
+  cost_gold: number
+  cost_xp: number
   icon_type: string
+  category: 'real_reward' | 'cosmetic' | 'power_up' | 'story_unlock'
   reward_type: 'digital' | 'real_world'
+  sprite_icon: string | null
+  metadata: any
   created_at: string
 }
 
 export interface RewardInsert {
   id?: string
   household_id: string
+  created_by: string
   title: string
   description?: string
-  cost: number
+  cost_gold: number
+  cost_xp?: number
   icon_type?: string
+  category?: 'real_reward' | 'cosmetic' | 'power_up' | 'story_unlock'
+  reward_type?: 'digital' | 'real_world'
+  is_available?: boolean
+  sprite_icon?: string | null
+  metadata?: any
   created_at?: string
 }
 
@@ -74,10 +85,11 @@ export interface QuestRow {
   assigned_to: string | null
   difficulty: 'easy' | 'medium' | 'hard'
   is_boss: boolean
-  boss_health: number | null
-  boss_current_health: number | null
-  boss_sprite: string | null
+  boss_hp: number | null
+  boss_current_hp: number | null
+  boss_sprite_config: any | null
   is_active: boolean
+  is_unlocked: boolean
   created_at: string
 }
 
@@ -92,9 +104,9 @@ export interface QuestInsert {
   assigned_to?: string | null
   difficulty?: 'easy' | 'medium' | 'hard'
   is_boss?: boolean
-  boss_health?: number | null
-  boss_current_health?: number | null
-  boss_sprite?: string | null
+  boss_hp?: number | null
+  boss_current_hp?: number | null
+  boss_sprite_config?: any | null
   is_active?: boolean
   created_at?: string
 }

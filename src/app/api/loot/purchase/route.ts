@@ -33,9 +33,9 @@ export async function POST(req: NextRequest) {
   // a single Postgres transaction via RPC. This eliminates the TOCTOU window
   // and ensures the rollback is handled atomically by the DB.
   const { data, error } = await supabase
-    .rpc('purchase_loot_item', {
+    .rpc('purchase_reward', {
       p_player_id: user.id,
-      p_item_id:   itemId,
+      p_reward_id: itemId,
     })
 
   if (error) {
@@ -43,24 +43,24 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Purchase failed. Please try again.' }, { status: 500 })
   }
 
-  const result2 = data as {
+  const resData = data as {
     error?: string
-    purchaseId?: string
+    redemptionId?: string
     newXpAvailable?: number
     newGold?: number
   }
 
-  if (result2.error) {
+  if (resData.error) {
     const status =
-      result2.error === 'Insufficient funds'     ? 402 :
-      result2.error === 'Profile not found'       ? 404 :
-      result2.error.includes('not found')         ? 404 : 400
-    return NextResponse.json({ error: result2.error }, { status })
+      resData.error === 'Insufficient funds'     ? 402 :
+      resData.error === 'Profile not found'       ? 404 :
+      resData.error.includes('not found')         ? 404 : 400
+    return NextResponse.json({ error: resData.error }, { status })
   }
 
   return NextResponse.json({
-    purchaseId:     result2.purchaseId,
-    newXpAvailable: result2.newXpAvailable,
-    newGold:        result2.newGold,
+    redemptionId:   resData.redemptionId,
+    newXpAvailable: resData.newXpAvailable,
+    newGold:        resData.newGold,
   })
 }

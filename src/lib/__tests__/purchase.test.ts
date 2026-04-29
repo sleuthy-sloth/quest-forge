@@ -147,7 +147,7 @@ describe('POST /api/loot/purchase — outcomes', () => {
   it('returns 200 with purchaseId and balances on success', async () => {
     mockRpc.mockResolvedValue({
       data: {
-        purchaseId: 'purchase-uuid-999',
+        redemptionId: 'redemption-uuid-999',
         newXpAvailable: 350,
         newGold: 120,
       },
@@ -159,23 +159,23 @@ describe('POST /api/loot/purchase — outcomes', () => {
     const json = await res.json()
 
     expect(res.status).toBe(200)
-    expect(json.purchaseId).toBe('purchase-uuid-999')
+    expect(json.redemptionId).toBe('redemption-uuid-999')
     expect(json.newXpAvailable).toBe(350)
     expect(json.newGold).toBe(120)
   })
 
   it('passes user id and item id to the purchase RPC', async () => {
     mockRpc.mockResolvedValue({
-      data: { purchaseId: 'p-uuid' },
+      data: { redemptionId: 'r-uuid' },
       error: null,
     })
 
     const req = createRequest({ itemId: validItemId })
     await POST(req)
 
-    expect(mockRpc).toHaveBeenCalledWith('purchase_loot_item', {
+    expect(mockRpc).toHaveBeenCalledWith('purchase_reward', {
       p_player_id: 'user-abc-123',
-      p_item_id: validItemId,
+      p_reward_id: validItemId,
     })
   })
 })

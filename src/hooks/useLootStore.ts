@@ -11,13 +11,11 @@ export type LootCategory = 'real_reward' | 'cosmetic' | 'power_up' | 'story_unlo
 
 export interface LootItem {
   id: string
-  name: string
+  title: string
   description: string
-  flavor_text: string
   cost_xp: number
   cost_gold: number
   category: LootCategory
-  real_reward_description: string
   sprite_icon: string | null
 }
 
@@ -58,6 +56,7 @@ export function useLootStore(): UseLootStoreResult {
   const [error, setError] = useState<string | null>(null)
   const [xpAvailable, setXpAvailable] = useState(0)
   const [gold, setGold] = useState(0)
+  const [userId, setUserId] = useState<string | null>(null)
   const [purchasing, setPurchasing] = useState(false)
 
   useEffect(() => { return () => { mountedRef.current = false } }, [])
@@ -75,6 +74,7 @@ export function useLootStore(): UseLootStoreResult {
         setLoading(false)
         return
       }
+      setUserId(user.id)
 
       const { data: profile } = await supabase
         .from('profiles')
@@ -90,14 +90,14 @@ export function useLootStore(): UseLootStoreResult {
       setGold(profile.gold)
 
       const { data: itemData, error: itemErr } = await supabase
-        .from('loot_store_items')
+        .from('rewards')
         .select(
-          'id, name, description, flavor_text, cost_xp, cost_gold, ' +
-          'category, real_reward_description, sprite_icon',
+          'id, title, description, cost_xp, cost_gold, ' +
+          'category, sprite_icon',
         )
         .eq('household_id', profile.household_id)
         .eq('is_available', true)
-        .order('cost_xp', { ascending: true })
+        .order('cost_gold', { ascending: true })
 
       if (itemErr) throw new Error(itemErr.message)
 
@@ -134,25 +134,25 @@ export function useLootStore(): UseLootStoreResult {
       setPurchasing(true)
 
       try {
-        const res = await fetch('/api/loot/purchase', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ itemId }),
+        const { data, error } = await supabase.rpc('purchase_reward', {
+          p_player_id: userId!,
+          p_reward_id: itemId,
         })
-
-        const data = (await res.json()) as {
+        
+        const resData = data as {
+          error?: string
+          redemptionId?: string
           newXpAvailable?: number
           newGold?: number
-          error?: string
         }
 
-        if (!res.ok || data.error) {
+        if (error || resData.error) {
           // Rollback optimistic update
           setXpAvailable(prevXp)
           setGold(prevGold)
           return {
             success: false,
-            error: data.error ?? 'Purchase failed.',
+            error: error?.message || resData.error || 'Purchase failed.',
             newXpAvailable: prevXp,
             newGold: prevGold,
           }
@@ -161,8 +161,8 @@ export function useLootStore(): UseLootStoreResult {
         return {
           success: true,
           error: null,
-          newXpAvailable: data.newXpAvailable ?? newXp,
-          newGold: data.newGold ?? newG,
+          newXpAvailable: resData.newXpAvailable ?? newXp,
+          newGold: resData.newGold ?? newG,
         }
       } catch {
         setXpAvailable(prevXp)
@@ -177,7 +177,7 @@ export function useLootStore(): UseLootStoreResult {
         if (mountedRef.current) setPurchasing(false)
       }
     },
-    [items, xpAvailable, gold],
+    [items, xpAvailable, gold, userId],
   )
 
   return { items, loading, error, xpAvailable, gold, purchasing, refresh, purchaseItem }

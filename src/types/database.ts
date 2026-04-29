@@ -545,33 +545,51 @@ export type Database = {
       }
       rewards: {
         Row: {
-          cost: number
+          category: Database["public"]["Enums"]["loot_category"]
+          cost_gold: number
+          cost_xp: number
           created_at: string
+          created_by: string | null
           description: string
           household_id: string
           icon_type: string
           id: string
+          is_available: boolean
+          metadata: Json
           reward_type: Database["public"]["Enums"]["reward_type"]
+          sprite_icon: string | null
           title: string
         }
         Insert: {
-          cost: number
+          category?: Database["public"]["Enums"]["loot_category"]
+          cost_gold: number
+          cost_xp?: number
           created_at?: string
+          created_by?: string | null
           description?: string
           household_id: string
           icon_type?: string
           id?: string
+          is_available?: boolean
+          metadata?: Json
           reward_type?: Database["public"]["Enums"]["reward_type"]
+          sprite_icon?: string | null
           title: string
         }
         Update: {
-          cost?: number
+          category?: Database["public"]["Enums"]["loot_category"]
+          cost_gold?: number
+          cost_xp?: number
           created_at?: string
+          created_by?: string | null
           description?: string
           household_id?: string
           icon_type?: string
           id?: string
+          is_available?: boolean
+          metadata?: Json
           reward_type?: Database["public"]["Enums"]["reward_type"]
+          sprite_icon?: string | null
           title?: string
         }
         Relationships: [
@@ -701,9 +719,9 @@ export type Database = {
       quests: {
         Row: {
           assigned_to: string | null
-          boss_current_health: number | null
-          boss_health: number | null
-          boss_sprite: string | null
+          boss_current_hp: number | null
+          boss_hp: number | null
+          boss_sprite_config: Json | null
           created_at: string
           created_by: string
           description: string
@@ -718,9 +736,9 @@ export type Database = {
         }
         Insert: {
           assigned_to?: string | null
-          boss_current_health?: number | null
-          boss_health?: number | null
-          boss_sprite?: string | null
+          boss_current_hp?: number | null
+          boss_hp?: number | null
+          boss_sprite_config?: Json | null
           created_at?: string
           created_by: string
           description?: string
@@ -735,9 +753,9 @@ export type Database = {
         }
         Update: {
           assigned_to?: string | null
-          boss_current_health?: number | null
-          boss_health?: number | null
-          boss_sprite?: string | null
+          boss_current_hp?: number | null
+          boss_hp?: number | null
+          boss_sprite_config?: Json | null
           created_at?: string
           created_by?: string
           description?: string
@@ -846,9 +864,9 @@ export type Database = {
         Returns: number
       }
       is_gm: { Args: { hid: string }; Returns: boolean }
-      purchase_loot_item: {
-        Args: { p_player_id: string; p_item_id: string }
-        Returns: Record<string, unknown>
+      purchase_reward: {
+        Args: { p_player_id: string; p_reward_id: string }
+        Returns: Json
       }
     }
     Enums: {

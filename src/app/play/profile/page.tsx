@@ -44,11 +44,11 @@ export default async function ProfilePage() {
       .order('completed_at', { ascending: false })
       .limit(10),
     supabase
-      .from('purchases')
-      .select('id, purchased_at, redeemed, loot_store_items (name, category, real_reward_description)')
+      .from('redemptions')
+      .select('id, created_at, status, rewards (title, category, description)')
       .eq('household_id', profile.household_id)
       .eq('player_id', user.id)
-      .order('purchased_at', { ascending: false }),
+      .order('created_at', { ascending: false }),
     supabase
       .from('edu_completions')
       .select('score, xp_awarded, edu_challenges (subject, difficulty)')
