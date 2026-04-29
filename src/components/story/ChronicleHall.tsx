@@ -256,7 +256,7 @@ export default function ChronicleHall() {
   }
 
   return (
-    >
+    <div className="relative min-h-screen bg-[#0e0a14] overflow-x-hidden">
       {/* Cinematic Narrative View */}
       <EpicScroll 
         beats={chapters.map(c => ({

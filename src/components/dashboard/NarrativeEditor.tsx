@@ -86,8 +86,8 @@ export default function NarrativeEditor({ chapter, players = [] }: NarrativeEdit
     setIsBestowing(true)
     
     const supabase = createClient()
-    const { error } = await supabase
-      .from('lore_milestones') // Assuming this table exists or we'll create it
+    const { error } = await (supabase as any)
+      .from('lore_milestones')
       .insert({ 
         player_id: selectedPlayer, 
         text: milestoneText,

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
 import worldRaw from '@/lore/world.json'
 import classesRaw from '@/lore/classes.json'
 import AvatarPreview from '@/components/avatar/AvatarPreview'
@@ -46,9 +47,12 @@ interface ClassDef {
 
 // ── Static data ───────────────────────────────────────────────────────────────
 
+const WORLD = worldRaw as any
+const CLASSES = (classesRaw as any).classes as any[]
+
 const WORLD_WITH_METADATA = {
   ...WORLD,
-  regions: WORLD.regions.map(r => {
+  regions: WORLD.regions.map((r: any) => {
     // Map discovery subjects to regions
     const subjectMap: Record<string, string> = {
       "The Ironspine Mountains": "math",
@@ -159,7 +163,7 @@ function WorldSection({ householdPlayers = [] }: { householdPlayers?: any[] }) {
         {/* Player Avatars on Map */}
         {householdPlayers?.map((p, idx) => {
           const arc = Math.floor(((p.story_chapter || 1) - 1) / 4) + 1
-          const region = WORLD.regions.find(r => r.associated_arcs.includes(arc))
+          const region = (WORLD.regions as any[]).find((r: any) => r.associated_arcs.includes(arc))
           const coords = region?.coords || { x: 50, y: 48 }
           
           // Jitter slightly so they don't overlap perfectly
@@ -269,8 +273,8 @@ function WorldSection({ householdPlayers = [] }: { householdPlayers?: any[] }) {
 }
 
 function ClassSection({ playerClass }: { playerClass: string | null }) {
-  const [selected, setSelected] = useState<string>(playerClass ?? CLASSES[0].id)
-  const cls = CLASSES.find(c => c.id === selected) ?? CLASSES[0]
+  const [selected, setSelected] = useState<string>(playerClass ?? (CLASSES[0] as any).id)
+  const cls = (CLASSES.find(c => (c as any).id === selected) as any) ?? (CLASSES[0] as any)
 
   return (
     <>
@@ -292,7 +296,7 @@ function ClassSection({ playerClass }: { playerClass: string | null }) {
             CHOOSE A CLASS
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 20 }}>
-            {CLASSES.map(c => (
+            {(CLASSES as any[]).map((c: any) => (
               <button
                 key={c.id}
                 onClick={() => setSelected(c.id)}
@@ -546,7 +550,7 @@ function HearthholdSection() {
                   {key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
                 </div>
                 <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: '#9a8a64', lineHeight: 1.6 }}>
-                  {desc}
+                  {desc as string}
                 </div>
               </div>
             </div>
