@@ -177,7 +177,7 @@ export default function WordForge({
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ subject: 'vocabulary', age_tier: ageTier, count: 5 }),
-      signal: AbortSignal.timeout(30000),
+      signal: AbortSignal.timeout(55000),
     })
       .then(async (res) => {
         if (!res.ok) return null
@@ -192,7 +192,7 @@ export default function WordForge({
     const dbPromise = (async (): Promise<Question[] | null> => {
       try {
         const res = await fetch(`/api/edu/challenges?subject=vocabulary&age_tier=${ageTier}&count=5`, {
-          signal: AbortSignal.timeout(25000),
+          signal: AbortSignal.timeout(45000),
         })
         if (!res.ok) {
           console.error('[WordForge] API route error:', res.status)
@@ -212,7 +212,7 @@ export default function WordForge({
 
     // Safety net: 16 s is well above the parallel worst case (max 9 s / 12 s)
     const overallTimeout: Promise<never> = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('timeout')), 32_000),
+      setTimeout(() => reject(new Error('timeout')), 60_000),
     )
 
     try {

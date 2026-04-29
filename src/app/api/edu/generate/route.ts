@@ -75,12 +75,12 @@ export async function POST(request: Request) {
     console.log(`[edu/generate] ▶ providers: openrouter=${hasOpenRouter} subject=${subject} tier=${age_tier} count=${count} +${Date.now() - t0}ms`)
 
     // ── Generate ─────────────────────────────────────────────────────────────
-    // 20s timeout — generous for 5 questions
+    // 50s timeout — generous for 5 questions, allows for slower AI models
     const timeoutPromise = new Promise<null>((resolve) =>
       setTimeout(() => {
-        console.warn(`[edu/generate] ✗ generation timed out after 20s`)
+        console.warn(`[edu/generate] ✗ generation timed out after 50s`)
         resolve(null)
-      }, 20_000),
+      }, 50_000),
     )
 
     console.log(`[edu/generate] ▶ calling generateEduChallenges +${Date.now() - t0}ms`)
