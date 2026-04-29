@@ -151,11 +151,12 @@ function ChapterBlock({ chapter }: { chapter: ChapterRow }) {
         {/* Narrator Sidebar */}
         <div className="flex md:flex-col items-center gap-4 pt-4">
           {narrator && (
-            <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-[#c9a84c]/40 shadow-[0_0_30px_rgba(201,168,76,0.2)]">
-              <img 
+            <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-[#c9a84c]/40 shadow-[0_0_30px_rgba(201,168,76,0.2)] relative">
+              <Image 
                 src={NARRATOR_IMAGES[narrator.name]} 
                 alt={narrator.name} 
-                className="w-full h-full object-cover" 
+                fill
+                className="object-cover" 
               />
             </div>
           )}
@@ -305,8 +306,8 @@ export default function ChronicleHall() {
         
         {/* End of Scroll Footer */}
         <div className="py-24 text-center">
-          <div className="w-16 h-16 mx-auto mb-8 opacity-20 filter grayscale">
-            <img src="/images/ui/icons/icon_world.png" alt="Quest Forge" />
+          <div className="relative w-16 h-16 mx-auto mb-8 opacity-20 filter grayscale">
+            <Image src="/images/ui/icons/icon_world.png" alt="Quest Forge" fill className="object-contain" />
           </div>
           <p className="text-[#c9a84c]/40 font-mono text-[0.6rem] tracking-[0.5em] uppercase">
             To be continued...

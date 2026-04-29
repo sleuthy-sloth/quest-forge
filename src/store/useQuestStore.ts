@@ -12,6 +12,8 @@ export interface ChapterRow {
   week_number: number
   is_unlocked: boolean
   household_id: string
+  content_image_url?: string
+  chapter_number?: number
 }
 
 export interface QuestState {
