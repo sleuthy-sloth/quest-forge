@@ -207,7 +207,7 @@ export default function ProfileView({
             >
               {profile.display_name}
             </motion.h1>
-            <p style={{ color: 'var(--qf-parchment-dim)', fontSize: '0.85rem', marginBottom: '0.75rem', opacity: 0.6 }}>
+            <p style={{ color: 'var(--qf-parchment)', fontSize: '0.85rem', marginBottom: '0.75rem', opacity: 0.8 }}>
               @{profile.username}
             </p>
             
@@ -345,7 +345,7 @@ export default function ProfileView({
         <SectionHeading label="ADVENTURE LOG" accent={accent} />
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           {completions.length === 0 ? (
-            <p style={{ textAlign: 'center', color: 'var(--qf-parchment-dim)', fontStyle: 'italic', padding: '2.5rem 1rem', opacity: 0.8 }}>
+            <p style={{ textAlign: 'center', color: 'var(--qf-parchment)', fontStyle: 'italic', padding: '3.5rem 1rem', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px dashed rgba(255,255,255,0.1)' }}>
               Your chronicles are empty. Begin your deeds!
             </p>
           ) : (
@@ -401,7 +401,7 @@ export default function ProfileView({
         <SectionHeading label="LEGENDARY LOOT" accent={accent} />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '1rem' }}>
           {purchases.length === 0 ? (
-            <div style={{ gridColumn: '1/-1', textAlign: 'center', color: 'var(--qf-parchment-dim)', fontStyle: 'italic', padding: '2.5rem 1rem', opacity: 0.8 }}>
+            <div style={{ gridColumn: '1/-1', textAlign: 'center', color: 'var(--qf-parchment)', fontStyle: 'italic', padding: '3.5rem 1rem', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px dashed rgba(255,255,255,0.1)' }}>
               No loot found. Visit the Emporium.
             </div>
           ) : (

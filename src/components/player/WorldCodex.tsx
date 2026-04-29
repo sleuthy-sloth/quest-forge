@@ -363,14 +363,17 @@ function EmberShardSection({ level }: { level: number }) {
   return (
     <div style={{ padding: 20 }}>
       <div style={{ textAlign: 'center', marginBottom: 24, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'center' }}>
-          <Image 
-            src={current.icon || "/images/ui/icons/icon_embershard.png"} 
-            alt={current.name} 
-            width={120} 
-            height={120} 
-            style={{ objectFit: 'contain' }} 
-          />
+        <div style={{ marginBottom: 16, width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <div style={{ position: 'relative', width: 140, height: 140, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at center, rgba(201,168,76,0.15) 0%, transparent 70%)', borderRadius: '50%' }} />
+            <Image 
+              src={current.icon || "/images/ui/icons/icon_embershard.png"} 
+              alt={current.name} 
+              width={120} 
+              height={120} 
+              style={{ objectFit: 'contain', position: 'relative', zIndex: 1 }} 
+            />
+          </div>
         </div>
         <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 8, color: '#7a6a44', letterSpacing: '0.15em', marginBottom: 6 }}>
           YOUR EMBERSHARD

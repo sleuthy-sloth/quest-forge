@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import WordForge from '@/components/games/WordForge'
 import { derivePlayerPreset } from '@/lib/constants/academy'
+import ZoneManager from '@/components/player/ZoneManager'
 
 export default async function WordForgePage() {
   const supabase = await createClient()
@@ -22,21 +23,23 @@ export default async function WordForgePage() {
   const playerPreset = derivePlayerPreset(profile.avatar_class)
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: 'linear-gradient(180deg, #0a0f1e 0%, #040812 100%)',
-        paddingBottom: '32px',
-      }}
-    >
-      <WordForge
-        ageTier={ageTier}
-        householdId={profile.household_id}
-        playerId={user.id}
-        avatarConfig={profile.avatar_config as Record<string, unknown> | null}
-        displayName={profile.display_name}
-        playerPreset={playerPreset}
-      />
-    </div>
+    <ZoneManager zone="academy">
+      <div
+        style={{
+          minHeight: '100vh',
+          background: 'linear-gradient(180deg, #0a0f1e 0%, #040812 100%)',
+          paddingBottom: '32px',
+        }}
+      >
+        <WordForge
+          ageTier={ageTier}
+          householdId={profile.household_id}
+          playerId={user.id}
+          avatarConfig={profile.avatar_config as Record<string, unknown> | null}
+          displayName={profile.display_name}
+          playerPreset={playerPreset}
+        />
+      </div>
+    </ZoneManager>
   )
 }

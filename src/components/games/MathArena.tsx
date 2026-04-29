@@ -98,15 +98,16 @@ export default function MathArena({
   const router = useRouter()
   const supabase = useMemo(() => createClient(), [])
 
-  // Phase
-  const [phase, setPhase] = useState<Phase>('loading')
-
-  // Questions
-  const [questions, setQuestions] = useState<Question[]>([])
-  const [questionSource, setQuestionSource] = useState<QuestionSource | null>(null)
-  const [fetchErrorKind, setFetchErrorKind] = useState<FetchErrorKind>(null)
-  const [secondBatchLoading, setSecondBatchLoading] = useState(false)
-  const [secondBatchReady, setSecondBatchReady] = useState(false)
+  const {
+    challenges: questions,
+    loading,
+    error,
+    source: questionSource,
+    secondBatchLoading,
+    secondBatchReady,
+    fetchChallenges,
+    submitAnswer,
+  } = useAcademy(playerId, householdId)
 
   // Playing state
   const [questionIndex, setQuestionIndex] = useState(0)
@@ -136,115 +137,13 @@ export default function MathArena({
 
   // Results — XP accumulates per correct answer (DB trigger awards it on insert)
   const [xpEarned, setXpEarned] = useState(0)
-  const [saveError, setSaveError] = useState(false)
   const [freshProfile, setFreshProfile] = useState<{ xp_total: number; xp_available: number; level: number } | null>(null)
 
-  // ── Fetch questions ──────────────────────────────────────────────────────
-  // Phase 1: DB questions arrive instantly → game starts immediately.
-  // Phase 2: AI generation runs in background → appended as questions 6-10.
+  // ── Initial Fetch ─────────────────────────────────────────────────────────
 
-  const fetchQuestions = useCallback(async () => {
-    setPhase('loading')
-    setFetchErrorKind(null)
-    setQuestionIndex(0)
-    setScore(0)
-    setXpEarned(0)
-    setAnswers([])
-    setFeedback(null)
-    setScreenFlash(null)
-    setChosenWrong(null)
-    setSaveError(false)
-    setQuestionSource(null)
-    setSecondBatchReady(false)
-    setSecondBatchLoading(false)
-
-    // ── Phase 1: DB only ───────────────────────────────────────────────────
-    let batch1: Question[] = []
-    try {
-      const res = await fetch(`/api/edu/challenges?subject=math&age_tier=${ageTier}&count=5`, {
-        signal: AbortSignal.timeout(20000),
-      })
-      if (res.ok) {
-        const json = (await res.json()) as { questions?: Question[] }
-        if (json.questions && json.questions.length > 0) {
-          batch1 = shuffle(json.questions).slice(0, 5)
-        }
-      }
-    } catch (err) {
-      console.warn('[MathArena] Phase-1 DB fetch failed:', err)
-    }
-
-    if (batch1.length === 0) {
-      batch1 = shuffle(fallbackQuestions(ageTier)).slice(0, 5)
-    }
-
-    setQuestions(batch1)
-    setQuestionSource('db')
-    setPhase('playing')
-    // Game starts here with 5 questions. ↑
-
-    // ── Phase 2: AI in background ──────────────────────────────────────────
-    ;(async () => {
-      setSecondBatchLoading(true)
-
-      const batch1Ids = batch1.map(q => q.id).filter(id => UUID_RE.test(id))
-
-      // Start DB fetch immediately so it's warm if AI fails, but prefer AI.
-      const dbFallbackPromise = (async (): Promise<Question[] | null> => {
-        try {
-          const params = new URLSearchParams({ subject: 'math', age_tier: ageTier, count: '5' })
-          if (batch1Ids.length > 0) params.set('exclude', batch1Ids.join(','))
-          const res = await fetch(`/api/edu/challenges?${params.toString()}`, {
-            signal: AbortSignal.timeout(20000),
-          })
-          if (!res.ok) return null
-          const json = (await res.json()) as { questions?: Question[] }
-          return json.questions && json.questions.length > 0 ? json.questions : null
-        } catch {
-          return null
-        }
-      })()
-
-      let batch2: Question[] | null = null
-      let batch2Source: QuestionSource = 'db'
-
-      // Try AI first — player answering Q1-5 gives it 30-60s to resolve.
-      try {
-        const res = await fetch('/api/edu/generate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ subject: 'math', age_tier: ageTier, count: 5 }),
-          signal: AbortSignal.timeout(55000),
-        })
-        if (res.ok) {
-          const json = (await res.json()) as { questions?: Question[] }
-          if (json.questions && json.questions.length >= 3) {
-            batch2 = json.questions
-            batch2Source = 'ai'
-          }
-        }
-      } catch {
-        // AI failed — fall through to DB
-      }
-
-      if (!batch2 || batch2.length === 0) {
-        batch2 = await dbFallbackPromise
-        batch2Source = batch2 ? 'db' : 'fallback'
-      }
-
-      if (!batch2 || batch2.length === 0) {
-        batch2 = shuffle(fallbackQuestions(ageTier)).slice(0, 5)
-        batch2Source = 'fallback'
-      }
-
-      setQuestions(prev => [...prev, ...shuffle(batch2!).slice(0, 5)])
-      if (batch2Source === 'ai') setQuestionSource('ai')
-      setSecondBatchReady(true)
-      setSecondBatchLoading(false)
-    })()
-  }, [ageTier, householdId])
-
-  useEffect(() => { fetchQuestions() }, [fetchQuestions])
+  useEffect(() => {
+    fetchChallenges('math')
+  }, [fetchChallenges])
 
   // Auto-advance from waiting to Q6 when second batch arrives
   useEffect(() => {
@@ -282,38 +181,6 @@ export default function MathArena({
   }, [phase, supabase, playerId])
 
   // ── Answer handler ───────────────────────────────────────────────────────
-  // Inserts one row in edu_completions per answered question. The DB trigger
-  // `handle_edu_completed` (see migration 001) atomically awards XP, deals
-  // boss damage, and records story_progress contributions — so we MUST NOT
-  // also write those manually here, or everything double-counts.
-
-  async function recordAnswer(question: Question, isCorrect: boolean) {
-    // Skip persistence for fallback questions: their string ids ('fb_*') are
-    // not valid UUIDs and would fail the FK to edu_challenges. The player
-    // still gets a working game; XP and boss damage just aren't applied.
-    if (!UUID_RE.test(question.id)) return
-
-    const xpToAward = isCorrect ? question.xp_reward : 0
-    if (isCorrect) setXpEarned((prev) => prev + xpToAward)
-
-    try {
-      const { error } = await supabase.from('edu_completions').insert({
-        household_id: householdId,
-        challenge_id: question.id,
-        player_id:    playerId,
-        score:        isCorrect ? 1 : 0,
-        completed_at: new Date().toISOString(),
-        xp_awarded:   xpToAward,
-      })
-      if (error) {
-        console.error('[MathArena] edu_completions insert failed:', error)
-        setSaveError(true)
-      }
-    } catch (err) {
-      console.error('[MathArena] edu_completions insert threw:', err)
-      setSaveError(true)
-    }
-  }
 
   function handleAnswer(option: string) {
     if (feedback !== null) return // debounce
@@ -322,13 +189,14 @@ export default function MathArena({
     const correct = option === current.content.correct_answer
     const newAnswers = [...answers, option]
 
-    // Fire the persistence in the background; UI doesn't block on it.
-    void recordAnswer(current, correct)
+    // Fire the persistence via hook; UI doesn't block on it.
+    void submitAnswer(current.id, correct)
 
     if (correct) {
       const newScore = score + 1
       setScore(newScore)
       setStreak(s => Math.min(s + 1, 10))
+      setXpEarned(prev => prev + current.xp_reward)
       setAnswers(newAnswers)
       setFeedback('correct')
       setScreenFlash('green')
@@ -389,33 +257,16 @@ export default function MathArena({
 
   // ── Loading phase ────────────────────────────────────────────────────────
 
-  if (phase === 'loading') {
+  if (loading) {
     return (
       <div style={{ padding: '48px 16px', textAlign: 'center' }}>
-        {fetchErrorKind === 'empty' ? (
-          <>
-            <div style={{ fontFamily: 'var(--font-heading)', fontSize: '14px', color: '#c9a84c', marginBottom: '16px' }}>
-              No challenges available.
-            </div>
-            <button
-              onClick={() => router.push('/play/academy')}
-              style={{
-                fontFamily: 'var(--font-pixel)', fontSize: '6px', color: '#c9a84c',
-                background: 'transparent',
-                border: '1px solid rgba(201,168,76,0.3)', borderRadius: '3px',
-                padding: '9px 14px', cursor: 'pointer',
-              }}
-            >
-              ← BACK TO ACADEMY
-            </button>
-          </>
-        ) : fetchErrorKind === 'network' ? (
+        {error ? (
           <>
             <div style={{ fontFamily: 'var(--font-heading)', fontSize: '14px', color: '#e05555', marginBottom: '16px' }}>
-              Failed to load questions.
+              {error}
             </div>
             <button
-              onClick={fetchQuestions}
+              onClick={() => fetchChallenges('math')}
               style={{
                 fontFamily: 'var(--font-pixel)', fontSize: '7px', color: '#f0e6c8',
                 background: 'linear-gradient(135deg,#c43a00,#8b1e00)',
@@ -546,7 +397,7 @@ export default function MathArena({
           {/* Buttons */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             <button
-              onClick={fetchQuestions}
+              onClick={() => fetchChallenges('math')}
               style={{
                 width: '100%', padding: '11px',
                 background: 'linear-gradient(135deg,#c43a00,#8b1e00)',

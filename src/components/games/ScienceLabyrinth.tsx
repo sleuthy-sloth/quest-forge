@@ -98,11 +98,16 @@ export default function ScienceLabyrinth({
   const router = useRouter()
   const supabase = useMemo(() => createClient(), [])
 
-  // Phase + fetch
-  const [phase, setPhase] = useState<Phase>('loading')
-  const [questions, setQuestions] = useState<Question[]>([])
-  const [questionSource, setQuestionSource] = useState<QuestionSource | null>(null)
-  const [fetchErrorKind, setFetchErrorKind] = useState<FetchErrorKind>(null)
+  const {
+    challenges: questions,
+    loading,
+    error,
+    source: questionSource,
+    secondBatchLoading,
+    secondBatchReady,
+    fetchChallenges,
+    submitAnswer,
+  } = useAcademy(playerId, householdId)
 
   // Playing state
   const [questionIndex, setQuestionIndex] = useState(0)
@@ -119,7 +124,6 @@ export default function ScienceLabyrinth({
 
   // Results state
   const [xpEarned, setXpEarned] = useState(0)
-  const [saveError, setSaveError] = useState(false)
 
   // Battle arena ref for triggering attack animations
   const arenaRef = useRef<BattleArenaHandle>(null)
@@ -140,103 +144,21 @@ export default function ScienceLabyrinth({
     return '#e05555'
   }
 
+  // ── Initial Fetch ─────────────────────────────────────────────────────────
 
-  // ── Fetch questions ────────────────────────────────────────────────────────
-  // Runs AI generation and DB fallback IN PARALLEL. Prefers AI results when
-  // they arrive quickly; falls back to the DB if AI fails.
+  useEffect(() => {
+    fetchChallenges('science')
+  }, [fetchChallenges])
 
-  const fetchQuestions = useCallback(async () => {
-    timersRef.current.forEach(clearTimeout)
-    timersRef.current = []
-    setPhase('loading')
-    setFetchErrorKind(null)
-    setQuestionIndex(0)
-    setScore(0)
-    setXpEarned(0)
-    setAnswers([])
-    setFeedback(null)
-    setScreenFlash(null)
-    setChosenWrong(null)
-    setSaveError(false)
-    setQuestionSource(null)
-    // Reset maze animation state
-    setCorridorAdvancing(false)
-    setWallVisible(false)
-    setWallMounted(false)
-
-    console.log('[ScienceLabyrinth] ageTier:', ageTier, 'householdId:', householdId?.slice(0, 8))
-
-    // Kick off AI and DB at the same time — the winner may supply questions
-    const aiPromise = fetch('/api/edu/generate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ subject: 'science', age_tier: ageTier, count: 5 }),
-      signal: AbortSignal.timeout(55000),
-    })
-      .then(async (res) => {
-        if (!res.ok) return null
-        const json = (await res.json()) as { questions?: Question[] }
-        return json.questions && json.questions.length >= 5 ? json.questions : null
-      })
-      .catch(() => null)
-
-    // Wrap dbPromise with its own timeout so it can't hang indefinitely.
-    // Uses a server API route (which reliably connects) to bypass the
-    // browser-side Supabase REST connection issue.
-    const dbPromise = (async (): Promise<Question[] | null> => {
-      try {
-        const res = await fetch(`/api/edu/challenges?subject=science&age_tier=${ageTier}&count=5`, {
-          signal: AbortSignal.timeout(45000),
-        })
-        if (!res.ok) {
-          console.error('[ScienceLabyrinth] API route error:', res.status)
-          return null
-        }
-        const json = (await res.json()) as { questions?: Question[] }
-        if (!json.questions || json.questions.length === 0) {
-          console.warn('[ScienceLabyrinth] API route returned 0 questions, ageTier:', ageTier)
-          return null
-        }
-        return json.questions
-      } catch (err) {
-        console.error('[ScienceLabyrinth] API route threw:', err)
-        return null
-      }
-    })()
-
-    // Safety net: 16 s is well above the parallel worst case (max 9 s / 12 s)
-    const overallTimeout: Promise<never> = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('timeout')), 60_000),
-    )
-
-    try {
-      const aiQuestions = await Promise.race([aiPromise, overallTimeout])
-      if (aiQuestions) {
-        setQuestions(shuffle(aiQuestions).slice(0, 5))
-        setQuestionSource('ai')
-        setPhase('playing')
-        return
-      }
-
-      const dbQuestions = await Promise.race<Question[] | null>([dbPromise, overallTimeout])
-      if (dbQuestions) {
-        setQuestions(shuffle(dbQuestions).slice(0, 5))
-        setQuestionSource('db')
-        setPhase('playing')
-        return
-      }
-
-      console.warn('[ScienceLabyrinth] AI + DB both failed, using fallback questions')
-      setQuestions(shuffle(fallbackQuestions(ageTier)).slice(0, 5))
-      setQuestionSource('fallback')
+  // Auto-advance from waiting to Q6 when second batch arrives
+  useEffect(() => {
+    if (phase === 'waiting' && secondBatchReady) {
+      setQuestionIndex(5)
+      setFeedback(null)
+      setChosenWrong(null)
       setPhase('playing')
-    } catch {
-      console.error('[ScienceLabyrinth] overall timeout fetching questions')
-      setFetchErrorKind('network')
     }
-  }, [ageTier, householdId])
-
-  useEffect(() => { fetchQuestions() }, [fetchQuestions])
+  }, [phase, secondBatchReady])
 
   useEffect(() => {
     const timers = timersRef.current
@@ -249,62 +171,84 @@ export default function ScienceLabyrinth({
     }
   }, [phase])
 
-  // ── Save handler ───────────────────────────────────────────────────────────
-  // Per-question insert; DB trigger handles XP + boss damage atomically.
+  // ── Answer handler ─────────────────────────────────────────────────────────
 
-  async function recordAnswer(question: Question, isCorrect: boolean) {
-    if (!UUID_RE.test(question.id)) return
+  function handleAnswer(option: string) {
+    if (feedback !== null) return
 
-    const xpToAward = isCorrect ? question.xp_reward : 0
-    if (isCorrect) setXpEarned((prev) => prev + xpToAward)
+    const current = questions[questionIndex]
+    const isCorrect = option === current.content.correct_answer
+    const newAnswers = [...answers, option]
 
-    try {
-      const { error } = await supabase.from('edu_completions').insert({
-        household_id: householdId,
-        challenge_id: question.id,
-        player_id:    playerId,
-        score:        isCorrect ? 1 : 0,
-        completed_at: new Date().toISOString(),
-        xp_awarded:   xpToAward,
-      })
-      if (error) {
-        console.error('[ScienceLabyrinth] edu_completions insert failed:', error)
-        setSaveError(true)
-      }
-    } catch (err) {
-      console.error('[ScienceLabyrinth] edu_completions insert threw:', err)
-      setSaveError(true)
+    void submitAnswer(current.id, isCorrect)
+
+    if (isCorrect) {
+      const newScore = score + 1
+      setScore(newScore)
+      setXpEarned(prev => prev + current.xp_reward)
+      setAnswers(newAnswers)
+      setFeedback('correct')
+      setCorridorAdvancing(true)
+      setScreenFlash('green')
+      arenaRef.current?.triggerPlayerAttack()
+
+      addTimer(setTimeout(() => setScreenFlash(null), 300))
+      addTimer(setTimeout(() => setCorridorAdvancing(false), 600))
+      addTimer(setTimeout(() => {
+        if (questionIndex === 9) {
+          setAnswers(newAnswers)
+          setPhase('results')
+        } else if (questionIndex === 4 && secondBatchLoading) {
+          setAnswers(newAnswers)
+          setPhase('waiting')
+        } else {
+          setQuestionIndex(qi => qi + 1)
+          setFeedback(null)
+        }
+      }, 1000))
+    } else {
+      setAnswers(newAnswers)
+      setFeedback('wrong')
+      setChosenWrong(option)
+      setScreenFlash('red')
+      setWallMounted(true)
+      setWallVisible(true)
+      arenaRef.current?.triggerEnemyAttack()
+
+      addTimer(setTimeout(() => setScreenFlash(null), 300))
+      addTimer(setTimeout(() => {
+        // Start wall lift
+        setWallVisible(false)
+        // Remove wall from DOM after lift completes (300ms) so it can't eat pointer events
+        addTimer(setTimeout(() => setWallMounted(false), 300))
+        // Advance question
+        if (questionIndex === 9) {
+          setAnswers(newAnswers)
+          setPhase('results')
+        } else if (questionIndex === 4 && secondBatchLoading) {
+          setAnswers(newAnswers)
+          setPhase('waiting')
+        } else {
+          setQuestionIndex(qi => qi + 1)
+          setFeedback(null)
+          setChosenWrong(null)
+        }
+      }, 3000))
     }
   }
 
   // ── Loading phase ──────────────────────────────────────────────────────────
 
-  if (phase === 'loading') {
+  if (loading) {
     return (
       <div style={{ padding: '48px 16px', textAlign: 'center' }}>
-        {fetchErrorKind === 'empty' ? (
-          <>
-            <div style={{ fontFamily: 'var(--font-heading)', fontSize: '14px', color: '#c9a84c', marginBottom: '16px' }}>
-              No challenges available.
-            </div>
-            <button
-              onClick={() => router.push('/play/academy')}
-              style={{
-                fontFamily: 'var(--font-pixel)', fontSize: '6px', color: '#c9a84c',
-                background: 'transparent', border: '1px solid rgba(201,168,76,0.3)',
-                borderRadius: '3px', padding: '9px 14px', cursor: 'pointer',
-              }}
-            >
-              ← BACK TO ACADEMY
-            </button>
-          </>
-        ) : fetchErrorKind === 'network' ? (
+        {error ? (
           <>
             <div style={{ fontFamily: 'var(--font-heading)', fontSize: '14px', color: '#e05555', marginBottom: '16px' }}>
-              Failed to load questions.
+              {error}
             </div>
             <button
-              onClick={fetchQuestions}
+              onClick={() => fetchChallenges('science')}
               style={{
                 fontFamily: 'var(--font-pixel)', fontSize: '7px', color: '#f0e6c8',
                 background: 'linear-gradient(135deg,#1e8a4a,#0f5a30)',
@@ -324,6 +268,21 @@ export default function ScienceLabyrinth({
     )
   }
 
+  // ── Waiting phase (second batch loading between Q5 and Q6) ──────────────
+
+  if (phase === 'waiting') {
+    return (
+      <div style={{ padding: '48px 16px', textAlign: 'center' }}>
+        <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 9, color: 'var(--qf-gold-300)', letterSpacing: '0.18em', marginBottom: 10 }}>
+          PREPARING NEXT CHALLENGE…
+        </div>
+        <div style={{ fontSize: 11, color: 'var(--qf-parchment-dim)', fontFamily: 'var(--font-body)' }}>
+          The Gemini Oracle is charting your next set of rooms.
+        </div>
+      </div>
+    )
+  }
+
   // ── Results phase ──────────────────────────────────────────────────────────
 
   if (phase === 'results') {
@@ -331,15 +290,6 @@ export default function ScienceLabyrinth({
     const cleared = correctCount >= 6
     return (
       <div className="px-4 py-6" style={{ maxWidth: '480px', margin: '0 auto' }}>
-        {saveError && (
-          <div style={{
-            fontFamily: 'var(--font-body)', fontSize: '12px', color: '#e05555',
-            background: 'rgba(224,85,85,0.1)', border: '1px solid rgba(224,85,85,0.3)',
-            borderRadius: '3px', padding: '8px 12px', marginBottom: '12px', textAlign: 'center',
-          }}>
-            Results may not have saved — check your connection.
-          </div>
-        )}
 
         <div style={{
           background: 'linear-gradient(180deg,#0d0f1c,#070910)',
@@ -411,7 +361,7 @@ export default function ScienceLabyrinth({
           {/* Buttons */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             <button
-              onClick={fetchQuestions}
+              onClick={() => fetchChallenges('science')}
               style={{
                 width: '100%', padding: '11px',
                 background: 'linear-gradient(135deg,#1e8a4a,#0f5a30)',
@@ -522,7 +472,7 @@ export default function ScienceLabyrinth({
           enemyPreset={enemyPreset}
           correctCount={correctCount}
           questionIndex={questionIndex}
-          totalQuestions={questions.length}
+          totalQuestions={10}
           questionSource={questionSource}
           screenFlash={screenFlash}
           playerSize={64}

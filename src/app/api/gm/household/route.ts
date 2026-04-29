@@ -66,7 +66,23 @@ export async function POST(request: Request) {
     // 3. Delete story progress for the household
     await admin.from('story_progress').delete().eq('household_id', householdId)
 
-    // 4. Reset household story (active_arc, etc if applicable - currently stored in arc progress)
+    // 4. Reset household story chapters: Restore HP and lock status
+    const { data: chapters } = await admin
+      .from('story_chapters')
+      .select('id, boss_hp')
+      .eq('household_id', householdId)
+
+    if (chapters && chapters.length > 0) {
+      for (const ch of chapters) {
+        await admin.from('story_chapters')
+          .update({
+            boss_current_hp: ch.boss_hp,
+            is_unlocked: false,
+            rewards_claimed: false
+          })
+          .eq('id', ch.id)
+      }
+    }
     
     return NextResponse.json({ success: true })
   }

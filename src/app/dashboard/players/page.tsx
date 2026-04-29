@@ -9,7 +9,7 @@ import AvatarPreview from '@/components/avatar/AvatarPreview'
 
 type PlayerProfile = Pick<
   Tables<'profiles'>,
-  'id' | 'display_name' | 'username' | 'age' | 'level' | 'xp_total' | 'xp_available' | 'gold' | 'created_at' | 'avatar_config'
+  'id' | 'display_name' | 'username' | 'age' | 'level' | 'xp_total' | 'xp_available' | 'gold' | 'created_at' | 'avatar_config' | 'role'
 >
 
 // ── XP maths (from CLAUDE.md: level N costs 50 × N × (N+1) / 2 total XP) ──
@@ -216,6 +216,39 @@ export default function PlayersPage() {
   const [renaming, setRenaming] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState<string | null>(null)
   const [deleting, setDeleting] = useState(false)
+  const [resettingHousehold, setResettingHousehold] = useState(false)
+
+  const handleHardReset = async () => {
+    if (!confirm('CRITICAL WARNING: This will permanently ERASE all player progress, XP, gold, and story completions for this ENTIRE household. This cannot be undone. Are you absolutely sure?')) {
+      return
+    }
+    setResettingHousehold(true)
+    try {
+      const res = await fetch('/api/gm/household', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'reset_progress' }),
+      })
+      if (!res.ok) throw new Error('Failed to reset household.')
+      alert('Household has been reset to its primordial state.')
+      window.location.reload()
+    } catch (err: any) {
+      alert(err.message)
+    } finally {
+      setResettingHousehold(false)
+    }
+  }
+
+  const handleDeleteGm = async (gmId: string) => {
+    if (!confirm('Are you sure you want to remove this fellow GM? They will lose access to the dashboard.')) return
+    try {
+      const res = await fetch(`/api/gm/household?gmId=${gmId}`, { method: 'DELETE' })
+      if (!res.ok) throw new Error('Failed to delete GM.')
+      setPlayers(prev => prev.filter(p => p.id !== gmId))
+    } catch (err: any) {
+      alert(err.message)
+    }
+  }
 
   const handleDelete = async (playerId: string) => {
     if (!confirm('Are you absolutely sure? This will permanently erase this adventurer and all their progress.')) {
@@ -253,14 +286,14 @@ export default function PlayersPage() {
     try {
       const { data, error } = await supabase
         .from('profiles')
-        .select('id, display_name, username, age, level, xp_total, xp_available, gold, created_at, avatar_config')
+        .select('id, display_name, username, age, level, xp_total, xp_available, gold, created_at, avatar_config, role')
         .eq('household_id', householdId)
-        .eq('role', 'player')
+        .order('role', { ascending: false }) // gm first usually? or player? 'gm' > 'player' alphabetically? No, 'p' > 'g'.
         .order('created_at', { ascending: true })
       if (error) {
-        setFetchError('Could not load players.')
+        setFetchError('Could not load members.')
       } else {
-        setPlayers(data ?? [])
+        setPlayers(data ?? [] as any)
       }
     } catch {
       setFetchError('Network error while loading players. Please retry.')
@@ -491,170 +524,97 @@ export default function PlayersPage() {
               </div>
             )}
 
-            {!loading && !fetchError && players.length === 0 && (
-              <div style={{
-                padding: '3rem 2rem',
-                textAlign: 'center',
-                background: 'rgba(255,255,255,0.015)',
-                border: '1px dashed rgba(201,168,76,0.12)',
-                borderRadius: 4,
-              }}>
-                <div style={{ fontSize: '2rem', marginBottom: '0.75rem', opacity: 0.4 }}>⚔</div>
-                <p style={{ fontFamily: "'Cinzel', serif", fontSize: '0.78rem', color: 'rgba(200,215,255,0.3)', letterSpacing: '0.06em' }}>
-                  No adventurers yet
-                </p>
-                <p style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 300, fontSize: '0.82rem', color: 'rgba(200,215,255,0.2)', marginTop: '0.4rem' }}>
-                  Create your first player using the form →
-                </p>
-              </div>
-            )}
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-              {players.map(player => (
+            {/* ── Players List ── */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', marginBottom: '2rem' }}>
+              {players.filter(p => p.role === 'player').map(player => (
                 <div key={player.id} className="player-card slide-in">
-                  {/* Main row */}
+                  {/* Player Card Content (same as before) */}
                   <div className="player-card-inner" style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.9rem 1rem' }}>
-
-                    {/* Avatar — real sprite if available, deterministic placeholder if not */}
                     {player.avatar_config ? (
                       <AvatarPreview avatarConfig={player.avatar_config as Record<string, unknown>} size={48} />
                     ) : (
                       <AvatarCircle name={player.display_name} username={player.username} size={48} />
                     )}
-
-                    {/* Identity */}
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
                         {renameTarget === player.id ? (
                           <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                            <input
-                              autoFocus
-                              value={renameValue}
-                              onChange={e => setRenameValue(e.target.value)}
-                              onKeyDown={e => {
-                                if (e.key === 'Enter') handleRename(player.id)
-                                if (e.key === 'Escape') setRenameTarget(null)
-                              }}
-                              disabled={renaming}
-                              style={{
-                                background: 'rgba(0,0,0,0.3)',
-                                border: '1px solid rgba(201,168,76,0.3)',
-                                borderRadius: 2,
-                                color: '#fff',
-                                padding: '2px 6px',
-                                fontSize: '0.88rem',
-                                width: '120px',
-                                outline: 'none',
-                              }}
-                            />
-                            <button
-                              onClick={() => handleRename(player.id)}
-                              disabled={renaming || !renameValue.trim()}
-                              style={{
-                                background: 'none', border: 'none', color: '#c9a84c', cursor: 'pointer', fontSize: '0.7rem', padding: 0,
-                                opacity: renaming || !renameValue.trim() ? 0.5 : 1
-                              }}
-                            >
-                              {renaming ? '...' : '✓'}
-                            </button>
-                            <button
-                              onClick={() => setRenameTarget(null)}
-                              disabled={renaming}
-                              style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', cursor: 'pointer', fontSize: '0.7rem', padding: 0 }}
-                            >
-                              ✕
-                            </button>
+                            <input autoFocus value={renameValue} onChange={e => setRenameValue(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') handleRename(player.id); if (e.key === 'Escape') setRenameTarget(null) }} style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(201,168,76,0.3)', borderRadius: 2, color: '#fff', padding: '2px 6px', fontSize: '0.88rem', width: '120px', outline: 'none' }} />
+                            <button onClick={() => handleRename(player.id)} style={{ background: 'none', border: 'none', color: '#c9a84c', cursor: 'pointer', fontSize: '0.7rem' }}>✓</button>
+                            <button onClick={() => setRenameTarget(null)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', cursor: 'pointer', fontSize: '0.7rem' }}>✕</button>
                           </div>
                         ) : (
-                          <div
-                            onClick={() => {
-                              setRenameTarget(player.id)
-                              setRenameValue(player.display_name)
-                            }}
-                            title="Click to rename"
-                            style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '0.4rem',
-                              cursor: 'pointer',
-                              padding: '2px 4px',
-                              marginLeft: '-4px',
-                              borderRadius: 2,
-                              transition: 'background 0.2s',
-                            }}
-                            onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.05)')}
-                            onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-                          >
-                            <span style={{ fontFamily: "'Cinzel', serif", fontSize: '0.88rem', fontWeight: 600, color: '#e8f0ff', letterSpacing: '0.02em' }}>
-                              {player.display_name}
-                            </span>
+                          <div onClick={() => { setRenameTarget(player.id); setRenameValue(player.display_name) }} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', cursor: 'pointer' }}>
+                            <span style={{ fontFamily: "'Cinzel', serif", fontSize: '0.88rem', fontWeight: 600, color: '#e8f0ff' }}>{player.display_name}</span>
                             <span style={{ fontSize: '0.7rem', opacity: 0.3, color: '#c9a84c' }}>✎</span>
                           </div>
                         )}
-                        <span style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 300, fontSize: '0.75rem', color: 'rgba(200,215,255,0.35)' }}>
-                          @{player.username}
-                        </span>
-                        {player.age != null && (
-                          <span style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 300, fontSize: '0.72rem', color: 'rgba(200,215,255,0.25)' }}>
-                            · Age {player.age}
-                          </span>
-                        )}
+                        <span style={{ fontSize: '0.75rem', color: 'rgba(200,215,255,0.35)' }}>@{player.username}</span>
                       </div>
-
-                      {/* Level + XP */}
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginTop: '0.4rem' }}>
-                        <span style={{
-                          fontFamily: "'Press Start 2P', monospace",
-                          fontSize: '0.55rem',
-                          color: '#c9a84c',
-                          background: 'rgba(201,168,76,0.08)',
-                          border: '1px solid rgba(201,168,76,0.2)',
-                          padding: '2px 6px',
-                          borderRadius: 2,
-                          imageRendering: 'pixelated',
-                          flexShrink: 0,
-                        }}>
-                          Lv.{player.level}
-                        </span>
-                        <div style={{ flex: 1, minWidth: 80 }}>
-                          <XpBar xpTotal={player.xp_total} level={player.level} />
-                        </div>
-                        <span style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 300, fontSize: '0.72rem', color: 'rgba(201,168,76,0.5)', flexShrink: 0 }}>
-                          {player.gold}g
-                        </span>
+                        <span style={{ fontFamily: "'Press Start 2P', monospace", fontSize: '0.55rem', color: '#c9a84c', background: 'rgba(201,168,76,0.08)', border: '1px solid rgba(201,168,76,0.2)', padding: '2px 6px', borderRadius: 2 }}>Lv.{player.level}</span>
+                        <div style={{ flex: 1 }}><XpBar xpTotal={player.xp_total} level={player.level} /></div>
+                        <span style={{ fontSize: '0.72rem', color: 'rgba(201,168,76,0.5)' }}>{player.gold}g</span>
                       </div>
                     </div>
-
-                    {/* Reset button */}
                     <div style={{ display: 'flex', gap: '0.4rem' }}>
-                      <button
-                        className={`reset-btn${resetTarget === player.id ? ' active' : ''}`}
-                        onClick={() => setResetTarget(resetTarget === player.id ? null : player.id)}
-                        aria-expanded={resetTarget === player.id}
-                      >
+                      <button className={`reset-btn${resetTarget === player.id ? ' active' : ''}`} onClick={() => setResetTarget(resetTarget === player.id ? null : player.id)}>
                         {resetTarget === player.id ? '✕ Cancel' : '🔑 Reset PW'}
                       </button>
-                      <button
-                        className="reset-btn"
-                        style={{ borderColor: 'rgba(220,80,80,0.2)', color: 'rgba(220,100,100,0.4)' }}
-                        onClick={() => handleDelete(player.id)}
-                        onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(220,80,80,0.5)'; e.currentTarget.style.color = 'rgba(220,100,100,0.85)'; }}
-                        onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(220,80,80,0.2)'; e.currentTarget.style.color = 'rgba(220,100,100,0.4)'; }}
-                      >
-                        🗑 Delete
-                      </button>
+                      <button className="reset-btn" style={{ borderColor: 'rgba(220,80,80,0.2)', color: 'rgba(220,100,100,0.4)' }} onClick={() => handleDelete(player.id)}>🗑 Delete</button>
                     </div>
                   </div>
+                  {resetTarget === player.id && <ResetForm playerId={player.id} onDone={() => setResetTarget(null)} />}
+                </div>
+              ))}
+            </div>
 
-                  {/* Inline reset form */}
-                  {resetTarget === player.id && (
-                    <ResetForm
-                      playerId={player.id}
-                      onDone={() => setResetTarget(null)}
-                    />
+            {/* ── Fellow GMs ── */}
+            <PageDivider>Fellow Game Masters</PageDivider>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', marginBottom: '2rem' }}>
+              {players.filter(p => p.role === 'gm').map(gm => (
+                <div key={gm.id} className="player-card" style={{ padding: '0.9rem 1rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                  <AvatarCircle name={gm.display_name} username={gm.username} size={40} />
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontFamily: "'Cinzel', serif", fontSize: '0.88rem', fontWeight: 600, color: '#e8f0ff' }}>
+                      {gm.display_name} {gm.id === authProfile?.id && <span style={{ fontSize: '0.65rem', color: 'rgba(201,168,76,0.5)', marginLeft: 8 }}>(YOU)</span>}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', color: 'rgba(200,215,255,0.35)' }}>@{gm.username} · Chronicler</div>
+                  </div>
+                  {gm.id !== authProfile?.id && (
+                    <button className="reset-btn" style={{ borderColor: 'rgba(220,80,80,0.2)', color: 'rgba(220,100,100,0.4)' }} onClick={() => handleDeleteGm(gm.id)}>
+                      🗑 Remove GM
+                    </button>
                   )}
                 </div>
               ))}
+            </div>
+
+            {/* ── Household Management ── */}
+            <PageDivider>Household Management</PageDivider>
+            <div style={{ padding: '1.5rem', background: 'rgba(220,60,60,0.03)', border: '1px solid rgba(220,60,60,0.15)', borderRadius: 4 }}>
+              <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: '0.78rem', color: 'rgba(220,100,100,0.85)', marginBottom: '0.5rem' }}>The Great Reset</h3>
+              <p style={{ fontFamily: "'Raleway', sans-serif", fontSize: '0.78rem', color: 'rgba(200,215,255,0.35)', marginBottom: '1rem' }}>
+                Wipe all player XP, gold, level progression, and reset the story chapters for this household.
+              </p>
+              <button
+                onClick={handleHardReset}
+                disabled={resettingHousehold}
+                style={{
+                  background: 'rgba(220,60,60,0.1)',
+                  border: '1px solid rgba(220,60,60,0.4)',
+                  color: 'rgba(220,100,100,0.95)',
+                  fontFamily: "'Cinzel', serif",
+                  fontSize: '0.7rem',
+                  padding: '0.6rem 1.2rem',
+                  borderRadius: 2,
+                  cursor: 'pointer',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em'
+                }}
+              >
+                {resettingHousehold ? 'Resetting...' : '⚠️ Perform Hard Reset'}
+              </button>
             </div>
           </section>
 
