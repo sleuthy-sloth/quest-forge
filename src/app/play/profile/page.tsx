@@ -37,9 +37,9 @@ function fmtDate(iso: string) {
   return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 }
 
-// Bar fill percent, capped at level 50 as a visual ceiling
-function statBar(level: number) {
-  return Math.min((level / 50) * 100, 100)
+// Bar fill percent, capped at 100 as a visual ceiling
+function statBar(value: number) {
+  return Math.min((value / 100) * 100, 100)
 }
 
 // ── Pixel art sub-components (pure JSX, no state needed) ─────────────────────
@@ -135,8 +135,13 @@ export default async function ProfilePage() {
     .single()
   if (!profile) redirect('/login')
 
-  // Fetch quest history and loot inventory in parallel
-  const [{ data: rawCompletions }, { data: rawPurchases }] = await Promise.all([
+  // Fetch quest history, loot inventory, and education completions in parallel
+  const [
+    { data: rawCompletions },
+    { data: rawPurchases },
+    { data: rawEduCompletions },
+    { count: totalVerifiedChores }
+  ] = await Promise.all([
     supabase
       .from('chore_completions')
       .select('id, completed_at, verified, xp_awarded, gold_awarded, chores (title)')
@@ -150,6 +155,15 @@ export default async function ProfilePage() {
       .eq('household_id', profile.household_id)
       .eq('player_id', user.id)
       .order('purchased_at', { ascending: false }),
+    supabase
+      .from('edu_completions')
+      .select('score, xp_awarded, edu_challenges (subject, difficulty)')
+      .eq('player_id', user.id),
+    supabase
+      .from('chore_completions')
+      .select('*', { count: 'exact', head: true })
+      .eq('player_id', user.id)
+      .eq('verified', true),
   ])
 
   // Shape the joined data
@@ -162,9 +176,16 @@ export default async function ProfilePage() {
     id: string; purchased_at: string; redeemed: boolean
     loot_store_items: { name: string; category: string; real_reward_description: string } | null
   }
+  type EduCompletion = {
+    score: number;
+    xp_awarded: number;
+    edu_challenges: { subject: string; difficulty: number } | null
+  }
 
   const completions = (rawCompletions ?? []) as Completion[]
   const purchases   = (rawPurchases   ?? []) as Purchase[]
+  const eduCompletions = (rawEduCompletions ?? []) as EduCompletion[]
+  const verifiedChoresCount = totalVerifiedChores ?? 0
 
   // Character math
   const level       = profile.level        ?? 1
@@ -184,13 +205,42 @@ export default async function ProfilePage() {
   const accent2     = classInfo?.color_secondary ?? '#ff8c42'
   const primaryStat = CLASS_PRIMARY_STAT[profile.avatar_class ?? ''] ?? ''
 
-  // Derived stats (level × 2, equal across the board — displayed for fun)
-  const statValue = level * 2
+  // ── Stat Calculation ───────────────────────────────────────────────────────
+  // Stats now correlate to actual gameplay:
+  // Wisdom: Math, Science, Logic
+  // Strength: Vocabulary, Word Forge (word)
+  // Courage: Reading, History + Hard/Epic bonus
+  // Endurance: Total Volume + Chores
+
+  const baseValue = 10 + (level * 2)
+
+  const wisdomCompletions = eduCompletions.filter(c => 
+    ['math', 'science', 'logic'].includes(c.edu_challenges?.subject ?? '')
+  )
+  const wisdomBonus = wisdomCompletions.reduce((sum, c) => sum + (c.score > 0 ? 1 : 0), 0)
+
+  const strengthCompletions = eduCompletions.filter(c => 
+    ['vocabulary', 'word'].includes(c.edu_challenges?.subject ?? '')
+  )
+  const strengthBonus = strengthCompletions.reduce((sum, c) => sum + (c.score > 0 ? 1 : 0), 0)
+
+  const courageCompletions = eduCompletions.filter(c => 
+    ['reading', 'history'].includes(c.edu_challenges?.subject ?? '')
+  )
+  const courageBonus = courageCompletions.reduce((sum, c) => {
+    let b = (c.score > 0 ? 1 : 0)
+    // Bonus for high difficulty (3=hard, 4=epic)
+    if (c.score > 0 && (c.edu_challenges?.difficulty ?? 0) >= 3) b += 1
+    return sum + b
+  }, 0)
+
+  const enduranceBonus = Math.floor(eduCompletions.length / 2) + verifiedChoresCount
+
   const STATS = [
-    { name: 'Strength',  value: statValue },
-    { name: 'Wisdom',    value: statValue },
-    { name: 'Courage',   value: statValue },
-    { name: 'Endurance', value: statValue },
+    { name: 'Strength',  value: baseValue + strengthBonus },
+    { name: 'Wisdom',    value: baseValue + wisdomBonus },
+    { name: 'Courage',   value: baseValue + courageBonus },
+    { name: 'Endurance', value: baseValue + enduranceBonus },
   ]
 
   // ── Render ──────────────────────────────────────────────────────────────────
@@ -544,7 +594,7 @@ export default async function ProfilePage() {
         >
           {STATS.map(stat => {
             const isPrimary = stat.name === primaryStat
-            const barPct    = statBar(level)
+            const barPct    = statBar(stat.value)
             return (
               <div
                 key={stat.name}
