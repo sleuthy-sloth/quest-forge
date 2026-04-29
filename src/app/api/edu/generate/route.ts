@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { getAdminClient } from '@/lib/supabase/admin'
 import { generateEduChallenges, type EduSubject, type AgeTier } from '@/lib/ai/edu'
 
-export const maxDuration = 60
+export const maxDuration = 30
 
 const SUBJECTS = ['math', 'reading', 'science', 'history', 'vocabulary', 'logic'] as const
 const AGE_TIERS = ['junior', 'senior'] as const
@@ -75,12 +75,13 @@ export async function POST(request: Request) {
     console.log(`[edu/generate] ▶ providers: openrouter=${hasOpenRouter} subject=${subject} tier=${age_tier} count=${count} +${Date.now() - t0}ms`)
 
     // ── Generate ─────────────────────────────────────────────────────────────
-    // 50s timeout — generous for 5 questions, allows for slower AI models
+    // 25s safety net — the AI client itself aborts at 20s, so this only fires
+    // if something unexpected stalls between the SDK throw and Promise resolution.
     const timeoutPromise = new Promise<null>((resolve) =>
       setTimeout(() => {
-        console.warn(`[edu/generate] ✗ generation timed out after 50s`)
+        console.warn(`[edu/generate] ✗ generation timed out after 25s`)
         resolve(null)
-      }, 50_000),
+      }, 25_000),
     )
 
     console.log(`[edu/generate] ▶ calling generateEduChallenges +${Date.now() - t0}ms`)
