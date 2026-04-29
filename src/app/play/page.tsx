@@ -96,7 +96,7 @@ export default async function PlayerHomePage() {
     ? Math.round((boss.boss_current_hp / (boss.boss_hp || 1)) * 100)
     : 0
   const bossSpriteName =
-    (boss?.boss_sprite_config as { base_sprite?: string } | null)?.base_sprite || 'eyeball'
+    (boss?.boss_sprite_config as { base_sprite?: string } | null)?.base_sprite || boss?.boss_name || 'eyeball'
 
   // Today's chores
   const { data: chores } = await supabase
@@ -241,21 +241,21 @@ export default async function PlayerHomePage() {
               <div
                 style={{
                   position: 'relative',
-                  padding: 18,
+                  padding: '24px 24px 24px 140px',
                   background:
                     'linear-gradient(180deg, rgba(196,58,0,0.15) 0%, rgba(15,17,24,0.8) 100%), var(--qf-bg-card-alt)',
                   border: '1px solid var(--qf-ember-deep)',
-                  overflow: 'hidden',
+                  minHeight: 140,
                 }}
               >
                 <span className="qf-corner-tl" /><span className="qf-corner-tr" />
                 <span className="qf-corner-bl" /><span className="qf-corner-br" />
                 <div
-                  style={{ position: 'absolute', top: -8, right: -10, opacity: 0.9 }}
+                  style={{ position: 'absolute', top: '50%', left: 20, transform: 'translateY(-50%)', opacity: 1, zIndex: 5 }}
                   className="qf-boss-bob"
                   aria-hidden="true"
                 >
-                  <BossSprite name={bossSpriteName} scale={1.5} />
+                  <BossSprite name={bossSpriteName} scale={2.2} />
                 </div>
                 <div
                   className="font-pixel"

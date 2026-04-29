@@ -13,13 +13,47 @@ const BOSS_PALETTE: Record<string, { core: string; halo: string }> = {
 }
 
 /**
- * Boss sprite placeholder. Draws a stylized SVG silhouette in the boss's
- * palette — used until real LPC sprite sheets are available in /public.
+ * Boss sprite renderer.
+ * Checks for high-fidelity PNG assets first, falling back to stylized SVG silhouettes.
  */
 export function BossSprite({ name = 'eyeball', scale = 2, glow = true }: BossSpriteProps) {
   const palette = BOSS_PALETTE[name] ?? BOSS_PALETTE.eyeball
   const px = 64 * scale
   const filter = glow ? `drop-shadow(0 0 ${4 * scale}px ${palette.halo})` : 'none'
+
+  // Special mapping for high-fidelity assets or common keywords
+  let assetName = name.toLowerCase()
+  if (assetName.includes('thornmaw')) assetName = 'thornmaw'
+  if (assetName.includes('whispering swarm')) assetName = 'whisperingswarm'
+  
+  const hasHighFidelity = ['thornmaw', 'whisperingswarm'].includes(assetName)
+  const imgSrc = `/images/bosses/${assetName}.png`
+
+  if (hasHighFidelity) {
+    return (
+      <div
+        style={{
+          width: px,
+          height: px,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          filter,
+        }}
+        className="pixel-render"
+      >
+        <img
+          src={imgSrc}
+          alt=""
+          style={{
+            maxWidth: '100%',
+            maxHeight: '100%',
+            objectFit: 'contain',
+          }}
+        />
+      </div>
+    )
+  }
 
   return (
     <div
