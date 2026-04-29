@@ -43,9 +43,12 @@ export async function POST(request: Request) {
 
     const playerIds = players?.map(p => p.id) || []
     
-    // 1. Delete all completions for these players
+    // 1. Delete all completions and logs for these players
     if (playerIds.length > 0) {
-      await admin.from('completions').delete().in('player_id', playerIds)
+      await admin.from('chore_completions').delete().in('player_id', playerIds)
+      await admin.from('edu_completions').delete().in('player_id', playerIds)
+      await admin.from('purchases').delete().in('player_id', playerIds)
+      await admin.from('redemptions').delete().in('player_id', playerIds)
       
       // 2. Reset player stats
       await admin.from('profiles')
@@ -54,13 +57,14 @@ export async function POST(request: Request) {
           xp_available: 0, 
           gold: 0, 
           level: 1,
-          avatar_config: null 
+          avatar_config: {} as any, // Reset to empty object instead of null if it's Json
+          story_chapter: 1
         })
         .in('id', playerIds)
     }
 
-    // 3. Delete chapter progress for the household
-    await admin.from('chapter_progress').delete().eq('household_id', householdId)
+    // 3. Delete story progress for the household
+    await admin.from('story_progress').delete().eq('household_id', householdId)
 
     // 4. Reset household story (active_arc, etc if applicable - currently stored in arc progress)
     

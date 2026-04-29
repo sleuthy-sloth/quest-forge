@@ -223,6 +223,8 @@ export default async function SettingsPage() {
             RESET WORLD PROGRESS
           </button>
         </div>
+      </div>
+
       {/* About & legal */}
       <PageDivider>About</PageDivider>
       <div className="qf-ornate-panel" style={{ padding: 18, marginBottom: 40 }}>
