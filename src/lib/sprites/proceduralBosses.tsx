@@ -168,35 +168,257 @@ const GroveGuardian: ProceduralBossComponent = ({ palette, size, glowColor }) =>
   )
 }
 
-// ── 2. Placeholder SVG Components for existing types ────────────────────────
+// ── 2. Treant (Organic Forest Guardian) ───────────────────────────────────
 
-const BasicSVGPlaceholder: React.FC<{ palette: BossPalette; size: number; name: string }> = ({ palette, size, name }) => (
-  <svg width={size} height={size} viewBox="0 0 256 256">
-    <rect x="64" y="64" width="128" height="128" fill={palette.primary} rx="20" />
-    <text x="128" y="140" textAnchor="middle" fill={palette.accent} fontSize="12" fontFamily="monospace">
-      {name} (SVG)
-    </text>
-    <motion.circle
-      cx="128" cy="128" r="40"
-      stroke={palette.accent} strokeWidth="4" fill="none"
-      animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
-      transition={{ duration: 2, repeat: Infinity }}
-    />
-  </svg>
-)
+const ProceduralTreant: ProceduralBossComponent = ({ palette, size, glowColor }) => {
+  const baseSize = 256
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${baseSize} ${baseSize}`} style={{ overflow: 'visible' }}>
+      <defs>
+        <linearGradient id="barkGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor={palette.accent} />
+          <stop offset="100%" stopColor={palette.primary} />
+        </linearGradient>
+        <filter id="barkDepth">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="2" />
+          <feOffset dx="1" dy="2" />
+          <feComposite in="SourceGraphic" operator="over" />
+        </filter>
+      </defs>
 
-const ProceduralTreant: ProceduralBossComponent = (props) => <BasicSVGPlaceholder {...props} name="Treant" />
-const ProceduralGiant: ProceduralBossComponent = (props) => <BasicSVGPlaceholder {...props} name="Giant" />
-const ProceduralGolem: ProceduralBossComponent = (props) => <BasicSVGPlaceholder {...props} name="Golem" />
-const ProceduralFlame: ProceduralBossComponent = (props) => <BasicSVGPlaceholder {...props} name="Flame" />
-const ProceduralHollowKing: ProceduralBossComponent = (props) => <BasicSVGPlaceholder {...props} name="Hollow King" />
+      <motion.g
+        animate={{ rotate: [-1, 1, -1], y: [0, -2, 0] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        style={{ transformOrigin: 'center bottom' }}
+      >
+        {/* Trunk */}
+        <path
+          d="M100 240 Q128 250 156 240 L140 100 Q128 90 116 100 Z"
+          fill="url(#barkGradient)"
+          filter="url(#barkDepth)"
+        />
+        {/* Branches */}
+        <motion.path
+          d="M116 120 Q80 100 60 130"
+          stroke={palette.secondary}
+          strokeWidth="8"
+          strokeLinecap="round"
+          animate={{ rotate: [-5, 5, -5] }}
+          transition={{ duration: 4, repeat: Infinity }}
+          style={{ transformOrigin: '116px 120px' }}
+        />
+        <motion.path
+          d="M140 120 Q176 100 196 130"
+          stroke={palette.secondary}
+          strokeWidth="8"
+          strokeLinecap="round"
+          animate={{ rotate: [5, -5, 5] }}
+          transition={{ duration: 4, repeat: Infinity }}
+          style={{ transformOrigin: '140px 120px' }}
+        />
+        {/* Leafy Canopy */}
+        <motion.circle
+          cx="128" cy="80" r="50"
+          fill={palette.accent}
+          fillOpacity="0.8"
+          animate={{ scale: [1, 1.05, 1] }}
+          transition={{ duration: 3, repeat: Infinity }}
+        />
+        <circle cx="100" cy="100" r="30" fill={palette.secondary} fillOpacity="0.6" />
+        <circle cx="156" cy="100" r="30" fill={palette.secondary} fillOpacity="0.6" />
+        {/* Glowing Eyes */}
+        <motion.circle
+          cx="118" cy="140" r="4"
+          fill="#fff"
+          animate={{ opacity: [0.4, 1, 0.4] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          style={{ filter: `drop-shadow(0 0 4px ${glowColor})` }}
+        />
+        <motion.circle
+          cx="138" cy="140" r="4"
+          fill="#fff"
+          animate={{ opacity: [0.4, 1, 0.4] }}
+          transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+          style={{ filter: `drop-shadow(0 0 4px ${glowColor})` }}
+        />
+      </motion.g>
+    </svg>
+  )
+}
+
+// ── 3. Giant (Boulder Construct) ──────────────────────────────────────────
+
+const ProceduralGiant: ProceduralBossComponent = ({ palette, size, glowColor }) => {
+  const baseSize = 256
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${baseSize} ${baseSize}`} style={{ overflow: 'visible' }}>
+      <defs>
+        <filter id="rockShadow">
+          <feDropShadow dx="2" dy="4" stdDeviation="3" floodOpacity="0.5" />
+        </filter>
+        <radialGradient id="rockGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor={palette.accent} />
+          <stop offset="100%" stopColor="transparent" />
+        </radialGradient>
+      </defs>
+
+      <motion.g
+        animate={{ y: [0, 4, 0] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+      >
+        {/* Legs */}
+        <path d="M80 220 Q90 250 110 240 L120 220 Z" fill={palette.primary} />
+        <path d="M176 220 Q166 250 146 240 L136 220 Z" fill={palette.primary} />
+
+        {/* Torso */}
+        <path
+          d="M70 120 Q128 100 186 120 Q200 180 186 220 Q128 230 70 220 Q56 180 70 120"
+          fill={palette.secondary}
+          filter="url(#rockShadow)"
+        />
+
+        {/* Arms */}
+        <motion.path
+          d="M70 140 Q40 160 30 200"
+          stroke={palette.primary}
+          strokeWidth="15"
+          strokeLinecap="round"
+          animate={{ rotate: [-2, 2, -2] }}
+          transition={{ duration: 3, repeat: Infinity }}
+          style={{ transformOrigin: '70px 140px' }}
+        />
+        <motion.path
+          d="M186 140 Q216 160 226 200"
+          stroke={palette.primary}
+          strokeWidth="15"
+          strokeLinecap="round"
+          animate={{ rotate: [2, -2, 2] }}
+          transition={{ duration: 3, repeat: Infinity }}
+          style={{ transformOrigin: '186px 140px' }}
+        />
+
+        {/* Head */}
+        <path
+          d="M100 110 Q128 80 156 110 L140 130 H116 Z"
+          fill={palette.primary}
+        />
+
+        {/* Glowing Runes */}
+        <motion.circle
+          cx="128" cy="160" r="15"
+          fill="url(#rockGlow)"
+          animate={{ opacity: [0.3, 0.8, 0.3], scale: [0.9, 1.1, 0.9] }}
+          transition={{ duration: 2.5, repeat: Infinity }}
+        />
+      </motion.g>
+    </svg>
+  )
+}
+
+// ── 4. Flame (Living Ember) ───────────────────────────────────────────────
+
+const ProceduralFlame: ProceduralBossComponent = ({ palette, size, glowColor }) => {
+  const baseSize = 256
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${baseSize} ${baseSize}`} style={{ overflow: 'visible' }}>
+      <defs>
+        <radialGradient id="flameCore" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#fff" />
+          <stop offset="40%" stopColor={palette.accent} />
+          <stop offset="100%" stopColor="transparent" />
+        </radialGradient>
+      </defs>
+
+      <g style={{ filter: `blur(4px) drop-shadow(0 0 12px ${glowColor})` }}>
+        {/* Multiple flame layers with offset animations */}
+        {[0, 1, 2].map((i) => (
+          <motion.path
+            key={i}
+            d="M128 240 Q80 200 100 140 Q128 80 128 20 Q128 80 156 140 Q176 200 128 240"
+            fill={i === 0 ? palette.primary : i === 1 ? palette.secondary : palette.accent}
+            fillOpacity={0.4 + i * 0.2}
+            animate={{
+              scale: [1, 1.1, 0.9, 1],
+              rotate: [i * 5 - 5, i * 5, i * 5 - 5],
+              y: [0, -10, 0],
+            }}
+            transition={{
+              duration: 2 + i * 0.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: i * 0.3,
+            }}
+            style={{ transformOrigin: 'center bottom' }}
+          />
+        ))}
+      </g>
+
+      <motion.circle
+        cx="128" cy="160" r="20"
+        fill="url(#flameCore)"
+        animate={{ scale: [1, 1.3, 1], opacity: [0.6, 1, 0.6] }}
+        transition={{ duration: 1.5, repeat: Infinity }}
+      />
+    </svg>
+  )
+}
+
+// ── 5. Hollow King (Ethereal Wraith) ──────────────────────────────────────
+
+const ProceduralHollowKing: ProceduralBossComponent = ({ palette, size, glowColor }) => {
+  const baseSize = 256
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${baseSize} ${baseSize}`} style={{ overflow: 'visible' }}>
+      <defs>
+        <linearGradient id="capeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor={palette.secondary} />
+          <stop offset="100%" stopColor="transparent" />
+        </linearGradient>
+      </defs>
+
+      <motion.g
+        animate={{ y: [0, -8, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+      >
+        {/* Cape / Ghostly Body */}
+        <motion.path
+          d="M80 100 Q128 80 176 100 L200 240 Q128 260 56 240 Z"
+          fill="url(#capeGradient)"
+          animate={{ d: [
+            "M80 100 Q128 80 176 100 L200 240 Q128 260 56 240 Z",
+            "M80 100 Q128 80 176 100 L210 250 Q128 240 46 250 Z",
+            "M80 100 Q128 80 176 100 L200 240 Q128 260 56 240 Z"
+          ]}}
+          transition={{ duration: 4, repeat: Infinity }}
+        />
+
+        {/* Head / Mask */}
+        <g style={{ filter: `drop-shadow(0 0 10px ${glowColor})` }}>
+          <path d="M100 80 Q128 50 156 80 L140 120 H116 Z" fill={palette.primary} />
+          <motion.path
+            d="M100 60 L128 20 L156 60"
+            fill="none"
+            stroke={palette.accent}
+            strokeWidth="4"
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+        </g>
+
+        {/* Glowing Eyes */}
+        <motion.circle cx="118" cy="85" r="3" fill="#fff" animate={{ opacity: [0, 1, 0] }} transition={{ duration: 3, repeat: Infinity }} />
+        <motion.circle cx="138" cy="85" r="3" fill="#fff" animate={{ opacity: [0, 1, 0] }} transition={{ duration: 3, repeat: Infinity, delay: 0.2 }} />
+      </motion.g>
+    </svg>
+  )
+}
 
 // ── Registry ─────────────────────────────────────────────────────────────────
 
 export const PROCEDURAL_BOSS_REGISTRY: Record<string, ProceduralBossComponent> = {
   procedural_treant: ProceduralTreant,
   procedural_giant: ProceduralGiant,
-  procedural_golem: ProceduralGolem,
+  procedural_golem: ProceduralGiant, // Alias
   procedural_flame: ProceduralFlame,
   procedural_hollow_king: ProceduralHollowKing,
   procedural_automaton: GroveGuardian,
