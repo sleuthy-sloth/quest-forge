@@ -1325,7 +1325,7 @@
         "@/app/actions/save-character"
       ],
       "language": "typescript",
-      "mtime": "2026-04-26T16:56:40.858Z"
+      "mtime": "2026-04-30T13:37:39.605Z"
     },
     "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/error.tsx": {
       "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/error.tsx",
@@ -1441,7 +1441,7 @@
         "@/lib/constants/enemies"
       ],
       "language": "typescript",
-      "mtime": "2026-04-30T01:55:07.699Z"
+      "mtime": "2026-04-30T13:37:39.606Z"
     },
     "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/profile/error.tsx": {
       "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/profile/error.tsx",
@@ -1809,7 +1809,7 @@
         "@/lib/sprites/compositor"
       ],
       "language": "typescript",
-      "mtime": "2026-04-24T14:17:30.708Z"
+      "mtime": "2026-04-30T13:37:39.607Z"
     },
     "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/boss/BossDefeat.tsx": {
       "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/boss/BossDefeat.tsx",
@@ -2225,7 +2225,7 @@
         "@/components/avatar/AvatarPreview"
       ],
       "language": "typescript",
-      "mtime": "2026-04-29T23:50:58.769Z"
+      "mtime": "2026-04-30T13:37:39.608Z"
     },
     "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/play/SignOutButton.tsx": {
       "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/play/SignOutButton.tsx",
@@ -3499,7 +3499,7 @@
         "framer-motion"
       ],
       "language": "typescript",
-      "mtime": "2026-04-29T15:19:22.099Z"
+      "mtime": "2026-04-30T13:37:39.609Z"
     },
     "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/story/seed-chapters.ts": {
       "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/story/seed-chapters.ts",
@@ -4116,7 +4116,7 @@
     }
   ],
   "metadata": {
-    "generatedAt": "2026-04-30T13:37:29.111Z",
+    "generatedAt": "2026-04-30T13:40:59.183Z",
     "generator": "repo-graph",
     "nodeCount": 263,
     "edgeCount": 67
