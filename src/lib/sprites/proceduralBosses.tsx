@@ -413,6 +413,163 @@ const ProceduralHollowKing: ProceduralBossComponent = ({ palette, size, glowColo
   )
 }
 
+// ── 6. Whispering Swarm (Animated Bee Swarm) ──────────────────────────────
+
+const ProceduralWhisperingSwarm: ProceduralBossComponent = ({ palette, size, glowColor }) => {
+  const baseSize = 256
+
+  // 18 bees laid out in two concentric rings + a few loose ones
+  const bees: { r: number; angle: number; speed: number; wobble: number; scale: number }[] = [
+    // Inner ring (r ≈ 40)
+    { r: 38, angle: 0,   speed: 7,  wobble: 0.8, scale: 1.0 },
+    { r: 42, angle: 60,  speed: 8,  wobble: 1.1, scale: 0.9 },
+    { r: 36, angle: 120, speed: 9,  wobble: 0.7, scale: 1.1 },
+    { r: 40, angle: 180, speed: 7,  wobble: 1.0, scale: 0.95 },
+    { r: 44, angle: 240, speed: 8,  wobble: 0.9, scale: 1.0 },
+    { r: 38, angle: 300, speed: 9,  wobble: 1.2, scale: 0.85 },
+    // Outer ring (r ≈ 72)
+    { r: 70, angle: 20,  speed: 11, wobble: 1.3, scale: 0.8 },
+    { r: 75, angle: 65,  speed: 12, wobble: 0.9, scale: 0.9 },
+    { r: 68, angle: 110, speed: 10, wobble: 1.1, scale: 0.75 },
+    { r: 73, angle: 155, speed: 13, wobble: 0.8, scale: 0.85 },
+    { r: 71, angle: 200, speed: 11, wobble: 1.2, scale: 0.9 },
+    { r: 76, angle: 245, speed: 12, wobble: 1.0, scale: 0.8 },
+    { r: 69, angle: 290, speed: 10, wobble: 0.7, scale: 0.95 },
+    { r: 74, angle: 335, speed: 13, wobble: 1.1, scale: 0.7 },
+    // Loose stragglers
+    { r: 54, angle: 35,  speed: 15, wobble: 1.5, scale: 0.65 },
+    { r: 58, angle: 145, speed: 14, wobble: 1.3, scale: 0.7 },
+    { r: 62, angle: 255, speed: 16, wobble: 1.4, scale: 0.6 },
+    { r: 50, angle: 310, speed: 14, wobble: 1.2, scale: 0.75 },
+  ]
+
+  const cx = 128
+  const cy = 128
+
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox={`0 0 ${baseSize} ${baseSize}`}
+      style={{ overflow: 'visible' }}
+    >
+      <defs>
+        <radialGradient id="swarmCore" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor={palette.accent} stopOpacity={0.55} />
+          <stop offset="60%" stopColor={palette.secondary} stopOpacity={0.2} />
+          <stop offset="100%" stopColor="transparent" stopOpacity={0} />
+        </radialGradient>
+
+        <radialGradient id="swarmGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor={glowColor} stopOpacity={0.35} />
+          <stop offset="100%" stopColor="transparent" stopOpacity={0} />
+        </radialGradient>
+
+        <filter id="swarmBlur" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+      </defs>
+
+      {/* Ambient glow cloud */}
+      <motion.ellipse
+        cx={cx} cy={cy} rx={82} ry={70}
+        fill="url(#swarmGlow)"
+        animate={{ rx: [82, 90, 78, 82], ry: [70, 65, 74, 70] }}
+        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+      />
+
+      {/* Honey-amber core */}
+      <motion.circle
+        cx={cx} cy={cy} r={30}
+        fill="url(#swarmCore)"
+        animate={{ r: [28, 33, 27, 30], opacity: [0.7, 1, 0.6, 0.7] }}
+        transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+      />
+
+      {/* Whole swarm drifts gently */}
+      <motion.g
+        animate={{ y: [0, -6, 2, 0], x: [0, 3, -2, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        {bees.map((bee, i) => {
+          const angleRad = (bee.angle * Math.PI) / 180
+          const bx = cx + Math.cos(angleRad) * bee.r
+          const by = cy + Math.sin(angleRad) * bee.r
+
+          const bodyW = 10 * bee.scale
+          const bodyH = 6 * bee.scale
+          const wingW = 8 * bee.scale
+          const wingH = 5 * bee.scale
+
+          return (
+            <motion.g
+              key={i}
+              // Each bee orbits the swarm center
+              animate={{
+                rotate: [0, 360],
+                x: [0, Math.cos(angleRad + 1.5) * 4, 0, Math.cos(angleRad - 1.5) * 4, 0],
+                y: [0, Math.sin(angleRad) * bee.wobble * 3, bee.wobble * -2, 0],
+              }}
+              transition={{
+                rotate: { duration: bee.speed, repeat: Infinity, ease: 'linear' },
+                x: { duration: bee.wobble * 1.2 + 0.8, repeat: Infinity, ease: 'easeInOut' },
+                y: { duration: bee.wobble + 0.6, repeat: Infinity, ease: 'easeInOut' },
+              }}
+              style={{ transformOrigin: `${cx}px ${cy}px` }}
+            >
+              {/* Bee positioned at its ring position */}
+              <g transform={`translate(${bx}, ${by})`}>
+                {/* Wings */}
+                <motion.ellipse
+                  cx={-bodyW * 0.1} cy={-wingH * 0.9}
+                  rx={wingW * 0.7} ry={wingH}
+                  fill={palette.accent}
+                  fillOpacity={0.45}
+                  animate={{ ry: [wingH, wingH * 0.4, wingH] }}
+                  transition={{ duration: 0.18, repeat: Infinity, ease: 'easeInOut', delay: i * 0.04 }}
+                />
+                <motion.ellipse
+                  cx={bodyW * 0.1} cy={-wingH * 0.9}
+                  rx={wingW * 0.7} ry={wingH}
+                  fill={palette.accent}
+                  fillOpacity={0.45}
+                  animate={{ ry: [wingH, wingH * 0.4, wingH] }}
+                  transition={{ duration: 0.18, repeat: Infinity, ease: 'easeInOut', delay: i * 0.04 + 0.09 }}
+                />
+                {/* Body */}
+                <ellipse cx={0} cy={0} rx={bodyW * 0.5} ry={bodyH * 0.5} fill={palette.secondary} />
+                {/* Stripes */}
+                <rect
+                  x={-bodyW * 0.25} y={-bodyH * 0.18}
+                  width={bodyW * 0.2} height={bodyH * 0.36}
+                  fill={palette.primary}
+                  rx={1}
+                />
+                <rect
+                  x={bodyW * 0.05} y={-bodyH * 0.18}
+                  width={bodyW * 0.2} height={bodyH * 0.36}
+                  fill={palette.primary}
+                  rx={1}
+                />
+              </g>
+            </motion.g>
+          )
+        })}
+      </motion.g>
+
+      {/* Central eye — the Queen's gaze */}
+      <motion.circle
+        cx={cx} cy={cy} r={5}
+        fill={palette.accent}
+        animate={{ opacity: [0.4, 1, 0.3, 0.9, 0.4], r: [4, 6, 4] }}
+        transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+        style={{ filter: `drop-shadow(0 0 6px ${glowColor})` }}
+      />
+    </svg>
+  )
+}
+
 // ── Registry ─────────────────────────────────────────────────────────────────
 
 export const PROCEDURAL_BOSS_REGISTRY: Record<string, ProceduralBossComponent> = {
@@ -422,4 +579,5 @@ export const PROCEDURAL_BOSS_REGISTRY: Record<string, ProceduralBossComponent> =
   procedural_flame: ProceduralFlame,
   procedural_hollow_king: ProceduralHollowKing,
   procedural_automaton: GroveGuardian,
+  procedural_whispering_swarm: ProceduralWhisperingSwarm,
 }

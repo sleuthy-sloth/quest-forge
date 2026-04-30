@@ -116,12 +116,21 @@ export default async function PlayerHomePage() {
     glow_color: BOSS_PALETTES[arcPalette]?.glow || '#4a0080'
   }
 
-  if (boss?.boss_name?.toLowerCase().includes('tree') || boss?.boss_name?.toLowerCase().includes('root')) {
+  const bossNameLower = boss?.boss_name?.toLowerCase() ?? ''
+  if (bossNameLower.includes('swarm') || bossNameLower.includes('bee') ||
+      bossNameLower.includes('hive') || bossNameLower.includes('whispering')) {
+    synthesizedConfig.base_sprite = 'procedural_whispering_swarm'
+  } else if (bossNameLower.includes('tree') || bossNameLower.includes('root') ||
+             bossNameLower.includes('thorn') || bossNameLower.includes('vine') ||
+             bossNameLower.includes('maw')) {
     synthesizedConfig.base_sprite = 'procedural_treant'
-  } else if (boss?.boss_name?.toLowerCase().includes('giant') || boss?.boss_name?.toLowerCase().includes('golem')) {
+  } else if (bossNameLower.includes('giant') || bossNameLower.includes('golem')) {
     synthesizedConfig.base_sprite = 'procedural_giant'
-  } else if (boss?.boss_name?.toLowerCase().includes('flame') || boss?.boss_name?.toLowerCase().includes('ember')) {
+  } else if (bossNameLower.includes('flame') || bossNameLower.includes('ember')) {
     synthesizedConfig.base_sprite = 'procedural_flame'
+  } else if (bossNameLower.includes('hollow') || bossNameLower.includes('king') ||
+             bossNameLower.includes('wraith') || bossNameLower.includes('shade')) {
+    synthesizedConfig.base_sprite = 'procedural_hollow_king'
   }
 
   const bossConfig: BossSpriteConfig = (boss?.boss_sprite_config as any) || synthesizedConfig
@@ -303,7 +312,7 @@ export default async function PlayerHomePage() {
                     className="qf-boss-bob"
                     aria-hidden="true"
                   >
-                    <BossSprite config={{ ...bossConfig, scale: 2 }} />
+                    <BossSprite config={{ ...bossConfig, scale: bossConfig.base_sprite.startsWith('procedural_') ? 0.5 : 2 }} />
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div
