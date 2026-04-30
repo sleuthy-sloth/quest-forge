@@ -1,7 +1,7 @@
-<!-- PLAN_HASH: 1enpci415tpkb -->
+<!-- PLAN_HASH: 30uzp63lucvzo -->
 # Next.js 14 to 16 Upgrade
 Swarm: default
-Phase: 1 [COMPLETE] | Updated: 2026-04-30T17:36:44.814Z
+Phase: 1 [COMPLETE] | Updated: 2026-04-30T18:43:51.250Z
 
 ---
 ## Phase 1: Foundation & Baseline [COMPLETE]
@@ -9,9 +9,9 @@ Phase: 1 [COMPLETE] | Updated: 2026-04-30T17:36:44.814Z
 - [x] 1.2: Create git branch for upgrade work. Run npm audit and pin current package-lock.json as rollback reference. [SMALL]
 
 ---
-## Phase 2: Next.js 14 to 15 Upgrade [IN PROGRESS]
-- [ ] 2.1: Upgrade core dependencies: update package.json with next@^15, react@^19, react-dom@^19, @types/react@^19, @types/react-dom@^19, eslint-config-next@^15. Run npm install. [SMALL] (depends: 1.2)
-- [ ] 2.2: Run @next/codemod on src/app/ directory transforms. Then run on src/components/ and src/lib/. Review each codemod output file for correctness before committing. [MEDIUM] (depends: 2.1)
+## Phase 2: Next.js 14 to 15 Upgrade [PENDING]
+- [x] 2.1: Upgrade core dependencies: update package.json with next@^15, react@^19, react-dom@^19, @types/react@^19, @types/react-dom@^19, eslint-config-next@^15. Run npm install. [SMALL] (depends: 1.2)
+- [x] 2.2: Run @next/codemod on src/app/ directory transforms. Then run on src/components/ and src/lib/. Review each codemod output file for correctness before committing. [MEDIUM] (depends: 2.1)
 - [ ] 2.3: Update Supabase SSR integration: verify @supabase/ssr version, update cookie handling in src/lib/supabase/client.ts, server.ts, middleware.ts. Fix middleware.ts edge runtime patterns for Next.js 15. [MEDIUM] (depends: 2.2)
 - [ ] 2.4: Fix React 19: update useEffect cleanup patterns, forwardRef usage, and children prop types across hooks/ (10 files), lib/ (40 files), and store/ (2 files). [LARGE] (depends: 2.3)
 - [ ] 2.5: Fix React 19: update components/ directory — avatar, boss, combat, dashboard, games, hud, play, player, qf, quests, shop, story, ui component patterns for React 19 breaking changes. [LARGE] (depends: 2.4)

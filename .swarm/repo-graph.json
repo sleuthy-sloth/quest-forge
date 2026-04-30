@@ -28,7 +28,7 @@
       "exports": [],
       "imports": [],
       "language": "typescript",
-      "mtime": "2026-04-22T13:37:03.055Z"
+      "mtime": "2026-04-30T18:38:38.788Z"
     },
     "/Users/spkoehl/Documents/OpenCode/quest-forge/next.config.mjs": {
       "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/next.config.mjs",
@@ -361,7 +361,7 @@
         "@/lib/api/middleware"
       ],
       "language": "typescript",
-      "mtime": "2026-04-30T16:32:38.976Z"
+      "mtime": "2026-04-30T18:35:16.376Z"
     },
     "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/health/route.ts": {
       "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/health/route.ts",
@@ -1555,12 +1555,10 @@
       ],
       "imports": [
         "next",
-        "next/dynamic",
-        "../loading",
-        "./StoryClient"
+        "./StoryClientWrapper"
       ],
       "language": "typescript",
-      "mtime": "2026-04-30T00:09:20.998Z"
+      "mtime": "2026-04-30T18:38:56.423Z"
     },
     "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/story/StoryClient.tsx": {
       "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/story/StoryClient.tsx",
@@ -1574,6 +1572,20 @@
       ],
       "language": "typescript",
       "mtime": "2026-04-30T01:20:37.391Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/story/StoryClientWrapper.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/story/StoryClientWrapper.tsx",
+      "moduleName": "src/app/play/story/StoryClientWrapper.tsx",
+      "exports": [
+        "StoryClientWrapper"
+      ],
+      "imports": [
+        "next/dynamic",
+        "../loading",
+        "./StoryClient"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T18:38:02.179Z"
     },
     "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/world/error.tsx": {
       "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/world/error.tsx",
@@ -1610,12 +1622,24 @@
         "next/navigation",
         "@/lib/supabase/server",
         "@/components/player/ZoneManager",
+        "./WorldCodexWrapper"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T18:38:06.187Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/world/WorldCodexWrapper.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/world/WorldCodexWrapper.tsx",
+      "moduleName": "src/app/play/world/WorldCodexWrapper.tsx",
+      "exports": [
+        "WorldCodexWrapper"
+      ],
+      "imports": [
         "next/dynamic",
         "../loading",
         "@/components/player/WorldCodex"
       ],
       "language": "typescript",
-      "mtime": "2026-04-30T00:09:20.998Z"
+      "mtime": "2026-04-30T18:38:02.179Z"
     },
     "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/reset-password/error.tsx": {
       "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/reset-password/error.tsx",
@@ -3082,7 +3106,7 @@
         "@/lib/ai/client"
       ],
       "language": "typescript",
-      "mtime": "2026-04-30T16:43:09.071Z"
+      "mtime": "2026-04-30T18:35:16.377Z"
     },
     "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/client.ts": {
       "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/client.ts",
@@ -3666,7 +3690,7 @@
       ],
       "imports": [],
       "language": "typescript",
-      "mtime": "2026-04-30T16:32:03.992Z"
+      "mtime": "2026-04-30T18:35:16.377Z"
     },
     "/Users/spkoehl/Documents/OpenCode/quest-forge/src/types/encounter.ts": {
       "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/types/encounter.ts",
@@ -3744,18 +3768,30 @@
     },
     {
       "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/story/page.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/story/StoryClientWrapper.tsx",
+      "importSpecifier": "./StoryClientWrapper",
+      "importType": "default"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/story/StoryClientWrapper.tsx",
       "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/loading.tsx",
       "importSpecifier": "../loading",
       "importType": "default"
     },
     {
-      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/story/page.tsx",
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/story/StoryClientWrapper.tsx",
       "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/story/StoryClient.tsx",
       "importSpecifier": "./StoryClient",
       "importType": "sideeffect"
     },
     {
       "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/world/page.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/world/WorldCodexWrapper.tsx",
+      "importSpecifier": "./WorldCodexWrapper",
+      "importType": "default"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/world/WorldCodexWrapper.tsx",
       "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/loading.tsx",
       "importSpecifier": "../loading",
       "importType": "default"
@@ -4128,9 +4164,9 @@
     }
   ],
   "metadata": {
-    "generatedAt": "2026-04-30T18:26:47.959Z",
+    "generatedAt": "2026-04-30T18:38:56.505Z",
     "generator": "repo-graph",
-    "nodeCount": 264,
-    "edgeCount": 67
+    "nodeCount": 266,
+    "edgeCount": 69
   }
 }

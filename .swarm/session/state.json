@@ -1,27 +1,27 @@
 {
   "version": 2,
-  "writtenAt": 1777570683072,
+  "writtenAt": 1777574899776,
   "toolAggregates": {
     "bash": {
       "tool": "bash",
-      "count": 111,
-      "successCount": 111,
+      "count": 183,
+      "successCount": 183,
       "failureCount": 0,
-      "totalDuration": 189950
+      "totalDuration": 322144
     },
     "read": {
       "tool": "read",
-      "count": 105,
-      "successCount": 105,
+      "count": 131,
+      "successCount": 131,
       "failureCount": 0,
-      "totalDuration": 2067
+      "totalDuration": 2380
     },
     "glob": {
       "tool": "glob",
-      "count": 20,
-      "successCount": 20,
+      "count": 23,
+      "successCount": 23,
       "failureCount": 0,
-      "totalDuration": 736
+      "totalDuration": 811
     },
     "complexity_hotspots": {
       "tool": "complexity_hotspots",
@@ -53,17 +53,17 @@
     },
     "task": {
       "tool": "task",
-      "count": 36,
-      "successCount": 36,
+      "count": 39,
+      "successCount": 39,
       "failureCount": 0,
-      "totalDuration": 7699529
+      "totalDuration": 7911229
     },
     "write": {
       "tool": "write",
-      "count": 6,
-      "successCount": 6,
+      "count": 12,
+      "successCount": 12,
       "failureCount": 0,
-      "totalDuration": 103
+      "totalDuration": 181
     },
     "detect_domains": {
       "tool": "detect_domains",
@@ -81,10 +81,10 @@
     },
     "edit": {
       "tool": "edit",
-      "count": 18,
-      "successCount": 18,
+      "count": 19,
+      "successCount": 19,
       "failureCount": 0,
-      "totalDuration": 467
+      "totalDuration": 479
     },
     "save_plan": {
       "tool": "save_plan",
@@ -102,10 +102,10 @@
     },
     "update_task_status": {
       "tool": "update_task_status",
-      "count": 66,
-      "successCount": 66,
+      "count": 69,
+      "successCount": 69,
       "failureCount": 0,
-      "totalDuration": 528
+      "totalDuration": 580
     },
     "sast_scan": {
       "tool": "sast_scan",
@@ -137,52 +137,52 @@
     },
     "check_gate_status": {
       "tool": "check_gate_status",
-      "count": 5,
-      "successCount": 5,
+      "count": 6,
+      "successCount": 6,
       "failureCount": 0,
-      "totalDuration": 27
+      "totalDuration": 31
     },
     "test_runner": {
       "tool": "test_runner",
-      "count": 5,
-      "successCount": 5,
+      "count": 6,
+      "successCount": 6,
       "failureCount": 0,
-      "totalDuration": 9569
+      "totalDuration": 9586
     },
     "build_check": {
       "tool": "build_check",
-      "count": 2,
-      "successCount": 2,
-      "failureCount": 0,
-      "totalDuration": 9411
-    },
-    "lint": {
-      "tool": "lint",
       "count": 3,
       "successCount": 3,
       "failureCount": 0,
-      "totalDuration": 8574
+      "totalDuration": 15446
+    },
+    "lint": {
+      "tool": "lint",
+      "count": 5,
+      "successCount": 5,
+      "failureCount": 0,
+      "totalDuration": 14503
     },
     "pre_check_batch": {
       "tool": "pre_check_batch",
-      "count": 1,
-      "successCount": 1,
+      "count": 2,
+      "successCount": 2,
       "failureCount": 0,
-      "totalDuration": 7
+      "totalDuration": 709
     },
     "batch_symbols": {
       "tool": "batch_symbols",
-      "count": 1,
-      "successCount": 1,
+      "count": 2,
+      "successCount": 2,
       "failureCount": 0,
-      "totalDuration": 10
+      "totalDuration": 30
     },
     "todowrite": {
       "tool": "todowrite",
-      "count": 1,
-      "successCount": 1,
+      "count": 4,
+      "successCount": 4,
       "failureCount": 0,
-      "totalDuration": 11
+      "totalDuration": 43
     },
     "write_retro": {
       "tool": "write_retro",
@@ -221,10 +221,10 @@
     },
     "declare_scope": {
       "tool": "declare_scope",
-      "count": 11,
-      "successCount": 11,
+      "count": 12,
+      "successCount": 12,
       "failureCount": 0,
-      "totalDuration": 113
+      "totalDuration": 123
     },
     "knowledge_add": {
       "tool": "knowledge_add",
@@ -235,10 +235,38 @@
     },
     "diff": {
       "tool": "diff",
+      "count": 2,
+      "successCount": 2,
+      "failureCount": 0,
+      "totalDuration": 410
+    },
+    "syntax_check": {
+      "tool": "syntax_check",
       "count": 1,
       "successCount": 1,
       "failureCount": 0,
-      "totalDuration": 250
+      "totalDuration": 34
+    },
+    "placeholder_scan": {
+      "tool": "placeholder_scan",
+      "count": 1,
+      "successCount": 1,
+      "failureCount": 0,
+      "totalDuration": 14
+    },
+    "imports": {
+      "tool": "imports",
+      "count": 2,
+      "successCount": 2,
+      "failureCount": 0,
+      "totalDuration": 4
+    },
+    "get_qa_gate_profile": {
+      "tool": "get_qa_gate_profile",
+      "count": 1,
+      "successCount": 1,
+      "failureCount": 0,
+      "totalDuration": 6
     }
   },
   "activeAgent": {
@@ -280,7 +308,12 @@
     "ses_22092efb5ffeYFjdDodx86h2dl": "critic",
     "ses_2208e7570ffe4f9BIaRA7oq4He": "reviewer",
     "ses_2208e6d6fffekzk81Odbq7HryL": "test_engineer",
-    "ses_22088ceb2ffeelZxXlMNe2qLXt": "coder"
+    "ses_22088ceb2ffeelZxXlMNe2qLXt": "coder",
+    "ses_2205597d0ffe5Ml1gCkNZQaFBX": "architect",
+    "ses_220559690ffeq6e2iiWM6E5guE": "curator_init",
+    "ses_2205110f9ffekPpcQ7SbEoTNDu": "coder",
+    "ses_2204f75d2ffeLqMw2uuQhbUjHE": "reviewer",
+    "ses_2204e1570ffeBKWmI7a4riPq9a": "test_engineer"
   },
   "delegationChains": {
     "ses_221582041ffeuSvdqCQE7veYeG": [
@@ -299,8 +332,8 @@
   "agentSessions": {
     "ses_221582041ffeuSvdqCQE7veYeG": {
       "agentName": "architect",
-      "lastToolCallTime": 1777570666671,
-      "lastAgentEventTime": 1777570665770,
+      "lastToolCallTime": 1777573711200,
+      "lastAgentEventTime": 1777573711200,
       "delegationActive": false,
       "activeInvocationId": 1,
       "lastInvocationIdByAgent": {
@@ -310,11 +343,11 @@
         "build:1": {
           "id": 1,
           "agentName": "build",
-          "startedAtMs": 1777557710139,
+          "startedAtMs": 1777573711200,
           "toolCalls": 0,
           "consecutiveErrors": 0,
           "hardLimitHit": false,
-          "lastSuccessTimeMs": 1777557710139,
+          "lastSuccessTimeMs": 1777573711200,
           "recentToolCalls": [],
           "warningIssued": false,
           "warningReason": "",
@@ -322,7 +355,7 @@
         }
       },
       "lastCompactionHint": 150,
-      "architectWriteCount": 5,
+      "architectWriteCount": 0,
       "lastCoderDelegationTaskId": null,
       "currentTaskId": "2.1",
       "turboMode": false,
@@ -356,7 +389,7 @@
         "1.2"
       ],
       "selfFixAttempted": false,
-      "selfCodingWarnedAtCount": 5,
+      "selfCodingWarnedAtCount": 0,
       "catastrophicPhaseWarnings": [],
       "lastPhaseCompleteTimestamp": 1777563218585,
       "lastPhaseCompletePhase": 1,
@@ -369,15 +402,27 @@
       ],
       "qaSkipCount": 0,
       "qaSkipTaskIds": [],
-      "pendingAdvisoryMessages": [
-        "WARNING: Agent has made 15 tool calls with no file modifications. If you are stuck, use /swarm handoff to reset or /swarm turbo to reduce overhead."
-      ],
+      "pendingAdvisoryMessages": [],
       "taskWorkflowStates": {
         "1.1": "complete",
         "1.2": "complete",
         "1.3": "complete",
         "1.4": "complete",
-        "2.1": "complete"
+        "2.1": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "idle",
+        "4.2": "idle"
       },
       "scopeViolationDetected": false,
       "model_fallback_index": 0,
@@ -388,13 +433,13 @@
       "fullAutoInteractionCount": 0,
       "fullAutoDeadlockCount": 0,
       "fullAutoLastQuestionHash": null,
-      "sessionRehydratedAt": 0
+      "sessionRehydratedAt": 1777573711200
     },
     "ses_220ef43d2ffem4DxGyay37WnnV": {
       "agentName": "coder",
-      "lastToolCallTime": 1777566675295,
-      "lastAgentEventTime": 1777563909172,
-      "delegationActive": true,
+      "lastToolCallTime": 1777573711200,
+      "lastAgentEventTime": 1777573711200,
+      "delegationActive": false,
       "activeInvocationId": 1,
       "lastInvocationIdByAgent": {
         "coder": 1
@@ -403,115 +448,14 @@
         "coder:1": {
           "id": 1,
           "agentName": "coder",
-          "startedAtMs": 1777563909172,
-          "toolCalls": 49,
+          "startedAtMs": 1777573711200,
+          "toolCalls": 0,
           "consecutiveErrors": 0,
-          "hardLimitHit": true,
-          "lastSuccessTimeMs": 1777566598722,
-          "recentToolCalls": [
-            {
-              "tool": "read",
-              "argsHash": 4304112755726122500,
-              "timestamp": 1777564197273
-            },
-            {
-              "tool": "read",
-              "argsHash": 7520737465163025000,
-              "timestamp": 1777564207410
-            },
-            {
-              "tool": "write",
-              "argsHash": 339514706486173950,
-              "timestamp": 1777564211805
-            },
-            {
-              "tool": "read",
-              "argsHash": 12436215502795407000,
-              "timestamp": 1777564214939
-            },
-            {
-              "tool": "read",
-              "argsHash": 12692682144446865000,
-              "timestamp": 1777564224751
-            },
-            {
-              "tool": "read",
-              "argsHash": 13281802729513734000,
-              "timestamp": 1777564235796
-            },
-            {
-              "tool": "read",
-              "argsHash": 755350946990185200,
-              "timestamp": 1777564246005
-            },
-            {
-              "tool": "read",
-              "argsHash": 11939212470185228000,
-              "timestamp": 1777564254388
-            },
-            {
-              "tool": "read",
-              "argsHash": 8734717470569634000,
-              "timestamp": 1777564259721
-            },
-            {
-              "tool": "read",
-              "argsHash": 1635753393388681200,
-              "timestamp": 1777564263534
-            },
-            {
-              "tool": "read",
-              "argsHash": 5872487228488448000,
-              "timestamp": 1777564269216
-            },
-            {
-              "tool": "read",
-              "argsHash": 11744931027641182000,
-              "timestamp": 1777564273278
-            },
-            {
-              "tool": "read",
-              "argsHash": 4578533980891600000,
-              "timestamp": 1777565924743
-            },
-            {
-              "tool": "read",
-              "argsHash": 7289296135850334000,
-              "timestamp": 1777566274785
-            },
-            {
-              "tool": "read",
-              "argsHash": 12681382725871716000,
-              "timestamp": 1777566570603
-            },
-            {
-              "tool": "glob",
-              "argsHash": 14966867283201454000,
-              "timestamp": 1777566576948
-            },
-            {
-              "tool": "read",
-              "argsHash": 2592240077733508600,
-              "timestamp": 1777566582217
-            },
-            {
-              "tool": "read",
-              "argsHash": 11161638902471694000,
-              "timestamp": 1777566593298
-            },
-            {
-              "tool": "read",
-              "argsHash": 4304112755726122500,
-              "timestamp": 1777566598700
-            },
-            {
-              "tool": "read",
-              "argsHash": 17638187263263021000,
-              "timestamp": 1777566669845
-            }
-          ],
-          "warningIssued": true,
-          "warningReason": "duration 39/45 min",
+          "hardLimitHit": false,
+          "lastSuccessTimeMs": 1777573711200,
+          "recentToolCalls": [],
+          "warningIssued": false,
+          "warningReason": "",
           "transientRetryCount": 0
         }
       },
@@ -537,9 +481,23 @@
       "qaSkipTaskIds": [],
       "pendingAdvisoryMessages": [],
       "taskWorkflowStates": {
-        "2.1": "tests_run",
-        "1.1": "reviewer_run",
-        "1.2": "reviewer_run"
+        "2.1": "complete",
+        "1.1": "complete",
+        "1.2": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "idle",
+        "4.2": "idle"
       },
       "scopeViolationDetected": false,
       "model_fallback_index": 0,
@@ -550,13 +508,13 @@
       "fullAutoInteractionCount": 0,
       "fullAutoDeadlockCount": 0,
       "fullAutoLastQuestionHash": null,
-      "sessionRehydratedAt": 0
+      "sessionRehydratedAt": 1777573711200
     },
     "ses_220c30262ffeUXIERdGhE8amlB": {
       "agentName": "reviewer",
-      "lastToolCallTime": 1777566859979,
-      "lastAgentEventTime": 1777566809509,
-      "delegationActive": true,
+      "lastToolCallTime": 1777573711200,
+      "lastAgentEventTime": 1777573711200,
+      "delegationActive": false,
       "activeInvocationId": 1,
       "lastInvocationIdByAgent": {
         "reviewer": 1
@@ -565,18 +523,12 @@
         "reviewer:1": {
           "id": 1,
           "agentName": "reviewer",
-          "startedAtMs": 1777566809510,
-          "toolCalls": 1,
+          "startedAtMs": 1777573711200,
+          "toolCalls": 0,
           "consecutiveErrors": 0,
           "hardLimitHit": false,
-          "lastSuccessTimeMs": 1777566860004,
-          "recentToolCalls": [
-            {
-              "tool": "read",
-              "argsHash": 7786222502888388000,
-              "timestamp": 1777566859979
-            }
-          ],
+          "lastSuccessTimeMs": 1777573711200,
+          "recentToolCalls": [],
           "warningIssued": false,
           "warningReason": "",
           "transientRetryCount": 0
@@ -604,9 +556,23 @@
       "qaSkipTaskIds": [],
       "pendingAdvisoryMessages": [],
       "taskWorkflowStates": {
-        "2.1": "tests_run",
-        "1.1": "reviewer_run",
-        "1.2": "reviewer_run"
+        "2.1": "complete",
+        "1.1": "complete",
+        "1.2": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "idle",
+        "4.2": "idle"
       },
       "scopeViolationDetected": false,
       "model_fallback_index": 0,
@@ -617,13 +583,13 @@
       "fullAutoInteractionCount": 0,
       "fullAutoDeadlockCount": 0,
       "fullAutoLastQuestionHash": null,
-      "sessionRehydratedAt": 0
+      "sessionRehydratedAt": 1777573711200
     },
     "ses_220c2f9aeffemhbB2J21k7vyle": {
       "agentName": "test_engineer",
-      "lastToolCallTime": 1777566890570,
-      "lastAgentEventTime": 1777566811732,
-      "delegationActive": true,
+      "lastToolCallTime": 1777573711200,
+      "lastAgentEventTime": 1777573711200,
+      "delegationActive": false,
       "activeInvocationId": 1,
       "lastInvocationIdByAgent": {
         "test_engineer": 1
@@ -632,58 +598,12 @@
         "test_engineer:1": {
           "id": 1,
           "agentName": "test_engineer",
-          "startedAtMs": 1777566811732,
-          "toolCalls": 9,
+          "startedAtMs": 1777573711200,
+          "toolCalls": 0,
           "consecutiveErrors": 0,
           "hardLimitHit": false,
-          "lastSuccessTimeMs": 1777566890585,
-          "recentToolCalls": [
-            {
-              "tool": "bash",
-              "argsHash": 9345237862408321000,
-              "timestamp": 1777566827178
-            },
-            {
-              "tool": "grep",
-              "argsHash": 10402824343964553000,
-              "timestamp": 1777566837092
-            },
-            {
-              "tool": "grep",
-              "argsHash": 6954765264416674000,
-              "timestamp": 1777566844224
-            },
-            {
-              "tool": "bash",
-              "argsHash": 3413117938545888000,
-              "timestamp": 1777566853769
-            },
-            {
-              "tool": "glob",
-              "argsHash": 13737304361863911000,
-              "timestamp": 1777566860855
-            },
-            {
-              "tool": "grep",
-              "argsHash": 5519267147939353000,
-              "timestamp": 1777566866521
-            },
-            {
-              "tool": "read",
-              "argsHash": 13746021238012950000,
-              "timestamp": 1777566873999
-            },
-            {
-              "tool": "glob",
-              "argsHash": 11841059048920110000,
-              "timestamp": 1777566882326
-            },
-            {
-              "tool": "read",
-              "argsHash": 2631426993932506000,
-              "timestamp": 1777566890570
-            }
-          ],
+          "lastSuccessTimeMs": 1777573711200,
+          "recentToolCalls": [],
           "warningIssued": false,
           "warningReason": "",
           "transientRetryCount": 0
@@ -711,9 +631,23 @@
       "qaSkipTaskIds": [],
       "pendingAdvisoryMessages": [],
       "taskWorkflowStates": {
-        "2.1": "tests_run",
-        "1.1": "reviewer_run",
-        "1.2": "reviewer_run"
+        "2.1": "complete",
+        "1.1": "complete",
+        "1.2": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "idle",
+        "4.2": "idle"
       },
       "scopeViolationDetected": false,
       "model_fallback_index": 0,
@@ -724,13 +658,13 @@
       "fullAutoInteractionCount": 0,
       "fullAutoDeadlockCount": 0,
       "fullAutoLastQuestionHash": null,
-      "sessionRehydratedAt": 0
+      "sessionRehydratedAt": 1777573711200
     },
     "ses_220bf7e2fffexxZigNxfFhXWMC": {
       "agentName": "docs",
-      "lastToolCallTime": 1777567107749,
-      "lastAgentEventTime": 1777567039964,
-      "delegationActive": true,
+      "lastToolCallTime": 1777573711200,
+      "lastAgentEventTime": 1777573711200,
+      "delegationActive": false,
       "activeInvocationId": 1,
       "lastInvocationIdByAgent": {
         "docs": 1
@@ -739,18 +673,12 @@
         "docs:1": {
           "id": 1,
           "agentName": "docs",
-          "startedAtMs": 1777567039965,
-          "toolCalls": 1,
+          "startedAtMs": 1777573711200,
+          "toolCalls": 0,
           "consecutiveErrors": 0,
           "hardLimitHit": false,
-          "lastSuccessTimeMs": 1777567107758,
-          "recentToolCalls": [
-            {
-              "tool": "read",
-              "argsHash": 3440239471587243000,
-              "timestamp": 1777567107749
-            }
-          ],
+          "lastSuccessTimeMs": 1777573711200,
+          "recentToolCalls": [],
           "warningIssued": false,
           "warningReason": "",
           "transientRetryCount": 0
@@ -778,9 +706,23 @@
       "qaSkipTaskIds": [],
       "pendingAdvisoryMessages": [],
       "taskWorkflowStates": {
-        "1.1": "reviewer_run",
-        "1.2": "reviewer_run",
-        "2.1": "coder_delegated"
+        "1.1": "complete",
+        "1.2": "complete",
+        "2.1": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "idle",
+        "4.2": "idle"
       },
       "scopeViolationDetected": false,
       "model_fallback_index": 0,
@@ -791,13 +733,13 @@
       "fullAutoInteractionCount": 0,
       "fullAutoDeadlockCount": 0,
       "fullAutoLastQuestionHash": null,
-      "sessionRehydratedAt": 0
+      "sessionRehydratedAt": 1777573711200
     },
     "ses_220bac351ffe2xtTLcCSbTp5Vi": {
       "agentName": "coder",
-      "lastToolCallTime": 1777567353773,
-      "lastAgentEventTime": 1777567349939,
-      "delegationActive": true,
+      "lastToolCallTime": 1777573711200,
+      "lastAgentEventTime": 1777573711200,
+      "delegationActive": false,
       "activeInvocationId": 1,
       "lastInvocationIdByAgent": {
         "coder": 1
@@ -806,23 +748,12 @@
         "coder:1": {
           "id": 1,
           "agentName": "coder",
-          "startedAtMs": 1777567349940,
-          "toolCalls": 2,
+          "startedAtMs": 1777573711200,
+          "toolCalls": 0,
           "consecutiveErrors": 0,
           "hardLimitHit": false,
-          "lastSuccessTimeMs": 1777567353780,
-          "recentToolCalls": [
-            {
-              "tool": "read",
-              "argsHash": 6419208063950905000,
-              "timestamp": 1777567353770
-            },
-            {
-              "tool": "read",
-              "argsHash": 641380158108907800,
-              "timestamp": 1777567353774
-            }
-          ],
+          "lastSuccessTimeMs": 1777573711200,
+          "recentToolCalls": [],
           "warningIssued": false,
           "warningReason": "",
           "transientRetryCount": 0
@@ -850,9 +781,23 @@
       "qaSkipTaskIds": [],
       "pendingAdvisoryMessages": [],
       "taskWorkflowStates": {
-        "1.1": "reviewer_run",
-        "1.2": "reviewer_run",
-        "2.1": "coder_delegated"
+        "1.1": "complete",
+        "1.2": "complete",
+        "2.1": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "idle",
+        "4.2": "idle"
       },
       "scopeViolationDetected": false,
       "model_fallback_index": 0,
@@ -863,13 +808,13 @@
       "fullAutoInteractionCount": 0,
       "fullAutoDeadlockCount": 0,
       "fullAutoLastQuestionHash": null,
-      "sessionRehydratedAt": 0
+      "sessionRehydratedAt": 1777573711200
     },
     "ses_22095c86bffeEuDsx2gyKiMMQ1": {
       "agentName": "critic",
-      "lastToolCallTime": 1777569773473,
-      "lastAgentEventTime": 1777569773473,
-      "delegationActive": true,
+      "lastToolCallTime": 1777573711200,
+      "lastAgentEventTime": 1777573711200,
+      "delegationActive": false,
       "activeInvocationId": 1,
       "lastInvocationIdByAgent": {
         "critic": 1
@@ -878,11 +823,11 @@
         "critic:1": {
           "id": 1,
           "agentName": "critic",
-          "startedAtMs": 1777569773474,
+          "startedAtMs": 1777573711200,
           "toolCalls": 0,
           "consecutiveErrors": 0,
           "hardLimitHit": false,
-          "lastSuccessTimeMs": 1777569773474,
+          "lastSuccessTimeMs": 1777573711200,
           "recentToolCalls": [],
           "warningIssued": false,
           "warningReason": "",
@@ -911,9 +856,23 @@
       "qaSkipTaskIds": [],
       "pendingAdvisoryMessages": [],
       "taskWorkflowStates": {
-        "1.1": "reviewer_run",
-        "1.2": "reviewer_run",
-        "2.1": "coder_delegated"
+        "1.1": "complete",
+        "1.2": "complete",
+        "2.1": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "idle",
+        "4.2": "idle"
       },
       "scopeViolationDetected": false,
       "model_fallback_index": 0,
@@ -924,13 +883,13 @@
       "fullAutoInteractionCount": 0,
       "fullAutoDeadlockCount": 0,
       "fullAutoLastQuestionHash": null,
-      "sessionRehydratedAt": 0
+      "sessionRehydratedAt": 1777573711200
     },
     "ses_22092efb5ffeYFjdDodx86h2dl": {
       "agentName": "critic",
-      "lastToolCallTime": 1777569994381,
-      "lastAgentEventTime": 1777569960018,
-      "delegationActive": true,
+      "lastToolCallTime": 1777573711200,
+      "lastAgentEventTime": 1777573711200,
+      "delegationActive": false,
       "activeInvocationId": 1,
       "lastInvocationIdByAgent": {
         "critic": 1
@@ -939,28 +898,12 @@
         "critic:1": {
           "id": 1,
           "agentName": "critic",
-          "startedAtMs": 1777569960019,
-          "toolCalls": 3,
+          "startedAtMs": 1777573711200,
+          "toolCalls": 0,
           "consecutiveErrors": 0,
           "hardLimitHit": false,
-          "lastSuccessTimeMs": 1777569994391,
-          "recentToolCalls": [
-            {
-              "tool": "get_approved_plan",
-              "argsHash": 2592240077733508600,
-              "timestamp": 1777569980314
-            },
-            {
-              "tool": "read",
-              "argsHash": 11388246985475998000,
-              "timestamp": 1777569994375
-            },
-            {
-              "tool": "read",
-              "argsHash": 4688737904983500000,
-              "timestamp": 1777569994381
-            }
-          ],
+          "lastSuccessTimeMs": 1777573711200,
+          "recentToolCalls": [],
           "warningIssued": false,
           "warningReason": "",
           "transientRetryCount": 0
@@ -988,9 +931,23 @@
       "qaSkipTaskIds": [],
       "pendingAdvisoryMessages": [],
       "taskWorkflowStates": {
-        "1.1": "reviewer_run",
-        "1.2": "reviewer_run",
-        "2.1": "coder_delegated"
+        "1.1": "complete",
+        "1.2": "complete",
+        "2.1": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "idle",
+        "4.2": "idle"
       },
       "scopeViolationDetected": false,
       "model_fallback_index": 0,
@@ -1001,13 +958,13 @@
       "fullAutoInteractionCount": 0,
       "fullAutoDeadlockCount": 0,
       "fullAutoLastQuestionHash": null,
-      "sessionRehydratedAt": 0
+      "sessionRehydratedAt": 1777573711200
     },
     "ses_2208e7570ffe4f9BIaRA7oq4He": {
       "agentName": "reviewer",
-      "lastToolCallTime": 1777570253461,
-      "lastAgentEventTime": 1777570253461,
-      "delegationActive": true,
+      "lastToolCallTime": 1777573711200,
+      "lastAgentEventTime": 1777573711200,
+      "delegationActive": false,
       "activeInvocationId": 1,
       "lastInvocationIdByAgent": {
         "reviewer": 1
@@ -1016,11 +973,11 @@
         "reviewer:1": {
           "id": 1,
           "agentName": "reviewer",
-          "startedAtMs": 1777570253462,
+          "startedAtMs": 1777573711200,
           "toolCalls": 0,
           "consecutiveErrors": 0,
           "hardLimitHit": false,
-          "lastSuccessTimeMs": 1777570253462,
+          "lastSuccessTimeMs": 1777573711200,
           "recentToolCalls": [],
           "warningIssued": false,
           "warningReason": "",
@@ -1050,7 +1007,22 @@
       "pendingAdvisoryMessages": [],
       "taskWorkflowStates": {
         "1.2": "complete",
-        "2.1": "coder_delegated"
+        "2.1": "complete",
+        "1.1": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "idle",
+        "4.2": "idle"
       },
       "scopeViolationDetected": false,
       "model_fallback_index": 0,
@@ -1061,13 +1033,13 @@
       "fullAutoInteractionCount": 0,
       "fullAutoDeadlockCount": 0,
       "fullAutoLastQuestionHash": null,
-      "sessionRehydratedAt": 0
+      "sessionRehydratedAt": 1777573711200
     },
     "ses_2208e6d6fffekzk81Odbq7HryL": {
       "agentName": "test_engineer",
-      "lastToolCallTime": 1777570269349,
-      "lastAgentEventTime": 1777570255512,
-      "delegationActive": true,
+      "lastToolCallTime": 1777573711200,
+      "lastAgentEventTime": 1777573711200,
+      "delegationActive": false,
       "activeInvocationId": 1,
       "lastInvocationIdByAgent": {
         "test_engineer": 1
@@ -1076,33 +1048,12 @@
         "test_engineer:1": {
           "id": 1,
           "agentName": "test_engineer",
-          "startedAtMs": 1777570255512,
-          "toolCalls": 4,
+          "startedAtMs": 1777573711200,
+          "toolCalls": 0,
           "consecutiveErrors": 0,
           "hardLimitHit": false,
-          "lastSuccessTimeMs": 1777570288669,
-          "recentToolCalls": [
-            {
-              "tool": "bash",
-              "argsHash": 11314652285065167000,
-              "timestamp": 1777570269345
-            },
-            {
-              "tool": "bash",
-              "argsHash": 14093170820447295000,
-              "timestamp": 1777570269347
-            },
-            {
-              "tool": "bash",
-              "argsHash": 14947075384967948000,
-              "timestamp": 1777570269348
-            },
-            {
-              "tool": "bash",
-              "argsHash": 14411533960867113000,
-              "timestamp": 1777570269349
-            }
-          ],
+          "lastSuccessTimeMs": 1777573711200,
+          "recentToolCalls": [],
           "warningIssued": false,
           "warningReason": "",
           "transientRetryCount": 0
@@ -1131,7 +1082,172 @@
       "pendingAdvisoryMessages": [],
       "taskWorkflowStates": {
         "1.2": "complete",
-        "2.1": "coder_delegated"
+        "2.1": "complete",
+        "1.1": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "idle",
+        "4.2": "idle"
+      },
+      "scopeViolationDetected": false,
+      "model_fallback_index": 0,
+      "modelFallbackExhausted": false,
+      "coderRevisions": 0,
+      "revisionLimitHit": false,
+      "fullAutoMode": false,
+      "fullAutoInteractionCount": 0,
+      "fullAutoDeadlockCount": 0,
+      "fullAutoLastQuestionHash": null,
+      "sessionRehydratedAt": 1777573711200
+    },
+    "ses_22088ceb2ffeelZxXlMNe2qLXt": {
+      "agentName": "coder",
+      "lastToolCallTime": 1777573711200,
+      "lastAgentEventTime": 1777573711200,
+      "delegationActive": false,
+      "activeInvocationId": 1,
+      "lastInvocationIdByAgent": {
+        "coder": 1
+      },
+      "windows": {
+        "coder:1": {
+          "id": 1,
+          "agentName": "coder",
+          "startedAtMs": 1777573711200,
+          "toolCalls": 0,
+          "consecutiveErrors": 0,
+          "hardLimitHit": false,
+          "lastSuccessTimeMs": 1777573711200,
+          "recentToolCalls": [],
+          "warningIssued": false,
+          "warningReason": "",
+          "transientRetryCount": 0
+        }
+      },
+      "lastCompactionHint": 0,
+      "architectWriteCount": 0,
+      "lastCoderDelegationTaskId": null,
+      "currentTaskId": null,
+      "turboMode": false,
+      "gateLog": {},
+      "reviewerCallCount": {},
+      "lastGateFailure": null,
+      "partialGateWarningsIssuedForTask": [],
+      "selfFixAttempted": false,
+      "selfCodingWarnedAtCount": 0,
+      "catastrophicPhaseWarnings": [],
+      "lastPhaseCompleteTimestamp": 0,
+      "lastPhaseCompletePhase": 0,
+      "phaseAgentsDispatched": [
+        "coder"
+      ],
+      "lastCompletedPhaseAgentsDispatched": [],
+      "qaSkipCount": 0,
+      "qaSkipTaskIds": [],
+      "pendingAdvisoryMessages": [],
+      "taskWorkflowStates": {
+        "1.1": "complete",
+        "1.2": "complete",
+        "2.1": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "idle",
+        "4.2": "idle"
+      },
+      "scopeViolationDetected": false,
+      "model_fallback_index": 0,
+      "modelFallbackExhausted": false,
+      "coderRevisions": 0,
+      "revisionLimitHit": false,
+      "fullAutoMode": false,
+      "fullAutoInteractionCount": 0,
+      "fullAutoDeadlockCount": 0,
+      "fullAutoLastQuestionHash": null,
+      "sessionRehydratedAt": 1777573711200
+    },
+    "ses_2205597d0ffe5Ml1gCkNZQaFBX": {
+      "agentName": "architect",
+      "lastToolCallTime": 1777574892339,
+      "lastAgentEventTime": 1777574581926,
+      "delegationActive": false,
+      "activeInvocationId": 0,
+      "lastInvocationIdByAgent": {},
+      "windows": {},
+      "lastCompactionHint": 150,
+      "architectWriteCount": 1,
+      "lastCoderDelegationTaskId": null,
+      "currentTaskId": null,
+      "turboMode": false,
+      "gateLog": {
+        "ses_2205597d0ffe5Ml1gCkNZQaFBX:unknown": [
+          "diff",
+          "syntax_check",
+          "placeholder_scan",
+          "imports",
+          "lint",
+          "build_check",
+          "pre_check_batch"
+        ]
+      },
+      "reviewerCallCount": {
+        "1": 2
+      },
+      "lastGateFailure": null,
+      "partialGateWarningsIssuedForTask": [
+        "ses_2205597d0ffe5Ml1gCkNZQaFBX:unknown"
+      ],
+      "selfFixAttempted": false,
+      "selfCodingWarnedAtCount": 1,
+      "catastrophicPhaseWarnings": [
+        1
+      ],
+      "lastPhaseCompleteTimestamp": 0,
+      "lastPhaseCompletePhase": 0,
+      "phaseAgentsDispatched": [
+        "architect"
+      ],
+      "lastCompletedPhaseAgentsDispatched": [],
+      "qaSkipCount": 0,
+      "qaSkipTaskIds": [],
+      "pendingAdvisoryMessages": [],
+      "taskWorkflowStates": {
+        "1.1": "complete",
+        "1.2": "complete",
+        "2.1": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "idle",
+        "4.2": "idle"
       },
       "scopeViolationDetected": false,
       "model_fallback_index": 0,
@@ -1144,10 +1260,85 @@
       "fullAutoLastQuestionHash": null,
       "sessionRehydratedAt": 0
     },
-    "ses_22088ceb2ffeelZxXlMNe2qLXt": {
+    "ses_220559690ffeq6e2iiWM6E5guE": {
+      "agentName": "curator_init",
+      "lastToolCallTime": 1777573980531,
+      "lastAgentEventTime": 1777573980531,
+      "delegationActive": true,
+      "activeInvocationId": 1,
+      "lastInvocationIdByAgent": {
+        "curator_init": 1
+      },
+      "windows": {
+        "curator_init:1": {
+          "id": 1,
+          "agentName": "curator_init",
+          "startedAtMs": 1777573980531,
+          "toolCalls": 0,
+          "consecutiveErrors": 0,
+          "hardLimitHit": false,
+          "lastSuccessTimeMs": 1777573980531,
+          "recentToolCalls": [],
+          "warningIssued": false,
+          "warningReason": "",
+          "transientRetryCount": 0
+        }
+      },
+      "lastCompactionHint": 0,
+      "architectWriteCount": 0,
+      "lastCoderDelegationTaskId": null,
+      "currentTaskId": null,
+      "turboMode": false,
+      "gateLog": {},
+      "reviewerCallCount": {},
+      "lastGateFailure": null,
+      "partialGateWarningsIssuedForTask": [],
+      "selfFixAttempted": false,
+      "selfCodingWarnedAtCount": 0,
+      "catastrophicPhaseWarnings": [],
+      "lastPhaseCompleteTimestamp": 0,
+      "lastPhaseCompletePhase": 0,
+      "phaseAgentsDispatched": [
+        "curator_init"
+      ],
+      "lastCompletedPhaseAgentsDispatched": [],
+      "qaSkipCount": 0,
+      "qaSkipTaskIds": [],
+      "pendingAdvisoryMessages": [],
+      "taskWorkflowStates": {
+        "1.1": "complete",
+        "1.2": "complete",
+        "2.1": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "idle",
+        "4.2": "idle"
+      },
+      "scopeViolationDetected": false,
+      "model_fallback_index": 0,
+      "modelFallbackExhausted": false,
+      "coderRevisions": 0,
+      "revisionLimitHit": false,
+      "fullAutoMode": false,
+      "fullAutoInteractionCount": 0,
+      "fullAutoDeadlockCount": 0,
+      "fullAutoLastQuestionHash": null,
+      "sessionRehydratedAt": 0
+    },
+    "ses_2205110f9ffekPpcQ7SbEoTNDu": {
       "agentName": "coder",
-      "lastToolCallTime": 1777570662065,
-      "lastAgentEventTime": 1777570623829,
+      "lastToolCallTime": 1777574290759,
+      "lastAgentEventTime": 1777574276878,
       "delegationActive": true,
       "activeInvocationId": 1,
       "lastInvocationIdByAgent": {
@@ -1157,41 +1348,61 @@
         "coder:1": {
           "id": 1,
           "agentName": "coder",
-          "startedAtMs": 1777570623829,
-          "toolCalls": 6,
+          "startedAtMs": 1777574276878,
+          "toolCalls": 10,
           "consecutiveErrors": 0,
           "hardLimitHit": false,
-          "lastSuccessTimeMs": 1777570662290,
+          "lastSuccessTimeMs": 1777574290762,
           "recentToolCalls": [
             {
               "tool": "read",
-              "argsHash": 3173456393802727400,
-              "timestamp": 1777570626095
-            },
-            {
-              "tool": "declare_scope",
-              "argsHash": 6107768197255973000,
-              "timestamp": 1777570628546
-            },
-            {
-              "tool": "declare_scope",
-              "argsHash": 3400637794730906600,
-              "timestamp": 1777570634037
-            },
-            {
-              "tool": "bash",
-              "argsHash": 14158283772578759000,
-              "timestamp": 1777570640862
-            },
-            {
-              "tool": "bash",
-              "argsHash": 766045027654833800,
-              "timestamp": 1777570652737
+              "argsHash": 634386153097404900,
+              "timestamp": 1777574279797
             },
             {
               "tool": "read",
-              "argsHash": 3173456393802727400,
-              "timestamp": 1777570662066
+              "argsHash": 7350483502972019000,
+              "timestamp": 1777574279880
+            },
+            {
+              "tool": "write",
+              "argsHash": 1009123417432217500,
+              "timestamp": 1777574282164
+            },
+            {
+              "tool": "write",
+              "argsHash": 14085877414860225000,
+              "timestamp": 1777574282175
+            },
+            {
+              "tool": "write",
+              "argsHash": 12251522105934197000,
+              "timestamp": 1777574286173
+            },
+            {
+              "tool": "write",
+              "argsHash": 18187176453934234000,
+              "timestamp": 1777574286180
+            },
+            {
+              "tool": "read",
+              "argsHash": 634386153097404900,
+              "timestamp": 1777574289155
+            },
+            {
+              "tool": "read",
+              "argsHash": 7350483502972019000,
+              "timestamp": 1777574289183
+            },
+            {
+              "tool": "read",
+              "argsHash": 16990531156780548000,
+              "timestamp": 1777574290668
+            },
+            {
+              "tool": "read",
+              "argsHash": 9110141757750593000,
+              "timestamp": 1777574290759
             }
           ],
           "warningIssued": false,
@@ -1220,7 +1431,216 @@
       "qaSkipCount": 0,
       "qaSkipTaskIds": [],
       "pendingAdvisoryMessages": [],
-      "taskWorkflowStates": {},
+      "taskWorkflowStates": {
+        "1.1": "complete",
+        "1.2": "complete",
+        "2.1": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "idle",
+        "4.2": "idle"
+      },
+      "scopeViolationDetected": false,
+      "model_fallback_index": 0,
+      "modelFallbackExhausted": false,
+      "coderRevisions": 0,
+      "revisionLimitHit": false,
+      "fullAutoMode": false,
+      "fullAutoInteractionCount": 0,
+      "fullAutoDeadlockCount": 0,
+      "fullAutoLastQuestionHash": null,
+      "sessionRehydratedAt": 0
+    },
+    "ses_2204f75d2ffeLqMw2uuQhbUjHE": {
+      "agentName": "reviewer",
+      "lastToolCallTime": 1777574382134,
+      "lastAgentEventTime": 1777574382134,
+      "delegationActive": true,
+      "activeInvocationId": 1,
+      "lastInvocationIdByAgent": {
+        "reviewer": 1
+      },
+      "windows": {
+        "reviewer:1": {
+          "id": 1,
+          "agentName": "reviewer",
+          "startedAtMs": 1777574382134,
+          "toolCalls": 0,
+          "consecutiveErrors": 0,
+          "hardLimitHit": false,
+          "lastSuccessTimeMs": 1777574382134,
+          "recentToolCalls": [],
+          "warningIssued": false,
+          "warningReason": "",
+          "transientRetryCount": 0
+        }
+      },
+      "lastCompactionHint": 0,
+      "architectWriteCount": 0,
+      "lastCoderDelegationTaskId": null,
+      "currentTaskId": null,
+      "turboMode": false,
+      "gateLog": {},
+      "reviewerCallCount": {},
+      "lastGateFailure": null,
+      "partialGateWarningsIssuedForTask": [],
+      "selfFixAttempted": false,
+      "selfCodingWarnedAtCount": 0,
+      "catastrophicPhaseWarnings": [],
+      "lastPhaseCompleteTimestamp": 0,
+      "lastPhaseCompletePhase": 0,
+      "phaseAgentsDispatched": [
+        "reviewer"
+      ],
+      "lastCompletedPhaseAgentsDispatched": [],
+      "qaSkipCount": 0,
+      "qaSkipTaskIds": [],
+      "pendingAdvisoryMessages": [],
+      "taskWorkflowStates": {
+        "1.1": "complete",
+        "1.2": "complete",
+        "2.1": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "idle",
+        "4.2": "idle"
+      },
+      "scopeViolationDetected": false,
+      "model_fallback_index": 0,
+      "modelFallbackExhausted": false,
+      "coderRevisions": 0,
+      "revisionLimitHit": false,
+      "fullAutoMode": false,
+      "fullAutoInteractionCount": 0,
+      "fullAutoDeadlockCount": 0,
+      "fullAutoLastQuestionHash": null,
+      "sessionRehydratedAt": 0
+    },
+    "ses_2204e1570ffeBKWmI7a4riPq9a": {
+      "agentName": "test_engineer",
+      "lastToolCallTime": 1777574568146,
+      "lastAgentEventTime": 1777574472343,
+      "delegationActive": true,
+      "activeInvocationId": 1,
+      "lastInvocationIdByAgent": {
+        "test_engineer": 1
+      },
+      "windows": {
+        "test_engineer:1": {
+          "id": 1,
+          "agentName": "test_engineer",
+          "startedAtMs": 1777574472343,
+          "toolCalls": 8,
+          "consecutiveErrors": 0,
+          "hardLimitHit": false,
+          "lastSuccessTimeMs": 1777574568742,
+          "recentToolCalls": [
+            {
+              "tool": "read",
+              "argsHash": 7565523740887943000,
+              "timestamp": 1777574487066
+            },
+            {
+              "tool": "glob",
+              "argsHash": 8893869375848655000,
+              "timestamp": 1777574511304
+            },
+            {
+              "tool": "bash",
+              "argsHash": 5880277484705127000,
+              "timestamp": 1777574525354
+            },
+            {
+              "tool": "bash",
+              "argsHash": 12740651406064105000,
+              "timestamp": 1777574533449
+            },
+            {
+              "tool": "bash",
+              "argsHash": 12275337679821916000,
+              "timestamp": 1777574540956
+            },
+            {
+              "tool": "bash",
+              "argsHash": 12165017251570346000,
+              "timestamp": 1777574553944
+            },
+            {
+              "tool": "bash",
+              "argsHash": 1899742022179480300,
+              "timestamp": 1777574561951
+            },
+            {
+              "tool": "bash",
+              "argsHash": 10948353401777120000,
+              "timestamp": 1777574568147
+            }
+          ],
+          "warningIssued": false,
+          "warningReason": "",
+          "transientRetryCount": 0
+        }
+      },
+      "lastCompactionHint": 0,
+      "architectWriteCount": 0,
+      "lastCoderDelegationTaskId": null,
+      "currentTaskId": null,
+      "turboMode": false,
+      "gateLog": {},
+      "reviewerCallCount": {},
+      "lastGateFailure": null,
+      "partialGateWarningsIssuedForTask": [],
+      "selfFixAttempted": false,
+      "selfCodingWarnedAtCount": 0,
+      "catastrophicPhaseWarnings": [],
+      "lastPhaseCompleteTimestamp": 0,
+      "lastPhaseCompletePhase": 0,
+      "phaseAgentsDispatched": [
+        "test_engineer"
+      ],
+      "lastCompletedPhaseAgentsDispatched": [],
+      "qaSkipCount": 0,
+      "qaSkipTaskIds": [],
+      "pendingAdvisoryMessages": [],
+      "taskWorkflowStates": {
+        "1.1": "complete",
+        "1.2": "complete",
+        "2.1": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "idle",
+        "4.2": "idle"
+      },
       "scopeViolationDetected": false,
       "model_fallback_index": 0,
       "modelFallbackExhausted": false,

@@ -34,12 +34,12 @@
     {
       "id": 2,
       "name": "Next.js 14 to 15 Upgrade",
-      "status": "in_progress",
+      "status": "pending",
       "tasks": [
         {
           "id": "2.1",
           "phase": 2,
-          "status": "in_progress",
+          "status": "completed",
           "size": "small",
           "description": "Upgrade core dependencies: update package.json with next@^15, react@^19, react-dom@^19, @types/react@^19, @types/react-dom@^19, eslint-config-next@^15. Run npm install.",
           "depends": [
@@ -51,7 +51,7 @@
         {
           "id": "2.2",
           "phase": 2,
-          "status": "pending",
+          "status": "completed",
           "size": "medium",
           "description": "Run @next/codemod on src/app/ directory transforms. Then run on src/components/ and src/lib/. Review each codemod output file for correctness before committing.",
           "depends": [
