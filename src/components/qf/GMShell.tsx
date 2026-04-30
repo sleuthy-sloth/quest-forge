@@ -9,12 +9,19 @@ import { Embershard } from './Embershard'
 import { Embers } from './Embers'
 import { HPBar } from './HPBar'
 import { useNotifications } from '@/hooks/useNotifications'
+import BossSprite from '@/components/boss/BossSprite'
 
 interface GMShellProps {
   children: ReactNode
   householdName: string
   displayName: string
-  weeklyBoss?: { name: string; hpPct: number; current: number; max: number } | null
+  weeklyBoss?: { 
+    name: string; 
+    hpPct: number; 
+    current: number; 
+    max: number;
+    spriteConfig?: any;
+  } | null
   userId: string
   householdId: string
   role: 'gm' | 'player'
@@ -414,25 +421,54 @@ export function GMShell({ children, householdName, displayName, weeklyBoss, user
                   border: '1px solid var(--qf-rule)',
                   background: 'var(--qf-bg-card-alt)',
                   marginBottom: 10,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 8,
                 }}
               >
                 <div
-                  className="font-pixel"
                   style={{
-                    fontSize: 10,
-                    color: 'var(--qf-parchment-muted)',
-                    letterSpacing: '0.1em',
-                    marginBottom: 6,
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'baseline',
                   }}
                 >
-                  WEEKLY BOSS
+                  <div
+                    className="font-pixel"
+                    style={{
+                      fontSize: 10,
+                      color: 'var(--qf-parchment-muted)',
+                      letterSpacing: '0.1em',
+                    }}
+                  >
+                    WEEKLY BOSS
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 9,
+                      fontFamily: 'var(--font-pixel)',
+                      color: weeklyBoss.hpPct < 25 ? 'var(--qf-error)' : 'var(--qf-parchment-muted)',
+                    }}
+                  >
+                    {weeklyBoss.hpPct}%
+                  </div>
                 </div>
+
+                {weeklyBoss.spriteConfig && (
+                  <div style={{ margin: '4px 0', transform: 'scale(0.6)', height: 80, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <BossSprite config={{ ...weeklyBoss.spriteConfig, scale: 0.8 }} />
+                  </div>
+                )}
+
                 <div
                   className="font-heading"
                   style={{
                     fontSize: 12,
                     color: 'var(--qf-gold-300)',
-                    marginBottom: 8,
+                    textAlign: 'center',
+                    width: '100%',
                   }}
                 >
                   {weeklyBoss.name}

@@ -372,7 +372,12 @@ export default function BossArena({ householdId }: BossArenaProps) {
               </div>
 
               <div style={{ position: 'relative', zIndex: 10 }}>
-                <BossSprite key={bossState.chapterId} ref={spriteRef} config={bossState.boss.spriteConfig} />
+                <BossSprite 
+                  key={bossState.chapterId} 
+                  ref={spriteRef} 
+                  config={bossState.boss.spriteConfig} 
+                  hpPct={hpPct}
+                />
                 
                 {/* Damage bursts */}
                 <AnimatePresence>

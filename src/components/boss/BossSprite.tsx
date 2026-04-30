@@ -214,11 +214,12 @@ CanvasBossRenderer.displayName = 'CanvasBossRenderer'
 // Main Component: BossSprite
 // ---------------------------------------------------------------------------
 
-const BossSprite = forwardRef<BossSpriteHandle, { config: BossSpriteConfig }>(
-  function BossSprite({ config }, ref) {
+const BossSprite = forwardRef<BossSpriteHandle, { config: BossSpriteConfig; hpPct?: number }>(
+  function BossSprite({ config, hpPct = 100 }, ref) {
     const flashRef  = useRef<HTMLDivElement>(null)
     const childRef  = useRef<BossSpriteHandle>(null)
     const [isDefeated, setIsDefeated] = useState(false)
+    const [isShaking, setIsShaking] = useState(false)
 
     const spriteInfo = BOSS_SPRITE_MANIFEST[config.base_sprite]
     const palette    = BOSS_PALETTES[config.palette] ?? BOSS_PALETTES.hollow_dark
@@ -229,6 +230,9 @@ const BossSprite = forwardRef<BossSpriteHandle, { config: BossSpriteConfig }>(
 
     useImperativeHandle(ref, () => ({
       takeDamage() {
+        setIsShaking(true)
+        setTimeout(() => setIsShaking(false), 300)
+        
         const flash = flashRef.current
         if (!flash) return
         flash.style.opacity = '0.6'
@@ -263,19 +267,26 @@ const BossSprite = forwardRef<BossSpriteHandle, { config: BossSpriteConfig }>(
             <motion.div
               key="sprite-content"
               initial={{ opacity: 1, scale: 1 }}
+              animate={isShaking ? {
+                x: [-6, 6, -6, 6, -3, 3, 0],
+                filter: [`drop-shadow(0 0 12px ${config.glow_color})`, `drop-shadow(0 0 24px #ff0000)`, `drop-shadow(0 0 12px ${config.glow_color})`]
+              } : {
+                x: 0,
+                filter: `drop-shadow(0 0 12px ${config.glow_color})`
+              }}
               exit={{ 
                 opacity: 0, 
                 scale: 0.5, 
                 filter: 'blur(20px)',
                 transition: { duration: 0.8, ease: "easeIn" } 
               }}
+              transition={isShaking ? { duration: 0.3 } : {}}
               style={{
                 width: '100%',
                 height: '100%',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                filter: `drop-shadow(0 0 12px ${config.glow_color})`,
               }}
             >
               {isProcedural ? (() => {
@@ -285,6 +296,7 @@ const BossSprite = forwardRef<BossSpriteHandle, { config: BossSpriteConfig }>(
                     palette={palette}
                     size={displaySize}
                     glowColor={config.glow_color}
+                    hpPct={hpPct}
                   />
                 ) : (
                   <div style={{ color: '#555' }}>registry error</div>

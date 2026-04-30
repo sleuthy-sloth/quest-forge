@@ -37,7 +37,7 @@ export default async function DashboardLayout({
   // Active boss — is_unlocked=false while the battle is in progress.
   const { data: boss } = await supabase
     .from('story_chapters')
-    .select('boss_name, boss_hp, boss_current_hp')
+    .select('boss_name, boss_hp, boss_current_hp, boss_sprite_config')
     .eq('household_id', profile.household_id)
     .eq('is_unlocked', false)
     .gt('boss_current_hp', 0)
@@ -51,6 +51,7 @@ export default async function DashboardLayout({
         current: boss.boss_current_hp ?? boss.boss_hp ?? 0,
         max: boss.boss_hp ?? 1,
         hpPct: Math.round(((boss.boss_current_hp ?? boss.boss_hp) / (boss.boss_hp || 1)) * 100),
+        spriteConfig: boss.boss_sprite_config as any,
       }
     : null
 
