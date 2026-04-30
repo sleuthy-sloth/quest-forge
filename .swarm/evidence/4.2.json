@@ -1,0 +1,6 @@
+{
+  "taskId": "4.2",
+  "required_gates": [],
+  "gates": {},
+  "notes": "Regression sweep: test_impact analysis on all changed auth/middleware/layout files. Ran 125 tests across 11 test files — all pass. No regressions detected."
+}

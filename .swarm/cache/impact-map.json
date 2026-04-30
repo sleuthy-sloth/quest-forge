@@ -1,0 +1,39 @@
+{
+  "generatedAt": "2026-04-30T19:17:14.919Z",
+  "fileCount": 11,
+  "map": {
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/PixelButton.tsx": [
+      "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/__tests__/PixelButton.test.tsx"
+    ],
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/XPBar.tsx": [
+      "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/__tests__/XPBar.test.tsx"
+    ],
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/rate-limiter.ts": [
+      "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/__tests__/rate-limiter.test.ts"
+    ],
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/xp.ts": [
+      "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/__tests__/xp.test.ts"
+    ],
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/sprites/particles.ts": [
+      "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/__tests__/particles.test.ts"
+    ],
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/sprites/palette.ts": [
+      "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/__tests__/palette.test.ts"
+    ],
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/sanitize.ts": [
+      "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/__tests__/sanitize.test.ts"
+    ],
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/body-limit.ts": [
+      "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/__tests__/body-limit.test.ts"
+    ],
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/middleware.ts": [
+      "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/__tests__/middleware.test.ts"
+    ],
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/rate-limiter.ts": [
+      "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/__tests__/rate-limiter.test.ts"
+    ],
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/csrf.ts": [
+      "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/__tests__/csrf.test.ts"
+    ]
+  }
+}

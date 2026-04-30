@@ -1,27 +1,27 @@
 {
   "version": 2,
-  "writtenAt": 1777574899776,
+  "writtenAt": 1777576854068,
   "toolAggregates": {
     "bash": {
       "tool": "bash",
-      "count": 183,
-      "successCount": 183,
+      "count": 224,
+      "successCount": 224,
       "failureCount": 0,
-      "totalDuration": 322144
+      "totalDuration": 633529
     },
     "read": {
       "tool": "read",
-      "count": 131,
-      "successCount": 131,
+      "count": 156,
+      "successCount": 156,
       "failureCount": 0,
-      "totalDuration": 2380
+      "totalDuration": 2830
     },
     "glob": {
       "tool": "glob",
-      "count": 23,
-      "successCount": 23,
+      "count": 26,
+      "successCount": 26,
       "failureCount": 0,
-      "totalDuration": 811
+      "totalDuration": 946
     },
     "complexity_hotspots": {
       "tool": "complexity_hotspots",
@@ -46,24 +46,24 @@
     },
     "grep": {
       "tool": "grep",
-      "count": 6,
-      "successCount": 6,
+      "count": 10,
+      "successCount": 10,
       "failureCount": 0,
-      "totalDuration": 319
+      "totalDuration": 460
     },
     "task": {
       "tool": "task",
-      "count": 39,
-      "successCount": 39,
+      "count": 44,
+      "successCount": 44,
       "failureCount": 0,
-      "totalDuration": 7911229
+      "totalDuration": 8276768
     },
     "write": {
       "tool": "write",
-      "count": 12,
-      "successCount": 12,
+      "count": 31,
+      "successCount": 31,
       "failureCount": 0,
-      "totalDuration": 181
+      "totalDuration": 346
     },
     "detect_domains": {
       "tool": "detect_domains",
@@ -81,31 +81,31 @@
     },
     "edit": {
       "tool": "edit",
-      "count": 19,
-      "successCount": 19,
+      "count": 26,
+      "successCount": 26,
       "failureCount": 0,
-      "totalDuration": 479
+      "totalDuration": 580
     },
     "save_plan": {
       "tool": "save_plan",
-      "count": 4,
-      "successCount": 4,
+      "count": 6,
+      "successCount": 6,
       "failureCount": 0,
-      "totalDuration": 138
+      "totalDuration": 188
     },
     "set_qa_gates": {
       "tool": "set_qa_gates",
-      "count": 2,
-      "successCount": 2,
+      "count": 3,
+      "successCount": 3,
       "failureCount": 0,
-      "totalDuration": 28
+      "totalDuration": 39
     },
     "update_task_status": {
       "tool": "update_task_status",
-      "count": 69,
-      "successCount": 69,
+      "count": 93,
+      "successCount": 93,
       "failureCount": 0,
-      "totalDuration": 580
+      "totalDuration": 939
     },
     "sast_scan": {
       "tool": "sast_scan",
@@ -123,10 +123,10 @@
     },
     "sbom_generate": {
       "tool": "sbom_generate",
-      "count": 1,
-      "successCount": 1,
+      "count": 2,
+      "successCount": 2,
       "failureCount": 0,
-      "totalDuration": 67
+      "totalDuration": 91
     },
     "pkg_audit": {
       "tool": "pkg_audit",
@@ -179,59 +179,59 @@
     },
     "todowrite": {
       "tool": "todowrite",
-      "count": 4,
-      "successCount": 4,
+      "count": 9,
+      "successCount": 9,
       "failureCount": 0,
-      "totalDuration": 43
+      "totalDuration": 95
     },
     "write_retro": {
       "tool": "write_retro",
-      "count": 1,
-      "successCount": 1,
+      "count": 4,
+      "successCount": 4,
       "failureCount": 0,
-      "totalDuration": 16
+      "totalDuration": 49
     },
     "phase_complete": {
       "tool": "phase_complete",
-      "count": 3,
-      "successCount": 3,
+      "count": 7,
+      "successCount": 7,
       "failureCount": 0,
-      "totalDuration": 27592
+      "totalDuration": 118480
     },
     "get_approved_plan": {
       "tool": "get_approved_plan",
-      "count": 2,
-      "successCount": 2,
+      "count": 6,
+      "successCount": 6,
       "failureCount": 0,
-      "totalDuration": 37
+      "totalDuration": 89
     },
     "req_coverage": {
       "tool": "req_coverage",
-      "count": 1,
-      "successCount": 1,
+      "count": 5,
+      "successCount": 5,
       "failureCount": 0,
-      "totalDuration": 17
+      "totalDuration": 29
     },
     "write_drift_evidence": {
       "tool": "write_drift_evidence",
-      "count": 1,
-      "successCount": 1,
+      "count": 4,
+      "successCount": 4,
       "failureCount": 0,
-      "totalDuration": 53
+      "totalDuration": 120
     },
     "declare_scope": {
       "tool": "declare_scope",
-      "count": 12,
-      "successCount": 12,
+      "count": 16,
+      "successCount": 16,
       "failureCount": 0,
-      "totalDuration": 123
+      "totalDuration": 138
     },
     "knowledge_add": {
       "tool": "knowledge_add",
-      "count": 2,
-      "successCount": 2,
+      "count": 4,
+      "successCount": 4,
       "failureCount": 0,
-      "totalDuration": 47
+      "totalDuration": 74
     },
     "diff": {
       "tool": "diff",
@@ -263,10 +263,24 @@
     },
     "get_qa_gate_profile": {
       "tool": "get_qa_gate_profile",
+      "count": 2,
+      "successCount": 2,
+      "failureCount": 0,
+      "totalDuration": 11
+    },
+    "evidence_check": {
+      "tool": "evidence_check",
       "count": 1,
       "successCount": 1,
       "failureCount": 0,
-      "totalDuration": 6
+      "totalDuration": 9
+    },
+    "test_impact": {
+      "tool": "test_impact",
+      "count": 1,
+      "successCount": 1,
+      "failureCount": 0,
+      "totalDuration": 55
     }
   },
   "activeAgent": {
@@ -313,7 +327,15 @@
     "ses_220559690ffeq6e2iiWM6E5guE": "curator_init",
     "ses_2205110f9ffekPpcQ7SbEoTNDu": "coder",
     "ses_2204f75d2ffeLqMw2uuQhbUjHE": "reviewer",
-    "ses_2204e1570ffeBKWmI7a4riPq9a": "test_engineer"
+    "ses_2204e1570ffeBKWmI7a4riPq9a": "test_engineer",
+    "ses_22043e557ffeNJBGsIOW7KJpUX": "critic_drift_verifier",
+    "ses_220420587ffeHHLWiXjhlzlC03": "curator_phase",
+    "ses_22040d89dffe4LQSDBF5e8K7OA": "coder",
+    "ses_2203662c5ffefPpwQ8zRKjOBsJ": "critic_drift_verifier",
+    "ses_220345ad6ffe2tNiNmEwEZdI7m": "critic_drift_verifier",
+    "ses_2203305b6ffe88ZsKtAWKueg4K": "critic_drift_verifier",
+    "ses_2203189e5ffeG4JC8GHp1zsJgz": "curator_phase",
+    "ses_2202af8d6ffeEMGxaBl5nOAtn5": "curator_phase"
   },
   "delegationChains": {
     "ses_221582041ffeuSvdqCQE7veYeG": [
@@ -357,7 +379,7 @@
       "lastCompactionHint": 150,
       "architectWriteCount": 0,
       "lastCoderDelegationTaskId": null,
-      "currentTaskId": "2.1",
+      "currentTaskId": "4.1",
       "turboMode": false,
       "gateLog": {
         "1.1": [
@@ -391,14 +413,11 @@
       "selfFixAttempted": false,
       "selfCodingWarnedAtCount": 0,
       "catastrophicPhaseWarnings": [],
-      "lastPhaseCompleteTimestamp": 1777563218585,
-      "lastPhaseCompletePhase": 1,
-      "phaseAgentsDispatched": [
-        "architect"
-      ],
+      "lastPhaseCompleteTimestamp": 1777575296192,
+      "lastPhaseCompletePhase": 2,
+      "phaseAgentsDispatched": [],
       "lastCompletedPhaseAgentsDispatched": [
-        "architect",
-        "build"
+        "architect"
       ],
       "qaSkipCount": 0,
       "qaSkipTaskIds": [],
@@ -421,7 +440,7 @@
         "3.3": "idle",
         "3.4": "idle",
         "3.5": "idle",
-        "4.1": "idle",
+        "4.1": "coder_delegated",
         "4.2": "idle"
       },
       "scopeViolationDetected": false,
@@ -462,7 +481,7 @@
       "lastCompactionHint": 0,
       "architectWriteCount": 0,
       "lastCoderDelegationTaskId": null,
-      "currentTaskId": "2.1",
+      "currentTaskId": "4.1",
       "turboMode": false,
       "gateLog": {},
       "reviewerCallCount": {},
@@ -471,12 +490,12 @@
       "selfFixAttempted": false,
       "selfCodingWarnedAtCount": 0,
       "catastrophicPhaseWarnings": [],
-      "lastPhaseCompleteTimestamp": 0,
-      "lastPhaseCompletePhase": 0,
-      "phaseAgentsDispatched": [
+      "lastPhaseCompleteTimestamp": 1777575296192,
+      "lastPhaseCompletePhase": 2,
+      "phaseAgentsDispatched": [],
+      "lastCompletedPhaseAgentsDispatched": [
         "coder"
       ],
-      "lastCompletedPhaseAgentsDispatched": [],
       "qaSkipCount": 0,
       "qaSkipTaskIds": [],
       "pendingAdvisoryMessages": [],
@@ -496,7 +515,7 @@
         "3.3": "idle",
         "3.4": "idle",
         "3.5": "idle",
-        "4.1": "idle",
+        "4.1": "coder_delegated",
         "4.2": "idle"
       },
       "scopeViolationDetected": false,
@@ -537,7 +556,7 @@
       "lastCompactionHint": 0,
       "architectWriteCount": 0,
       "lastCoderDelegationTaskId": null,
-      "currentTaskId": "2.1",
+      "currentTaskId": "4.1",
       "turboMode": false,
       "gateLog": {},
       "reviewerCallCount": {},
@@ -546,12 +565,12 @@
       "selfFixAttempted": false,
       "selfCodingWarnedAtCount": 0,
       "catastrophicPhaseWarnings": [],
-      "lastPhaseCompleteTimestamp": 0,
-      "lastPhaseCompletePhase": 0,
-      "phaseAgentsDispatched": [
+      "lastPhaseCompleteTimestamp": 1777575296192,
+      "lastPhaseCompletePhase": 2,
+      "phaseAgentsDispatched": [],
+      "lastCompletedPhaseAgentsDispatched": [
         "reviewer"
       ],
-      "lastCompletedPhaseAgentsDispatched": [],
       "qaSkipCount": 0,
       "qaSkipTaskIds": [],
       "pendingAdvisoryMessages": [],
@@ -571,7 +590,7 @@
         "3.3": "idle",
         "3.4": "idle",
         "3.5": "idle",
-        "4.1": "idle",
+        "4.1": "coder_delegated",
         "4.2": "idle"
       },
       "scopeViolationDetected": false,
@@ -612,7 +631,7 @@
       "lastCompactionHint": 0,
       "architectWriteCount": 0,
       "lastCoderDelegationTaskId": null,
-      "currentTaskId": "2.1",
+      "currentTaskId": "4.1",
       "turboMode": false,
       "gateLog": {},
       "reviewerCallCount": {},
@@ -621,12 +640,12 @@
       "selfFixAttempted": false,
       "selfCodingWarnedAtCount": 0,
       "catastrophicPhaseWarnings": [],
-      "lastPhaseCompleteTimestamp": 0,
-      "lastPhaseCompletePhase": 0,
-      "phaseAgentsDispatched": [
+      "lastPhaseCompleteTimestamp": 1777575296192,
+      "lastPhaseCompletePhase": 2,
+      "phaseAgentsDispatched": [],
+      "lastCompletedPhaseAgentsDispatched": [
         "test_engineer"
       ],
-      "lastCompletedPhaseAgentsDispatched": [],
       "qaSkipCount": 0,
       "qaSkipTaskIds": [],
       "pendingAdvisoryMessages": [],
@@ -646,7 +665,7 @@
         "3.3": "idle",
         "3.4": "idle",
         "3.5": "idle",
-        "4.1": "idle",
+        "4.1": "coder_delegated",
         "4.2": "idle"
       },
       "scopeViolationDetected": false,
@@ -687,7 +706,7 @@
       "lastCompactionHint": 0,
       "architectWriteCount": 0,
       "lastCoderDelegationTaskId": null,
-      "currentTaskId": "2.1",
+      "currentTaskId": "4.1",
       "turboMode": false,
       "gateLog": {},
       "reviewerCallCount": {},
@@ -696,12 +715,12 @@
       "selfFixAttempted": false,
       "selfCodingWarnedAtCount": 0,
       "catastrophicPhaseWarnings": [],
-      "lastPhaseCompleteTimestamp": 0,
-      "lastPhaseCompletePhase": 0,
-      "phaseAgentsDispatched": [
+      "lastPhaseCompleteTimestamp": 1777575296192,
+      "lastPhaseCompletePhase": 2,
+      "phaseAgentsDispatched": [],
+      "lastCompletedPhaseAgentsDispatched": [
         "docs"
       ],
-      "lastCompletedPhaseAgentsDispatched": [],
       "qaSkipCount": 0,
       "qaSkipTaskIds": [],
       "pendingAdvisoryMessages": [],
@@ -721,7 +740,7 @@
         "3.3": "idle",
         "3.4": "idle",
         "3.5": "idle",
-        "4.1": "idle",
+        "4.1": "coder_delegated",
         "4.2": "idle"
       },
       "scopeViolationDetected": false,
@@ -762,7 +781,7 @@
       "lastCompactionHint": 0,
       "architectWriteCount": 0,
       "lastCoderDelegationTaskId": null,
-      "currentTaskId": "2.1",
+      "currentTaskId": "4.1",
       "turboMode": false,
       "gateLog": {},
       "reviewerCallCount": {},
@@ -771,12 +790,12 @@
       "selfFixAttempted": false,
       "selfCodingWarnedAtCount": 0,
       "catastrophicPhaseWarnings": [],
-      "lastPhaseCompleteTimestamp": 0,
-      "lastPhaseCompletePhase": 0,
-      "phaseAgentsDispatched": [
+      "lastPhaseCompleteTimestamp": 1777575296192,
+      "lastPhaseCompletePhase": 2,
+      "phaseAgentsDispatched": [],
+      "lastCompletedPhaseAgentsDispatched": [
         "coder"
       ],
-      "lastCompletedPhaseAgentsDispatched": [],
       "qaSkipCount": 0,
       "qaSkipTaskIds": [],
       "pendingAdvisoryMessages": [],
@@ -796,7 +815,7 @@
         "3.3": "idle",
         "3.4": "idle",
         "3.5": "idle",
-        "4.1": "idle",
+        "4.1": "coder_delegated",
         "4.2": "idle"
       },
       "scopeViolationDetected": false,
@@ -837,7 +856,7 @@
       "lastCompactionHint": 0,
       "architectWriteCount": 0,
       "lastCoderDelegationTaskId": null,
-      "currentTaskId": "2.1",
+      "currentTaskId": "4.1",
       "turboMode": false,
       "gateLog": {},
       "reviewerCallCount": {},
@@ -846,12 +865,12 @@
       "selfFixAttempted": false,
       "selfCodingWarnedAtCount": 0,
       "catastrophicPhaseWarnings": [],
-      "lastPhaseCompleteTimestamp": 0,
-      "lastPhaseCompletePhase": 0,
-      "phaseAgentsDispatched": [
+      "lastPhaseCompleteTimestamp": 1777575296192,
+      "lastPhaseCompletePhase": 2,
+      "phaseAgentsDispatched": [],
+      "lastCompletedPhaseAgentsDispatched": [
         "critic"
       ],
-      "lastCompletedPhaseAgentsDispatched": [],
       "qaSkipCount": 0,
       "qaSkipTaskIds": [],
       "pendingAdvisoryMessages": [],
@@ -871,7 +890,7 @@
         "3.3": "idle",
         "3.4": "idle",
         "3.5": "idle",
-        "4.1": "idle",
+        "4.1": "coder_delegated",
         "4.2": "idle"
       },
       "scopeViolationDetected": false,
@@ -912,7 +931,7 @@
       "lastCompactionHint": 0,
       "architectWriteCount": 0,
       "lastCoderDelegationTaskId": null,
-      "currentTaskId": "2.1",
+      "currentTaskId": "4.1",
       "turboMode": false,
       "gateLog": {},
       "reviewerCallCount": {},
@@ -921,12 +940,12 @@
       "selfFixAttempted": false,
       "selfCodingWarnedAtCount": 0,
       "catastrophicPhaseWarnings": [],
-      "lastPhaseCompleteTimestamp": 0,
-      "lastPhaseCompletePhase": 0,
-      "phaseAgentsDispatched": [
+      "lastPhaseCompleteTimestamp": 1777575296192,
+      "lastPhaseCompletePhase": 2,
+      "phaseAgentsDispatched": [],
+      "lastCompletedPhaseAgentsDispatched": [
         "critic"
       ],
-      "lastCompletedPhaseAgentsDispatched": [],
       "qaSkipCount": 0,
       "qaSkipTaskIds": [],
       "pendingAdvisoryMessages": [],
@@ -946,7 +965,7 @@
         "3.3": "idle",
         "3.4": "idle",
         "3.5": "idle",
-        "4.1": "idle",
+        "4.1": "coder_delegated",
         "4.2": "idle"
       },
       "scopeViolationDetected": false,
@@ -987,7 +1006,7 @@
       "lastCompactionHint": 0,
       "architectWriteCount": 0,
       "lastCoderDelegationTaskId": null,
-      "currentTaskId": "2.1",
+      "currentTaskId": "4.1",
       "turboMode": false,
       "gateLog": {},
       "reviewerCallCount": {},
@@ -996,12 +1015,12 @@
       "selfFixAttempted": false,
       "selfCodingWarnedAtCount": 0,
       "catastrophicPhaseWarnings": [],
-      "lastPhaseCompleteTimestamp": 0,
-      "lastPhaseCompletePhase": 0,
-      "phaseAgentsDispatched": [
+      "lastPhaseCompleteTimestamp": 1777575296192,
+      "lastPhaseCompletePhase": 2,
+      "phaseAgentsDispatched": [],
+      "lastCompletedPhaseAgentsDispatched": [
         "reviewer"
       ],
-      "lastCompletedPhaseAgentsDispatched": [],
       "qaSkipCount": 0,
       "qaSkipTaskIds": [],
       "pendingAdvisoryMessages": [],
@@ -1021,7 +1040,7 @@
         "3.3": "idle",
         "3.4": "idle",
         "3.5": "idle",
-        "4.1": "idle",
+        "4.1": "coder_delegated",
         "4.2": "idle"
       },
       "scopeViolationDetected": false,
@@ -1062,7 +1081,7 @@
       "lastCompactionHint": 0,
       "architectWriteCount": 0,
       "lastCoderDelegationTaskId": null,
-      "currentTaskId": "2.1",
+      "currentTaskId": "4.1",
       "turboMode": false,
       "gateLog": {},
       "reviewerCallCount": {},
@@ -1071,12 +1090,12 @@
       "selfFixAttempted": false,
       "selfCodingWarnedAtCount": 0,
       "catastrophicPhaseWarnings": [],
-      "lastPhaseCompleteTimestamp": 0,
-      "lastPhaseCompletePhase": 0,
-      "phaseAgentsDispatched": [
+      "lastPhaseCompleteTimestamp": 1777575296192,
+      "lastPhaseCompletePhase": 2,
+      "phaseAgentsDispatched": [],
+      "lastCompletedPhaseAgentsDispatched": [
         "test_engineer"
       ],
-      "lastCompletedPhaseAgentsDispatched": [],
       "qaSkipCount": 0,
       "qaSkipTaskIds": [],
       "pendingAdvisoryMessages": [],
@@ -1096,7 +1115,7 @@
         "3.3": "idle",
         "3.4": "idle",
         "3.5": "idle",
-        "4.1": "idle",
+        "4.1": "coder_delegated",
         "4.2": "idle"
       },
       "scopeViolationDetected": false,
@@ -1137,7 +1156,7 @@
       "lastCompactionHint": 0,
       "architectWriteCount": 0,
       "lastCoderDelegationTaskId": null,
-      "currentTaskId": null,
+      "currentTaskId": "4.1",
       "turboMode": false,
       "gateLog": {},
       "reviewerCallCount": {},
@@ -1146,12 +1165,12 @@
       "selfFixAttempted": false,
       "selfCodingWarnedAtCount": 0,
       "catastrophicPhaseWarnings": [],
-      "lastPhaseCompleteTimestamp": 0,
-      "lastPhaseCompletePhase": 0,
-      "phaseAgentsDispatched": [
+      "lastPhaseCompleteTimestamp": 1777575296192,
+      "lastPhaseCompletePhase": 2,
+      "phaseAgentsDispatched": [],
+      "lastCompletedPhaseAgentsDispatched": [
         "coder"
       ],
-      "lastCompletedPhaseAgentsDispatched": [],
       "qaSkipCount": 0,
       "qaSkipTaskIds": [],
       "pendingAdvisoryMessages": [],
@@ -1171,7 +1190,7 @@
         "3.3": "idle",
         "3.4": "idle",
         "3.5": "idle",
-        "4.1": "idle",
+        "4.1": "coder_delegated",
         "4.2": "idle"
       },
       "scopeViolationDetected": false,
@@ -1187,16 +1206,16 @@
     },
     "ses_2205597d0ffe5Ml1gCkNZQaFBX": {
       "agentName": "architect",
-      "lastToolCallTime": 1777574892339,
-      "lastAgentEventTime": 1777574581926,
+      "lastToolCallTime": 1777576846719,
+      "lastAgentEventTime": 1777576330872,
       "delegationActive": false,
       "activeInvocationId": 0,
       "lastInvocationIdByAgent": {},
       "windows": {},
       "lastCompactionHint": 150,
-      "architectWriteCount": 1,
+      "architectWriteCount": 4,
       "lastCoderDelegationTaskId": null,
-      "currentTaskId": null,
+      "currentTaskId": "4.1",
       "turboMode": false,
       "gateLog": {
         "ses_2205597d0ffe5Ml1gCkNZQaFBX:unknown": [
@@ -1214,19 +1233,24 @@
       },
       "lastGateFailure": null,
       "partialGateWarningsIssuedForTask": [
-        "ses_2205597d0ffe5Ml1gCkNZQaFBX:unknown"
+        "ses_2205597d0ffe5Ml1gCkNZQaFBX:unknown",
+        "4.1"
       ],
       "selfFixAttempted": false,
-      "selfCodingWarnedAtCount": 1,
+      "selfCodingWarnedAtCount": 4,
       "catastrophicPhaseWarnings": [
-        1
+        1,
+        3,
+        4
       ],
-      "lastPhaseCompleteTimestamp": 0,
-      "lastPhaseCompletePhase": 0,
+      "lastPhaseCompleteTimestamp": 1777576804477,
+      "lastPhaseCompletePhase": 4,
       "phaseAgentsDispatched": [
         "architect"
       ],
-      "lastCompletedPhaseAgentsDispatched": [],
+      "lastCompletedPhaseAgentsDispatched": [
+        "architect"
+      ],
       "qaSkipCount": 0,
       "qaSkipTaskIds": [],
       "pendingAdvisoryMessages": [],
@@ -1246,7 +1270,7 @@
         "3.3": "idle",
         "3.4": "idle",
         "3.5": "idle",
-        "4.1": "idle",
+        "4.1": "coder_delegated",
         "4.2": "idle"
       },
       "scopeViolationDetected": false,
@@ -1287,7 +1311,7 @@
       "lastCompactionHint": 0,
       "architectWriteCount": 0,
       "lastCoderDelegationTaskId": null,
-      "currentTaskId": null,
+      "currentTaskId": "4.1",
       "turboMode": false,
       "gateLog": {},
       "reviewerCallCount": {},
@@ -1296,12 +1320,12 @@
       "selfFixAttempted": false,
       "selfCodingWarnedAtCount": 0,
       "catastrophicPhaseWarnings": [],
-      "lastPhaseCompleteTimestamp": 0,
-      "lastPhaseCompletePhase": 0,
-      "phaseAgentsDispatched": [
+      "lastPhaseCompleteTimestamp": 1777575296192,
+      "lastPhaseCompletePhase": 2,
+      "phaseAgentsDispatched": [],
+      "lastCompletedPhaseAgentsDispatched": [
         "curator_init"
       ],
-      "lastCompletedPhaseAgentsDispatched": [],
       "qaSkipCount": 0,
       "qaSkipTaskIds": [],
       "pendingAdvisoryMessages": [],
@@ -1321,7 +1345,7 @@
         "3.3": "idle",
         "3.4": "idle",
         "3.5": "idle",
-        "4.1": "idle",
+        "4.1": "coder_delegated",
         "4.2": "idle"
       },
       "scopeViolationDetected": false,
@@ -1413,7 +1437,7 @@
       "lastCompactionHint": 0,
       "architectWriteCount": 0,
       "lastCoderDelegationTaskId": null,
-      "currentTaskId": null,
+      "currentTaskId": "4.1",
       "turboMode": false,
       "gateLog": {},
       "reviewerCallCount": {},
@@ -1422,12 +1446,12 @@
       "selfFixAttempted": false,
       "selfCodingWarnedAtCount": 0,
       "catastrophicPhaseWarnings": [],
-      "lastPhaseCompleteTimestamp": 0,
-      "lastPhaseCompletePhase": 0,
-      "phaseAgentsDispatched": [
+      "lastPhaseCompleteTimestamp": 1777575296192,
+      "lastPhaseCompletePhase": 2,
+      "phaseAgentsDispatched": [],
+      "lastCompletedPhaseAgentsDispatched": [
         "coder"
       ],
-      "lastCompletedPhaseAgentsDispatched": [],
       "qaSkipCount": 0,
       "qaSkipTaskIds": [],
       "pendingAdvisoryMessages": [],
@@ -1447,7 +1471,7 @@
         "3.3": "idle",
         "3.4": "idle",
         "3.5": "idle",
-        "4.1": "idle",
+        "4.1": "coder_delegated",
         "4.2": "idle"
       },
       "scopeViolationDetected": false,
@@ -1488,7 +1512,7 @@
       "lastCompactionHint": 0,
       "architectWriteCount": 0,
       "lastCoderDelegationTaskId": null,
-      "currentTaskId": null,
+      "currentTaskId": "4.1",
       "turboMode": false,
       "gateLog": {},
       "reviewerCallCount": {},
@@ -1497,12 +1521,12 @@
       "selfFixAttempted": false,
       "selfCodingWarnedAtCount": 0,
       "catastrophicPhaseWarnings": [],
-      "lastPhaseCompleteTimestamp": 0,
-      "lastPhaseCompletePhase": 0,
-      "phaseAgentsDispatched": [
+      "lastPhaseCompleteTimestamp": 1777575296192,
+      "lastPhaseCompletePhase": 2,
+      "phaseAgentsDispatched": [],
+      "lastCompletedPhaseAgentsDispatched": [
         "reviewer"
       ],
-      "lastCompletedPhaseAgentsDispatched": [],
       "qaSkipCount": 0,
       "qaSkipTaskIds": [],
       "pendingAdvisoryMessages": [],
@@ -1522,7 +1546,7 @@
         "3.3": "idle",
         "3.4": "idle",
         "3.5": "idle",
-        "4.1": "idle",
+        "4.1": "coder_delegated",
         "4.2": "idle"
       },
       "scopeViolationDetected": false,
@@ -1604,6 +1628,803 @@
       "lastCompactionHint": 0,
       "architectWriteCount": 0,
       "lastCoderDelegationTaskId": null,
+      "currentTaskId": "4.1",
+      "turboMode": false,
+      "gateLog": {},
+      "reviewerCallCount": {},
+      "lastGateFailure": null,
+      "partialGateWarningsIssuedForTask": [],
+      "selfFixAttempted": false,
+      "selfCodingWarnedAtCount": 0,
+      "catastrophicPhaseWarnings": [],
+      "lastPhaseCompleteTimestamp": 1777575296192,
+      "lastPhaseCompletePhase": 2,
+      "phaseAgentsDispatched": [],
+      "lastCompletedPhaseAgentsDispatched": [
+        "test_engineer"
+      ],
+      "qaSkipCount": 0,
+      "qaSkipTaskIds": [],
+      "pendingAdvisoryMessages": [],
+      "taskWorkflowStates": {
+        "1.1": "complete",
+        "1.2": "complete",
+        "2.1": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "coder_delegated",
+        "4.2": "idle"
+      },
+      "scopeViolationDetected": false,
+      "model_fallback_index": 0,
+      "modelFallbackExhausted": false,
+      "coderRevisions": 0,
+      "revisionLimitHit": false,
+      "fullAutoMode": false,
+      "fullAutoInteractionCount": 0,
+      "fullAutoDeadlockCount": 0,
+      "fullAutoLastQuestionHash": null,
+      "sessionRehydratedAt": 0
+    },
+    "ses_22043e557ffeNJBGsIOW7KJpUX": {
+      "agentName": "critic_drift_verifier",
+      "lastToolCallTime": 1777575204799,
+      "lastAgentEventTime": 1777575140016,
+      "delegationActive": true,
+      "activeInvocationId": 1,
+      "lastInvocationIdByAgent": {
+        "critic_drift_verifier": 1
+      },
+      "windows": {
+        "critic_drift_verifier:1": {
+          "id": 1,
+          "agentName": "critic_drift_verifier",
+          "startedAtMs": 1777575140016,
+          "toolCalls": 12,
+          "consecutiveErrors": 0,
+          "hardLimitHit": false,
+          "lastSuccessTimeMs": 1777575204832,
+          "recentToolCalls": [
+            {
+              "tool": "get_approved_plan",
+              "argsHash": 13477604666301366000,
+              "timestamp": 1777575170593
+            },
+            {
+              "tool": "read",
+              "argsHash": 7565523740887943000,
+              "timestamp": 1777575170597
+            },
+            {
+              "tool": "read",
+              "argsHash": 13637284063718218000,
+              "timestamp": 1777575170600
+            },
+            {
+              "tool": "read",
+              "argsHash": 9563442172530630000,
+              "timestamp": 1777575170601
+            },
+            {
+              "tool": "read",
+              "argsHash": 9886094774786929000,
+              "timestamp": 1777575170603
+            },
+            {
+              "tool": "read",
+              "argsHash": 8068963133935446000,
+              "timestamp": 1777575170606
+            },
+            {
+              "tool": "grep",
+              "argsHash": 5723294428207336000,
+              "timestamp": 1777575170608
+            },
+            {
+              "tool": "grep",
+              "argsHash": 10081376572248615000,
+              "timestamp": 1777575170609
+            },
+            {
+              "tool": "req_coverage",
+              "argsHash": 6857425708374348000,
+              "timestamp": 1777575170613
+            },
+            {
+              "tool": "read",
+              "argsHash": 5685778627706437000,
+              "timestamp": 1777575182465
+            },
+            {
+              "tool": "read",
+              "argsHash": 9422401824683246000,
+              "timestamp": 1777575188207
+            },
+            {
+              "tool": "grep",
+              "argsHash": 17993718401316760000,
+              "timestamp": 1777575204799
+            }
+          ],
+          "warningIssued": false,
+          "warningReason": "",
+          "transientRetryCount": 0
+        }
+      },
+      "lastCompactionHint": 0,
+      "architectWriteCount": 0,
+      "lastCoderDelegationTaskId": null,
+      "currentTaskId": "4.1",
+      "turboMode": false,
+      "gateLog": {},
+      "reviewerCallCount": {},
+      "lastGateFailure": null,
+      "partialGateWarningsIssuedForTask": [],
+      "selfFixAttempted": false,
+      "selfCodingWarnedAtCount": 0,
+      "catastrophicPhaseWarnings": [],
+      "lastPhaseCompleteTimestamp": 1777575296192,
+      "lastPhaseCompletePhase": 2,
+      "phaseAgentsDispatched": [],
+      "lastCompletedPhaseAgentsDispatched": [
+        "critic_drift_verifier"
+      ],
+      "qaSkipCount": 0,
+      "qaSkipTaskIds": [],
+      "pendingAdvisoryMessages": [],
+      "taskWorkflowStates": {
+        "1.1": "complete",
+        "1.2": "complete",
+        "2.1": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "coder_delegated",
+        "4.2": "idle"
+      },
+      "scopeViolationDetected": false,
+      "model_fallback_index": 0,
+      "modelFallbackExhausted": false,
+      "coderRevisions": 0,
+      "revisionLimitHit": false,
+      "fullAutoMode": false,
+      "fullAutoInteractionCount": 0,
+      "fullAutoDeadlockCount": 0,
+      "fullAutoLastQuestionHash": null,
+      "sessionRehydratedAt": 0
+    },
+    "ses_220420587ffeHHLWiXjhlzlC03": {
+      "agentName": "curator_phase",
+      "lastToolCallTime": 1777575262845,
+      "lastAgentEventTime": 1777575262845,
+      "delegationActive": true,
+      "activeInvocationId": 1,
+      "lastInvocationIdByAgent": {
+        "curator_phase": 1
+      },
+      "windows": {
+        "curator_phase:1": {
+          "id": 1,
+          "agentName": "curator_phase",
+          "startedAtMs": 1777575262845,
+          "toolCalls": 0,
+          "consecutiveErrors": 0,
+          "hardLimitHit": false,
+          "lastSuccessTimeMs": 1777575262845,
+          "recentToolCalls": [],
+          "warningIssued": false,
+          "warningReason": "",
+          "transientRetryCount": 0
+        }
+      },
+      "lastCompactionHint": 0,
+      "architectWriteCount": 0,
+      "lastCoderDelegationTaskId": null,
+      "currentTaskId": "4.1",
+      "turboMode": false,
+      "gateLog": {},
+      "reviewerCallCount": {},
+      "lastGateFailure": null,
+      "partialGateWarningsIssuedForTask": [],
+      "selfFixAttempted": false,
+      "selfCodingWarnedAtCount": 0,
+      "catastrophicPhaseWarnings": [],
+      "lastPhaseCompleteTimestamp": 0,
+      "lastPhaseCompletePhase": 0,
+      "phaseAgentsDispatched": [
+        "curator_phase"
+      ],
+      "lastCompletedPhaseAgentsDispatched": [],
+      "qaSkipCount": 0,
+      "qaSkipTaskIds": [],
+      "pendingAdvisoryMessages": [],
+      "taskWorkflowStates": {
+        "1.1": "complete",
+        "1.2": "complete",
+        "2.1": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "coder_delegated",
+        "4.2": "idle"
+      },
+      "scopeViolationDetected": false,
+      "model_fallback_index": 0,
+      "modelFallbackExhausted": false,
+      "coderRevisions": 0,
+      "revisionLimitHit": false,
+      "fullAutoMode": false,
+      "fullAutoInteractionCount": 0,
+      "fullAutoDeadlockCount": 0,
+      "fullAutoLastQuestionHash": null,
+      "sessionRehydratedAt": 0
+    },
+    "ses_22040d89dffe4LQSDBF5e8K7OA": {
+      "agentName": "coder",
+      "lastToolCallTime": 1777575346694,
+      "lastAgentEventTime": 1777575339881,
+      "delegationActive": true,
+      "activeInvocationId": 1,
+      "lastInvocationIdByAgent": {
+        "coder": 1
+      },
+      "windows": {
+        "coder:1": {
+          "id": 1,
+          "agentName": "coder",
+          "startedAtMs": 1777575339881,
+          "toolCalls": 3,
+          "consecutiveErrors": 0,
+          "hardLimitHit": false,
+          "lastSuccessTimeMs": 1777575346697,
+          "recentToolCalls": [
+            {
+              "tool": "read",
+              "argsHash": 3173456393802727400,
+              "timestamp": 1777575342518
+            },
+            {
+              "tool": "declare_scope",
+              "argsHash": 1079701669987644200,
+              "timestamp": 1777575345496
+            },
+            {
+              "tool": "declare_scope",
+              "argsHash": 13877942738668786000,
+              "timestamp": 1777575346694
+            }
+          ],
+          "warningIssued": false,
+          "warningReason": "",
+          "transientRetryCount": 0
+        }
+      },
+      "lastCompactionHint": 0,
+      "architectWriteCount": 0,
+      "lastCoderDelegationTaskId": null,
+      "currentTaskId": "4.1",
+      "turboMode": false,
+      "gateLog": {},
+      "reviewerCallCount": {},
+      "lastGateFailure": null,
+      "partialGateWarningsIssuedForTask": [],
+      "selfFixAttempted": false,
+      "selfCodingWarnedAtCount": 0,
+      "catastrophicPhaseWarnings": [],
+      "lastPhaseCompleteTimestamp": 1777576369081,
+      "lastPhaseCompletePhase": 3,
+      "phaseAgentsDispatched": [],
+      "lastCompletedPhaseAgentsDispatched": [
+        "coder"
+      ],
+      "qaSkipCount": 0,
+      "qaSkipTaskIds": [],
+      "pendingAdvisoryMessages": [],
+      "taskWorkflowStates": {
+        "1.1": "complete",
+        "1.2": "complete",
+        "2.1": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "coder_delegated",
+        "4.2": "idle"
+      },
+      "scopeViolationDetected": false,
+      "model_fallback_index": 0,
+      "modelFallbackExhausted": false,
+      "coderRevisions": 0,
+      "revisionLimitHit": false,
+      "fullAutoMode": false,
+      "fullAutoInteractionCount": 0,
+      "fullAutoDeadlockCount": 0,
+      "fullAutoLastQuestionHash": null,
+      "sessionRehydratedAt": 0
+    },
+    "ses_2203662c5ffefPpwQ8zRKjOBsJ": {
+      "agentName": "critic_drift_verifier",
+      "lastToolCallTime": 1777576082104,
+      "lastAgentEventTime": 1777576025410,
+      "delegationActive": true,
+      "activeInvocationId": 1,
+      "lastInvocationIdByAgent": {
+        "critic_drift_verifier": 1
+      },
+      "windows": {
+        "critic_drift_verifier:1": {
+          "id": 1,
+          "agentName": "critic_drift_verifier",
+          "startedAtMs": 1777576025411,
+          "toolCalls": 4,
+          "consecutiveErrors": 0,
+          "hardLimitHit": false,
+          "lastSuccessTimeMs": 1777576082112,
+          "recentToolCalls": [
+            {
+              "tool": "get_approved_plan",
+              "argsHash": 13477604666301366000,
+              "timestamp": 1777576050641
+            },
+            {
+              "tool": "read",
+              "argsHash": 7565523740887943000,
+              "timestamp": 1777576050647
+            },
+            {
+              "tool": "read",
+              "argsHash": 15358601809601892000,
+              "timestamp": 1777576050650
+            },
+            {
+              "tool": "req_coverage",
+              "argsHash": 14495912787613848000,
+              "timestamp": 1777576082104
+            }
+          ],
+          "warningIssued": false,
+          "warningReason": "",
+          "transientRetryCount": 0
+        }
+      },
+      "lastCompactionHint": 0,
+      "architectWriteCount": 0,
+      "lastCoderDelegationTaskId": null,
+      "currentTaskId": "4.1",
+      "turboMode": false,
+      "gateLog": {},
+      "reviewerCallCount": {},
+      "lastGateFailure": null,
+      "partialGateWarningsIssuedForTask": [],
+      "selfFixAttempted": false,
+      "selfCodingWarnedAtCount": 0,
+      "catastrophicPhaseWarnings": [],
+      "lastPhaseCompleteTimestamp": 1777576369081,
+      "lastPhaseCompletePhase": 3,
+      "phaseAgentsDispatched": [],
+      "lastCompletedPhaseAgentsDispatched": [
+        "critic_drift_verifier"
+      ],
+      "qaSkipCount": 0,
+      "qaSkipTaskIds": [],
+      "pendingAdvisoryMessages": [],
+      "taskWorkflowStates": {
+        "1.1": "complete",
+        "1.2": "complete",
+        "2.1": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "coder_delegated",
+        "4.2": "idle"
+      },
+      "scopeViolationDetected": false,
+      "model_fallback_index": 0,
+      "modelFallbackExhausted": false,
+      "coderRevisions": 0,
+      "revisionLimitHit": false,
+      "fullAutoMode": false,
+      "fullAutoInteractionCount": 0,
+      "fullAutoDeadlockCount": 0,
+      "fullAutoLastQuestionHash": null,
+      "sessionRehydratedAt": 0
+    },
+    "ses_220345ad6ffe2tNiNmEwEZdI7m": {
+      "agentName": "critic_drift_verifier",
+      "lastToolCallTime": 1777576443218,
+      "lastAgentEventTime": 1777576158512,
+      "delegationActive": true,
+      "activeInvocationId": 3,
+      "lastInvocationIdByAgent": {
+        "critic_drift_verifier": 3
+      },
+      "windows": {
+        "critic_drift_verifier:3": {
+          "id": 3,
+          "agentName": "critic_drift_verifier",
+          "startedAtMs": 1777576443218,
+          "toolCalls": 0,
+          "consecutiveErrors": 0,
+          "hardLimitHit": false,
+          "lastSuccessTimeMs": 1777576443218,
+          "recentToolCalls": [],
+          "warningIssued": false,
+          "warningReason": "",
+          "transientRetryCount": 0
+        },
+        "critic_drift_verifier:2": {
+          "id": 2,
+          "agentName": "critic_drift_verifier",
+          "startedAtMs": 1777576346720,
+          "toolCalls": 3,
+          "consecutiveErrors": 0,
+          "hardLimitHit": false,
+          "lastSuccessTimeMs": 1777576380536,
+          "recentToolCalls": [
+            {
+              "tool": "glob",
+              "argsHash": 6601773977182963000,
+              "timestamp": 1777576369399
+            },
+            {
+              "tool": "glob",
+              "argsHash": 3964848104360051000,
+              "timestamp": 1777576375525
+            },
+            {
+              "tool": "read",
+              "argsHash": 3132773047921705000,
+              "timestamp": 1777576380528
+            }
+          ],
+          "warningIssued": false,
+          "warningReason": "",
+          "transientRetryCount": 0
+        },
+        "critic_drift_verifier:1": {
+          "id": 1,
+          "agentName": "critic_drift_verifier",
+          "startedAtMs": 1777576158512,
+          "toolCalls": 2,
+          "consecutiveErrors": 0,
+          "hardLimitHit": false,
+          "lastSuccessTimeMs": 1777576179052,
+          "recentToolCalls": [
+            {
+              "tool": "get_approved_plan",
+              "argsHash": 13477604666301366000,
+              "timestamp": 1777576179042
+            },
+            {
+              "tool": "req_coverage",
+              "argsHash": 14495912787613848000,
+              "timestamp": 1777576179046
+            }
+          ],
+          "warningIssued": false,
+          "warningReason": "",
+          "transientRetryCount": 0
+        }
+      },
+      "lastCompactionHint": 0,
+      "architectWriteCount": 0,
+      "lastCoderDelegationTaskId": null,
+      "currentTaskId": "4.1",
+      "turboMode": false,
+      "gateLog": {},
+      "reviewerCallCount": {},
+      "lastGateFailure": null,
+      "partialGateWarningsIssuedForTask": [],
+      "selfFixAttempted": false,
+      "selfCodingWarnedAtCount": 0,
+      "catastrophicPhaseWarnings": [],
+      "lastPhaseCompleteTimestamp": 1777576804477,
+      "lastPhaseCompletePhase": 4,
+      "phaseAgentsDispatched": [],
+      "lastCompletedPhaseAgentsDispatched": [
+        "critic_drift_verifier"
+      ],
+      "qaSkipCount": 0,
+      "qaSkipTaskIds": [],
+      "pendingAdvisoryMessages": [],
+      "taskWorkflowStates": {
+        "1.1": "complete",
+        "1.2": "complete",
+        "2.1": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "coder_delegated",
+        "4.2": "idle"
+      },
+      "scopeViolationDetected": false,
+      "model_fallback_index": 0,
+      "modelFallbackExhausted": false,
+      "coderRevisions": 0,
+      "revisionLimitHit": false,
+      "fullAutoMode": false,
+      "fullAutoInteractionCount": 0,
+      "fullAutoDeadlockCount": 0,
+      "fullAutoLastQuestionHash": null,
+      "sessionRehydratedAt": 0
+    },
+    "ses_2203305b6ffe88ZsKtAWKueg4K": {
+      "agentName": "critic_drift_verifier",
+      "lastToolCallTime": 1777576286258,
+      "lastAgentEventTime": 1777576245840,
+      "delegationActive": true,
+      "activeInvocationId": 1,
+      "lastInvocationIdByAgent": {
+        "critic_drift_verifier": 1
+      },
+      "windows": {
+        "critic_drift_verifier:1": {
+          "id": 1,
+          "agentName": "critic_drift_verifier",
+          "startedAtMs": 1777576245840,
+          "toolCalls": 9,
+          "consecutiveErrors": 0,
+          "hardLimitHit": false,
+          "lastSuccessTimeMs": 1777576286261,
+          "recentToolCalls": [
+            {
+              "tool": "read",
+              "argsHash": 3733919902561940000,
+              "timestamp": 1777576258469
+            },
+            {
+              "tool": "read",
+              "argsHash": 10768048715486069000,
+              "timestamp": 1777576258557
+            },
+            {
+              "tool": "read",
+              "argsHash": 6997235938673710000,
+              "timestamp": 1777576258603
+            },
+            {
+              "tool": "read",
+              "argsHash": 12360617505535490000,
+              "timestamp": 1777576258620
+            },
+            {
+              "tool": "read",
+              "argsHash": 6120865046596773000,
+              "timestamp": 1777576258647
+            },
+            {
+              "tool": "read",
+              "argsHash": 5324709562127928000,
+              "timestamp": 1777576267172
+            },
+            {
+              "tool": "read",
+              "argsHash": 4418143813926085000,
+              "timestamp": 1777576272531
+            },
+            {
+              "tool": "get_approved_plan",
+              "argsHash": 13477604666301366000,
+              "timestamp": 1777576278532
+            },
+            {
+              "tool": "req_coverage",
+              "argsHash": 14495912787613848000,
+              "timestamp": 1777576286258
+            }
+          ],
+          "warningIssued": false,
+          "warningReason": "",
+          "transientRetryCount": 0
+        }
+      },
+      "lastCompactionHint": 0,
+      "architectWriteCount": 0,
+      "lastCoderDelegationTaskId": null,
+      "currentTaskId": "4.1",
+      "turboMode": false,
+      "gateLog": {},
+      "reviewerCallCount": {},
+      "lastGateFailure": null,
+      "partialGateWarningsIssuedForTask": [],
+      "selfFixAttempted": false,
+      "selfCodingWarnedAtCount": 0,
+      "catastrophicPhaseWarnings": [],
+      "lastPhaseCompleteTimestamp": 1777576369081,
+      "lastPhaseCompletePhase": 3,
+      "phaseAgentsDispatched": [],
+      "lastCompletedPhaseAgentsDispatched": [
+        "critic_drift_verifier"
+      ],
+      "qaSkipCount": 0,
+      "qaSkipTaskIds": [],
+      "pendingAdvisoryMessages": [],
+      "taskWorkflowStates": {
+        "1.1": "complete",
+        "1.2": "complete",
+        "2.1": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "coder_delegated",
+        "4.2": "idle"
+      },
+      "scopeViolationDetected": false,
+      "model_fallback_index": 0,
+      "modelFallbackExhausted": false,
+      "coderRevisions": 0,
+      "revisionLimitHit": false,
+      "fullAutoMode": false,
+      "fullAutoInteractionCount": 0,
+      "fullAutoDeadlockCount": 0,
+      "fullAutoLastQuestionHash": null,
+      "sessionRehydratedAt": 0
+    },
+    "ses_2203189e5ffeG4JC8GHp1zsJgz": {
+      "agentName": "curator_phase",
+      "lastToolCallTime": 1777576343070,
+      "lastAgentEventTime": 1777576343070,
+      "delegationActive": true,
+      "activeInvocationId": 1,
+      "lastInvocationIdByAgent": {
+        "curator_phase": 1
+      },
+      "windows": {
+        "curator_phase:1": {
+          "id": 1,
+          "agentName": "curator_phase",
+          "startedAtMs": 1777576343071,
+          "toolCalls": 0,
+          "consecutiveErrors": 0,
+          "hardLimitHit": false,
+          "lastSuccessTimeMs": 1777576343071,
+          "recentToolCalls": [],
+          "warningIssued": false,
+          "warningReason": "",
+          "transientRetryCount": 0
+        }
+      },
+      "lastCompactionHint": 0,
+      "architectWriteCount": 0,
+      "lastCoderDelegationTaskId": null,
+      "currentTaskId": "4.1",
+      "turboMode": false,
+      "gateLog": {},
+      "reviewerCallCount": {},
+      "lastGateFailure": null,
+      "partialGateWarningsIssuedForTask": [],
+      "selfFixAttempted": false,
+      "selfCodingWarnedAtCount": 0,
+      "catastrophicPhaseWarnings": [],
+      "lastPhaseCompleteTimestamp": 0,
+      "lastPhaseCompletePhase": 0,
+      "phaseAgentsDispatched": [
+        "curator_phase"
+      ],
+      "lastCompletedPhaseAgentsDispatched": [],
+      "qaSkipCount": 0,
+      "qaSkipTaskIds": [],
+      "pendingAdvisoryMessages": [],
+      "taskWorkflowStates": {
+        "1.1": "complete",
+        "1.2": "complete",
+        "2.1": "complete",
+        "2.2": "idle",
+        "2.3": "idle",
+        "2.4": "idle",
+        "2.5": "idle",
+        "2.6": "idle",
+        "2.7": "idle",
+        "2.8": "idle",
+        "3.1": "idle",
+        "3.2": "idle",
+        "3.3": "idle",
+        "3.4": "idle",
+        "3.5": "idle",
+        "4.1": "coder_delegated",
+        "4.2": "idle"
+      },
+      "scopeViolationDetected": false,
+      "model_fallback_index": 0,
+      "modelFallbackExhausted": false,
+      "coderRevisions": 0,
+      "revisionLimitHit": false,
+      "fullAutoMode": false,
+      "fullAutoInteractionCount": 0,
+      "fullAutoDeadlockCount": 0,
+      "fullAutoLastQuestionHash": null,
+      "sessionRehydratedAt": 0
+    },
+    "ses_2202af8d6ffeEMGxaBl5nOAtn5": {
+      "agentName": "curator_phase",
+      "lastToolCallTime": 1777576773421,
+      "lastAgentEventTime": 1777576773421,
+      "delegationActive": true,
+      "activeInvocationId": 1,
+      "lastInvocationIdByAgent": {
+        "curator_phase": 1
+      },
+      "windows": {
+        "curator_phase:1": {
+          "id": 1,
+          "agentName": "curator_phase",
+          "startedAtMs": 1777576773421,
+          "toolCalls": 0,
+          "consecutiveErrors": 0,
+          "hardLimitHit": false,
+          "lastSuccessTimeMs": 1777576773421,
+          "recentToolCalls": [],
+          "warningIssued": false,
+          "warningReason": "",
+          "transientRetryCount": 0
+        }
+      },
+      "lastCompactionHint": 0,
+      "architectWriteCount": 0,
+      "lastCoderDelegationTaskId": null,
       "currentTaskId": null,
       "turboMode": false,
       "gateLog": {},
@@ -1616,7 +2437,7 @@
       "lastPhaseCompleteTimestamp": 0,
       "lastPhaseCompletePhase": 0,
       "phaseAgentsDispatched": [
-        "test_engineer"
+        "curator_phase"
       ],
       "lastCompletedPhaseAgentsDispatched": [],
       "qaSkipCount": 0,
