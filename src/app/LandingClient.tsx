@@ -83,19 +83,19 @@ export default function LandingPage() {
               {
                 title: "Daily Deeds",
                 desc: "Every real-world chore is a quest. Brushing teeth, finishing homework, or cleaning your room grants XP and Gold.",
-                icon: "📜",
+                icon: "/images/ui/icons/feature_deeds.png",
                 color: "rgba(201,168,76,1)"
               },
               {
                 title: "Academy Trials",
                 desc: "Face educational duels in Math, Science, and Lore. Your knowledge is your greatest weapon in the fight against the Hollow.",
-                icon: "📖",
+                icon: "/images/ui/icons/feature_academy.png",
                 color: "rgba(110,181,255,1)"
               },
               {
                 title: "Boss Raids",
                 desc: "Collaborate with your household to defeat procedural bosses. Their strength scales with your group, requiring unity to prevail.",
-                icon: "⚔️",
+                icon: "/images/ui/icons/feature_boss.png",
                 color: "rgba(224,85,85,1)"
               }
             ].map((f, i) => (
@@ -104,10 +104,12 @@ export default function LandingPage() {
                 whileHover={{ y: -10 }}
                 className="p-10 bg-[#121620] border border-white/5 rounded-sm relative overflow-hidden group"
               >
-                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity transform rotate-12">
-                  <span className="text-8xl">{f.icon}</span>
+                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-25 transition-opacity transform rotate-12 pointer-events-none">
+                  <Image src={f.icon} alt="" width={160} height={160} className="pixelated" />
                 </div>
-                <div className="text-4xl mb-6">{f.icon}</div>
+                <div className="mb-6 relative w-12 h-12">
+                  <Image src={f.icon} alt={f.title} fill className="object-contain pixelated" />
+                </div>
                 <h4 className="font-heading text-2xl text-white mb-4 tracking-wide">{f.title}</h4>
                 <p className="font-body text-[#b09a6e]/70 leading-relaxed text-sm">
                   {f.desc}

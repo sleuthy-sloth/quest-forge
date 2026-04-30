@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Embershard } from '@/components/qf/Embershard'
+import Image from 'next/image'
 
 export default function Error({
   error,
@@ -24,7 +25,9 @@ export default function Error({
         className="max-w-md w-full p-12 bg-[#1a0e0e] border-2 border-[#e05555]/20 relative overflow-hidden"
       >
         <div className="relative z-10">
-          <div className="text-4xl mb-6">⚠️</div>
+          <div className="relative w-16 h-16 mx-auto mb-6">
+            <Image src="/images/ui/icons/warning_rift.png" alt="Warning" fill className="object-contain pixelated" />
+          </div>
           <h1 className="text-3xl font-heading text-white mb-4">A Magical Disturbance</h1>
           <p className="text-[#e05555]/70 font-body mb-10 leading-relaxed">
             A rift has opened in the fabric of Embervale. Our scribes have been notified of this anomaly.

@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { ChestAnimation } from '@/components/qf/ChestAnimation'
+import Image from 'next/image'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -519,7 +520,9 @@ export default function LootPage() {
               className="text-center py-16 rounded-sm"
               style={{ background: 'rgba(255,255,255,0.015)', border: '1px dashed rgba(201,168,76,0.1)' }}
             >
-              <div className="text-4xl mb-3 opacity-25">🏺</div>
+              <div className="relative w-24 h-24 mx-auto mb-4 opacity-30">
+                <Image src="/images/ui/icons/empty_urn.png" alt="" fill className="object-contain pixelated" />
+              </div>
               <p style={{ fontFamily: 'var(--font-heading), serif', fontSize: '0.82rem', color: 'rgba(200,215,255,0.3)' }}>
                 The shelves are bare.
               </p>
@@ -677,7 +680,9 @@ export default function LootPage() {
               className="text-center py-16 rounded-sm"
               style={{ background: 'rgba(255,255,255,0.015)', border: '1px dashed rgba(201,168,76,0.1)' }}
             >
-              <div className="text-4xl mb-3 opacity-25">📦</div>
+              <div className="relative w-24 h-24 mx-auto mb-4 opacity-30">
+                <Image src="/images/ui/icons/locked_chest.png" alt="" fill className="object-contain pixelated" />
+              </div>
               <p style={{ fontFamily: 'var(--font-heading), serif', fontSize: '0.82rem', color: 'rgba(200,215,255,0.3)' }}>
                 Your hoard awaits its first treasure.
               </p>
