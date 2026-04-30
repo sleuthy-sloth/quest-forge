@@ -1,0 +1,6 @@
+{
+  "taskId": "2.3",
+  "required_gates": [],
+  "gates": {},
+  "notes": "Supabase SSR integration was already compatible with Next.js 15. @supabase/ssr@0.9.0 installed, modern getAll()/setAll() cookie API used in all 3 files (client.ts, server.ts, middleware.ts). No build warnings. No changes needed."
+}

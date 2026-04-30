@@ -1,0 +1,6 @@
+{
+  "taskId": "2.6",
+  "required_gates": [],
+  "gates": {},
+  "notes": "React 19 app route compatibility: all 42 app router pages and route handlers already compatible with Next.js 15 and React 19.2.5. No dynamic/static export changes needed. Build completes with all routes rendering correctly."
+}
