@@ -63,7 +63,7 @@ function parseBody(raw: unknown): Record<string, unknown> | null {
 
 // ── POST — Create child account ───────────────────────────────
 export async function POST(request: Request) {
-  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 20 }, csrf: true })
+  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 5 }, csrf: true })
   if (err) return err
 
   const { error, status, profile } = await verifyGm()
@@ -150,7 +150,7 @@ export async function POST(request: Request) {
 
 // ── PATCH — Reset a player's password ────────────────────────
 export async function PATCH(request: Request) {
-  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 20 }, csrf: true })
+  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 5 }, csrf: true })
   if (err) return err
 
   const { error, status, profile, supabase } = await verifyGm()
@@ -196,7 +196,7 @@ export async function PATCH(request: Request) {
 
 // ── DELETE — Remove a player profile ─────────────────────────
 export async function DELETE(request: Request) {
-  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 20 }, csrf: true })
+  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 5 }, csrf: true })
   if (err) return err
 
   const { error, status, profile, supabase } = await verifyGm()

@@ -116,14 +116,51 @@ export interface BossCompositeOptions {
   scale?: number
 }
 
-// ── Image cache ────────────────────────────────────────────────────────────
+// ── Image cache (LRU) ──────────────────────────────────────────────────────
 
-/** Module-level image cache keyed by URL. */
+/**
+ * Maximum entries in the sprite image cache.
+ * Prevents unbounded memory growth when users explore many avatar configurations.
+ * 200 entries covers ~15 full avatar loads comfortably (13 layers each).
+ */
+const MAX_CACHE_SIZE = 200
+
+/** Module-level image cache keyed by URL, ordered most→least recently used. */
 const _imgCache = new Map<string, HTMLImageElement>()
 
-/** Returns the cached image for a URL, or null if not yet loaded. */
+/** Get a cached image, promoting it to most-recently-used. */
+function cacheGet(url: string): HTMLImageElement | undefined {
+  const val = _imgCache.get(url)
+  if (val) {
+    // Move to end (MRU position)
+    _imgCache.delete(url)
+    _imgCache.set(url, val)
+  }
+  return val
+}
+
+/** Store an image, evicting LRU entries if at capacity. */
+function cacheSet(url: string, img: HTMLImageElement): void {
+  if (_imgCache.size >= MAX_CACHE_SIZE) {
+    const oldest = _imgCache.keys().next().value
+    if (oldest !== undefined) _imgCache.delete(oldest)
+  }
+  _imgCache.set(url, img)
+}
+
+/** Remove a single entry from the cache. */
+function cacheDelete(url: string): void {
+  _imgCache.delete(url)
+}
+
+/** Exposed for diagnostics / testing — current cache size. */
+export function getCacheSize(): number {
+  return _imgCache.size
+}
+
+/** Returns the cached image for a URL, or undefined if not yet loaded. */
 export function getCachedImage(url: string): HTMLImageElement | undefined {
-  return _imgCache.get(url)
+  return cacheGet(url)
 }
 
 // ── Body type detection ─────────────────────────────────────────────────────
@@ -249,7 +286,7 @@ export function resolveLayerUrls(
  */
 function loadImg(src: string): Promise<HTMLImageElement | null> {
   // Fast path: cached and already loaded.
-  const cached = _imgCache.get(src)
+  const cached = cacheGet(src)
   if (cached && cached.complete && cached.naturalWidth > 0) {
     return Promise.resolve(cached)
   }
@@ -257,10 +294,10 @@ function loadImg(src: string): Promise<HTMLImageElement | null> {
   return new Promise(resolve => {
     const img = new Image()
     img.crossOrigin = 'anonymous'
-    _imgCache.set(src, img)
+    cacheSet(src, img)
 
     const timeoutId = setTimeout(() => {
-      _imgCache.delete(src)
+      cacheDelete(src)
       // Timeout — will resolve as null
       resolve(null)
     }, 10_000)
@@ -271,7 +308,7 @@ function loadImg(src: string): Promise<HTMLImageElement | null> {
     }
     img.onerror = () => {
       clearTimeout(timeoutId)
-      _imgCache.delete(src)
+      cacheDelete(src)
       console.warn(`[sprite] FAILED: "${src}"`)
       resolve(null)
     }
