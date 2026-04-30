@@ -1,0 +1,9 @@
+{
+  "type": "spec_stale_detected",
+  "timestamp": "2026-04-30T17:22:16.012Z",
+  "phase": 1,
+  "specHash_plan": "c7211bf247e44e2c17574f1fe78d2efc3a89b7713e526ff016a62a821973d361",
+  "specHash_current": "2848b6e561a19a29f70532b76e37df079ab91b5120b249a96d109dd4d14828f0",
+  "reason": "spec.md has been modified since plan was saved",
+  "planTitle": "Quest Forge Full Application Audit"
+}

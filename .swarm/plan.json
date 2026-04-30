@@ -1,0 +1,239 @@
+{
+  "schema_version": "1.0.0",
+  "title": "Next.js 14 to 16 Upgrade",
+  "swarm": "default",
+  "current_phase": 1,
+  "phases": [
+    {
+      "id": 1,
+      "name": "Foundation & Baseline",
+      "status": "complete",
+      "tasks": [
+        {
+          "id": "1.1",
+          "phase": 1,
+          "status": "completed",
+          "size": "small",
+          "description": "Capture pre-upgrade baseline: run npm run build, type-check, lint, and test. Record all outputs in .swarm/evidence/upgrade-baseline/",
+          "depends": [],
+          "acceptance": "Baseline captured with build, type-check, lint, and 144 tests all passing",
+          "files_touched": []
+        },
+        {
+          "id": "1.2",
+          "phase": 1,
+          "status": "completed",
+          "size": "small",
+          "description": "Create git branch for upgrade work. Run npm audit and pin current package-lock.json as rollback reference.",
+          "depends": [],
+          "acceptance": "Branch created, audit recorded, lockfile preserved",
+          "files_touched": []
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Next.js 14 to 15 Upgrade",
+      "status": "in_progress",
+      "tasks": [
+        {
+          "id": "2.1",
+          "phase": 2,
+          "status": "in_progress",
+          "size": "small",
+          "description": "Upgrade core dependencies: update package.json with next@^15, react@^19, react-dom@^19, @types/react@^19, @types/react-dom@^19, eslint-config-next@^15. Run npm install.",
+          "depends": [
+            "1.2"
+          ],
+          "acceptance": "Dependencies upgraded, npm install completes cleanly",
+          "files_touched": []
+        },
+        {
+          "id": "2.2",
+          "phase": 2,
+          "status": "pending",
+          "size": "medium",
+          "description": "Run @next/codemod on src/app/ directory transforms. Then run on src/components/ and src/lib/. Review each codemod output file for correctness before committing.",
+          "depends": [
+            "2.1"
+          ],
+          "acceptance": "Codemod transforms applied and reviewed across all directories",
+          "files_touched": []
+        },
+        {
+          "id": "2.3",
+          "phase": 2,
+          "status": "pending",
+          "size": "medium",
+          "description": "Update Supabase SSR integration: verify @supabase/ssr version, update cookie handling in src/lib/supabase/client.ts, server.ts, middleware.ts. Fix middleware.ts edge runtime patterns for Next.js 15.",
+          "depends": [
+            "2.2"
+          ],
+          "acceptance": "Supabase auth works end-to-end, middleware redirects correctly, type-check passes",
+          "files_touched": []
+        },
+        {
+          "id": "2.4",
+          "phase": 2,
+          "status": "pending",
+          "size": "large",
+          "description": "Fix React 19: update useEffect cleanup patterns, forwardRef usage, and children prop types across hooks/ (10 files), lib/ (40 files), and store/ (2 files).",
+          "depends": [
+            "2.3"
+          ],
+          "acceptance": "All hooks and lib files compile with React 19 types",
+          "files_touched": []
+        },
+        {
+          "id": "2.5",
+          "phase": 2,
+          "status": "pending",
+          "size": "large",
+          "description": "Fix React 19: update components/ directory — avatar, boss, combat, dashboard, games, hud, play, player, qf, quests, shop, story, ui component patterns for React 19 breaking changes.",
+          "depends": [
+            "2.4"
+          ],
+          "acceptance": "All 60+ components compile with React 19, build passes",
+          "files_touched": []
+        },
+        {
+          "id": "2.6",
+          "phase": 2,
+          "status": "pending",
+          "size": "medium",
+          "description": "Fix React 19: update app/ route pages and server action files. Fix any dynamic/static export changes.",
+          "depends": [
+            "2.5"
+          ],
+          "acceptance": "All 42 routes render without hydration errors",
+          "files_touched": []
+        },
+        {
+          "id": "2.7",
+          "phase": 2,
+          "status": "pending",
+          "size": "medium",
+          "description": "Update existing test files (14 files) for React 19 compatibility: fix act() wrapping, cleanup patterns, type changes.",
+          "depends": [
+            "2.6"
+          ],
+          "acceptance": "All 144 tests pass with React 19",
+          "files_touched": []
+        },
+        {
+          "id": "2.8",
+          "phase": 2,
+          "status": "pending",
+          "size": "small",
+          "description": "Full QA pass on Next.js 15: npm run build, type-check, lint, test all pass. Verify no high-severity npm audit findings.",
+          "depends": [
+            "2.7"
+          ],
+          "acceptance": "All gates pass. Committed as discrete checkpoint.",
+          "files_touched": []
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Next.js 15 to 16 Upgrade",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "3.1",
+          "phase": 3,
+          "status": "pending",
+          "size": "medium",
+          "description": "Upgrade next@^16 and eslint-config-next@^16. Run npm install. Run @next/codemod for 15-to-16 transforms.",
+          "depends": [
+            "2.8"
+          ],
+          "acceptance": "Dependencies upgraded, codemods applied",
+          "files_touched": []
+        },
+        {
+          "id": "3.2",
+          "phase": 3,
+          "status": "pending",
+          "size": "small",
+          "description": "Update build config for Turbopack: verify next.config.mjs images.remotePatterns, async headers(), reactStrictMode work. Fix any PostCSS/Tailwind pipeline issues.",
+          "depends": [
+            "3.1"
+          ],
+          "acceptance": "Build works with Turbopack",
+          "files_touched": []
+        },
+        {
+          "id": "3.3",
+          "phase": 3,
+          "status": "pending",
+          "size": "medium",
+          "description": "Fix Next.js 16 specific issues: edge middleware cookie API changes, server component rendering differences, and any remaining API deprecations.",
+          "depends": [
+            "3.2"
+          ],
+          "acceptance": "Build, type-check, and tests all pass",
+          "files_touched": []
+        },
+        {
+          "id": "3.4",
+          "phase": 3,
+          "status": "pending",
+          "size": "small",
+          "description": "Update test files if any Next.js 16 related changes needed. Run full test suite.",
+          "depends": [
+            "3.3"
+          ],
+          "acceptance": "All 144+ tests pass",
+          "files_touched": []
+        },
+        {
+          "id": "3.5",
+          "phase": 3,
+          "status": "pending",
+          "size": "small",
+          "description": "Full QA pass on Next.js 16: build, type-check, lint, tests. Run npm audit to confirm 0 high-severity vulns.",
+          "depends": [
+            "3.4"
+          ],
+          "acceptance": "All gates pass. 0 high-severity CVEs.",
+          "files_touched": []
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Runtime Verification",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "4.1",
+          "phase": 4,
+          "status": "pending",
+          "size": "medium",
+          "description": "Manual smoke test: load login, signup, dashboard (all sub-routes), play (all sub-routes). Check for console errors, hydration mismatches, and auth flow (login as GM, login as player, logout).",
+          "depends": [
+            "3.5"
+          ],
+          "acceptance": "All routes load without console errors. Auth flows work end-to-end.",
+          "files_touched": []
+        },
+        {
+          "id": "4.2",
+          "phase": 4,
+          "status": "pending",
+          "size": "small",
+          "description": "Run regression sweep with test_runner scope:impact on changed auth, middleware, and layout files. Run full test suite one final time.",
+          "depends": [
+            "4.1"
+          ],
+          "acceptance": "Full test suite passes. No regressions.",
+          "files_touched": []
+        }
+      ]
+    }
+  ],
+  "migration_status": "native",
+  "specMtime": "2026-04-30T17:18:51.167Z",
+  "specHash": "2848b6e561a19a29f70532b76e37df079ab91b5120b249a96d109dd4d14828f0"
+}

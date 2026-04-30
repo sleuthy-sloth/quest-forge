@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "taskId": "6.1",
+  "declaredAt": 1777566748157,
+  "expiresAt": 1777653148157,
+  "files": [
+    "src/app/api/gm/household/route.ts"
+  ]
+}

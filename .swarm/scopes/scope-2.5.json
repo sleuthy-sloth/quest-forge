@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "taskId": "2.5",
+  "declaredAt": 1777563331532,
+  "expiresAt": 1777649731532,
+  "files": [
+    "src/app/api/auth/signin-player"
+  ]
+}

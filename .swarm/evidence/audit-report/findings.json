@@ -1,0 +1,193 @@
+{
+  "type": "audit-report",
+  "project": "Quest Forge: The Emberlight Chronicles",
+  "phase_scanned": "All 5 phases",
+  "files_scanned": 263,
+  "findings": [
+    {
+      "id": "F-001",
+      "severity": "HIGH",
+      "category": "dependencies",
+      "area": "Build/Infrastructure",
+      "description": "7 high-severity and 2 moderate-severity dependency vulnerabilities found via npm audit",
+      "affected": ["package.json", "package-lock.json"],
+      "details": "High: next, eslint-config-next, @next/eslint-plugin-next, vite, flatted, picomatch, glob. Moderate: brace-expansion, postcss. No CVEs — all patch to latest.",
+      "reproduction": "Run 'npm audit' in project root",
+      "fix_direction": "npm update or manual version bumps. Key: next@16.2.4, vite@latest.",
+      "risk": "Supply chain vulnerabilities — moderate risk as no CVEs published but should track"
+    },
+    {
+      "id": "F-002",
+      "severity": "MEDIUM",
+      "category": "schema-drift",
+      "area": "Database",
+      "description": "lore_milestones table added in migration 024 but missing from types/database.ts",
+      "affected": ["src/types/database.ts", "supabase/migrations/024_narrative_milestones.sql"],
+      "details": "Migration 024 adds a lore_milestones table with RLS policies, but types/database.ts was never regenerated to include it. Type-safe access to this table is impossible.",
+      "fix_direction": "Regenerate types after migration 024",
+      "risk": "Medium — no runtime breakage, but no type safety for the new table"
+    },
+    {
+      "id": "F-003",
+      "severity": "HIGH",
+      "category": "schema-drift",
+      "area": "Database",
+      "description": "3 ghost tables (loot_store_items, purchases, player_inventory) dropped by migration 023 but still in types/database.ts",
+      "affected": ["src/types/database.ts:329-538", "supabase/migrations/023_reconcile_data_model.sql:349-351"],
+      "details": "Tables loot_store_items, purchases, and player_inventory were dropped in migration 023 but still exist as type definitions. Any code referencing these types will compile but fail at runtime. The rewards and redemptions tables replaced their functionality. Note: callable RPC functions (deal_boss_damage, purchase_reward) are correctly defined. Internal trigger functions (handle_chore_verified, handle_edu_completed) are correctly absent from types since they are not callable via supabase.rpc().",
+      "reproduction": "Search for imports of these types in src/ — code referencing dropped tables will fail",
+      "fix_direction": "Regenerate types from live database: 'npx supabase gen types typescript --linked > src/types/database.ts'",
+      "risk": "HIGH — runtime breakage if code references dropped tables"
+    },
+    {
+      "id": "F-004",
+      "severity": "MEDIUM",
+      "category": "missing-route",
+      "area": "API",
+      "description": "src/app/api/auth/signin-player/ is an empty directory — route was planned but never implemented",
+      "affected": ["src/app/api/auth/signin-player/ (empty directory)"],
+      "details": "The signin-player route directory exists but has no route.ts file. This is a planned feature stub — player-specific sign-in endpoint that was never implemented. Currently player login is handled via the login page with tab switching.",
+      "reproduction": "ls src/app/api/auth/signin-player/ — shows empty directory",
+      "fix_direction": "Either implement the route or remove the empty directory",
+      "risk": "Low — doesn't block anything but is dead code structure"
+    },
+    {
+      "id": "F-005",
+      "severity": "LOW",
+      "category": "secret",
+      "area": "Security",
+      "description": "SUPABASE_SERVICE_ROLE_KEY present in .env.local",
+      "affected": [".env.local"],
+      "details": "The service role key is expected in .env.local for local development. It must never be committed to version control or exposed client-side. Verify .gitignore excludes .env.local.",
+      "reproduction": "Check .gitignore covers .env.local",
+      "fix_direction": "Ensure .gitignore has .env.local. Rotate key if ever committed.",
+      "risk": "Low for local dev — critical if committed to repository"
+    },
+    {
+      "id": "F-006",
+      "severity": "LOW",
+      "category": "secret",
+      "area": "Testing",
+      "description": "Test passwords in e2e/golden-path.spec.ts exposed in code",
+      "affected": ["e2e/golden-path.spec.ts"],
+      "details": "Test credentials (TEST_PASSWORD, TEST_CHILD_PASSWORD) defined as string literals. These appear to be test/dummy credentials but should be moved to environment variables.",
+      "fix_direction": "Move test passwords to .env.test or CI environment variables",
+      "risk": "Low — appears to be test data, but bad practice"
+    },
+    {
+      "id": "F-007",
+      "severity": "INFO",
+      "category": "test-coverage",
+      "area": "Testing",
+      "description": "Test coverage is sparse — 14 test files covering only 4 of 12 component/lib areas",
+      "affected": ["src/lib/__tests__/*", "src/lib/api/__tests__/*", "src/components/ui/__tests__/*", "src/components/qf/__tests__/*"],
+      "details": "Tests exist for: xp, palette, particles, purchase, rate-limiter, sanitize, csrf, body-limit, middleware, pixel components. NO tests for: any hooks (10 files), stores (2), AI modules (5), sprite compositor, game components (MathArena, WordForge, ScienceLabyrinth, etc.), dashboard components, API routes, or story system.",
+      "fix_direction": "Add unit tests for hooks (useAcademy, useBoss, useQuestStore are highest risk), AI modules, compositor, and game components",
+      "risk": "High churn + no tests = high regression risk for games and hooks"
+    },
+    {
+      "id": "F-008",
+      "severity": "INFO",
+      "category": "arch-deviation",
+      "area": "Architecture",
+      "description": "Several architecture deviations from CLAUDE.md spec documented",
+      "affected": ["CLAUDE.md spec vs src/store/*, src/lib/ai/*, additional DB tables"],
+      "details": "CLAUDE.md specifies React Context but Zustand is used. CLAUDE.md specifies Gemini Flash but OpenRouter is used. Extra tables: quests, redemptions, player_inventory, rewards. Edu subjects expanded: general_knowledge, life_skills. Boss system integrated into quests table.",
+      "fix_direction": "Update CLAUDE.md to reflect current architecture, or add architectural decision records (ADRs)",
+      "risk": "Informational — deviations are not bugs but documentation drift"
+    },
+    {
+      "id": "F-009",
+      "severity": "INFO",
+      "category": "security",
+      "area": "Security",
+      "description": "Signup GM endpoint has CSRF disabled",
+      "affected": ["src/app/api/auth/signup-gm/route.ts:30"],
+      "details": "Line 30: withApiMiddleware(request, { rateLimit: { maxRequests: 5 }, csrf: false }). CSRF is explicitly disabled for signup. This is acceptable because signup is an unauthenticated endpoint (no session exists yet), but notable.",
+      "fix_direction": "No fix needed — this is intentional for unauthenticated signup flow. Consider if CSRF via Origin check could be added.",
+      "risk": "Low — standard practice for unauthenticated signup endpoints"
+    },
+    {
+      "id": "F-010",
+      "severity": "INFO",
+      "category": "security",
+      "area": "Security",
+      "description": "Create-child rate limit at 20 req/min — could allow username enumeration",
+      "affected": ["src/app/api/auth/create-child/route.ts:66"],
+      "details": "Rate limit set to 20 requests per minute (line 66). Combined with username check (line 96-104) and separate auth.createUser (line 107), an attacker could perform username enumeration within rate limit bounds.",
+      "fix_direction": "Consider tightening rate limit to 5-10 req/min for this endpoint, or adding CAPTCHA",
+      "risk": "Low — 20 req/min is aggressive for enumeration but not trivial"
+    },
+    {
+      "id": "F-011",
+      "severity": "INFO",
+      "category": "ai-integration",
+      "area": "AI",
+      "description": "AI client uses OpenRouter's free tier (gemma-4-26b → openrouter/free fallback)",
+      "affected": ["src/lib/ai/client.ts"],
+      "details": "Primary model is google/gemma-4-26b-a4b-it:free (3.8B active params). Fallback is openrouter/free (routes to any available free model). stripThinking() is robust (handles 6+ tag variants). Rate limiter checks api_usage table.",
+      "fix_direction": "Monitor free tier reliability. The stripThinking and fallback architecture is solid.",
+      "risk": "Low — fallback chain ensures resilience, though response quality from free-tier models may vary"
+    },
+    {
+      "id": "F-012",
+      "severity": "INFO",
+      "category": "sprite-system",
+      "area": "Frontend",
+      "description": "Compositor at 630 lines (complexity 99) — highest complexity in codebase, no tests",
+      "affected": ["src/lib/sprites/compositor.ts"],
+      "details": "compositor.ts handles: image cache (Map by URL), HSL per-pixel tinting, body-type gender filtering, color-variant fallback chain, preload helper, boss compositing. No unit tests. Image cache could grow unbounded if components mount/unmount with different URLs — no cache eviction strategy.",
+      "fix_direction": "Add cache eviction (LRU or max size). Add unit tests for compositeAvatar, compositeBoss, and tinting functions.",
+      "risk": "Medium — memory leak risk on long sessions with many avatar changes"
+    },
+    {
+      "id": "F-013",
+      "severity": "INFO",
+      "category": "audio-system",
+      "area": "Frontend",
+      "description": "Audio system at 412 lines (complexity 80) — singleton Howler.js, iOS autoplay handling",
+      "affected": ["src/lib/audio.ts"],
+      "details": "InitAudio() called on user gesture. Procedural audio fallback generates ambient tones when MP3s are unavailable. Singleton bgmInstances/sfxInstances with globalMuted toggle. Cleanup and retry logic present.",
+      "fix_direction": "Add output verification tests. Current pattern is solid for iOS compliance.",
+      "risk": "Low — well-structured audio management with procedural fallback"
+    }
+  ],
+  "summary": {
+    "total_findings": 13,
+    "by_severity": {
+      "HIGH": 2,
+      "MEDIUM": 2,
+      "LOW": 2,
+      "INFO": 7
+    },
+    "by_category": {
+      "schema-drift": 2,
+      "dependencies": 1,
+      "security": 2,
+      "missing-route": 1,
+      "secret": 2,
+      "test-coverage": 1,
+      "arch-deviation": 1,
+      "ai-integration": 1,
+      "sprite-system": 1,
+      "audio-system": 1
+    },
+    "top_priority_fixes": [
+      "Regenerate database types after migration 024 (fixes F-002, F-003)",
+      "Address 7 high-severity dependency vulnerabilities (F-001)",
+      "Add test coverage to high-churn modules: hooks, stores, AI, games (F-007)"
+    ]
+  },
+  "verified_working": [
+    "Auth: create-child route with Zod validation, rollback, household isolation — CORRECT",
+    "Auth: signup-gm with admin client, seed chapters, rollback — CORRECT",
+    "admin.ts: singleton pattern, server-only (correctly no 'use client' imports) — CORRECT",
+    "API middleware: CSRF + rate-limit + body-limit composition — CORRECT",
+    "Middleware: route gating (/dashboard, /play, /login redirect) — CORRECT",
+    "Build: npm run build, type-check, lint all pass — CLEAN",
+    "Tests: 14/14 files, 144/144 tests pass — CLEAN",
+    "XP formulas: xpForLevel, levelFromXP, embershardState — CORRECT",
+    "Sprite compositor: layer ordering, image caching, tinting fallback — CORRECT",
+    "Audio: iOS autoplay, procedural fallback, singleton management — CORRECT"
+  ]
+}

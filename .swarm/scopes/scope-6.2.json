@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "taskId": "6.2",
+  "declaredAt": 1777567331887,
+  "expiresAt": 1777653731887,
+  "files": [
+    "src/lib/ai/__tests__/client.test.ts"
+  ]
+}

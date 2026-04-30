@@ -142,7 +142,9 @@ Component tests: PixelButton, XPBar
 - npm run fetch-sprites — Download LPC assets
 
 ## Decisions
-- [PENDING] None recorded yet
+- Next.js upgrade strategy: Two sequential PRs (14→15 first, then 15→16) with QA pass after each
+- No staging environment — validate on a feature branch before merging to main
+- Clarification defaults: incremental rollback is top priority; each step is a discrete commit
 
 ## SME Cache
 - [PENDING] None recorded yet
@@ -154,3 +156,41 @@ Component tests: PixelButton, XPBar
 - Household-scoped queries everywhere
 - Canvas-based sprite compositing
 - AI with fallback chain (primary → fallback → DB/cache)
+
+## Agent Activity
+
+| Tool | Calls | Success | Failed | Avg Duration |
+|------|-------|---------|--------|--------------|
+| bash | 109 | 109 | 0 | 1578ms |
+| read | 104 | 104 | 0 | 18ms |
+| update_task_status | 66 | 66 | 0 | 8ms |
+| task | 35 | 35 | 0 | 218788ms |
+| glob | 20 | 20 | 0 | 37ms |
+| edit | 18 | 18 | 0 | 26ms |
+| declare_scope | 11 | 11 | 0 | 10ms |
+| grep | 6 | 6 | 0 | 53ms |
+| write | 6 | 6 | 0 | 17ms |
+| check_gate_status | 5 | 5 | 0 | 5ms |
+| test_runner | 5 | 5 | 0 | 1914ms |
+| save_plan | 4 | 4 | 0 | 35ms |
+| lint | 3 | 3 | 0 | 2858ms |
+| phase_complete | 3 | 3 | 0 | 9197ms |
+| todo_extract | 2 | 2 | 0 | 35ms |
+| detect_domains | 2 | 2 | 0 | 7ms |
+| set_qa_gates | 2 | 2 | 0 | 14ms |
+| build_check | 2 | 2 | 0 | 4706ms |
+| get_approved_plan | 2 | 2 | 0 | 19ms |
+| knowledge_add | 2 | 2 | 0 | 24ms |
+| complexity_hotspots | 1 | 1 | 0 | 389ms |
+| doc_scan | 1 | 1 | 0 | 759ms |
+| lint_spec | 1 | 1 | 0 | 8ms |
+| sast_scan | 1 | 1 | 0 | 10ms |
+| secretscan | 1 | 1 | 0 | 137ms |
+| sbom_generate | 1 | 1 | 0 | 67ms |
+| pkg_audit | 1 | 1 | 0 | 3123ms |
+| pre_check_batch | 1 | 1 | 0 | 7ms |
+| batch_symbols | 1 | 1 | 0 | 10ms |
+| todowrite | 1 | 1 | 0 | 11ms |
+| write_retro | 1 | 1 | 0 | 16ms |
+| req_coverage | 1 | 1 | 0 | 17ms |
+| write_drift_evidence | 1 | 1 | 0 | 53ms |

@@ -1,0 +1,16 @@
+{
+  "type": "upgrade-baseline",
+  "recorded_at": "2026-04-30T13:00:00Z",
+  "before_upgrade": {
+    "next": "14.2.35",
+    "react": "^18",
+    "build": "pass",
+    "type_check": "pass",
+    "lint": "pass",
+    "test_files": 15,
+    "test_count": 168,
+    "test_passed": 168,
+    "test_failed": 0
+  },
+  "notes": "Included new client.test.ts (24 stripThinking tests) from audit phase. Baseline is post-db-types-fix, pre-framework-upgrade."
+}

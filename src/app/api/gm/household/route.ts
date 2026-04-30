@@ -55,7 +55,6 @@ export async function POST(request: Request) {
     // Reset this specific player
     await admin.from('chore_completions').delete().eq('player_id', playerId)
     await admin.from('edu_completions').delete().eq('player_id', playerId)
-    await admin.from('purchases').delete().eq('player_id', playerId)
     await admin.from('redemptions').delete().eq('player_id', playerId)
     await admin.from('profiles')
       .update({ 
@@ -112,7 +111,6 @@ export async function POST(request: Request) {
     if (playerIds.length > 0) {
       await admin.from('chore_completions').delete().in('player_id', playerIds)
       await admin.from('edu_completions').delete().in('player_id', playerIds)
-      await admin.from('purchases').delete().in('player_id', playerIds)
       await admin.from('redemptions').delete().in('player_id', playerIds)
       await admin.from('profiles')
         .update({ 

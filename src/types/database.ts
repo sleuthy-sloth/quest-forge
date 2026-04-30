@@ -326,108 +326,41 @@ export type Database = {
           },
         ]
       }
-      loot_store_items: {
-        Row: {
-          category: Database["public"]["Enums"]["loot_category"]
-          cost_gold: number
-          cost_xp: number
-          created_by: string
-          description: string
-          flavor_text: string
-          household_id: string
-          id: string
-          is_available: boolean
-          name: string
-          real_reward_description: string
-          sprite_icon: string | null
-        }
-        Insert: {
-          category: Database["public"]["Enums"]["loot_category"]
-          cost_gold?: number
-          cost_xp?: number
-          created_by: string
-          description?: string
-          flavor_text?: string
-          household_id: string
-          id?: string
-          is_available?: boolean
-          name: string
-          real_reward_description?: string
-          sprite_icon?: string | null
-        }
-        Update: {
-          category?: Database["public"]["Enums"]["loot_category"]
-          cost_gold?: number
-          cost_xp?: number
-          created_by?: string
-          description?: string
-          flavor_text?: string
-          household_id?: string
-          id?: string
-          is_available?: boolean
-          name?: string
-          real_reward_description?: string
-          sprite_icon?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "loot_store_items_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "loot_store_items_household_id_fkey"
-            columns: ["household_id"]
-            isOneToOne: false
-            referencedRelation: "households"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      player_inventory: {
+      lore_milestones: {
         Row: {
           id: string
           player_id: string
-          reward_id: string
-          household_id: string
+          chapter_id: string
+          text: string
           created_at: string
         }
         Insert: {
           id?: string
           player_id: string
-          reward_id: string
-          household_id: string
+          chapter_id: string
+          text: string
           created_at?: string
         }
         Update: {
           id?: string
           player_id?: string
-          reward_id?: string
-          household_id?: string
+          chapter_id?: string
+          text?: string
           created_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: "player_inventory_player_id_fkey"
+            foreignKeyName: "lore_milestones_player_id_fkey"
             columns: ["player_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "player_inventory_reward_id_fkey"
-            columns: ["reward_id"]
+            foreignKeyName: "lore_milestones_chapter_id_fkey"
+            columns: ["chapter_id"]
             isOneToOne: false
-            referencedRelation: "rewards"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "player_inventory_household_id_fkey"
-            columns: ["household_id"]
-            isOneToOne: false
-            referencedRelation: "households"
+            referencedRelation: "story_chapters"
             referencedColumns: ["id"]
           },
         ]
@@ -487,58 +420,6 @@ export type Database = {
             columns: ["household_id"]
             isOneToOne: false
             referencedRelation: "households"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      purchases: {
-        Row: {
-          household_id: string
-          id: string
-          item_id: string
-          player_id: string
-          purchased_at: string
-          redeemed: boolean
-          redeemed_at: string | null
-        }
-        Insert: {
-          household_id: string
-          id?: string
-          item_id: string
-          player_id: string
-          purchased_at?: string
-          redeemed?: boolean
-          redeemed_at?: string | null
-        }
-        Update: {
-          household_id?: string
-          id?: string
-          item_id?: string
-          player_id?: string
-          purchased_at?: string
-          redeemed?: boolean
-          redeemed_at?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "purchases_household_id_fkey"
-            columns: ["household_id"]
-            isOneToOne: false
-            referencedRelation: "households"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "purchases_item_id_fkey"
-            columns: ["item_id"]
-            isOneToOne: false
-            referencedRelation: "loot_store_items"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "purchases_player_id_fkey"
-            columns: ["player_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]

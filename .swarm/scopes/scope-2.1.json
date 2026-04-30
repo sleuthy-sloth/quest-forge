@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "taskId": "2.1",
+  "declaredAt": 1777570634039,
+  "expiresAt": 1777657034039,
+  "files": [
+    "package.json",
+    "package.json"
+  ]
+}
