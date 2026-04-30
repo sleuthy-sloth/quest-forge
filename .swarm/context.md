@@ -57,9 +57,9 @@ useAcademy, useAvatar, useBoss, useChoreManager, useChores, useHousehold, useLoo
 database.ts (1050 lines, auto-generated) — 15 tables, RPC functions, views
 
 ## Database Schema (15 tables)
-api_usage, chore_completions, chores, edu_challenges, edu_completions, households, inventory, loot_store_items, player_inventory, profiles, purchases, quests, redemptions, rewards, story_chapters, story_progress
+api_usage, chore_completions, chores, edu_challenges, edu_completions, households, inventory, lore_milestones, profiles, quests, redemptions, rewards, story_chapters, story_progress
 
-**Extra tables beyond CLAUDE.md spec**: quests, redemptions, player_inventory, rewards
+**Extra tables beyond CLAUDE.md spec**: quests, redemptions, rewards
 **RPC functions**: deal_boss_damage, deduct_gold, get_api_usage_today, get_my_household_id, increment_api_usage, is_gm, purchase_reward
 
 ## Critical Architecture
@@ -161,41 +161,43 @@ Component tests: PixelButton, XPBar
 
 | Tool | Calls | Success | Failed | Avg Duration |
 |------|-------|---------|--------|--------------|
-| bash | 173 | 173 | 0 | 1715ms |
-| read | 131 | 131 | 0 | 18ms |
-| update_task_status | 69 | 69 | 0 | 8ms |
-| task | 39 | 39 | 0 | 202852ms |
-| glob | 23 | 23 | 0 | 35ms |
-| edit | 19 | 19 | 0 | 25ms |
-| write | 12 | 12 | 0 | 15ms |
-| declare_scope | 12 | 12 | 0 | 10ms |
-| grep | 6 | 6 | 0 | 53ms |
+| bash | 234 | 234 | 0 | 2710ms |
+| read | 165 | 165 | 0 | 18ms |
+| update_task_status | 93 | 93 | 0 | 10ms |
+| task | 44 | 44 | 0 | 188108ms |
+| write | 31 | 31 | 0 | 11ms |
+| glob | 29 | 29 | 0 | 36ms |
+| edit | 27 | 27 | 0 | 22ms |
+| declare_scope | 16 | 16 | 0 | 9ms |
+| grep | 12 | 12 | 0 | 45ms |
+| todowrite | 9 | 9 | 0 | 11ms |
+| phase_complete | 7 | 7 | 0 | 16926ms |
+| save_plan | 6 | 6 | 0 | 31ms |
 | check_gate_status | 6 | 6 | 0 | 5ms |
 | test_runner | 6 | 6 | 0 | 1598ms |
-| save_plan | 4 | 4 | 0 | 35ms |
-| lint | 4 | 4 | 0 | 2948ms |
-| todowrite | 4 | 4 | 0 | 11ms |
+| get_approved_plan | 6 | 6 | 0 | 15ms |
+| lint | 5 | 5 | 0 | 2901ms |
+| req_coverage | 5 | 5 | 0 | 6ms |
+| write_retro | 4 | 4 | 0 | 12ms |
+| write_drift_evidence | 4 | 4 | 0 | 30ms |
+| knowledge_add | 4 | 4 | 0 | 19ms |
+| set_qa_gates | 3 | 3 | 0 | 13ms |
 | build_check | 3 | 3 | 0 | 5149ms |
-| phase_complete | 3 | 3 | 0 | 9197ms |
 | todo_extract | 2 | 2 | 0 | 35ms |
 | detect_domains | 2 | 2 | 0 | 7ms |
-| set_qa_gates | 2 | 2 | 0 | 14ms |
+| sbom_generate | 2 | 2 | 0 | 46ms |
 | pre_check_batch | 2 | 2 | 0 | 355ms |
 | batch_symbols | 2 | 2 | 0 | 15ms |
-| get_approved_plan | 2 | 2 | 0 | 19ms |
-| knowledge_add | 2 | 2 | 0 | 24ms |
 | diff | 2 | 2 | 0 | 205ms |
 | imports | 2 | 2 | 0 | 2ms |
+| get_qa_gate_profile | 2 | 2 | 0 | 6ms |
 | complexity_hotspots | 1 | 1 | 0 | 389ms |
 | doc_scan | 1 | 1 | 0 | 759ms |
 | lint_spec | 1 | 1 | 0 | 8ms |
 | sast_scan | 1 | 1 | 0 | 10ms |
 | secretscan | 1 | 1 | 0 | 137ms |
-| sbom_generate | 1 | 1 | 0 | 67ms |
 | pkg_audit | 1 | 1 | 0 | 3123ms |
-| write_retro | 1 | 1 | 0 | 16ms |
-| req_coverage | 1 | 1 | 0 | 17ms |
-| write_drift_evidence | 1 | 1 | 0 | 53ms |
 | syntax_check | 1 | 1 | 0 | 34ms |
 | placeholder_scan | 1 | 1 | 0 | 14ms |
-| get_qa_gate_profile | 1 | 1 | 0 | 6ms |
+| evidence_check | 1 | 1 | 0 | 9ms |
+| test_impact | 1 | 1 | 0 | 55ms |

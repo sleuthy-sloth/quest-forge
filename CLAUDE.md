@@ -106,28 +106,34 @@ edu_completions
   completed_at (timestamptz)
   xp_awarded (int)
 
-loot_store_items
+rewards
   id (uuid, PK)
   household_id (uuid, FK to households) — each family has their own loot store
-  name (text)
+  title (text)
   description (text)
-  flavor_text (text)
-  cost_xp (int, default 0)
   cost_gold (int, default 0)
-  category ('real_reward' | 'cosmetic' | 'power_up' | 'story_unlock')
-  real_reward_description (text) — what the kid actually gets IRL
-  is_available (boolean, default true)
+  cost_xp (int, default 0)
+  category (loot_category) — 'real_reward' | 'cosmetic' | 'power_up' | 'story_unlock'
   sprite_icon (text, nullable) — reference to pixel art icon
-  created_by (uuid, FK to profiles)
+  is_available (boolean, default true)
+  created_by (uuid, FK to profiles, nullable)
+  icon_type (text)
+  reward_type (reward_type)
+  metadata (jsonb, default '{}')
+  created_at (timestamptz)
+  — Replaces the legacy loot_store_items table (data migrated in migration 023)
 
-purchases
+redemptions
   id (uuid, PK)
   household_id (uuid, FK to households)
-  item_id (uuid, FK to loot_store_items)
   player_id (uuid, FK to profiles)
-  purchased_at (timestamptz)
-  redeemed (boolean, default false)
-  redeemed_at (timestamptz, nullable)
+  reward_id (uuid, FK to rewards)
+  status (redemption_status) — 'pending' | 'redeemed' | 'cancelled'
+  gold_cost_paid (int, nullable) — historical price at time of purchase
+  xp_cost_paid (int, nullable) — historical price at time of purchase
+  created_at (timestamptz)
+  approved_at (timestamptz, nullable)
+  — Replaces the legacy purchases table (data migrated in migration 023)
 
 story_chapters
   id (uuid, PK)
@@ -170,6 +176,14 @@ api_usage
   request_count (int, default 0)
   last_updated (timestamptz)
   — Single row per day, incremented on each Gemini call
+
+lore_milestones
+  id (uuid, PK)
+  player_id (uuid, FK to profiles)
+  chapter_id (uuid, FK to story_chapters)
+  text (text)
+  created_at (timestamptz)
+  — Added in migration 024 for GM-bestowed narrative milestones
 ```
 
 ### Row-Level Security Pattern
@@ -201,7 +215,7 @@ CREATE POLICY "gm_write" ON [table_name]
 Exceptions:
 - `edu_challenges` — globally readable (shared content), only writable by system/seed
 - `chore_completions` — players can INSERT (mark complete), only GMs can UPDATE (verify)
-- `purchases` — players can INSERT (buy items)
+- `redemptions` — players can INSERT (buy rewards via purchase_reward RPC)
 - `edu_completions` — players can INSERT (submit scores)
 
 ---
