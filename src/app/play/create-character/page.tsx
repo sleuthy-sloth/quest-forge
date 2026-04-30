@@ -954,14 +954,16 @@ function CreateCharacterInner() {
       }
 
       if (isEditMode && profile.avatar_class) {
-        // Load existing class
+        // Load existing class — if the class id is no longer valid, fall back to step 1
         const existingClass = CLASSES.find(c => c.id === profile.avatar_class) ?? null
-        if (existingClass) setSelectedClass(existingClass)
-        // Load existing avatar config
-        if (profile.avatar_config) {
-          setConfig(profile.avatar_config as unknown as AvatarConfig)
+        if (existingClass) {
+          setSelectedClass(existingClass)
+          if (profile.avatar_config) {
+            setConfig(profile.avatar_config as unknown as AvatarConfig)
+          }
+          setStep(2)
         }
-        setStep(2)
+        // If existingClass is null, stay at step 1 so the user can pick a valid class
         setIsLoading(false)
         return
       }

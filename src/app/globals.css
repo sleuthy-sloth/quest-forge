@@ -28,8 +28,8 @@
   /* Text */
   --text-primary:   #f0e6c8;
   --text-secondary: #b09a6e;
-  --text-muted:     #6b5d44;
-  --text-disabled:  #3d3526;
+  --text-muted:     #8a7a5a;
+  --text-disabled:  #6b5d44;
 
   /* Status */
   --error:   #e05555;
@@ -546,8 +546,8 @@ canvas.pixel,
   /* Text */
   --qf-parchment:        #f0e6c8;
   --qf-parchment-dim:    #b09a6e;
-  --qf-parchment-muted:  #6b5d44;
-  --qf-parchment-faint:  #3d3526;
+  --qf-parchment-muted:  #8a7a5a;   /* lightened from #6b5d44 — ~4.6:1 contrast on dark bg */
+  --qf-parchment-faint:  #6b5d44;   /* lightened from #3d3526 — used for decorative/label text */
 
   /* Status */
   --qf-error:    #e05555;

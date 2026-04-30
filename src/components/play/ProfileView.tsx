@@ -493,35 +493,59 @@ export default function ProfileView({
         variants={itemVariants}
         style={{
           display: 'flex',
-          gap: '1rem',
+          flexDirection: 'column',
+          gap: '0.75rem',
           marginTop: 'auto',
           paddingTop: '2rem',
           borderTop: '1px solid rgba(255,255,255,0.05)',
           zIndex: 1,
         }}
       >
+        <div style={{ display: 'flex', gap: '1rem' }}>
+          <Link
+            href="/play"
+            style={{
+              flex: 1,
+              height: '48px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'rgba(255,255,255,0.05)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: '6px',
+              color: 'var(--qf-parchment)',
+              textDecoration: 'none',
+              fontSize: '0.9rem',
+              fontWeight: 600,
+            }}
+          >
+            Back to Dashboard
+          </Link>
+          <div style={{ flex: 1 }}>
+            <SignOutButton />
+          </div>
+        </div>
         <Link
-          href="/play"
+          href="/play?walkthrough=1"
           style={{
-            flex: 1,
-            height: '48px',
+            width: '100%',
+            height: '40px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'rgba(255,255,255,0.05)',
-            border: '1px solid rgba(255,255,255,0.1)',
+            background: 'transparent',
+            border: `1px solid ${accent}33`,
             borderRadius: '6px',
-            color: 'var(--qf-parchment)',
+            color: accent,
             textDecoration: 'none',
-            fontSize: '0.9rem',
-            fontWeight: 600,
+            fontSize: '0.75rem',
+            fontFamily: 'var(--font-pixel)',
+            letterSpacing: '0.1em',
+            opacity: 0.7,
           }}
         >
-          Back to Dashboard
+          REPLAY INTRO
         </Link>
-        <div style={{ flex: 1 }}>
-          <SignOutButton />
-        </div>
       </motion.div>
       
       {/* Floating Embers Component (Simplified Inline) */}
