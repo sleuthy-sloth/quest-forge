@@ -14,6 +14,37 @@ export interface ProceduralBossProps {
 
 export type ProceduralBossComponent = React.FC<ProceduralBossProps>
 
+// ── Helpers ────────────────────────────────────────────────────────────────
+
+interface ImageBossProps extends ProceduralBossProps {
+  src: string
+  filterId: string
+}
+
+const ImageBoss: React.FC<ImageBossProps> = ({ src, size, glowColor, filterId }) => (
+  <svg width={size} height={size} viewBox="0 0 256 256" style={{ overflow: 'visible' }}>
+    <defs>
+      <filter id={filterId} x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="8" result="blur" />
+        <feColorMatrix in="blur" type="matrix"
+          values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -6" result="colorGlow" />
+        <feComposite in="SourceGraphic" in2="colorGlow" operator="over" />
+      </filter>
+    </defs>
+    <motion.g
+      animate={{ y: [0, -8, 2, 0], scale: [1, 1.02, 0.99, 1] }}
+      transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+      style={{ transformOrigin: '128px 128px' }}
+    >
+      <image href={src} x="0" y="0" width="256" height="256"
+        preserveAspectRatio="xMidYMid meet"
+        style={{ filter: `url(#${filterId}) drop-shadow(0 0 12px ${glowColor})` }}
+      />
+    </motion.g>
+  </svg>
+)
+
+
 // ── 1. Grove-Guardian Automaton (Flagship Pixar-Fantasy Boss) ────────────────
 
 const GroveGuardian: ProceduralBossComponent = ({ palette, size, glowColor }) => {
@@ -170,81 +201,10 @@ const GroveGuardian: ProceduralBossComponent = ({ palette, size, glowColor }) =>
 
 // ── 2. Treant (Organic Forest Guardian) ───────────────────────────────────
 
-const ProceduralTreant: ProceduralBossComponent = ({ palette, size, glowColor }) => {
-  const baseSize = 256
-  return (
-    <svg width={size} height={size} viewBox={`0 0 ${baseSize} ${baseSize}`} style={{ overflow: 'visible' }}>
-      <defs>
-        <linearGradient id="barkGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor={palette.accent} />
-          <stop offset="100%" stopColor={palette.primary} />
-        </linearGradient>
-        <filter id="barkDepth">
-          <feGaussianBlur in="SourceAlpha" stdDeviation="2" />
-          <feOffset dx="1" dy="2" />
-          <feComposite in="SourceGraphic" operator="over" />
-        </filter>
-      </defs>
+const ProceduralTreant: ProceduralBossComponent = (props) => (
+  <ImageBoss {...props} src="/images/bosses/thornmaw.png" filterId="img-boss-treant" />
+)
 
-      <motion.g
-        animate={{ rotate: [-1, 1, -1], y: [0, -2, 0] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        style={{ transformOrigin: 'center bottom' }}
-      >
-        {/* Trunk */}
-        <path
-          d="M100 240 Q128 250 156 240 L140 100 Q128 90 116 100 Z"
-          fill="url(#barkGradient)"
-          filter="url(#barkDepth)"
-        />
-        {/* Branches */}
-        <motion.path
-          d="M116 120 Q80 100 60 130"
-          stroke={palette.secondary}
-          strokeWidth="8"
-          strokeLinecap="round"
-          animate={{ rotate: [-5, 5, -5] }}
-          transition={{ duration: 4, repeat: Infinity }}
-          style={{ transformOrigin: '116px 120px' }}
-        />
-        <motion.path
-          d="M140 120 Q176 100 196 130"
-          stroke={palette.secondary}
-          strokeWidth="8"
-          strokeLinecap="round"
-          animate={{ rotate: [5, -5, 5] }}
-          transition={{ duration: 4, repeat: Infinity }}
-          style={{ transformOrigin: '140px 120px' }}
-        />
-        {/* Leafy Canopy */}
-        <motion.circle
-          cx="128" cy="80" r="50"
-          fill={palette.accent}
-          fillOpacity="0.8"
-          animate={{ scale: [1, 1.05, 1] }}
-          transition={{ duration: 3, repeat: Infinity }}
-        />
-        <circle cx="100" cy="100" r="30" fill={palette.secondary} fillOpacity="0.6" />
-        <circle cx="156" cy="100" r="30" fill={palette.secondary} fillOpacity="0.6" />
-        {/* Glowing Eyes */}
-        <motion.circle
-          cx="118" cy="140" r="4"
-          fill="#fff"
-          animate={{ opacity: [0.4, 1, 0.4] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          style={{ filter: `drop-shadow(0 0 4px ${glowColor})` }}
-        />
-        <motion.circle
-          cx="138" cy="140" r="4"
-          fill="#fff"
-          animate={{ opacity: [0.4, 1, 0.4] }}
-          transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-          style={{ filter: `drop-shadow(0 0 4px ${glowColor})` }}
-        />
-      </motion.g>
-    </svg>
-  )
-}
 
 // ── 3. Giant (Boulder Construct) ──────────────────────────────────────────
 
@@ -253,63 +213,75 @@ const ProceduralGiant: ProceduralBossComponent = ({ palette, size, glowColor }) 
   return (
     <svg width={size} height={size} viewBox={`0 0 ${baseSize} ${baseSize}`} style={{ overflow: 'visible' }}>
       <defs>
-        <filter id="rockShadow">
-          <feDropShadow dx="2" dy="4" stdDeviation="3" floodOpacity="0.5" />
-        </filter>
-        <radialGradient id="rockGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor={palette.accent} />
+        <radialGradient id="emberGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor={palette.accent} stopOpacity={0.8} />
           <stop offset="100%" stopColor="transparent" />
         </radialGradient>
       </defs>
 
       <motion.g
-        animate={{ y: [0, 4, 0] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        animate={{ scaleY: [1, 1.02, 1] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        style={{ transformOrigin: 'center bottom' }}
       >
-        {/* Legs */}
-        <path d="M80 220 Q90 250 110 240 L120 220 Z" fill={palette.primary} />
-        <path d="M176 220 Q166 250 146 240 L136 220 Z" fill={palette.primary} />
-
-        {/* Torso */}
+        {/* Massive Ash Body */}
         <path
-          d="M70 120 Q128 100 186 120 Q200 180 186 220 Q128 230 70 220 Q56 180 70 120"
-          fill={palette.secondary}
-          filter="url(#rockShadow)"
+          d="M60 240 Q128 250 196 240 L210 140 Q128 100 46 140 Z"
+          fill={palette.primary}
+          style={{ filter: 'brightness(0.7)' }}
+        />
+        {/* Chest Cavity / Hollow */}
+        <path
+          d="M110 160 Q128 150 146 160 L140 190 Q128 200 116 190 Z"
+          fill="#1a1a1a"
+        />
+        {/* Dying Ember in Chest */}
+        <motion.circle
+          cx="128" cy="175" r="4"
+          fill={palette.accent}
+          animate={{ opacity: [0.2, 0.6, 0.2], scale: [0.8, 1.2, 0.8] }}
+          transition={{ duration: 4, repeat: Infinity }}
+          style={{ filter: `drop-shadow(0 0 8px ${palette.accent})` }}
         />
 
-        {/* Arms */}
-        <motion.path
-          d="M70 140 Q40 160 30 200"
-          stroke={palette.primary}
-          strokeWidth="15"
-          strokeLinecap="round"
-          animate={{ rotate: [-2, 2, -2] }}
-          transition={{ duration: 3, repeat: Infinity }}
-          style={{ transformOrigin: '70px 140px' }}
-        />
-        <motion.path
-          d="M186 140 Q216 160 226 200"
-          stroke={palette.primary}
-          strokeWidth="15"
-          strokeLinecap="round"
-          animate={{ rotate: [2, -2, 2] }}
-          transition={{ duration: 3, repeat: Infinity }}
-          style={{ transformOrigin: '186px 140px' }}
-        />
+        {/* Massive Arms */}
+        <path d="M46 150 Q20 180 30 230" fill="none" stroke={palette.primary} strokeWidth="24" strokeLinecap="round" />
+        <path d="M210 150 Q236 180 226 230" fill="none" stroke={palette.primary} strokeWidth="24" strokeLinecap="round" />
 
         {/* Head */}
-        <path
-          d="M100 110 Q128 80 156 110 L140 130 H116 Z"
-          fill={palette.primary}
-        />
+        <g transform="translate(0, -10)">
+          <path d="M100 110 Q128 80 156 110 L146 140 H110 Z" fill={palette.primary} />
+          {/* Hollow Eye Sockets */}
+          <circle cx="115" cy="115" r="6" fill="#000" />
+          <circle cx="141" cy="115" r="6" fill="#000" />
+          {/* Near-dead ember glow in eyes */}
+          <motion.circle
+            cx="115" cy="115" r="2"
+            fill={palette.accent}
+            animate={{ opacity: [0.1, 0.4, 0.1] }}
+            transition={{ duration: 5, repeat: Infinity }}
+          />
+          <motion.circle
+            cx="141" cy="115" r="2"
+            fill={palette.accent}
+            animate={{ opacity: [0.1, 0.4, 0.1] }}
+            transition={{ duration: 5, repeat: Infinity, delay: 0.5 }}
+          />
+        </g>
 
-        {/* Glowing Runes */}
-        <motion.circle
-          cx="128" cy="160" r="15"
-          fill="url(#rockGlow)"
-          animate={{ opacity: [0.3, 0.8, 0.3], scale: [0.9, 1.1, 0.9] }}
-          transition={{ duration: 2.5, repeat: Infinity }}
-        />
+        {/* Dead Leaves */}
+        {[
+          { x: 80, y: 160, r: 15 }, { x: 170, y: 180, r: -20 },
+          { x: 100, y: 220, r: 45 }, { x: 150, y: 140, r: 10 }
+        ].map((leaf, i) => (
+          <path
+            key={i}
+            d="M0 0 Q4 -4 8 0 Q4 4 0 0"
+            fill="#5c4033"
+            transform={`translate(${leaf.x}, ${leaf.y}) rotate(${leaf.r}) scale(1.5)`}
+            opacity="0.6"
+          />
+        ))}
       </motion.g>
     </svg>
   )
@@ -322,42 +294,70 @@ const ProceduralFlame: ProceduralBossComponent = ({ palette, size, glowColor }) 
   return (
     <svg width={size} height={size} viewBox={`0 0 ${baseSize} ${baseSize}`} style={{ overflow: 'visible' }}>
       <defs>
-        <radialGradient id="flameCore" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#fff" />
-          <stop offset="40%" stopColor={palette.accent} />
-          <stop offset="100%" stopColor="transparent" />
+        <radialGradient id="voidInterior" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#0a0a2a" />
+          <stop offset="100%" stopColor="#000" />
         </radialGradient>
+        <filter id="flameBlur">
+          <feGaussianBlur stdDeviation="3" />
+        </filter>
       </defs>
 
-      <g style={{ filter: `blur(4px) drop-shadow(0 0 12px ${glowColor})` }}>
-        {/* Multiple flame layers with offset animations */}
-        {[0, 1, 2].map((i) => (
-          <motion.path
-            key={i}
-            d="M128 240 Q80 200 100 140 Q128 80 128 20 Q128 80 156 140 Q176 200 128 240"
-            fill={i === 0 ? palette.primary : i === 1 ? palette.secondary : palette.accent}
-            fillOpacity={0.4 + i * 0.2}
-            animate={{
-              scale: [1, 1.1, 0.9, 1],
-              rotate: [i * 5 - 5, i * 5, i * 5 - 5],
-              y: [0, -10, 0],
-            }}
-            transition={{
-              duration: 2 + i * 0.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: i * 0.3,
-            }}
-            style={{ transformOrigin: 'center bottom' }}
-          />
-        ))}
-      </g>
+      {/* Warm Outer Flames */}
+      <motion.g
+        animate={{ scale: [1, 1.05, 1], rotate: [-1, 1, -1] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        style={{ transformOrigin: 'center bottom' }}
+      >
+        <path
+          d="M128 240 Q60 200 80 120 Q128 20 128 0 Q128 20 176 120 Q196 200 128 240"
+          fill={palette.accent}
+          filter="url(#flameBlur)"
+          style={{ opacity: 0.8 }}
+        />
+        <path
+          d="M128 230 Q70 190 90 120 Q128 40 128 20 Q128 40 166 120 Q186 190 128 230"
+          fill={palette.secondary}
+          filter="url(#flameBlur)"
+          style={{ opacity: 0.6 }}
+        />
+      </motion.g>
 
-      <motion.circle
-        cx="128" cy="160" r="20"
-        fill="url(#flameCore)"
-        animate={{ scale: [1, 1.3, 1], opacity: [0.6, 1, 0.6] }}
-        transition={{ duration: 1.5, repeat: Infinity }}
+      {/* Cold Void Interior - Feminine Silhouette */}
+      <motion.path
+        d="M128 220 Q100 210 110 160 Q128 150 146 160 Q156 210 128 220 M128 150 Q100 140 100 110 Q128 70 128 50 Q128 70 156 110 Q156 140 128 150"
+        fill="url(#voidInterior)"
+        animate={{ scale: [1, 1.02, 1] }}
+        transition={{ duration: 4, repeat: Infinity }}
+        style={{ transformOrigin: 'center bottom' }}
+      />
+
+      {/* Ice-Blue Eyes */}
+      <motion.g>
+        <motion.circle
+          cx="115" cy="100" r="2.5"
+          fill="#00ffff"
+          animate={{ scaleY: [1, 0, 1] }}
+          transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 6 }}
+          style={{ filter: 'drop-shadow(0 0 4px #00ffff)' }}
+        />
+        <motion.circle
+          cx="141" cy="100" r="2.5"
+          fill="#00ffff"
+          animate={{ scaleY: [1, 0, 1] }}
+          transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 6, delay: 0.1 }}
+          style={{ filter: 'drop-shadow(0 0 4px #00ffff)' }}
+        />
+      </motion.g>
+
+      {/* False Smile */}
+      <path
+        d="M120 120 Q128 128 136 120"
+        fill="none"
+        stroke="#00ffff"
+        strokeWidth="1"
+        strokeLinecap="round"
+        opacity="0.4"
       />
     </svg>
   )
@@ -370,44 +370,63 @@ const ProceduralHollowKing: ProceduralBossComponent = ({ palette, size, glowColo
   return (
     <svg width={size} height={size} viewBox={`0 0 ${baseSize} ${baseSize}`} style={{ overflow: 'visible' }}>
       <defs>
-        <linearGradient id="capeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+        <linearGradient id="cloakGradient" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" stopColor={palette.secondary} />
           <stop offset="100%" stopColor="transparent" />
         </linearGradient>
       </defs>
 
       <motion.g
-        animate={{ y: [0, -8, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        animate={{ y: [0, -10, 0] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
       >
-        {/* Cape / Ghostly Body */}
+        {/* Billowing Cloak */}
         <motion.path
-          d="M80 100 Q128 80 176 100 L200 240 Q128 260 56 240 Z"
-          fill="url(#capeGradient)"
+          d="M80 100 Q128 80 176 100 L210 250 Q128 260 46 250 Z"
+          fill="url(#cloakGradient)"
           animate={{ d: [
-            "M80 100 Q128 80 176 100 L200 240 Q128 260 56 240 Z",
-            "M80 100 Q128 80 176 100 L210 250 Q128 240 46 250 Z",
-            "M80 100 Q128 80 176 100 L200 240 Q128 260 56 240 Z"
+            "M80 100 Q128 80 176 100 L210 250 Q128 260 46 250 Z",
+            "M80 100 Q128 80 176 100 L220 240 Q128 270 36 240 Z",
+            "M80 100 Q128 80 176 100 L210 250 Q128 260 46 250 Z"
           ]}}
-          transition={{ duration: 4, repeat: Infinity }}
+          transition={{ duration: 3, repeat: Infinity }}
         />
 
-        {/* Head / Mask */}
-        <g style={{ filter: `drop-shadow(0 0 10px ${glowColor})` }}>
-          <path d="M100 80 Q128 50 156 80 L140 120 H116 Z" fill={palette.primary} />
-          <motion.path
-            d="M100 60 L128 20 L156 60"
-            fill="none"
-            stroke={palette.accent}
-            strokeWidth="4"
-            animate={{ opacity: [0.5, 1, 0.5] }}
+        {/* Skull Face */}
+        <g transform="translate(0, 10)">
+          <path d="M100 80 Q128 50 156 80 L140 130 H116 Z" fill="#f0f0f0" />
+          {/* Oval hollow eye sockets */}
+          <motion.ellipse
+            cx="118" cy="90" rx="4" ry="6"
+            fill="#000"
+            animate={{ scale: [1, 1.2, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
+          />
+          <motion.ellipse
+            cx="138" cy="90" rx="4" ry="6"
+            fill="#000"
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ duration: 2, repeat: Infinity, delay: 0.2 }}
           />
         </g>
 
-        {/* Glowing Eyes */}
-        <motion.circle cx="118" cy="85" r="3" fill="#fff" animate={{ opacity: [0, 1, 0] }} transition={{ duration: 3, repeat: Infinity }} />
-        <motion.circle cx="138" cy="85" r="3" fill="#fff" animate={{ opacity: [0, 1, 0] }} transition={{ duration: 3, repeat: Infinity, delay: 0.2 }} />
+        {/* Elaborate 5-spike Crown */}
+        <path
+          d="M100 70 L95 40 L108 65 L115 30 L123 65 L128 20 L133 65 L141 30 L148 65 L161 40 L156 70"
+          fill={palette.accent}
+          style={{ filter: `drop-shadow(0 0 8px ${palette.accent})` }}
+        />
+
+        {/* Skeletal Hands */}
+        <motion.g
+          animate={{ x: [-2, 2, -2], y: [0, 4, 0] }}
+          transition={{ duration: 4, repeat: Infinity }}
+        >
+          {/* Left Hand */}
+          <path d="M60 160 Q40 170 50 190 M50 190 L40 200 M50 190 L50 205 M50 190 L60 200" stroke="#f0f0f0" strokeWidth="2" strokeLinecap="round" fill="none" />
+          {/* Right Hand */}
+          <path d="M196 160 Q216 170 206 190 M206 190 L216 200 M206 190 L206 205 M206 190 L196 200" stroke="#f0f0f0" strokeWidth="2" strokeLinecap="round" fill="none" />
+        </motion.g>
       </motion.g>
     </svg>
   )
@@ -415,160 +434,10 @@ const ProceduralHollowKing: ProceduralBossComponent = ({ palette, size, glowColo
 
 // ── 6. Whispering Swarm (Animated Bee Swarm) ──────────────────────────────
 
-const ProceduralWhisperingSwarm: ProceduralBossComponent = ({ palette, size, glowColor }) => {
-  const baseSize = 256
+const ProceduralWhisperingSwarm: ProceduralBossComponent = (props) => (
+  <ImageBoss {...props} src="/images/bosses/whisperingswarm.png" filterId="img-boss-swarm" />
+)
 
-  // 18 bees laid out in two concentric rings + a few loose ones
-  const bees: { r: number; angle: number; speed: number; wobble: number; scale: number }[] = [
-    // Inner ring (r ≈ 40)
-    { r: 38, angle: 0,   speed: 7,  wobble: 0.8, scale: 1.0 },
-    { r: 42, angle: 60,  speed: 8,  wobble: 1.1, scale: 0.9 },
-    { r: 36, angle: 120, speed: 9,  wobble: 0.7, scale: 1.1 },
-    { r: 40, angle: 180, speed: 7,  wobble: 1.0, scale: 0.95 },
-    { r: 44, angle: 240, speed: 8,  wobble: 0.9, scale: 1.0 },
-    { r: 38, angle: 300, speed: 9,  wobble: 1.2, scale: 0.85 },
-    // Outer ring (r ≈ 72)
-    { r: 70, angle: 20,  speed: 11, wobble: 1.3, scale: 0.8 },
-    { r: 75, angle: 65,  speed: 12, wobble: 0.9, scale: 0.9 },
-    { r: 68, angle: 110, speed: 10, wobble: 1.1, scale: 0.75 },
-    { r: 73, angle: 155, speed: 13, wobble: 0.8, scale: 0.85 },
-    { r: 71, angle: 200, speed: 11, wobble: 1.2, scale: 0.9 },
-    { r: 76, angle: 245, speed: 12, wobble: 1.0, scale: 0.8 },
-    { r: 69, angle: 290, speed: 10, wobble: 0.7, scale: 0.95 },
-    { r: 74, angle: 335, speed: 13, wobble: 1.1, scale: 0.7 },
-    // Loose stragglers
-    { r: 54, angle: 35,  speed: 15, wobble: 1.5, scale: 0.65 },
-    { r: 58, angle: 145, speed: 14, wobble: 1.3, scale: 0.7 },
-    { r: 62, angle: 255, speed: 16, wobble: 1.4, scale: 0.6 },
-    { r: 50, angle: 310, speed: 14, wobble: 1.2, scale: 0.75 },
-  ]
-
-  const cx = 128
-  const cy = 128
-
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox={`0 0 ${baseSize} ${baseSize}`}
-      style={{ overflow: 'visible' }}
-    >
-      <defs>
-        <radialGradient id="swarmCore" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor={palette.accent} stopOpacity={0.55} />
-          <stop offset="60%" stopColor={palette.secondary} stopOpacity={0.2} />
-          <stop offset="100%" stopColor="transparent" stopOpacity={0} />
-        </radialGradient>
-
-        <radialGradient id="swarmGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor={glowColor} stopOpacity={0.35} />
-          <stop offset="100%" stopColor="transparent" stopOpacity={0} />
-        </radialGradient>
-
-        <filter id="swarmBlur" x="-30%" y="-30%" width="160%" height="160%">
-          <feGaussianBlur stdDeviation="3" result="blur" />
-          <feComposite in="SourceGraphic" in2="blur" operator="over" />
-        </filter>
-      </defs>
-
-      {/* Ambient glow cloud */}
-      <motion.ellipse
-        cx={cx} cy={cy} rx={82} ry={70}
-        fill="url(#swarmGlow)"
-        animate={{ rx: [82, 90, 78, 82], ry: [70, 65, 74, 70] }}
-        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-      />
-
-      {/* Honey-amber core */}
-      <motion.circle
-        cx={cx} cy={cy} r={30}
-        fill="url(#swarmCore)"
-        animate={{ r: [28, 33, 27, 30], opacity: [0.7, 1, 0.6, 0.7] }}
-        transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-      />
-
-      {/* Whole swarm drifts gently */}
-      <motion.g
-        animate={{ y: [0, -6, 2, 0], x: [0, 3, -2, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        {bees.map((bee, i) => {
-          const angleRad = (bee.angle * Math.PI) / 180
-          const bx = cx + Math.cos(angleRad) * bee.r
-          const by = cy + Math.sin(angleRad) * bee.r
-
-          const bodyW = 10 * bee.scale
-          const bodyH = 6 * bee.scale
-          const wingW = 8 * bee.scale
-          const wingH = 5 * bee.scale
-
-          return (
-            <motion.g
-              key={i}
-              // Each bee orbits the swarm center
-              animate={{
-                rotate: [0, 360],
-                x: [0, Math.cos(angleRad + 1.5) * 4, 0, Math.cos(angleRad - 1.5) * 4, 0],
-                y: [0, Math.sin(angleRad) * bee.wobble * 3, bee.wobble * -2, 0],
-              }}
-              transition={{
-                rotate: { duration: bee.speed, repeat: Infinity, ease: 'linear' },
-                x: { duration: bee.wobble * 1.2 + 0.8, repeat: Infinity, ease: 'easeInOut' },
-                y: { duration: bee.wobble + 0.6, repeat: Infinity, ease: 'easeInOut' },
-              }}
-              style={{ transformOrigin: `${cx}px ${cy}px` }}
-            >
-              {/* Bee positioned at its ring position */}
-              <g transform={`translate(${bx}, ${by})`}>
-                {/* Wings */}
-                <motion.ellipse
-                  cx={-bodyW * 0.1} cy={-wingH * 0.9}
-                  rx={wingW * 0.7} ry={wingH}
-                  fill={palette.accent}
-                  fillOpacity={0.45}
-                  animate={{ ry: [wingH, wingH * 0.4, wingH] }}
-                  transition={{ duration: 0.18, repeat: Infinity, ease: 'easeInOut', delay: i * 0.04 }}
-                />
-                <motion.ellipse
-                  cx={bodyW * 0.1} cy={-wingH * 0.9}
-                  rx={wingW * 0.7} ry={wingH}
-                  fill={palette.accent}
-                  fillOpacity={0.45}
-                  animate={{ ry: [wingH, wingH * 0.4, wingH] }}
-                  transition={{ duration: 0.18, repeat: Infinity, ease: 'easeInOut', delay: i * 0.04 + 0.09 }}
-                />
-                {/* Body */}
-                <ellipse cx={0} cy={0} rx={bodyW * 0.5} ry={bodyH * 0.5} fill={palette.secondary} />
-                {/* Stripes */}
-                <rect
-                  x={-bodyW * 0.25} y={-bodyH * 0.18}
-                  width={bodyW * 0.2} height={bodyH * 0.36}
-                  fill={palette.primary}
-                  rx={1}
-                />
-                <rect
-                  x={bodyW * 0.05} y={-bodyH * 0.18}
-                  width={bodyW * 0.2} height={bodyH * 0.36}
-                  fill={palette.primary}
-                  rx={1}
-                />
-              </g>
-            </motion.g>
-          )
-        })}
-      </motion.g>
-
-      {/* Central eye — the Queen's gaze */}
-      <motion.circle
-        cx={cx} cy={cy} r={5}
-        fill={palette.accent}
-        animate={{ opacity: [0.4, 1, 0.3, 0.9, 0.4], r: [4, 6, 4] }}
-        transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
-        style={{ filter: `drop-shadow(0 0 6px ${glowColor})` }}
-      />
-    </svg>
-  )
-}
 
 // ── Registry ─────────────────────────────────────────────────────────────────
 
