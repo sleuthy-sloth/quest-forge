@@ -129,6 +129,30 @@ const DEFAULT_CONFIG: AvatarConfig = {
   shield:  { id: null,          color: null },
 }
 
+// Ensures every layer field is an object so .id / .color accesses never throw.
+// Stored avatar_config may have null for optional layers (hands, belt, etc.)
+// instead of { id: null, color: null } — this normalizes all of them.
+function safeAvatarConfig(raw: unknown): AvatarConfig {
+  const r = (raw && typeof raw === 'object') ? raw as Record<string, unknown> : {}
+  const layer = <K extends keyof AvatarConfig>(v: unknown, fallback: AvatarConfig[K]): AvatarConfig[K] =>
+    (v && typeof v === 'object') ? v as AvatarConfig[K] : fallback
+  return {
+    body:   layer(r.body,   DEFAULT_CONFIG.body),
+    head:   layer(r.head,   DEFAULT_CONFIG.head),
+    eyes:   layer(r.eyes,   DEFAULT_CONFIG.eyes),
+    hair:   layer(r.hair,   DEFAULT_CONFIG.hair),
+    pants:  layer(r.pants,  DEFAULT_CONFIG.pants),
+    shirt:  layer(r.shirt,  DEFAULT_CONFIG.shirt),
+    boots:  layer(r.boots,  DEFAULT_CONFIG.boots),
+    hands:  layer(r.hands,  DEFAULT_CONFIG.hands),
+    belt:   layer(r.belt,   DEFAULT_CONFIG.belt),
+    cape:   layer(r.cape,   DEFAULT_CONFIG.cape),
+    helmet: layer(r.helmet, DEFAULT_CONFIG.helmet),
+    weapon: layer(r.weapon, DEFAULT_CONFIG.weapon),
+    shield: layer(r.shield, DEFAULT_CONFIG.shield),
+  }
+}
+
 // ── Icon SVGs ─────────────────────────────────────────────────────────────
 
 function ClassIcon({ icon, color }: { icon: string; color: string }) {
@@ -959,7 +983,7 @@ function CreateCharacterInner() {
         if (existingClass) {
           setSelectedClass(existingClass)
           if (profile.avatar_config) {
-            setConfig(profile.avatar_config as unknown as AvatarConfig)
+            setConfig(safeAvatarConfig(profile.avatar_config))
           }
           setStep(2)
         }
