@@ -56,7 +56,7 @@ export default function ZoneManager({ zone, children }: ZoneManagerProps) {
         stopBgm()
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [zone])
 
   return <>{children}</>

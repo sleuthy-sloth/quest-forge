@@ -168,7 +168,7 @@ function ChapterBlock({ chapter }: { chapter: ChapterRow }) {
         </div>
 
         {/* Narrative Text */}
-        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+        { }
         <div
           className="bg-[#1a140c]/40 border border-[#c9a84c]/10 p-10 md:p-14 rounded-lg shadow-inner cursor-pointer"
           onClick={() => { if (!typingDone) setSkipTyping(true) }}

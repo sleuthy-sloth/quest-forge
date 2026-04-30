@@ -1,0 +1,6 @@
+{
+  "taskId": "2.7",
+  "required_gates": [],
+  "gates": {},
+  "notes": "React 19 test compatibility: all 68 tests pass on React 19.2.5 with vitest 4.1.0 and @testing-library/react 16.3.2. No act() wrapping, cleanup, or type changes needed."
+}

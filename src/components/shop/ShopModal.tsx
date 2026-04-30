@@ -56,7 +56,7 @@ export default function ShopModal({ open, onClose }: ShopModalProps) {
       }
     })()
     return () => { cancelled = true }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [open, householdId])
 
   async function handleBuy(rewardId: string) {

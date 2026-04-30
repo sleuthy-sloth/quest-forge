@@ -217,7 +217,7 @@ const BattleArena = forwardRef<BattleArenaHandle, BattleArenaProps>(
         if (playerShakeTimer.current) clearTimeout(playerShakeTimer.current)
         if (enemyShakeTimer.current) clearTimeout(enemyShakeTimer.current)
       }
-    }, [screenFlash]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [screenFlash]);  
 
     // ── Enemy HP percentage ──────────────────────────────────────────────────
     // Guard: totalQuestions must be > 0 to avoid division by zero.
