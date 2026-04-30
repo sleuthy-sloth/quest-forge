@@ -1,13 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import ZoneManager from '@/components/player/ZoneManager'
-import dynamic from 'next/dynamic'
-import PlayLoading from '../loading'
-
-const WorldCodex = dynamic(() => import('@/components/player/WorldCodex'), {
-  loading: () => <PlayLoading />,
-  ssr: false
-})
+import WorldCodexWrapper from './WorldCodexWrapper'
 
 export const metadata = {
   title: 'Codex of Embervale | Quest Forge',
@@ -47,7 +41,7 @@ export default async function WorldPage() {
 
   return (
     <ZoneManager zone="hub">
-      <WorldCodex
+      <WorldCodexWrapper
         playerClass={profile?.avatar_class ?? null}
         level={profile?.level ?? 1}
         householdPlayers={householdPlayers ?? []}

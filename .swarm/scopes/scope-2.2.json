@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "taskId": "2.2",
+  "declaredAt": 1777574260493,
+  "expiresAt": 1777660660493,
+  "files": [
+    "src/app/play/story/page.tsx",
+    "src/app/play/story/StoryClientWrapper.tsx",
+    "src/app/play/world/page.tsx",
+    "src/app/play/world/WorldCodexWrapper.tsx"
+  ]
+}
