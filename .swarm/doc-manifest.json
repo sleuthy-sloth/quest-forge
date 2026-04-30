@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "scanned_at": "2026-04-30T13:54:26.862Z",
+  "files": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "title": "ci.yml",
+      "summary": "name: CI on: push: branches: [ main ] pull_request: branches: [ main ] jobs: build-and-test: runs-on: ubuntu-latest steps: - uses: actions/checkout@v4 - name: Setup Node.js uses: actions/setup-node@v4",
+      "lines": 39,
+      "mtime": 1777499130510.7766
+    },
+    {
+      "path": "CLAUDE.md",
+      "title": "CLAUDE.md — Quest Forge: The Emberlight Chronicles",
+      "summary": "A multi-tenant fantasy RPG chore-tracking and educational app. Parents sign up, create a household, and add their children as players. Completing real-world chores and age-appropriate educational c...",
+      "lines": 548,
+      "mtime": 1777049573096.397
+    },
+    {
+      "path": "docs/ART_PIPELINE.md",
+      "title": "Quest Forge — Art Pipeline Guide",
+      "summary": "All art is free/open-source pixel art. The visual identity combines Liberated Pixel Cup (LPC) modular character sprites, Kenney.nl UI packs, and OpenGameArt monster sprites. Every asset is legally ...",
+      "lines": 402,
+      "mtime": 1776864896901.3223
+    },
+    {
+      "path": "docs/GAME_DESIGN_DOC.md",
+      "title": "Quest Forge: The Emberlight Chronicles — Game Design Document",
+      "summary": "--- - A **household** is the fundamental unit of the app. One parent (GM), one or more children (players). - Every piece of game data (chores, loot store, story chapters, boss progress) is scoped t...",
+      "lines": 388,
+      "mtime": 1776864896901.4802
+    },
+    {
+      "path": "docs/LORE_BIBLE.md",
+      "title": "Lore Bible: The Chronicles of Embervale",
+      "summary": "Embervale is a realm of flickering light surrounded by an encroaching void known as **The Hollow**. The balance of the world is maintained by the **Embershards**, magical crystalline fragments that...",
+      "lines": 29,
+      "mtime": 1777507760993.2861
+    },
+    {
+      "path": "docs/LORE_CODEX.md",
+      "title": "The Emberlight Chronicles — Lore Codex",
+      "summary": "> *This document serves as the canonical world-building reference for the Quest Forge app. The AI story engine draws from this material when generating weekly chapters. The Game Master can expand t...",
+      "lines": 336,
+      "mtime": 1776864896901.6501
+    },
+    {
+      "path": "docs/note-sprite-animator.txt",
+      "title": "note-sprite-animator.txt",
+      "summary": "The design doc's file structure references a SpriteAnimator component at src/components/avatar/SpriteAnimator.tsx. This was never implemented because AnimatedAvatar.tsx (600 lines) covers all sprit...",
+      "lines": 9,
+      "mtime": 1777514438661.9077
+    },
+    {
+      "path": "docs/PROJECT_PLAN.md",
+      "title": "Quest Forge: The Emberlight Chronicles — Project Plan",
+      "summary": "This plan assumes you're working primarily in **Claude Code** (command-line AI coding assistant) with help from Claude Pro for planning, Gemini for the in-app AI features, and Perplexity for resear...",
+      "lines": 314,
+      "mtime": 1776864896901.7993
+    },
+    {
+      "path": "docs/superpowers/plans/2026-03-14-chore-approval-system.md",
+      "title": "Chore Approval System — Implementation Plan",
+      "summary": "> **For agentic workers:** REQUIRED: Use superpowers:subagent-driven-development (if subagents available) or superpowers:executing-plans to implement this plan. Steps use checkbox (`- [ ]`) syntax ...",
+      "lines": 1153,
+      "mtime": 1776864896902.1648
+    },
+    {
+      "path": "docs/superpowers/plans/2026-03-15-boss-rendering-system.md",
+      "title": "Boss Rendering System Implementation Plan",
+      "summary": "> **For agentic workers:** REQUIRED: Use superpowers:subagent-driven-development (if subagents available) or superpowers:executing-plans to implement this plan. Steps use checkbox (`- [ ]`) syntax ...",
+      "lines": 1240,
+      "mtime": 1776864896902.3823
+    },
+    {
+      "path": "docs/superpowers/plans/2026-03-15-dashboard-bloodstone-redesign.md",
+      "title": "Dashboard Bloodstone Redesign & Sign-out Fix Implementation Plan",
+      "summary": "> **For agentic workers:** REQUIRED: Use superpowers:subagent-driven-development (if subagents available) or superpowers:executing-plans to implement this plan. Steps use checkbox (`- [ ]`) syntax ...",
+      "lines": 695,
+      "mtime": 1776864896902.5518
+    },
+    {
+      "path": "docs/superpowers/plans/2026-03-15-pixel-ui-design-system.md",
+      "title": "Pixel Art UI Design System Implementation Plan",
+      "summary": "> **For agentic workers:** REQUIRED: Use superpowers:subagent-driven-development (if subagents available) or superpowers:executing-plans to implement this plan. Steps use checkbox (`- [ ]`) syntax ...",
+      "lines": 1126,
+      "mtime": 1776864896902.6985
+    },
+    {
+      "path": "docs/superpowers/plans/2026-03-16-academy-hub.md",
+      "title": "Academy Hub Implementation Plan",
+      "summary": "> **For agentic workers:** REQUIRED: Use superpowers:subagent-driven-development (if subagents available) or superpowers:executing-plans to implement this plan. Steps use checkbox (`- [ ]`) syntax ...",
+      "lines": 426,
+      "mtime": 1776864896903.0066
+    },
+    {
+      "path": "docs/superpowers/plans/2026-03-16-math-arena.md",
+      "title": "Math Arena Implementation Plan",
+      "summary": "> **For agentic workers:** REQUIRED: Use superpowers:subagent-driven-development (if subagents available) or superpowers:executing-plans to implement this plan. Steps use checkbox (`- [ ]`) syntax ...",
+      "lines": 719,
+      "mtime": 1776864896903.2576
+    },
+    {
+      "path": "docs/superpowers/plans/2026-03-16-word-forge.md",
+      "title": "Word Forge Implementation Plan",
+      "summary": "> **For agentic workers:** REQUIRED: Use superpowers:subagent-driven-development (if subagents available) or superpowers:executing-plans to implement this plan. Steps use checkbox (`- [ ]`) syntax ...",
+      "lines": 778,
+      "mtime": 1776864896903.3962
+    },
+    {
+      "path": "docs/superpowers/plans/2026-03-17-science-labyrinth.md",
+      "title": "Science Labyrinth Implementation Plan",
+      "summary": "> **For agentic workers:** REQUIRED: Use superpowers:subagent-driven-development (if subagents available) or superpowers:executing-plans to implement this plan. Steps use checkbox (`- [ ]`) syntax ...",
+      "lines": 926,
+      "mtime": 1776864896903.567
+    },
+    {
+      "path": "docs/superpowers/specs/2026-03-14-chore-approval-system-design.md",
+      "title": "Chore Approval System — Design Spec",
+      "summary": "**Date:** 2026-03-14 **Status:** Approved --- Game Masters (parents) need a focused workflow to approve or reject chore completions submitted by players (children). Approved completions trigger XP/...",
+      "lines": 209,
+      "mtime": 1776864896903.8623
+    },
+    {
+      "path": "docs/superpowers/specs/2026-03-15-dashboard-bloodstone-redesign.md",
+      "title": "Dashboard Bloodstone Redesign & Sign-out Fix",
+      "summary": "**Date:** 2026-03-15 **Status:** Approved Two problems to solve: 1. Sign-out button does not reliably redirect after signing out (Next.js router cache retains session state). 2. Dashboard text is h...",
+      "lines": 113,
+      "mtime": 1776864896903.991
+    },
+    {
+      "path": "docs/superpowers/specs/2026-03-15-pixel-ui-design-system.md",
+      "title": "Pixel Art UI Design System — Spec",
+      "summary": "Five reusable React components that replace ad-hoc inline styles across the Quest Forge dashboard and player views. All components use Kenney Pixel UI Pack sprites served from `/public/sprites/ui/`...",
+      "lines": 252,
+      "mtime": 1776864896904.1553
+    },
+    {
+      "path": "docs/superpowers/specs/2026-03-16-academy-hub-design.md",
+      "title": "Academy Hub — Design Spec",
+      "summary": "**Date:** 2026-03-16 **Route:** `src/app/play/academy/page.tsx` A pixel-art wizard's library hub that presents the 6 educational mini-games as books on bookshelves. Players tap a card to enter that...",
+      "lines": 130,
+      "mtime": 1776864896904.2708
+    },
+    {
+      "path": "docs/superpowers/specs/2026-03-16-math-arena-design.md",
+      "title": "Math Arena — Design Spec",
+      "summary": "**Date:** 2026-03-16 **Routes:** `src/app/play/academy/math-arena/page.tsx` · `src/components/games/MathArena.tsx` A pixel-art battle-themed educational math game. Players face a training dummy in ...",
+      "lines": 239,
+      "mtime": 1776864896904.4414
+    },
+    {
+      "path": "docs/superpowers/specs/2026-03-16-word-forge-design.md",
+      "title": "Word Forge — Design Spec",
+      "summary": "**Date:** 2026-03-16 **Routes:** `src/app/play/academy/word-forge/page.tsx` · `src/components/games/WordForge.tsx` A pixel-art blacksmith-themed educational vocabulary game. Players face a forge an...",
+      "lines": 255,
+      "mtime": 1776864896904.577
+    },
+    {
+      "path": "docs/superpowers/specs/2026-03-17-science-labyrinth-design.md",
+      "title": "Science Labyrinth — Design Spec",
+      "summary": "**Date:** 2026-03-17 **Status:** Approved --- Science Labyrinth is a mini-game for the Quest Forge Academy. Players answer science multiple-choice questions framed as navigating a dungeon maze. Cor...",
+      "lines": 248,
+      "mtime": 1776864896904.739
+    },
+    {
+      "path": "docs/SYSTEM_GUIDE.md",
+      "title": "System Guide: AI & Engine Architecture",
+      "summary": "The Quest Forge Story Engine uses **Google Gemini Pro** to generate immersive, personalized narratives. - **Quest Flavor**: Transforms mundane chore titles into heroic tasks. - *Input*: \"Clean the ...",
+      "lines": 32,
+      "mtime": 1777507760993.4155
+    },
+    {
+      "path": "README.md",
+      "title": "Quest Forge: The Emberlight Chronicles",
+      "summary": "A fantasy RPG adventure where real-world chores become heroic quests, and educational challenges unlock epic story chapters. Designed for families with children ages 6-16. **Parents** act as Game M...",
+      "lines": 370,
+      "mtime": 1777515519872.2139
+    }
+  ]
+}
