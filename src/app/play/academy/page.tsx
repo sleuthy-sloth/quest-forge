@@ -6,6 +6,12 @@ import { GAMES, TEACHERS, deriveTier, XP_RANGE, TIER_LABEL } from '@/lib/constan
 import { ENEMY_PRESETS } from '@/lib/constants/enemies'
 import type { TeacherStatus } from '@/lib/constants/academy'
 
+// ── Metadata ──────────────────────────────────────────────────────────────────
+export const metadata = {
+  title: 'Academy of Emberlight | Quest Forge',
+  description: 'Face the nine trials of the faculty. Master Math, Science, and Lore to strengthen the Emberlight.',
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default async function AcademyPage() {

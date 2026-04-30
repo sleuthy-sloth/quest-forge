@@ -1,3 +1,5 @@
+'use client'
+
 import { Embershard } from '@/components/qf/Embershard'
 import { motion } from 'framer-motion'
 

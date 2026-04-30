@@ -1,7 +1,13 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import ZoneManager from '@/components/player/ZoneManager'
-import WorldCodex from '@/components/player/WorldCodex'
+import dynamic from 'next/dynamic'
+import PlayLoading from '../loading'
+
+const WorldCodex = dynamic(() => import('@/components/player/WorldCodex'), {
+  loading: () => <PlayLoading />,
+  ssr: false
+})
 
 export const metadata = {
   title: 'Codex of Embervale | Quest Forge',

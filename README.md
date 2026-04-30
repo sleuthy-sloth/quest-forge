@@ -147,3 +147,26 @@ A fantasy RPG adventure where real-world chores become heroic quests, and educat
 ## Household Privacy
 
 Every family's data is completely isolated. Row-Level Security ensures you only see your own household's quests, players, and progress. Your family's story stays private.
+---
+
+## Technical Stack
+
+- **Framework**: [Next.js 14+](https://nextjs.org/) (App Router)
+- **Database & Auth**: [Supabase](https://supabase.com/)
+- **Styling**: Vanilla CSS (Thematic Design System)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **AI**: [Google Gemini Pro](https://ai.google.dev/) (via Vercel AI SDK)
+- **State Management**: React Context + Server Actions
+- **Deployment**: [Vercel](https://vercel.com/)
+
+## Development Setup
+
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Set up environment variables:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+   - `GEMINI_API_KEY`
+4. Run migrations: `npx supabase db push`
+5. Start development server: `npm run dev`

@@ -2,6 +2,11 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import QuestsClient from '@/components/quests/QuestsClient'
 
+export const metadata = {
+  title: 'Quest Board | Quest Forge',
+  description: 'View and complete your daily deeds to earn XP and Gold.',
+}
+
 export default async function QuestsPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()

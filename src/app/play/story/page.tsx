@@ -1,12 +1,17 @@
-'use client'
+import { Metadata } from 'next'
+import dynamic from 'next/dynamic'
+import PlayLoading from '../loading'
 
-import ZoneManager from '@/components/player/ZoneManager'
-import ChronicleHall from '@/components/story/ChronicleHall'
+const StoryClient = dynamic(() => import('./StoryClient'), {
+  loading: () => <PlayLoading />,
+  ssr: false
+})
+
+export const metadata: Metadata = {
+  title: 'Chronicle Hall | Quest Forge',
+  description: 'Relive the epic legends of Embervale and your household\'s journey through the ages.',
+}
 
 export default function StoryPage() {
-  return (
-    <ZoneManager zone="hub">
-      <ChronicleHall />
-    </ZoneManager>
-  )
+  return <StoryClient />
 }

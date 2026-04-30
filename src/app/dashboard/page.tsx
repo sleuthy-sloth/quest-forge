@@ -11,8 +11,9 @@ import {
 import AvatarPreview from '@/components/avatar/AvatarPreview'
 import NarrativeEditor from '@/components/dashboard/NarrativeEditor'
 
-function classKey(avatarClass: string | null): string {
-  return (avatarClass ?? 'blazewarden').toLowerCase()
+export const metadata = {
+  title: 'GM Dashboard | Quest Forge',
+  description: 'Manage quests, verify deeds, and shape the narrative of Embervale.',
 }
 
 export default async function GMHomePage() {

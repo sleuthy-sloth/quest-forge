@@ -32,12 +32,18 @@ export const metadata: Metadata = {
   title: 'Quest Forge: The Emberlight Chronicles',
   description: 'A fantasy RPG adventure where real-world chores and learning earn XP, unlock stories, and defeat bosses.',
   manifest: '/manifest.json',
-  themeColor: '#c9a84c',
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0',
   icons: {
     icon: '/images/ui/icons/icon_embershard.png',
     apple: '/images/ui/icons/icon_embershard_radiant.png',
   },
+}
+
+export const viewport = {
+  themeColor: '#c9a84c',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 }
 
 export default function RootLayout({

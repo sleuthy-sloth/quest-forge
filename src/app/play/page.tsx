@@ -15,6 +15,11 @@ import { embershardState, xpForLevel } from '@/lib/xp'
 import { TEACHERS, SLUG_PRESET } from '@/lib/constants/academy'
 import { ENEMY_PRESETS } from '@/lib/constants/enemies'
 
+export const metadata = {
+  title: 'Dashboard | Quest Forge',
+  description: 'Track your progress, view active bosses, and complete your daily deeds in Embervale.',
+}
+
 export default async function PlayerHomePage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
