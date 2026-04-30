@@ -1,0 +1,4124 @@
+{
+  "schema_version": "1.0.0",
+  "workspaceRoot": "/Users/spkoehl/Documents/OpenCode/quest-forge",
+  "nodes": {
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/e2e/golden-path.spec.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/e2e/golden-path.spec.ts",
+      "moduleName": "e2e/golden-path.spec.ts",
+      "exports": [],
+      "imports": [
+        "@playwright/test"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T02:11:54.144Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/e2e/story-progression.spec.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/e2e/story-progression.spec.ts",
+      "moduleName": "e2e/story-progression.spec.ts",
+      "exports": [],
+      "imports": [
+        "@playwright/test"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T02:11:54.144Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/next-env.d.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/next-env.d.ts",
+      "moduleName": "next-env.d.ts",
+      "exports": [],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-22T13:37:03.055Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/next.config.mjs": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/next.config.mjs",
+      "moduleName": "next.config.mjs",
+      "exports": [
+        "nextConfig"
+      ],
+      "imports": [
+        "next"
+      ],
+      "language": "javascript",
+      "mtime": "2026-04-30T01:27:22.578Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/playwright.config.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/playwright.config.ts",
+      "moduleName": "playwright.config.ts",
+      "exports": [
+        "defineConfig"
+      ],
+      "imports": [
+        "@playwright/test"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T02:11:54.138Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/postcss.config.mjs": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/postcss.config.mjs",
+      "moduleName": "postcss.config.mjs",
+      "exports": [
+        "config"
+      ],
+      "imports": [
+        "postcss-load-config"
+      ],
+      "language": "javascript",
+      "mtime": "2026-04-22T13:34:56.906Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/scripts/fetch-sprites.mjs": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/scripts/fetch-sprites.mjs",
+      "moduleName": "scripts/fetch-sprites.mjs",
+      "exports": [],
+      "imports": [
+        "node:fs",
+        "node:path",
+        "node:url",
+        "sharp",
+        "fs",
+        "fs",
+        "fs",
+        "fs",
+        "fs",
+        "fs",
+        "fs",
+        "fs",
+        "fs",
+        "fs",
+        "fs",
+        "fs",
+        "fs",
+        "node:child_process",
+        "node:fs",
+        "node:path"
+      ],
+      "language": "javascript",
+      "mtime": "2026-04-25T14:55:49.877Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/scripts/upload-sprites.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/scripts/upload-sprites.ts",
+      "moduleName": "scripts/upload-sprites.ts",
+      "exports": [],
+      "imports": [
+        "fs",
+        "path",
+        "@supabase/supabase-js"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-27T13:21:26.775Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/actions/auth.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/actions/auth.ts",
+      "moduleName": "src/app/actions/auth.ts",
+      "exports": [
+        "signOut"
+      ],
+      "imports": [
+        "next/navigation",
+        "@/lib/supabase/server"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-22T13:34:56.909Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/actions/cache.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/actions/cache.ts",
+      "moduleName": "src/app/actions/cache.ts",
+      "exports": [
+        "revalidatePlayCache"
+      ],
+      "imports": [
+        "next/cache"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:57.782Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/actions/save-character.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/actions/save-character.ts",
+      "moduleName": "src/app/actions/save-character.ts",
+      "exports": [],
+      "imports": [
+        "@/lib/supabase/server"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:57.772Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/admin/seed-story/route.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/admin/seed-story/route.ts",
+      "moduleName": "src/app/api/admin/seed-story/route.ts",
+      "exports": [
+        "POST"
+      ],
+      "imports": [
+        "next/server",
+        "@/lib/supabase/server",
+        "@/lib/supabase/admin",
+        "@/lib/story/seed-chapters"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:57.780Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/auth/create-child/route.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/auth/create-child/route.ts",
+      "moduleName": "src/app/api/auth/create-child/route.ts",
+      "exports": [
+        "POST",
+        "PATCH",
+        "DELETE"
+      ],
+      "imports": [
+        "next/server",
+        "zod",
+        "@/lib/supabase/server",
+        "@/lib/supabase/admin",
+        "@/lib/api/middleware"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:57.742Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/auth/invite-gm/route.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/auth/invite-gm/route.ts",
+      "moduleName": "src/app/api/auth/invite-gm/route.ts",
+      "exports": [
+        "POST"
+      ],
+      "imports": [
+        "next/server",
+        "zod",
+        "@/lib/supabase/server",
+        "@/lib/supabase/admin",
+        "@/lib/api/middleware"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:57.792Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/auth/lookup-username/route.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/auth/lookup-username/route.ts",
+      "moduleName": "src/app/api/auth/lookup-username/route.ts",
+      "exports": [
+        "POST"
+      ],
+      "imports": [
+        "next/server",
+        "@/lib/supabase/admin",
+        "@/lib/api/middleware"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:57.869Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/auth/signout/route.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/auth/signout/route.ts",
+      "moduleName": "src/app/api/auth/signout/route.ts",
+      "exports": [
+        "POST"
+      ],
+      "imports": [
+        "next/server",
+        "@/lib/supabase/server",
+        "@/lib/api/middleware"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:45:55.667Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/auth/signup-gm/route.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/auth/signup-gm/route.ts",
+      "moduleName": "src/app/api/auth/signup-gm/route.ts",
+      "exports": [
+        "POST"
+      ],
+      "imports": [
+        "next/server",
+        "zod",
+        "@/lib/supabase/admin",
+        "@/lib/story/seed-chapters",
+        "@/lib/api/middleware"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:57.916Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/auth/update-password/route.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/auth/update-password/route.ts",
+      "moduleName": "src/app/api/auth/update-password/route.ts",
+      "exports": [
+        "POST"
+      ],
+      "imports": [
+        "next/server",
+        "zod",
+        "@/lib/supabase/server",
+        "@/lib/api/middleware"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:45:26.097Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/chores/approve/route.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/chores/approve/route.ts",
+      "moduleName": "src/app/api/chores/approve/route.ts",
+      "exports": [
+        "POST"
+      ],
+      "imports": [
+        "next/server",
+        "zod",
+        "@/lib/supabase/server",
+        "@/lib/api/middleware"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:59:04.041Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/chores/flavor/route.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/chores/flavor/route.ts",
+      "moduleName": "src/app/api/chores/flavor/route.ts",
+      "exports": [
+        "maxDuration",
+        "POST"
+      ],
+      "imports": [
+        "next/server",
+        "zod",
+        "@/lib/supabase/server",
+        "@/lib/ai/flavor",
+        "@/lib/api/middleware"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:44:28.693Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/chores/reject/route.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/chores/reject/route.ts",
+      "moduleName": "src/app/api/chores/reject/route.ts",
+      "exports": [
+        "POST"
+      ],
+      "imports": [
+        "next/server",
+        "zod",
+        "@/lib/supabase/server",
+        "@/lib/api/middleware"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:45:50.336Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/chores/route.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/chores/route.ts",
+      "moduleName": "src/app/api/chores/route.ts",
+      "exports": [
+        "GET",
+        "POST",
+        "PATCH",
+        "DELETE"
+      ],
+      "imports": [
+        "next/server",
+        "zod",
+        "@/lib/supabase/server",
+        "@/lib/api/middleware"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:57.926Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/edu/challenges/route.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/edu/challenges/route.ts",
+      "moduleName": "src/app/api/edu/challenges/route.ts",
+      "exports": [
+        "GET"
+      ],
+      "imports": [
+        "next/server",
+        "zod",
+        "@/lib/supabase/server"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:57.931Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/edu/generate/route.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/edu/generate/route.ts",
+      "moduleName": "src/app/api/edu/generate/route.ts",
+      "exports": [
+        "maxDuration",
+        "POST"
+      ],
+      "imports": [
+        "next/server",
+        "zod",
+        "@/lib/supabase/server",
+        "@/lib/supabase/admin",
+        "@/lib/ai/edu",
+        "@/lib/api/middleware"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:44:28.693Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/gm/household/route.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/gm/household/route.ts",
+      "moduleName": "src/app/api/gm/household/route.ts",
+      "exports": [
+        "POST",
+        "DELETE"
+      ],
+      "imports": [
+        "next/server",
+        "@/lib/supabase/server",
+        "@/lib/supabase/admin",
+        "@/lib/api/middleware"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.005Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/health/route.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/health/route.ts",
+      "moduleName": "src/app/api/health/route.ts",
+      "exports": [
+        "GET"
+      ],
+      "imports": [
+        "next/server",
+        "@/lib/supabase/server"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.007Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/loot/purchase/route.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/loot/purchase/route.ts",
+      "moduleName": "src/app/api/loot/purchase/route.ts",
+      "exports": [
+        "POST"
+      ],
+      "imports": [
+        "next/server",
+        "zod",
+        "@/lib/supabase/server",
+        "@/lib/api/middleware"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.047Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/quests/flavor/route.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/quests/flavor/route.ts",
+      "moduleName": "src/app/api/quests/flavor/route.ts",
+      "exports": [
+        "maxDuration",
+        "POST"
+      ],
+      "imports": [
+        "next/server",
+        "zod",
+        "@/lib/supabase/server",
+        "@/lib/ai/flavor",
+        "@/lib/api/middleware"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:44:28.694Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/story/advance-week/route.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/story/advance-week/route.ts",
+      "moduleName": "src/app/api/story/advance-week/route.ts",
+      "exports": [
+        "maxDuration",
+        "POST"
+      ],
+      "imports": [
+        "next/server",
+        "@/lib/supabase/server",
+        "@/lib/ai/story",
+        "@/lore/bosses.json",
+        "@/lib/api/middleware"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.063Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/story/chapters/route.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/story/chapters/route.ts",
+      "moduleName": "src/app/api/story/chapters/route.ts",
+      "exports": [
+        "GET",
+        "PATCH"
+      ],
+      "imports": [
+        "next/server",
+        "zod",
+        "@/lib/supabase/server",
+        "@/lib/api/middleware"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.065Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/story/deeds/route.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/story/deeds/route.ts",
+      "moduleName": "src/app/api/story/deeds/route.ts",
+      "exports": [
+        "GET"
+      ],
+      "imports": [
+        "next/server",
+        "@/lib/supabase/server"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.142Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/story/generate-opening/route.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/story/generate-opening/route.ts",
+      "moduleName": "src/app/api/story/generate-opening/route.ts",
+      "exports": [
+        "maxDuration",
+        "POST"
+      ],
+      "imports": [
+        "next/server",
+        "zod",
+        "@/lib/supabase/server",
+        "@/lib/ai/story",
+        "@/lore/bosses.json",
+        "@/lib/api/middleware"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:44:22.056Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/story/generate/route.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/api/story/generate/route.ts",
+      "moduleName": "src/app/api/story/generate/route.ts",
+      "exports": [
+        "maxDuration",
+        "POST"
+      ],
+      "imports": [
+        "next/server",
+        "zod",
+        "@/lib/supabase/server",
+        "@/lib/ai/story",
+        "@/lib/api/middleware"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.151Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/auth/callback/route.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/auth/callback/route.ts",
+      "moduleName": "src/app/auth/callback/route.ts",
+      "exports": [
+        "GET"
+      ],
+      "imports": [
+        "next/server",
+        "@supabase/ssr"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.181Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/approvals/error.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/approvals/error.tsx",
+      "moduleName": "src/app/dashboard/approvals/error.tsx",
+      "exports": [
+        "ApprovalsError"
+      ],
+      "imports": [
+        "react"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-22T13:34:56.911Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/approvals/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/approvals/page.tsx",
+      "moduleName": "src/app/dashboard/approvals/page.tsx",
+      "exports": [
+        "ApprovalQueuePage"
+      ],
+      "imports": [
+        "react",
+        "@/lib/supabase/client",
+        "@/components/avatar/AvatarPreview",
+        "@/components/qf"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-26T02:36:05.736Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/chores/error.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/chores/error.tsx",
+      "moduleName": "src/app/dashboard/chores/error.tsx",
+      "exports": [
+        "ChoresError"
+      ],
+      "imports": [
+        "@/components/ui/ErrorFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:39:56.670Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/chores/loading.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/chores/loading.tsx",
+      "moduleName": "src/app/dashboard/chores/loading.tsx",
+      "exports": [
+        "ChoresLoading"
+      ],
+      "imports": [
+        "@/components/ui/LoadingFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:00.627Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/chores/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/chores/page.tsx",
+      "moduleName": "src/app/dashboard/chores/page.tsx",
+      "exports": [
+        "ChoresPage"
+      ],
+      "imports": [
+        "react",
+        "@/components/ui",
+        "@/components/qf",
+        "@/lib/constants/suggestions"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T05:42:43.684Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/error.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/error.tsx",
+      "moduleName": "src/app/dashboard/error.tsx",
+      "exports": [
+        "DashboardError"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-26T12:49:08.145Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/layout.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/layout.tsx",
+      "moduleName": "src/app/dashboard/layout.tsx",
+      "exports": [
+        "async"
+      ],
+      "imports": [
+        "react",
+        "next/navigation",
+        "@/lib/supabase/server",
+        "@/components/qf",
+        "@/components/dashboard/GmWalkthroughOverlay"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-28T21:45:29.926Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/loading.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/loading.tsx",
+      "moduleName": "src/app/dashboard/loading.tsx",
+      "exports": [
+        "DashboardLoading"
+      ],
+      "imports": [
+        "framer-motion"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.761Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/loot/error.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/loot/error.tsx",
+      "moduleName": "src/app/dashboard/loot/error.tsx",
+      "exports": [
+        "LootError"
+      ],
+      "imports": [
+        "@/components/ui/ErrorFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:39:57.719Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/loot/loading.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/loot/loading.tsx",
+      "moduleName": "src/app/dashboard/loot/loading.tsx",
+      "exports": [
+        "LootLoading"
+      ],
+      "imports": [
+        "@/components/ui/LoadingFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:02.245Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/loot/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/loot/page.tsx",
+      "moduleName": "src/app/dashboard/loot/page.tsx",
+      "exports": [
+        "LootPage"
+      ],
+      "imports": [
+        "react",
+        "@/lib/supabase/client",
+        "@/components/ui",
+        "@/components/qf",
+        "@/lib/constants/suggestions"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.208Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/page.tsx",
+      "moduleName": "src/app/dashboard/page.tsx",
+      "exports": [
+        "metadata",
+        "async"
+      ],
+      "imports": [
+        "next/navigation",
+        "next/link",
+        "@/lib/supabase/server",
+        "@/lib/xp",
+        "@/components/qf",
+        "@/components/avatar/AvatarPreview"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:29:37.508Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/players/error.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/players/error.tsx",
+      "moduleName": "src/app/dashboard/players/error.tsx",
+      "exports": [
+        "PlayersError"
+      ],
+      "imports": [
+        "@/components/ui/ErrorFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:39:58.663Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/players/loading.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/players/loading.tsx",
+      "moduleName": "src/app/dashboard/players/loading.tsx",
+      "exports": [
+        "PlayersLoading"
+      ],
+      "imports": [
+        "@/components/ui/LoadingFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:03.292Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/players/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/players/page.tsx",
+      "moduleName": "src/app/dashboard/players/page.tsx",
+      "exports": [
+        "PlayersPage"
+      ],
+      "imports": [
+        "react",
+        "@/lib/supabase/client",
+        "@/lib/auth-context",
+        "@/components/qf",
+        "@/components/avatar/AvatarPreview"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T18:27:06.239Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/progress/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/progress/page.tsx",
+      "moduleName": "src/app/dashboard/progress/page.tsx",
+      "exports": [
+        "metadata",
+        "async"
+      ],
+      "imports": [
+        "next/navigation",
+        "@/lib/supabase/server",
+        "@/lib/xp"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T02:00:53.284Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/quests/error.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/quests/error.tsx",
+      "moduleName": "src/app/dashboard/quests/error.tsx",
+      "exports": [
+        "QuestsError"
+      ],
+      "imports": [
+        "@/components/ui/ErrorFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:39:59.524Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/quests/loading.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/quests/loading.tsx",
+      "moduleName": "src/app/dashboard/quests/loading.tsx",
+      "exports": [
+        "QuestsLoading"
+      ],
+      "imports": [
+        "@/components/ui/LoadingFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:04.539Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/quests/new/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/quests/new/page.tsx",
+      "moduleName": "src/app/dashboard/quests/new/page.tsx",
+      "exports": [
+        "NewQuestPage"
+      ],
+      "imports": [
+        "react",
+        "next/navigation",
+        "next/link",
+        "@/lib/supabase/client",
+        "@/store/useQuestStore",
+        "@/lib/audio"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.763Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/quests/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/quests/page.tsx",
+      "moduleName": "src/app/dashboard/quests/page.tsx",
+      "exports": [
+        "async"
+      ],
+      "imports": [
+        "next/link",
+        "@/lib/supabase/server",
+        "@/components/qf"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.200Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/redemptions/error.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/redemptions/error.tsx",
+      "moduleName": "src/app/dashboard/redemptions/error.tsx",
+      "exports": [
+        "RedemptionsError"
+      ],
+      "imports": [
+        "@/components/ui/ErrorFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:00.728Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/redemptions/loading.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/redemptions/loading.tsx",
+      "moduleName": "src/app/dashboard/redemptions/loading.tsx",
+      "exports": [
+        "RedemptionsLoading"
+      ],
+      "imports": [
+        "@/components/ui/LoadingFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:05.638Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/redemptions/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/redemptions/page.tsx",
+      "moduleName": "src/app/dashboard/redemptions/page.tsx",
+      "exports": [
+        "RedemptionDashboardPage"
+      ],
+      "imports": [
+        "react",
+        "framer-motion",
+        "@/lib/supabase/client",
+        "@/lib/audio",
+        "@/components/qf"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:59:04.082Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/settings/about/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/settings/about/page.tsx",
+      "moduleName": "src/app/dashboard/settings/about/page.tsx",
+      "exports": [
+        "AboutPage"
+      ],
+      "imports": [
+        "next/link"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-22T13:34:56.913Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/settings/error.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/settings/error.tsx",
+      "moduleName": "src/app/dashboard/settings/error.tsx",
+      "exports": [
+        "SettingsError"
+      ],
+      "imports": [
+        "@/components/ui/ErrorFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:01.777Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/settings/loading.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/settings/loading.tsx",
+      "moduleName": "src/app/dashboard/settings/loading.tsx",
+      "exports": [
+        "SettingsLoading"
+      ],
+      "imports": [
+        "@/components/ui/LoadingFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:11.345Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/settings/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/settings/page.tsx",
+      "moduleName": "src/app/dashboard/settings/page.tsx",
+      "exports": [
+        "SettingsPage"
+      ],
+      "imports": [
+        "react",
+        "next/link",
+        "@/lib/supabase/client",
+        "@/components/qf",
+        "@/components/dashboard/InviteGmForm"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.286Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/story/error.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/story/error.tsx",
+      "moduleName": "src/app/dashboard/story/error.tsx",
+      "exports": [
+        "StoryError"
+      ],
+      "imports": [
+        "@/components/ui/ErrorFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:02.826Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/story/loading.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/story/loading.tsx",
+      "moduleName": "src/app/dashboard/story/loading.tsx",
+      "exports": [
+        "StoryLoading"
+      ],
+      "imports": [
+        "@/components/ui/LoadingFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:11.501Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/story/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/dashboard/story/page.tsx",
+      "moduleName": "src/app/dashboard/story/page.tsx",
+      "exports": [
+        "metadata",
+        "async"
+      ],
+      "imports": [
+        "@/lib/supabase/server",
+        "next/navigation",
+        "@/components/dashboard/StoryDashboard"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T02:01:00.187Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/error.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/error.tsx",
+      "moduleName": "src/app/error.tsx",
+      "exports": [
+        "Error"
+      ],
+      "imports": [
+        "react",
+        "next/link",
+        "framer-motion",
+        "@/components/qf/Embershard",
+        "next/image"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T00:13:48.044Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/forgot-password/error.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/forgot-password/error.tsx",
+      "moduleName": "src/app/forgot-password/error.tsx",
+      "exports": [
+        "ForgotPasswordError"
+      ],
+      "imports": [
+        "@/components/ui/ErrorFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:39:54.910Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/forgot-password/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/forgot-password/page.tsx",
+      "moduleName": "src/app/forgot-password/page.tsx",
+      "exports": [
+        "dynamic",
+        "ForgotPasswordPage"
+      ],
+      "imports": [
+        "react",
+        "next/link",
+        "zod",
+        "@/lib/supabase/client"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-25T11:19:53.523Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/LandingClient.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/LandingClient.tsx",
+      "moduleName": "src/app/LandingClient.tsx",
+      "exports": [
+        "LandingPage"
+      ],
+      "imports": [
+        "next/link",
+        "next/image",
+        "framer-motion",
+        "@/components/qf/Embershard",
+        "@/components/qf/Embers"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T00:13:48.043Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/layout.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/layout.tsx",
+      "moduleName": "src/app/layout.tsx",
+      "exports": [
+        "metadata",
+        "viewport",
+        "RootLayout"
+      ],
+      "imports": [
+        "next/font/google",
+        "@/lib/auth-context",
+        "sonner",
+        "@/components/ui/ToastListener",
+        "@/components/ui/AudioInit",
+        "./globals.css"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:51:23.453Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/login/error.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/login/error.tsx",
+      "moduleName": "src/app/login/error.tsx",
+      "exports": [
+        "LoginError"
+      ],
+      "imports": [
+        "@/components/ui/ErrorFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:39:52.815Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/login/loading.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/login/loading.tsx",
+      "moduleName": "src/app/login/loading.tsx",
+      "exports": [
+        "LoginLoading"
+      ],
+      "imports": [
+        "@/components/ui/LoadingFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:39:58.238Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/login/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/login/page.tsx",
+      "moduleName": "src/app/login/page.tsx",
+      "exports": [
+        "dynamic",
+        "LoginPage"
+      ],
+      "imports": [
+        "react",
+        "next/navigation",
+        "next/link",
+        "zod",
+        "@/lib/supabase/client"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.310Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/not-found.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/not-found.tsx",
+      "moduleName": "src/app/not-found.tsx",
+      "exports": [
+        "NotFound"
+      ],
+      "imports": [
+        "next/link",
+        "framer-motion",
+        "@/components/qf/Embershard"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.764Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/page.tsx",
+      "moduleName": "src/app/page.tsx",
+      "exports": [
+        "metadata",
+        "Page"
+      ],
+      "imports": [
+        "next",
+        "./LandingClient"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T00:09:20.994Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/error.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/error.tsx",
+      "moduleName": "src/app/play/academy/error.tsx",
+      "exports": [
+        "AcademyError"
+      ],
+      "imports": [
+        "@/components/ui/ErrorFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:04.925Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/general-knowledge/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/general-knowledge/page.tsx",
+      "moduleName": "src/app/play/academy/general-knowledge/page.tsx",
+      "exports": [
+        "async"
+      ],
+      "imports": [
+        "next/navigation",
+        "next/dynamic",
+        "@/lib/supabase/server",
+        "@/lib/constants/academy",
+        "@/components/player/ZoneManager",
+        "@/components/games/QuizInterface"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:51:19.914Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/history-scroll/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/history-scroll/page.tsx",
+      "moduleName": "src/app/play/academy/history-scroll/page.tsx",
+      "exports": [
+        "async"
+      ],
+      "imports": [
+        "next/navigation",
+        "next/dynamic",
+        "@/lib/supabase/server",
+        "@/lib/constants/academy",
+        "@/components/games/QuizInterface"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:51:22.401Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/life-skills/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/life-skills/page.tsx",
+      "moduleName": "src/app/play/academy/life-skills/page.tsx",
+      "exports": [
+        "async"
+      ],
+      "imports": [
+        "next/navigation",
+        "next/dynamic",
+        "@/lib/supabase/server",
+        "@/lib/constants/academy",
+        "@/components/player/ZoneManager",
+        "@/components/games/QuizInterface"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:51:31.734Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/loading.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/loading.tsx",
+      "moduleName": "src/app/play/academy/loading.tsx",
+      "exports": [
+        "AcademyLoading"
+      ],
+      "imports": [
+        "@/components/ui/LoadingFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:11.646Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/logic-gate/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/logic-gate/page.tsx",
+      "moduleName": "src/app/play/academy/logic-gate/page.tsx",
+      "exports": [
+        "async"
+      ],
+      "imports": [
+        "next/navigation",
+        "next/dynamic",
+        "@/lib/supabase/server",
+        "@/lib/constants/academy",
+        "@/components/games/QuizInterface"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:51:24.336Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/math-arena/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/math-arena/page.tsx",
+      "moduleName": "src/app/play/academy/math-arena/page.tsx",
+      "exports": [
+        "async"
+      ],
+      "imports": [
+        "next/navigation",
+        "next/dynamic",
+        "@/lib/supabase/server",
+        "next/image",
+        "@/lib/constants/academy",
+        "@/components/player/ZoneManager",
+        "@/components/games/MathArena"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:51:16.946Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/page.tsx",
+      "moduleName": "src/app/play/academy/page.tsx",
+      "exports": [
+        "metadata",
+        "async"
+      ],
+      "imports": [
+        "next/navigation",
+        "@/lib/supabase/server",
+        "@/components/avatar/AvatarPreview",
+        "@/components/avatar/DuelCard",
+        "@/lib/constants/academy",
+        "@/lib/constants/enemies"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T00:09:20.995Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/reading-tome/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/reading-tome/page.tsx",
+      "moduleName": "src/app/play/academy/reading-tome/page.tsx",
+      "exports": [
+        "async"
+      ],
+      "imports": [
+        "next/navigation",
+        "next/dynamic",
+        "@/lib/supabase/server",
+        "@/lib/constants/academy",
+        "@/components/games/QuizInterface"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:51:29.343Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/science-labyrinth/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/science-labyrinth/page.tsx",
+      "moduleName": "src/app/play/academy/science-labyrinth/page.tsx",
+      "exports": [
+        "async"
+      ],
+      "imports": [
+        "next/navigation",
+        "next/dynamic",
+        "@/lib/supabase/server",
+        "next/image",
+        "@/lib/constants/academy",
+        "@/components/player/ZoneManager",
+        "@/components/games/ScienceLabyrinth"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:51:34.990Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/vocab-duel/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/vocab-duel/page.tsx",
+      "moduleName": "src/app/play/academy/vocab-duel/page.tsx",
+      "exports": [
+        "async"
+      ],
+      "imports": [
+        "next/navigation",
+        "next/dynamic",
+        "@/lib/supabase/server",
+        "@/lib/constants/academy",
+        "@/components/games/QuizInterface"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:51:26.633Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/word-forge/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/academy/word-forge/page.tsx",
+      "moduleName": "src/app/play/academy/word-forge/page.tsx",
+      "exports": [
+        "async"
+      ],
+      "imports": [
+        "next/navigation",
+        "next/dynamic",
+        "@/lib/supabase/server",
+        "@/lib/constants/academy",
+        "@/components/player/ZoneManager",
+        "@/components/games/WordForge"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:51:37.586Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/boss/error.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/boss/error.tsx",
+      "moduleName": "src/app/play/boss/error.tsx",
+      "exports": [
+        "BossError"
+      ],
+      "imports": [
+        "@/components/ui/ErrorFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:05.973Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/boss/loading.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/boss/loading.tsx",
+      "moduleName": "src/app/play/boss/loading.tsx",
+      "exports": [
+        "BossLoading"
+      ],
+      "imports": [
+        "@/components/ui/LoadingFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:11.779Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/boss/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/boss/page.tsx",
+      "moduleName": "src/app/play/boss/page.tsx",
+      "exports": [
+        "BossPage"
+      ],
+      "imports": [
+        "react",
+        "@/lib/supabase/client",
+        "@/components/player/BossArena"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-24T19:08:22.805Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/create-character/error.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/create-character/error.tsx",
+      "moduleName": "src/app/play/create-character/error.tsx",
+      "exports": [
+        "CreateCharacterError"
+      ],
+      "imports": [
+        "@/components/ui/ErrorFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:06.903Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/create-character/loading.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/create-character/loading.tsx",
+      "moduleName": "src/app/play/create-character/loading.tsx",
+      "exports": [
+        "CreateCharacterLoading"
+      ],
+      "imports": [
+        "@/components/ui/LoadingFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:11.908Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/create-character/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/create-character/page.tsx",
+      "moduleName": "src/app/play/create-character/page.tsx",
+      "exports": [
+        "CreateCharacterPage"
+      ],
+      "imports": [
+        "react",
+        "next/navigation",
+        "@/lib/supabase/client",
+        "@/components/avatar/SpriteCanvas",
+        "@/lib/sprites/manifest",
+        "@/lore/classes.json",
+        "@/lib/audio",
+        "@/app/actions/save-character"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-26T16:56:40.858Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/error.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/error.tsx",
+      "moduleName": "src/app/play/error.tsx",
+      "exports": [
+        "PlayError"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-26T12:49:13.827Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/layout.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/layout.tsx",
+      "moduleName": "src/app/play/layout.tsx",
+      "exports": [
+        "async"
+      ],
+      "imports": [
+        "react",
+        "next/navigation",
+        "@/lib/supabase/server",
+        "@/components/play/PlayShell",
+        "@/app/actions/auth",
+        "@/components/player/LevelUpCelebration"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-28T21:45:29.934Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/loading.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/loading.tsx",
+      "moduleName": "src/app/play/loading.tsx",
+      "exports": [
+        "PlayLoading"
+      ],
+      "imports": [
+        "@/components/qf/Embershard",
+        "framer-motion"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T00:09:20.996Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/loot/error.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/loot/error.tsx",
+      "moduleName": "src/app/play/loot/error.tsx",
+      "exports": [
+        "LootError"
+      ],
+      "imports": [
+        "@/components/ui/ErrorFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:07.891Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/loot/loading.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/loot/loading.tsx",
+      "moduleName": "src/app/play/loot/loading.tsx",
+      "exports": [
+        "LootLoading"
+      ],
+      "imports": [
+        "@/components/ui/LoadingFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:13.027Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/loot/LootClient.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/loot/LootClient.tsx",
+      "moduleName": "src/app/play/loot/LootClient.tsx",
+      "exports": [
+        "LootPage"
+      ],
+      "imports": [
+        "react",
+        "@/lib/supabase/client",
+        "@/components/qf/ChestAnimation",
+        "next/image"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T00:13:48.044Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/loot/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/loot/page.tsx",
+      "moduleName": "src/app/play/loot/page.tsx",
+      "exports": [
+        "metadata",
+        "LootPage"
+      ],
+      "imports": [
+        "next",
+        "./LootClient"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T00:09:20.996Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/page.tsx",
+      "moduleName": "src/app/play/page.tsx",
+      "exports": [
+        "metadata",
+        "async"
+      ],
+      "imports": [
+        "next/navigation",
+        "@/lib/supabase/server",
+        "@/lore/classes.json",
+        "@/app/actions/auth",
+        "@/components/avatar/AvatarPreview",
+        "@/components/avatar/NowDuelingCallout",
+        "@/components/qf",
+        "@/lib/sprites/palette",
+        "@/lib/xp",
+        "@/lib/constants/academy",
+        "@/lib/constants/enemies"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:55:07.699Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/profile/error.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/profile/error.tsx",
+      "moduleName": "src/app/play/profile/error.tsx",
+      "exports": [
+        "ProfileError"
+      ],
+      "imports": [
+        "@/components/ui/ErrorFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:08.926Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/profile/loading.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/profile/loading.tsx",
+      "moduleName": "src/app/play/profile/loading.tsx",
+      "exports": [
+        "ProfileLoading"
+      ],
+      "imports": [
+        "@/components/ui/LoadingFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:14.117Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/profile/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/profile/page.tsx",
+      "moduleName": "src/app/play/profile/page.tsx",
+      "exports": [
+        "async"
+      ],
+      "imports": [
+        "next/navigation",
+        "@/lib/supabase/server",
+        "@/components/play/ProfileView",
+        "@/lib/xp",
+        "@/lore/classes.json"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.766Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/quests/error.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/quests/error.tsx",
+      "moduleName": "src/app/play/quests/error.tsx",
+      "exports": [
+        "QuestsError"
+      ],
+      "imports": [
+        "@/components/ui/ErrorFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:10.051Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/quests/loading.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/quests/loading.tsx",
+      "moduleName": "src/app/play/quests/loading.tsx",
+      "exports": [
+        "QuestsLoading"
+      ],
+      "imports": [
+        "@/components/ui/LoadingFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:15.271Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/quests/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/quests/page.tsx",
+      "moduleName": "src/app/play/quests/page.tsx",
+      "exports": [
+        "metadata",
+        "async"
+      ],
+      "imports": [
+        "next/navigation",
+        "@/lib/supabase/server",
+        "@/components/quests/QuestsClient"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T00:09:20.997Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/story/error.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/story/error.tsx",
+      "moduleName": "src/app/play/story/error.tsx",
+      "exports": [
+        "StoryError"
+      ],
+      "imports": [
+        "@/components/ui/ErrorFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:11.936Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/story/loading.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/story/loading.tsx",
+      "moduleName": "src/app/play/story/loading.tsx",
+      "exports": [
+        "StoryLoading"
+      ],
+      "imports": [
+        "@/components/ui/LoadingFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:15.271Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/story/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/story/page.tsx",
+      "moduleName": "src/app/play/story/page.tsx",
+      "exports": [
+        "metadata",
+        "StoryPage"
+      ],
+      "imports": [
+        "next",
+        "next/dynamic",
+        "../loading",
+        "./StoryClient"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T00:09:20.998Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/story/StoryClient.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/story/StoryClient.tsx",
+      "moduleName": "src/app/play/story/StoryClient.tsx",
+      "exports": [
+        "StoryPage"
+      ],
+      "imports": [
+        "@/components/player/ZoneManager",
+        "@/components/story/ChronicleHall"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:20:37.391Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/world/error.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/world/error.tsx",
+      "moduleName": "src/app/play/world/error.tsx",
+      "exports": [
+        "WorldError"
+      ],
+      "imports": [
+        "@/components/ui/ErrorFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:12.263Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/world/loading.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/world/loading.tsx",
+      "moduleName": "src/app/play/world/loading.tsx",
+      "exports": [
+        "WorldLoading"
+      ],
+      "imports": [
+        "@/components/ui/LoadingFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:40:15.272Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/world/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/world/page.tsx",
+      "moduleName": "src/app/play/world/page.tsx",
+      "exports": [
+        "metadata",
+        "async"
+      ],
+      "imports": [
+        "next/navigation",
+        "@/lib/supabase/server",
+        "@/components/player/ZoneManager",
+        "next/dynamic",
+        "../loading",
+        "@/components/player/WorldCodex"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T00:09:20.998Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/reset-password/error.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/reset-password/error.tsx",
+      "moduleName": "src/app/reset-password/error.tsx",
+      "exports": [
+        "ResetPasswordError"
+      ],
+      "imports": [
+        "@/components/ui/ErrorFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:39:55.808Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/reset-password/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/reset-password/page.tsx",
+      "moduleName": "src/app/reset-password/page.tsx",
+      "exports": [
+        "dynamic",
+        "ResetPasswordPage"
+      ],
+      "imports": [
+        "react",
+        "next/link",
+        "zod",
+        "@/lib/supabase/client"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-25T12:06:54.065Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/signup/error.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/signup/error.tsx",
+      "moduleName": "src/app/signup/error.tsx",
+      "exports": [
+        "SignupError"
+      ],
+      "imports": [
+        "@/components/ui/ErrorFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:39:53.864Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/signup/loading.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/signup/loading.tsx",
+      "moduleName": "src/app/signup/loading.tsx",
+      "exports": [
+        "SignupLoading"
+      ],
+      "imports": [
+        "@/components/ui/LoadingFallback"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:39:59.499Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/signup/page.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/signup/page.tsx",
+      "moduleName": "src/app/signup/page.tsx",
+      "exports": [
+        "dynamic",
+        "SignupPage"
+      ],
+      "imports": [
+        "react",
+        "next/navigation",
+        "next/link",
+        "zod",
+        "@/lib/supabase/client"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-26T13:04:37.587Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/AnimatedAvatar.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/AnimatedAvatar.tsx",
+      "moduleName": "src/components/avatar/AnimatedAvatar.tsx",
+      "exports": [
+        "AnimatedAvatar"
+      ],
+      "imports": [
+        "react",
+        "@/lib/sprites/compositor",
+        "@/lib/constants/lpc-animations"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-28T02:43:17.634Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/AvatarDisplay.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/AvatarDisplay.tsx",
+      "moduleName": "src/components/avatar/AvatarDisplay.tsx",
+      "exports": [
+        "AvatarDisplay"
+      ],
+      "imports": [
+        "react",
+        "@/lib/sprites/compositor"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-25T14:25:30.120Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/AvatarPreview.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/AvatarPreview.tsx",
+      "moduleName": "src/components/avatar/AvatarPreview.tsx",
+      "exports": [
+        "AvatarPreview"
+      ],
+      "imports": [
+        "./SpriteCanvas"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-28T21:45:29.936Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/CharacterCreator.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/CharacterCreator.tsx",
+      "moduleName": "src/components/avatar/CharacterCreator.tsx",
+      "exports": [
+        "CharacterCreator"
+      ],
+      "imports": [
+        "react",
+        "@/lib/sprites/manifest",
+        "@/hooks/useAvatar",
+        "@/components/avatar/AvatarDisplay"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-25T16:05:02.064Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/DuelCard.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/DuelCard.tsx",
+      "moduleName": "src/components/avatar/DuelCard.tsx",
+      "exports": [
+        "DuelCard"
+      ],
+      "imports": [
+        "next/link",
+        "next/image",
+        "./AvatarPreview",
+        "./EnemyRenderer",
+        "../qf/PixelIcon",
+        "@/lib/constants/academy"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T20:08:09.819Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/EncounterCard.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/EncounterCard.tsx",
+      "moduleName": "src/components/avatar/EncounterCard.tsx",
+      "exports": [
+        "EncounterCard"
+      ],
+      "imports": [
+        "next/link",
+        "./EnemyRenderer",
+        "@/lib/constants/academy"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-27T12:33:56.992Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/EnemyRenderer.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/EnemyRenderer.tsx",
+      "moduleName": "src/components/avatar/EnemyRenderer.tsx",
+      "exports": [
+        "EnemyRenderer"
+      ],
+      "imports": [
+        "react",
+        "./AnimatedAvatar"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-27T11:39:15.988Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/NowDuelingCallout.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/NowDuelingCallout.tsx",
+      "moduleName": "src/components/avatar/NowDuelingCallout.tsx",
+      "exports": [
+        "NowDuelingCallout"
+      ],
+      "imports": [
+        "next/link",
+        "next/image",
+        "./EnemyRenderer"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T15:19:22.095Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/SpriteCanvas.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/SpriteCanvas.tsx",
+      "moduleName": "src/components/avatar/SpriteCanvas.tsx",
+      "exports": [
+        "SpriteCanvas"
+      ],
+      "imports": [
+        "react",
+        "@/lib/sprites/compositor"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-24T14:17:30.708Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/boss/BossDefeat.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/boss/BossDefeat.tsx",
+      "moduleName": "src/components/boss/BossDefeat.tsx",
+      "exports": [
+        "BossDefeatData",
+        "BossDefeat"
+      ],
+      "imports": [
+        "react",
+        "framer-motion",
+        "canvas-confetti"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T02:00:37.348Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/boss/BossHPBar.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/boss/BossHPBar.tsx",
+      "moduleName": "src/components/boss/BossHPBar.tsx",
+      "exports": [
+        "BossHPBar"
+      ],
+      "imports": [
+        "react"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:55:11.209Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/boss/BossSprite.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/boss/BossSprite.tsx",
+      "moduleName": "src/components/boss/BossSprite.tsx",
+      "exports": [
+        "BossSpriteConfig",
+        "BossSpriteHandle",
+        "BossSprite"
+      ],
+      "imports": [
+        "framer-motion",
+        "@/lib/sprites/manifest",
+        "@/lib/sprites/palette",
+        "@/lib/sprites/proceduralBosses",
+        "@/lib/sprites/particles"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T15:19:22.096Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/dashboard/ChoreCreator.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/dashboard/ChoreCreator.tsx",
+      "moduleName": "src/components/dashboard/ChoreCreator.tsx",
+      "exports": [
+        "ChoreCreatorProps",
+        "ChoreCreator"
+      ],
+      "imports": [
+        "react",
+        "zod",
+        "@/hooks/useChoreManager"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-24T19:32:45.322Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/dashboard/DashboardShell.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/dashboard/DashboardShell.tsx",
+      "moduleName": "src/components/dashboard/DashboardShell.tsx",
+      "exports": [
+        "DashboardShell"
+      ],
+      "imports": [
+        "next/link",
+        "next/navigation",
+        "@/app/actions/auth",
+        "@/components/ui/MobileNav",
+        "@/components/ui/MuteButton"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.330Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/dashboard/GMChoreQueue.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/dashboard/GMChoreQueue.tsx",
+      "moduleName": "src/components/dashboard/GMChoreQueue.tsx",
+      "exports": [
+        "GMChoreQueue"
+      ],
+      "imports": [
+        "@/hooks/useChores"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-24T18:56:31.140Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/dashboard/GmWalkthroughOverlay.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/dashboard/GmWalkthroughOverlay.tsx",
+      "moduleName": "src/components/dashboard/GmWalkthroughOverlay.tsx",
+      "exports": [
+        "GmWalkthroughOverlay"
+      ],
+      "imports": [
+        "react",
+        "next/navigation",
+        "next/image"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-28T21:45:29.937Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/dashboard/InviteGmForm.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/dashboard/InviteGmForm.tsx",
+      "moduleName": "src/components/dashboard/InviteGmForm.tsx",
+      "exports": [
+        "InviteGmForm"
+      ],
+      "imports": [
+        "react"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-28T21:45:29.937Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/dashboard/NarrativeEditor.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/dashboard/NarrativeEditor.tsx",
+      "moduleName": "src/components/dashboard/NarrativeEditor.tsx",
+      "exports": [
+        "NarrativeEditor"
+      ],
+      "imports": [
+        "framer-motion",
+        "@/lib/supabase/client"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.768Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/dashboard/StoryDashboard.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/dashboard/StoryDashboard.tsx",
+      "moduleName": "src/components/dashboard/StoryDashboard.tsx",
+      "exports": [
+        "StoryDashboard"
+      ],
+      "imports": [
+        "react",
+        "framer-motion",
+        "@/lore/bosses.json"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:30:39.075Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/games/BattleArena.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/games/BattleArena.tsx",
+      "moduleName": "src/components/games/BattleArena.tsx",
+      "exports": [
+        "BattleArenaHandle",
+        "BattleArena"
+      ],
+      "imports": [
+        "react",
+        "framer-motion",
+        "next/image",
+        "@/components/avatar/AnimatedAvatar",
+        "@/components/play/BossRenderer",
+        "@/components/games/BattleEffectsLayer"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.768Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/games/BattleEffectsLayer.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/games/BattleEffectsLayer.tsx",
+      "moduleName": "src/components/games/BattleEffectsLayer.tsx",
+      "exports": [
+        "BattleEffectsLayer"
+      ],
+      "imports": [
+        "react"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T05:42:43.687Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/games/CelebrationEffect.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/games/CelebrationEffect.tsx",
+      "moduleName": "src/components/games/CelebrationEffect.tsx",
+      "exports": [
+        "CelebrationHandle",
+        "CelebrationEffect"
+      ],
+      "imports": [
+        "react"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-28T02:40:38.133Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/games/MathArena.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/games/MathArena.tsx",
+      "moduleName": "src/components/games/MathArena.tsx",
+      "exports": [
+        "MathArena"
+      ],
+      "imports": [
+        "react",
+        "next/navigation",
+        "@/lib/supabase/client",
+        "@/app/actions/cache",
+        "@/lib/audio",
+        "@/hooks/useAcademy",
+        "@/components/games/CelebrationEffect",
+        "@/lib/constants/enemies",
+        "@/lib/constants/academy"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T21:11:55.691Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/games/QuizInterface.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/games/QuizInterface.tsx",
+      "moduleName": "src/components/games/QuizInterface.tsx",
+      "exports": [
+        "QuizInterface"
+      ],
+      "imports": [
+        "react",
+        "next/navigation",
+        "@/lib/supabase/client",
+        "@/app/actions/cache",
+        "@/lib/audio",
+        "@/hooks/useAcademy",
+        "@/components/games/CelebrationEffect",
+        "@/lib/constants/enemies",
+        "@/lib/constants/academy",
+        "@/lib/constants/lpc-animations"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T21:11:55.692Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/games/ScienceLabyrinth.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/games/ScienceLabyrinth.tsx",
+      "moduleName": "src/components/games/ScienceLabyrinth.tsx",
+      "exports": [
+        "ScienceLabyrinth"
+      ],
+      "imports": [
+        "react",
+        "next/navigation",
+        "@/lib/supabase/client",
+        "@/app/actions/cache",
+        "@/lib/audio",
+        "@/hooks/useAcademy",
+        "@/lib/constants/enemies",
+        "@/lib/constants/academy"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T21:11:55.692Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/games/WordForge.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/games/WordForge.tsx",
+      "moduleName": "src/components/games/WordForge.tsx",
+      "exports": [
+        "WordForge"
+      ],
+      "imports": [
+        "react",
+        "next/navigation",
+        "@/lib/supabase/client",
+        "@/app/actions/cache",
+        "@/lib/audio",
+        "@/hooks/useAcademy",
+        "@/lib/constants/enemies",
+        "@/lib/constants/academy"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T21:11:55.692Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/hud/AnimatedXpBar.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/hud/AnimatedXpBar.tsx",
+      "moduleName": "src/components/hud/AnimatedXpBar.tsx",
+      "exports": [
+        "AnimatedXpBar"
+      ],
+      "imports": [
+        "framer-motion",
+        "@/store/useQuestStore",
+        "@/lib/xp"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-24T23:54:57.750Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/hud/AvatarPlate.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/hud/AvatarPlate.tsx",
+      "moduleName": "src/components/hud/AvatarPlate.tsx",
+      "exports": [
+        "AvatarPlate"
+      ],
+      "imports": [
+        "framer-motion",
+        "@/store/useQuestStore"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-24T23:47:00.463Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/hud/PlayerStatusBoard.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/hud/PlayerStatusBoard.tsx",
+      "moduleName": "src/components/hud/PlayerStatusBoard.tsx",
+      "exports": [
+        "PlayerStatusBoard"
+      ],
+      "imports": [
+        "./AvatarPlate",
+        "./AnimatedXpBar",
+        "./ResourceCounters"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-24T23:46:54.252Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/hud/ResourceCounters.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/hud/ResourceCounters.tsx",
+      "moduleName": "src/components/hud/ResourceCounters.tsx",
+      "exports": [
+        "ResourceCounters"
+      ],
+      "imports": [
+        "framer-motion",
+        "@/store/useQuestStore"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-24T23:47:17.341Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/play/AmbientSfx.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/play/AmbientSfx.tsx",
+      "moduleName": "src/components/play/AmbientSfx.tsx",
+      "exports": [
+        "AmbientSfx"
+      ],
+      "imports": [
+        "react",
+        "@/lib/audio",
+        "next/navigation"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.768Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/play/BossRenderer.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/play/BossRenderer.tsx",
+      "moduleName": "src/components/play/BossRenderer.tsx",
+      "exports": [
+        "BossRenderer"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.768Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/play/CinematicOverlay.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/play/CinematicOverlay.tsx",
+      "moduleName": "src/components/play/CinematicOverlay.tsx",
+      "exports": [
+        "CinematicOverlay"
+      ],
+      "imports": [
+        "react",
+        "framer-motion"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.338Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/play/EpicScroll.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/play/EpicScroll.tsx",
+      "moduleName": "src/components/play/EpicScroll.tsx",
+      "exports": [
+        "EpicScroll"
+      ],
+      "imports": [
+        "framer-motion"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.769Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/play/LevelUpModal.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/play/LevelUpModal.tsx",
+      "moduleName": "src/components/play/LevelUpModal.tsx",
+      "exports": [
+        "LevelUpModal"
+      ],
+      "imports": [
+        "framer-motion",
+        "canvas-confetti",
+        "@/lib/audio"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:55:45.472Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/play/PlayShell.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/play/PlayShell.tsx",
+      "moduleName": "src/components/play/PlayShell.tsx",
+      "exports": [],
+      "imports": [
+        "react",
+        "next/link",
+        "next/image",
+        "next/navigation",
+        "@/app/actions/auth",
+        "@/lib/audio",
+        "@/components/play/WalkthroughOverlay",
+        "@/components/qf/Embershard",
+        "@/components/qf/Embers",
+        "@/components/qf/Coin",
+        "@/hooks/useNotifications"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T18:27:06.247Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/play/ProfileView.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/play/ProfileView.tsx",
+      "moduleName": "src/components/play/ProfileView.tsx",
+      "exports": [
+        "ProfileView"
+      ],
+      "imports": [
+        "framer-motion",
+        "next/link",
+        "next/image",
+        "./SignOutButton",
+        "@/components/avatar/AvatarPreview"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.769Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/play/SignOutButton.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/play/SignOutButton.tsx",
+      "moduleName": "src/components/play/SignOutButton.tsx",
+      "exports": [
+        "SignOutButton"
+      ],
+      "imports": [
+        "@/app/actions/auth"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-22T13:34:56.922Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/play/WalkthroughOverlay.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/play/WalkthroughOverlay.tsx",
+      "moduleName": "src/components/play/WalkthroughOverlay.tsx",
+      "exports": [
+        "WalkthroughOverlay"
+      ],
+      "imports": [
+        "react",
+        "next/navigation",
+        "next/image",
+        "@/lore/classes.json"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-28T21:45:29.939Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/player/BossArena.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/player/BossArena.tsx",
+      "moduleName": "src/components/player/BossArena.tsx",
+      "exports": [
+        "BossArena"
+      ],
+      "imports": [
+        "react",
+        "next/image",
+        "@/components/boss/BossHPBar",
+        "@/hooks/useBoss",
+        "@/lore/bosses.json",
+        "framer-motion",
+        "@/lib/sprites/particles",
+        "@/components/games/CelebrationEffect"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-28T21:45:29.939Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/player/LevelUpCelebration.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/player/LevelUpCelebration.tsx",
+      "moduleName": "src/components/player/LevelUpCelebration.tsx",
+      "exports": [
+        "LevelUpCelebration"
+      ],
+      "imports": [
+        "react",
+        "@/components/games/CelebrationEffect",
+        "@/lib/audio",
+        "@/components/qf/LevelUpModal"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.770Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/player/LootStore.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/player/LootStore.tsx",
+      "moduleName": "src/components/player/LootStore.tsx",
+      "exports": [
+        "LootStore"
+      ],
+      "imports": [
+        "@/hooks/useLootStore"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.771Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/player/TaskButton.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/player/TaskButton.tsx",
+      "moduleName": "src/components/player/TaskButton.tsx",
+      "exports": [
+        "TaskButton"
+      ],
+      "imports": [
+        "react",
+        "@/store/useQuestStore",
+        "@/lib/audio"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-24T23:43:09.775Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/player/WorldCodex.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/player/WorldCodex.tsx",
+      "moduleName": "src/components/player/WorldCodex.tsx",
+      "exports": [
+        "WorldCodex"
+      ],
+      "imports": [
+        "react",
+        "next/image",
+        "framer-motion",
+        "@/lore/world.json",
+        "@/lore/classes.json",
+        "@/components/avatar/AvatarPreview"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.771Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/player/ZoneManager.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/player/ZoneManager.tsx",
+      "moduleName": "src/components/player/ZoneManager.tsx",
+      "exports": [
+        "ZoneManager"
+      ],
+      "imports": [
+        "react",
+        "@/lib/audio"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-24T23:43:15.740Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/__tests__/XPBar.test.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/__tests__/XPBar.test.tsx",
+      "moduleName": "src/components/qf/__tests__/XPBar.test.tsx",
+      "exports": [],
+      "imports": [
+        "vitest",
+        "react",
+        "react-dom/server",
+        "../XPBar"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T02:15:21.249Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/ChestAnimation.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/ChestAnimation.tsx",
+      "moduleName": "src/components/qf/ChestAnimation.tsx",
+      "exports": [
+        "ChestAnimation"
+      ],
+      "imports": [
+        "framer-motion",
+        "react"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.771Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/Chip.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/Chip.tsx",
+      "moduleName": "src/components/qf/Chip.tsx",
+      "exports": [
+        "Chip"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-26T02:36:05.747Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/Coin.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/Coin.tsx",
+      "moduleName": "src/components/qf/Coin.tsx",
+      "exports": [
+        "Coin",
+        "Coin"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-26T02:36:05.747Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/Embers.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/Embers.tsx",
+      "moduleName": "src/components/qf/Embers.tsx",
+      "exports": [
+        "Embers",
+        "Embers"
+      ],
+      "imports": [
+        "react"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-26T13:43:53.141Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/Embershard.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/Embershard.tsx",
+      "moduleName": "src/components/qf/Embershard.tsx",
+      "exports": [
+        "Embershard",
+        "Embershard"
+      ],
+      "imports": [
+        "@/lib/xp"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.773Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/FloatingText.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/FloatingText.tsx",
+      "moduleName": "src/components/qf/FloatingText.tsx",
+      "exports": [
+        "FloatingTextManager"
+      ],
+      "imports": [
+        "framer-motion",
+        "react"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.773Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/GMShell.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/GMShell.tsx",
+      "moduleName": "src/components/qf/GMShell.tsx",
+      "exports": [
+        "GMShell",
+        "GMShell"
+      ],
+      "imports": [
+        "next/link",
+        "next/image",
+        "next/navigation",
+        "react",
+        "@/app/actions/auth",
+        "./Embershard",
+        "./Embers",
+        "./HPBar",
+        "@/hooks/useNotifications"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T15:19:22.097Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/HPBar.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/HPBar.tsx",
+      "moduleName": "src/components/qf/HPBar.tsx",
+      "exports": [
+        "HPBar",
+        "HPBar"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:55:22.158Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/index.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/index.ts",
+      "moduleName": "src/components/qf/index.ts",
+      "exports": [],
+      "imports": [
+        "./Embershard",
+        "./Coin",
+        "./XPIcon",
+        "./HPBar",
+        "./XPBar",
+        "./Chip",
+        "./RuneDivider",
+        "./Embers",
+        "./PixelAvatar",
+        "./PixelIcon",
+        "./StatCard",
+        "./GMShell",
+        "./PhoneShell",
+        "./PageHeader",
+        "./PageDivider"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T15:19:22.097Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/LevelUpModal.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/LevelUpModal.tsx",
+      "moduleName": "src/components/qf/LevelUpModal.tsx",
+      "exports": [
+        "LevelUpModal"
+      ],
+      "imports": [
+        "framer-motion",
+        "@/lib/constants",
+        "@/lib/xp",
+        "./Embershard"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.773Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/PageDivider.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/PageDivider.tsx",
+      "moduleName": "src/components/qf/PageDivider.tsx",
+      "exports": [
+        "PageDivider",
+        "PageDivider"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-26T02:36:05.748Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/PageHeader.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/PageHeader.tsx",
+      "moduleName": "src/components/qf/PageHeader.tsx",
+      "exports": [
+        "PageHeader",
+        "PageHeader"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-26T02:36:05.748Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/PhoneShell.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/PhoneShell.tsx",
+      "moduleName": "src/components/qf/PhoneShell.tsx",
+      "exports": [
+        "PhoneShell"
+      ],
+      "imports": [
+        "next/link",
+        "next/navigation",
+        "react",
+        "@/lib/audio",
+        "@/components/ui/MuteButton",
+        "@/components/play/WalkthroughOverlay",
+        "./Embershard",
+        "./Embers",
+        "./Coin",
+        "@/hooks/useNotifications"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-28T21:45:29.941Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/PixelAvatar.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/PixelAvatar.tsx",
+      "moduleName": "src/components/qf/PixelAvatar.tsx",
+      "exports": [
+        "PixelAvatar",
+        "PixelAvatar"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-26T02:36:05.749Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/PixelIcon.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/PixelIcon.tsx",
+      "moduleName": "src/components/qf/PixelIcon.tsx",
+      "exports": [
+        "PixelIcon"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-29T20:08:09.821Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/RuneDivider.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/RuneDivider.tsx",
+      "moduleName": "src/components/qf/RuneDivider.tsx",
+      "exports": [
+        "RuneDivider",
+        "RuneDivider"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-26T02:36:05.749Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/StatCard.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/StatCard.tsx",
+      "moduleName": "src/components/qf/StatCard.tsx",
+      "exports": [
+        "StatCard"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:55:23.585Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/XPBar.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/XPBar.tsx",
+      "moduleName": "src/components/qf/XPBar.tsx",
+      "exports": [
+        "XPBar",
+        "XPBar"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:55:20.666Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/XPIcon.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/XPIcon.tsx",
+      "moduleName": "src/components/qf/XPIcon.tsx",
+      "exports": [
+        "XPIcon",
+        "XPIcon"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-26T02:36:05.749Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/quests/QuestsClient.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/quests/QuestsClient.tsx",
+      "moduleName": "src/components/quests/QuestsClient.tsx",
+      "exports": [
+        "QuestsClient"
+      ],
+      "imports": [
+        "react",
+        "@/lib/supabase/client",
+        "@/components/avatar/AvatarPreview"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-28T14:15:39.335Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/shop/ShopModal.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/shop/ShopModal.tsx",
+      "moduleName": "src/components/shop/ShopModal.tsx",
+      "exports": [
+        "ShopModal"
+      ],
+      "imports": [
+        "react",
+        "framer-motion",
+        "@/lib/supabase/client",
+        "@/store/useQuestStore",
+        "@/lib/audio",
+        "@/types/shop"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.774Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/story/ChronicleHall.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/story/ChronicleHall.tsx",
+      "moduleName": "src/components/story/ChronicleHall.tsx",
+      "exports": [
+        "ChronicleHall"
+      ],
+      "imports": [
+        "react",
+        "framer-motion",
+        "@/store/useQuestStore",
+        "next/image",
+        "@/components/play/EpicScroll",
+        "@/lore/world.json"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:20:37.397Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/story/StoryPlayer.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/story/StoryPlayer.tsx",
+      "moduleName": "src/components/story/StoryPlayer.tsx",
+      "exports": [
+        "StoryPlayer"
+      ],
+      "imports": [
+        "react",
+        "framer-motion",
+        "@/store/useQuestStore"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-25T13:00:57.800Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/__tests__/PixelButton.test.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/__tests__/PixelButton.test.tsx",
+      "moduleName": "src/components/ui/__tests__/PixelButton.test.tsx",
+      "exports": [],
+      "imports": [
+        "vitest",
+        "react",
+        "react-dom/server",
+        "../PixelButton"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T02:15:12.351Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/AudioInit.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/AudioInit.tsx",
+      "moduleName": "src/components/ui/AudioInit.tsx",
+      "exports": [
+        "AudioInit"
+      ],
+      "imports": [
+        "react",
+        "@/lib/audio"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-28T02:34:23.112Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/ErrorFallback.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/ErrorFallback.tsx",
+      "moduleName": "src/components/ui/ErrorFallback.tsx",
+      "exports": [
+        "ErrorTheme",
+        "ErrorFallback"
+      ],
+      "imports": [
+        "react"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:38:46.419Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/index.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/index.ts",
+      "moduleName": "src/components/ui/index.ts",
+      "exports": [],
+      "imports": [
+        "./PixelButton",
+        "./PixelCard",
+        "./PixelProgressBar",
+        "./PixelBadge",
+        "./PixelModal"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-22T13:34:56.922Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/LoadingFallback.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/LoadingFallback.tsx",
+      "moduleName": "src/components/ui/LoadingFallback.tsx",
+      "exports": [
+        "LoadingTheme",
+        "LoadingFallback"
+      ],
+      "imports": [
+        "@/components/qf/Embershard"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:47:04.539Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/MobileNav.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/MobileNav.tsx",
+      "moduleName": "src/components/ui/MobileNav.tsx",
+      "exports": [
+        "MobileNavItem",
+        "MobileNav"
+      ],
+      "imports": [
+        "next/link",
+        "next/navigation",
+        "@/components/ui/MuteButton"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.364Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/MuteButton.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/MuteButton.tsx",
+      "moduleName": "src/components/ui/MuteButton.tsx",
+      "exports": [
+        "MuteButton"
+      ],
+      "imports": [
+        "react",
+        "@/store/useAudioStore",
+        "@/lib/audio"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-25T22:09:24.796Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/PixelBadge.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/PixelBadge.tsx",
+      "moduleName": "src/components/ui/PixelBadge.tsx",
+      "exports": [
+        "PixelBadgeProps",
+        "PixelBadge"
+      ],
+      "imports": [
+        "react"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-22T13:34:56.922Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/PixelButton.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/PixelButton.tsx",
+      "moduleName": "src/components/ui/PixelButton.tsx",
+      "exports": [
+        "PixelButtonProps",
+        "PixelButton"
+      ],
+      "imports": [
+        "react",
+        "@/lib/sprites/manifest"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-27T13:20:05.181Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/PixelCard.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/PixelCard.tsx",
+      "moduleName": "src/components/ui/PixelCard.tsx",
+      "exports": [
+        "PixelCardProps",
+        "PixelCard"
+      ],
+      "imports": [
+        "react"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-22T13:34:56.922Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/PixelModal.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/PixelModal.tsx",
+      "moduleName": "src/components/ui/PixelModal.tsx",
+      "exports": [
+        "PixelModalProps",
+        "PixelModal"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:55:16.904Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/PixelProgressBar.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/PixelProgressBar.tsx",
+      "moduleName": "src/components/ui/PixelProgressBar.tsx",
+      "exports": [
+        "PixelProgressBarProps",
+        "PixelProgressBar"
+      ],
+      "imports": [
+        "react"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-25T13:26:52.059Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/ToastListener.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/ToastListener.tsx",
+      "moduleName": "src/components/ui/ToastListener.tsx",
+      "exports": [
+        "ToastListener"
+      ],
+      "imports": [
+        "react",
+        "sonner"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-28T21:45:29.941Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/hooks/useAcademy.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/hooks/useAcademy.ts",
+      "moduleName": "src/hooks/useAcademy.ts",
+      "exports": [
+        "EduChallenge",
+        "QuestionSource",
+        "UseAcademyResult"
+      ],
+      "imports": [
+        "react",
+        "@/lib/supabase/client"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T21:11:55.693Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/hooks/useAvatar.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/hooks/useAvatar.ts",
+      "moduleName": "src/hooks/useAvatar.ts",
+      "exports": [
+        "DEFAULT_AVATAR_CONFIG",
+        "UseAvatarResult",
+        "useAvatar"
+      ],
+      "imports": [
+        "react",
+        "@/lib/supabase/client",
+        "@/hooks/usePlayer"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-25T14:23:58.042Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/hooks/useBoss.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/hooks/useBoss.ts",
+      "moduleName": "src/hooks/useBoss.ts",
+      "exports": [
+        "BossState",
+        "useBoss"
+      ],
+      "imports": [
+        "react",
+        "@/lib/supabase/client"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T05:50:14.543Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/hooks/useChoreManager.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/hooks/useChoreManager.ts",
+      "moduleName": "src/hooks/useChoreManager.ts",
+      "exports": [
+        "Difficulty",
+        "Recurrence",
+        "ChoreInput",
+        "ChoreResult",
+        "PlayerInfo",
+        "UseChoreManagerResult"
+      ],
+      "imports": [
+        "react",
+        "@/lib/supabase/client"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-28T02:25:39.664Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/hooks/useChores.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/hooks/useChores.ts",
+      "moduleName": "src/hooks/useChores.ts",
+      "exports": [
+        "PendingCompletion",
+        "UseChoresResult",
+        "useChores"
+      ],
+      "imports": [
+        "react",
+        "@/lib/supabase/client"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-24T18:56:07.901Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/hooks/useHousehold.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/hooks/useHousehold.ts",
+      "moduleName": "src/hooks/useHousehold.ts",
+      "exports": [
+        "HouseholdInfo",
+        "UseHouseholdResult",
+        "useHousehold"
+      ],
+      "imports": [
+        "react",
+        "@/lib/supabase/client"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:51:35.639Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/hooks/useLootStore.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/hooks/useLootStore.ts",
+      "moduleName": "src/hooks/useLootStore.ts",
+      "exports": [
+        "LootCategory",
+        "LootItem",
+        "UseLootStoreResult",
+        "useLootStore"
+      ],
+      "imports": [
+        "react",
+        "@/lib/supabase/client"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:28:21.771Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/hooks/useNotifications.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/hooks/useNotifications.ts",
+      "moduleName": "src/hooks/useNotifications.ts",
+      "exports": [
+        "NotificationEvent",
+        "useNotifications"
+      ],
+      "imports": [
+        "react",
+        "@/lib/supabase/client"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-28T21:45:29.942Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/hooks/usePlayer.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/hooks/usePlayer.ts",
+      "moduleName": "src/hooks/usePlayer.ts",
+      "exports": [
+        "PlayerProfile",
+        "LevelUpEvent",
+        "usePlayer"
+      ],
+      "imports": [
+        "react",
+        "@/lib/supabase/client"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-24T14:32:17.574Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/hooks/useStory.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/hooks/useStory.ts",
+      "moduleName": "src/hooks/useStory.ts",
+      "exports": [
+        "StoryChapter",
+        "BossInfo",
+        "UseStoryResult",
+        "useStory"
+      ],
+      "imports": [
+        "react",
+        "@/lib/supabase/client"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:30:41.700Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/__tests__/palette.test.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/__tests__/palette.test.ts",
+      "moduleName": "src/lib/__tests__/palette.test.ts",
+      "exports": [],
+      "imports": [
+        "vitest",
+        "../sprites/palette"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.776Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/__tests__/particles.test.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/__tests__/particles.test.ts",
+      "moduleName": "src/lib/__tests__/particles.test.ts",
+      "exports": [],
+      "imports": [
+        "vitest",
+        "../sprites/particles"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-22T13:34:56.923Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/__tests__/pixelBadge.test.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/__tests__/pixelBadge.test.ts",
+      "moduleName": "src/lib/__tests__/pixelBadge.test.ts",
+      "exports": [],
+      "imports": [
+        "vitest"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-22T13:34:56.923Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/__tests__/pixelProgressBar.test.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/__tests__/pixelProgressBar.test.ts",
+      "moduleName": "src/lib/__tests__/pixelProgressBar.test.ts",
+      "exports": [],
+      "imports": [
+        "vitest"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-22T13:34:56.923Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/__tests__/purchase.test.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/__tests__/purchase.test.ts",
+      "moduleName": "src/lib/__tests__/purchase.test.ts",
+      "exports": [],
+      "imports": [
+        "vitest",
+        "next/server",
+        "@/app/api/loot/purchase/route"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T02:13:50.354Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/__tests__/rate-limiter.test.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/__tests__/rate-limiter.test.ts",
+      "moduleName": "src/lib/__tests__/rate-limiter.test.ts",
+      "exports": [],
+      "imports": [
+        "vitest",
+        "../ai/rate-limiter"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-26T13:53:55.501Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/__tests__/xp.test.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/__tests__/xp.test.ts",
+      "moduleName": "src/lib/__tests__/xp.test.ts",
+      "exports": [],
+      "imports": [
+        "vitest",
+        "../xp"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-22T13:34:56.923Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/client.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/client.ts",
+      "moduleName": "src/lib/ai/client.ts",
+      "exports": [
+        "PRIMARY_MODEL",
+        "FALLBACK_MODEL",
+        "stripThinking",
+        "GenerationPrompt"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.418Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/edu.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/edu.ts",
+      "moduleName": "src/lib/ai/edu.ts",
+      "exports": [
+        "EduSubject",
+        "AgeTier",
+        "GeneratedQuestion"
+      ],
+      "imports": [
+        "./client",
+        "./rate-limiter"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T18:27:06.249Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/flavor.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/flavor.ts",
+      "moduleName": "src/lib/ai/flavor.ts",
+      "exports": [
+        "FLAVOR_TEMPLATES",
+        "getFallbackFlavorText"
+      ],
+      "imports": [
+        "./client",
+        "./rate-limiter"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-28T14:15:39.337Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/rate-limiter.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/rate-limiter.ts",
+      "moduleName": "src/lib/ai/rate-limiter.ts",
+      "exports": [
+        "canMakeRequest",
+        "incrementUsage",
+        "getUsageToday"
+      ],
+      "imports": [
+        "@/lib/supabase/server"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.446Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/story.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/story.ts",
+      "moduleName": "src/lib/ai/story.ts",
+      "exports": [
+        "BossData",
+        "PlayerData"
+      ],
+      "imports": [
+        "./client",
+        "./rate-limiter",
+        "@/lore/classes.json",
+        "@/lore/bosses.json"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.777Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/test_edu.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/test_edu.ts",
+      "moduleName": "src/lib/ai/test_edu.ts",
+      "exports": [],
+      "imports": [
+        "./edu"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.471Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/__tests__/body-limit.test.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/__tests__/body-limit.test.ts",
+      "moduleName": "src/lib/api/__tests__/body-limit.test.ts",
+      "exports": [],
+      "imports": [
+        "vitest",
+        "../body-limit"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T02:12:15.109Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/__tests__/csrf.test.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/__tests__/csrf.test.ts",
+      "moduleName": "src/lib/api/__tests__/csrf.test.ts",
+      "exports": [],
+      "imports": [
+        "vitest",
+        "../csrf"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T02:12:06.410Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/__tests__/middleware.test.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/__tests__/middleware.test.ts",
+      "moduleName": "src/lib/api/__tests__/middleware.test.ts",
+      "exports": [],
+      "imports": [
+        "vitest",
+        "../middleware"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T02:12:15.110Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/__tests__/rate-limiter.test.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/__tests__/rate-limiter.test.ts",
+      "moduleName": "src/lib/api/__tests__/rate-limiter.test.ts",
+      "exports": [],
+      "imports": [
+        "vitest",
+        "../rate-limiter"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T02:13:40.976Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/__tests__/sanitize.test.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/__tests__/sanitize.test.ts",
+      "moduleName": "src/lib/api/__tests__/sanitize.test.ts",
+      "exports": [],
+      "imports": [
+        "vitest",
+        "../sanitize"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T02:14:18.549Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/body-limit.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/body-limit.ts",
+      "moduleName": "src/lib/api/body-limit.ts",
+      "exports": [
+        "DEFAULT_MAX_BODY_SIZE",
+        "AI_MAX_BODY_SIZE"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.485Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/csrf.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/csrf.ts",
+      "moduleName": "src/lib/api/csrf.ts",
+      "exports": [
+        "validateOrigin"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.497Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/middleware.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/middleware.ts",
+      "moduleName": "src/lib/api/middleware.ts",
+      "exports": [
+        "ApiMiddlewareOptions"
+      ],
+      "imports": [
+        "@/lib/api/middleware",
+        "./rate-limiter",
+        "./csrf",
+        "./body-limit",
+        "./sanitize",
+        "./body-limit"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.550Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/rate-limiter.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/rate-limiter.ts",
+      "moduleName": "src/lib/api/rate-limiter.ts",
+      "exports": [
+        "RateLimitResult"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.577Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/sanitize.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/sanitize.ts",
+      "moduleName": "src/lib/api/sanitize.ts",
+      "exports": [
+        "stripHtml",
+        "sanitizeText",
+        "sanitizeShortText"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.605Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/audio.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/audio.ts",
+      "moduleName": "src/lib/audio.ts",
+      "exports": [
+        "BgmTrack",
+        "SfxName",
+        "initAudio",
+        "playBgm",
+        "stopBgm",
+        "playSfx",
+        "setAudioMuted",
+        "isAudioMuted",
+        "_reset"
+      ],
+      "imports": [
+        "howler",
+        "@/store/useAudioStore"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.778Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/auth-context.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/auth-context.tsx",
+      "moduleName": "src/lib/auth-context.tsx",
+      "exports": [
+        "AuthProvider",
+        "useAuth"
+      ],
+      "imports": [
+        "react",
+        "@/lib/supabase/client"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-28T21:45:29.943Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/boss.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/boss.ts",
+      "moduleName": "src/lib/boss.ts",
+      "exports": [
+        "Boss",
+        "scaleBossHP",
+        "getCurrentBoss"
+      ],
+      "imports": [
+        "@/lib/supabase/server"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-22T13:34:56.923Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/constants.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/constants.ts",
+      "moduleName": "src/lib/constants.ts",
+      "exports": [
+        "XP_BY_DIFFICULTY",
+        "GOLD_BY_DIFFICULTY",
+        "Difficulty",
+        "EMBERSHARD_LEVELS",
+        "EmbershardName",
+        "BOSS_BASE_HP",
+        "EDU_XP_BY_DIFFICULTY",
+        "EDU_PERFECT_SCORE_MULTIPLIER",
+        "BOSS_DEFEAT_BONUS_XP",
+        "WEEKLY_STREAK_BONUS_XP"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-22T13:34:56.923Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/constants/academy.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/constants/academy.ts",
+      "moduleName": "src/lib/constants/academy.ts",
+      "exports": [
+        "GAMES",
+        "GameEntry",
+        "AgeTier",
+        "deriveTier",
+        "XP_RANGE",
+        "TIER_LABEL",
+        "CLASS_TO_PRESET",
+        "derivePlayerPreset",
+        "SUBJECT_TO_SLUG",
+        "TeacherStatus",
+        "TeacherDef",
+        "TEACHERS",
+        "TEACHER_BY_SLUG",
+        "TEACHER_STATUS_STYLE",
+        "SLUG_PRESET"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-29T20:08:09.822Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/constants/enemies.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/constants/enemies.ts",
+      "moduleName": "src/lib/constants/enemies.ts",
+      "exports": [
+        "DEFAULT_AVATAR_CONFIG",
+        "ENEMY_PRESETS"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-29T20:08:09.823Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/constants/lpc-animations.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/constants/lpc-animations.ts",
+      "moduleName": "src/lib/constants/lpc-animations.ts",
+      "exports": [
+        "LPC_WALK_DOWN_ROW",
+        "LPC_WALK_DOWN_ROW_SHORT",
+        "LPC_WALK_COLS",
+        "LPC_IDLE_INTERVAL_MS",
+        "AnimationPreset",
+        "ATTACK_ACTION",
+        "LPC_ACTION_DEFAULT_ROWS",
+        "LPC_ATTACK_INTERVAL_MS",
+        "LPC_AUTO_ATTACK_MS"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-27T02:53:58.046Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/constants/suggestions.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/constants/suggestions.ts",
+      "moduleName": "src/lib/constants/suggestions.ts",
+      "exports": [
+        "ChoreSuggestion",
+        "LootSuggestion",
+        "CHORE_SUGGESTIONS",
+        "LOOT_SUGGESTIONS"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-28T21:45:29.943Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/env.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/env.ts",
+      "moduleName": "src/lib/env.ts",
+      "exports": [
+        "env",
+        "isAiConfigured"
+      ],
+      "imports": [
+        "zod"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.633Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/sprites/compositor.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/sprites/compositor.ts",
+      "moduleName": "src/lib/sprites/compositor.ts",
+      "exports": [
+        "CELL",
+        "DRAW_ORDER",
+        "ResolvedLayer",
+        "LoadedLayer",
+        "FramePosition",
+        "CompositeOptions",
+        "BossCompositeOptions",
+        "getCachedImage",
+        "isMaleBody",
+        "detectWalkRow"
+      ],
+      "imports": [
+        "@/lib/sprites/manifest",
+        "@/lib/sprites/palette",
+        "@/lib/sprites/palette",
+        "@/lib/sprites/palette"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T21:11:55.694Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/sprites/manifest.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/sprites/manifest.ts",
+      "moduleName": "src/lib/sprites/manifest.ts",
+      "exports": [
+        "spriteUrl",
+        "SPRITE_MANIFEST",
+        "BODIES",
+        "HAIR_STYLES",
+        "HairStyle",
+        "HairVariant",
+        "hairUrl"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-27T13:47:47.912Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/sprites/palette.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/sprites/palette.ts",
+      "moduleName": "src/lib/sprites/palette.ts",
+      "exports": [
+        "BossPalette",
+        "BOSS_PALETTES",
+        "BossSpriteFormat",
+        "BossSpriteInfo",
+        "BOSS_SPRITE_MANIFEST",
+        "PixelBuffer",
+        "swapPalette",
+        "fetchBitmap",
+        "clearBitmapCache"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-29T15:19:22.099Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/sprites/particles.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/sprites/particles.ts",
+      "moduleName": "src/lib/sprites/particles.ts",
+      "exports": [
+        "ParticleDef",
+        "PARTICLE_CSS_KEYFRAMES",
+        "PARTICLE_DEFS"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-29T05:50:09.789Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/sprites/proceduralBosses.tsx": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/sprites/proceduralBosses.tsx",
+      "moduleName": "src/lib/sprites/proceduralBosses.tsx",
+      "exports": [
+        "ProceduralBossProps",
+        "ProceduralBossComponent",
+        "PROCEDURAL_BOSS_REGISTRY"
+      ],
+      "imports": [
+        "react",
+        "framer-motion"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T15:19:22.099Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/story/seed-chapters.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/story/seed-chapters.ts",
+      "moduleName": "src/lib/story/seed-chapters.ts",
+      "exports": [],
+      "imports": [
+        "@/lore/bosses.json",
+        "@/lore/chapters.json"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.778Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/supabase/admin.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/supabase/admin.ts",
+      "moduleName": "src/lib/supabase/admin.ts",
+      "exports": [
+        "getAdminClient"
+      ],
+      "imports": [
+        "@supabase/supabase-js"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.641Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/supabase/client.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/supabase/client.ts",
+      "moduleName": "src/lib/supabase/client.ts",
+      "exports": [
+        "createClient"
+      ],
+      "imports": [
+        "@supabase/ssr"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-26T19:58:34.008Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/supabase/middleware.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/supabase/middleware.ts",
+      "moduleName": "src/lib/supabase/middleware.ts",
+      "exports": [
+        "updateSession"
+      ],
+      "imports": [
+        "@supabase/ssr",
+        "next/server"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-26T20:06:15.680Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/supabase/server.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/supabase/server.ts",
+      "moduleName": "src/lib/supabase/server.ts",
+      "exports": [
+        "createClient"
+      ],
+      "imports": [
+        "@supabase/ssr",
+        "next/headers"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.684Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/xp.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/xp.ts",
+      "moduleName": "src/lib/xp.ts",
+      "exports": [
+        "xpForLevel",
+        "levelFromXP",
+        "xpProgressPercent",
+        "embershardState"
+      ],
+      "imports": [
+        "./constants"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-22T13:34:56.924Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/middleware.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/middleware.ts",
+      "moduleName": "src/middleware.ts",
+      "exports": [
+        "middleware",
+        "config"
+      ],
+      "imports": [
+        "next/server",
+        "@/lib/supabase/middleware"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-26T20:06:25.380Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/store/useAudioStore.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/store/useAudioStore.ts",
+      "moduleName": "src/store/useAudioStore.ts",
+      "exports": [
+        "useAudioStore"
+      ],
+      "imports": [
+        "zustand",
+        "zustand/middleware"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-25T22:09:24.797Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/store/useQuestStore.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/store/useQuestStore.ts",
+      "moduleName": "src/store/useQuestStore.ts",
+      "exports": [
+        "ChapterRow",
+        "QuestState",
+        "useQuestStore"
+      ],
+      "imports": [
+        "zustand",
+        "@/lib/supabase/client",
+        "@/lib/audio",
+        "@/lib/xp"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.779Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/types/avatar.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/types/avatar.ts",
+      "moduleName": "src/types/avatar.ts",
+      "exports": [
+        "AvatarLayerCategory",
+        "SpriteLayer",
+        "AvatarConfig",
+        "BodyType",
+        "SpriteEntry",
+        "SpriteManifest"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-25T14:23:02.276Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/types/canvas-confetti.d.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/types/canvas-confetti.d.ts",
+      "moduleName": "src/types/canvas-confetti.d.ts",
+      "exports": [],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-30T01:28:21.764Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/types/database.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/types/database.ts",
+      "moduleName": "src/types/database.ts",
+      "exports": [
+        "Json",
+        "Database",
+        "Constants"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-30T05:58:58.738Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/types/encounter.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/types/encounter.ts",
+      "moduleName": "src/types/encounter.ts",
+      "exports": [
+        "EncounterConfig"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-27T01:58:14.590Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/src/types/shop.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/types/shop.ts",
+      "moduleName": "src/types/shop.ts",
+      "exports": [
+        "RewardRow",
+        "RewardInsert",
+        "PlayerInventoryRow",
+        "PlayerInventoryInsert",
+        "RedemptionRow",
+        "RedemptionInsert",
+        "QuestRow",
+        "QuestInsert",
+        "ICON_TYPES",
+        "IconType",
+        "ICON_GLYPHS"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-29T23:50:58.779Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/tailwind.config.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/tailwind.config.ts",
+      "moduleName": "tailwind.config.ts",
+      "exports": [
+        "config"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-04-24T13:49:27.598Z"
+    },
+    "/Users/spkoehl/Documents/OpenCode/quest-forge/vitest.config.ts": {
+      "filePath": "/Users/spkoehl/Documents/OpenCode/quest-forge/vitest.config.ts",
+      "moduleName": "vitest.config.ts",
+      "exports": [
+        "defineConfig"
+      ],
+      "imports": [
+        "vitest/config",
+        "@vitejs/plugin-react",
+        "path"
+      ],
+      "language": "typescript",
+      "mtime": "2026-04-30T02:13:31.809Z"
+    }
+  },
+  "edges": [
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/layout.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/globals.css",
+      "importSpecifier": "./globals.css",
+      "importType": "sideeffect"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/page.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/LandingClient.tsx",
+      "importSpecifier": "./LandingClient",
+      "importType": "default"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/loot/page.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/loot/LootClient.tsx",
+      "importSpecifier": "./LootClient",
+      "importType": "default"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/story/page.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/loading.tsx",
+      "importSpecifier": "../loading",
+      "importType": "default"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/story/page.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/story/StoryClient.tsx",
+      "importSpecifier": "./StoryClient",
+      "importType": "sideeffect"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/world/page.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/app/play/loading.tsx",
+      "importSpecifier": "../loading",
+      "importType": "default"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/AvatarPreview.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/SpriteCanvas.tsx",
+      "importSpecifier": "./SpriteCanvas",
+      "importType": "default"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/DuelCard.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/PixelIcon.tsx",
+      "importSpecifier": "../qf/PixelIcon",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/DuelCard.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/AvatarPreview.tsx",
+      "importSpecifier": "./AvatarPreview",
+      "importType": "default"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/DuelCard.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/EnemyRenderer.tsx",
+      "importSpecifier": "./EnemyRenderer",
+      "importType": "default"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/EncounterCard.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/EnemyRenderer.tsx",
+      "importSpecifier": "./EnemyRenderer",
+      "importType": "default"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/EnemyRenderer.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/AnimatedAvatar.tsx",
+      "importSpecifier": "./AnimatedAvatar",
+      "importType": "default"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/NowDuelingCallout.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/avatar/EnemyRenderer.tsx",
+      "importSpecifier": "./EnemyRenderer",
+      "importType": "default"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/hud/PlayerStatusBoard.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/hud/AnimatedXpBar.tsx",
+      "importSpecifier": "./AnimatedXpBar",
+      "importType": "default"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/hud/PlayerStatusBoard.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/hud/AvatarPlate.tsx",
+      "importSpecifier": "./AvatarPlate",
+      "importType": "default"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/hud/PlayerStatusBoard.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/hud/ResourceCounters.tsx",
+      "importSpecifier": "./ResourceCounters",
+      "importType": "default"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/play/ProfileView.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/play/SignOutButton.tsx",
+      "importSpecifier": "./SignOutButton",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/__tests__/XPBar.test.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/XPBar.tsx",
+      "importSpecifier": "../XPBar",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/GMShell.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/Embers.tsx",
+      "importSpecifier": "./Embers",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/GMShell.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/Embershard.tsx",
+      "importSpecifier": "./Embershard",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/GMShell.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/HPBar.tsx",
+      "importSpecifier": "./HPBar",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/index.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/Chip.tsx",
+      "importSpecifier": "./Chip",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/index.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/Coin.tsx",
+      "importSpecifier": "./Coin",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/index.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/Embers.tsx",
+      "importSpecifier": "./Embers",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/index.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/Embershard.tsx",
+      "importSpecifier": "./Embershard",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/index.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/GMShell.tsx",
+      "importSpecifier": "./GMShell",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/index.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/HPBar.tsx",
+      "importSpecifier": "./HPBar",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/index.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/PageDivider.tsx",
+      "importSpecifier": "./PageDivider",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/index.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/PageHeader.tsx",
+      "importSpecifier": "./PageHeader",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/index.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/PhoneShell.tsx",
+      "importSpecifier": "./PhoneShell",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/index.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/PixelAvatar.tsx",
+      "importSpecifier": "./PixelAvatar",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/index.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/PixelIcon.tsx",
+      "importSpecifier": "./PixelIcon",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/index.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/RuneDivider.tsx",
+      "importSpecifier": "./RuneDivider",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/index.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/StatCard.tsx",
+      "importSpecifier": "./StatCard",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/index.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/XPBar.tsx",
+      "importSpecifier": "./XPBar",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/index.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/XPIcon.tsx",
+      "importSpecifier": "./XPIcon",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/LevelUpModal.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/Embershard.tsx",
+      "importSpecifier": "./Embershard",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/PhoneShell.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/Coin.tsx",
+      "importSpecifier": "./Coin",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/PhoneShell.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/Embers.tsx",
+      "importSpecifier": "./Embers",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/PhoneShell.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/qf/Embershard.tsx",
+      "importSpecifier": "./Embershard",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/__tests__/PixelButton.test.tsx",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/PixelButton.tsx",
+      "importSpecifier": "../PixelButton",
+      "importType": "default"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/index.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/PixelBadge.tsx",
+      "importSpecifier": "./PixelBadge",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/index.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/PixelButton.tsx",
+      "importSpecifier": "./PixelButton",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/index.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/PixelCard.tsx",
+      "importSpecifier": "./PixelCard",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/index.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/PixelModal.tsx",
+      "importSpecifier": "./PixelModal",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/index.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/components/ui/PixelProgressBar.tsx",
+      "importSpecifier": "./PixelProgressBar",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/__tests__/palette.test.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/sprites/palette.ts",
+      "importSpecifier": "../sprites/palette",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/__tests__/particles.test.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/sprites/particles.ts",
+      "importSpecifier": "../sprites/particles",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/__tests__/rate-limiter.test.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/rate-limiter.ts",
+      "importSpecifier": "../ai/rate-limiter",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/__tests__/xp.test.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/xp.ts",
+      "importSpecifier": "../xp",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/edu.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/client.ts",
+      "importSpecifier": "./client",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/edu.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/rate-limiter.ts",
+      "importSpecifier": "./rate-limiter",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/flavor.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/client.ts",
+      "importSpecifier": "./client",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/flavor.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/rate-limiter.ts",
+      "importSpecifier": "./rate-limiter",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/story.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/client.ts",
+      "importSpecifier": "./client",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/story.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/rate-limiter.ts",
+      "importSpecifier": "./rate-limiter",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/test_edu.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/ai/edu.ts",
+      "importSpecifier": "./edu",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/__tests__/body-limit.test.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/body-limit.ts",
+      "importSpecifier": "../body-limit",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/__tests__/csrf.test.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/csrf.ts",
+      "importSpecifier": "../csrf",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/__tests__/middleware.test.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/middleware.ts",
+      "importSpecifier": "../middleware",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/__tests__/rate-limiter.test.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/rate-limiter.ts",
+      "importSpecifier": "../rate-limiter",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/__tests__/sanitize.test.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/sanitize.ts",
+      "importSpecifier": "../sanitize",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/middleware.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/body-limit.ts",
+      "importSpecifier": "./body-limit",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/middleware.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/csrf.ts",
+      "importSpecifier": "./csrf",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/middleware.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/rate-limiter.ts",
+      "importSpecifier": "./rate-limiter",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/middleware.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/api/sanitize.ts",
+      "importSpecifier": "./sanitize",
+      "importType": "named"
+    },
+    {
+      "source": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/xp.ts",
+      "target": "/Users/spkoehl/Documents/OpenCode/quest-forge/src/lib/constants",
+      "importSpecifier": "./constants",
+      "importType": "named"
+    }
+  ],
+  "metadata": {
+    "generatedAt": "2026-04-30T13:37:29.111Z",
+    "generator": "repo-graph",
+    "nodeCount": 263,
+    "edgeCount": 67
+  }
+}
