@@ -1,13 +1,7 @@
-import OpenAI from 'openai'
-
 // ── Provider initialization ──────────────────────────────────────────────────
 
-const openRouterClient = process.env.OPENROUTER_API_KEY
-  ? new OpenAI({
-      apiKey: process.env.OPENROUTER_API_KEY,
-      baseURL: 'https://openrouter.ai/api/v1',
-      timeout: 20_000,
-    })
+const openRouterConfig = process.env.OPENROUTER_API_KEY
+  ? { apiKey: process.env.OPENROUTER_API_KEY, baseUrl: 'https://openrouter.ai/api/v1' }
   : null
 
 // ── Constants ────────────────────────────────────────────────────────────────
@@ -141,31 +135,44 @@ export interface GenerationPrompt {
 }
 
 async function tryGenerate(model: string, prompt: GenerationPrompt): Promise<string | null> {
-  if (!openRouterClient) return null
+  if (!openRouterConfig) return null
   try {
-    const response = await openRouterClient.chat.completions.create({
-      model,
-      messages: [
-        { role: 'system', content: prompt.system },
-        { role: 'user', content: prompt.user },
-      ],
-      max_tokens: prompt.maxTokens ?? 200,
-      temperature: prompt.temperature ?? 0.85,
+    const response = await fetch(`${openRouterConfig.baseUrl}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${openRouterConfig.apiKey}`,
+      },
+      body: JSON.stringify({
+        model,
+        messages: [
+          { role: 'system', content: prompt.system },
+          { role: 'user', content: prompt.user },
+        ],
+        max_tokens: prompt.maxTokens ?? 200,
+        temperature: prompt.temperature ?? 0.85,
+      }),
+      signal: AbortSignal.timeout(20_000),
     })
 
-    if (!response.choices?.length) {
-      console.warn(`[ai] ${model} returned response without choices:`, JSON.stringify(response).slice(0, 500))
+    if (!response.ok) {
+      const errBody = await response.text().catch(() => '')
+      console.warn(`[ai] ${model} returned ${response.status}: ${errBody.slice(0, 200)}`)
       return null
     }
 
-    const msg = response.choices[0]?.message
-    // Some reasoning models (o1-style, newer DeepSeek) put the final answer in
-    // `message.reasoning` instead of `message.content`.
-    const raw = (msg?.content ?? (msg as unknown as Record<string, unknown>)?.reasoning as string ?? '').trim()
-    const actualModel = (response as unknown as { model?: string }).model ?? model
+    const json = await response.json() as { choices?: Array<{ message?: { content?: string } }>; model?: string }
+    if (!json.choices?.length) {
+      console.warn(`[ai] ${model} returned response without choices:`, JSON.stringify(json).slice(0, 500))
+      return null
+    }
+
+    const msg = json.choices[0]?.message
+    const raw = (msg?.content ?? '').trim()
+    const actualModel = json.model ?? model
 
     if (!raw) {
-      console.warn(`[ai] ${model} → ${actualModel}: content and reasoning both empty. finish_reason=${response.choices[0]?.finish_reason} message keys=${Object.keys(msg ?? {}).join(',')}`)
+      console.warn(`[ai] ${model} → ${actualModel}: content empty.`)
       return null
     }
 
@@ -175,7 +182,7 @@ async function tryGenerate(model: string, prompt: GenerationPrompt): Promise<str
       return text
     }
 
-    console.warn(`[ai] ${model} → ${actualModel}: stripThinking produced empty string (raw length=${raw.length}, first 200 chars: ${raw.slice(0, 200)})`)
+    console.warn(`[ai] ${model} → ${actualModel}: stripThinking produced empty string (raw length=${raw.length})`)
     return null
   } catch (err: unknown) {
     console.warn(`[ai] ${model} failed:`, err)
@@ -191,7 +198,7 @@ async function tryGenerate(model: string, prompt: GenerationPrompt): Promise<str
 export async function generateWithFallback(
   prompt: GenerationPrompt
 ): Promise<string | null> {
-  if (!openRouterClient) {
+  if (!openRouterConfig) {
     console.warn('[ai] OPENROUTER_API_KEY not set — cannot generate')
     return null
   }
@@ -213,16 +220,20 @@ export async function callOpenRouter(
   maxTokens = 200,
   temperature = 0.85
 ): Promise<string | null> {
-  if (!openRouterClient) return null
-
+  if (!openRouterConfig) return null
   try {
-    const response = await openRouterClient.chat.completions.create({
-      model,
-      messages,
-      max_tokens: maxTokens,
-      temperature,
+    const response = await fetch(`${openRouterConfig.baseUrl}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${openRouterConfig.apiKey}`,
+      },
+      body: JSON.stringify({ model, messages, max_tokens: maxTokens, temperature }),
+      signal: AbortSignal.timeout(20_000),
     })
-    const raw = response.choices[0]?.message?.content?.trim() ?? null
+    if (!response.ok) return null
+    const json = await response.json() as { choices?: Array<{ message?: { content?: string } }> }
+    const raw = json.choices?.[0]?.message?.content?.trim() ?? null
     return raw ? stripThinking(raw) : null
   } catch (err) {
     console.warn(`[ai] OpenRouter call failed (model: ${model}):`, err)

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { getAdminClient } from '@/lib/supabase/admin'
 import { seedStoryChaptersForHousehold } from '@/lib/story/seed-chapters'
+import { withApiMiddleware } from '@/lib/api/middleware'
 
 const SignupGmSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -26,6 +27,9 @@ const SignupGmSchema = z.object({
  * Rolls back (deletes auth user) if any subsequent step fails.
  */
 export async function POST(request: Request) {
+  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 5 }, csrf: false })
+  if (err) return err
+
   try {
     return await handleSignup(request)
   } catch (err) {

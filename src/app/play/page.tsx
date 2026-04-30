@@ -457,6 +457,10 @@ export default async function PlayerHomePage() {
                     }}
                   >
                     <div
+                      role="checkbox"
+                      aria-checked={q.done}
+                      aria-label={`${q.title}: ${q.done ? 'Completed' : 'Not completed'}`}
+                      aria-disabled="true"
                       style={{
                         width: 22,
                         height: 22,

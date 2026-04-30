@@ -17,6 +17,14 @@ import { POST } from '@/app/api/loot/purchase/route'
 function createRequest(body: unknown): NextRequest {
   return {
     json: vi.fn().mockResolvedValue(body),
+    headers: new Headers({ 'content-type': 'application/json' }),
+  } as unknown as NextRequest
+}
+
+function createInvalidRequest(): NextRequest {
+  return {
+    json: vi.fn().mockRejectedValue(new Error('Bad JSON')),
+    headers: new Headers({ 'content-type': 'application/json' }),
   } as unknown as NextRequest
 }
 
@@ -50,7 +58,7 @@ describe('POST /api/loot/purchase — validation', () => {
   })
 
   it('returns 400 for invalid JSON body', async () => {
-    const req = { json: vi.fn().mockRejectedValue(new Error('Bad JSON')) } as unknown as NextRequest
+    const req = createInvalidRequest()
     const res = await POST(req)
     const json = await res.json()
 

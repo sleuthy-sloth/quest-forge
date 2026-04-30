@@ -1,18 +1,55 @@
 {
   "name": "Quest Forge: The Emberlight Chronicles",
   "short_name": "Quest Forge",
-  "description": "A gamified productivity platform for families. Turn chores into quests.",
+  "description": "Turn chores into quests. A fantasy RPG where real-world tasks earn XP, unlock stories, and defeat bosses.",
   "start_url": "/play",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
   "background_color": "#040812",
   "theme_color": "#c9a84c",
+  "categories": ["education", "productivity", "games", "family"],
+  "lang": "en",
+  "orientation": "portrait",
   "icons": [
     {
-      "src": "/favicon.png",
+      "src": "/images/ui/icons/icon_embershard.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/ui/icons/icon_embershard_radiant.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/images/ui/icons/icon_embershard.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/images/ui/icons/icon_embershard_radiant.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
-  "orientation": "portrait"
+  "screenshots": [
+    {
+      "src": "/images/ui/chronicle_map.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "The Chronicle Hall — view your family's story"
+    },
+    {
+      "src": "/images/ui/quest_board.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Quest Board — manage daily deeds"
+    }
+  ]
 }

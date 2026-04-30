@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { generateFlavorText } from '@/lib/ai/flavor'
+import { withApiMiddleware, AI_MAX_BODY_SIZE } from '@/lib/api/middleware'
 
 export const maxDuration = 60
 
@@ -18,6 +19,9 @@ const Schema = z.object({
  * Protected: GM role required.
  */
 export async function POST(request: Request) {
+  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 30 }, csrf: true, bodyLimit: AI_MAX_BODY_SIZE })
+  if (err) return err
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 

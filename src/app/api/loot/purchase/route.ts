@@ -1,12 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { withApiMiddleware } from '@/lib/api/middleware'
 
 const Schema = z.object({
   itemId: z.string().uuid('itemId must be a valid UUID'),
 })
 
 export async function POST(req: NextRequest) {
+  const err = await withApiMiddleware(req, { rateLimit: { maxRequests: 20 }, csrf: true })
+  if (err) return err
+
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()

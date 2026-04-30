@@ -42,8 +42,6 @@ export const viewport = {
   themeColor: '#c9a84c',
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
 }
 
 export default function RootLayout({
@@ -56,6 +54,10 @@ export default function RootLayout({
       lang="en"
       className={`${pressStart2P.variable} ${cinzel.variable} ${crimsonText.variable}`}
     >
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
       <body>
         <AuthProvider>
           <Toaster

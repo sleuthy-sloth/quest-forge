@@ -7,7 +7,12 @@ interface StatCardProps {
 
 export function StatCard({ label, value, sub, accent = 'var(--qf-gold-300)' }: StatCardProps) {
   return (
-    <div className="qf-ornate-panel" style={{ padding: 16 }}>
+    <div
+      className="qf-ornate-panel"
+      role="region"
+      aria-label={label}
+      style={{ padding: 16 }}
+    >
       <div
         className="font-pixel"
         style={{

@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { generateOpeningNarrative } from '@/lib/ai/story'
 import bossesRaw from '@/lore/bosses.json'
+import { withApiMiddleware, AI_MAX_BODY_SIZE } from '@/lib/api/middleware'
 
 export const maxDuration = 60
 
@@ -11,6 +12,9 @@ const Schema = z.object({
 })
 
 export async function POST(request: Request) {
+  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 20 }, csrf: true, bodyLimit: AI_MAX_BODY_SIZE })
+  if (err) return err
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 

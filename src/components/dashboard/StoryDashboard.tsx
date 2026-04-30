@@ -372,17 +372,18 @@ export function StoryDashboard() {
   )
 }
 
-function ChapterCard({ 
-  ch, 
-  toggleLoading, 
-  toggleUnlock, 
-  setPreview 
-}: { 
-  ch: Chapter, 
-  toggleLoading: string | null, 
+function ChapterCard({
+  ch,
+  toggleLoading,
+  toggleUnlock,
+  setPreview
+}: {
+  ch: Chapter,
+  toggleLoading: string | null,
   toggleUnlock: (id: string, current: boolean) => void,
   setPreview: (ch: Chapter) => void
 }) {
+  const [regenerating, setRegenerating] = useState<string | null>(null)
   return (
     <div
       className={`flex flex-col md:flex-row items-stretch gap-0 border-2 bg-[#0e0a14] transition-all duration-300
@@ -451,6 +452,37 @@ function ChapterCard({
             '✓ Unlocked'
           ) : (
             '✦ Unlock'
+          )}
+        </button>
+        <button
+          onClick={async () => {
+            setRegenerating(ch.id)
+            try {
+              const res = await fetch('/api/story/generate-opening', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chapterId: ch.id }),
+              })
+              const data = await res.json()
+              if (data.narrative) {
+                window.location.reload()
+              }
+            } catch {
+              // silent fail
+            } finally {
+              setRegenerating(null)
+            }
+          }}
+          disabled={regenerating === ch.id || !ch.is_unlocked}
+          className="flex-1 md:flex-none px-4 h-12 text-[0.7rem] font-mono tracking-[0.15em] uppercase
+            border border-[#d4b0ff]/30 text-[#d4b0ff]/70 hover:bg-[#d4b0ff]/10
+            hover:text-[#d4b0ff] hover:border-[#d4b0ff] transition-all active:scale-95
+            disabled:opacity-30 disabled:cursor-not-allowed"
+        >
+          {regenerating === ch.id ? (
+            <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+          ) : (
+            '✦ Regenerate'
           )}
         </button>
       </div>

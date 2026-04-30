@@ -38,15 +38,21 @@ export default function BossHPBar({ currentHp, maxHp, bossName }: BossHPBarProps
       </div>
 
       {/* Segmented pixel-art bar */}
-      <div style={{
-        display: 'flex',
-        gap: 2,
-        height: 16,
-        background: '#111',
-        border: '2px solid #333',
-        padding: 2,
-        imageRendering: 'pixelated',
-      }}>
+      <div
+        role="meter"
+        aria-label={`${bossName} HP`}
+        aria-valuenow={currentHp}
+        aria-valuemin={0}
+        aria-valuemax={maxHp}
+        style={{
+          display: 'flex',
+          gap: 2,
+          height: 16,
+          background: '#111',
+          border: '2px solid #333',
+          padding: 2,
+          imageRendering: 'pixelated',
+        }}>
         {Array.from({ length: SEGMENT_COUNT }).map((_, i) => {
           const filled = pct > i / SEGMENT_COUNT
 

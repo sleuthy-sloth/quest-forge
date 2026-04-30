@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { getAdminClient } from '@/lib/supabase/admin'
 import { generateEduChallenges, type EduSubject, type AgeTier } from '@/lib/ai/edu'
+import { withApiMiddleware, AI_MAX_BODY_SIZE } from '@/lib/api/middleware'
 
 export const maxDuration = 30
 
@@ -43,6 +44,9 @@ function deriveDifficulty(xpReward: number, ageTier: AgeTier): number {
 export async function POST(request: Request) {
   const t0 = Date.now()
   console.log('[edu/generate] ▶ handler start')
+
+  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 30 }, csrf: true, bodyLimit: AI_MAX_BODY_SIZE })
+  if (err) return err
 
   try {
     // ── Auth ──────────────────────────────────────────────────────────────────

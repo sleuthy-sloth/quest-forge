@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { getAdminClient } from '@/lib/supabase/admin'
+import { withApiMiddleware, sanitizeBody } from '@/lib/api/middleware'
 
 // ── Schemas ───────────────────────────────────────────────────
 const CreateChildSchema = z.object({
@@ -62,6 +63,9 @@ function parseBody(raw: unknown): Record<string, unknown> | null {
 
 // ── POST — Create child account ───────────────────────────────
 export async function POST(request: Request) {
+  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 20 }, csrf: true })
+  if (err) return err
+
   const { error, status, profile } = await verifyGm()
   if (error) return NextResponse.json({ error }, { status: status! })
 
@@ -81,7 +85,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: result.error.issues[0].message }, { status: 400 })
   }
 
-  const { displayName, username, password, age } = result.data
+  const cleanBody = sanitizeBody(result.data, ['displayName', 'username'])
+  const { displayName, username, password, age } = cleanBody as { displayName: string; username: string; password: string; age: number }
   const householdId = profile!.household_id
   const email = `${username}@${householdId}.questforge.local`
 
@@ -145,6 +150,9 @@ export async function POST(request: Request) {
 
 // ── PATCH — Reset a player's password ────────────────────────
 export async function PATCH(request: Request) {
+  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 20 }, csrf: true })
+  if (err) return err
+
   const { error, status, profile, supabase } = await verifyGm()
   if (error) return NextResponse.json({ error }, { status: status! })
 
@@ -188,6 +196,9 @@ export async function PATCH(request: Request) {
 
 // ── DELETE — Remove a player profile ─────────────────────────
 export async function DELETE(request: Request) {
+  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 20 }, csrf: true })
+  if (err) return err
+
   const { error, status, profile, supabase } = await verifyGm()
   if (error) return NextResponse.json({ error }, { status: status! })
 

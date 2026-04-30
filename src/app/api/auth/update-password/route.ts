@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { withApiMiddleware } from '@/lib/api/middleware'
 
 const Schema = z.object({
   password: z
@@ -18,6 +19,9 @@ const Schema = z.object({
  * fast and reliable.
  */
 export async function POST(request: Request) {
+  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 5 }, csrf: true })
+  if (err) return err
+
   let body: unknown
   try {
     body = await request.json()

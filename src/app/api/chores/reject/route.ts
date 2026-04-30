@@ -2,6 +2,7 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { withApiMiddleware } from '@/lib/api/middleware'
 
 const Schema = z.object({
   completionId: z.string().uuid('completionId must be a valid UUID'),
@@ -17,6 +18,9 @@ const Schema = z.object({
  * Protected: GM role required.
  */
 export async function POST(request: Request) {
+  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 60 }, csrf: true })
+  if (err) return err
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 

@@ -177,7 +177,7 @@ export function useLootStore(): UseLootStoreResult {
         if (mountedRef.current) setPurchasing(false)
       }
     },
-    [items, xpAvailable, gold, userId],
+    [items, xpAvailable, gold, userId, supabase],
   )
 
   return { items, loading, error, xpAvailable, gold, purchasing, refresh, purchaseItem }

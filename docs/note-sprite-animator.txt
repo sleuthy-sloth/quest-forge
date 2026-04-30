@@ -1,0 +1,9 @@
+The design doc's file structure references a SpriteAnimator component at
+src/components/avatar/SpriteAnimator.tsx. This was never implemented because
+AnimatedAvatar.tsx (600 lines) covers all sprite animation needs:
+- LPC sprite sheet frame cycling (idle, walk, attack)
+- Canvas-based compositing with pixelated rendering
+- Multiple animation presets from lpc-animations constants
+- Auto-attack mode for battle scenes
+
+No separate SpriteAnimator component is needed.

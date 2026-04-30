@@ -1,8 +1,13 @@
 import { redirect } from 'next/navigation'
+import dynamic from 'next/dynamic'
 import { createClient } from '@/lib/supabase/server'
-import QuizInterface from '@/components/games/QuizInterface'
 import { derivePlayerPreset } from '@/lib/constants/academy'
 import ZoneManager from '@/components/player/ZoneManager'
+
+const QuizInterface = dynamic(() => import('@/components/games/QuizInterface'), {
+  loading: () => <div className="min-h-[80vh] flex items-center justify-center text-[#c9a84c]/40 font-pixel text-xs tracking-widest animate-pulse">Preparing the lesson...</div>,
+  ssr: true,
+})
 
 export default async function LifeSkillsPage() {
   const supabase = await createClient()

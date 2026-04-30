@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { getAdminClient } from '@/lib/supabase/admin'
+import { withApiMiddleware } from '@/lib/api/middleware'
 
 const InviteGmSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -24,6 +25,9 @@ const InviteGmSchema = z.object({
  * Rolls back (deletes auth user) if any step fails.
  */
 export async function POST(request: Request) {
+  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 10 }, csrf: true })
+  if (err) return err
+
   try {
     return await handleInvite(request)
   } catch (err) {

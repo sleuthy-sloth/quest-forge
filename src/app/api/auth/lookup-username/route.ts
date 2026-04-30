@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getAdminClient } from '@/lib/supabase/admin'
+import { withApiMiddleware } from '@/lib/api/middleware'
 
 /**
  * POST /api/auth/lookup-username
@@ -13,6 +14,9 @@ import { getAdminClient } from '@/lib/supabase/admin'
  * Security: returns a generic error on failure to avoid username enumeration.
  */
 export async function POST(request: Request) {
+  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 30 }, csrf: false })
+  if (err) return err
+
   let body: unknown
   try {
     body = await request.json()

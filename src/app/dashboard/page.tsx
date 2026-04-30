@@ -9,7 +9,6 @@ import {
   Coin,
 } from '@/components/qf'
 import AvatarPreview from '@/components/avatar/AvatarPreview'
-import NarrativeEditor from '@/components/dashboard/NarrativeEditor'
 
 export const metadata = {
   title: 'GM Dashboard | Quest Forge',
@@ -158,18 +157,6 @@ export default async function GMHomePage() {
           accent="var(--qf-gold-200)"
         />
       </div>
-
-      {/* Narrative Editor Section */}
-      {boss && (
-        <NarrativeEditor 
-          chapter={{
-            id: (boss as any).id,
-            title: boss.title,
-            narrative_text: (boss as any).narrative_text
-          }} 
-          players={players?.map(p => ({ id: p.id, display_name: p.display_name })) || []}
-        />
-      )}
 
       {/* Two cols: pending approvals + emberbearers */}
       <div className="dash-panels">

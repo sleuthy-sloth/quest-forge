@@ -1,9 +1,14 @@
 import { redirect } from 'next/navigation'
+import dynamic from 'next/dynamic'
 import { createClient } from '@/lib/supabase/server'
 import Image from 'next/image'
-import MathArena from '@/components/games/MathArena'
 import { derivePlayerPreset } from '@/lib/constants/academy'
 import ZoneManager from '@/components/player/ZoneManager'
+
+const MathArena = dynamic(() => import('@/components/games/MathArena'), {
+  loading: () => <div className="min-h-[80vh] flex items-center justify-center text-[#c9a84c]/40 font-pixel text-xs tracking-widest animate-pulse">Preparing the arena...</div>,
+  ssr: true,
+})
 
 export default async function MathArenaPage() {
   const supabase = await createClient()

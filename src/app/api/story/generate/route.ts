@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { generateVictoryNarrative } from '@/lib/ai/story'
+import { withApiMiddleware, AI_MAX_BODY_SIZE } from '@/lib/api/middleware'
 
 export const maxDuration = 60
 
@@ -32,6 +33,9 @@ const Schema = z.object({
  * 7. Return the narrative.
  */
 export async function POST(request: Request) {
+  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 20 }, csrf: true, bodyLimit: AI_MAX_BODY_SIZE })
+  if (err) return err
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -139,7 +143,10 @@ export async function POST(request: Request) {
 
   const { error: updateError } = await supabase
     .from('story_chapters')
-    .update({ narrative_text: narrative })
+    .update({
+      narrative_text: narrative,
+      boss_current_hp: 0,
+    })
     .eq('id', chapterId)
 
   if (updateError) {

@@ -67,6 +67,105 @@
       "scaffold": "The Emberbearers expose Cindra. Her false flame gutters and dies. Behind where she stood: an ancient Emberlight shrine, the first of many scattered across Embervale. The Chronicler appears for the first time, writing everything down in light. They say: 'The first arc is complete. But the world is wide, and the Hollow is patient.' A message arrives from the Shattered Coast. Someone needs help.",
       "must_include": ["Cindra's defeat", "Emberlight shrine discovery", "The Chronicler's first appearance", "transition to Arc 2"],
       "tone": "Triumph and expansion. The world just got bigger."
+    },
+    {
+      "week": 5,
+      "chapter": 7,
+      "title": "The Gray Tide",
+      "type": "boss_introduction",
+      "scaffold": "A battered messenger from Driftmere arrives at Hearthhold: the sea has turned gray, fish are washing up dead, and a ghostly ship has been seen raiding coastal lanterns. The Chronicler appears at the Hearthstone, scratching warnings into light. Elder Maren tells the Emberbearers that the Emberlight must now extend beyond the forest — to the coast. Captain Murk's ship sails on a wind that doesn't move the air, only steals light.",
+      "must_include": ["The Chronicler delivering the message", "Driftmere described as a struggling fishing village", "Captain Murk's ghostly ship introduction", "transition from forest to coast", "the gray sea visual"],
+      "tone": "New frontier unease. The Emberbearers leave familiar ground for the first time."
+    },
+    {
+      "week": 5,
+      "chapter": 8,
+      "title": "Shadows on the Water",
+      "type": "boss_battle",
+      "scaffold": "The Emberbearers arrive at Driftmere and see the full scope of the crisis. Captain Murk's raiders have been stealing not just lantern-light but the villagers' will to carry on. Every chore done and lesson learned pushes back the fog clinging to the coast. The chapter reflects the household's activity level: active households see Murk's ship breaking apart; slower weeks show the crew growing bolder.",
+      "must_include": ["Driftmere village introduction", "reference to specific player accomplishments", "Captain Murk's spectral crew description", "each player gets a named moment"],
+      "tone": "Nautical dread mixed with coastal resilience. The smell of salt and ash."
+    },
+    {
+      "week": 6,
+      "chapter": 9,
+      "title": "The Deep Hunger",
+      "type": "boss_introduction",
+      "scaffold": "With Murk driven back, something worse rises from the depths: the Abyssal Maw, a creature more mouth than body. The water around Driftmere turns to sludge. Fishing is impossible. Professor Ignis arrives via a hastily-constructed coastal study and identifies the creature as a Hollow predator drawn to the weakening of the Emberlight under the waves. The Academy's lessons about marine ecosystems become critical.",
+      "must_include": ["Professor Ignis coastal study", "Abyssal Maw description as a bottomless hunger", "emphasis on educational challenges this week", "the water turning to gray sludge"],
+      "tone": "Creeping horror from below. The enemy is vast, ancient, and hungry."
+    },
+    {
+      "week": 7,
+      "chapter": 10,
+      "title": "The Still Tide",
+      "type": "boss_introduction",
+      "scaffold": "The sea grows eerily calm. No waves. No wind. A song drifts across the water — beautiful and empty. Villagers stop working and stare at the horizon, forgetting their chores. The Siren of the Still Tide has arrived. Elder Maren sends word that the only defense is purposeful action. Those who keep busy, keep themselves. Those who stop and listen... don't start again.",
+      "must_include": ["Siren's song description", "villagers falling into listlessness", "Maren's message about purposeful action", "the unnatural stillness of the sea"],
+      "tone": "Haunting beauty. The danger of rest without purpose."
+    },
+    {
+      "week": 7,
+      "chapter": 11,
+      "title": "Breaking the Silence",
+      "type": "boss_battle",
+      "scaffold": "The Emberbearers fight the Siren's influence through their own activity. Every chore done is a voice raised against the silence. Every lesson learned is a clear note in the counter-melody. Active households see the Siren's song faltering; quieter weeks show the sea growing stiller. Kaya scouts the coastline and reports that the Siren can't be fought with weapons — only with meaning.",
+      "must_include": ["Kaya scouting narrative", "reference to specific player deeds", "the counter-melody concept (activity as anti-silence)", "each player gets a named moment"],
+      "tone": "Determination through action. Fighting apathy with meaning."
+    },
+    {
+      "week": 8,
+      "chapter": 12,
+      "title": "The Shadow Over Driftmere",
+      "type": "arc_finale",
+      "scaffold": "A shadow falls across Driftmere — not at night, but in the middle of the day. The Leviathan's Shadow blots out the sun, and the sea churns gray beneath it. The Emberbearers must give their all this week. This is the culmination of Arc 2. If they succeed, the shadow burns away, and something vast shifts in the deep — not gone, but retreating. The Chronicler appears again, writing: 'The coast holds. But the Hollow is patient. The Emberbearers must grow faster.' A new path opens: into the Ironspine Mountains.",
+      "must_include": ["the shadow blotting out the sun", "Driftmere's moment of greatest fear", "The Chronicler's arc-ending note", "transition hint to Arc 3: Ironspine Depths", "each player gets a heroic named moment"],
+      "tone": "Epic conclusion to the coastal arc. Triumph with a shadow of what's to come."
+    },
+    {
+      "week": 9,
+      "chapter": 13,
+      "title": "The Iron Gate",
+      "type": "boss_introduction",
+      "scaffold": "A desperate message arrives from the Forgekin: the Ember Veins beneath the Ironspine Mountains are being poisoned. The Hearthstone dims as the mountain's pulse weakens. The Emberbearers travel to the gates of the mountain range, where they meet Rustvein — an ancient Forgekin automaton corrupted by Hollow energy. It guards the mine entrance with grinding, rusted limbs, attacking anything that approaches. The Chronicler appears, scratching warnings into the stone: 'The deeper you go, the louder the Hollow sings.'",
+      "must_include": ["Rustvein description as a corrupted automaton", "Forgekin messenger", "mountain gate atmosphere", "The Chronicler's warning", "transition from coast to mountains"],
+      "tone": "Industrial dread. The warmth of the mountain is failing, and something metallic waits in the dark."
+    },
+    {
+      "week": 9,
+      "chapter": 14,
+      "title": "Rust and Resolve",
+      "type": "boss_battle",
+      "scaffold": "The Emberbearers push deeper into the mines, chipping away at Rustvein's corruption with every task. Active households see the Hollow energy drain from the automaton's frame; quieter weeks see Rustvein's joints grinding louder. Professor Ignis arrives with mining records and historical data about the Forgekin, emphasizing that knowledge is as important as strength in the depths.",
+      "must_include": ["Professor Ignis in the mines", "reference to specific player accomplishments", "Rustvein's corruption ebbing", "each player gets a named moment"],
+      "tone": "Gritty determination. The clang of metal and the glow of Embershards in the dark."
+    },
+    {
+      "week": 10,
+      "chapter": 15,
+      "title": "The Distortion",
+      "type": "boss_introduction",
+      "scaffold": "Deeper in the mountain, the Emberbearers find a cavern that shouldn't exist. The Echoing Hollow twists every sound: encouragement becomes mockery, plans become confusion, laughter becomes weeping. It's not a creature — it's a wound in the world, a place where the Hollow has whispered so long that reality itself has bent. The only way through is with clear minds and steady hearts. Educational challenges become the primary weapon this week.",
+      "must_include": ["the cavern described as a sentient space", "sound distortion mechanics described", "emphasis on education/learning this week", "philosophical horror undertones"],
+      "tone": "Psychological unease. The enemy is not a monster — it is a place that has forgotten what truth sounds like."
+    },
+    {
+      "week": 11,
+      "chapter": 16,
+      "title": "The Betrayer's Lament",
+      "type": "boss_introduction",
+      "scaffold": "Slag was once a Forgekin — a proud craftsman of the Ember Veins. He invited the Hollow in, believing its power would make him stronger, faster, better. Now he is half-metal, half-ash, filled with regret he cannot express. He attacks not out of malice but out of a broken heart that doesn't know how to stop. The Emberbearers' steady effort reminds him of the warmth he lost. Every chore and lesson rekindles a small flame in his chest.",
+      "must_include": ["Slag's tragic backstory", "Forgekin craftsmanship theme", "the small flame in his chest", "redemption undertones"],
+      "tone": "Tragic empathy. The saddest enemies are the ones who were once like you."
+    },
+    {
+      "week": 12,
+      "chapter": 17,
+      "title": "The Heart of the Mountain",
+      "type": "arc_finale",
+      "scaffold": "At the deepest point of the Ember Veins, the Emberbearers find the source of the corruption: the Veinworm, a massive parasitic creature burrowed into the living Emberlight of the mountain, drinking it dry. The mountain trembles as it feeds. The Emberbearers must channel everything they have into their Embershards over this final week of the arc. If they succeed, the surge of pure Emberlight is more than the Veinworm can stomach. It releases its grip and flees into the dark. The Chronicler appears, writing in golden light: 'The Ember Veins pulse strong again. But the Hollow King grows impatient. The Emberbearers must not rest long.' A new path opens: across the Dustmere Plains.",
+      "must_include": ["the Veinworm description as a massive parasite", "the mountain trembling", "The Chronicler's arc-ending note", "transition hint to Arc 4: Dustmere Plains", "each player gets a heroic named moment"],
+      "tone": "Epic conclusion to the mountain arc. The earth itself was wounded, and the Emberbearers healed it."
     }
   ]
 }

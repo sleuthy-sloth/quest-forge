@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { withApiMiddleware } from '@/lib/api/middleware'
 
 const ToggleSchema = z.object({
   id: z.string().uuid(),
@@ -51,6 +52,9 @@ export async function GET() {
  * Toggles a chapter's is_unlocked status. GM-only.
  */
 export async function PATCH(request: NextRequest) {
+  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 30 }, csrf: true })
+  if (err) return err
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { withApiMiddleware, sanitizeBody } from '@/lib/api/middleware'
 
 // ── Zod schemas ──────────────────────────────────────────────────────────────
 
@@ -117,6 +118,9 @@ export async function GET() {
  * Creates a new chore for the household. GM-only.
  */
 export async function POST(request: NextRequest) {
+  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 30 }, csrf: true })
+  if (err) return err
+
   const supabase = await createClient()
   const auth = await authenticateGM(supabase)
   if (auth.error) return auth.error
@@ -131,7 +135,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: result.error.issues[0].message }, { status: 400 })
   }
 
-  const payload = result.data
+  const payload = sanitizeBody(result.data, ['title', 'description', 'quest_flavor_text'])
 
   const { data, error } = await supabase
     .from('chores')
@@ -165,6 +169,9 @@ export async function POST(request: NextRequest) {
  * Updates an existing chore. GM-only.
  */
 export async function PATCH(request: NextRequest) {
+  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 30 }, csrf: true })
+  if (err) return err
+
   const supabase = await createClient()
   const auth = await authenticateGM(supabase)
   if (auth.error) return auth.error
@@ -179,7 +186,8 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ error: result.error.issues[0].message }, { status: 400 })
   }
 
-  const { id, ...updates } = result.data
+  const sanitizedUpdates = sanitizeBody(result.data as Record<string, unknown>, ['title', 'description', 'quest_flavor_text'])
+  const { id, ...updates } = sanitizedUpdates as { id: string; [key: string]: unknown }
 
   const { data, error } = await supabase
     .from('chores')
@@ -203,6 +211,9 @@ export async function PATCH(request: NextRequest) {
  * Deactivates a chore (soft-delete: sets is_active=false). GM-only.
  */
 export async function DELETE(request: NextRequest) {
+  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 30 }, csrf: true })
+  if (err) return err
+
   const supabase = await createClient()
   const auth = await authenticateGM(supabase)
   if (auth.error) return auth.error

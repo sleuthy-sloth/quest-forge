@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { getAdminClient } from '@/lib/supabase/admin'
+import { withApiMiddleware } from '@/lib/api/middleware'
 
 async function verifyGm() {
   const supabase = await createClient()
@@ -21,6 +22,9 @@ async function verifyGm() {
 }
 
 export async function POST(request: Request) {
+  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 10 }, csrf: true })
+  if (err) return err
+
   const { error, status, profile } = await verifyGm()
   if (error) return NextResponse.json({ error }, { status: status! })
 
@@ -148,6 +152,9 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+  const err = await withApiMiddleware(request, { rateLimit: { maxRequests: 10 }, csrf: true })
+  if (err) return err
+
   const { error, status, profile } = await verifyGm()
   if (error) return NextResponse.json({ error }, { status: status! })
 

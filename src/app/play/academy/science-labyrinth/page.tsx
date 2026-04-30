@@ -1,9 +1,14 @@
 import { redirect } from 'next/navigation'
+import dynamic from 'next/dynamic'
 import { createClient } from '@/lib/supabase/server'
 import Image from 'next/image'
-import ScienceLabyrinth from '@/components/games/ScienceLabyrinth'
 import { derivePlayerPreset } from '@/lib/constants/academy'
 import ZoneManager from '@/components/player/ZoneManager'
+
+const ScienceLabyrinth = dynamic(() => import('@/components/games/ScienceLabyrinth'), {
+  loading: () => <div className="min-h-[80vh] flex items-center justify-center text-[#c9a84c]/40 font-pixel text-xs tracking-widest animate-pulse">Navigating the labyrinth...</div>,
+  ssr: true,
+})
 
 export default async function ScienceLabyrinthPage() {
   const supabase = await createClient()

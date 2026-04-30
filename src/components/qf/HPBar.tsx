@@ -27,7 +27,7 @@ export function HPBar({ pct = 60, label = 'HP', value = '' }: HPBarProps) {
       <div
         className="qf-hp-bar"
         role="meter"
-        aria-label={label}
+        aria-label={value ? `${label}: ${value}` : label}
         aria-valuenow={Math.round(clamped)}
         aria-valuemin={0}
         aria-valuemax={100}

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import confetti from 'canvas-confetti'
 import { playSfx } from '@/lib/audio'
@@ -16,11 +16,17 @@ interface LevelUpModalProps {
  */
 export default function LevelUpModal({ level, onClose }: LevelUpModalProps) {
   const [show, setShow] = useState(false)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     setShow(true)
     playSfx('victory')
-    
+
+    // Auto-focus the dismiss button for keyboard users
+    requestAnimationFrame(() => {
+      closeButtonRef.current?.focus()
+    })
+
     // Fire confetti burst
     const duration = 3 * 1000
     const animationEnd = Date.now() + duration
@@ -47,6 +53,9 @@ export default function LevelUpModal({ level, onClose }: LevelUpModalProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Level up celebration"
           style={{
             position: 'fixed',
             inset: 0,
@@ -142,6 +151,7 @@ export default function LevelUpModal({ level, onClose }: LevelUpModalProps) {
             </p>
 
             <motion.button
+              ref={closeButtonRef}
               whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(201,168,76,0.4)' }}
               whileTap={{ scale: 0.95 }}
               onClick={onClose}
