@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "taskId": "3.3",
+  "declaredAt": 1777578734935,
+  "expiresAt": 1777665134935,
+  "files": [
+    "src/lib/ai/__tests__/rate-limiter.test.ts"
+  ]
+}

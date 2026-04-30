@@ -1,6 +1,8 @@
 {
   "taskId": "4.1",
-  "required_gates": [],
-  "gates": {},
-  "notes": "Manual smoke test: All routes verified — login, signup, dashboard (all sub-routes), play (all sub-routes). No console errors, no hydration mismatches. Auth flow (GM login, player login, logout) works correctly."
+  "required_gates": [
+    "reviewer",
+    "test_engineer"
+  ],
+  "gates": {}
 }

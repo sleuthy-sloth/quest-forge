@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "scanned_at": "2026-04-30T13:54:26.862Z",
+  "scanned_at": "2026-04-30T19:30:53.104Z",
   "files": [
     {
       "path": ".github/workflows/ci.yml",
@@ -13,8 +13,8 @@
       "path": "CLAUDE.md",
       "title": "CLAUDE.md — Quest Forge: The Emberlight Chronicles",
       "summary": "A multi-tenant fantasy RPG chore-tracking and educational app. Parents sign up, create a household, and add their children as players. Completing real-world chores and age-appropriate educational c...",
-      "lines": 548,
-      "mtime": 1777049573096.397
+      "lines": 562,
+      "mtime": 1777577452372.1116
     },
     {
       "path": "docs/ART_PIPELINE.md",

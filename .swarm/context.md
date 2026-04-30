@@ -161,16 +161,16 @@ Component tests: PixelButton, XPBar
 
 | Tool | Calls | Success | Failed | Avg Duration |
 |------|-------|---------|--------|--------------|
-| bash | 234 | 234 | 0 | 2710ms |
-| read | 165 | 165 | 0 | 18ms |
+| bash | 259 | 259 | 0 | 2688ms |
+| read | 189 | 189 | 0 | 17ms |
 | update_task_status | 93 | 93 | 0 | 10ms |
-| task | 44 | 44 | 0 | 188108ms |
-| write | 31 | 31 | 0 | 11ms |
-| glob | 29 | 29 | 0 | 36ms |
-| edit | 27 | 27 | 0 | 22ms |
-| declare_scope | 16 | 16 | 0 | 9ms |
+| task | 46 | 46 | 0 | 181137ms |
+| write | 35 | 35 | 0 | 11ms |
+| edit | 35 | 35 | 0 | 20ms |
+| glob | 32 | 32 | 0 | 36ms |
+| declare_scope | 21 | 21 | 0 | 8ms |
+| todowrite | 17 | 17 | 0 | 10ms |
 | grep | 12 | 12 | 0 | 45ms |
-| todowrite | 9 | 9 | 0 | 11ms |
 | phase_complete | 7 | 7 | 0 | 16926ms |
 | save_plan | 6 | 6 | 0 | 31ms |
 | check_gate_status | 6 | 6 | 0 | 5ms |
@@ -178,9 +178,9 @@ Component tests: PixelButton, XPBar
 | get_approved_plan | 6 | 6 | 0 | 15ms |
 | lint | 5 | 5 | 0 | 2901ms |
 | req_coverage | 5 | 5 | 0 | 6ms |
+| knowledge_add | 5 | 5 | 0 | 24ms |
 | write_retro | 4 | 4 | 0 | 12ms |
 | write_drift_evidence | 4 | 4 | 0 | 30ms |
-| knowledge_add | 4 | 4 | 0 | 19ms |
 | set_qa_gates | 3 | 3 | 0 | 13ms |
 | build_check | 3 | 3 | 0 | 5149ms |
 | todo_extract | 2 | 2 | 0 | 35ms |
