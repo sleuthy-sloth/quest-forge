@@ -26,8 +26,17 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
-          printf '%s\n' "$CODEBERG_SSH_KEY" > ~/.ssh/id_ed25519
+          # Strip CR (Windows line endings) and guarantee a trailing newline.
+          printf '%s\n' "$CODEBERG_SSH_KEY" | tr -d '\r' > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
+          if ! grep -q "BEGIN" ~/.ssh/id_ed25519 || ! grep -q "END" ~/.ssh/id_ed25519; then
+            echo "::error::CODEBERG_SSH_KEY is missing BEGIN/END markers. Re-paste the full private key file."
+            exit 1
+          fi
+          if ! ssh-keygen -y -f ~/.ssh/id_ed25519 > /dev/null 2>&1; then
+            echo "::error::OpenSSH cannot parse CODEBERG_SSH_KEY. Likely causes: CRLF line endings, passphrase-protected key, surrounding quotes, or wrong key format. Re-generate with: ssh-keygen -t ed25519 -f codeberg-mirror -N \"\""
+            exit 1
+          fi
           ssh-keyscan -t rsa,ecdsa,ed25519 codeberg.org >> ~/.ssh/known_hosts
 
       - name: Push mirror to Codeberg
