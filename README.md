@@ -5,10 +5,10 @@ A fantasy RPG adventure where real-world chores become heroic quests, and educat
 **Parents** act as Game Masters — creating chores, managing rewards, and guiding the household's epic adventure. **Kids** are players — completing quests, battling bosses, and earning treasure.
 
 ```
-Routes:      50+ pages and API endpoints
-Tests:       144 unit/integration tests + E2E Playwright tests
-Story Arcs:  3 arcs spanning 12 weeks (17 chapter scaffolds)
-Sprite Assets: 800+ LPC-compatible pixel art assets
+Routes:        35 pages + 22 API endpoints
+Tests:         205 unit/integration tests across 18 files + Playwright E2E
+Story Arcs:    3 arcs spanning 12 weeks (17 chapter scaffolds)
+Sprite Assets: 802 LPC-compatible pixel art assets
 ```
 
 ---
@@ -27,6 +27,7 @@ Sprite Assets: 800+ LPC-compatible pixel art assets
 - [Development Setup](#development-setup)
 - [Testing](#testing)
 - [Deployment](#deployment)
+- [Additional Features](#additional-features)
 
 ---
 
@@ -84,7 +85,8 @@ Sprite Assets: 800+ LPC-compatible pixel art assets
 | **Math Arena** | Math | Timed challenges (add, subtract, multiply, divide) |
 | **Word Forge** | Vocabulary | Word-definition matching with heat-based feedback |
 | **Science Labyrinth** | Science | Dungeon-crawler with science questions |
-| **History Scroll** | Reading | Scroll-themed reading comprehension |
+| **History Scroll** | History | Scroll-themed reading comprehension |
+| **Reading Tome** | Reading | Passage-based reading comprehension |
 | **Vocab Duel** | Vocabulary | Turn-based vocabulary battles |
 | **Logic Gate** | Logic | Puzzle challenges with circuits and switches |
 | **General Knowledge** | Trivia | Quiz-style general knowledge challenges |
@@ -248,9 +250,9 @@ All checks pass WCAG guidelines for keyboard navigation and screen reader compat
 ```
 src/
 ├── app/                    # Next.js App Router pages & API
-│   ├── api/                # 20 API route files (auth, chores, story, edu, loot)
-│   ├── dashboard/          # 11 GM-facing pages
-│   ├── play/               # 11 player-facing pages
+│   ├── api/                # 22 API route files (auth, chores, story, edu, loot, gm, admin, health)
+│   ├── dashboard/          # 12 GM-facing pages (chores, quests, approvals, redemptions, loot, story, progress, players, settings, about)
+│   ├── play/               # 18 player-facing pages incl. 9 Academy game routes
 │   └── login|signup|...    # Auth pages
 ├── components/
 │   ├── avatar/             # SpriteCanvas, AnimatedAvatar, AvatarPreview
@@ -306,29 +308,38 @@ NEXT_PUBLIC_SPRITE_BASE_URL=
 | `npm run test` | Run Vitest (144 tests) |
 | `npm run test:watch` | Vitest in watch mode |
 | `npm run fetch-sprites` | Download all LPC sprite assets |
+| `npm run fetch-sprites:bodies` | Download body sprites only |
+| `npm run fetch-sprites:hair` | Download hair sprites only |
+| `npm run fetch-sprites:clothing` | Download clothing sprites only |
+| `npm run fetch-sprites:weapons` | Download weapon sprites only |
+| `npm run fetch-sprites:bosses` | Generate boss sprite placeholders |
 
 ---
 
 ## Testing
 
 ### Unit & Integration Tests (Vitest)
-**144 tests across 14 test files:**
+**~205 tests across 18 test files:**
 
-| Test Suite | Tests | What's Covered |
-|-----------|-------|----------------|
-| `xp.test.ts` | 27 | XP formulas, level calculation, embershard states |
-| `sanitize.test.ts` | 17 | HTML stripping, XSS prevention, text limits |
-| `purchase.test.ts` | 10 | Auth guards, validation, RPC success/failure |
-| `csrf.test.ts` | 9 | Origin/Referer validation, middleware |
-| `rate-limiter.test.ts` | 6 | IP tracking, limits, blocking, independence |
-| `pixelBadge.test.ts` | 3 | Badge variant metadata |
-| `particles.test.ts` | 10 | Particle system calculations |
-| `PixelButton.test.tsx` | 8 | Rendering, variants, sizes, props |
-| `XPBar.test.tsx` | 8 | Percentages, clamping, ARIA attributes |
-| `palette.test.ts` | 4 | Color palette mappings |
-| `body-limit.test.ts` | 6 | Size checks, middleware |
-| `middleware.test.ts` | 2 | Body sanitization |
-| `pixelProgressBar.test.ts` | 28 | Progress bar calculations |
+| Test Suite | What's Covered |
+|-----------|----------------|
+| `xp.test.ts` | XP formulas, level calculation, embershard states |
+| `sanitize.test.ts` | HTML stripping, XSS prevention, text limits |
+| `purchase.test.ts` | Auth guards, validation, RPC success/failure |
+| `csrf.test.ts` | Origin/Referer validation, middleware |
+| `api/rate-limiter.test.ts` | Per-IP sliding window, limits, blocking, independence |
+| `ai/rate-limiter.test.ts` | Daily Gemini/OpenRouter request counter |
+| `ai/client.test.ts` | OpenRouter client wrapper, fallbacks |
+| `pixelBadge.test.ts` | Badge variant metadata |
+| `particles.test.ts` | Particle system calculations |
+| `PixelButton.test.tsx` | Rendering, variants, sizes, props |
+| `XPBar.test.tsx` | Percentages, clamping, ARIA attributes |
+| `palette.test.ts` | Color palette mappings |
+| `body-limit.test.ts` | Body-size checks, middleware |
+| `middleware.test.ts` | Body sanitization pipeline |
+| `pixelProgressBar.test.ts` | Progress bar calculations |
+| `compositor.test.ts` | LPC sprite layer compositor |
+| `useQuestStore.test.ts` | Zustand quest store actions and selectors |
 
 ### E2E Tests (Playwright)
 - **Golden Path**: Landing page → auth flow → API auth enforcement → CSRF protection
@@ -359,6 +370,30 @@ The `next.config.mjs` includes:
 - `X-Content-Type-Options: nosniff`
 - `Referrer-Policy: strict-origin-when-cross-origin`
 - `Permissions-Policy`: camera, microphone, geolocation disabled
+
+### GitHub Actions
+Two workflows live in `.github/workflows/`:
+- **`ci.yml`** — runs lint, type-check, build, and Vitest on every push and PR against `main`.
+- **`mirror-codeberg.yml`** — on every push (any branch), tag, or ref deletion, performs a `git push --mirror` to a Codeberg remote so the project stays available on a second forge. Requires two repo settings:
+  - Secret `CODEBERG_SSH_KEY` — private half of an SSH deploy key with write access on the Codeberg mirror repo.
+  - Variable `CODEBERG_REPO` — SSH URL of the Codeberg mirror, e.g. `git@codeberg.org:<user>/quest-forge.git`.
+
+---
+
+## Additional Features
+
+### Approvals & Redemptions Workflow
+- **`/dashboard/approvals`** — GMs review pending chore completions and approve or reject them; XP and gold are awarded atomically via Supabase RPC at approval time.
+- **`/dashboard/redemptions`** — GMs see pending loot-store redemptions, mark physical rewards as delivered, or cancel a redemption. Prices paid are recorded at purchase time (`gold_cost_paid` / `xp_cost_paid`) so historical price changes don't rewrite the past.
+
+### Lore Milestones
+- GMs can bestow custom narrative milestones on individual players from the Story Management page. Each milestone is tied to a chapter and surfaces in the player's profile and Chronicle Hall, separate from AI-generated chapter text.
+
+### Inventory & Equipment
+- Items earned from quests, story rewards, or loot-store cosmetics live in the per-player `inventory` table. Equipped items can override the avatar's LPC sprite layers via `sprite_layer` overrides, so unlocking a new sword visibly changes the character.
+
+### Story Progress Tracking
+- Each player has a `story_progress` row per chapter recording their XP contribution to that chapter's boss. The Chronicle Hall renders a "Heroic Deeds" panel attributing each player's contribution per week.
 
 ---
 
